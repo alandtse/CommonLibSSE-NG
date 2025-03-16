@@ -94,17 +94,6 @@ rule("commonlibsse-ng.plugin")
                 end
             end
         end
-        target:add("installfiles", target:targetfile(), { prefixdir = "SKSE/Plugins" })
-        target:add("installfiles", target:symbolfile(), { prefixdir = "SKSE/Plugins" })
-
-        if os.getenv("XSE_TES5_MODS_PATH") then
-            target:set("installdir", path.join(os.getenv("XSE_TES5_MODS_PATH"), target:name()))
-        elseif os.getenv("XSE_TES5_GAME_PATH") then
-            target:set("installdir", path.join(os.getenv("XSE_TES5_GAME_PATH"), "Data"))
-        end
-
-        local conf = target:extraconf("rules", "commonlibsse.plugin")
-        local conf_dir = path.join(target:autogendir(), "rules", "commonlibsse", "plugin")
 
         local conf_map = {
             PLUGIN_AUTHOR                = conf.author or "",
