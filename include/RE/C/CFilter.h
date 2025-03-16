@@ -49,7 +49,7 @@ namespace RE
 		};
 
 		// members
-		stl::enumeration<Flag, std::uint32_t> flags;  // 0
+		REX::EnumSet<Flag, std::uint32_t> flags;  // 0
 	private:
 		KEEP_FOR_RE()
 	};

@@ -4,7 +4,7 @@ namespace RE
 {
 	PlayerCamera* PlayerCamera::GetSingleton()
 	{
-		REL::Relocation<PlayerCamera**> singleton{ RELOCATION_ID(514642, 400802) };
+		static REL::Relocation<PlayerCamera**> singleton{ RELOCATION_ID(514642, 400802) };
 		return *singleton;
 	}
 

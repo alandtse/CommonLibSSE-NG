@@ -27,11 +27,11 @@ namespace RE
 		};
 
 		// members
-		BGSProjectile*                       projectile;  // 00
-		stl::enumeration<Flag, std::uint8_t> flags;       // 08
-		std::uint8_t                         pa09;        // 09
-		std::uint16_t                        pa0A;        // 0A
-		float                                damage;      // 0C
+		BGSProjectile*                   projectile;  // 00
+		REX::EnumSet<Flag, std::uint8_t> flags;       // 08
+		std::uint8_t                     pa09;        // 09
+		std::uint16_t                    pa0A;        // 0A
+		float                            damage;      // 0C
 	};
 	static_assert(sizeof(AMMO_DATA) == 0x10);
 
@@ -41,7 +41,7 @@ namespace RE
 		public TESModelTextureSwap,  // 040
 		public TESIcon,              // 078
 		public BGSMessageIcon,       // 088
-		public TESValueForm         // 0A0
+		public TESValueForm          // 0A0
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		,
 		public TESWeightForm,              // 0B0
@@ -156,7 +156,7 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		RUNTIME_DATA_CONTENT;  // 110
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		RUNTIME_DATA_CONTENT;  // VR 100
+		RUNTIME_DATA_CONTENT;              // VR 100
 #endif
 	private:
 		KEEP_FOR_RE()

@@ -47,7 +47,7 @@ namespace RE
 		bool          IsEqual(NiObject* a_object) override;              // 1C
 
 		// add
-		virtual const char* GetTexturePath(Texture a_texture) = 0;                              // 25
+		virtual const char* GetTexturePath(Texture a_texture) = 0;                                // 25
 		virtual void        SetTexture(Texture a_texture, NiSourceTexturePtr& a_srcTexture) = 0;  // 26
 		virtual void        SetTexturePath(Texture a_texture, const char* a_path) = 0;            // 27
 

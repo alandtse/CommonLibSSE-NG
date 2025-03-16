@@ -65,7 +65,7 @@ namespace RE
 		static std::uint32_t GetArgumentCount(ENTRY_POINT_FUNCTION_TYPE a_entryPointFunctionType)
 		{
 			if (a_entryPointFunctionType < ENTRY_POINT_FUNCTION_TYPE::kTotal) {
-				REL::Relocation<std::uint32_t*> entryPointFunctionTypeArgumentCount{ RELOCATION_ID(369210, 0) };
+				static REL::Relocation<std::uint32_t*> entryPointFunctionTypeArgumentCount{ RELOCATION_ID(369210, 0) };
 				return entryPointFunctionTypeArgumentCount.get()[a_entryPointFunctionType];
 			}
 
@@ -75,7 +75,7 @@ namespace RE
 		static EntryPointFunction* GetEntryPointFunction(ENTRY_POINT_FUNCTION a_entryPointFunction)
 		{
 			if (a_entryPointFunction < ENTRY_POINT_FUNCTION::kTotal) {
-				REL::Relocation<EntryPointFunction*> entryPointFunctions{ RELOCATION_ID(369178, 0) };
+				static REL::Relocation<EntryPointFunction*> entryPointFunctions{ RELOCATION_ID(369178, 0) };
 				return &entryPointFunctions.get()[a_entryPointFunction];
 			}
 

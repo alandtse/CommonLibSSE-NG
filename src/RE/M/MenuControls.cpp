@@ -15,8 +15,8 @@ namespace RE
 
 	MenuControls* MenuControls::GetSingleton()
 	{
-		REL::Relocation<MenuControls**> singelton{ RELOCATION_ID(515124, 401263) };
-		return *singelton;
+		static REL::Relocation<MenuControls**> singleton{ RELOCATION_ID(515124, 401263) };
+		return *singleton;
 	}
 
 	void MenuControls::AddHandler(MenuEventHandler* a_handler)

@@ -12,8 +12,8 @@ namespace RE
 			kLeave = 1
 		};
 
-		FormID                                    cellID;
-		stl::enumeration<CellFlag, std::uint32_t> flags;
+		FormID                                cellID;
+		REX::EnumSet<CellFlag, std::uint32_t> flags;
 
 	private:
 		KEEP_FOR_RE()

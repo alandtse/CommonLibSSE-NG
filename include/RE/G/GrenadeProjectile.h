@@ -77,7 +77,7 @@ namespace RE
 		KEEP_FOR_RE();
 	};
 #ifndef ENABLE_SKYRIM_AE
-static_assert(sizeof(GrenadeProjectile) == 0x1E8);
+	static_assert(sizeof(GrenadeProjectile) == 0x1E8);
 #endif
 }
 #undef GRENADE_RUNTIME_DATA_CONTENT

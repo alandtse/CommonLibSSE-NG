@@ -286,7 +286,7 @@ namespace RE
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x1F0);
 		static ImageSpaceManager* GetSingleton()
 		{
-			REL::Relocation<ImageSpaceManager**> singleton{ RELOCATION_ID(527731, 414660) };
+			static REL::Relocation<ImageSpaceManager**> singleton{ RELOCATION_ID(527731, 414660) };
 			return *singleton;
 		}
 

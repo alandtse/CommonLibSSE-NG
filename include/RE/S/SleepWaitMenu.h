@@ -52,7 +52,7 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(51618, 52490) };
 			return func(a_sleeping);
 		}
-		
+
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 30, 40

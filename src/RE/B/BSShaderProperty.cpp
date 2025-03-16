@@ -6,7 +6,7 @@ namespace RE
 	bool BSShaderProperty::InvalidateMaterial()
 	{
 		using func_t = decltype(&BSShaderProperty::InvalidateMaterial);
-		REL::Relocation<func_t> func{ REL::ID(5370397616) };
+		static REL::Relocation<func_t> func{ REL::ID(5370397616) };
 		return func(this);
 	}
 #endif

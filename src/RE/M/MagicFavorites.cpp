@@ -4,7 +4,7 @@ namespace RE
 {
 	MagicFavorites* MagicFavorites::GetSingleton()
 	{
-		REL::Relocation<MagicFavorites**> singleton{ RELOCATION_ID(516858, 403337) };
+		static REL::Relocation<MagicFavorites**> singleton{ RELOCATION_ID(516858, 403337) };
 		return *singleton;
 	}
 

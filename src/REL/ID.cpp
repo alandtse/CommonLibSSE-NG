@@ -199,8 +199,7 @@ namespace REL
 
 		stl::report_and_fail(
 			std::format("You need version: {} of VR Address Library for SKSEVR, you have version: {}"sv,
-				minimalVersion, _vrAddressLibraryVersion)
-		);
+				minimalVersion, _vrAddressLibraryVersion));
 	}
 #endif
 }

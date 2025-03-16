@@ -34,8 +34,8 @@ namespace RE
 			kDisableCollision = 1 << 13
 		};
 
-		float                                 time;   // 0
-		stl::enumeration<Flag, std::uint32_t> flags;  // 4
+		float                             time;   // 0
+		REX::EnumSet<Flag, std::uint32_t> flags;  // 4
 	private:
 		KEEP_FOR_RE()
 	};
@@ -148,14 +148,14 @@ namespace RE
 		void                              UpdateMaterialAlpha(float a_alpha, bool a_doOnlySkin);
 		void                              UpdateRigidConstraints(bool a_enable, std::uint8_t a_arg2 = 1, std::uint32_t a_arg3 = 1);
 
-		[[nodiscard]] inline stl::enumeration<Flag, std::uint32_t>& GetFlags() noexcept
+		[[nodiscard]] inline REX::EnumSet<Flag, std::uint32_t>& GetFlags() noexcept
 		{
-			return REL::RelocateMember<stl::enumeration<Flag, std::uint32_t>>(this, 0x0F4, 0x10C);
+			return REL::RelocateMember<REX::EnumSet<Flag, std::uint32_t>>(this, 0x0F4, 0x10C);
 		}
 
-		[[nodiscard]] inline const stl::enumeration<Flag, std::uint32_t>& GetFlags() const noexcept
+		[[nodiscard]] inline const REX::EnumSet<Flag, std::uint32_t>& GetFlags() const noexcept
 		{
-			return REL::RelocateMember<stl::enumeration<Flag, std::uint32_t>>(this, 0x0F4, 0x10C);
+			return REL::RelocateMember<REX::EnumSet<Flag, std::uint32_t>>(this, 0x0F4, 0x10C);
 		}
 
 		BSLightingShaderProperty* temp_nicast(BSGeometry* a_geometry);
@@ -170,32 +170,32 @@ namespace RE
 		NiTransform                  previousWorld;    // 0B0
 		NiBound                      worldBound;       // 0E4
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-		stl::enumeration<Flag, std::uint32_t> flags;                    // 0F4
-		TESObjectREFR*                        userData;                 // 0F8
-		float                                 fadeAmount;               // 100
-		std::uint32_t                         lastUpdatedFrameCounter;  // 104
-		std::uint8_t                          unk108;                   // 108
-		std::uint8_t                          flags02;                  // 109
-		std::uint16_t                         unk10A;                   // 10A
-		std::uint32_t                         pad10C;                   // 10C
+		REX::EnumSet<Flag, std::uint32_t> flags;                    // 0F4
+		TESObjectREFR*                    userData;                 // 0F8
+		float                             fadeAmount;               // 100
+		std::uint32_t                     lastUpdatedFrameCounter;  // 104
+		std::uint8_t                      unk108;                   // 108
+		std::uint8_t                      flags02;                  // 109
+		std::uint16_t                     unk10A;                   // 10A
+		std::uint32_t                     pad10C;                   // 10C
 	private:
 		KEEP_FOR_RE()
 	};
 	static_assert(sizeof(NiAVObject) == 0x110);
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		float                                 unkF4;                    // 0F4
-		float                                 unkF8;                    // 0F8
-		float                                 unkFC;                    // 0FC
-		float                                 fadeAmount;               // 100
-		std::uint32_t                         lastUpdatedFrameCounter;  // 104
-		float                                 unk108;                   // 108
-		stl::enumeration<Flag, std::uint32_t> flags;                    // 10C
-		TESObjectREFR*                        userData;                 // 110
-		std::uint32_t                         unk11C;                   // 11C
-		std::uint8_t                          unk120[8];                // 120 - bitfield
-		std::uint64_t                         unk128;                   // 128
-		std::uint32_t                         unk130;                   // 130
-		std::uint32_t                         unk134;                   // 134
+		float                             unkF4;                    // 0F4
+		float                             unkF8;                    // 0F8
+		float                             unkFC;                    // 0FC
+		float                             fadeAmount;               // 100
+		std::uint32_t                     lastUpdatedFrameCounter;  // 104
+		float                             unk108;                   // 108
+		REX::EnumSet<Flag, std::uint32_t> flags;                    // 10C
+		TESObjectREFR*                    userData;                 // 110
+		std::uint32_t                     unk11C;                   // 11C
+		std::uint8_t                      unk120[8];                // 120 - bitfield
+		std::uint64_t                     unk128;                   // 128
+		std::uint32_t                     unk130;                   // 130
+		std::uint32_t                     unk134;                   // 134
 	};
 	static_assert(sizeof(NiAVObject) == 0x138);
 #else

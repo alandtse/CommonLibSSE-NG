@@ -33,20 +33,20 @@ namespace RE
 #endif
 				kFavor,
 
-#if !defined(ENABLE_SKYRIM_VR) //flat
+#if !defined(ENABLE_SKYRIM_VR)                                   //flat
 #	if !defined(ENABLE_SKYRIM_AE) && defined(ENABLE_SKYRIM_SE)  // SSE
 				kTotal = 17,
 				kNone
-				#else // AE
+#	else  // AE
 				kTotal = 18,
 				kNone,
-#endif
-#elif !defined(ENABLE_SKYRIM_AE) && defined(ENABLE_SKYRIM_SE) // VR
+#	endif
+#elif !defined(ENABLE_SKYRIM_AE) && defined(ENABLE_SKYRIM_SE)  // VR
 				kTotal = 17,
 				kNone = 22  // More input contexts might be available, needs REing
-#else // ALL
+#else                                                          // ALL
 				kTotal = 17,
-				kAETotal = 18, // AE 1130
+				kAETotal = 18,  // AE 1130
 				kVRTotal = 17,
 				kNone = 22  // More input contexts might be available, needs REing
 #endif

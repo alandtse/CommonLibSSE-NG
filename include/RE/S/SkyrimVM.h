@@ -360,9 +360,9 @@ namespace RE
 		KEEP_FOR_RE()
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-#ifdef ENABLE_SKYRIM_AE
+#	ifdef ENABLE_SKYRIM_AE
 	static_assert(sizeof(SkyrimVM) == 0x760);
-	#else
+#	else
 	static_assert(sizeof(SkyrimVM) == 0x760);
 #	endif
 #elif defined(EXCLUSIVE_SKYRIM_VR)

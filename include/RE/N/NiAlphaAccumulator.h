@@ -12,9 +12,9 @@ namespace RE
 
 		virtual ~NiAlphaAccumulator() = default;  //00
 
-		bool observeNoSortHint;                   //50
-		bool sortByClosestPoint;                  //51
-		bool interfaceSort;                       //52
+		bool observeNoSortHint;   //50
+		bool sortByClosestPoint;  //51
+		bool interfaceSort;       //52
 	};
 	static_assert(sizeof(NiAlphaAccumulator) == 0x58);
 	static_assert(offsetof(NiAlphaAccumulator, observeNoSortHint) == 0x50);

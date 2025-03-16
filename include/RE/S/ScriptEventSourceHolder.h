@@ -124,7 +124,7 @@ namespace RE
 	public:
 		static ScriptEventSourceHolder* GetSingleton();
 
-		void SendActivateEvent(const NiPointer<TESObjectREFR>& a_objectActivated, const NiPointer<TESObjectREFR>& a_actionRef); // may be VR only
+		void SendActivateEvent(const NiPointer<TESObjectREFR>& a_objectActivated, const NiPointer<TESObjectREFR>& a_actionRef);  // may be VR only
 		void SendOpenCloseEvent(const NiPointer<TESObjectREFR>& a_ref, const NiPointer<TESObjectREFR>& a_activeRef, bool a_isOpened);
 		void SendSpellCastEvent(const NiPointer<TESObjectREFR>& a_object, FormID a_formID);
 
@@ -153,6 +153,12 @@ namespace RE
 		inline void AddEventSink(BSTEventSink<T>* a_sink)
 		{
 			GetEventSource<T>()->AddEventSink(a_sink);
+		}
+
+		template <class T>
+		inline void PrependEventSink(BSTEventSink<T>* a_sink)
+		{
+			GetEventSource<T>()->PrependEventSink(a_sink);
 		}
 
 		template <class T>

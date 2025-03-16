@@ -11,12 +11,12 @@ namespace RE
 
 		virtual ~NiBackToFrontAccumulator() = default;  //00
 
-		char         _pad[0x18];                        // NiTPointerList<BSGeometry *> m_kItems;
-		int32_t      numItems;                          // 30
-		int32_t      maxItems;                          // 34
-		BSGeometry** kItems;                            // 38
-		float*       depths;                            // 40
-		int32_t      currItem;                          // 48
+		char         _pad[0x18];  // NiTPointerList<BSGeometry *> m_kItems;
+		int32_t      numItems;    // 30
+		int32_t      maxItems;    // 34
+		BSGeometry** kItems;      // 38
+		float*       depths;      // 40
+		int32_t      currItem;    // 48
 	};
 	static_assert(sizeof(NiBackToFrontAccumulator) == 0x50);
 	static_assert(offsetof(NiBackToFrontAccumulator, numItems) == 0x30);

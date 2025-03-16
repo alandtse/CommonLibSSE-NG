@@ -48,7 +48,7 @@ namespace RE
 		void                     Unk_0F(void) override;                                                                                               // 0F
 		void                     Unk_10(void) override;                                                                                               // 10
 		void                     Unk_11(void) override;                                                                                               // 11 - { return 0; }
-		void                     GetRenderTargetSize(std::uint32_t* a_width, std::uint32_t* a_height) override;                                                     // 12
+		void                     GetRenderTargetSize(std::uint32_t* a_width, std::uint32_t* a_height) override;                                       // 12
 		void                     Unk_13() override;                                                                                                   // 13
 		NiPointer<NiNode>*       GetControllerNode(RE::NiPointer<NiNode>& a_out, Hand a_hand) override;                                               // 14
 		void                     Unk_15(void) override;                                                                                               // 15 - { return 0; }

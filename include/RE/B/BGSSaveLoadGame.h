@@ -76,7 +76,7 @@ namespace RE
 
 		static BGSSaveLoadGame* GetSingleton()
 		{
-			REL::Relocation<BGSSaveLoadGame**> singleton{ RELOCATION_ID(516851, 403330) };
+			static REL::Relocation<BGSSaveLoadGame**> singleton{ RELOCATION_ID(516851, 403330) };
 			return *singleton;
 		}
 
@@ -98,20 +98,20 @@ namespace RE
 
 		struct RUNTIME_DATA2
 		{
-#define RUNTIME_DATA2_CONTENT                                                 \
-	BGSSaveLoadFormIDMap                   worldspaceFormIDMap; /*030, 1fe */ \
-	BSTHashMap<FormID, ActorHandle>        unk98;               /*098*/       \
-	BGSSaveLoadReferencesMap               unkC8;               /*0C8*/       \
-	BSTHashMap<FormID, FormID>             unk158;              /*158*/       \
-	BGSConstructFormsInAllFilesMap         reconstructFormsMap; /*188*/       \
-	BGSSaveLoadQueuedSubBufferMap          queuedSubBuffersMap; /*208*/       \
-	BGSSaveLoadFormIDMap                   formIDMap;           /*298*/       \
-	BSTArray<void*>                        saveLoadHistory;     /*300*/       \
-	BSTArray<void*>                        unk318;              /*318*/       \
-	BGSSaveLoadChangesMap*                 saveLoadChanges;     /*330*/       \
-	std::uint64_t                          unk338;              /*338*/       \
-	stl::enumeration<Flags, std::uint32_t> flags;               /*340*/       \
-	std::uint8_t                           currentMinorVersion; /*344 */
+#define RUNTIME_DATA2_CONTENT                                             \
+	BGSSaveLoadFormIDMap               worldspaceFormIDMap; /*030, 1fe */ \
+	BSTHashMap<FormID, ActorHandle>    unk98;               /*098*/       \
+	BGSSaveLoadReferencesMap           unkC8;               /*0C8*/       \
+	BSTHashMap<FormID, FormID>         unk158;              /*158*/       \
+	BGSConstructFormsInAllFilesMap     reconstructFormsMap; /*188*/       \
+	BGSSaveLoadQueuedSubBufferMap      queuedSubBuffersMap; /*208*/       \
+	BGSSaveLoadFormIDMap               formIDMap;           /*298*/       \
+	BSTArray<void*>                    saveLoadHistory;     /*300*/       \
+	BSTArray<void*>                    unk318;              /*318*/       \
+	BGSSaveLoadChangesMap*             saveLoadChanges;     /*330*/       \
+	std::uint64_t                      unk338;              /*338*/       \
+	REX::EnumSet<Flags, std::uint32_t> flags;               /*340*/       \
+	std::uint8_t                       currentMinorVersion; /*344 */
             RUNTIME_DATA2_CONTENT
 		};
 
@@ -150,6 +150,13 @@ namespace RE
 			using func_t = decltype(&BGSSaveLoadGame::GetChange);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(34655, 35577) };
 			return func(this, a_form, a_changes);
+		}
+
+		bool IsFormIDInUse(FormID a_formID)
+		{
+			using func_t = decltype(&BGSSaveLoadGame::IsFormIDInUse);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(34670, 35593) };
+			return func(this, a_formID);
 		}
 
 // members

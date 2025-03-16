@@ -25,10 +25,10 @@ namespace RE
 	private:
 		KEEP_FOR_RE()
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
+#	if defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(CalibrationOptionMenu) == 0x58);
-#else
+#	else
 	static_assert(sizeof(CalibrationOptionMenu) == 0x48);
-#endif
+#	endif
 }
 #endif

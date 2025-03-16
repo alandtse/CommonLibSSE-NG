@@ -132,7 +132,7 @@ namespace RE
 
 		[[nodiscard]] static MistMenu* GetSingleton()
 		{
-			REL::Relocation<MistMenu**> singleton{ RELOCATION_ID(519827, 406370) };
+			static REL::Relocation<MistMenu**> singleton{ RELOCATION_ID(519827, 406370) };
 			return *singleton;
 		}
 

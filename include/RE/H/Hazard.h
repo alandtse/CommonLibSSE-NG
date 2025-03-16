@@ -52,18 +52,18 @@ namespace RE
 
 		struct HAZARD_RUNTIME_DATA
 		{
-#define HAZARD_RUNTIME_DATA_CONTENT                                     \
-	void*                                  hazardDBHandle; /* 98, A0 */ \
-	ActorHandle                            ownerActor;     /* A0 */     \
-	float                                  age;            /* A4 */     \
-	float                                  lifetime;       /* A8 */     \
-	float                                  targetTimer;    /* AC */     \
-	float                                  radius;         /* B0 */     \
-	float                                  magnitude;      /* B4 */     \
-	BGSHazard*                             hazard;         /* B8 */     \
-	NiPointer<NiLight>                     light;          /* C0 */     \
-	BSSoundHandle                          sound;          /* C8 */     \
-	stl::enumeration<Flags, std::uint32_t> flags;          /* D4 */
+#define HAZARD_RUNTIME_DATA_CONTENT                                 \
+	void*                              hazardDBHandle; /* 98, A0 */ \
+	ActorHandle                        ownerActor;     /* A0 */     \
+	float                              age;            /* A4 */     \
+	float                              lifetime;       /* A8 */     \
+	float                              targetTimer;    /* AC */     \
+	float                              radius;         /* B0 */     \
+	float                              magnitude;      /* B4 */     \
+	BGSHazard*                         hazard;         /* B8 */     \
+	NiPointer<NiLight>                 light;          /* C0 */     \
+	BSSoundHandle                      sound;          /* C8 */     \
+	REX::EnumSet<Flags, std::uint32_t> flags;          /* D4 */
 
 			HAZARD_RUNTIME_DATA_CONTENT
 		};
@@ -86,7 +86,7 @@ namespace RE
 		KEEP_FOR_RE()
 	};
 #ifndef ENABLE_SKYRIM_AE
-static_assert(sizeof(Hazard) == 0xD8);
+	static_assert(sizeof(Hazard) == 0xD8);
 #endif
 }
 #undef HAZARD_RUNTIME_DATA_CONTENT

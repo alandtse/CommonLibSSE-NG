@@ -77,14 +77,14 @@ namespace RE
 
 	bool Sky::IsRaining() const
 	{
-		return (currentWeather && currentWeather->data.flags.any(TESWeather::WeatherDataFlag::kRainy) && (currentWeather->data.precipitationBeginFadeIn * (1.0f / 255.0f)) < currentWeatherPct) ||
-		       (lastWeather && lastWeather->data.flags.any(TESWeather::WeatherDataFlag::kRainy) && ((lastWeather->data.precipitationEndFadeOut * (1.0f / 255.0f)) + 0.001f) > currentWeatherPct);
+		return (currentWeather && currentWeather->data.flags.any(TESWeather::WeatherDataFlag::kRainy) && (currentWeather->data.precipitationBeginFadeIn * (1.0f / 255.0f) < currentWeatherPct)) ||
+		       (lastWeather && lastWeather->data.flags.any(TESWeather::WeatherDataFlag::kRainy) && (lastWeather->data.precipitationEndFadeOut * (1.0f / 255.0f) + 0.001f > currentWeatherPct));
 	}
 
 	bool Sky::IsSnowing() const
 	{
-		return (currentWeather && currentWeather->data.flags.any(TESWeather::WeatherDataFlag::kSnow) && (currentWeather->data.precipitationBeginFadeIn * (1.0f / 255.0f)) < currentWeatherPct) ||
-		       (lastWeather && lastWeather->data.flags.any(TESWeather::WeatherDataFlag::kSnow) && ((lastWeather->data.precipitationEndFadeOut * (1.0f / 255.0f)) + 0.001f) > currentWeatherPct);
+		return (currentWeather && currentWeather->data.flags.any(TESWeather::WeatherDataFlag::kSnow) && (currentWeather->data.precipitationBeginFadeIn * (1.0f / 255.0f) < currentWeatherPct)) ||
+		       (lastWeather && lastWeather->data.flags.any(TESWeather::WeatherDataFlag::kSnow) && (lastWeather->data.precipitationEndFadeOut * (1.0f / 255.0f) + 0.001f > currentWeatherPct));
 	}
 
 	void Sky::ReleaseWeatherOverride()

@@ -10,8 +10,8 @@ namespace RE
 		using UEFlag = UserEvents::USER_EVENT_FLAG;
 
 		// members
-		stl::enumeration<UEFlag, std::uint32_t> newUserEventFlag;  // 0
-		stl::enumeration<UEFlag, std::uint32_t> oldUserEventFlag;  // 4
+		REX::EnumSet<UEFlag, std::uint32_t> newUserEventFlag;  // 0
+		REX::EnumSet<UEFlag, std::uint32_t> oldUserEventFlag;  // 4
 	private:
 		KEEP_FOR_RE()
 	};

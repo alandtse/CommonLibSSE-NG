@@ -2,16 +2,16 @@
 
 #ifdef ENABLE_SKYRIM_VR
 
-#include "RE/B/BSTrackedControllerDevice.h"
+#	include "RE/B/BSTrackedControllerDevice.h"
 
 namespace RE
 {
 	class BSOpenVRControllerDevice : public BSTrackedControllerDevice
 	{
 	public:
-#if defined(EXCLUSIVE_SKYRIM_VR)
+#	if defined(EXCLUSIVE_SKYRIM_VR)
 		inline static constexpr auto RTTI = RTTI_BSOpenVRControllerDevice;
-#endif
+#	endif
 
 		~BSOpenVRControllerDevice() override;
 
@@ -40,7 +40,7 @@ namespace RE
 		void               Reset() override;                                                           // 08
 
 	private:
-#if defined(EXCLUSIVE_SKYRIM_VR)
+#	if defined(EXCLUSIVE_SKYRIM_VR)
 		std::uint64_t unk80[0x16];  // 080
 		std::uint32_t unk130;       // 130
 		std::uint32_t unk134;       // 134
@@ -50,10 +50,10 @@ namespace RE
 		std::uint32_t unk144;       // 144
 		std::uint32_t unk148;       // 148
 		std::uint32_t unk14C;       // 14C
-#endif
+#	endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
+#	if defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(BSOpenVRControllerDevice) == 0x150);
-#endif
+#	endif
 }
 #endif

@@ -2,9 +2,9 @@
 
 #ifdef ENABLE_SKYRIM_VR
 
-#include "RE/B/BSIInputDevice.h"
-#include "RE/B/BSInputDevice.h"
-#include "openvr.h"
+#	include "RE/B/BSIInputDevice.h"
+#	include "RE/B/BSInputDevice.h"
+#	include "openvr.h"
 namespace RE
 {
 	enum class ControllerDeviceHand  // Not sure on this one, enum needs more RE
@@ -17,9 +17,9 @@ namespace RE
 	class BSTrackedControllerDevice : public BSInputDevice
 	{
 	public:
-#if defined(EXCLUSIVE_SKYRIM_VR)
+#	if defined(EXCLUSIVE_SKYRIM_VR)
 		inline static constexpr auto RTTI = RTTI_BSTrackedControllerDevice;
-#endif
+#	endif
 
 		~BSTrackedControllerDevice() override;
 

@@ -115,19 +115,19 @@ namespace RE
 		{
 		public:
 			// members
-			NiPoint3                                  desiredTargetLoc;    // 00
-			NiPoint3                                  negativeVelocity;    // 0C
-			ObjectRefHandle                           collidee;            // 18
-			NiPointer<bhkCollisionObject>             colObj;              // 20
-			BGSMaterialType*                          material;            // 28
-			std::int32_t                              damageRootNodeType;  // 30
-			stl::enumeration<COL_LAYER, std::int32_t> collidedLayer;       // 34
-			NiNode*                                   damageRootNode;      // 38
-			ImpactResult                              impactResult;        // 40
-			std::uint16_t                             unk44;               // 44
-			std::uint16_t                             unk46;               // 46
-			std::uint8_t                              unk48;               // 48
-			std::uint8_t                              unk49;               // 49
+			NiPoint3                              desiredTargetLoc;    // 00
+			NiPoint3                              negativeVelocity;    // 0C
+			ObjectRefHandle                       collidee;            // 18
+			NiPointer<bhkCollisionObject>         colObj;              // 20
+			BGSMaterialType*                      material;            // 28
+			std::int32_t                          damageRootNodeType;  // 30
+			REX::EnumSet<COL_LAYER, std::int32_t> collidedLayer;       // 34
+			NiNode*                               damageRootNode;      // 38
+			ImpactResult                          impactResult;        // 40
+			std::uint16_t                         unk44;               // 44
+			std::uint16_t                         unk46;               // 46
+			std::uint8_t                          unk48;               // 48
+			std::uint8_t                          unk49;               // 49
 		};
 		static_assert(sizeof(ImpactData) == 0x50);
 
@@ -241,50 +241,50 @@ namespace RE
 
 		struct PROJECTILE_RUNTIME_DATA
 		{
-#define PROJECTILE_RUNTIME_DATA_CONTENT                                                                 \
-	BSSimpleList<ImpactData*>              impacts;             /* 098, 0A0 */                          \
-	NiTransform                            unk0A8;              /* 0A8 */                               \
-	float                                  unk0DC;              /* 0DC */                               \
-	bhkSimpleShapePhantom*                 unk0E0;              /* 0E0 - smart ptr */                   \
-	mutable BSSpinLock                     unk0E8;              /* 0E8 */                               \
-	NiPoint3                               velocity;            /* 0F0 */                               \
-	NiPoint3                               linearVelocity;      /* 0FC */                               \
-	NiPointer<BSLight>                     light;               /* 108 - smart ptr */                   \
-	void*                                  unk110;              /* 110 - smart ptr */                   \
-	NiPointer<ActorCause>                  actorCause;          /* 118 */                               \
-	ObjectRefHandle                        shooter;             /* 120 */                               \
-	ObjectRefHandle                        desiredTarget;       /* 124 */                               \
-	BSSoundHandle                          sndHandle;           /* 128 */                               \
-	BSSoundHandle                          sndCountdown;        /* 134 */                               \
-	std::uint32_t*                         unk140;              /* 140 */                               \
-	InventoryEntryData*                    unk148;              /* 148 */                               \
-	BGSExplosion*                          explosion;           /* 150 */                               \
-	MagicItem*                             spell;               /* 158 */                               \
-	MagicSystem::CastingSource             castingSource;       /* 160 */                               \
-	std::uint32_t                          pad164;              /* 164 */                               \
-	EffectSetting*                         avEffect;            /* 168 */                               \
-	NiPointer<QueuedFile>                  projectileDBFiles;   /* 170 */                               \
-	ModelDBHandle                          muzzleFlashDBHandle; /* 178 */                               \
-	std::uint64_t                          unk180;              /* 180 */                               \
-	float                                  power;               /* 188 - 14074B774 */                   \
-	float                                  speedMult;           /* 18C - 1407501B2 */                   \
-	float                                  range;               /* 190 */                               \
-	float                                  livingTime;          /* 194 */                               \
-	float                                  weaponDamage;        /* 198 */                               \
-	float                                  transparency;        /* 19C - for beam disappearing */       \
-	float                                  explosionTimer;      /* 1A0 */                               \
-	std::uint32_t                          unk1A4;              /* 1A4 */                               \
-	float                                  unk1A8;              /* 1A8 */                               \
-	float                                  unk1AC;              /* 1AC */                               \
-	TESObjectWEAP*                         weaponSource;        /* 1B0 */                               \
-	TESAmmo*                               ammoSource;          /* 1B8 */                               \
-	float                                  distanceMoved;       /* 1C0 */                               \
-	std::uint32_t                          unk1C4;              /* 1C4 - pad? */                        \
-	float                                  scale;               /* 1C8 - for double cast model scale */ \
-	stl::enumeration<Flags, std::uint32_t> flags;               /* 1CC */                               \
-	bool                                   unk1D0;              /* 1D0 */                               \
-	bool                                   unk1D1;              /* 1D1 */                               \
-	std::uint8_t                           unk1D2[6];           /* 1D2 */
+#define PROJECTILE_RUNTIME_DATA_CONTENT                                                             \
+	BSSimpleList<ImpactData*>          impacts;             /* 098, 0A0 */                          \
+	NiTransform                        unk0A8;              /* 0A8 */                               \
+	float                              unk0DC;              /* 0DC */                               \
+	bhkSimpleShapePhantom*             unk0E0;              /* 0E0 - smart ptr */                   \
+	mutable BSSpinLock                 unk0E8;              /* 0E8 */                               \
+	NiPoint3                           velocity;            /* 0F0 */                               \
+	NiPoint3                           linearVelocity;      /* 0FC */                               \
+	NiPointer<BSLight>                 light;               /* 108 - smart ptr */                   \
+	void*                              unk110;              /* 110 - smart ptr */                   \
+	NiPointer<ActorCause>              actorCause;          /* 118 */                               \
+	ObjectRefHandle                    shooter;             /* 120 */                               \
+	ObjectRefHandle                    desiredTarget;       /* 124 */                               \
+	BSSoundHandle                      sndHandle;           /* 128 */                               \
+	BSSoundHandle                      sndCountdown;        /* 134 */                               \
+	std::uint32_t*                     unk140;              /* 140 */                               \
+	InventoryEntryData*                unk148;              /* 148 */                               \
+	BGSExplosion*                      explosion;           /* 150 */                               \
+	MagicItem*                         spell;               /* 158 */                               \
+	MagicSystem::CastingSource         castingSource;       /* 160 */                               \
+	std::uint32_t                      pad164;              /* 164 */                               \
+	EffectSetting*                     avEffect;            /* 168 */                               \
+	NiPointer<QueuedFile>              projectileDBFiles;   /* 170 */                               \
+	ModelDBHandle                      muzzleFlashDBHandle; /* 178 */                               \
+	std::uint64_t                      unk180;              /* 180 */                               \
+	float                              power;               /* 188 - 14074B774 */                   \
+	float                              speedMult;           /* 18C - 1407501B2 */                   \
+	float                              range;               /* 190 */                               \
+	float                              livingTime;          /* 194 */                               \
+	float                              weaponDamage;        /* 198 */                               \
+	float                              transparency;        /* 19C - for beam disappearing */       \
+	float                              explosionTimer;      /* 1A0 */                               \
+	std::uint32_t                      unk1A4;              /* 1A4 */                               \
+	float                              unk1A8;              /* 1A8 */                               \
+	float                              unk1AC;              /* 1AC */                               \
+	TESObjectWEAP*                     weaponSource;        /* 1B0 */                               \
+	TESAmmo*                           ammoSource;          /* 1B8 */                               \
+	float                              distanceMoved;       /* 1C0 */                               \
+	std::uint32_t                      unk1C4;              /* 1C4 - pad? */                        \
+	float                              scale;               /* 1C8 - for double cast model scale */ \
+	REX::EnumSet<Flags, std::uint32_t> flags;               /* 1CC */                               \
+	bool                               unk1D0;              /* 1D0 */                               \
+	bool                               unk1D1;              /* 1D1 */                               \
+	std::uint8_t                       unk1D2[6];           /* 1D2 */
 
 			PROJECTILE_RUNTIME_DATA_CONTENT
 		};

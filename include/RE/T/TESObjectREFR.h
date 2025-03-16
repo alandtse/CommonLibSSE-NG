@@ -23,6 +23,7 @@
 
 namespace RE
 {
+	enum class ITEM_REMOVE_REASON;
 	enum class LOCK_LEVEL;
 	class hkpCollidable;
 	class Actor;
@@ -36,6 +37,7 @@ namespace RE
 	class BSFaceGenNiNode;
 	class BSFlattenedBoneTree;
 	class DialogueResponse;
+	class EnchantmentItem;
 	class Explosion;
 	class InventoryChanges;
 	class InventoryEntryData;
@@ -59,17 +61,8 @@ namespace RE
 	struct BGSDecalGroup;
 	struct BSAnimationGraphEvent;
 	struct BSAnimationUpdateData;
+	struct DoorTeleportData;
 	struct REFR_LOCK;
-
-	enum class ITEM_REMOVE_REASON
-	{
-		kRemove,
-		kSteal,
-		kSelling,
-		kDropping,
-		kStoreInContainer,
-		kStoreInTeammate
-	};
 
 	struct OBJ_REFR
 	{
@@ -358,6 +351,8 @@ namespace RE
 		static TESObjectREFR*           FindReferenceFor3D(NiAVObject* a_object3D);
 
 		bool                                            ActivateRef(TESObjectREFR* a_activator, std::uint8_t a_arg2, TESBoundObject* a_object, int32_t a_count, bool a_defaultProcessingOnly);
+		REFR_LOCK*                                      AddLock();
+		DoorTeleportData*                               AddTeleport();
 		ModelReferenceEffect*                           ApplyArtObject(BGSArtObject* a_artObject, float a_duration = -1.0f, TESObjectREFR* a_facingRef = nullptr, bool a_faceTarget = false, bool a_attachToCamera = false, NiAVObject* a_attachNode = nullptr, bool a_interfaceEffect = false);
 		ShaderReferenceEffect*                          ApplyEffectShader(TESEffectShader* a_effectShader, float a_duration = -1.0f, TESObjectREFR* a_facingRef = nullptr, bool a_faceTarget = false, bool a_attachToCamera = false, NiAVObject* a_attachNode = nullptr, bool a_interfaceEffect = false);
 		[[nodiscard]] bool                              CanBeMoved();
@@ -387,6 +382,7 @@ namespace RE
 		[[nodiscard]] BGSLocation*                      GetEditorLocation() const;
 		[[nodiscard]] bool                              GetEditorLocation(NiPoint3& a_outPos, NiPoint3& a_outRot, TESForm*& a_outWorldOrCell, TESObjectCELL* a_fallback);
 		BGSEncounterZone*                               GetEncounterZone() const;
+		EnchantmentItem*                                GetEnchantment() const;
 		[[nodiscard]] std::optional<double>             GetEnchantmentCharge() const;
 		[[nodiscard]] TESFaction*                       GetFactionOwner();
 		[[nodiscard]] ObjectRefHandle                   GetHandle();
@@ -459,13 +455,15 @@ namespace RE
 		void                                            PlayAnimation(stl::zstring a_from, stl::zstring a_to);
 		void                                            PlayAnimation(NiControllerManager* a_manager, NiControllerSequence* a_toSeq, NiControllerSequence* a_fromSeq);
 		void                                            SetActivationBlocked(bool a_blocked);
+		void                                            SetAngle(const NiPoint3& a_angle);
 		void                                            SetCollision(bool a_enable);
 		bool                                            SetDisplayName(const BSFixedString& a_name, bool a_force);
 		void                                            SetEncounterZone(BGSEncounterZone* a_zone);
 		bool                                            SetMotionType(hkpMotion::MotionType a_motionType, bool a_allowActivate = true);
 		void                                            SetOwner(TESForm* a_owner);
 		void                                            SetPosition(float a_x, float a_y, float a_z);
-		void                                            SetPosition(NiPoint3 a_pos);
+		void                                            SetPosition(const NiPoint3& a_pos);
+		void                                            SetScale(float a_scale);
 		void                                            SetTemporary();
 
 		struct REFERENCE_RUNTIME_DATA

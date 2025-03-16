@@ -25,23 +25,23 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                  \
-	BSTArray<void*>                      unk040[7]; /* 000 */ \
-	RaceSexCamera                        camera;    /* 0A8 */ \
-	BSTArray<void*>                      unk140[2]; /* 100 */ \
-	BSTArray<void*>                      unk170;    /* 130 */ \
-	std::uint64_t                        unk188;    /* 148 */ \
-	std::uint32_t                        unk190;    /* 150 */ \
-	std::uint32_t                        unk194;    /* 154 */ \
-	stl::enumeration<SEX, std::uint32_t> sex;       /* 158 */ \
-	std::uint16_t                        unk19C;    /* 15C */ \
-	std::uint8_t                         unk19E;    /* 15E */ \
-	std::uint8_t                         pad19F;    /* 15F */ \
-	std::uint8_t                         unk1A0;    /* 160 */ \
-	std::uint8_t                         unk1A1;    /* 161 */ \
-	std::uint16_t                        unk1A2;    /* 162 */ \
-	std::uint32_t                        unk1A4;    /* 164 */
-			RUNTIME_DATA_CONTENT
+#define RUNTIME_DATA_CONTENT                              \
+	BSTArray<void*>                  unk040[7]; /* 000 */ \
+	RaceSexCamera                    camera;    /* 0A8 */ \
+	BSTArray<void*>                  unk140[2]; /* 100 */ \
+	BSTArray<void*>                  unk170;    /* 130 */ \
+	std::uint64_t                    unk188;    /* 148 */ \
+	std::uint32_t                    unk190;    /* 150 */ \
+	std::uint32_t                    unk194;    /* 154 */ \
+	REX::EnumSet<SEX, std::uint32_t> sex;       /* 158 */ \
+	std::uint16_t                    unk19C;    /* 15C */ \
+	std::uint8_t                     unk19E;    /* 15E */ \
+	std::uint8_t                     pad19F;    /* 15F */ \
+	std::uint8_t                     unk1A0;    /* 160 */ \
+	std::uint8_t                     unk1A1;    /* 161 */ \
+	std::uint16_t                    unk1A2;    /* 162 */ \
+	std::uint32_t                    unk1A4;    /* 164 */
+            RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x168);
 

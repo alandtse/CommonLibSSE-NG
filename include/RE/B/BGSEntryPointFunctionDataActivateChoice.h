@@ -12,7 +12,7 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_BGSEntryPointFunctionDataActivateChoice;
 		inline static constexpr auto VTABLE = VTABLE_BGSEntryPointFunctionDataActivateChoice;
 
-		enum class Flag
+		enum class Flag1
 		{
 			kNone = 0,
 			kRunImmediately = 1,
@@ -33,12 +33,12 @@ namespace RE
 		[[nodiscard]] bool RunsImmediately() const;
 
 		// members
-		BSFixedString                         label;         // 08
-		BGSPerk*                              perk;          // 10
-		SpellItem*                            appliedSpell;  // 18
-		stl::enumeration<Flag, std::uint16_t> flags;         // 20
-		std::uint16_t                         id;            // 22
-		std::uint32_t                         pad24;         // 24
+		BSFixedString                      label;         // 08
+		BGSPerk*                           perk;          // 10
+		SpellItem*                         appliedSpell;  // 18
+		REX::EnumSet<Flag1, std::uint16_t> flags1;        // 20
+		std::uint16_t                      flags2;        // 22
+		std::uint32_t                      pad24;         // 24
 	private:
 		KEEP_FOR_RE()
 	};

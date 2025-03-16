@@ -194,7 +194,7 @@ TEST_CASE("Module/SupportsSkyrimSE")
 	}
 	SECTION("REL::RelocationID gets correct address and offset")
 	{
-		REL::RelocationID id(11483, 0);
+		static REL::RelocationID id(11483, 0);
 		CHECK(id.offset() == 0x10f5c0);
 		CHECK(id.address() == 0x1105c0);
 	}
@@ -241,7 +241,7 @@ TEST_CASE("Module/SupportsSkyrimAE")
 	}
 	SECTION("REL::RelocationID gets correct address and offset")
 	{
-		REL::RelocationID id(0, 11483);
+		static REL::RelocationID id(0, 11483);
 		CHECK(id.offset() == 0x10f7a0);
 		CHECK(id.address() == 0x1107a0);
 	}
@@ -288,7 +288,7 @@ TEST_CASE("Module/SupportsSkyrimVR")
 	}
 	SECTION("REL::RelocationID gets correct address and offset")
 	{
-		REL::RelocationID id(11483, 0);
+		static REL::RelocationID id(11483, 0);
 		CHECK(id.offset() == 0x11fba0);
 		CHECK(id.address() == 0x120ba0);
 

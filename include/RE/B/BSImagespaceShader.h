@@ -40,7 +40,7 @@ namespace RE
 		virtual void FakeDispatchComputeShader(uint32_t a_threadGroupCountX, uint32_t a_threadGroupCountY, uint32_t a_threadGroupCountZ);  // VR 0D
 		virtual void GetShaderMacros(ShaderMacro* a_macros);                                                                               // 0D, VR 0E
 		virtual void LoadShaders();                                                                                                        // 0E
-#	elif defined(EXCLUSIVE_SKYRIM_FLAT)
+#elif defined(EXCLUSIVE_SKYRIM_FLAT)
 		virtual void GetShaderMacros(ShaderMacro* a_macros);  // 0D, VR 0E
 		virtual void LoadShaders();                           // 0E
 #endif

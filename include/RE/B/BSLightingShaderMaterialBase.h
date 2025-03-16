@@ -67,7 +67,7 @@ namespace RE
 		static BSLightingShaderMaterialBase* Constructor(BSLightingShaderMaterialBase* material)
 		{
 			using func_t = decltype(&BSLightingShaderMaterialBase::Constructor);
-			REL::Relocation<func_t> func{ RELOCATION_ID(100004, 106711) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(100004, 106711) };
 			return func(material);
 		}
 

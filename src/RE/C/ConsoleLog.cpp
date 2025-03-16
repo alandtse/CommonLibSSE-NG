@@ -5,7 +5,7 @@ namespace RE
 {
 	ConsoleLog* ConsoleLog::GetSingleton()
 	{
-		REL::Relocation<ConsoleLog**> singleton{ RELOCATION_ID(515064, 401203) };
+		static REL::Relocation<ConsoleLog**> singleton{ RELOCATION_ID(515064, 401203) };
 		return *singleton;
 	}
 

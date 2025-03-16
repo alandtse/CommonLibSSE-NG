@@ -15,13 +15,13 @@ namespace RE
 
 	PlayerCharacter* PlayerCharacter::GetSingleton()
 	{
-		REL::Relocation<NiPointer<PlayerCharacter>*> singleton{ RELOCATION_ID(517014, 403521) };
+		static REL::Relocation<NiPointer<PlayerCharacter>*> singleton{ RELOCATION_ID(517014, 403521) };
 		return singleton->get();
 	}
 
 	bool PlayerCharacter::IsGodMode()
 	{
-		REL::Relocation<bool*> singleton{ RELOCATION_ID(517711, 404238) };
+		static REL::Relocation<bool*> singleton{ RELOCATION_ID(517711, 404238) };
 		return *singleton;
 	}
 
@@ -35,7 +35,7 @@ namespace RE
 	void PlayerCharacter::ActivatePickRefVR(VR_DEVICE a_device)
 	{
 		using func_t = decltype(&PlayerCharacter::ActivatePickRefVR);
-		REL::Relocation<func_t> func{ RELOCATION_ID(39471, 40548) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39471, 40548) };
 		return func(this, a_device);
 	}
 

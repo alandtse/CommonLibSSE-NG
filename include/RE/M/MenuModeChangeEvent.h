@@ -14,8 +14,8 @@ namespace RE
 			kDisplayed = 1
 		};
 
-		BSFixedString                        menu;  // 00
-		stl::enumeration<Mode, std::uint8_t> mode;  // 08
+		BSFixedString                    menu;  // 00
+		REX::EnumSet<Mode, std::uint8_t> mode;  // 08
 	private:
 		KEEP_FOR_RE()
 	};

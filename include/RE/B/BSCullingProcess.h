@@ -13,6 +13,7 @@ namespace RE
 	class BSOcclusionPlane;
 	class BSPortalGraphEntry;
 	class BSShaderAccumulator;
+	class NiAVObject;
 	class NiBound;
 	class NiFrustumPlanes;
 

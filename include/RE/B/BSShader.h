@@ -160,7 +160,7 @@ namespace RE
 		}
 
 		// members
-		stl::enumeration<Type, std::int32_t>                       shaderType;     // 20
+		REX::EnumSet<Type, std::int32_t>                           shaderType;     // 20
 		BSShaderTechniqueIDMap::MapType<BSGraphics::VertexShader*> vertexShaders;  // 28
 		BSShaderTechniqueIDMap::MapType<BSGraphics::PixelShader*>  pixelShaders;   // 58
 		const char*                                                fxpFilename;    // 88

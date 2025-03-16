@@ -5,7 +5,7 @@ namespace RE
 {
 	SkyrimVM* SkyrimVM::GetSingleton()
 	{
-		REL::Relocation<SkyrimVM**> singleton{ RELOCATION_ID(514315, 400475) };
+		static REL::Relocation<SkyrimVM**> singleton{ RELOCATION_ID(514315, 400475) };
 		return *singleton;
 	}
 

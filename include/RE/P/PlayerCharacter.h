@@ -263,9 +263,9 @@ namespace RE
 	{
 	public:
 		// members
-		float                                          timer;   // 0
-		RefHandle                                      refObj;  // 4
-		stl::enumeration<PLAYER_ACTION, std::uint32_t> next;    // 8
+		float                                      timer;   // 0
+		RefHandle                                  refObj;  // 4
+		REX::EnumSet<PLAYER_ACTION, std::uint32_t> next;    // 8
 	};
 	static_assert(sizeof(PlayerActionObject) == 0xC);
 
@@ -494,13 +494,13 @@ namespace RE
 
 		struct GameStateData
 		{
-#define GAME_STATE_DATA_CONTENT                                            \
-	std::int32_t                                  difficulty;      /* 0 */ \
-	ActorHandle                                   assumedIdentity; /* 4 */ \
-	std::int8_t                                   murder;          /* 8 */ \
-	std::int8_t                                   perkCount;       /* 9 */ \
-	stl::enumeration<ByCharGenFlag, std::uint8_t> byCharGenFlag;   /* A */ \
-	std::uint8_t                                  padB;            /* B */
+#define GAME_STATE_DATA_CONTENT                                        \
+	std::int32_t                              difficulty;      /* 0 */ \
+	ActorHandle                               assumedIdentity; /* 4 */ \
+	std::int8_t                               murder;          /* 8 */ \
+	std::int8_t                               perkCount;       /* 9 */ \
+	REX::EnumSet<ByCharGenFlag, std::uint8_t> byCharGenFlag;   /* A */ \
+	std::uint8_t                              padB;            /* B */
 
 			GAME_STATE_DATA_CONTENT
 		};
@@ -869,19 +869,19 @@ namespace RE
 	GrabData                                                grabData;                                 /* 898 */             \
 	std::uint32_t                                           unk8e0;                                   /* 8e0 */             \
 	INFO_RUNTIME_DATA_CONTENT;                                                                        /* 8E4 */             \
-	std::uint8_t                                   unkA20[0xA0];                                      /* A20 */             \
-	std::uint32_t                                  unkAC0;                                            /* AC0 */             \
-	std::uint32_t                                  unkAC4;                                            /* AC4 */             \
-	BGSLocation*                                   currentLocation;                                   /* AC8 */             \
-	AITimeStamp                                    cachedVelocityTimeStamp;                           /* AD0 */             \
-	float                                          telekinesisDistance;                               /* AD4 */             \
-	float                                          commandTimer;                                      /* AD8 */             \
-	float                                          sunGazeTimer;                                      /* ADC */             \
-	TESImageSpaceModifier*                         sunGazeImageSpaceModifier;                         /* AE0 */             \
-	ActorValue                                     advanceSkill;                                      /* AE8 */             \
-	std::uint32_t                                  advanceAction;                                     /* AEC */             \
-	stl::enumeration<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                             /* AF0 */             \
-	stl::enumeration<GrabbingType, std::uint32_t>  grabType;                                          /* AF4 */             \
+	std::uint8_t                               unkA20[0xA0];                                          /* A20 */             \
+	std::uint32_t                              unkAC0;                                                /* AC0 */             \
+	std::uint32_t                              unkAC4;                                                /* AC4 */             \
+	BGSLocation*                               currentLocation;                                       /* AC8 */             \
+	AITimeStamp                                cachedVelocityTimeStamp;                               /* AD0 */             \
+	float                                      telekinesisDistance;                                   /* AD4 */             \
+	float                                      commandTimer;                                          /* AD8 */             \
+	float                                      sunGazeTimer;                                          /* ADC */             \
+	TESImageSpaceModifier*                     sunGazeImageSpaceModifier;                             /* AE0 */             \
+	ActorValue                                 advanceSkill;                                          /* AE8 */             \
+	std::uint32_t                              advanceAction;                                         /* AEC */             \
+	REX::EnumSet<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                                 /* AF0 */             \
+	REX::EnumSet<GrabbingType, std::uint32_t>  grabType;                                              /* AF4 */             \
 	GAME_STATE_DATA_CONTENT;                                                                          /* AF8 */             \
 	std::uint32_t        unkB04;                                                                      /* B04 */             \
 	Crime*               resistArrestCrime;                                                           /* B08 */             \
@@ -989,18 +989,18 @@ namespace RE
 	float                                                   unkFloatFD4;                              /* FD4 */                                                                                                        \
 	std::uint64_t                                           unkFD8;                                   /* FD8 */                                                                                                        \
 	VR_INFO_RUNTIME_DATA_CONTENT;                                                                     /* FE0 */                                                                                                        \
-	std::uint8_t                                   unk1120[0xA0];                                     /* 1120 - Unused? */                                                                                             \
-	std::uint32_t                                  unkAC0;                                            /* 11C0 */                                                                                                       \
-	std::uint32_t                                  unkAC4;                                            /* 11C4 */                                                                                                       \
-	BGSLocation*                                   currentLocation;                                   /* 11C8 */                                                                                                       \
-	AITimeStamp                                    cachedVelocityTimeStamp;                           /* 11D0 */                                                                                                       \
-	float                                          telekinesisDistance;                               /* 11D4 */                                                                                                       \
-	float                                          commandTimer;                                      /* 11D8 */                                                                                                       \
-	float                                          sunGazeTimer;                                      /* 11DC - Upon sungazing, counts down from 0.5 seconds. When 0, applies imagespace modifier */                   \
-	TESImageSpaceModifier*                         sunGazeImageSpaceModifier;                         /* 11E0 */                                                                                                       \
-	ActorValue                                     advanceSkill;                                      /* 11E8 - advance values set, then cleared in PlayerSkills::ModSkillPoints surronding ApplyPerkEntry */          \
-	std::uint32_t                                  advanceAction;                                     /* 11EC - Part of 10F0 and 11E8 */                                                                               \
-	stl::enumeration<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                             /* 11F0 */                                                                                                       \
+	std::uint8_t                               unk1120[0xA0];                                         /* 1120 - Unused? */                                                                                             \
+	std::uint32_t                              unkAC0;                                                /* 11C0 */                                                                                                       \
+	std::uint32_t                              unkAC4;                                                /* 11C4 */                                                                                                       \
+	BGSLocation*                               currentLocation;                                       /* 11C8 */                                                                                                       \
+	AITimeStamp                                cachedVelocityTimeStamp;                               /* 11D0 */                                                                                                       \
+	float                                      telekinesisDistance;                                   /* 11D4 */                                                                                                       \
+	float                                      commandTimer;                                          /* 11D8 */                                                                                                       \
+	float                                      sunGazeTimer;                                          /* 11DC - Upon sungazing, counts down from 0.5 seconds. When 0, applies imagespace modifier */                   \
+	TESImageSpaceModifier*                     sunGazeImageSpaceModifier;                             /* 11E0 */                                                                                                       \
+	ActorValue                                 advanceSkill;                                          /* 11E8 - advance values set, then cleared in PlayerSkills::ModSkillPoints surronding ApplyPerkEntry */          \
+	std::uint32_t                              advanceAction;                                         /* 11EC - Part of 10F0 and 11E8 */                                                                               \
+	REX::EnumSet<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                                 /* 11F0 */                                                                                                       \
 	GAME_STATE_DATA_CONTENT;                                                                          /* 11F4 */                                                                                                       \
 	Crime*               resistArrestCrime;                                                           /* 1200 */                                                                                                       \
 	BSTArray<TintMask*>  tintMasks;                                                                   /* 1208 */                                                                                                       \

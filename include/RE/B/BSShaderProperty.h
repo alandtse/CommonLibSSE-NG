@@ -222,18 +222,18 @@ namespace RE
 		void              LinkMaterial(BSShaderMaterial* material, bool a2);
 
 		// members
-		float                                                alpha;                // 30
-		std::int32_t                                         lastRenderPassState;  // 34
-		stl::enumeration<EShaderPropertyFlag, std::uint64_t> flags;                // 38
-		RenderPassArray                                      renderPassList;       // 40
-		std::uint64_t                                        unk48;                // 48
-		RenderPassArray                                      debugRenderPassList;  // 50
-		std::uint64_t                                        unk58;                // 58
-		BSFadeNode*                                          fadeNode;             // 60
-		BSTSmartPointer<BSEffectShaderData>                  effectData;           // 68
-		BSShaderPropertyLightData*                           lightData;            // 70
-		BSShaderMaterial*                                    material;             // 78
-		std::uint64_t                                        unk80;                // 80
+		float                                            alpha;                // 30
+		std::int32_t                                     lastRenderPassState;  // 34
+		REX::EnumSet<EShaderPropertyFlag, std::uint64_t> flags;                // 38
+		RenderPassArray                                  renderPassList;       // 40
+		std::uint64_t                                    unk48;                // 48
+		RenderPassArray                                  debugRenderPassList;  // 50
+		std::uint64_t                                    unk58;                // 58
+		BSFadeNode*                                      fadeNode;             // 60
+		BSTSmartPointer<BSEffectShaderData>              effectData;           // 68
+		BSShaderPropertyLightData*                       lightData;            // 70
+		BSShaderMaterial*                                material;             // 78
+		std::uint64_t                                    unk80;                // 80
 	private:
 		KEEP_FOR_RE()
 	};

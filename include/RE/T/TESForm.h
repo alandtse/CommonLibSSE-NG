@@ -197,8 +197,8 @@ namespace RE
 				BSTHashMap<FormID, TESForm*>*,
 				std::reference_wrapper<BSReadWriteLock>>
 		{
-			REL::Relocation<BSTHashMap<FormID, TESForm*>**> allForms{ RELOCATION_ID(514351, 400507) };
-			REL::Relocation<BSReadWriteLock*>               allFormsMapLock{ RELOCATION_ID(514360, 400517) };
+			static REL::Relocation<BSTHashMap<FormID, TESForm*>**> allForms{ RELOCATION_ID(514351, 400507) };
+			static REL::Relocation<BSReadWriteLock*>               allFormsMapLock{ RELOCATION_ID(514360, 400517) };
 			return { *allForms, std::ref(*allFormsMapLock) };
 		}
 
@@ -207,8 +207,8 @@ namespace RE
 				BSTHashMap<BSFixedString, TESForm*>*,
 				std::reference_wrapper<BSReadWriteLock>>
 		{
-			REL::Relocation<BSTHashMap<BSFixedString, TESForm*>**> allFormsByEditorID{ RELOCATION_ID(514352, 400509) };
-			REL::Relocation<BSReadWriteLock*>                      allFormsEditorIDMapLock{ RELOCATION_ID(514361, 400518) };
+			static REL::Relocation<BSTHashMap<BSFixedString, TESForm*>**> allFormsByEditorID{ RELOCATION_ID(514352, 400509) };
+			static REL::Relocation<BSReadWriteLock*>                      allFormsEditorIDMapLock{ RELOCATION_ID(514361, 400518) };
 			return { *allFormsByEditorID, std::ref(*allFormsEditorIDMapLock) };
 		}
 
@@ -319,7 +319,7 @@ namespace RE
 
 		template <class... Args>
 		[[nodiscard]] bool Is(Args... a_args) const noexcept  //
-			requires(std::same_as<Args, FormType>&&...)
+			requires(std::same_as<Args, FormType> && ...)
 		{
 			return (Is(a_args) || ...);
 		}
@@ -339,7 +339,7 @@ namespace RE
 
 		template <class... Args>
 		[[nodiscard]] bool IsNot(Args... a_args) const noexcept  //
-			requires(std::same_as<Args, FormType>&&...)
+			requires(std::same_as<Args, FormType> && ...)
 		{
 			return (IsNot(a_args) && ...);
 		}
@@ -351,16 +351,17 @@ namespace RE
 		[[nodiscard]] bool IsSoulGem() const noexcept { return Is(FormType::SoulGem); }
 		[[nodiscard]] bool IsWeapon() const noexcept { return Is(FormType::Weapon); }
 
+		void SetFile(TESFile* a_file);
 		void SetPlayerKnows(bool a_known);
 
 		// members
-		TESFileContainer                                sourceFiles;      // 08
-		std::uint32_t                                   formFlags;        // 10
-		FormID                                          formID;           // 14
-		stl::enumeration<InGameFormFlag, std::uint16_t> inGameFormFlags;  // 18
-		stl::enumeration<FormType, std::uint8_t>        formType;         // 1A
-		std::uint8_t                                    pad1B;            // 1B
-		std::uint32_t                                   pad1C;            // 1C
+		TESFileContainer                            sourceFiles;      // 08
+		std::uint32_t                               formFlags;        // 10
+		FormID                                      formID;           // 14
+		REX::EnumSet<InGameFormFlag, std::uint16_t> inGameFormFlags;  // 18
+		REX::EnumSet<FormType, std::uint8_t>        formType;         // 1A
+		std::uint8_t                                pad1B;            // 1B
+		std::uint32_t                               pad1C;            // 1C
 	private:
 		KEEP_FOR_RE()
 	};

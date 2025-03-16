@@ -4,11 +4,11 @@ namespace RE
 {
 	bool BGSEntryPointFunctionDataActivateChoice::ReplacesDefault() const
 	{
-		return flags.all(Flag::kReplaceDefault);
+		return flags1.all(Flag1::kReplaceDefault);
 	}
 
 	bool BGSEntryPointFunctionDataActivateChoice::RunsImmediately() const
 	{
-		return flags.all(Flag::kRunImmediately);
+		return flags1.all(Flag1::kRunImmediately);
 	}
 }

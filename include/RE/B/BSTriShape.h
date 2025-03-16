@@ -10,7 +10,7 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_BSTriShape;
 		inline static constexpr auto Ni_RTTI = NiRTTI_BSTriShape;
 		inline static constexpr auto VTABLE = VTABLE_BSTriShape;
-;
+		;
 
 		struct TRISHAPE_RUNTIME_DATA
 		{

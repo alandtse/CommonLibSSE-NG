@@ -4,7 +4,7 @@ namespace RE
 {
 	ActorEquipManager* ActorEquipManager::GetSingleton()
 	{
-		REL::Relocation<ActorEquipManager**> singleton{ RELOCATION_ID(514494, 400636) };
+		static REL::Relocation<ActorEquipManager**> singleton{ RELOCATION_ID(514494, 400636) };
 		return *singleton;
 	}
 

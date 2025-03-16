@@ -61,7 +61,7 @@ namespace RE
 		void LoadLinkID()
 		{
 			using func_t = decltype(&NiStream::LoadLinkID);
-			REL::Relocation<func_t> func{ RELOCATION_ID(69002, 70359) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(69002, 70359) };
 			return func(this);
 		}
 

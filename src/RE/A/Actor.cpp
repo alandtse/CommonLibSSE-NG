@@ -449,7 +449,7 @@ namespace RE
 	FIGHT_REACTION Actor::GetFactionReaction(Actor* a_other) const
 	{
 		using func_t = decltype(&Actor::GetFactionReaction);
-		REL::Relocation<func_t> func{ RELOCATION_ID(36658, 37666) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36658, 37666) };
 		return func(this, a_other);
 	}
 
@@ -826,7 +826,7 @@ namespace RE
 	bool Actor::IsCombatTarget(Actor* a_other) const
 	{
 		using func_t = decltype(&Actor::IsCombatTarget);
-		REL::Relocation<func_t> func{ RELOCATION_ID(37618, 38571) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(37618, 38571) };
 		return func(this, a_other);
 	}
 
@@ -1971,9 +1971,9 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::CalculateCachedOwnerIsNPC)>(0x116, 0x118, this);
 	}
 
-	void Actor::Unk_117()
+	void Actor::Unk_117(NiPoint3& a_origin)
 	{
-		RelocateVirtual<decltype(&Actor::Unk_117)>(0x117, 0x119, this);
+		RelocateVirtual<decltype(&Actor::Unk_117)>(0x117, 0x119, this, a_origin);
 	}
 
 	void Actor::InitValues()

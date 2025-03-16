@@ -172,7 +172,7 @@ namespace RE
 
 	Projectile::Manager* Projectile::Manager::GetSingleton()
 	{
-		REL::Relocation<Manager**> singleton{ RELOCATION_ID(514313, 400473) };
+		static REL::Relocation<Manager**> singleton{ RELOCATION_ID(514313, 400473) };
 		return *singleton;
 	}
 

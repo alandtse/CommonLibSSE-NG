@@ -119,10 +119,10 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                                   \
-	stl::enumeration<UI_MENU_Unk09, std::uint32_t> unk30{ UI_MENU_Unk09::kNone }; \
-	std::byte                                      unk34{ 1 };                    \
-	BSFixedString                                  menuName{ "N/A" };  // 38
+#define VR_RUNTIME_DATA_CONTENT                                               \
+	REX::EnumSet<UI_MENU_Unk09, std::uint32_t> unk30{ UI_MENU_Unk09::kNone }; \
+	std::byte                                  unk34{ 1 };                    \
+	BSFixedString                              menuName{ "N/A" };  // 38
             VR_RUNTIME_DATA_CONTENT
 		};
 
@@ -132,14 +132,14 @@ namespace RE
 		}
 
 		// members
-		GPtr<GFxMovieView>                             uiMovie{ nullptr };              // 10
-		std::int8_t                                    depthPriority{ 3 };              // 18
-		std::uint8_t                                   pad19{ 0 };                      // 19
-		std::uint16_t                                  pad20{ 0 };                      // 1A
-		stl::enumeration<UI_MENU_FLAGS, std::uint32_t> menuFlags{ Flag::kNone };        // 1C
-		stl::enumeration<Context, std::uint32_t>       inputContext{ Context::kNone };  // 20
-		std::uint32_t                                  pad24{ 0 };                      // 24
-		GPtr<FxDelegate>                               fxDelegate{ nullptr };           // 28
+		GPtr<GFxMovieView>                         uiMovie{ nullptr };              // 10
+		std::int8_t                                depthPriority{ 3 };              // 18
+		std::uint8_t                               pad19{ 0 };                      // 19
+		std::uint16_t                              pad20{ 0 };                      // 1A
+		REX::EnumSet<UI_MENU_FLAGS, std::uint32_t> menuFlags{ Flag::kNone };        // 1C
+		REX::EnumSet<Context, std::uint32_t>       inputContext{ Context::kNone };  // 20
+		std::uint32_t                              pad24{ 0 };                      // 24
+		GPtr<FxDelegate>                           fxDelegate{ nullptr };           // 28
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		VR_RUNTIME_DATA_CONTENT
 #endif

@@ -4,7 +4,7 @@ namespace RE
 {
 	UIBlurManager* UIBlurManager::GetSingleton()
 	{
-		REL::Relocation<UIBlurManager**> singleton{ RELOCATION_ID(516871, 403350) };
+		static REL::Relocation<UIBlurManager**> singleton{ RELOCATION_ID(516871, 403350) };
 		return *singleton;
 	}
 

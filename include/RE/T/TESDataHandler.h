@@ -65,7 +65,10 @@ namespace RE
 		const TESFile*               LookupLoadedLightModByIndex(std::uint16_t a_index);
 		std::optional<std::uint16_t> GetLoadedLightModIndex(std::string_view a_modName);
 
-		bool IsGeneratedID(FormID a_formID);
+		TESWorldSpace* GetExtCellDataFromFileByEditorID(const char* a_cellID, std::int32_t& a_outX, std::int32_t& a_outY);
+
+		bool   IsGeneratedID(FormID a_formID);
+		FormID GetNextID();
 
 		BSTArray<TESForm*>& GetFormArray(FormType a_formType);
 		template <class T>
@@ -145,7 +148,8 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] inline std::uint16_t GetLoadedLightModCount() const noexcept {
+		[[nodiscard]] inline std::uint16_t GetLoadedLightModCount() const noexcept
+		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
 				return (!VRcompiledFileCollection) ? 0 : static_cast<std::uint16_t>(VRcompiledFileCollection->smallFiles.size());
 			} else {

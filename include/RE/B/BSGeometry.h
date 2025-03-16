@@ -128,14 +128,14 @@ namespace RE
 			return REL::RelocateMember<GEOMETRY_RUNTIME_DATA>(this, 0x120, 0x160);
 		}
 
-		[[nodiscard]] inline stl::enumeration<Type, std::uint8_t>& GetType() noexcept
+		[[nodiscard]] inline REX::EnumSet<Type, std::uint8_t>& GetType() noexcept
 		{
-			return REL::RelocateMember<stl::enumeration<Type, std::uint8_t>>(this, 0x150, 0x190);
+			return REL::RelocateMember<REX::EnumSet<Type, std::uint8_t>>(this, 0x150, 0x190);
 		}
 
-		[[nodiscard]] inline const stl::enumeration<Type, std::uint8_t>& GetType() const noexcept
+		[[nodiscard]] inline const REX::EnumSet<Type, std::uint8_t>& GetType() const noexcept
 		{
-			return REL::RelocateMember<stl::enumeration<Type, std::uint8_t>>(this, 0x150, 0x190);
+			return REL::RelocateMember<REX::EnumSet<Type, std::uint8_t>>(this, 0x150, 0x190);
 		}
 
 		inline BSLightingShaderProperty* lightingShaderProp_cast()
@@ -155,16 +155,16 @@ namespace RE
 #ifndef SKYRIM_CROSS_VR
 		MODEL_DATA_CONTENT;    // 110, 138
 		RUNTIME_DATA_CONTENT;  // 120, 160
-#	ifndef ENABLE_SKYRIM_VR
-		stl::enumeration<Type, std::uint8_t> type;   // 150
-		std::uint8_t                         pad31;  // 151
-		std::uint16_t                        pad32;  // 152
-		std::uint32_t                        pad34;  // 154
+#	if defined(EXCLUSIVE_SKYRIM_FLAT)
+		REX::EnumSet<Type, std::uint8_t> type;   // 150
+		std::uint8_t                     pad31;  // 151
+		std::uint16_t                    pad32;  // 152
+		std::uint32_t                    pad34;  // 154
 #	elif defined(EXCLUSIVE_SKYRIM_VR)
-		stl::enumeration<Type, std::uint32_t> type;   // 190
-		std::uint8_t                          pad31;  // 194
-		std::uint16_t                         pad32;  // 195
-		std::uint32_t                         pad34;  // 197
+		REX::EnumSet<Type, std::uint32_t> type;   // 190
+		std::uint8_t                      pad31;  // 194
+		std::uint16_t                     pad32;  // 195
+		std::uint32_t                     pad34;  // 197
 #	endif
 #endif
 	};

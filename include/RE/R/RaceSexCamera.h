@@ -1,6 +1,6 @@
 #pragma once
 
-#	include "RE/T/TESCamera.h"
+#include "RE/T/TESCamera.h"
 
 namespace RE
 {
@@ -26,4 +26,3 @@ namespace RE
 	};
 	static_assert(sizeof(RaceSexCamera) == 0x58);
 }
-

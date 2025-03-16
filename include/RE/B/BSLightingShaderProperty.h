@@ -65,7 +65,7 @@ namespace RE
 		BSLightingShaderProperty* Ctor()
 		{
 			using func_t = decltype(&BSLightingShaderProperty::Ctor);
-			REL::Relocation<func_t> func{ RELOCATION_ID(99854, 106499) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(99854, 106499) };
 			return func(this);
 		}
 

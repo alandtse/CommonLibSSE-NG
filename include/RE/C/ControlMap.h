@@ -31,14 +31,14 @@ namespace RE
 		{
 		public:
 			// members
-			BSFixedString                           eventID;             // 00
-			std::uint16_t                           inputKey;            // 08
-			std::uint16_t                           modifier;            // 08
-			std::int8_t                             indexInContext;      // 0C
-			bool                                    remappable;          // 0D
-			bool                                    linked;              // 0E
-			stl::enumeration<UEFlag, std::uint32_t> userEventGroupFlag;  // 10
-			std::uint32_t                           pad14;               // 14
+			BSFixedString                       eventID;             // 00
+			std::uint16_t                       inputKey;            // 08
+			std::uint16_t                       modifier;            // 08
+			std::int8_t                         indexInContext;      // 0C
+			bool                                remappable;          // 0D
+			bool                                linked;              // 0E
+			REX::EnumSet<UEFlag, std::uint32_t> userEventGroupFlag;  // 10
+			std::uint32_t                       pad14;               // 14
 		};
 		static_assert(sizeof(UserEventMapping) == 0x18);
 
@@ -106,16 +106,16 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                                                        \
-	BSTArray<LinkedMapping>                          linkedMappings;               /* 0E8, VR 108*/ \
-	BSTArray<InputContextID>                         contextPriorityStack;         /* 100, VR 120*/ \
-	stl::enumeration<UEFlag, std::uint32_t>          enabledControls;              /* 118, VR 138*/ \
-	stl::enumeration<UEFlag, std::uint32_t>          unk11C;                       /* 11C, VR 13C*/ \
-	std::int8_t                                      textEntryCount;               /* 120, VR 140*/ \
-	bool                                             ignoreKeyboardMouse;          /* 121, VR 141*/ \
-	bool                                             ignoreActivateDisabledEvents; /* 122, VR 142*/ \
-	std::uint8_t                                     pad123;                       /* 123, VR 143*/ \
-	stl::enumeration<PC_GAMEPAD_TYPE, std::uint32_t> gamePadMapType;               /* 124, VR 144*/
+#define RUNTIME_DATA_CONTENT                                                                    \
+	BSTArray<LinkedMapping>                      linkedMappings;               /* 0E8, VR 108*/ \
+	BSTArray<InputContextID>                     contextPriorityStack;         /* 100, VR 120*/ \
+	REX::EnumSet<UEFlag, std::uint32_t>          enabledControls;              /* 118, VR 138*/ \
+	REX::EnumSet<UEFlag, std::uint32_t>          unk11C;                       /* 11C, VR 13C*/ \
+	std::int8_t                                  textEntryCount;               /* 120, VR 140*/ \
+	bool                                         ignoreKeyboardMouse;          /* 121, VR 141*/ \
+	bool                                         ignoreActivateDisabledEvents; /* 122, VR 142*/ \
+	std::uint8_t                                 pad123;                       /* 123, VR 143*/ \
+	REX::EnumSet<PC_GAMEPAD_TYPE, std::uint32_t> gamePadMapType;               /* 124, VR 144*/
 			RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x40);

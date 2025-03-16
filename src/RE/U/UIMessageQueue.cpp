@@ -7,7 +7,7 @@ namespace RE
 {
 	UIMessageQueue* UIMessageQueue::GetSingleton()
 	{
-		REL::Relocation<UIMessageQueue**> singleton{ RELOCATION_ID(514285, 400445) };
+		static REL::Relocation<UIMessageQueue**> singleton{ RELOCATION_ID(514285, 400445) };
 		return *singleton;
 	}
 

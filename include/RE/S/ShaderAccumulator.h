@@ -47,15 +47,15 @@ namespace RE
 			[[nodiscard]] static BSShaderAccumulator* GetCurrentAccumulator()
 			{
 				using func_t = decltype(&GetCurrentAccumulator);
-				REL::Relocation<func_t> func{ REL::RelocationID(98997, 105651) };
+				static REL::Relocation<func_t> func{ REL::RelocationID(98997, 105651) };
 				return func();
 			}
 
 			//members
 			char _pad1[0xD0];
-			bool firstPerson;      // 128
-			char _pad0[0x3];       // 129
-			bool drawDecals;       // 130
+			bool firstPerson;  // 128
+			char _pad0[0x3];   // 129
+			bool drawDecals;   // 130
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 			RUNTIME_DATA_CONTENT;  // 130
 #elif defined(EXCLUSIVE_SKYRIM_VR)

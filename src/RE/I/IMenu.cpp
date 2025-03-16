@@ -100,7 +100,7 @@ namespace RE
 	void IMenu::Unk_0A()
 	{
 		using func_t = decltype(&IMenu::Unk_0A);
-		REL::Relocation<func_t> func{ REL::Offset(0xF2A8B0) };
+		static REL::Relocation<func_t> func{ REL::Offset(0xF2A8B0) };
 		return func(this);
 	}
 #endif

@@ -211,7 +211,7 @@ namespace RE
 	void AIProcess::SetActorRefraction(float a_refraction)
 	{
 		using func_t = decltype(&AIProcess::SetActorRefraction);
-		REL::Relocation<func_t> func{ REL::ID(5375528368) };
+		static REL::Relocation<func_t> func{ REL::ID(5375528368) };
 		return func(this, a_refraction);
 	}
 #endif

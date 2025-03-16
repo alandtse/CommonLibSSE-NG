@@ -40,34 +40,34 @@ namespace RE
 	void WorldSpaceMenu::PostCreate()
 	{
 		using func_t = decltype(&WorldSpaceMenu::PostCreate);
-		REL::Relocation<func_t> func{ REL::Offset(0x53C140) };
+		static REL::Relocation<func_t> func{ REL::Offset(0x53C140) };
 		return func(this);
 	}
 
 	UI_MESSAGE_RESULTS WorldSpaceMenu::ProcessMessage(UIMessage& a_message)
 	{
 		using func_t = decltype(&WorldSpaceMenu::ProcessMessage);
-		REL::Relocation<func_t> func{ REL::Offset(0x53C2B0) };
+		static REL::Relocation<func_t> func{ REL::Offset(0x53C2B0) };
 		return func(this, a_message);
 	}
 	void WorldSpaceMenu::Unk_09(UI_MENU_Unk09 a_unk)
 	{
 		using func_t = decltype(&WorldSpaceMenu::Unk_09);
-		REL::Relocation<func_t> func{ REL::Offset(0x53C220) };
+		static REL::Relocation<func_t> func{ REL::Offset(0x53C220) };
 		return func(this, a_unk);
 	}
 
 	void WorldSpaceMenu::SetupMenuNode()
 	{
 		using func_t = decltype(&WorldSpaceMenu::SetupMenuNode);
-		REL::Relocation<func_t> func{ REL::Offset(0x53C450) };
+		static REL::Relocation<func_t> func{ REL::Offset(0x53C450) };
 		return func(this);
 	}
 
 	void WorldSpaceMenu::SetupMenuNodeWithNif(const char* nif, bool a_unk)
 	{
 		using func_t = decltype(&WorldSpaceMenu::SetupMenuNodeWithNif);
-		REL::Relocation<func_t> func{ REL::Offset(0x53CB50) };
+		static REL::Relocation<func_t> func{ REL::Offset(0x53CB50) };
 		return func(this, nif, a_unk);
 	}
 

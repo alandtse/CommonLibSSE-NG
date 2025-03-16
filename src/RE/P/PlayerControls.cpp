@@ -12,7 +12,7 @@ namespace RE
 
 	PlayerControls* PlayerControls::GetSingleton()
 	{
-		REL::Relocation<PlayerControls**> singleton{ RELOCATION_ID(514706, 400864) };
+		static REL::Relocation<PlayerControls**> singleton{ RELOCATION_ID(514706, 400864) };
 		return *singleton;
 	}
 

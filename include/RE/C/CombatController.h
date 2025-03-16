@@ -35,8 +35,8 @@ namespace RE
 	std::uint32_t                           handleCount;            /* C0 */                  \
 	std::int32_t                            unkC4;                  /* C4 */                  \
 	NiPointer<Actor>                        cachedAttacker;         /* C8 - attackerHandle */ \
-	NiPointer<Actor>                        cachedTarget;           /* D0 - targetHandle */   
-	RUNTIME_DATA_CONTENT
+	NiPointer<Actor>                        cachedTarget;           /* D0 - targetHandle */
+            RUNTIME_DATA_CONTENT
 		};
 
 		// 629 and later
