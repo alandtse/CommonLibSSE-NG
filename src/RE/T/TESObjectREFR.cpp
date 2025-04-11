@@ -59,7 +59,7 @@ namespace RE
 	bool TESObjectREFR::ActivateRef(TESObjectREFR* a_activator, uint8_t a_arg2, TESBoundObject* a_object, int32_t a_count, bool a_defaultProcessingOnly)
 	{
 		using func_t = decltype(&TESObjectREFR::ActivateRef);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(19369, 20221) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(19369, 19796) };
 		return func(this, a_activator, a_arg2, a_object, a_count, a_defaultProcessingOnly);
 	}
 
