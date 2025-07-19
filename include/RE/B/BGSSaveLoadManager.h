@@ -174,7 +174,7 @@ namespace RE
 
 		[[nodiscard]] inline const AE_RUNTIME_DATA& GetAERuntimeData() const noexcept
 		{
-			return this->GetAERuntimeData();
+			return *const_cast<BGSSaveLoadManager*>(this)->GetAERuntimeData();
 		}
 
 		// members
@@ -263,3 +263,6 @@ namespace RE
 	static_assert(sizeof(BGSSaveLoadManager) == 0x2B0);
 #endif
 }
+
+#undef RUNTIME_DATA_CONTENT
+#undef AE_RUNTIME_DATA_CONTENT

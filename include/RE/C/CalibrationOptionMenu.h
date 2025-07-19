@@ -12,6 +12,8 @@ namespace RE
 	public:
 		inline static constexpr auto RTTI = RTTI_CalibrationOptionMenu;
 
+		using MenuEventHandler::operator delete;
+
 		// override (IMenu)
 		void               Accept(CallbackProcessor* a_processor) override;  // 01
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;    // 04

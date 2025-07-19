@@ -202,7 +202,7 @@ namespace RE
 
 		[[nodiscard]] inline const AE_RUNTIME_DATA& GetAERuntimeData() const noexcept
 		{
-			return this->GetAERuntimeData();
+			return *const_cast<TES*>(this)->GetAERuntimeData();
 		}
 
 		[[nodiscard]] inline RUNTIME_DATA2& GetRuntimeData2() noexcept

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "RE/B/BSOpenVR.h"
 
 namespace RE

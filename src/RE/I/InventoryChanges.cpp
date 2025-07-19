@@ -1,4 +1,3 @@
-#pragma once
 #include "RE/I/InventoryChanges.h"
 #include "RE/A/Actor.h"
 #include "RE/F/FormTraits.h"

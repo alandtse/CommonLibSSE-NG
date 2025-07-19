@@ -118,3 +118,6 @@ namespace RE
 	static_assert(sizeof(BGSShaderParticleGeometryData) == 0x20);
 #endif
 }
+
+#undef RUNTIME_DATA_CONTENT
+#undef RUNTIME_DATA_CONTENT_VR

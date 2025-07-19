@@ -70,7 +70,7 @@ namespace RE
 
 		[[nodiscard]] inline const AE_RUNTIME_DATA& GetAERuntimeData() const noexcept
 		{
-			return this->GetAERuntimeData();
+			return *const_cast<CombatController*>(this)->GetAERuntimeData();
 		}
 
 		[[nodiscard]] bool IsFleeing() const
@@ -113,3 +113,6 @@ namespace RE
 	static_assert(sizeof(CombatController) == 0xD8);
 #endif
 }
+
+#undef RUNTIME_DATA_CONTENT
+#undef AE_RUNTIME_DATA_CONTENT
