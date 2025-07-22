@@ -993,12 +993,12 @@ namespace RE
 
 		[[nodiscard]] inline VR_PLAYER_RUNTIME_DATA& GetVRPlayerRuntimeData() noexcept
 		{
-			return REL::RelocateMember<VR_PLAYER_RUNTIME_DATA>(this, 0, 0x3E0);
+			return REL::RelocateMember<VR_PLAYER_RUNTIME_DATA>(this, 0, 0x3D8);
 		}
 
 		[[nodiscard]] inline const VR_PLAYER_RUNTIME_DATA& GetVRPlayerRuntimeData() const noexcept
 		{
-			return REL::RelocateMember<VR_PLAYER_RUNTIME_DATA>(this, 0, 0x3E0);
+			return REL::RelocateMember<VR_PLAYER_RUNTIME_DATA>(this, 0, 0x3D8);
 		}
 
 		[[nodiscard]] inline CrimeValue& GetCrimeValue() noexcept
