@@ -2,6 +2,7 @@
 
 #include "RE/B/BSAtomic.h"
 #include "RE/B/BSFixedString.h"
+#include "RE/B/BSGeometry.h"
 #include "RE/B/BSPointerHandle.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTSingleton.h"
@@ -32,12 +33,10 @@ namespace RE
 			return *singleton;
 		}
 
-		void AddRipple(const NiPoint3& a_pos, float a_scale)
-		{
-			using func_t = decltype(&TESWaterSystem::AddRipple);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(31410, 32217) };
-			return func(this, a_pos, a_scale);
-		}
+		void AddRipple(const NiPoint3& a_pos, float a_scale);
+		void Enable();
+		void InitializeWater(BSTriShape* a_waterTri, TESWaterForm* a_form, float a_waterHeight, void* a_unk4, bool a_noDisplacement, bool a_isProcedural);
+		bool RemoveGeometry(BSGeometry* a_geom);
 
 		// members
 		std::uint32_t                                pad000;                     // 000

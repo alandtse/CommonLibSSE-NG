@@ -46,8 +46,10 @@ namespace RE
 		// members
 		REX::EnumSet<WaterFlag, std::uint32_t> waterFlags;            // 88
 		std::uint32_t                          unk8C;                 // 8C
-		std::uint64_t                          unk90;                 // 90
-		std::uint64_t                          unk98;                 // 98
+		std::int32_t                           cellX;                 // 90
+		std::int32_t                           cellY;                 // 94
+		std::int32_t                           flowX;                 // 98
+		std::int32_t                           flowY;                 // 9C
 		NiPlane                                plane;                 // A0
 		std::uint64_t                          unkB0;                 // B0
 		std::uint8_t                           unkB8;                 // B8

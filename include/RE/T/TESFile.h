@@ -67,10 +67,15 @@ namespace RE
 		bool                                  Seek(std::uint32_t a_offset);
 		bool                                  SeekNextForm(bool a_skipIgnored);
 		bool                                  SeekNextSubrecord();
+		bool                                  SeekNextSubrecordType(uint32_t a_type);
+		bool                                  SeekForm(TESForm* a_form);
+		bool                                  SeekCell(TESWorldSpace* a_worldSpace, int32_t a_x, int32_t a_y);
+		bool                                  SeekLandscapeForCurrentCell();
 		std::uint32_t                         GetFormID(FormID formLower) const
 		{
 			return std::uint32_t(compileIndex) << 24 | (formLower & 0xFFFFFF);
 		}
+		std::uint32_t                         GetRuntimeFormID(FormID rawFormID) const;
 
 		// members
 		REX::EnumSet<Error, std::uint32_t>      lastError;                        // 000
