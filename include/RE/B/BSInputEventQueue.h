@@ -26,14 +26,14 @@ namespace RE
 
 		static BSInputEventQueue* GetSingleton();
 
-		void AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_id, float a_value, float a_duration);
+		void AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_id, float a_value, float a_duration, const BSFixedString& a_userEvent = {});
 		void AddCharEvent(std::uint32_t a_keyCode);
 		void AddMouseMoveEvent(std::int32_t a_mouseInputX, std::int32_t a_mouseInputY);
 		void AddThumbstickEvent(ThumbstickEvent::InputType a_id, float a_xValue, float a_yValue);
 		void AddConnectEvent(INPUT_DEVICE a_device, bool a_connected);
 		void AddKinectEvent(const BSFixedString& a_userEvent, const BSFixedString& a_heard);
 		// vr only
-		void AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_arg2, std::int32_t a_id, float a_value, float a_duration);
+		void AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_arg2, std::int32_t a_id, float a_value, float a_duration, const BSFixedString& a_userEvent = {});
 		void AddThumbstickEvent(ThumbstickEvent::InputType a_id, INPUT_DEVICE a_device, float a_xValue, float a_yValue);
 		// end vr only
 		void PushOntoInputQueue(InputEvent* a_event);

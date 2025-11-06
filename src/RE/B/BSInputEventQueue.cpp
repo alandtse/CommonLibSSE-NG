@@ -8,7 +8,7 @@ namespace RE
 		return *singleton;
 	}
 
-	void BSInputEventQueue::AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_id, float a_value, float a_duration)
+	void BSInputEventQueue::AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_id, float a_value, float a_duration, const BSFixedString& a_userEvent)
 	{
 		if (buttonEventCount < MAX_BUTTON_EVENTS) {
 			auto& cachedEvent = GetRuntimeData().buttonEvents[buttonEventCount];
@@ -16,7 +16,7 @@ namespace RE
 			cachedEvent.GetRuntimeData().heldDownSecs = a_duration;
 			cachedEvent.device = a_device;
 			cachedEvent.SetIDCode(a_id);
-			cachedEvent.SetUserEvent({});
+			cachedEvent.SetUserEvent(a_userEvent);
 			cachedEvent.AsVRWandEvent()->unkVR28 = -1;
 			PushOntoInputQueue(&cachedEvent);
 			++buttonEventCount;
@@ -86,7 +86,7 @@ namespace RE
 		}
 	}
 
-	void BSInputEventQueue::AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_arg2, std::int32_t a_id, float a_value, float a_duration)
+	void BSInputEventQueue::AddButtonEvent(INPUT_DEVICE a_device, std::int32_t a_arg2, std::int32_t a_id, float a_value, float a_duration, const BSFixedString& a_userEvent)
 	{
 		if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
 			if (buttonEventCount < MAX_BUTTON_EVENTS) {
@@ -95,7 +95,7 @@ namespace RE
 				cachedEvent.GetRuntimeData().heldDownSecs = a_duration;
 				cachedEvent.device = a_device;
 				cachedEvent.SetIDCode(a_id);
-				cachedEvent.SetUserEvent({});
+				cachedEvent.SetUserEvent(a_userEvent);
 				cachedEvent.AsVRWandEvent()->unkVR28 = a_arg2;
 				PushOntoInputQueue(&cachedEvent);
 				++buttonEventCount;
