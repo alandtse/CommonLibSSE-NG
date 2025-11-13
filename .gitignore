@@ -18,3 +18,4 @@ conan.lock
 conanbuildinfo.*
 conaninfo.txt
 graph_info.json
+_codeql_detected_source_root
