@@ -33,7 +33,6 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 endif()
 
 find_package(spdlog CONFIG REQUIRED)
-find_package(glaze CONFIG REQUIRED)
 find_package(directxtk CONFIG REQUIRED)
 
 include(cmake/sourcelist.cmake)
@@ -141,7 +140,6 @@ target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
 	spdlog::spdlog
-	glaze::glaze
 	Microsoft::DirectXTK
 	Advapi32.lib
 	bcrypt.lib

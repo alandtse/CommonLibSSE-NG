@@ -3,7 +3,6 @@
 #include "REX/W32/KERNEL32.h"
 
 #ifdef ENABLE_SKYRIM_VR
-#	include <glaze/glaze.hpp>
 #	include <fstream>
 #	include <sstream>
 #endif
@@ -145,7 +144,8 @@ namespace REL
 				a_failOnError);
 		}
 
-		// Read CSV file using glaze
+		// Read CSV file manually (glaze's CSV support is designed for structured data serialization,
+		// but our CSV has a dynamic structure that's simpler to parse manually)
 		std::ifstream file(nstring);
 		if (!file.is_open()) {
 			return stl::report_and_error(
