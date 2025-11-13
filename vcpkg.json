@@ -15,7 +15,7 @@
     },
     "directxmath",
     "directxtk",
-    "rapidcsv",
+    "glaze",
     "spdlog"
   ],
   "features": {

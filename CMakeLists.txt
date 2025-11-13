@@ -33,7 +33,7 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 endif()
 
 find_package(spdlog CONFIG REQUIRED)
-find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
+find_package(glaze CONFIG REQUIRED)
 find_package(directxtk CONFIG REQUIRED)
 
 include(cmake/sourcelist.cmake)
@@ -130,7 +130,6 @@ target_include_directories(
 	"${PROJECT_NAME}"
 	PRIVATE
 	${spdlog_INCLUDE_DIRS}
-	${RAPIDCSV_INCLUDE_DIRS}
 )
 
 target_compile_definitions(
@@ -142,6 +141,7 @@ target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
 	spdlog::spdlog
+	glaze::glaze
 	Microsoft::DirectXTK
 	Advapi32.lib
 	bcrypt.lib
@@ -213,7 +213,6 @@ if(BUILD_TESTS)
 		PRIVATE
 		${Catch2_INCLUDE_DIRS}
 		${spdlog_INCLUDE_DIRS}
-		${RAPIDCSV_INCLUDE_DIRS}
 	)
 
 	target_compile_definitions(

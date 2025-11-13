@@ -3,7 +3,9 @@
 #include "REX/W32/KERNEL32.h"
 
 #ifdef ENABLE_SKYRIM_VR
-#	include <rapidcsv.h>
+#	include <glaze/glaze.hpp>
+#	include <fstream>
+#	include <sstream>
 #endif
 
 namespace REL
@@ -143,14 +145,58 @@ namespace REL
 				a_failOnError);
 		}
 
-		rapidcsv::Document in(nstring);
-		std::size_t        id, address_count;
-		std::string        version, offset;
-		auto               mapname = L"CommonLibSSEOffsets-v2-"s;
-		mapname += a_version.wstring();
-		address_count = in.GetCell<std::size_t>(0, 0);
-		version = in.GetCell<std::string>(1, 0);
+		// Read CSV file using glaze
+		std::ifstream file(nstring);
+		if (!file.is_open()) {
+			return stl::report_and_error(
+				std::format("Failed to open VR Address Library file {}"sv, nstring),
+				a_failOnError);
+		}
+
+		std::vector<std::string> lines;
+		std::string              line;
+		while (std::getline(file, line)) {
+			if (!line.empty()) {
+				lines.push_back(line);
+			}
+		}
+		file.close();
+
+		if (lines.empty()) {
+			return stl::report_and_error("VR Address Library file is empty"sv, a_failOnError);
+		}
+
+		// Parse header row (first row contains address_count and version)
+		std::size_t        address_count;
+		std::string        version;
+		std::istringstream header_stream(lines[0]);
+		std::string        cell;
+
+		// Skip the "id" header
+		if (!std::getline(header_stream, cell, ',')) {
+			return stl::report_and_error("Failed to parse CSV header"sv, a_failOnError);
+		}
+
+		// Get address_count from first cell (which is actually in the data row)
+		// The CSV format is: first row has headers, second row has address_count and version
+		if (lines.size() < 2) {
+			return stl::report_and_error("VR Address Library file has insufficient rows"sv, a_failOnError);
+		}
+
+		std::istringstream first_data_stream(lines[1]);
+		if (!std::getline(first_data_stream, cell, ',')) {
+			return stl::report_and_error("Failed to parse first data row"sv, a_failOnError);
+		}
+		address_count = std::stoull(cell);
+
+		if (!std::getline(first_data_stream, cell, ',')) {
+			return stl::report_and_error("Failed to parse version from first data row"sv, a_failOnError);
+		}
+		version = cell;
+
 		_vrAddressLibraryVersion = Version(version);
+		auto mapname = L"CommonLibSSEOffsets-v2-"s;
+		mapname += a_version.wstring();
 		const auto byteSize = static_cast<std::size_t>(address_count * sizeof(mapping_t));
 		if (!_mmap.open(mapname, byteSize) &&
 			!_mmap.create(mapname, byteSize)) {
@@ -158,24 +204,43 @@ namespace REL
 		}
 
 		_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
-		if (in.GetRowCount() > address_count + 1) {
+		
+		// Total data rows (excluding header) should be: 1 metadata row + address_count data rows
+		const std::size_t data_row_count = lines.size() - 1;  // Exclude header line
+		const std::size_t expected_data_rows = address_count + 1;
+		if (data_row_count > expected_data_rows) {
 			return stl::report_and_error(
 				std::format("VR Address Library {} tried to exceed {} allocated entries."sv,
 					version, address_count),
 				a_failOnError);
-		} else if (in.GetRowCount() < address_count + 1) {
+		} else if (data_row_count < expected_data_rows) {
 			return stl::report_and_error(
 				std::format("VR Address Library {} loaded only {} entries but expected {}. Please redownload."sv,
-					version, in.GetRowCount() - 1, address_count),
+					version, data_row_count - 1, address_count),
 				a_failOnError);
 		}
 
-		std::size_t index = 1;
-		for (; index < in.GetRowCount(); ++index) {
-			id = in.GetCell<std::size_t>(0, index);
-			offset = in.GetCell<std::string>(1, index);
-			_id2offset[index - 1] = { static_cast<std::uint64_t>(id),
-				static_cast<std::uint64_t>(std::stoul(offset, nullptr, 16)) };
+		// Parse data rows (starting from index 2, after header and metadata)
+		for (std::size_t index = 2; index < lines.size(); ++index) {
+			std::istringstream row_stream(lines[index]);
+			std::string        id_str, offset_str;
+
+			if (!std::getline(row_stream, id_str, ',')) {
+				return stl::report_and_error(
+					std::format("Failed to parse ID at row {}"sv, index),
+					a_failOnError);
+			}
+
+			if (!std::getline(row_stream, offset_str, ',')) {
+				return stl::report_and_error(
+					std::format("Failed to parse offset at row {}"sv, index),
+					a_failOnError);
+			}
+
+			auto id = std::stoull(id_str);
+			auto offset = std::stoull(offset_str, nullptr, 16);
+
+			_id2offset[index - 2] = { id, offset };
 		}
 
 		std::sort(_id2offset.begin(), _id2offset.end(), [](auto&& a_lhs, auto&& a_rhs) {
