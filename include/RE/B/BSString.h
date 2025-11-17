@@ -266,7 +266,7 @@ namespace RE
 			return true;
 		}
 
-		static constexpr value_type EMPTY[]{ 0 };
+		static inline value_type EMPTY[]{ 0 };
 
 		// members
 		pointer       _data{ nullptr };  // ?? (00)
