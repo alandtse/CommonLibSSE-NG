@@ -25,13 +25,13 @@ namespace RE
 
 	TESForm** BGSDefaultObjectManager::GetObject(DefaultObjectID a_object) noexcept
 	{
-		assert(std::to_underlying(a_object) < Relocate(364, 364, 369));
 		auto idx = MapIndex(std::to_underlying(a_object));
 		if (idx == kInvalid) {
 			return nullptr;
 		}
+		assert(idx < Relocate(364, 364, 369));
 		return (&RelocateMember<bool>(this, 0xB80, 0xBA8))[idx] ?
-		           &RelocateMember<TESForm**>(this, 0x20, 0x20)[idx] :
+		           &(&RelocateMember<TESForm*>(this, 0x20, 0x20))[idx] :
 		           nullptr;
 	}
 
