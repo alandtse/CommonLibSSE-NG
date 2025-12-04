@@ -40,7 +40,8 @@ namespace RE
 		float                            alpha;                    // 098
 		float                            refractionMagnitude;      // 09C
 		std::uint64_t                    unk0A0;                   // 0A0
-		float                            unk0A8;                   // 0A8
+		float                            specularRadius;           // 0A8
+		float                            specularBrightness;       // 0AC
 		std::uint64_t                    unk0B0;                   // 0B0
 		std::uint64_t                    unk0B8;                   // 0B8
 		std::uint64_t                    unk0C0;                   // 0C0
@@ -50,7 +51,7 @@ namespace RE
 		float                            noiseFalloff;             // 0E0
 		float                            reflectionMagnitude;      // 0E4
 		float                            sunSparkleMagnitude;      // 0E8
-		float                            unk0EC;                   // 0EC
+		float                            sunSpecularMagnitude;     // 0EC
 		WaterShaderData::DepthProperties depthProperties;          // 0F0
 		std::uint64_t                    unk100;                   // 100
 		std::uint64_t                    unk108;                   // 108
@@ -64,10 +65,10 @@ namespace RE
 		std::uint32_t                    unk150;                   // 150
 		float                            flowmapScale;             // 154
 		float                            aboveWaterFogDistFar;     // 158
-		float                            unk15C;                   // 15C
-		float                            unk160;                   // 160
+		float                            aboveWaterFogDistNear;    // 15C
+		float                            aboveWaterFogAmount;      // 160
 		float                            underwaterFogDistFar;     // 164
-		float                            unk168;                   // 168
+		float                            underwaterFogDistNear;    // 168
 		float                            underwaterFogAmount;      // 16C
 		float                            fresnelAmount;            // 170
 		std::uint32_t                    unk174;                   // 174

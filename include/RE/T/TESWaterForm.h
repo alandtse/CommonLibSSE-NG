@@ -12,8 +12,13 @@
 
 namespace RE
 {
+	class BGSMaterialType;
+	class BGSSoundDescriptorForm;
 	class BSWaterShaderMaterial;
 	class NiTexture;
+	class SpellItem;
+	class TESImageSpace;
+	class TESObjectACTI;
 
 	struct WaterShaderData  // DNAM
 	{
