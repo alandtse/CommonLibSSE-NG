@@ -48,8 +48,8 @@ namespace RE
 		case Feature::kDefault:
 			{
 				auto material = static_cast<BSLightingShaderMaterial*>(scrapHeap->Allocate(sizeof(BSLightingShaderMaterial), 8));
-				std::memset((void*)material, 0, sizeof(BSLightingShaderMaterial));
 				if (material) {
+					std::memset((void*)material, 0, sizeof(BSLightingShaderMaterial));
 					material->Ctor();
 					stl::emplace_vtable<BSLightingShaderMaterial>(material);
 				}
