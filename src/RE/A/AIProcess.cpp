@@ -26,6 +26,13 @@ namespace RE
 		}
 	}
 
+	void AIProcess::ClearFurniture()
+	{
+		using func_t = decltype(&AIProcess::ClearFurniture);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(38773, 39798) };
+		return func(this);
+	}
+
 	void AIProcess::ClearMuzzleFlashes()
 	{
 		using func_t = decltype(&AIProcess::ClearMuzzleFlashes);
@@ -244,6 +251,13 @@ namespace RE
 		using func_t = decltype(&AIProcess::KnockExplosion);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(38858, 39895) };
 		return func(this, a_actor, a_location, a_magnitude);
+	}
+
+	void AIProcess::KnockParalyze(Actor* a_actor)
+	{
+		using func_t = decltype(&AIProcess::KnockParalyze);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(38857, 39894) };
+		return func(this, a_actor);
 	}
 
 	bool AIProcess::PlayIdle(Actor* a_actor, TESIdleForm* a_idle, TESObjectREFR* a_target)

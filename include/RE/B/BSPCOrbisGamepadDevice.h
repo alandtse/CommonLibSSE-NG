@@ -161,14 +161,14 @@ namespace RE
 
 		// override (BSPCGamepadDeviceDelegate)
 		void Initialize() override;                                                                            // 01
-		void Process(float a_arg1) override;                                                                   // 02
-		void Release() override;                                                                               // 03
-		void Reset() override;                                                                                 // 08 - { memset(this+0xD8, 0, 0x120); }
-		void SetRumble(float lValue, float rValue) override;                                                   // 09
-		void SetLEDColor(ColorParam* colorParam) override;                                                     // 0A
-		void ResetLEDColor() override;                                                                         // 0B
-		void NormalizeThumbstickValue(int32_t a_rawX, int32_t a_rawY, float& a_outX, float& a_outY) override;  // 0D
-		void DoEnableListeningMode(void) override;                                                             // 0E - { return; }
+		void Poll(float a_timeDelta) override;                                                                 // 02
+		void Shutdown() override;                                                                              // 03
+		void ClearInputState() override;                                                                       // 08 - { memset(this+0xD8, 0, 0x120); }
+		void SetVibration(float a_largeMotor, float a_smallMotor) override;                                    // 09
+		void SetDeviceLight(const std::uint32_t (&a_rgb)[3]) override;                                         // 0A
+		void ResetDeviceLight() override;                                                                      // 0B
+		void NormalizeThumbstickValue(std::int32_t a_rawX, std::int32_t a_rawY, float& a_outX, float& a_outY) override;  // 0D
+		void DoEnableListeningMode() override;                                                                 // 0E - { return; }
 
 		ButtonState GetPreviousButtonState() const
 		{

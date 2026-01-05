@@ -33,7 +33,7 @@ namespace RE
 		void          ProcessClone(NiCloningProcess& a_cloning) override;  // 1D
 #ifndef SKYRIM_CROSS_VR
 		// The following are virtual functions past the point where VR compatibility breaks.
-		void OnVisible(NiCullingProcess& a_process) override;  // 34
+		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // 34
 #endif
 
 		// add

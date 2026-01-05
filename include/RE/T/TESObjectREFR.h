@@ -4,6 +4,7 @@
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSHandleRefObject.h"
 #include "RE/B/BSPointerHandle.h"
+#include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTList.h"
@@ -256,7 +257,7 @@ namespace RE
 		virtual bool                                            UpdateInDialogue(DialogueResponse* a_response, bool a_unused);                                                                                                                                               // 4C
 		[[nodiscard]] virtual BGSDialogueBranch*                GetExclusiveBranch() const;                                                                                                                                                                                  // 4D
 		virtual void                                            SetExclusiveBranch(BGSDialogueBranch* a_branch);                                                                                                                                                             // 4E
-		virtual void                                            PauseCurrentDialogue();                                                                                                                                                                                      // 4F
+		virtual void                                            StopCurrentDialogue();                                                                                                                                                                                       // 4F
 		virtual void                                            SetActorCause(ActorCause* a_cause);                                                                                                                                                                          // 50
 		[[nodiscard]] virtual ActorCause*                       GetActorCause() const;                                                                                                                                                                                       // 51
 		[[nodiscard]] virtual NiPoint3                          GetStartingAngle() const;                                                                                                                                                                                    // 52

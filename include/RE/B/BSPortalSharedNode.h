@@ -22,7 +22,7 @@ namespace RE
 		NiObject*     CreateClone(NiCloningProcess& a_cloning) override;  // 17
 #ifndef SKYRIM_CROSS_VR
 		// The following are virtual functions past the point where VR compatibility breaks.
-		void OnVisible(NiCullingProcess& a_process) override;  // 34
+		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // 34
 #endif
 		// members
 		BSTArray<BSLight*> lights;  // 128, VR 150

@@ -2,8 +2,8 @@
 
 #include "RE/B/BSContainer.h"
 #include "RE/B/BSPointerHandle.h"
+#include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTEvent.h"
-#include "RE/B/BSTList.h"
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/E/EffectArchetypes.h"
 #include "RE/M/MagicSystem.h"
@@ -50,6 +50,18 @@ namespace RE
 			virtual BSContainer::ForEachResult Accept(ActiveEffect* a_effect) = 0;  // 01
 		};
 		static_assert(sizeof(ForEachActiveEffectVisitor) == 0x8);
+
+		class IPostCreationModification
+		{
+		public:
+			inline static constexpr auto RTTI = RTTI_MagicTarget__IPostCreationModification;
+
+			virtual ~IPostCreationModification();  // 00
+
+			// add
+			virtual void ModifyActiveEffect(ActiveEffect* a_effect) = 0;  // 01
+		};
+		static_assert(sizeof(IPostCreationModification) == 0x8);
 
 		struct ResultsCollector
 		{

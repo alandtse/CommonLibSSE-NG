@@ -5,6 +5,7 @@
 #include "RE/B/BSTArray.h"
 #include "RE/B/bhkPickData.h"
 #include "RE/M/MagicSystem.h"
+#include "RE/M/MagicTarget.h"
 
 namespace RE
 {
@@ -13,7 +14,6 @@ namespace RE
 	class BGSSaveGameBuffer;
 	class BGSLoadGameBuffer;
 	class MagicItem;
-	class MagicTarget;
 	class NiNode;
 	class TESBoundObject;
 	class TESObjectCELL;
@@ -40,6 +40,21 @@ namespace RE
 			kUnk08,  // Interrupt
 			kUnk09,  // Interrupt/Deselect
 		};
+
+		class PostCreationCallback : public MagicTarget::IPostCreationModification
+		{
+		public:
+			inline static constexpr auto RTTI = RTTI_MagicCaster__PostCreationCallback;
+
+			~PostCreationCallback() override;  // 00
+
+			// override (IPostCreationModification)
+			void ModifyActiveEffect(ActiveEffect* a_effect) override;  // 01
+
+			// members
+			std::uint64_t unk08[8];
+		};
+		static_assert(sizeof(PostCreationCallback) == 0x48);
 
 		virtual ~MagicCaster();  // 00
 

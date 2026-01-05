@@ -100,7 +100,7 @@ namespace RE
 		void UpdateSelectedDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;                             // 2D
 		void UpdateRigidDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;                                // 2E
 		void UpdateWorldBound() override;                                                                                 // 2F
-		void OnVisible(NiCullingProcess& a_process) override;                                                             // 34
+		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;                             // 34
 #endif
 
 		// add

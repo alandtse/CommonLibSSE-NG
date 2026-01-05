@@ -2,12 +2,14 @@
 
 #include "RE/B/BSPointerHandle.h"
 #include "RE/B/BSResourceHandle.h"
+#include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTArray.h"
-#include "RE/B/BSTList.h"
 #include "RE/B/BSTextureSet.h"
+#include "RE/C/Color.h"
 #include "RE/N/NiColor.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/S/SkyEffectController.h"
+#include "RE/T/TESWeather.h"
 
 namespace RE
 {
@@ -64,6 +66,12 @@ namespace RE
 		public:
 		};
 
+		struct COLOR_BLEND
+		{
+			Color RGBVal[4];
+			float blend[4];
+		};
+
 		virtual ~Sky();  // 00
 
 		static Sky* GetSingleton();
@@ -72,12 +80,15 @@ namespace RE
 		[[nodiscard]] float GetSunriseEnd();
 		[[nodiscard]] float GetSunsetBegin();
 		[[nodiscard]] float GetSunsetEnd();
+		void                FillColorBlend(COLOR_BLEND& a_colorBlend, TESWeather* a_currentWeather, float a_weatherPct, TESWeather::ColorTime& a_time1, TESWeather::ColorTime& a_time2);
+		void                FillColorBlendColors(COLOR_BLEND& a_colorBlend, TESWeather* a_currentWeather, TESWeather* a_lastWeather, TESWeather::ColorType a_colorType, TESWeather::ColorTime& a_time1, TESWeather::ColorTime& a_time2);
 		void                ForceWeather(TESWeather* a_weather, bool a_override);
 		[[nodiscard]] bool  IsDaytime();
 		[[nodiscard]] bool  IsRaining() const;
 		[[nodiscard]] bool  IsSnowing() const;
 		void                ReleaseWeatherOverride();
 		void                ResetWeather();
+		void                SetColor(NiColor& a_color, COLOR_BLEND* a_colorBlend, float a_addFlash) const;
 		void                SetWeather(TESWeather* a_weather, bool a_override, bool a_accelerate);
 
 		// members

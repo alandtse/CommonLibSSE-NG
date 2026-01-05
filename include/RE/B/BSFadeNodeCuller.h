@@ -16,9 +16,9 @@ namespace RE
 
 		~BSFadeNodeCuller() override;  // 15
 
-		void Process1(NiAVObject* a_object, std::uint32_t a_arg2) override;                                   // 16
+		void Process1(NiAVObject* a_object, std::int32_t a_arg2) override;                                    // 16
 		void Process2(const NiCamera* a_camera, NiAVObject* a_scene, NiVisibleArray* a_visibleSet) override;  // 17
-		void AppendVirtual(BSGeometry& a_visible, std::uint32_t a_arg2) override;                             // 18
+		void AppendVirtual(BSGeometry& a_visible, std::int32_t a_arg2) override;                              // 18
 	};
 	static_assert(sizeof(BSFadeNodeCuller) == 0x128);
 }

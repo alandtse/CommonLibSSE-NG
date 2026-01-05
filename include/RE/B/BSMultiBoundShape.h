@@ -11,6 +11,14 @@ namespace RE
 		inline static constexpr auto Ni_RTTI = NiRTTI_BSMultiBoundShape;
 		inline static constexpr auto VTABLE = VTABLE_BSMultiBoundShape;
 
+		enum class BSMBCullResult
+		{
+			kCullUntested = 0,
+			kCullVisible,
+			kCullCulled,
+			kCullOccluded
+		};
+
 		~BSMultiBoundShape() override;  // 00
 
 		// override (NiObject)
@@ -23,16 +31,16 @@ namespace RE
 		bool          IsEqual(NiObject* a_object) override;               // 1C
 
 		// add
-		virtual std::uint32_t GetType() = 0;                          // 25
-		virtual float         GetLength() = 0;                        // 26
-		virtual bool          Unk_27() = 0;                           // 27
-		virtual void          Unk_28() = 0;                           // 28
-		virtual bool          Unk_29() = 0;                           // 29
-		virtual void          Unk_2A() = 0;                           // 2A
-		virtual void          Unk_2B() = 0;                           // 2B
-		virtual bool          GetWithinPoint(const NiPoint3& a_pos);  // 2C
-		virtual void          SetCenter(const NiPoint3& a_center);    // 2D
-		virtual void          Unk_2E();                               // 2E
+		virtual std::uint32_t GetType() = 0;                              // 25
+		virtual float         GetLength() = 0;                            // 26
+		virtual bool          Unk_27() = 0;                               // 27
+		virtual void          Unk_28() = 0;                               // 28
+		virtual bool          WithinFrustum(NiFrustumPlanes const&) = 0;  // 29
+		virtual void          Unk_2A() = 0;                               // 2A
+		virtual void          Unk_2B() = 0;                               // 2B
+		virtual bool          GetWithinPoint(const NiPoint3& a_pos);      // 2C
+		virtual void          SetCenter(const NiPoint3& a_center);        // 2D
+		virtual void          Unk_2E();                                   // 2E
 
 		// members
 		std::uint32_t unk10;  // 10

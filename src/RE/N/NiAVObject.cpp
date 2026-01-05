@@ -407,9 +407,9 @@ namespace RE
 		REL::RelocateVirtual<decltype(&NiAVObject::PostAttachUpdate)>(0x33, 0x34, this);
 	}
 
-	void NiAVObject::OnVisible(NiCullingProcess& a_process)
+	void NiAVObject::OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex)
 	{
-		REL::RelocateVirtual<decltype(&NiAVObject::OnVisible)>(0x34, 0x35, this, a_process);
+		REL::RelocateVirtual<decltype(&NiAVObject::OnVisible)>(0x34, 0x35, this, a_process, a_alphaGroupIndex);
 	}
 #endif
 	BSLightingShaderProperty* NiAVObject::temp_nicast(BSGeometry* a_geometry)

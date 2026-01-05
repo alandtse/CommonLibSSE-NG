@@ -121,7 +121,7 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void        UpdateTransformAndBounds(NiUpdateData& a_data);                                                     // 31
 		SKYRIM_REL_VR_VIRTUAL void        PreAttachUpdate(NiNode* a_parent, NiUpdateData& a_data);                                            // 32
 		SKYRIM_REL_VR_VIRTUAL void        PostAttachUpdate();                                                                                 // 33
-		SKYRIM_REL_VR_VIRTUAL void        OnVisible(NiCullingProcess& a_process);                                                             // 34 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void        OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex);                             // 34 - { return; }
 
 		[[nodiscard]] NiAVObject*         Clone();
 		void                              CullGeometry(bool a_cull);

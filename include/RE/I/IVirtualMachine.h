@@ -2,6 +2,7 @@
 
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSIntrusiveRefCounted.h"
+#include "RE/B/BSJobs.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/E/ErrorLogger.h"
@@ -12,11 +13,6 @@
 
 namespace RE
 {
-	namespace BSJobs
-	{
-		class JobList;
-	}
-
 	class TESForm;
 
 	namespace BSScript

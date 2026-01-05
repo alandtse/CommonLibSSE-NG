@@ -3,8 +3,8 @@
 #include "RE/A/ActorPackage.h"
 #include "RE/A/ActorValues.h"
 #include "RE/B/BGSDefaultObjectManager.h"
+#include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTArray.h"
-#include "RE/B/BSTList.h"
 #include "RE/B/BSTSmartPointer.h"
 
 namespace RE
@@ -151,6 +151,7 @@ namespace RE
 
 		void                    AddToProcedureIndexRunning(Actor* a_actor, std::uint32_t a_num);
 		void                    ClearActionHeadtrackTarget(bool a_defaultHold);
+		void                    ClearFurniture();
 		void                    ClearMuzzleFlashes();
 		void                    ComputeLastTimeProcessed();
 		float                   GetCachedHeight() const;
@@ -179,6 +180,7 @@ namespace RE
 		bool                    IsInCommandState() const;
 		void                    SetActorRefraction(float a_refraction);
 		void                    KnockExplosion(Actor* a_actor, const NiPoint3& a_location, float a_magnitude);
+		void                    KnockParalyze(Actor* a_actor);
 		bool                    PlayIdle(Actor* a_actor, TESIdleForm* a_idle, TESObjectREFR* a_target);
 		void                    RandomlyPlaySpecialIdles(Actor* a_actor);
 		void                    SetActorsDetectionEvent(Actor* a_actor, const NiPoint3& a_location, std::int32_t a_soundLevel, TESObjectREFR* a_ref);

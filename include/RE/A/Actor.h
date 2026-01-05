@@ -2,6 +2,7 @@
 
 #include "RE/A/AITimeStamp.h"
 #include "RE/A/ActiveEffect.h"
+#include "RE/A/ActorLOSLocation.h"
 #include "RE/A/ActorState.h"
 #include "RE/A/ActorValueOwner.h"
 #include "RE/A/ActorValues.h"
@@ -9,9 +10,9 @@
 #include "RE/B/BGSEntryPointPerkEntry.h"
 #include "RE/B/BSPointerHandle.h"
 #include "RE/B/BSPointerHandleSmartPointer.h"
+#include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
-#include "RE/B/BSTList.h"
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/B/BSTTuple.h"
 #include "RE/D/DetectionPriorities.h"
@@ -60,17 +61,6 @@ namespace RE
 		kGooEnd = 2,
 		kDisintegrateStart = 3,
 		kDisintegrateEnd = 4,
-
-		kTotal
-	};
-
-	enum class ACTOR_LOS_LOCATION
-	{
-		kNone = 0,
-		kEye = 1,
-		kHead = 2,
-		kTorso = 3,
-		kFeet = 4,
 
 		kTotal
 	};
@@ -310,7 +300,7 @@ namespace RE
 		bool                                 UpdateInDialogue(DialogueResponse* a_response, bool a_unused) override;                                                                                                                                               // 04C
 		[[nodiscard]] BGSDialogueBranch*     GetExclusiveBranch() const override;                                                                                                                                                                                  // 04D - { return exclusiveBranch; }
 		void                                 SetExclusiveBranch(BGSDialogueBranch* a_branch) override;                                                                                                                                                             // 04E - { exclusiveBranch = a_arg1; }
-		void                                 PauseCurrentDialogue(void) override;                                                                                                                                                                                  // 04F
+		void                                 StopCurrentDialogue() override;                                                                                                                                                                                       // 04F
 		[[nodiscard]] NiPoint3               GetStartingAngle() const override;                                                                                                                                                                                    // 052
 		[[nodiscard]] NiPoint3               GetStartingLocation() const override;                                                                                                                                                                                 // 053
 		ObjectRefHandle                      RemoveItem(TESBoundObject* a_item, std::int32_t a_count, ITEM_REMOVE_REASON a_reason, ExtraDataList* a_extraList, TESObjectREFR* a_moveToRef, const NiPoint3* a_dropLoc = 0, const NiPoint3* a_rotate = 0) override;  // 056
@@ -643,6 +633,7 @@ namespace RE
 		void                                    ProcessVATSAttack(MagicCaster* a_caster, bool a_hasTargetAnim, TESObjectREFR* a_target, bool a_leftHand);
 		void                                    RemoveAnimationGraphEventSink(BSTEventSink<BSAnimationGraphEvent>* a_sink) const;
 		void                                    RemoveCastScroll(SpellItem* a_spell, MagicSystem::CastingSource a_source);
+		void                                    RefreshEquippedActorValueCharge(const RE::TESForm* a_object, const RE::ExtraDataList* a_extraList, bool a_isLeft);
 		void                                    RemoveExtraArrows3D();
 		void                                    RemoveFromFaction(TESFaction* a_faction);
 		void                                    RemoveOutfitItems(BGSOutfit* a_outfit);

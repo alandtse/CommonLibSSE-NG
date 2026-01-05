@@ -116,6 +116,7 @@ namespace RE::Offset
 		namespace ObjectBindPolicy
 		{
 			constexpr auto BindObject = RELOCATION_ID(97379, 104184);
+			constexpr auto GetInitialPropertyValues = RELOCATION_ID(97371, 104176);
 		}
 
 		namespace NF_util

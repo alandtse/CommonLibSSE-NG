@@ -86,6 +86,8 @@ namespace REX::W32
 
 	using UUID = GUID;
 	using IID = GUID;
+	using CLSID = GUID;
+	using REFIID = const IID&;
 }
 
 namespace REX::W32

@@ -8,6 +8,7 @@
 namespace RE
 {
 	class TESObjectREFR;
+	class TESQuest;
 
 	// menuDepth = 12
 	// flags = kPausesGame | kAlwaysOpen | kUsesCursor | kAllowSaving
@@ -61,6 +62,7 @@ public:                                                                \
 		static void                     ExecuteCommand(const char* a_command);
 		static NiPointer<TESObjectREFR> GetSelectedRef();
 		static ObjectRefHandle          GetSelectedRefHandle();
+		static TESQuest*                GetCommandScriptParentQuest();
 
 		void SetSelectedRef(NiPointer<TESObjectREFR> a_refPtr);
 		void SetSelectedRef(TESObjectREFR* a_ref);

@@ -23,6 +23,21 @@ namespace RE
 
 		~ButtonEvent() override;  // 00
 
+		void Init(INPUT_DEVICE a_device, std::int32_t a_id, float a_value, float a_duration)
+		{
+			Init(a_device, a_id, a_value, a_duration, ""sv);
+		}
+
+		void Init(INPUT_DEVICE a_device, std::int32_t a_id, float a_value, float a_duration, const BSFixedString& a_userEvent)
+		{
+			auto& runtimeData = GetRuntimeData();
+			runtimeData.value = a_value;
+			runtimeData.heldDownSecs = a_duration;
+			device = a_device;
+			SetIDCode(a_id);
+			SetUserEvent(a_userEvent);
+		}
+
 		[[nodiscard]] float Value() const noexcept { return this->GetRuntimeData().value; }
 		[[nodiscard]] float HeldDuration() const noexcept { return this->GetRuntimeData().heldDownSecs; }
 		[[nodiscard]] bool  IsPressed() const noexcept { return Value() > 0.0F; }

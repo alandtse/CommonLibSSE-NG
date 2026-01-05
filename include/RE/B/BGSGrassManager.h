@@ -33,14 +33,14 @@ namespace RE
 		std::uint32_t           unk40;                   // 40
 		std::uint32_t           pad44;                   // 44
 		BSTArray<void*>         unk48;                   // 48
-		float                   unk60;                   // 60
+		float                   totalGrassRange;         // 60
 		std::uint32_t           pad64;                   // 64
 		NiPointer<NiNode>       grassNode;               // 68
 		std::uint32_t           grassEvalSize;           // 70
 		std::uint32_t           grassEvalSizeSquared;    // 74
-		std::uint32_t           unk78;                   // 78
+		std::uint32_t           grassPatchSize;          // 78
 		std::uint32_t           unk7C;                   // 7C
-		std::uint64_t           unk80;                   // 80
+		std::uint16_t*          instanceData;            // 80
 		bool                    enableGrass;             // 88
 	private:
 		KEEP_FOR_RE()

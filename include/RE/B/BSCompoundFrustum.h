@@ -6,21 +6,27 @@
 
 namespace RE
 {
+	class NiAVObject;
 	class NiCamera;
 
 	class BSCompoundFrustum
 	{
 	public:
+		void GetActivePlaneState(std::uint32_t* a_outPlaneState);
+		void SetActivePlaneState(std::uint32_t* a_planeState);
+		bool Process(NiAVObject* a_object);
+
 		// members
-		BSTArray<void*> unk00;          // 00
-		BSTArray<void*> unk18;          // 18
-		NiFrustumPlanes frustumPlanes;  // 30
-		NiPoint3        unkA0;          // A0
-		NiCamera*       camera;         // B0
-		uint32_t        unkB8;          // B8
-		uint32_t        unkBC;          // BC
-		uint32_t        unkC0;          // C0
-		uint16_t        unkC4;          // C4
+		BSTArray<NiFrustumPlanes> planes;             // 00
+		BSTArray<void*>           functionOperators;  // 18
+		NiFrustumPlanes           viewFrustum;        // 30
+		NiPoint3                  viewPosition;       // A0
+		NiCamera*                 camera;             // B0
+		uint32_t                  freePlane;          // B8
+		uint32_t                  freeOp;             // BC
+		uint32_t                  firstOp;            // C0
+		bool                      skipViewFrustum;    // C4
+		bool                      prethreaded;        // C5
 	private:
 		KEEP_FOR_RE()
 	};

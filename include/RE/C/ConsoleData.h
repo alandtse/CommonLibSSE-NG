@@ -11,8 +11,9 @@ namespace RE
 	class ConsoleData : public IUIMessageData
 	{
 	public:
-		inline static constexpr auto RTTI = RTTI_ConsoleData;
-		inline static constexpr auto VTABLE = VTABLE_ConsoleData;
+		inline static constexpr auto             RTTI = RTTI_ConsoleData;
+		inline static constexpr auto             VTABLE = VTABLE_ConsoleData;
+		inline static constexpr std::string_view CLASS_NAME = "ConsoleData";
 
 		enum class DataType
 		{

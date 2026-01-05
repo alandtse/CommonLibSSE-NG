@@ -6,6 +6,7 @@
 #include "RE/G/GPtr.h"
 #include "RE/I/IMenu.h"
 #include "RE/N/NiMatrix3.h"
+#include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/S/SimpleAnimationGraphManagerHolder.h"
 
@@ -15,6 +16,7 @@ namespace RE
 
 	class BSGeometry;
 	class ExtraDataList;
+	class ExtraTextDisplayData;
 	class NiAVObject;
 	class NiSourceTexture;
 	class TESObjectBOOK;
@@ -70,8 +72,14 @@ namespace RE
 		BSEventNotifyControl ProcessEvent(const BSAnimationGraphEvent* a_event, BSTEventSource<BSAnimationGraphEvent>* a_eventSource) override;  // 01
 #endif
 
-		[[nodiscard]] static TESObjectBOOK* GetTargetForm();
-		[[nodiscard]] static TESObjectREFR* GetTargetReference();  // returns null if opened from inventory
+		[[nodiscard]] static ExtraTextDisplayData* GetDisplayData();
+		[[nodiscard]] static ExtraDataList*        GetExtraList();
+		[[nodiscard]] static TESObjectBOOK*        GetTargetForm();
+		[[nodiscard]] static BSString&             GetDescription();
+		[[nodiscard]] static NiPointer<TESObjectREFR> GetTargetReference();  // returns null if opened from inventory
+		[[nodiscard]] static NiPoint3&             GetDisplayPosition();
+		[[nodiscard]] static NiMatrix3&            GetDisplayRotation();
+		[[nodiscard]] static float&                GetDisplayScale();
 
 		[[nodiscard]] SimpleAnimationGraphManagerHolder* AsSimpleAnimationGraphManagerHolder() noexcept
 		{
@@ -102,6 +110,12 @@ namespace RE
 		{
 			return REL::RelocateMember<RUNTIME_DATA>(this, 0x50, 0x60);
 		}
+
+		static void OpenMenuFromReference(TESObjectREFR* a_reference);
+		static void OpenMenuFromReference(TESObjectREFR* a_reference, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
+		static void OpenMenuFromBaseForm(TESObjectBOOK* a_book);
+		static void OpenMenuFromBaseForm(TESObjectBOOK* a_book, const ExtraDataList* a_extraList, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
+		static void OpenMenu_Impl(const BSString& a_description, const ExtraDataList* a_extraList, TESObjectREFR* a_ref, TESObjectBOOK* a_book, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
 
 		static void OpenBookMenu(const BSString& a_description, const ExtraDataList* a_extraList, TESObjectREFR* a_ref, TESObjectBOOK* a_book, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
 

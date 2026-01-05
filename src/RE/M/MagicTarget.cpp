@@ -2,6 +2,7 @@
 
 #include "RE/A/ActiveEffect.h"
 #include "RE/A/Actor.h"
+#include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTList.h"
 #include "RE/E/EffectSetting.h"
 

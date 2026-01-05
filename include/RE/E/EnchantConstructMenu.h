@@ -24,6 +24,21 @@ namespace RE
 			inline static constexpr auto RTTI = RTTI_CraftingSubMenus__EnchantConstructMenu;
 			inline static constexpr auto VTABLE = VTABLE_CraftingSubMenus__EnchantConstructMenu;
 
+			struct FilterTypes
+			{
+				enum FilterType
+				{
+					kDisenchant = 0,
+					kDivider = 1,
+					kItem = 2,
+					kEnchantment = 3,
+					kSoulGem = 4,
+
+					kTotal = 5
+				};
+			};
+			using FilterType = FilterTypes::FilterType;
+
 			enum class FilterFlag
 			{
 				EnchantWeapon = 0x1,
@@ -53,7 +68,7 @@ namespace RE
 
 				// add
 				virtual void        ShowInItemCard(EnchantConstructMenu* a_menu);  // 01
-				virtual void        Unk_02(void);                                  // 02
+				virtual void        ShowItem3D(bool a_show);                       // 02
 				virtual const char* GetName();                                     // 03
 				virtual void        SetData(GFxValue* dataContainer);              // 04
 
@@ -190,30 +205,26 @@ namespace RE
 			void UpdateInterface();
 
 			// members
-			REX::EnumSet<FilterFlag, std::uint32_t>      filterDisenchant;        // 100
-			REX::EnumSet<FilterFlag, std::uint32_t>      filterDivider;           // 104
-			REX::EnumSet<FilterFlag, std::uint32_t>      filterItem;              // 108
-			REX::EnumSet<FilterFlag, std::uint32_t>      filterEnchantment;       // 10C
-			REX::EnumSet<FilterFlag, std::uint32_t>      filterSoulGem;           // 110
-			std::uint32_t                                pad114;                  // 114
-			BSTArray<BSTSmartPointer<CategoryListEntry>> listEntries;             // 118
-			BSString                                     customName;              // 130
-			GFxValue                                     categories;              // 140
-			GFxValue                                     inventoryLists;          // 158
-			Selections                                   selected;                // 170
-			InventoryEntryData*                          craftItemPreview;        // 1A0
-			CreateEffectFunctor                          createEffectFunctor;     // 1A8
-			std::int32_t                                 sliderEnchantmentIndex;  // 200
-			float                                        sliderMaxMagnitude;      // 204
-			std::uint32_t                                highlightIndex;          // 208
-			REX::EnumSet<Category, std::uint32_t>        currentCategory;         // 20C
-			REX::EnumSet<FilterFlag, std::uint32_t>      enabledFilters;          // 210
-			float                                        enchantmentCost;         // 214
-			float                                        chargeAmount;            // 218
-			bool                                         exiting;                 // 21C
-			bool                                         sliderShown;             // 21D
-			bool                                         hasHighlightedEntry;     // 21E
-			std::uint8_t                                 pad21F;                  // 21F
+			REX::EnumSet<FilterFlag, std::uint32_t>      filters[FilterType::kTotal];  // 100
+			std::uint32_t                                pad114;                       // 114
+			BSTArray<BSTSmartPointer<CategoryListEntry>> listEntries;                  // 118
+			BSString                                     customName;                   // 130
+			GFxValue                                     categories;                   // 140
+			GFxValue                                     inventoryLists;               // 158
+			Selections                                   selected;                     // 170
+			InventoryEntryData*                          craftItemPreview;             // 1A0
+			CreateEffectFunctor                          createEffectFunctor;          // 1A8
+			std::int32_t                                 sliderEnchantmentIndex;       // 200
+			float                                        sliderMaxMagnitude;           // 204
+			std::uint32_t                                highlightIndex;               // 208
+			REX::EnumSet<Category, std::uint32_t>        currentCategory;              // 20C
+			REX::EnumSet<FilterFlag, std::uint32_t>      enabledFilters;               // 210
+			float                                        enchantmentCost;              // 214
+			float                                        chargeAmount;                 // 218
+			bool                                         exiting;                      // 21C
+			bool                                         sliderShown;                  // 21D
+			bool                                         hasHighlightedEntry;          // 21E
+			std::uint8_t                                 pad21F;                       // 21F
 		};
 		static_assert(sizeof(EnchantConstructMenu) == 0x220);
 	}

@@ -4,6 +4,8 @@
 
 namespace RE
 {
+	class StatsMenu;
+
 	class LegendarySkillResetConfirmCallback : public RE::IMessageBoxCallback
 	{
 	public:
@@ -16,8 +18,10 @@ namespace RE
 		void Run(Message a_msg) override;  // 01
 
 		// members
-		std::uint64_t  unk10;  // 10
-		std::uint32_t  unk18;  // 18
+		StatsMenu*     menu;   // 10
+		std::uint8_t   unk18;  // 18
+		std::uint8_t   pad19;  // 19
+		std::uint16_t  pad1A;  // 1A
 		RE::ActorValue skill;  // 1C
 	private:
 		KEEP_FOR_RE()

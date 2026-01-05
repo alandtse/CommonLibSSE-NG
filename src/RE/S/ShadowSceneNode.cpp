@@ -60,4 +60,11 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(99698, 106332) };
 		return func(this, a_light);
 	}
+
+	BSCompoundFrustum* ShadowSceneNode::BuildSharedCompoundFrustum(BSCullingProcess* a_cullingProcess, BSPortal* a_portal)
+	{
+		using func_t = decltype(&ShadowSceneNode::BuildSharedCompoundFrustum);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(99735, 106379) };
+		return func(this, a_cullingProcess, a_portal);
+	}
 }

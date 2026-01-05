@@ -4,8 +4,7 @@
 
 namespace RE
 {
-	auto ItemList::GetSelectedItem()
-		-> Item*
+	ItemList::Item* ItemList::GetSelectedItem()
 	{
 		if (unk50) {
 			return nullptr;

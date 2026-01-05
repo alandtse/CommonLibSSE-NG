@@ -8,6 +8,7 @@ set(SOURCES
 	include/RE/A/AccumulatingValueModifierEffect.h
 	include/RE/A/ActionInput.h
 	include/RE/A/ActionOutput.h
+	include/RE/A/ActivateChoiceMenuCallbackFunctor.h
 	include/RE/A/ActivateHandler.h
 	include/RE/A/ActiveEffect.h
 	include/RE/A/ActiveEffectFactory.h
@@ -18,6 +19,7 @@ set(SOURCES
 	include/RE/A/ActorInventoryEvent.h
 	include/RE/A/ActorKill.h
 	include/RE/A/ActorKnowledge.h
+	include/RE/A/ActorLOSLocation.h
 	include/RE/A/ActorMagicCaster.h
 	include/RE/A/ActorMover.h
 	include/RE/A/ActorPackage.h
@@ -34,6 +36,7 @@ set(SOURCES
 	include/RE/A/AlchemyMenu.h
 	include/RE/A/AnimationFileManagerSingleton.h
 	include/RE/A/AnimationObjects.h
+	include/RE/A/AnimationSystemUtils.h
 	include/RE/A/Archive.h
 	include/RE/A/ArchiveStream.h
 	include/RE/A/ArmorRatingVisitor.h
@@ -48,6 +51,7 @@ set(SOURCES
 	include/RE/A/AttachedScript.h
 	include/RE/A/AttackAnimationArrayMap.h
 	include/RE/A/AttackBlockHandler.h
+	include/RE/A/AudioDefs.h
 	include/RE/A/AutoMoveHandler.h
 	include/RE/A/AutoRegisterCreator.h
 	include/RE/A/AutoRegisterFactory.h
@@ -79,7 +83,9 @@ set(SOURCES
 	include/RE/B/BGSCameraShot.h
 	include/RE/B/BGSCollisionLayer.h
 	include/RE/B/BGSColorForm.h
+	include/RE/B/BGSConstructFormsInAllFilesMap.h
 	include/RE/B/BGSConstructibleObject.h
+	include/RE/B/BGSCraftItemEvent.h
 	include/RE/B/BGSCreatedObjectManager.h
 	include/RE/B/BGSDebris.h
 	include/RE/B/BGSDecalEmitter.h
@@ -109,6 +115,7 @@ set(SOURCES
 	include/RE/B/BGSFootstepEvent.h
 	include/RE/B/BGSFootstepManager.h
 	include/RE/B/BGSFootstepSet.h
+	include/RE/B/BGSFormChanges.h
 	include/RE/B/BGSGrassManager.h
 	include/RE/B/BGSHazard.h
 	include/RE/B/BGSHeadPart.h
@@ -198,6 +205,7 @@ set(SOURCES
 	include/RE/B/BGSStoryTeller.h
 	include/RE/B/BGSTalkingActivator.h
 	include/RE/B/BGSTerrainBlock.h
+	include/RE/B/BGSTerrainChunk.h
 	include/RE/B/BGSTerrainManager.h
 	include/RE/B/BGSTerrainNode.h
 	include/RE/B/BGSTextureModel.h
@@ -215,8 +223,12 @@ set(SOURCES
 	include/RE/B/BSArchive.h
 	include/RE/B/BSArchiveHeader.h
 	include/RE/B/BSAtomic.h
+	include/RE/B/BSAudio.h
+	include/RE/B/BSAudioInit.h
+	include/RE/B/BSAudioListener.h
 	include/RE/B/BSAudioManager.h
 	include/RE/B/BSAudioManagerThread.h
+	include/RE/B/BSAudioMonitor.h
 	include/RE/B/BSBatchRenderer.h
 	include/RE/B/BSBitField.h
 	include/RE/B/BSBloodSplatterShaderProperty.h
@@ -225,6 +237,7 @@ set(SOURCES
 	include/RE/B/BSComputeShader.h
 	include/RE/B/BSContainer.h
 	include/RE/B/BSCoreTypes.h
+	include/RE/B/BSCullingJob.h
 	include/RE/B/BSCullingProcess.h
 	include/RE/B/BSDirectInputManager.h
 	include/RE/B/BSDismemberSkinInstance.h
@@ -249,6 +262,7 @@ set(SOURCES
 	include/RE/B/BSGameSound.h
 	include/RE/B/BSGamepadDevice.h
 	include/RE/B/BSGeometry.h
+	include/RE/B/BSGeometryListCullingProcess.h
 	include/RE/B/BSGrassShaderProperty.h
 	include/RE/B/BSHandleRefObject.h
 	include/RE/B/BSIInputDevice.h
@@ -268,6 +282,7 @@ set(SOURCES
 	include/RE/B/BSInputEventQueue.h
 	include/RE/B/BSInstanceTriShape.h
 	include/RE/B/BSIntrusiveRefCounted.h
+	include/RE/B/BSJobs.h
 	include/RE/B/BSKeyboardDevice.h
 	include/RE/B/BSLensFlareRenderData.h
 	include/RE/B/BSLight.h
@@ -296,6 +311,7 @@ set(SOURCES
 	include/RE/B/BSMultiBoundAABB.h
 	include/RE/B/BSMultiBoundNode.h
 	include/RE/B/BSMultiBoundOBB.h
+	include/RE/B/BSMultiBoundRoom.h
 	include/RE/B/BSMultiBoundShape.h
 	include/RE/B/BSMultiIndexTriShape.h
 	include/RE/B/BSMultiStreamInstanceTriShape.h
@@ -361,16 +377,23 @@ set(SOURCES
 	include/RE/B/BSShadowFrustumLight.h
 	include/RE/B/BSShadowLight.h
 	include/RE/B/BSShadowParabolicLight.h
+	include/RE/B/BSSimpleList.h
 	include/RE/B/BSSimpleScaleController.h
 	include/RE/B/BSSkyShaderProperty.h
 	include/RE/B/BSSmallBlockAllocator.h
 	include/RE/B/BSSoundHandle.h
+	include/RE/B/BSSoundInfo.h
+	include/RE/B/BSSoundMessage.h
 	include/RE/B/BSStorage.h
 	include/RE/B/BSStream.h
 	include/RE/B/BSString.h
 	include/RE/B/BSStringPool.h
+	include/RE/B/BSStripPSysData.h
+	include/RE/B/BSStripParticleSystem.h
+	include/RE/B/BSSubIndexTriShape.h
 	include/RE/B/BSSystemFile.h
 	include/RE/B/BSSystemFileStorage.h
+	include/RE/B/BSSystemUtility.h
 	include/RE/B/BSTAnimationGraphDataChannel.h
 	include/RE/B/BSTArray.h
 	include/RE/B/BSTCaseInsensitiveStringMap.h
@@ -399,6 +422,7 @@ set(SOURCES
 	include/RE/B/BSTextureSet.h
 	include/RE/B/BSThread.h
 	include/RE/B/BSThreadEvent.h
+	include/RE/B/BSThreadStagesManager.h
 	include/RE/B/BSTimer.h
 	include/RE/B/BSTrackedControllerDevice.h
 	include/RE/B/BSTreeManager.h
@@ -417,8 +441,12 @@ set(SOURCES
 	include/RE/B/BSWin32KeyboardDevice.h
 	include/RE/B/BSWin32MouseDevice.h
 	include/RE/B/BSWin32SaveDataSystemUtility.h
+	include/RE/B/BSWin32SystemUtility.h
 	include/RE/B/BSWin32VirtualKeyboardDevice.h
 	include/RE/B/BSWindModifier.h
+	include/RE/B/BSXAudio2Audio.h
+	include/RE/B/BSXAudio2AudioListener.h
+	include/RE/B/BSXAudio2DataSrc.h
 	include/RE/B/BSXAudio2GameSound.h
 	include/RE/B/BSXFlags.h
 	include/RE/B/BShkbAnimationGraph.h
@@ -477,8 +505,10 @@ set(SOURCES
 	include/RE/B/bhkUnaryAction.h
 	include/RE/B/bhkWorld.h
 	include/RE/B/bhkWorldObject.h
+	include/RE/C/CCallback.h
 	include/RE/C/CFilter.h
 	include/RE/C/CRC.h
+	include/RE/C/CXAPOBase.h
 	include/RE/C/Calendar.h
 	include/RE/C/CalibrationOptionMenu.h
 	include/RE/C/CalmEffect.h
@@ -492,6 +522,9 @@ set(SOURCES
 	include/RE/C/CollisionLayers.h
 	include/RE/C/Color.h
 	include/RE/C/ColorUtil.h
+	include/RE/C/CombatAnimation.h
+	include/RE/C/CombatBehaviorTree.h
+	include/RE/C/CombatBehaviorTreeNode.h
 	include/RE/C/CombatController.h
 	include/RE/C/CombatGroup.h
 	include/RE/C/CombatGroupDetectionListener.h
@@ -522,6 +555,7 @@ set(SOURCES
 	include/RE/C/CombatObject.h
 	include/RE/C/CombatSearchLocation.h
 	include/RE/C/CombatState.h
+	include/RE/C/CombatUtilities.h
 	include/RE/C/CommandEffect.h
 	include/RE/C/CommandSummonedEffect.h
 	include/RE/C/CommandTable.h
@@ -533,6 +567,10 @@ set(SOURCES
 	include/RE/C/ConcreteObjectFormFactory.h
 	include/RE/C/ConcussionEffect.h
 	include/RE/C/ConeProjectile.h
+	include/RE/C/ConfirmAndNameCallback.h
+	include/RE/C/ConfirmCloseRaceSexMenuCallback.h
+	include/RE/C/ConfirmDestructiveChangesCallback.h
+	include/RE/C/ConfirmLevelUpAttributeCallback.h
 	include/RE/C/Console.h
 	include/RE/C/ConsoleData.h
 	include/RE/C/ConsoleLog.h
@@ -544,6 +582,7 @@ set(SOURCES
 	include/RE/C/ControlMap.h
 	include/RE/C/CraftingMenu.h
 	include/RE/C/CraftingSubMenu.h
+	include/RE/C/CreateGrassParams.h
 	include/RE/C/CreationClubMenu.h
 	include/RE/C/CreditsMenu.h
 	include/RE/C/Crime.h
@@ -564,6 +603,7 @@ set(SOURCES
 	include/RE/D/DetectionState.h
 	include/RE/D/DevNull.h
 	include/RE/D/DeviceConnectEvent.h
+	include/RE/D/DeviceSelectCallback.h
 	include/RE/D/DialogueItem.h
 	include/RE/D/DialogueMenu.h
 	include/RE/D/DialoguePackage.h
@@ -576,6 +616,7 @@ set(SOURCES
 	include/RE/D/DoNothingUnhandledPolicy.h
 	include/RE/D/DragonCameraState.h
 	include/RE/D/DragonSoulsGained.h
+	include/RE/D/DrawWorld.h
 	include/RE/D/DropObjectFunctor.h
 	include/RE/D/DualValueModifierEffect.h
 	include/RE/E/Effect.h
@@ -938,6 +979,7 @@ set(SOURCES
 	include/RE/G/GameSettingCollection.h
 	include/RE/G/GarbageCollector.h
 	include/RE/G/GiftMenu.h
+	include/RE/G/GiftMenuCallbackFunc.h
 	include/RE/G/GlobalLocations.h
 	include/RE/G/GlobalPaths.h
 	include/RE/G/GrabActorEffect.h
@@ -964,7 +1006,6 @@ set(SOURCES
 	include/RE/H/HitData.h
 	include/RE/H/HorseCameraState.h
 	include/RE/H/HudModeChangeEvent.h
-	include/RE/H/SendHUDMessage.h
 	include/RE/H/hkAabb.h
 	include/RE/H/hkArray.h
 	include/RE/H/hkBaseObject.h
@@ -1133,6 +1174,7 @@ set(SOURCES
 	include/RE/I/IFuncCallQuery.h
 	include/RE/I/IFunction.h
 	include/RE/I/IFunctionArguments.h
+	include/RE/I/IGiftMenuScriptCallback.h
 	include/RE/I/IHandleReaderWriter.h
 	include/RE/I/IHandlerFunctor.h
 	include/RE/I/ILoader.h
@@ -1165,10 +1207,14 @@ set(SOURCES
 	include/RE/I/IStackCallbackSaveInterface.h
 	include/RE/I/IStore.h
 	include/RE/I/IUIMessageData.h
+	include/RE/I/IUnknown.h
 	include/RE/I/IVMDebugInterface.h
 	include/RE/I/IVMObjectBindInterface.h
 	include/RE/I/IVMSaveLoadInterface.h
 	include/RE/I/IVirtualMachine.h
+	include/RE/I/IXAudio2.h
+	include/RE/I/IXAudio2EngineCallback.h
+	include/RE/I/IXAudio2Voice.h
 	include/RE/I/IXAudio2VoiceCallback.h
 	include/RE/I/ImageSpaceData.h
 	include/RE/I/ImageSpaceEffect.h
@@ -1204,6 +1250,7 @@ set(SOURCES
 	include/RE/I/ItemList.h
 	include/RE/I/ItemRemoveReason.h
 	include/RE/I/ItemsPickpocketed.h
+	include/RE/J/JobListManager.h
 	include/RE/J/JournalMenu.h
 	include/RE/J/JournalTab.h
 	include/RE/J/Journal_QuestsTab.h
@@ -1240,11 +1287,15 @@ set(SOURCES
 	include/RE/M/MagicFavorites.h
 	include/RE/M/MagicFormulas.h
 	include/RE/M/MagicItem.h
+	include/RE/M/MagicItemData.h
 	include/RE/M/MagicItemDataCollector.h
 	include/RE/M/MagicItemFindFunctor.h
 	include/RE/M/MagicItemFindKeywordFunctor.h
+	include/RE/M/MagicItemList.h
 	include/RE/M/MagicItemTraversalFunctor.h
 	include/RE/M/MagicMenu.h
+	include/RE/M/MagicMenuAddActiveEffectVisitor.h
+	include/RE/M/MagicMenuAddSpellVisitor.h
 	include/RE/M/MagicSystem.h
 	include/RE/M/MagicTarget.h
 	include/RE/M/MagicUtilities.h
@@ -1292,6 +1343,7 @@ set(SOURCES
 	include/RE/N/NativeLatentFunction.h
 	include/RE/N/NavMesh.h
 	include/RE/N/NavMeshInfoMap.h
+	include/RE/N/NeedToUpdateCreationClubCallback.h
 	include/RE/N/NiAVObject.h
 	include/RE/N/NiAVObjectPalette.h
 	include/RE/N/NiAccumulator.h
@@ -1349,6 +1401,7 @@ set(SOURCES
 	include/RE/N/NiParticleSystem.h
 	include/RE/N/NiParticles.h
 	include/RE/N/NiParticlesData.h
+	include/RE/N/NiPick.h
 	include/RE/N/NiPlane.h
 	include/RE/N/NiPoint2.h
 	include/RE/N/NiPoint3.h
@@ -1387,6 +1440,7 @@ set(SOURCES
 	include/RE/N/NiTransform.h
 	include/RE/N/NiTriBasedGeometry.h
 	include/RE/N/NiTriShape.h
+	include/RE/N/NiVisibleArray.h
 	include/RE/N/NightEyeEffect.h
 	include/RE/N/NonActorMagicCaster.h
 	include/RE/N/NonActorMagicTarget.h
@@ -1409,7 +1463,9 @@ set(SOURCES
 	include/RE/P/PeakValueModifierEffect.h
 	include/RE/P/PerkEntryVisitor.h
 	include/RE/P/PerkRankVisitor.h
+	include/RE/P/PerkSelectConfirmCallback.h
 	include/RE/P/PermanentMagicFunctor.h
+	include/RE/P/PlacePlayerMarkerCallbackFunctor.h
 	include/RE/P/PlayerCamera.h
 	include/RE/P/PlayerCameraTransitionState.h
 	include/RE/P/PlayerCharacter.h
@@ -1469,8 +1525,10 @@ set(SOURCES
 	include/RE/S/ScriptEffect.h
 	include/RE/S/ScriptEventSourceHolder.h
 	include/RE/S/ScriptFunction.h
+	include/RE/S/ScriptMessageBoxCallback.h
 	include/RE/S/ScriptedRefEffect.h
 	include/RE/S/ScrollItem.h
+	include/RE/S/SendHUDMessage.h
 	include/RE/S/SendPlayerToJailFunctor.h
 	include/RE/S/SendUIMessage.h
 	include/RE/S/SetEventData.h
@@ -1485,7 +1543,7 @@ set(SOURCES
 	include/RE/S/ShaderAccumulator.h
 	include/RE/S/ShaderReferenceEffect.h
 	include/RE/S/ShadowSceneNode.h
-	include/RE/S/ShadowState.h
+	include/RE/R/RendererShadowState.h
 	include/RE/S/ShoutAttack.h
 	include/RE/S/ShoutHandler.h
 	include/RE/S/ShoutMeter.h
@@ -1506,11 +1564,14 @@ set(SOURCES
 	include/RE/S/SoulTrapEffect.h
 	include/RE/S/SoulsTrapped.h
 	include/RE/S/SoundLevels.h
+	include/RE/S/SoundMessageList.h
+	include/RE/S/SoundMessageStack.h
 	include/RE/S/SourceActionMap.h
 	include/RE/S/SpawnHazardEffect.h
 	include/RE/S/SpecificItemCollector.h
 	include/RE/S/SpellItem.h
 	include/RE/S/SpellsLearned.h
+	include/RE/S/SpendSoulCallback.h
 	include/RE/S/SprintHandler.h
 	include/RE/S/Stack.h
 	include/RE/S/StackFrame.h
@@ -1572,6 +1633,7 @@ set(SOURCES
 	include/RE/T/TESFlora.h
 	include/RE/T/TESForm.h
 	include/RE/T/TESFormDeleteEvent.h
+	include/RE/T/TESFormUIData.h
 	include/RE/T/TESFullName.h
 	include/RE/T/TESFurniture.h
 	include/RE/T/TESFurnitureEvent.h
@@ -1630,6 +1692,7 @@ set(SOURCES
 	include/RE/T/TESProduceForm.h
 	include/RE/T/TESQualityForm.h
 	include/RE/T/TESQuest.h
+	include/RE/T/TESQuestInitEvent.h
 	include/RE/T/TESQuestStageEvent.h
 	include/RE/T/TESQuestStageItem.h
 	include/RE/T/TESQuestStartStopEvent.h
@@ -1700,10 +1763,14 @@ set(SOURCES
 	include/RE/U/UI3DSceneManager.h
 	include/RE/U/UIBlurManager.h
 	include/RE/U/UIMessage.h
+	include/RE/U/UIMessageDataFactory.h
 	include/RE/U/UIMessageQueue.h
 	include/RE/U/UIRenderManager.h
 	include/RE/U/UISaveLoadManager.h
+	include/RE/U/UIUtils.h
 	include/RE/U/UnlinkedTypes.h
+	include/RE/U/UpdateConstellationAnims.h
+	include/RE/U/UpdateStarText.h
 	include/RE/U/UserEventEnabled.h
 	include/RE/U/UserEvents.h
 	include/RE/V/VATS.h
@@ -1729,6 +1796,9 @@ set(SOURCES
 	include/RE/W/WerewolfEffect.h
 	include/RE/W/WerewolfFeedEffect.h
 	include/RE/W/WorldSpaceMenu.h
+	include/RE/X/X3DAudio.h
+	include/RE/X/XAPO.h
+	include/RE/X/XAudio2.h
 	include/RE/Z/ZeroFunctionArguments.h
 	include/RE/Z/ZeroOverheadHeap.h
 	include/REL/Common.h
@@ -1812,6 +1882,7 @@ set(SOURCES
 	src/RE/B/BGSBaseAlias.cpp
 	src/RE/B/BGSBipedObjectForm.cpp
 	src/RE/B/BGSColorForm.cpp
+	src/RE/B/BGSConstructibleObject.cpp
 	src/RE/B/BGSCreatedObjectManager.cpp
 	src/RE/B/BGSDebris.cpp
 	src/RE/B/BGSDecalNode.cpp
@@ -1834,6 +1905,8 @@ set(SOURCES
 	src/RE/B/BGSStoryTeller.cpp
 	src/RE/B/BSAtomic.cpp
 	src/RE/B/BSAudioManager.cpp
+	src/RE/B/BSCompoundFrustum.cpp
+	src/RE/B/BSCullingProcess.cpp
 	src/RE/B/BSDirectInputManager.cpp
 	src/RE/B/BSEffectShaderData.cpp
 	src/RE/B/BSExtraData.cpp
@@ -1842,6 +1915,7 @@ set(SOURCES
 	src/RE/B/BSFaceGenNiNode.cpp
 	src/RE/B/BSFadeNode.cpp
 	src/RE/B/BSFixedString.cpp
+	src/RE/B/BSGameSound.cpp
 	src/RE/B/BSGamepadDevice.cpp
 	src/RE/B/BSGeometry.cpp
 	src/RE/B/BSHandleRefObject.cpp
@@ -1857,10 +1931,13 @@ set(SOURCES
 	src/RE/B/BSMouseDevice.cpp
 	src/RE/B/BSMultiBoundNode.cpp
 	src/RE/B/BSOpenVR.cpp
+	src/RE/B/BSOcclusionPlane.cpp
 	src/RE/B/BSPCGamepadDeviceDelegate.cpp
 	src/RE/B/BSPCGamepadDeviceHandler.cpp
 	src/RE/B/BSPCOrbisGamepadDevice.cpp
 	src/RE/B/BSPointerHandle.cpp
+	src/RE/B/BSPortalGraph.cpp
+	src/RE/B/BSPortalGraphEntry.cpp
 	src/RE/B/BSResourceNiBinaryStream.cpp
 	src/RE/B/BSResponse.cpp
 	src/RE/B/BSScaleformManager.cpp
@@ -1873,6 +1950,7 @@ set(SOURCES
 	src/RE/B/BSSystemFileStorage.cpp
 	src/RE/B/BSTArray.cpp
 	src/RE/B/BSTCreateFactoryManager.cpp
+	src/RE/B/BSUIMessageData.cpp
 	src/RE/B/BSVirtualKeyboardDevice.cpp
 	src/RE/B/BSVisit.cpp
 	src/RE/B/BSWin32GamepadDevice.cpp
@@ -1881,6 +1959,7 @@ set(SOURCES
 	src/RE/B/BSWin32SaveDataSystemUtility.cpp
 	src/RE/B/BSWin32VirtualKeyboardDevice.cpp
 	src/RE/B/BSWindModifier.cpp
+	src/RE/B/BSXAudio2GameSound.cpp
 	src/RE/B/BSXFlags.cpp
 	src/RE/B/BarterMenu.cpp
 	src/RE/B/BipedAnim.cpp
@@ -1895,6 +1974,7 @@ set(SOURCES
 	src/RE/C/CollisionLayers.cpp
 	src/RE/C/Color.cpp
 	src/RE/C/ColorUtil.cpp
+	src/RE/C/CombatAnimation.cpp
 	src/RE/C/CommandTable.cpp
 	src/RE/C/ConeProjectile.cpp
 	src/RE/C/Console.cpp
@@ -1907,7 +1987,6 @@ set(SOURCES
 	src/RE/D/DragonCameraState.cpp
 	src/RE/D/DragonSoulsGained.cpp
 	src/RE/E/Effect.cpp
-	src/RE/E/EffectArchetypes.cpp
 	src/RE/E/EnchantConstructMenu.cpp
 	src/RE/E/Explosion.cpp
 	src/RE/E/ExtraAliasInstanceArray.cpp
@@ -2020,6 +2099,7 @@ set(SOURCES
 	src/RE/M/MagicFormulas.cpp
 	src/RE/M/MagicItem.cpp
 	src/RE/M/MagicItemDataCollector.cpp
+	src/RE/M/MagicItemList.cpp
 	src/RE/M/MagicSystem.cpp
 	src/RE/M/MagicTarget.cpp
 	src/RE/M/MagicUtilities.cpp
@@ -2029,6 +2109,7 @@ set(SOURCES
 	src/RE/M/MenuControls.cpp
 	src/RE/M/MenuCursor.cpp
 	src/RE/M/MenuEventHandler.cpp
+	src/RE/M/MessageBoxMenu.cpp
 	src/RE/M/Misc.cpp
 	src/RE/M/MissileProjectile.cpp
 	src/RE/N/NativeFunctionBase.cpp
@@ -2043,6 +2124,7 @@ set(SOURCES
 	src/RE/N/NiColorKey.cpp
 	src/RE/N/NiControllerManager.cpp
 	src/RE/N/NiControllerSequence.cpp
+	src/RE/N/NiCullingProcess.cpp
 	src/RE/N/NiExtraData.cpp
 	src/RE/N/NiFloatData.cpp
 	src/RE/N/NiFloatExtraData.cpp
@@ -2089,6 +2171,7 @@ set(SOURCES
 	src/RE/S/ScrapHeap.cpp
 	src/RE/S/Script.cpp
 	src/RE/S/ScriptEventSourceHolder.cpp
+	src/RE/S/SendHUDMessage.cpp
 	src/RE/S/SendUIMessage.cpp
 	src/RE/S/Setting.cpp
 	src/RE/S/ShadowSceneNode.cpp
@@ -2134,12 +2217,14 @@ set(SOURCES
 	src/RE/T/TESSpellList.cpp
 	src/RE/T/TESTopic.cpp
 	src/RE/T/TESTopicInfo.cpp
+	src/RE/T/TESValueForm.cpp
 	src/RE/T/TESWaterSystem.cpp
 	src/RE/T/TESWorldSpace.cpp
 	src/RE/T/TaskQueueInterface.cpp
 	src/RE/T/ThirdPersonState.cpp
 	src/RE/T/ThumbstickEvent.cpp
 	src/RE/T/TweenMenuCameraState.cpp
+	src/RE/T/TutorialMenu.cpp
 	src/RE/T/TypeInfo.cpp
 	src/RE/U/UI.cpp
 	src/RE/U/UI3DSceneManager.cpp

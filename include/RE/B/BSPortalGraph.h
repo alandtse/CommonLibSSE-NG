@@ -10,6 +10,7 @@ namespace RE
 	class BSMultiBoundRoom;
 	class BSOcclusionShape;
 	class BSPortal;
+	class BSPortalGraphEntry;
 	class BSPortalSharedNode;
 	class NiAVObject;
 	class NiNode;
@@ -40,11 +41,14 @@ namespace RE
 
 		~BSPortalGraph() override;  // 00
 
+		// add
+		bool IsCompatibleEntry(const BSPortalGraphEntry* a_entry) const;
+
 		// members
 		NiTPointerList<BSOcclusionShape>      occlusionShapes;   // 10
 		NiTPointerList<BSPortal>              portals;           // 28
 		BSTArray<NiPointer<BSMultiBoundRoom>> rooms;             // 40
-		BSTArray<NiPointer<NiAVObject>>       unk58;             // 58
+		BSTArray<NiPointer<NiAVObject>>       alwaysRenderChildren;             // 58
 		NiPointer<BSPortalSharedNode>         portalSharedNode;  // 70
 		BSTArray<NiPointer<NiAVObject>>       unk78;             // 78
 		BSTArray<NiPointer<NiAVObject>>       unk90;             // 90

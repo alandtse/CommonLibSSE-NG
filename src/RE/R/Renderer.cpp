@@ -1,6 +1,6 @@
 #include "RE/R/Renderer.h"
 
-#include "RE/S/ShadowState.h"
+#include "RE/R/RendererShadowState.h"
 #include "RE/S/State.h"
 
 namespace RE

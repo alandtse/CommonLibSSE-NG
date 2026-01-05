@@ -68,6 +68,27 @@ namespace RE
 		return cache;
 	}
 
+	void Sky::FillColorBlend(COLOR_BLEND& a_colorBlend, TESWeather* a_currentWeather, float a_weatherPct, TESWeather::ColorTime& a_time1, TESWeather::ColorTime& a_time2)
+	{
+		using func_t = decltype(&Sky::FillColorBlend);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(25706, 26253) };
+		func(this, a_colorBlend, a_currentWeather, a_weatherPct, a_time1, a_time2);
+	}
+
+	void Sky::FillColorBlendColors(COLOR_BLEND& a_colorBlend, TESWeather* a_currentWeather, TESWeather* a_lastWeather, TESWeather::ColorType a_colorType, TESWeather::ColorTime& a_time1, TESWeather::ColorTime& a_time2)
+	{
+		if (a_currentWeather) {
+			a_colorBlend.RGBVal[0] = a_currentWeather->colorData[a_colorType][a_time1];
+			a_colorBlend.RGBVal[1] = a_currentWeather->colorData[a_colorType][a_time2];
+			if (a_lastWeather) {
+				a_colorBlend.RGBVal[2] = a_lastWeather->colorData[a_colorType][a_time1];
+				a_colorBlend.RGBVal[3] = a_lastWeather->colorData[a_colorType][a_time2];
+			} else {
+				a_colorBlend.RGBVal[2] = Color();
+			}
+		}
+	}
+
 	void Sky::ForceWeather(TESWeather* a_weather, bool a_override)
 	{
 		using func_t = decltype(&Sky::ForceWeather);
@@ -107,6 +128,13 @@ namespace RE
 		using func_t = decltype(&Sky::ResetWeather);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(25695, 26242) };
 		func(this);
+	}
+
+	void Sky::SetColor(NiColor& a_color, COLOR_BLEND* a_colorBlend, float a_addFlash) const
+	{
+		using func_t = decltype(&Sky::SetColor);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(25691, 26238) };
+		func(this, a_color, a_colorBlend, a_addFlash);
 	}
 
 	void Sky::SetWeather(TESWeather* a_weather, bool a_override, bool a_accelerate)

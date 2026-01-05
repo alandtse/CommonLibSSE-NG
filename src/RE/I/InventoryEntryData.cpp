@@ -71,6 +71,13 @@ namespace RE
 		extraLists->push_front(a_extra);
 	}
 
+	InventoryEntryData& InventoryEntryData::DeepCopy(const InventoryEntryData& a_other)
+	{
+		using func_t = decltype(&InventoryEntryData::DeepCopy);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(15745, 15983) };
+		return func(this, a_other);
+	}
+
 	const char* InventoryEntryData::GetDisplayName()
 	{
 		const char* name = nullptr;
@@ -233,6 +240,19 @@ namespace RE
 		return false;
 	}
 
+	bool InventoryEntryData::IsWorn(bool a_left) const
+	{
+		if (extraLists) {
+			for (const auto& xList : *extraLists) {
+				if (xList && (a_left ? xList->HasType<ExtraWornLeft>() : xList->HasType<ExtraWorn>())) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	bool InventoryEntryData::IsOwnedBy(Actor* a_testOwner, bool a_defaultTo)
 	{
 		return IsOwnedBy(a_testOwner, GetOwner(), a_defaultTo);
@@ -261,6 +281,13 @@ namespace RE
 		using func_t = decltype(&InventoryEntryData::PoisonObject);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(15786, 16024) };
 		return func(this, a_alchItem, a_count);
+	}
+
+	void InventoryEntryData::SetWorn(bool a_worn, bool a_left, bool a_deleteExtraList)
+	{
+		using func_t = decltype(&InventoryEntryData::SetWorn);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(16027, 15789) };
+		return func(this, a_worn, a_left, a_deleteExtraList);
 	}
 
 	bool InventoryEntryData::IsOwnedBy_Impl(Actor* a_testOwner, TESForm* a_itemOwner, bool a_defaultTo)

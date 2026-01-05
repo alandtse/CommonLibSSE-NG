@@ -10,7 +10,7 @@ namespace RE
 	{
 		struct ENTRY_POINTS
 		{
-			enum ENTRY_POINT : std::uint32_t
+			enum ENTRY_POINT
 			{
 				kCalculateWeaponDamage = 0,
 				kCalculateMyCriticalHitChance = 1,
@@ -143,7 +143,7 @@ namespace RE
 		static EntryPoint* GetEntryPoint(ENTRY_POINT a_entryPoint)
 		{
 			if (a_entryPoint < ENTRY_POINT::kTotal) {
-				static REL::Relocation<EntryPoint*> entryPoints{ RELOCATION_ID(675707, 368994) };  //TODO: Verify SSE ID against VR
+				static REL::Relocation<EntryPoint*> entryPoints{ RELOCATION_ID(675707, 368994) };  
 				return &entryPoints.get()[a_entryPoint];
 			}
 

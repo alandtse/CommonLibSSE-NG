@@ -19,7 +19,7 @@ namespace RE
 	bool BSInputDeviceManager::GetButtonNameFromID(INPUT_DEVICE a_device, std::int32_t a_id, BSFixedString& a_buttonName) const
 	{
 		const auto device = devices[a_device];
-		return device && device->GetKeyMapping(a_id, a_buttonName);
+		return device && device->GetButtonNameFromID(a_id, a_buttonName);
 	}
 
 	BSPCGamepadDeviceDelegate* BSInputDeviceManager::GetGamepad()
@@ -95,13 +95,13 @@ namespace RE
 	bool BSInputDeviceManager::GetDeviceKeyMapping(INPUT_DEVICE a_device, std::uint32_t a_key, BSFixedString& a_mapping)
 	{
 		auto device = devices[std::to_underlying(a_device)];
-		return device && device->GetKeyMapping(a_key, a_mapping);
+		return device && device->GetButtonNameFromID(a_key, a_mapping);
 	}
 
 	bool BSInputDeviceManager::GetDeviceMappedKeycode(INPUT_DEVICE a_device, std::uint32_t a_key, uint32_t& a_outKeyCode)
 	{
 		auto device = devices[std::to_underlying(a_device)];
-		return device && device->GetMappedKeycode(a_key, a_outKeyCode);
+		return device && device->GetKeyCodeFromID(a_key, a_outKeyCode);
 	}
 
 	void BSInputDeviceManager::ProcessGamepadEnabledChange()
@@ -133,7 +133,7 @@ namespace RE
 	{
 		for (std::uint32_t i = 0; i < INPUT_DEVICE::kTotal; i++) {
 			if (devices[i]) {
-				devices[i]->Reset();
+				devices[i]->ClearInputState();
 			}
 		}
 	}
@@ -142,7 +142,7 @@ namespace RE
 	{
 		for (std::uint32_t i = 0; i < INPUT_DEVICE::kTotal; i++) {
 			if (devices[i]) {
-				devices[i]->Release();
+				devices[i]->Shutdown();
 				BSInputDeviceFactory::DestroyInputDevice(devices[i]);
 			}
 		}
@@ -151,7 +151,7 @@ namespace RE
 	// Called by Main::Update()
 	void BSInputDeviceManager::PollInputDevices(float a_secsSinceLastFrame)
 	{
-		// Calls Process() on each device
+		// Calls Poll() on each device
 		// Calls ControlMap::sub_140C11600(InputEvent*)
 		// Calls Rumble::Update_140C10860(float secsSinceLastFrame)
 		// Emits the last InputEvent

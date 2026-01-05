@@ -34,6 +34,7 @@ namespace RE
 		void ProcessWeaponDrawnChange(bool a_drawn) override;      // 0B/0C
 		bool GetFreeRotationMode() const override;                 // 0C/0D
 		void SetFreeRotationMode(bool a_weaponSheathed) override;  // 0D/0E
+		void UpdateRotation() override;                            // 0E/0F
 		void HandleLookInput(const NiPoint2& a_input) override;    // 0F/10
 
 		// members
