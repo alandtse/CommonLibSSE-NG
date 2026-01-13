@@ -254,6 +254,7 @@ set(SOURCES
 	include/RE/B/BSIInputDevice.h
 	include/RE/B/BSIMusicTrack.h
 	include/RE/B/BSIMusicType.h
+	include/RE/B/BSInvMarker.h
 	include/RE/B/BSIRagdollDriver.h
 	include/RE/B/BSIReverbType.h
 	include/RE/B/BSISoundCategory.h
@@ -1845,6 +1846,7 @@ set(SOURCES
 	src/RE/B/BSGamepadDevice.cpp
 	src/RE/B/BSGeometry.cpp
 	src/RE/B/BSHandleRefObject.cpp
+	src/RE/B/BSInvMarker.cpp
 	src/RE/B/BSInputDevice.cpp
 	src/RE/B/BSInputDeviceFactory.cpp
 	src/RE/B/BSInputDeviceManager.cpp
