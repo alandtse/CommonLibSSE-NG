@@ -76,6 +76,7 @@ namespace RE
 
 		ObjectRefHandle CreateReferenceAtLocation(TESBoundObject* a_base, const NiPoint3& a_location, const NiPoint3& a_rotation, TESObjectCELL* a_targetCell, TESWorldSpace* a_selfWorldSpace, TESObjectREFR* a_alreadyCreatedRef, BGSPrimitive* a_primitive, const ObjectRefHandle& a_linkedRoomRefHandle, bool a_forcePersist, bool a_arg11);
 
+		// Common runtime flags shared by SE/AE and VR (at different offsets)
 		struct RUNTIME_DATA
 		{
 #define RUNTIME_DATA_CONTENT \
@@ -92,6 +93,11 @@ namespace RE
 
 			RUNTIME_DATA_CONTENT
 		};
+
+		// Common trailing members shared by SE/AE and VR (at different offsets)
+#define TRAILING_MEMBERS_CONTENT                                           \
+	TESRegionDataManager* regionDataManager; /* DB0 (SE/AE) / 1580 (VR) */ \
+	InventoryChanges*     merchantInventory; /* DB8 (SE/AE) / 1588 (VR) */
 
 		[[nodiscard]] inline RUNTIME_DATA& GetGeometryRuntimeData() noexcept
 		{
@@ -157,6 +163,16 @@ namespace RE
 			}
 		}
 
+		[[nodiscard]] inline std::uint8_t& GetGameSettingsLoadState() noexcept
+		{
+			return REL::RelocateMember<std::uint8_t>(this, 0xDAA, 0x157A);
+		}
+
+		[[nodiscard]] inline const std::uint8_t& GetGameSettingsLoadState() const noexcept
+		{
+			return REL::RelocateMember<std::uint8_t>(this, 0xDAA, 0x157A);
+		}
+
 		[[nodiscard]] inline TESRegionDataManager* GetRegionDataManager() noexcept
 		{
 			return REL::RelocateMember<TESRegionDataManager*>(this, 0xDB0, 0x1580);
@@ -191,23 +207,23 @@ namespace RE
 		std::uint32_t                     padD54;                                         // D54
 		TESFile*                          activeFile;                                     // D58
 		BSSimpleList<TESFile*>            files;                                          // D60
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
+#if !defined(SKYRIM_CROSS_VR)
+#	if defined(EXCLUSIVE_SKYRIM_FLAT)
 		TESFileCollection compiledFileCollection;  // D70
 		RUNTIME_DATA_CONTENT
-		std::uint8_t          gameSettingsLoadState;  // DAA
-		std::uint8_t          padDAB;                 // DAB
-		std::uint32_t         padDAC;                 // DAC
-		TESRegionDataManager* regionDataManager;      // DB0
-		InventoryChanges*     merchantInventory;      // DB8
-#elif defined(EXCLUSIVE_SKYRIM_VR)
+		std::uint8_t  gameSettingsLoadState;  // DAA
+		std::uint8_t  padDAB;                 // DAB
+		std::uint32_t padDAC;                 // DAC
+		TRAILING_MEMBERS_CONTENT
+#	elif defined(EXCLUSIVE_SKYRIM_VR)
 		std::uint32_t loadedModCount;    // D70 this should be avoided if SkyrimVRESL is available
 		std::uint32_t pad14;             // D74
 		TESFile*      loadedMods[0xFF];  // D78 this should be avoided if SkyrimVRESL is available
 		RUNTIME_DATA_CONTENT
-		std::uint8_t          gameSettingsLoadState;  // 157A
-		std::uint8_t          pad157B[4];             // 157B
-		TESRegionDataManager* regionDataManager;      // 1580
-		InventoryChanges*     merchantInventory;      // 1588
+		std::uint8_t gameSettingsLoadState;  // 157A
+		std::uint8_t pad157B[4];             // 157B
+		TRAILING_MEMBERS_CONTENT
+#	endif
 #endif
 	};
 
@@ -239,4 +255,6 @@ namespace RE
 		return reinterpret_cast<BSTArray<T*>&>(GetFormArray(T::FORMTYPE));
 	}
 }
+
 #undef RUNTIME_DATA_CONTENT
+#undef TRAILING_MEMBERS_CONTENT
