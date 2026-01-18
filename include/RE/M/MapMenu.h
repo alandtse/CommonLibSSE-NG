@@ -75,7 +75,7 @@ namespace RE
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 		static_assert(sizeof(RUNTIME_DATA) == 0x304B0);
 #else
-		static_assert(sizeof(RUNTIME_DATA) == 0x30430);
+		static_assert(sizeof(RUNTIME_DATA) == 0x30320);
 #endif
 
 		struct VR_RUNTIME_DATA
@@ -92,7 +92,7 @@ namespace RE
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x304E0);
 #else
-		static_assert(sizeof(VR_RUNTIME_DATA) == 0x30460);
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x30350);
 #endif
 
 		// Common map data 2 shared by SE/AE and VR

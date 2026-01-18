@@ -125,7 +125,7 @@ namespace RE
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 		static_assert(sizeof(LocalMapCullingProcess) == 0x303E8);
 #else
-		static_assert(sizeof(LocalMapCullingProcess) == 0x301F8);
+		static_assert(sizeof(LocalMapCullingProcess) == 0x30260);  // Cross-VR: only base members (cullingProcess + cullingJob), use accessors for runtime data
 #endif
 
 		class InputHandler : public MenuEventHandler
@@ -191,7 +191,7 @@ namespace RE
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(LocalMapMenu) == 0x30490);
 #else
-	static_assert(sizeof(LocalMapMenu) == 0x30410);
+	static_assert(sizeof(LocalMapMenu) == 0x30300);
 #endif
 }
 
