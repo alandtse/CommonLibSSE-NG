@@ -33,6 +33,16 @@ namespace RE
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                         // 04
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 
+		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
+		{
+			return REL::RelocateMember<RUNTIME_DATA>(this, 0x30, 0x40);
+		}
+
+		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
+		{
+			return REL::RelocateMember<RUNTIME_DATA>(this, 0x30, 0x40);
+		}
+
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 30 - smart ptr
