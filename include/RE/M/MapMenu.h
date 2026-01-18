@@ -42,14 +42,31 @@ namespace RE
 		inline static constexpr auto      RTTI = RTTI_MapMenu;
 		constexpr static std::string_view MENU_NAME = "MapMenu";
 
+		// Common handlers shared by SE/AE and VR
+#define COMMON_HANDLERS_CONTENT                           \
+	BSTSmartPointer<MapMoveHandler> moveHandler; /* 00 */ \
+	BSTSmartPointer<MapLookHandler> lookHandler; /* 08 */ \
+	BSTSmartPointer<MapZoomHandler> zoomHandler; /* 10 */
+
+		// VR-specific extra handlers
+#define VR_EXTRA_HANDLERS_CONTENT                                 \
+	BSTSmartPointer<MapClickHandler>    clickHandler;    /* 18 */ \
+	BSTSmartPointer<MapTouchpadHandler> touchpadHandler; /* 20 */ \
+	BSTSmartPointer<void*>              unk00088;        /* 28 */ \
+	BSTSmartPointer<void*>              unk00090;        /* 30 */ \
+	BSTSmartPointer<void*>              unk00098;        /* 38 */ \
+	BSTSmartPointer<void*>              unk000A0;        /* 40 */
+
+		// Common map data shared by SE/AE and VR (at different offsets)
+#define COMMON_MAP_DATA_CONTENT                              \
+	ObjectRefHandle mapMarker;    /* 18 (SE/AE) / A8 (VR) */ \
+	LocalMapMenu    localMapMenu; /* 20 (SE/AE) / B0 (VR) */
+
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                               \
-	BSTSmartPointer<MapMoveHandler> moveHandler;  /* 00 */ \
-	BSTSmartPointer<MapLookHandler> lookHandler;  /* 08 */ \
-	BSTSmartPointer<MapZoomHandler> zoomHandler;  /* 10 */ \
-	ObjectRefHandle                 mapMarker;    /* 18 */ \
-	LocalMapMenu                    localMapMenu; /* 20 */
+#define RUNTIME_DATA_CONTENT \
+	COMMON_HANDLERS_CONTENT  \
+	COMMON_MAP_DATA_CONTENT
 
 			RUNTIME_DATA_CONTENT
 		};
@@ -63,19 +80,12 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                      \
-	BSTSmartPointer<MapMoveHandler>     moveHandler;     /* 00060 */ \
-	BSTSmartPointer<MapLookHandler>     lookHandler;     /* 00068*/  \
-	BSTSmartPointer<MapZoomHandler>     zoomHandler;     /* 00070*/  \
-	BSTSmartPointer<MapClickHandler>    clickHandler;    /* 00078*/  \
-	BSTSmartPointer<MapTouchpadHandler> touchpadHandler; /* 00080*/  \
-	BSTSmartPointer<void*>              unk00088;        /* 00088*/  \
-	BSTSmartPointer<void*>              unk00090;        /* 00090*/  \
-	BSTSmartPointer<void*>              unk00098;        /* 00098*/  \
-	BSTSmartPointer<void*>              unk000A0;        /* 000A0*/  \
-	ObjectRefHandle                     mapMarker;       /* 000A8*/  \
-	LocalMapMenu                        localMapMenu;    /* 000B0*/
-            VR_RUNTIME_DATA_CONTENT;
+#define VR_RUNTIME_DATA_CONTENT \
+	COMMON_HANDLERS_CONTENT     \
+	VR_EXTRA_HANDLERS_CONTENT   \
+	COMMON_MAP_DATA_CONTENT
+
+			VR_RUNTIME_DATA_CONTENT;
 		};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x30460);
@@ -85,52 +95,55 @@ namespace RE
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x30460);
 #endif
 
-		struct RUNTIME_DATA2
-		{
-#define RUNTIME_DATA2_CONTENT                                                        \
+		// Common map data 2 shared by SE/AE and VR
+#define COMMON_MAP_DATA2_CONTENT                                                     \
 	RefHandle               cameraRootRef;        /* 000 - defaults to player ref */ \
 	NiPoint3                playerMarkerPosition; /* 004 */                          \
 	BSTArray<MapMenuMarker> mapMarkers;           /* 010 */                          \
-	BSTArray<GFxValue>      markerData;           /* 028 */                          \
-	MapCamera               camera;               /* 040 */                          \
-	std::uint64_t           unk30530;             /* 0D0 */                          \
-	TESWorldSpace*          worldSpace;           /* 0D8 */                          \
-	GFxValue                mapMovie;             /* 0E0 */                          \
-	std::int32_t            selectedMarker;       /* 0F8 */                          \
-	NiPoint3                cameraPickOrigin;     /* 0FC */                          \
-	NiPoint3                cameraPickDirection;  /* 108 */                          \
-	BSSoundHandle           unk30574;             /* 114 */                          \
-	std::uint64_t           unk30580;             /* 120 */                          \
-	std::uint32_t           unk30588;             /* 128 */                          \
-	bool                    controlsReady;        /* 12C */                          \
-	std::uint8_t            unk3058D;             /* 12D */                          \
-	std::uint16_t           unk3058E;             /* 12E */                          \
-	std::uint64_t           unk30590;             /* 130 */
-            RUNTIME_DATA2_CONTENT
+	BSTArray<GFxValue>      markerData;           /* 028 */
+
+		struct RUNTIME_DATA2
+		{
+#define RUNTIME_DATA2_CONTENT                     \
+	COMMON_MAP_DATA2_CONTENT                      \
+	MapCamera      camera;              /* 040 */ \
+	std::uint64_t  unk30530;            /* 0D0 */ \
+	TESWorldSpace* worldSpace;          /* 0D8 */ \
+	GFxValue       mapMovie;            /* 0E0 */ \
+	std::int32_t   selectedMarker;      /* 0F8 */ \
+	NiPoint3       cameraPickOrigin;    /* 0FC */ \
+	NiPoint3       cameraPickDirection; /* 108 */ \
+	BSSoundHandle  unk30574;            /* 114 */ \
+	std::uint64_t  unk30580;            /* 120 */ \
+	std::uint32_t  unk30588;            /* 128 */ \
+	bool           controlsReady;       /* 12C */ \
+	std::uint8_t   unk3058D;            /* 12D */ \
+	std::uint16_t  unk3058E;            /* 12E */ \
+	std::uint64_t  unk30590;            /* 130 */
+
+			RUNTIME_DATA2_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA2) == 0x138);
 
 		struct VR_RUNTIME_DATA2
 		{
-#define VR_RUNTIME_DATA2_CONTENT                                                     \
-	RefHandle               cameraRootRef;        /* 000 - defaults to player ref */ \
-	NiPoint3                playerMarkerPosition; /* 004 */                          \
-	BSTArray<MapMenuMarker> mapMarkers;           /* 010 */                          \
-	BSTArray<GFxValue>      markerData;           /* 028 */                          \
-	NiPoint3                unk30570;             /* 040 */                          \
-	std::int32_t            selectedMarker;       /* 30540 */                        \
-	std::uint64_t           unk30580;             /* 30558 */                        \
-	std::uint64_t           unk30588;             /* 30570 */                        \
-	TESWorldSpace*          worldSpace;           /* 0D8 */                          \
-	GFxValue                mapMovie;             /* 0E0 */                          \
-	BSSoundHandle           unk305B0;             /* 114 */                          \
-	std::uint64_t           unk305C0;             /* 120 */                          \
-	std::uint64_t           unk305C8;             /* 128 */                          \
-	std::uint64_t           unk305D0;             /* 128 */                          \
-	std::uint64_t           unk305D8;             /* 128 */                          \
-	std::uint64_t           unk305E0;             /* 128 */                          \
-	std::uint64_t           unk305E8;             /* 130 */
-            VR_RUNTIME_DATA2_CONTENT;
+#define VR_RUNTIME_DATA2_CONTENT             \
+	COMMON_MAP_DATA2_CONTENT                 \
+	NiPoint3       unk30570;       /* 040 */ \
+	std::int32_t   selectedMarker; /* 04C */ \
+	std::uint64_t  unk30580;       /* 050 */ \
+	std::uint64_t  unk30588;       /* 058 */ \
+	TESWorldSpace* worldSpace;     /* 060 */ \
+	GFxValue       mapMovie;       /* 068 */ \
+	BSSoundHandle  unk305B0;       /* 080 */ \
+	std::uint64_t  unk305C0;       /* 088 */ \
+	std::uint64_t  unk305C8;       /* 090 */ \
+	std::uint64_t  unk305D0;       /* 098 */ \
+	std::uint64_t  unk305D8;       /* 0A0 */ \
+	std::uint64_t  unk305E0;       /* 0A8 */ \
+	std::uint64_t  unk305E8;       /* 0B0 */
+
+			VR_RUNTIME_DATA2_CONTENT;
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA2) == 0xC0);
 
@@ -276,6 +289,13 @@ namespace RE
 #endif
 }
 
+// Clean up sub-macros
+#undef COMMON_HANDLERS_CONTENT
+#undef VR_EXTRA_HANDLERS_CONTENT
+#undef COMMON_MAP_DATA_CONTENT
+#undef COMMON_MAP_DATA2_CONTENT
+
+// Clean up main macros
 #undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT
 #undef RUNTIME_DATA2_CONTENT
