@@ -23,7 +23,7 @@ namespace RE
 
 		ExtraLevCreaModifier();
 		explicit ExtraLevCreaModifier(LEV_CREA_MODIFIER a_modifier);
-		~ExtraLevCreaModifier() override;  // 00
+		~ExtraLevCreaModifier() override = default;  // 00
 
 		// override (BSExtraData)
 		ExtraDataType GetType() const override;                             // 01 - { return kLevCreaModifier; }
