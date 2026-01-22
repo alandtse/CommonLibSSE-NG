@@ -1,0 +1,52 @@
+name: Consumer Integration Test
+
+on:
+  push:
+    branches: [ ng ]
+  pull_request:
+    branches: [ ng ]
+
+jobs:
+  test-as-dependency:
+    name: Test CommonLib as Dependency
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+      
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgJsonGlob: '**/vcpkg.json'
+      
+      - name: Install vcpkg dependencies
+        run: |
+          $env:VCPKG_ROOT = "${{ github.workspace }}/vcpkg"
+          & "$env:VCPKG_ROOT/vcpkg" install --triplet=x64-windows
+      
+      - name: Configure Consumer Test
+        working-directory: test_consumer
+        run: |
+          cmake -B build -S . `
+            -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake" `
+            -DVCPKG_INSTALLED_DIR="${{ github.workspace }}/vcpkg_installed" `
+            -DENABLE_SKYRIM_SE=ON `
+            -DENABLE_SKYRIM_AE=ON `
+            -DENABLE_SKYRIM_VR=ON
+      
+      - name: Build Consumer Test
+        working-directory: test_consumer
+        run: cmake --build build --config Release
+      
+      - name: Run Consumer Test
+        working-directory: test_consumer
+        run: |
+          Write-Host "Running consumer integration test..."
+          .\build\Release\ConsumerTest.exe
+          Write-Host "`n✓ Test passed: CommonLib headers compiled successfully when used as dependency"
