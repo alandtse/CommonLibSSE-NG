@@ -395,25 +395,9 @@ namespace RE
 			return *singleton;
 		}
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0);
-		}
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x58, 0);
 
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0);
-		}
-
-		[[nodiscard]] inline VR_RUNTIME_DATA& GetVRRuntimeData() noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x58);
-		}
-
-		[[nodiscard]] inline const VR_RUNTIME_DATA& GetVRRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x58);
-		}
+		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
 
 		/**
 		 * @brief Gets all effects supported by the current runtime, sorted by index.
@@ -497,14 +481,7 @@ namespace RE
 		VR_RUNTIME_DATA_CONTENT
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(ImageSpaceManager) == 0x220);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(ImageSpaceManager) == 0x248);
-#else
-	static_assert(sizeof(ImageSpaceManager) == 0x58);
-
-#endif
+	STATIC_ASSERT_SIZE(ImageSpaceManager, 0x220, 0x220, 0x248, 0x58);
 }
 #undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT

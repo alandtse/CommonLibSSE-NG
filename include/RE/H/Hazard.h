@@ -6,6 +6,7 @@
 #include "RE/F/FormTypes.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/T/TESObjectREFR.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -68,23 +69,13 @@ namespace RE
 			HAZARD_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline HAZARD_RUNTIME_DATA& GetHazardRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<HAZARD_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x98, 0xA0);
-		}
-
-		[[nodiscard]] inline const HAZARD_RUNTIME_DATA& GetHazardRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<HAZARD_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x98, 0xA0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(HAZARD_RUNTIME_DATA, GetHazardRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x98, 0xA0);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		HAZARD_RUNTIME_DATA_CONTENT;
 #endif
 	};
-#ifndef ENABLE_SKYRIM_AE
-	static_assert(sizeof(Hazard) == 0xD8);
-#endif
+	// Only SE is asserted in old code
+	STATIC_ASSERT_SIZE(Hazard, 0xD8, 0x0, 0xD8);
 }
 #undef HAZARD_RUNTIME_DATA_CONTENT

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSShadowLight.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -38,27 +39,12 @@ namespace RE
 		void          UpdateClipPlanes(void* a_unk1, void* a_unk2) override;                                                                                   // 0F
 		bool          UpdateCamera(const NiCamera* a_viewCamera) override;                                                                                     // 10
 
-		[[nodiscard]] inline RUNTIME_DATA& GetShadowDirectionalLightRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x560, 0x5C0);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetShadowDirectionalLightRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x560, 0x5C0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA, GetShadowDirectionalLightRuntimeData, 0x560, 0x5C0);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 560, VR 5C0
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSShadowDirectionalLight) == 0x5B8);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSShadowDirectionalLight) == 0x618);
-#else
-	static_assert(sizeof(BSShadowDirectionalLight) == 0x148);
-#endif
+	STATIC_ASSERT_SIZE(BSShadowDirectionalLight, 0x5B8, 0x5B8, 0x618, 0x148);
 }
 #undef RUNTIME_DATA_CONTENT

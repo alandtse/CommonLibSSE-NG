@@ -52,5 +52,5 @@ namespace RE
 		Data  data;  // 08
 		char* name;  // 10
 	};
-	static_assert(sizeof(Setting) == 0x18);
+	STATIC_ASSERT_SIZE(Setting, 0x18);
 }

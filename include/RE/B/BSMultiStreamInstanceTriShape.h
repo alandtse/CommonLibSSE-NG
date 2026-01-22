@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSInstanceTriShape.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -56,25 +57,12 @@ namespace RE
 		void          RemoveGroup(std::uint32_t a_numInstance) override;                                                                   // 3D
 #endif
 
-		[[nodiscard]] inline MULTISTREAM_TRISHAPE_RUNTIME_DATA& GetMultiStreamTrishapeRuntimeData() noexcept
-		{
-			return REL::RelocateMember<MULTISTREAM_TRISHAPE_RUNTIME_DATA>(this, 0x160, 0x1A8);
-		}
-
-		[[nodiscard]] inline const MULTISTREAM_TRISHAPE_RUNTIME_DATA& GetMultiStreamTrishapeRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<MULTISTREAM_TRISHAPE_RUNTIME_DATA>(this, 0x160, 0x1A8);
-		}
-
+		RUNTIME_DATA_ACCESSOR_EX(MULTISTREAM_TRISHAPE_RUNTIME_DATA, GetMultiStreamTrishapeRuntimeData, 0x160, 0x1A8);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 160, 1A8
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSMultiStreamInstanceTriShape) == 0x1A0);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSMultiStreamInstanceTriShape) == 0x1E8);
-#endif
+	STATIC_ASSERT_SIZE(BSMultiStreamInstanceTriShape, 0x1A0, 0x1A0, 0x1E8, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

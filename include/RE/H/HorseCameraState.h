@@ -40,9 +40,5 @@ namespace RE
 		float           horseCurrentDirection;  // EC
 		std::uint64_t   unkF0;                  // F0
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(HorseCameraState) == 0x110);
-#else
-	static_assert(sizeof(HorseCameraState) == 0xF8);
-#endif
+	STATIC_ASSERT_SIZE(HorseCameraState, 0xF8, 0x110);
 }

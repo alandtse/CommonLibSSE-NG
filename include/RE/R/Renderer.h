@@ -7,6 +7,7 @@
 #include "RE/T/TextureFileFormat.h"
 #include <SKSE/Version.h>
 
+#include "REL/RuntimeDataAccessors.h"
 #include "REX/W32/D3D11_3.h"
 #include "REX/W32/USER32.h"
 
@@ -159,57 +160,12 @@ namespace RE
 		class Renderer
 		{
 		public:
-			[[nodiscard]] inline RendererData& GetRuntimeData() noexcept
-			{
-				return REL::RelocateMember<RendererData>(this, 0x10, 0x18);
-			}
+			RUNTIME_DATA_ACCESSOR(RendererData, 0x10, 0x18);
+			RUNTIME_MEMBER_ACCESSOR_VERSIONED(DepthStencilRuntimeData, GetDepthStencilData, SKSE::RUNTIME_SSE_1_6_1130, 0x1FB8, 0x21D0, 0x2018);
 
-			[[nodiscard]] inline const RendererData& GetRuntimeData() const noexcept
-			{
-				return REL::RelocateMember<RendererData>(this, 0x10, 0x18);
-			}
+			RUNTIME_MEMBER_ACCESSOR_VERSIONED(RendererData2, GetRendererData, SKSE::RUNTIME_SSE_1_6_1130, 0x26D8, 0x2E48, 0x2738);
 
-			[[nodiscard]] inline DepthStencilRuntimeData& GetDepthStencilData() noexcept
-			{
-				if (REL::Module::IsAE())
-					return REL::RelocateMemberIfNewer<DepthStencilRuntimeData>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x1FB8, 0x2018);
-
-				return REL::RelocateMember<DepthStencilRuntimeData>(this, 0x1FB8, 0x21D0);
-			}
-
-			[[nodiscard]] inline const DepthStencilRuntimeData& GetDepthStencilData() const noexcept
-			{
-				if (REL::Module::IsAE())
-					return REL::RelocateMemberIfNewer<DepthStencilRuntimeData>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x1FB8, 0x2018);
-				return REL::RelocateMember<DepthStencilRuntimeData>(this, 0x1FB8, 0x21D0);
-			}
-
-			[[nodiscard]] inline RendererData2& GetRendererData() noexcept
-			{
-				if (REL::Module::IsAE())
-					return REL::RelocateMemberIfNewer<RendererData2>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x26D8, 0x2738);
-				return REL::RelocateMember<RendererData2>(this, 0x26D8, 0x2E48);
-			}
-
-			[[nodiscard]] inline const RendererData2& GetRendererData() const noexcept
-			{
-				if (REL::Module::IsAE())
-					return REL::RelocateMemberIfNewer<RendererData2>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x26D8, 0x2738);
-				return REL::RelocateMember<RendererData2>(this, 0x26D8, 0x2E48);
-			}
-			[[nodiscard]] inline REX::W32::CRITICAL_SECTION& GetLock() noexcept
-			{
-				if (REL::Module::IsAE())
-					return REL::RelocateMemberIfNewer<REX::W32::CRITICAL_SECTION>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x2790, 0x27f0);
-				return REL::RelocateMember<REX::W32::CRITICAL_SECTION>(this, 0x2790, 0x2F00);
-			}
-
-			[[nodiscard]] inline const REX::W32::CRITICAL_SECTION& GetLock() const noexcept
-			{
-				if (REL::Module::IsAE())
-					return REL::RelocateMemberIfNewer<REX::W32::CRITICAL_SECTION>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x2790, 0x27f0);
-				return REL::RelocateMember<REX::W32::CRITICAL_SECTION>(this, 0x2790, 0x2F00);
-			}
+			RUNTIME_MEMBER_ACCESSOR_VERSIONED(REX::W32::CRITICAL_SECTION, GetLock, SKSE::RUNTIME_SSE_1_6_1130, 0x2790, 0x2F00, 0x27f0);
 
 			[[nodiscard]] static Renderer* GetSingleton() noexcept;
 
@@ -256,13 +212,7 @@ namespace RE
 			void End();
 			void Shutdown();
 		};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-		static_assert(sizeof(Renderer) == 0x21C0);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-		static_assert(sizeof(Renderer) == 0x1FB0);
-#else
-		static_assert(sizeof(Renderer) == 0x10);
-#endif
+		STATIC_ASSERT_SIZE(Renderer, 0x21C0, 0x21C0, 0x1FB0);
 	}
 }
 #undef RUNTIME_DATA_CONTENT

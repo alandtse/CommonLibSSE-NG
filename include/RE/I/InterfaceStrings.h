@@ -2,6 +2,7 @@
 
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSTSingleton.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -115,36 +116,9 @@ namespace RE
 			VR_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x198, 0x198);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x198, 0x198);
-		}
-
-		[[nodiscard]] inline AE_RUNTIME_DATA& GetAERuntimeData() noexcept
-		{
-			return REL::RelocateMember<AE_RUNTIME_DATA>(this, 0x198, 0x198);
-		}
-
-		[[nodiscard]] inline const AE_RUNTIME_DATA& GetAERuntimeData() const noexcept
-		{
-			return REL::RelocateMember<AE_RUNTIME_DATA>(this, 0x198, 0x198);
-		}
-
-		[[nodiscard]] inline VR_RUNTIME_DATA& GetVRRuntimeData() noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x198, 0x198);
-		}
-
-		[[nodiscard]] inline const VR_RUNTIME_DATA& GetVRRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x198, 0x198);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x198, 0x198);
+		RUNTIME_DATA_ACCESSOR_EX(AE_RUNTIME_DATA, GetAERuntimeData, 0x198, 0x198);
+		RUNTIME_DATA_ACCESSOR_EX(VR_RUNTIME_DATA, GetVRRuntimeData, 0x198, 0x198);
 		// members
 		std::uint8_t  pad001;                  // 001
 		std::uint16_t pad002;                  // 002

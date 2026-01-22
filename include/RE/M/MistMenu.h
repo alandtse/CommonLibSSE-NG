@@ -6,6 +6,7 @@
 #include "RE/N/NiColor.h"
 #include "RE/N/NiMatrix3.h"
 #include "RE/S/SimpleAnimationGraphManagerHolder.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -100,36 +101,12 @@ namespace RE
 		bool ProcessButton(ButtonEvent* a_event) override;          // 05
 #endif
 
-		[[nodiscard]] SimpleAnimationGraphManagerHolder* AsSimpleAnimationGraphManagerHolder() noexcept
-		{
-			return &REL::RelocateMember<SimpleAnimationGraphManagerHolder>(this, 0x30, 0x40);
-		}
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_CAST_ACCESSOR(SimpleAnimationGraphManagerHolder, AsSimpleAnimationGraphManagerHolder, 0x30, 0x40);
+		RUNTIME_CAST_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x48, 0x58);
+#endif
 
-		[[nodiscard]] const SimpleAnimationGraphManagerHolder* AsSimpleAnimationGraphManagerHolder() const noexcept
-		{
-			return const_cast<MistMenu*>(this)->AsSimpleAnimationGraphManagerHolder();
-		}
-
-		[[nodiscard]] MenuEventHandler* AsMenuEventHandler() noexcept
-		{
-			return &REL::RelocateMember<MenuEventHandler>(this, 0x48, 0x58);
-		}
-
-		[[nodiscard]] const MenuEventHandler* AsMenuEventHandler() const noexcept
-		{
-			return const_cast<MistMenu*>(this)->AsMenuEventHandler();
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0x68);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0x68);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x58, 0x68);
 		[[nodiscard]] static MistMenu* GetSingleton()
 		{
 			static REL::Relocation<MistMenu**> singleton{ RELOCATION_ID(519827, 406370) };
@@ -141,12 +118,6 @@ namespace RE
 		RUNTIME_DATA_CONTENT;  // 58, 68
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(MistMenu) == 0x140);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(MistMenu) == 0x150);
-#else
-	static_assert(sizeof(MistMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(MistMenu, 0x140, 0x140, 0x150, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT

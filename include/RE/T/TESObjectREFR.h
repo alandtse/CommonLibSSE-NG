@@ -19,6 +19,7 @@
 #include "RE/N/NiSmartPointer.h"
 #include "RE/N/NiTransform.h"
 #include "RE/T/TESForm.h"
+#include "REL/RuntimeDataAccessors.h"
 #include "SKSE/Version.h"
 
 namespace RE
@@ -485,16 +486,7 @@ namespace RE
 		};
 		static_assert(sizeof(REFERENCE_RUNTIME_DATA) == 0x10);
 
-		[[nodiscard]] inline REFERENCE_RUNTIME_DATA& GetReferenceRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<REFERENCE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x88, 0x90);
-		}
-
-		[[nodiscard]] inline const REFERENCE_RUNTIME_DATA& GetReferenceRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<REFERENCE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x88, 0x90);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(REFERENCE_RUNTIME_DATA, GetReferenceRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x88, 0x90);
 		// members
 		OBJ_REFR         data;        // 40
 		TESObjectCELL*   parentCell;  // 60
@@ -511,10 +503,6 @@ namespace RE
 		void              MoveTo_Impl(const ObjectRefHandle& a_targetHandle, TESObjectCELL* a_targetCell, TESWorldSpace* a_selfWorldSpace, const NiPoint3& a_position, const NiPoint3& a_rotation);
 		void              PlayAnimation_Impl(NiControllerManager* a_manager, NiControllerSequence* a_toSeq, NiControllerSequence* a_fromSeq, bool a_arg4 = false);
 	};
-#ifndef ENABLE_SKYRIM_AE
-	static_assert(sizeof(TESObjectREFR) == 0x98);
-#else
-	static_assert(sizeof(TESObjectREFR) == 0x78);
-#endif
+	STATIC_ASSERT_SIZE(TESObjectREFR, 0x98, 0x78, 0x98);
 }
 #undef RUNTIME_DATA_CONTENT

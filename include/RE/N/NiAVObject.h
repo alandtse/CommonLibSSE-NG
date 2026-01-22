@@ -9,6 +9,7 @@
 #include "RE/N/NiObjectNET.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/N/NiTransform.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -152,15 +153,8 @@ namespace RE
 		int                               IsVisualObjectI();
 		void                              Cull(NiCullingProcess* a_culler, std::int32_t a_alphaGroupIndex);
 
-		[[nodiscard]] inline REX::EnumSet<Flag, std::uint32_t>& GetFlags() noexcept
-		{
-			return REL::RelocateMember<REX::EnumSet<Flag, std::uint32_t>>(this, 0x0F4, 0x10C);
-		}
-
-		[[nodiscard]] inline const REX::EnumSet<Flag, std::uint32_t>& GetFlags() const noexcept
-		{
-			return REL::RelocateMember<REX::EnumSet<Flag, std::uint32_t>>(this, 0x0F4, 0x10C);
-		}
+		using NiAVObjectFlags = REX::EnumSet<Flag, std::uint32_t>;
+		RUNTIME_DATA_ACCESSOR_EX(NiAVObjectFlags, GetFlags, 0x0F4, 0x10C)
 
 		BSLightingShaderProperty* temp_nicast(BSGeometry* a_geometry);
 

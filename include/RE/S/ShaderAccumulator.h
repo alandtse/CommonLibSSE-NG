@@ -1,5 +1,7 @@
 #pragma once
 
+#include "REL/RuntimeDataAccessors.h"
+
 // see https://github.com/Nukem9/SkyrimSETest/blob/master/skyrim64_test/src/patches/TES/BSShader/BSShaderAccumulator.h
 namespace RE
 {
@@ -35,15 +37,8 @@ namespace RE
 			static_assert(offsetof(RUNTIME_DATA, batchRenderer) == 0);
 			static_assert(offsetof(RUNTIME_DATA, activeShadowSceneNode) == 0x18);
 
-			[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-			{
-				return REL::RelocateMember<RUNTIME_DATA>(this, 0x130, 0x158);
-			}
+			RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x130, 0x158);
 
-			[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-			{
-				return REL::RelocateMember<RUNTIME_DATA>(this, 0x148, 0x170);
-			}
 			[[nodiscard]] static BSShaderAccumulator* GetCurrentAccumulator()
 			{
 				using func_t = decltype(&GetCurrentAccumulator);

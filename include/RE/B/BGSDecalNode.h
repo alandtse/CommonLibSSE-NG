@@ -3,6 +3,7 @@
 #include "RE/B/BSTArray.h"
 #include "RE/N/NiNode.h"
 #include "RE/N/NiSmartPointer.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -40,25 +41,12 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL std::uint8_t Unk_3E();                                               // 3E - { return 1; }
 		SKYRIM_REL_VR_VIRTUAL void         AttachDecal(BSTempEffect* a_decal, bool a_firstAvail);  // 3F
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x128, 0x150);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 128, 150
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BGSDecalNode) == 0x148);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BGSDecalNode) == 0x170);
-#endif
+	STATIC_ASSERT_SIZE(BGSDecalNode, 0x148, 0x170);
 }
 #undef RUNTIME_DATA_CONTENT

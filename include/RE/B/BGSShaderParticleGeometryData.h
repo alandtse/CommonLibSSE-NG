@@ -4,6 +4,7 @@
 #include "RE/F/FormTypes.h"
 #include "RE/T/TESForm.h"
 #include "RE/T/TESTexture.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -77,15 +78,9 @@ namespace RE
 			};
 		};
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x20, 0x20);
-		}
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x20, 0x20);
 
-		[[nodiscard]] inline RUNTIME_DATA_VR& GetVRRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA_VR>(this, 0x20, 0x20);
-		}
+		VR_RUNTIME_DATA_ACCESSOR(RUNTIME_DATA_VR, GetVRRuntimeData, 0x20);
 
 		[[nodiscard]] SETTING_VALUE GetSettingValue(DataID id)
 		{
@@ -110,11 +105,7 @@ namespace RE
 		RUNTIME_DATA_CONTENT_VR;  // 20
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT) || defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BGSShaderParticleGeometryData) == 0x48);
-#else
-	static_assert(sizeof(BGSShaderParticleGeometryData) == 0x20);
-#endif
+	STATIC_ASSERT_SIZE(BGSShaderParticleGeometryData, 0x48, 0x48, 0x48, 0x20);
 }
 
 #undef RUNTIME_DATA_CONTENT

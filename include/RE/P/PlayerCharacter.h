@@ -21,6 +21,7 @@
 #include "RE/T/TESObjectWEAP.h"
 #include "RE/T/TESQuest.h"
 #include "RE/T/TintMask.h"
+#include "REL/RuntimeDataAccessors.h"
 #include <RE/B/BSCoreTypes.h>
 #include <RE/N/NiPoint3.h>
 
@@ -397,25 +398,25 @@ namespace RE
 			bool          pad5_5: 3;  // 5:5
 			std::uint16_t pad6;       // 6
 #else
-			bool unk5_5: 1;                                                                // 5:5
-			bool unk5_6: 1;                                                                // 5:6
-			bool unk5_7: 1;                                                                // 5:7
-			bool unk6_0: 1;                                                                // 6:0
-			bool unk6_1: 1;                                                                // 6:1
-			bool unk6_2: 1;                                                                // 6:2
-			bool unk6_3: 1;                                                                // 6:3
-			bool unk6_4: 1;                                                                // 6:4
-			bool unk6_5: 1;                                                                // 6:5
-			bool unk6_6: 1;                                                                // 6:6
-			bool unk6_7: 1;                                                                // 6:7
-			bool unk7_0: 1;                                                                // 7:0
-			bool unk7_1: 1;                                                                // 7:1
-			bool unk7_2: 1;                                                                // 7:2
-			bool unk7_3: 1;                                                                // 7:3
-			bool unk7_4: 1;                                                                // 7:4
-			bool unk7_5: 1;                                                                // 7:5
-			bool unk7_6: 1;                                                                // 7:6
-			bool unk7_7: 1;                                                                // 7:7
+			bool unk5_5: 1;  // 5:5
+			bool unk5_6: 1;  // 5:6
+			bool unk5_7: 1;  // 5:7
+			bool unk6_0: 1;  // 6:0
+			bool unk6_1: 1;  // 6:1
+			bool unk6_2: 1;  // 6:2
+			bool unk6_3: 1;  // 6:3
+			bool unk6_4: 1;  // 6:4
+			bool unk6_5: 1;  // 6:5
+			bool unk6_6: 1;  // 6:6
+			bool unk6_7: 1;  // 6:7
+			bool unk7_0: 1;  // 7:0
+			bool unk7_1: 1;  // 7:1
+			bool unk7_2: 1;  // 7:2
+			bool unk7_3: 1;  // 7:3
+			bool unk7_4: 1;  // 7:4
+			bool unk7_5: 1;  // 7:5
+			bool unk7_6: 1;  // 7:6
+			bool unk7_7: 1;  // 7:7
 #endif
 		};
 		static_assert(sizeof(PlayerFlags) == 0x8);
@@ -701,75 +702,19 @@ namespace RE
 		void                                   StartGrabObject(VR_DEVICE a_device = VR_DEVICE::kLeftController);
 		void                                   UpdateCrosshairs();
 
-		[[nodiscard]] inline BSTEventSource<BGSActorCellEvent>* AsBGSActorCellEventSource() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSource<BGSActorCellEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2D0, 0x2D8);
-		}
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<BGSActorCellEvent>, AsBGSActorCellEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x2D0, 0x2D8)
 
-		[[nodiscard]] inline const BSTEventSource<BGSActorCellEvent>* AsBGSActorCellEventSource() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSource<BGSActorCellEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2D0, 0x2D8);
-		}
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<BGSActorDeathEvent>, AsBGSActorDeathEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x328, 0x330)
 
-		[[nodiscard]] inline BSTEventSource<BGSActorDeathEvent>* AsBGSActorDeathEventSource() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSource<BGSActorDeathEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x328, 0x330);
-		}
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<PositionPlayerEvent>, AsPositionPlayerEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x380, 0x388)
 
-		[[nodiscard]] inline const BSTEventSource<BGSActorDeathEvent>* AsBGSActorDeathEventSource() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSource<BGSActorDeathEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2D0, 0x330);
-		}
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2B0, 0x2B8)
 
-		[[nodiscard]] inline BSTEventSource<PositionPlayerEvent>* AsPositionPlayerEventSource() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSource<PositionPlayerEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x380, 0x388);
-		}
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<MenuModeChangeEvent>, AsMenuModeChangeEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2B8, 0x2C0)
 
-		[[nodiscard]] inline const BSTEventSource<PositionPlayerEvent>* AsPositionPlayerEventSource() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSource<PositionPlayerEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x380, 0x388);
-		}
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<UserEventEnabledEvent>, AsUserEventEnabledEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2C0, 0x2C8)
 
-		[[nodiscard]] inline BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<MenuOpenCloseEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2B0, 0x2B8);
-		}
-
-		[[nodiscard]] inline const BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<MenuOpenCloseEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2B0, 0x2B8);
-		}
-
-		[[nodiscard]] inline BSTEventSink<MenuModeChangeEvent>* AsMenuModeChangeEventSink() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<MenuModeChangeEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2B8, 0x2C0);
-		}
-
-		[[nodiscard]] inline const BSTEventSink<MenuModeChangeEvent>* AsMenuModeChangeEventSink() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<MenuModeChangeEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2B8, 0x2C0);
-		}
-
-		[[nodiscard]] inline BSTEventSink<UserEventEnabledEvent>* AsUserEventEnabledEventSink() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<UserEventEnabledEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2C0, 0x2C8);
-		}
-
-		[[nodiscard]] inline const BSTEventSink<UserEventEnabledEvent>* AsUserEventEnabledEventSink() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<UserEventEnabledEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2C0, 0x2C8);
-		}
-
-		[[nodiscard]] inline BSTEventSink<TESTrackedStatsEvent>* AsTESTrackedStatsEventSink() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<TESTrackedStatsEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2C8, 0x2D0);
-		}
-
-		[[nodiscard]] inline const BSTEventSink<TESTrackedStatsEvent>* AsTESTrackedStatsEventSink() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<TESTrackedStatsEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0x2C8, 0x2D0);
-		}
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<TESTrackedStatsEvent>, AsTESTrackedStatsEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2C8, 0x2D0)
 
 		struct PLAYER_RUNTIME_DATA
 		{
@@ -983,140 +928,20 @@ namespace RE
             VR_PLAYER_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline PLAYER_RUNTIME_DATA& GetPlayerRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<PLAYER_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x3D8, 0x3E0);
-		}
+		// Runtime data accessors
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(PLAYER_RUNTIME_DATA, GetPlayerRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x3E0);
+		VR_RUNTIME_DATA_ACCESSOR(VR_PLAYER_RUNTIME_DATA, GetVRPlayerRuntimeData, 0x3D8);
 
-		[[nodiscard]] inline const PLAYER_RUNTIME_DATA& GetPlayerRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<PLAYER_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x3D8, 0x3E0);
-		}
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(CrimeValue, GetCrimeValue, SKSE::RUNTIME_SSE_1_6_629, 0x3E0, 0x9D0, 0x3E8);
 
-		[[nodiscard]] inline VR_PLAYER_RUNTIME_DATA& GetVRPlayerRuntimeData() noexcept
-		{
-			return REL::RelocateMember<VR_PLAYER_RUNTIME_DATA>(this, 0, 0x3D8);
-		}
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(RaceData, GetRaceData, SKSE::RUNTIME_SSE_1_6_629, 0xB30, 0x1228, 0xB38);
 
-		[[nodiscard]] inline const VR_PLAYER_RUNTIME_DATA& GetVRPlayerRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<VR_PLAYER_RUNTIME_DATA>(this, 0, 0x3D8);
-		}
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(GameStateData, GetGameStatsData, SKSE::RUNTIME_SSE_1_6_629, 0xAF8, 0x11F4, 0xB00);
 
-		[[nodiscard]] inline CrimeValue& GetCrimeValue() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<CrimeValue>(this, 0x3E8);
-				}
-			}
-			return REL::RelocateMember<CrimeValue>(this, 0x3E0, 0x9D0);
-		}
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(INFO_RUNTIME_DATA, GetInfoRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x8E4, 0x8E4, 0x8EC);
 
-		[[nodiscard]] inline const CrimeValue& GetCrimeValue() const noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<CrimeValue>(this, 0x3E8);
-				}
-			}
-			return REL::RelocateMember<CrimeValue>(this, 0x3E0, 0x9D0);
-		}
-
-		[[nodiscard]] inline RaceData& GetRaceData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<RaceData>(this, 0xB38);
-				}
-			}
-			return REL::RelocateMember<RaceData>(this, 0xB30, 0x1228);
-		}
-
-		[[nodiscard]] inline const RaceData& GetRaceData() const noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<RaceData>(this, 0xB38);
-				}
-			}
-			return REL::RelocateMember<RaceData>(this, 0xB30, 0x1228);
-		}
-
-		[[nodiscard]] inline GameStateData& GetGameStatsData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<GameStateData>(this, 0xB00);
-				}
-			}
-			return REL::RelocateMember<GameStateData>(this, 0xAF8, 0x11F4);
-		}
-
-		[[nodiscard]] inline const GameStateData& GetGameStatsData() const noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<GameStateData>(this, 0xB00);
-				}
-			}
-			return REL::RelocateMember<GameStateData>(this, 0xAF8, 0x11F4);
-		}
-
-		[[nodiscard]] inline INFO_RUNTIME_DATA& GetInfoRuntimeData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<INFO_RUNTIME_DATA>(this, 0x8EC);
-				}
-			}
-			return REL::RelocateMember<INFO_RUNTIME_DATA>(this, 0x8E4, 0);
-		}
-
-		[[nodiscard]] inline const INFO_RUNTIME_DATA& GetInfoRuntimeData() const noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<INFO_RUNTIME_DATA>(this, 0x8EC);
-				}
-			}
-			return REL::RelocateMember<INFO_RUNTIME_DATA>(this, 0x8E4, 0);
-		}
-
-		[[nodiscard]] VR_INFO_RUNTIME_DATA* GetVRInfoRuntimeData() noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
-				return nullptr;
-			} else {
-				return &REL::RelocateMember<VR_INFO_RUNTIME_DATA>(this, 0, 0xFE0);
-			}
-		}
-
-		[[nodiscard]] const VR_INFO_RUNTIME_DATA* GetVRInfoRuntimeData() const noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
-				return nullptr;
-			} else {
-				return &REL::RelocateMember<VR_INFO_RUNTIME_DATA>(this, 0, 0xFE0);
-			}
-		}
-		[[nodiscard]] VR_NODE_DATA* GetVRNodeData() noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
-				return nullptr;
-			} else {
-				return &REL::RelocateMember<VR_NODE_DATA>(this, 0, 0x3F0);
-			}
-		}
-
-		[[nodiscard]] const VR_NODE_DATA* GetVRNodeData() const noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
-				return nullptr;
-			} else {
-				return &REL::RelocateMember<VR_NODE_DATA>(this, 0, 0x3F0);
-			}
-		}
+		VR_ONLY_POINTER_ACCESSOR(VR_INFO_RUNTIME_DATA, GetVRInfoRuntimeData, 0xFE0);
+		VR_ONLY_POINTER_ACCESSOR(VR_NODE_DATA, GetVRNodeData, 0x3F0);
 
 		// members
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
@@ -1128,17 +953,7 @@ namespace RE
 	private:
 		bool CenterOnCell_Impl(const char* a_cellName, RE::TESObjectCELL* a_cell);
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-#	if defined(EXCLUSIVE_SKYRIM_SE)
-	static_assert(sizeof(PlayerCharacter) == 0xBE0);
-#	else
-	static_assert(sizeof(PlayerCharacter) == 0x9A8);
-#	endif
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(PlayerCharacter) == 0x12F0);
-#else
-	static_assert(sizeof(PlayerCharacter) == 0x1A0);
-#endif
+	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0x9A8, 0x12F0, 0x1A0);
 }
 #undef PLAYER_RUNTIME_DATA_CONTENT
 #undef VR_PLAYER_RUNTIME_DATA_CONTENT

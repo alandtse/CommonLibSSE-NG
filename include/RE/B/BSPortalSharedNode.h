@@ -28,11 +28,5 @@ namespace RE
 		BSTArray<BSLight*> lights;  // 128, VR 150
 		BSPortal*          portal;  // 140, VR 168
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSPortalSharedNode) == 0x148);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSPortalSharedNode) == 0x170);
-#else
-	static_assert(sizeof(BSPortalSharedNode) == 0x130);
-#endif
+	STATIC_ASSERT_SIZE(BSPortalSharedNode, 0x148, 0x148, 0x170, 0x130);
 }

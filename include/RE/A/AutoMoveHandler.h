@@ -16,9 +16,5 @@ namespace RE
 		bool CanProcess(InputEvent* a_event) override;                                  // 01
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(AutoMoveHandler) == 0x28);
-#else
-	static_assert(sizeof(AutoMoveHandler) == 0x10);
-#endif
+	STATIC_ASSERT_SIZE(AutoMoveHandler, 0x10, 0x10, 0x28, 0x10);
 }

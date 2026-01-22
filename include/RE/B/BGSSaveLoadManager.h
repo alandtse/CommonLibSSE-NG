@@ -10,6 +10,7 @@
 #include "RE/B/BSThread.h"
 #include "RE/R/RaceSexMenuEvent.h"
 #include "RE/R/Request.h"
+#include "REL/RuntimeDataAccessors.h"
 #include <SKSE/Version.h>
 
 namespace RE
@@ -150,16 +151,7 @@ namespace RE
 		};
 		static_assert(offsetof(AE_RUNTIME_DATA, thread) == 0x48);
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x2b0, 0x2f8);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x2b0, 0x2f8);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_1130, 0x2b0, 0x2f8);
 		[[nodiscard]] inline AE_RUNTIME_DATA* GetAERuntimeData() noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {

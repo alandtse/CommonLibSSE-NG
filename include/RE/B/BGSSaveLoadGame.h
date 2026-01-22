@@ -5,6 +5,7 @@
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTHashMap.h"
 #include "RE/T/TESDataHandler.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -123,36 +124,9 @@ namespace RE
             RUNTIME_DATA2_CONTENT
 		};
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x0, 0x0);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x0, 0x0);
-		}
-
-		[[nodiscard]] inline VR_RUNTIME_DATA& GetVRRuntimeData() noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x0, 0x0);
-		}
-
-		[[nodiscard]] inline const VR_RUNTIME_DATA& GetVRRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x0, 0x0);
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA2& GetRuntimeData2() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x30, 0x1fe);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA2& GetRuntimeData2() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x30, 0x1fe);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x0, 0x0);
+		RUNTIME_DATA_ACCESSOR_EX(VR_RUNTIME_DATA, GetVRRuntimeData, 0x0, 0x0);
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x30, 0x1fe);
 		[[nodiscard]] bool GetGlobalAllowChanges() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kGlobalAllowChanges); }
 		[[nodiscard]] bool GetSaveGameLoading() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kSaveGameLoading); }
 		[[nodiscard]] bool GetSaveGameSaving() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kSaveGameSaving); }
@@ -183,13 +157,7 @@ namespace RE
 		RUNTIME_DATA2_CONTENT;
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BGSSaveLoadGame) == 0x348);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BGSSaveLoadGame) == 0x518);
-#else
-	static_assert(sizeof(BGSSaveLoadGame) == 0x1);
-#endif
+	STATIC_ASSERT_SIZE(BGSSaveLoadGame, 0x348, 0x348, 0x518, 0x1);
 }
 #undef RUNTIME_DATA_CONTENT
 #undef RUNTIME_DATA2_CONTENT

@@ -2,6 +2,7 @@
 
 #include "RE/G/GFxValue.h"
 #include "RE/I/IMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -37,16 +38,7 @@ namespace RE
 		void               Accept(CallbackProcessor* a_processor) override;  // 01
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;    // 04
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x30, 0x40);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x30, 0x40);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x30, 0x40);
 		static void ToggleOpenMenu(bool a_sleeping)
 		{
 			using func_t = decltype(&SleepWaitMenu::ToggleOpenMenu);
@@ -59,12 +51,6 @@ namespace RE
 		RUNTIME_DATA_CONTENT;  // 30, 40
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(SleepWaitMenu) == 0x58);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(SleepWaitMenu) == 0x68);
-#else
-	static_assert(sizeof(SleepWaitMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(SleepWaitMenu, 0x58, 0x58, 0x68, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT

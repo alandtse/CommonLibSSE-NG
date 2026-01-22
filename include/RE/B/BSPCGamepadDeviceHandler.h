@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSIInputDevice.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -33,16 +34,7 @@ namespace RE
 
 		void InitializeDelegate();  // called by Initialize() and Process() to initialize the delegate
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x8, 0x10);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x8, 0x10);
-		}
-		// members
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x8, 0x10);
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT
 #endif

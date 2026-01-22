@@ -5,6 +5,7 @@
 #include "RE/N/NiFrustumPlanes.h"
 #include "RE/N/NiRect.h"
 
+#include "REL/RuntimeDataAccessors.h"
 #include "REX/W32/D3D.h"
 
 namespace RE
@@ -126,26 +127,8 @@ namespace RE
 		virtual void          UpdateClipPlanes(void* a_unk1, void* a_unk2);                                                                                       // 0F
 		virtual bool          UpdateCamera(const NiCamera* a_viewCamera) = 0;                                                                                     // 10
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x148, 0x148);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x148, 0x148);
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA_VR& GetVRRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA_VR>(this, 0x148, 0x148);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA_VR& GetVRRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA_VR>(this, 0x148, 0x148);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x148, 0x148);
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA_VR, GetVRRuntimeData, 0x148, 0x148);
 		// members
 		std::uint32_t shadowMapCount;  // 140
 		std::uint32_t unk144;          // 144

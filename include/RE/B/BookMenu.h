@@ -10,6 +10,7 @@
 #include "RE/N/NiSmartPointer.h"
 #include "RE/S/SimpleAnimationGraphManagerHolder.h"
 #include "RE/T/TESObjectREFR.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -81,36 +82,12 @@ namespace RE
 		[[nodiscard]] static NiMatrix3&            GetDisplayRotation();
 		[[nodiscard]] static float&                GetDisplayScale();
 
-		[[nodiscard]] SimpleAnimationGraphManagerHolder* AsSimpleAnimationGraphManagerHolder() noexcept
-		{
-			return &REL::RelocateMember<SimpleAnimationGraphManagerHolder>(this, 0x30, 0x40);
-		}
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_CAST_ACCESSOR(SimpleAnimationGraphManagerHolder, AsSimpleAnimationGraphManagerHolder, 0x30, 0x40);
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<BSAnimationGraphEvent>, AsBSAnimationGraphEventSink, 0x48, 0x58);
+#endif
 
-		[[nodiscard]] const SimpleAnimationGraphManagerHolder* AsSimpleAnimationGraphManagerHolder() const noexcept
-		{
-			return const_cast<BookMenu*>(this)->AsSimpleAnimationGraphManagerHolder();
-		}
-
-		[[nodiscard]] BSTEventSink<BSAnimationGraphEvent>* AsBSAnimationGraphEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<BSAnimationGraphEvent>>(this, 0x48, 0x58);
-		}
-
-		[[nodiscard]] const BSTEventSink<BSAnimationGraphEvent>* AsBSAnimationGraphEventSink() const noexcept
-		{
-			return const_cast<BookMenu*>(this)->AsBSAnimationGraphEventSink();
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x50, 0x60);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x50, 0x60);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x50, 0x60);
 		static void OpenBookMenu(const BSString& a_description, const ExtraDataList* a_extraList, TESObjectREFR* a_ref, TESObjectBOOK* a_book, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
 
 		static void OpenMenuFromReference(TESObjectREFR* a_reference);                                                                                                                  // Can be taken.
@@ -120,19 +97,13 @@ namespace RE
 
 		// members
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT  // 50, 60
+	RUNTIME_DATA_CONTENT  // 50, 60
 #endif
 
-			private :
-			static void
-			OpenMenu_Impl(const BSString& a_description, const ExtraDataList* a_extraList, TESObjectREFR* a_targetReference, TESObjectBOOK* a_targetBook, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
+		private :
+		static void
+		OpenMenu_Impl(const BSString& a_description, const ExtraDataList* a_extraList, TESObjectREFR* a_targetReference, TESObjectBOOK* a_targetBook, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BookMenu) == 0x98);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BookMenu) == 0xA8);
-#else
-	static_assert(sizeof(BookMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(BookMenu, 0x98, 0x98, 0xA8, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT

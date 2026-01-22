@@ -2,6 +2,7 @@
 
 #include "RE/B/BSTEvent.h"
 #include "RE/N/NiSmartPointer.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -140,14 +141,7 @@ namespace RE
 			return AsTESFastTravelEndEventSource();
 		}
 
-		inline BSTEventSource<TESFastTravelEndEvent>* AsTESFastTravelEndEventSource() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
-				return nullptr;
-			} else {
-				return &REL::RelocateMember<BSTEventSource<TESFastTravelEndEvent>>(this, 0x1238, 0);
-			}
-		}
+		SE_ONLY_POINTER_ACCESSOR(BSTEventSource<TESFastTravelEndEvent>, AsTESFastTravelEndEventSource, 0x1238);
 
 		template <class T>
 		inline void AddEventSink(BSTEventSink<T>* a_sink)
@@ -173,9 +167,5 @@ namespace RE
 			GetEventSource<T>()->SendEvent(a_event);
 		}
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(ScriptEventSourceHolder) == 0x1290);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(ScriptEventSourceHolder) == 0x1238);
-#endif
+	STATIC_ASSERT_SIZE(ScriptEventSourceHolder, 0x1290, 0x1238);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/I/IMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -32,10 +33,7 @@ namespace RE
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               PostDisplay() override;                                                // 06
 
-		[[nodiscard]] inline CraftingSubMenus::CraftingSubMenu* GetCraftingSubMenu() const noexcept
-		{
-			return REL::RelocateMember<CraftingSubMenus::CraftingSubMenu*>(this, 0x30, 0x40);
-		}
+		RUNTIME_DATA_POINTER_ACCESSOR_EX(CraftingSubMenus::CraftingSubMenu*, GetCraftingSubMenu, 0x30, 0x40);
 
 		inline void SetCraftingSubMenu(CraftingSubMenus::CraftingSubMenu* craftingSubMenu) noexcept
 		{
@@ -54,11 +52,5 @@ namespace RE
 		CraftingSubMenus::CraftingSubMenu* subMenu;  // 30, 40
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(CraftingMenu) == 0x38);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(CraftingMenu) == 0x58);
-#else
-	static_assert(sizeof(CraftingMenu) == 0x40);
-#endif
+	STATIC_ASSERT_SIZE(CraftingMenu, 0x38, 0x38, 0x58, 0x40);
 }

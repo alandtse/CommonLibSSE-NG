@@ -56,9 +56,5 @@ namespace RE
 		virtual void Unk_128(void);  // 128
 		virtual void Unk_129(void);  // 129 - { return 1; }
 	};
-#ifndef ENABLE_SKYRIM_AE
-	static_assert(sizeof(Character) == 0x2B0);
-#else
-	static_assert(sizeof(Character) == 0x78);
-#endif
+	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x78, 0x2B0, 0x78, 0x78);
 }

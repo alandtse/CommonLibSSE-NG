@@ -6,6 +6,7 @@
 #include "RE/I/ImpactResults.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/P/Projectile.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -67,16 +68,7 @@ namespace RE
 			CONE_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline CONE_RUNTIME_DATA& GetConeRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<CONE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
-		[[nodiscard]] inline const CONE_RUNTIME_DATA& GetConeRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<CONE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(CONE_RUNTIME_DATA, GetConeRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x1D8, 0x1E0);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		CONE_RUNTIME_DATA_CONTENT

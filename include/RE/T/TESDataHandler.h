@@ -9,6 +9,7 @@
 #include "RE/N/NiTArray.h"
 #include "RE/N/NiTList.h"
 #include "RE/T/TESForm.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -99,16 +100,7 @@ namespace RE
 	TESRegionDataManager* regionDataManager; /* DB0 (SE/AE) / 1580 (VR) */ \
 	InventoryChanges*     merchantInventory; /* DB8 (SE/AE) / 1588 (VR) */
 
-		[[nodiscard]] inline RUNTIME_DATA& GetGeometryRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0xDA0, 0x1570);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetGeometryRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0xDA0, 0x1570);
-		}
-
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA, GetGeometryRuntimeData, 0xDA0, 0x1570);
 		[[nodiscard]] inline TESFile** GetLoadedMods() noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
@@ -163,35 +155,11 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] inline std::uint8_t& GetGameSettingsLoadState() noexcept
-		{
-			return REL::RelocateMember<std::uint8_t>(this, 0xDAA, 0x157A);
-		}
+		RUNTIME_DATA_ACCESSOR_EX(std::uint8_t, GetGameSettingsLoadState, 0xDAA, 0x157A)
 
-		[[nodiscard]] inline const std::uint8_t& GetGameSettingsLoadState() const noexcept
-		{
-			return REL::RelocateMember<std::uint8_t>(this, 0xDAA, 0x157A);
-		}
+		RUNTIME_DATA_POINTER_ACCESSOR_EX(TESRegionDataManager*, GetRegionDataManager, 0xDB0, 0x1580);
 
-		[[nodiscard]] inline TESRegionDataManager* GetRegionDataManager() noexcept
-		{
-			return REL::RelocateMember<TESRegionDataManager*>(this, 0xDB0, 0x1580);
-		}
-
-		[[nodiscard]] inline const TESRegionDataManager* GetRegionDataManager() const noexcept
-		{
-			return REL::RelocateMember<TESRegionDataManager*>(this, 0xDB0, 0x1580);
-		}
-
-		[[nodiscard]] inline InventoryChanges* GetMerchantInventory() noexcept
-		{
-			return REL::RelocateMember<InventoryChanges*>(this, 0xDB8, 0x1588);
-		}
-
-		[[nodiscard]] inline const InventoryChanges* GetMerchantInventory() const noexcept
-		{
-			return REL::RelocateMember<InventoryChanges*>(this, 0xDB8, 0x1588);
-		}
+		RUNTIME_DATA_POINTER_ACCESSOR_EX(InventoryChanges*, GetMerchantInventory, 0xDB8, 0x1588);
 
 		// members
 		std::uint8_t                      pad001;                                         // 001

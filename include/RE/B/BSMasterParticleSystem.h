@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/N/NiNode.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -45,16 +46,7 @@ namespace RE
 			RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline MASTER_PARTICLE_SYSTEM_RUNTIME_DATA& GetMasterParticleSystemRuntimeData() noexcept
-		{
-			return REL::RelocateMember<MASTER_PARTICLE_SYSTEM_RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
-		[[nodiscard]] inline const MASTER_PARTICLE_SYSTEM_RUNTIME_DATA& GetMasterParticleSystemRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<MASTER_PARTICLE_SYSTEM_RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
+		RUNTIME_DATA_ACCESSOR_EX(MASTER_PARTICLE_SYSTEM_RUNTIME_DATA, GetMasterParticleSystemRuntimeData, 0x128, 0x150);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 128, 150

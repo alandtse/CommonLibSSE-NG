@@ -32,17 +32,9 @@ namespace RE
 #ifndef SKYRIM_CROSS_VR
 		// override (BSTEventSink<MenuOpenCloseEvent>)
 		BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent* a_event, BSTEventSource<MenuOpenCloseEvent>* a_eventSource) override;  // 01
+
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, 0x30, 0x40);
 #endif
-
-		[[nodiscard]] BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<MenuOpenCloseEvent>>(this, 0x30, 0x40);
-		}
-
-		[[nodiscard]] const BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() const noexcept
-		{
-			return const_cast<KinectMenu*>(this)->AsMenuOpenCloseEventSink();
-		}
 
 		[[nodiscard]] inline GFxValue GetRoot() const noexcept
 		{
@@ -59,11 +51,5 @@ namespace RE
 		GFxValue root;  // 38, 48 - "Menu_mc"
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(KinectMenu) == 0x50);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(KinectMenu) == 0x60);
-#else
-	static_assert(sizeof(KinectMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(KinectMenu, 0x50, 0x50, 0x60, 0x30);
 }

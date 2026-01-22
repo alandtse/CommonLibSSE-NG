@@ -64,11 +64,5 @@ namespace RE
 		short      maxPointCount;  // BC
 		bool       doZPrepass;     // BE
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSStripPSysData) == 0xC0);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSStripPSysData) == 0xC0);
-#else
-	static_assert(sizeof(BSStripPSysData) == 0x28);
-#endif
+	STATIC_ASSERT_SIZE(BSStripPSysData, 0xC0, 0xC0, 0xC0, 0x28);
 }

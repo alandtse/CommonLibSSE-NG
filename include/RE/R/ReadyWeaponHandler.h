@@ -16,9 +16,5 @@ namespace RE
 		bool CanProcess(InputEvent* a_event) override;                                  // 01
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(ReadyWeaponHandler) == 0x10);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(ReadyWeaponHandler) == 0x28);
-#endif
+	STATIC_ASSERT_SIZE(ReadyWeaponHandler, 0x10, 0x28);
 }

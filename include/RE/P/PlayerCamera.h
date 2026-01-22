@@ -7,6 +7,7 @@
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/T/TESCamera.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -134,36 +135,10 @@ namespace RE
 		void Update();
 		void UpdateThirdPerson(bool a_weaponDrawn);
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x40, 0);
-		}
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0);
 
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x40, 0);
-		}
-
-		[[nodiscard]] inline VR_RUNTIME_DATA& GetVRRuntimeData() noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x40);
-		}
-
-		[[nodiscard]] inline const VR_RUNTIME_DATA& GetVRRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x40);
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA2& GetRuntimeData2() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x13c, 0x158);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA2& GetRuntimeData2() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x13c, 0x158);
-		}
-		// members
+		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x40);
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x13c, 0x158);
 		std::uint8_t  pad039;        // 039
 		std::uint16_t pad03A;        // 03A
 		ActorHandle   cameraTarget;  // 03C
@@ -179,11 +154,7 @@ namespace RE
 		// VR requires a_cameraState with kVR enums > kAnimated
 		bool QCameraEquals(CameraState a_cameraState) const;
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(PlayerCamera) == 0x168);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(PlayerCamera) == 0x180);
-#endif
+	STATIC_ASSERT_SIZE(PlayerCamera, 0x168, 0x168, 0x180, 0x40);
 }
 #undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT

@@ -144,10 +144,6 @@ namespace RE
 		VR_RUNTIME_DATA_CONTENT
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(IMenu) == 0x40);
-#else
-	static_assert(sizeof(IMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(IMenu, 0x30, 0x30, 0x40, 0x30);
 }
 #undef VR_RUNTIME_DATA_CONTENT

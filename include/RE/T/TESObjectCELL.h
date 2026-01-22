@@ -17,6 +17,7 @@
 #include "RE/T/TESForm.h"
 #include "RE/T/TESFullName.h"
 #include "RE/T/TESObjectREFR.h"
+#include "REL/RuntimeDataAccessors.h"
 #include "SKSE/Version.h"
 
 namespace RE
@@ -241,16 +242,7 @@ namespace RE
 			RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x60, 0x68);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x60, 0x68);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_629, 0x60, 0x68);
 		// members
 		mutable BSSpinLock                    grassCreateLock;  // 030
 		mutable BSSpinLock                    grassTaskLock;    // 038
@@ -266,8 +258,6 @@ namespace RE
 		RUNTIME_DATA_CONTENT;
 #endif
 	};
-#ifndef ENABLE_SKYRIM_AE
-	static_assert(sizeof(TESObjectCELL) == 0x140);
-#endif
+	STATIC_ASSERT_SIZE(TESObjectCELL, 0x140, 0x0, 0x140);
 }
 #undef RUNTIME_DATA_CONTENT

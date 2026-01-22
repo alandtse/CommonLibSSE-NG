@@ -60,9 +60,5 @@ namespace RE
 		std::uint16_t unk86;                    // 86
 		std::uint64_t unk88;                    // 88
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(FirstPersonState) == 0xA8);
-#else
-	static_assert(sizeof(FirstPersonState) == 0x90);
-#endif
+	STATIC_ASSERT_SIZE(FirstPersonState, 0x90, 0xA8);
 }

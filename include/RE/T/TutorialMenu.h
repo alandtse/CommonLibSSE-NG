@@ -3,6 +3,7 @@
 #include "RE/B/BGSDefaultObjectManager.h"
 #include "RE/G/GFxValue.h"
 #include "RE/I/IMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -43,11 +44,5 @@ namespace RE
 		GFxValue root;  // 30, 40 - "Menu_mc"
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(TutorialMenu) == 0x48);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(TutorialMenu) == 0x58);
-#else
-	static_assert(sizeof(TutorialMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(TutorialMenu, 0x48, 0x48, 0x58, 0x30);
 }

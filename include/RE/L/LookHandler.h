@@ -17,9 +17,5 @@ namespace RE
 		void ProcessThumbstick(ThumbstickEvent* a_event, PlayerControlsData* a_data) override;  // 02
 		void ProcessMouseMove(MouseMoveEvent* a_event, PlayerControlsData* a_data) override;    // 03
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(LookHandler) == 0x28);
-#else
-	static_assert(sizeof(LookHandler) == 0x10);
-#endif
+	STATIC_ASSERT_SIZE(LookHandler, 0x10, 0x10, 0x28, 0x10);
 }

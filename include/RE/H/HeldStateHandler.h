@@ -22,9 +22,5 @@ namespace RE
 		std::uint16_t pad12{ 0 };                    // 12
 		std::uint32_t pad14{ 0 };                    // 14
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(HeldStateHandler) == 0x30);
-#else
-	static_assert(sizeof(HeldStateHandler) == 0x18);
-#endif
+	STATIC_ASSERT_SIZE(HeldStateHandler, 0x18, 0x18, 0x30, 0x18);
 }

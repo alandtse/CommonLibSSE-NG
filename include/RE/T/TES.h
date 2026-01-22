@@ -8,6 +8,7 @@
 #include "RE/M/MaterialIDs.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
+#include "REL/RuntimeDataAccessors.h"
 #include "SKSE/Version.h"
 
 namespace RE
@@ -60,7 +61,7 @@ namespace RE
 			// members
 			std::uint64_t unk08;  // 08
 		};
-		static_assert(sizeof(SystemEventAdapter) == 0x10);
+		STATIC_ASSERT_SIZE(SystemEventAdapter, 0x10);
 
 		~TES() override;  // 00
 
@@ -222,16 +223,7 @@ namespace RE
 			return *const_cast<TES*>(this)->GetAERuntimeData();
 		}
 
-		[[nodiscard]] inline RUNTIME_DATA2& GetRuntimeData2() noexcept
-		{
-			return REL::RelocateMemberIfNewer<RUNTIME_DATA2>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x140, 0x148);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA2& GetRuntimeData2() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<RUNTIME_DATA2>(SKSE::RUNTIME_SSE_1_6_1130, this, 0x140, 0x148);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(RUNTIME_DATA2, GetRuntimeData2, SKSE::RUNTIME_SSE_1_6_1130, 0x140, 0x148);
 		// members
 		std::uint64_t                                       unk070;                     // 070
 		GridCellArray*                                      gridCells;                  // 078
@@ -266,13 +258,7 @@ namespace RE
 		RUNTIME_DATA2_CONTENT;    // 148
 #endif
 	};
-#ifndef ENABLE_SKYRIM_AE
-	static_assert(sizeof(TES) == 0x2B8);
-#elif !defined(ENABLE_SKYRIM_VR) && !defined(ENABLE_SKYRIM_SE)
-	static_assert(sizeof(TES) == 0x2C0);
-#else
-	static_assert(sizeof(TES) == 0x128);
-#endif
+	STATIC_ASSERT_SIZE(TES, 0x2B8, 0x2C0, 0x2B8, 0x128, 0x128);
 }
 #undef RUNTIME_DATA_CONTENT
 #undef AE_RUNTIME_DATA_CONTENT

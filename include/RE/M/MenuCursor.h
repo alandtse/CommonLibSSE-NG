@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSTSingleton.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -26,17 +27,8 @@ namespace RE
 			RUNTIME_DATA_CONTENT
 		};
 
-		void                               SetCursorVisibility(bool a_visible);
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x4, 0x8);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x4, 0x8);
-		}
-
+		void SetCursorVisibility(bool a_visible);
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x4, 0x8);
 		// members
 		std::uint8_t  pad01;  // 01
 		std::uint16_t pad02;  // 02
@@ -47,12 +39,6 @@ namespace RE
 #endif
 		RUNTIME_DATA_CONTENT;  // 04, 08
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(MenuCursor) == 0x30);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(MenuCursor) == 0x34);
-#else
-	static_assert(sizeof(MenuCursor) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(MenuCursor, 0x30, 0x30, 0x34, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT

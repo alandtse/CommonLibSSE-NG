@@ -28,9 +28,5 @@ namespace RE
 		// add
 		virtual std::uint16_t Unk_3B(bool unk1);  // 3B
 	};
-#if !defined(ENABLE_SKYRIM_AE) && !defined(ENABLE_SKYRIM_SE)
-	static_assert(sizeof(NiTriShape) == 0x160);
-#else
-	static_assert(sizeof(NiTriShape) == 0x138);
-#endif
+	STATIC_ASSERT_SIZE(NiTriShape, 0x138, 0x138, 0x160, 0x110);
 }

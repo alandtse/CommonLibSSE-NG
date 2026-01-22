@@ -8,6 +8,7 @@
 #include "RE/N/NiMatrix3.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/T/TESObjectREFR.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -95,47 +96,17 @@ namespace RE
 
 		static void OpenMenu(TESObjectREFR* a_target);  // a_ref must be locked and player must have lockpicks
 
-		[[nodiscard]] MenuEventHandler* AsMenuEventHandler() noexcept
-		{
-			return &REL::RelocateMember<MenuEventHandler>(this, 0x30, 0x40);
-		}
+		RUNTIME_CAST_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x30, 0x40);
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, 0x40, 0x50);
+#endif
 
-		[[nodiscard]] const MenuEventHandler* AsMenuEventHandler() const noexcept
-		{
-			return const_cast<LockpickingMenu*>(this)->AsMenuEventHandler();
-		}
-
-		[[nodiscard]] BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<MenuOpenCloseEvent>>(this, 0x40, 0x50);
-		}
-
-		[[nodiscard]] const BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() const noexcept
-		{
-			return const_cast<LockpickingMenu*>(this)->AsMenuOpenCloseEventSink();
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x48, 0x58);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x48, 0x58);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x48, 0x58);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 48, 58
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(LockpickingMenu) == 0x110);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(LockpickingMenu) == 0x120);
-#else
-	static_assert(sizeof(LockpickingMenu) == 0x40);
-#endif
+	STATIC_ASSERT_SIZE(LockpickingMenu, 0x110, 0x110, 0x120, 0x40);
 }
 #undef RUNTIME_DATA_CONTENT

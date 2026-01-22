@@ -10,6 +10,7 @@
 #include "RE/L/LocalMapMenu.h"
 #include "RE/M/MapCamera.h"
 #include "RE/W/WorldSpaceMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -70,13 +71,7 @@ namespace RE
 
 			RUNTIME_DATA_CONTENT
 		};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-		static_assert(sizeof(RUNTIME_DATA) == 0x30430);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-		static_assert(sizeof(RUNTIME_DATA) == 0x304B0);
-#else
-		static_assert(sizeof(RUNTIME_DATA) == 0x30320);
-#endif
+		STATIC_ASSERT_SIZE(RUNTIME_DATA, 0x30430, 0x30430, 0x304B0, 0x30320);
 
 		struct VR_RUNTIME_DATA
 		{
@@ -87,13 +82,7 @@ namespace RE
 
 			VR_RUNTIME_DATA_CONTENT;
 		};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-		static_assert(sizeof(VR_RUNTIME_DATA) == 0x30460);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-		static_assert(sizeof(VR_RUNTIME_DATA) == 0x304E0);
-#else
-		static_assert(sizeof(VR_RUNTIME_DATA) == 0x30350);
-#endif
+		STATIC_ASSERT_SIZE(VR_RUNTIME_DATA, 0x30460, 0x30460, 0x304E0, 0x30350);
 
 		// Common map data 2 shared by SE/AE and VR
 #define COMMON_MAP_DATA2_CONTENT                                                     \
@@ -180,25 +169,10 @@ namespace RE
 			return const_cast<MapMenu*>(this)->AsWorldSpaceMenu();
 		}
 
-		[[nodiscard]] BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<MenuOpenCloseEvent>>(this, 0x30, 0x58);
-		}
-
-		[[nodiscard]] const BSTEventSink<MenuOpenCloseEvent>* AsMenuOpenCloseEventSink() const noexcept
-		{
-			return const_cast<MapMenu*>(this)->AsMenuOpenCloseEventSink();
-		}
-
-		[[nodiscard]] IMapCameraCallbacks* AsIMapCameraCallbacks() noexcept
-		{
-			return &REL::RelocateMember<IMapCameraCallbacks>(this, 0x38, 0x60);
-		}
-
-		[[nodiscard]] const IMapCameraCallbacks* AsIMapCameraCallbacks() const noexcept
-		{
-			return const_cast<MapMenu*>(this)->AsIMapCameraCallbacks();
-		}
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, 0x30, 0x58);
+		RUNTIME_CAST_ACCESSOR(IMapCameraCallbacks, AsIMapCameraCallbacks, 0x38, 0x60);
+#endif
 
 		[[nodiscard]] inline RUNTIME_DATA* GetRuntimeData() noexcept
 		{
@@ -280,13 +254,7 @@ namespace RE
 		RUNTIME_DATA2_CONTENT;  // 30460, 30530
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(MapMenu) == 0x30560);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(MapMenu) == 0x30650);
-#else
-	static_assert(sizeof(MapMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(MapMenu, 0x30560, 0x30560, 0x30650, 0x30);
 }
 
 // Clean up sub-macros

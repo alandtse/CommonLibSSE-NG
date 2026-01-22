@@ -5,6 +5,7 @@
 #include "RE/G/GFxValue.h"
 #include "RE/I/IGiftMenuScriptCallback.h"
 #include "RE/I/IMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -65,16 +66,7 @@ namespace RE
 		bool IsPlayerGifting();
 		bool IsPlayerReceiving();
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x30, 0x40);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x30, 0x40);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x30, 0x40);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 30, 40
@@ -82,13 +74,6 @@ namespace RE
 	private:
 		static void OpenMenu_Impl(Actor* a_gifter, Actor* a_receiver, BSTSmartPointer<IGiftMenuScriptCallback>* a_callbackFn, BGSListForm* a_filterList, bool a_showStolenItems, bool a_useFavorPoints = false);  // value of a_useFavorPoints is always ignored
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(GiftMenu) == 0x80);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(GiftMenu) == 0x90);
-#else
-	static_assert(sizeof(GiftMenu) == 0x30);
-#endif
-
-};
+	STATIC_ASSERT_SIZE(GiftMenu, 0x80, 0x80, 0x90, 0x30);
+}
 #undef RUNTIME_DATA_CONTENT

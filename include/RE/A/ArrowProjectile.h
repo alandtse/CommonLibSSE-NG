@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/M/MissileProjectile.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -50,16 +51,7 @@ namespace RE
 			ARROW_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline ARROW_RUNTIME_DATA& GetArrowRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<ARROW_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1E0, 0x1E8);
-		}
-
-		[[nodiscard]] inline const ARROW_RUNTIME_DATA& GetArrowRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<ARROW_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1E0, 0x1E8);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(ARROW_RUNTIME_DATA, GetArrowRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x1E0, 0x1E8);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		ARROW_RUNTIME_DATA_CONTENT;

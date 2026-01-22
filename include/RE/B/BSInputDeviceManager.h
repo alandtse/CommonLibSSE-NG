@@ -7,6 +7,7 @@
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSingleton.h"
 #include "RE/I/InputDevices.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -67,16 +68,7 @@ namespace RE
 		void                          DestroyInputDevices();
 		void                          PollInputDevices(float a_secsSinceLastFrame);
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x80, 0x98);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x80, 0x98);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x80, 0x98);
 		// members
 		std::uint8_t    pad59;       // 59
 		std::uint16_t   pad5A;       // 5A
@@ -92,12 +84,6 @@ namespace RE
 #	endif
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSInputDeviceManager) == 0xF0);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSInputDeviceManager) == 0x108);
-#else
-	static_assert(sizeof(BSInputDeviceManager) == 0x80);
-#endif
+	STATIC_ASSERT_SIZE(BSInputDeviceManager, 0xF0, 0xF0, 0x108, 0x80);
 }
 #undef RUNTIME_DATA_CONTENT

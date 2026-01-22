@@ -4,6 +4,7 @@
 #include "RE/N/NiCamera.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/N/NiSourceTexture.h"
+#include "REL/RuntimeDataAccessors.h"
 #include "SKSE/Version.h"
 #include <SimpleMath.h>
 using namespace DirectX::SimpleMath;
@@ -47,6 +48,10 @@ namespace RE
 		static_assert(offsetof(ViewData, viewPort) == 0x230);
 		static_assert(offsetof(ViewData, viewDepthRange) == 0x240);
 
+		// NOTE: alignas(16) on ViewData causes padding when embedded in structs.
+		// This affects FLATRIM builds where ViewData is embedded directly.
+#pragma warning(push)
+#pragma warning(disable: 4324)  // structure was padded due to alignment specifier
 		struct CAMERASTATE_RUNTIME_DATA
 		{
 #if !defined(ENABLE_SKYRIM_VR)  // Non-VR
@@ -54,8 +59,8 @@ namespace RE
 		ViewData camViewData;               /* 08 VR is BSTArray, Each array has 2 elements (one for each eye?) */ \
 		NiPoint3 posAdjust;                 /* 20 */                                                               \
 		NiPoint3 currentPosAdjust;          /* 38 */                                                               \
-		NiPoint3 previousPosAdjust;         /* 50 */                                                               \
-		#elif defined(EXCLUSIVE_SKYRIM_VR)  // VR
+		NiPoint3 previousPosAdjust;         /* 50 */
+#elif defined(EXCLUSIVE_SKYRIM_VR)  // VR
 #	define CAMERASTATE_RUNTIME_DATA_CONTENT                                                                         \
 		BSTArray<ViewData> camViewData;       /* 08 VR is BSTArray, Each array has 2 elements (one for each eye?) */ \
 		BSTArray<NiPoint3> posAdjust;         /* 20 */                                                               \
@@ -87,13 +92,15 @@ namespace RE
 			NiCamera* referenceCamera;         /* 00 */
 			CAMERASTATE_RUNTIME_DATA_CONTENT;  // 08
 		};
-#if !defined(ENABLE_SKYRIM_VR)  // Non-VR
+#pragma warning(pop)
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_AE)  // SE/AE only
+		static_assert(sizeof(CameraStateData) == 0x290);
+#elif defined(EXCLUSIVE_SKYRIM_VR)  // VR only
 		static_assert(sizeof(CameraStateData) == 0x68);
-#elif defined(EXCLUSIVE_SKYRIM_VR)  // VR
-		static_assert(sizeof(CameraStateData) == 0x8);
-#else
+#elif defined(SKYRIM_CROSS_VR)  // Multi-runtime (ALL)
 		static_assert(sizeof(CameraStateData) == 0x8);
 #endif
+		// FLATRIM: Size check skipped - alignas(16) padding causes indeterminate size
 		class State
 		{
 		public:
@@ -173,25 +180,7 @@ namespace RE
 				return nullptr;
 			}
 
-			[[nodiscard]] RUNTIME_DATA& GetRuntimeData() noexcept
-			{
-				if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-					if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-						return REL::RelocateMember<RUNTIME_DATA>(this, 0x60);
-					}
-				}
-				return REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0x60);
-			}
-
-			[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-			{
-				if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-					if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-						return REL::RelocateMember<RUNTIME_DATA>(this, 0x60);
-					}
-				}
-				return REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0x60);
-			}
+			RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_629, 0x58, 0x60);
 
 			[[nodiscard]] inline bool GetDoubleDynamicResolutionAdjustmentFrequency() noexcept
 			{

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSGeometry.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -10,7 +11,6 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_BSTriShape;
 		inline static constexpr auto Ni_RTTI = NiRTTI_BSTriShape;
 		inline static constexpr auto VTABLE = VTABLE_BSTriShape;
-		;
 
 		struct TRISHAPE_RUNTIME_DATA
 		{
@@ -35,25 +35,12 @@ namespace RE
 		void          SaveBinary(NiStream& a_stream) override;            // 1B
 		bool          IsEqual(NiObject* a_object) override;               // 1C - { return false; }
 
-		[[nodiscard]] inline TRISHAPE_RUNTIME_DATA& GetTrishapeRuntimeData() noexcept
-		{
-			return REL::RelocateMember<TRISHAPE_RUNTIME_DATA>(this, 0x158, 0x198);
-		}
-
-		[[nodiscard]] inline const TRISHAPE_RUNTIME_DATA& GetTrishapeRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<TRISHAPE_RUNTIME_DATA>(this, 0x158, 0x198);
-		}
-
+		RUNTIME_DATA_ACCESSOR_EX(TRISHAPE_RUNTIME_DATA, GetTrishapeRuntimeData, 0x158, 0x1A0);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 158, 1A0
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSTriShape) == 0x160);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSTriShape) == 0x1A8);
-#endif
+	STATIC_ASSERT_SIZE(BSTriShape, 0x160, 0x1A8);
 }
 #undef RUNTIME_DATA_CONTENT

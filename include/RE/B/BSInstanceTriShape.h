@@ -25,9 +25,5 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL std::uint32_t AddGroup(std::uint32_t a_numInstances, std::uint16_t& a_instanceData, std::uint32_t a_arg3, float a_arg4);  // 3C
 		SKYRIM_REL_VR_VIRTUAL void          RemoveGroup(std::uint32_t a_numInstance);                                                                   // 3D
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSInstanceTriShape) == 0x160);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSInstanceTriShape) == 0x1A8);
-#endif
+	STATIC_ASSERT_SIZE(BSInstanceTriShape, 0x160, 0x1A8);
 }

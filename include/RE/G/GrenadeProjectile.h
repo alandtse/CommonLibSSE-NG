@@ -2,6 +2,7 @@
 
 #include "RE/F/FormTypes.h"
 #include "RE/P/Projectile.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -59,16 +60,7 @@ namespace RE
 			GRENADE_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline GRENADE_RUNTIME_DATA& GetGrenadeRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<GRENADE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
-		[[nodiscard]] inline const GRENADE_RUNTIME_DATA& GetGrenadeRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<GRENADE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(GRENADE_RUNTIME_DATA, GetGrenadeRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x1D8, 0x1E0);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		GRENADE_RUNTIME_DATA_CONTENT;

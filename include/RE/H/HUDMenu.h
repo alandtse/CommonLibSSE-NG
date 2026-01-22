@@ -6,6 +6,7 @@
 #include "RE/G/GFxValue.h"
 #include "RE/I/IMenu.h"
 #include "RE/W/WorldSpaceMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -80,36 +81,12 @@ namespace RE
 			return const_cast<HUDMenu*>(this)->AsWorldSpaceMenu();
 		}
 
-		[[nodiscard]] BSTEventSink<UserEventEnabledEvent>* AsUserEventEnabledEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<UserEventEnabledEvent>>(this, 0x30, 0x58);
-		}
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<UserEventEnabledEvent>, AsUserEventEnabledEventSink, 0x30, 0x58);
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<BSRemoteGamepadEvent>, AsBSRemoteGamepadEventSink, 0x38, 0x60);
+#endif
 
-		[[nodiscard]] const BSTEventSink<UserEventEnabledEvent>* AsUserEventEnabledEventSink() const noexcept
-		{
-			return const_cast<HUDMenu*>(this)->AsUserEventEnabledEventSink();
-		}
-
-		[[nodiscard]] BSTEventSink<BSRemoteGamepadEvent>* AsBSRemoteGamepadEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<BSRemoteGamepadEvent>>(this, 0x38, 0x60);
-		}
-
-		[[nodiscard]] const BSTEventSink<BSRemoteGamepadEvent>* AsBSRemoteGamepadEventSink() const noexcept
-		{
-			return const_cast<HUDMenu*>(this)->AsBSRemoteGamepadEventSink();
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x40, 0x70);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x40, 0x70);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0x70);
 		static void FlashMeter(ActorValue a_actorValue)
 		{
 			using func_t = decltype(&HUDMenu::FlashMeter);

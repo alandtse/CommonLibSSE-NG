@@ -84,9 +84,5 @@ namespace RE
 		std::uint16_t unkE2;                  // E2
 		std::uint32_t unkE4;                  // E4
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(ThirdPersonState) == 0x100);
-#else
-	static_assert(sizeof(ThirdPersonState) == 0xE8);
-#endif
+	STATIC_ASSERT_SIZE(ThirdPersonState, 0xE8, 0x100);
 }

@@ -162,15 +162,7 @@ namespace RE
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x60);
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x303A0, 0x30418);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x303A0, 0x30418);
-		}
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x303A0, 0x30418);
 
 		// members
 		BSTArray<MapMenuMarker> mapMarkers;           // 00000
@@ -186,13 +178,7 @@ namespace RE
 		std::uint32_t pad3047C;  // 3047C
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(LocalMapMenu) == 0x30410);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(LocalMapMenu) == 0x30490);
-#else
-	static_assert(sizeof(LocalMapMenu) == 0x30300);
-#endif
+	STATIC_ASSERT_SIZE(LocalMapMenu, 0x30410, 0x30410, 0x30490, 0x30300);
 }
 
 #undef RENDERER_DATA_CONTENT

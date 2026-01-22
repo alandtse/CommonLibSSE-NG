@@ -43,11 +43,5 @@ namespace RE
 		bool          unk170;        // 170
 		bool          nonSegmented;  // 171
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSSubIndexTriShape) == 0x178);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSSubIndexTriShape) == 0x1C0);
-#else
-	static_assert(sizeof(BSSubIndexTriShape) == 0x128);
-#endif
+	STATIC_ASSERT_SIZE(BSSubIndexTriShape, 0x178, 0x178, 0x1C0, 0x128);
 }

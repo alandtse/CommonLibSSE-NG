@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/I/IMessageBoxCallback.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -33,20 +34,8 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		RUNTIME_DATA_CONTENT;
 #endif
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0, 0x20);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0, 0x20);
-		}
+		VR_RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, GetRuntimeData, 0x20);
 	};
-#if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(FastTravelConfirmCallback) == 0x30);
-#else
-	static_assert(sizeof(FastTravelConfirmCallback) == 0x20);
-#endif
+	STATIC_ASSERT_SIZE(FastTravelConfirmCallback, 0x20, 0x20, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT

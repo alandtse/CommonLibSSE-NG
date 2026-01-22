@@ -2,6 +2,7 @@
 
 #include "RE/I/IMenu.h"
 #include "RE/M/MenuEventHandler.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -33,21 +34,7 @@ namespace RE
 		bool ProcessMouseMove(MouseMoveEvent* a_event) override;    // 04
 #endif
 
-		[[nodiscard]] MenuEventHandler* AsMenuEventHandler() noexcept
-		{
-			return &REL::RelocateMember<MenuEventHandler>(this, 0x30, 0x40);
-		}
-
-		[[nodiscard]] const MenuEventHandler* AsMenuEventHandler() const noexcept
-		{
-			return const_cast<CursorMenu*>(this)->AsMenuEventHandler();
-		}
+		RUNTIME_CAST_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x30, 0x40);
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(CursorMenu) == 0x40);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(CursorMenu) == 0x50);
-#else
-	static_assert(sizeof(CursorMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(CursorMenu, 0x40, 0x40, 0x50, 0x30);
 }

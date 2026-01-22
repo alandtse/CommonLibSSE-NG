@@ -12,6 +12,7 @@
 #include "RE/T/TESModelTextureSwap.h"
 #include "RE/T/TESValueForm.h"
 #include "RE/T/TESWeightForm.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -102,67 +103,21 @@ namespace RE
 		bool IgnoresNormalWeaponResistance();
 		bool IsBolt();
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x110, 0x100);
-		}
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x110, 0x100);
 
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x110, 0x100);
-		}
-
-		[[nodiscard]] inline BGSDestructibleObjectForm* AsDestructibleObjectForm() noexcept
-		{
-			return &REL::RelocateMember<BGSDestructibleObjectForm>(this, 0xC0, 0xB0);
-		}
-
-		[[nodiscard]] inline const BGSDestructibleObjectForm* AsDestructibleObjectForm() const noexcept
-		{
-			return &REL::RelocateMember<BGSDestructibleObjectForm>(this, 0xC0, 0xB0);
-		}
-
-		[[nodiscard]] inline BGSPickupPutdownSounds* AsPickupPutdownSoundsForm() noexcept
-		{
-			return &REL::RelocateMember<BGSPickupPutdownSounds>(this, 0xD0, 0xC0);
-		}
-
-		[[nodiscard]] inline const BGSPickupPutdownSounds* AsPickupPutdownSoundsForm() const noexcept
-		{
-			return &REL::RelocateMember<BGSPickupPutdownSounds>(this, 0xD0, 0xC0);
-		}
-
-		[[nodiscard]] inline TESDescription* AsDescriptionForm() noexcept
-		{
-			return &REL::RelocateMember<TESDescription>(this, 0xE8, 0xD8);
-		}
-
-		[[nodiscard]] inline const TESDescription* AsDescriptionForm() const noexcept
-		{
-			return &REL::RelocateMember<TESDescription>(this, 0xE8, 0xD8);
-		}
-
-		[[nodiscard]] inline BGSKeywordForm* AsKeywordForm() noexcept
-		{
-			return &REL::RelocateMember<BGSKeywordForm>(this, 0xF8, 0xE8);
-		}
-
-		[[nodiscard]] inline const BGSKeywordForm* AsKeywordForm() const noexcept
-		{
-			return &REL::RelocateMember<BGSKeywordForm>(this, 0xF8, 0xE8);
-		}
+		// Cast accessors for runtime-conditional base classes (see inheritance above)
+		RUNTIME_CAST_ACCESSOR(BGSDestructibleObjectForm, AsDestructibleObjectForm, 0xC0, 0xB0);
+		RUNTIME_CAST_ACCESSOR(BGSPickupPutdownSounds, AsPickupPutdownSoundsForm, 0xD0, 0xC0);
+		RUNTIME_CAST_ACCESSOR(TESDescription, AsDescriptionForm, 0xE8, 0xD8);
+		RUNTIME_CAST_ACCESSOR(BGSKeywordForm, AsKeywordForm, 0xF8, 0xE8);
 
 		// members
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		RUNTIME_DATA_CONTENT;  // 110
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		RUNTIME_DATA_CONTENT;              // VR 100
+		RUNTIME_DATA_CONTENT;  // VR 100
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(TESAmmo) == 0x128);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(TESAmmo) == 0x118);
-#endif
+	STATIC_ASSERT_SIZE(TESAmmo, 0x128, 0x118);
 }
 #undef RUNTIME_DATA_CONTENT

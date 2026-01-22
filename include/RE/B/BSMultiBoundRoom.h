@@ -43,9 +43,5 @@ namespace RE
 		NiTPointerList<NiPointer<BSMultiBound>> joinedMultiBoundList;  // 168
 		BSTArray<BSLight*>                      lights;                // 180
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSMultiBoundRoom) == 0x198);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSMultiBoundRoom) == 0x1C0);
-#endif
+	STATIC_ASSERT_SIZE(BSMultiBoundRoom, 0x198, 0x1C0);
 }

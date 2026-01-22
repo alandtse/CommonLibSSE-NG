@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSSceneGraph.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -31,16 +32,7 @@ namespace RE
 			RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline SCENE_GRAPH_RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<SCENE_GRAPH_RUNTIME_DATA>(this, 0x140, 0x168);
-		}
-
-		[[nodiscard]] inline const SCENE_GRAPH_RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<SCENE_GRAPH_RUNTIME_DATA>(this, 0x140, 0x168);
-		}
-
+		RUNTIME_DATA_ACCESSOR(SCENE_GRAPH_RUNTIME_DATA, 0x140, 0x168);
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;
 #endif

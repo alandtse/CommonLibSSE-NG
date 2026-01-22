@@ -6,6 +6,7 @@
 #include "RE/M/MagicSystem.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/T/TESObjectREFR.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -95,23 +96,12 @@ namespace RE
 			EXPLOSION_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline EXPLOSION_RUNTIME_DATA& GetExplosionRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<EXPLOSION_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x98, 0xA0);
-		}
-
-		[[nodiscard]] inline const EXPLOSION_RUNTIME_DATA& GetExplosionRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<EXPLOSION_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x98, 0xA0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(EXPLOSION_RUNTIME_DATA, GetExplosionRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x98, 0xA0);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		EXPLOSION_RUNTIME_DATA_CONTENT;  // 098, 0A0
 #endif
 	};
-#ifndef ENABLE_SKYRIM_AE
-	static_assert(sizeof(Explosion) == 0x140);
-#endif
+	STATIC_ASSERT_SIZE(Explosion, 0x140, 0x0, 0x140);
 }
 #undef EXPLOSION_RUNTIME_DATA_CONTENT

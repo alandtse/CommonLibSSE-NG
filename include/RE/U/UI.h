@@ -63,7 +63,7 @@ namespace RE
 		struct UIMenuEntry
 		{
 		public:
-			UIMenuEntry(){};
+			UIMenuEntry() {};
 
 			UIMenuEntry(GPtr<IMenu> a_menu, Create_t* a_create) :
 				menu(a_menu), create(a_create) {}
@@ -147,11 +147,7 @@ namespace RE
 		std::uint32_t unk1CA;  // 1CA
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(UI) == 0x1C8);
-#else
-	static_assert(sizeof(UI) == 0x1D0);
-#endif
+	STATIC_ASSERT_SIZE(UI, 0x1C8, 0x1C8, 0x1D0, 0x1D0);
 
 	template <class T>
 	void UI::AddEventSink(BSTEventSink<T>* a_sink)

@@ -9,6 +9,7 @@
 #include "RE/T/ThumbstickEvent.h"
 #include "RE/V/VrWandTouchpadPositionEvent.h"
 #include "RE/V/VrWandTouchpadSwipeEvent.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -131,16 +132,7 @@ namespace RE
 		RUNTIME_DATA_CONTENT
 #endif
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x20, 0x20);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x20, 0x20);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x20, 0x20);
 		[[nodiscard]] VRTOUCHPAD_DATA* GetVRTouchpadData() noexcept
 		{
 			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {

@@ -8,6 +8,7 @@
 #include "RE/I/InputDevices.h"
 #include "RE/P/PCGamepadType.h"
 #include "RE/U/UserEvents.h"
+#include "REL/RuntimeDataAccessors.h"
 #include <SKSE/Version.h>
 
 namespace RE
@@ -131,7 +132,7 @@ namespace RE
 #	if defined(EXCLUSIVE_SKYRIM_SE)                       // SSE
 		RUNTIME_DATA_CONTENT;                              // 0E8
 #	else                                                  // AE
-		RUNTIME_DATA_CONTENT;  // 0F8
+		RUNTIME_DATA_CONTENT;  // 0F0
 #	endif
 #elif defined(EXCLUSIVE_SKYRIM_VR)  // VR
 		RUNTIME_DATA_CONTENT;  // 108
@@ -139,36 +140,8 @@ namespace RE
 		// controlMap can be accessed up to kTotal, kAETotal, or kVRTotal based on runtime
 #endif
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_1130) != std::strong_ordering::less) {
-					return REL::RelocateMember<RUNTIME_DATA>(this, 0xf0);
-				}
-			}
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0xE8, 0x108);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_1130) != std::strong_ordering::less) {
-					return REL::RelocateMember<RUNTIME_DATA>(this, 0xf0);
-				}
-			}
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0xE8, 0x108);
-		}
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(RUNTIME_DATA, GetRuntimeData, SKSE::RUNTIME_SSE_1_6_1130, 0xE8, 0x108, 0xF0);
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-#	if defined(EXCLUSIVE_SKYRIM_SE)
-	static_assert(sizeof(ControlMap) == 0x128);
-#	else
-	static_assert(sizeof(ControlMap) == 0x130);
-#	endif
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(ControlMap) == 0x128);
-#else
-	static_assert(sizeof(ControlMap) == 0xE8);
-#endif
+	STATIC_ASSERT_SIZE(ControlMap, 0x128, 0x130, 0x128, 0xE8);
 }
 #undef RUNTIME_DATA_CONTENT

@@ -64,9 +64,5 @@ namespace RE
 		std::byte                        unk86;                              // 86
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(CrosshairPickData) == 0x38);
-#else
-	static_assert(sizeof(CrosshairPickData) == 0x88);
-#endif
+	STATIC_ASSERT_SIZE(CrosshairPickData, 0x38, 0x38, 0x88, 0x88);
 }

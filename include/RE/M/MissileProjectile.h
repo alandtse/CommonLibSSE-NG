@@ -3,6 +3,7 @@
 #include "RE/F/FormTypes.h"
 #include "RE/I/ImpactResults.h"
 #include "RE/P/Projectile.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -53,16 +54,7 @@ namespace RE
 			MISSILE_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline MISSILE_RUNTIME_DATA& GetMissileRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<MISSILE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
-		[[nodiscard]] inline const MISSILE_RUNTIME_DATA& GetMissileRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<MISSILE_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(MISSILE_RUNTIME_DATA, GetMissileRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x1D8, 0x1E0);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		MISSILE_RUNTIME_DATA_CONTENT;

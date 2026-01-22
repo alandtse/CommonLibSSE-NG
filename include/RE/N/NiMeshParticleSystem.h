@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/N/NiParticleSystem.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -40,16 +41,7 @@ namespace RE
 	std::uint16_t pad19E;            /* 19E */
 		};
 
-		[[nodiscard]] inline MESH_PARTICLE_SYSTEM_RUNTIME_DATA& GetMeshParticleSystemRuntimeData() noexcept
-		{
-			return REL::RelocateMember<MESH_PARTICLE_SYSTEM_RUNTIME_DATA>(this, 0x198, 0x1C0);
-		}
-
-		[[nodiscard]] inline const MESH_PARTICLE_SYSTEM_RUNTIME_DATA& GetMeshParticleSystemRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<MESH_PARTICLE_SYSTEM_RUNTIME_DATA>(this, 0x198, 0x1C0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_EX(MESH_PARTICLE_SYSTEM_RUNTIME_DATA, GetMeshParticleSystemRuntimeData, 0x198, 0x1C0);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 198, 1C0

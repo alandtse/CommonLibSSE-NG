@@ -25,6 +25,7 @@
 #include "RE/T/TESNPC.h"
 #include "RE/T/TESObjectREFR.h"
 
+#include "REL/RuntimeDataAccessors.h"
 #include "REX/W32/BASE.h"
 
 namespace RE
@@ -622,7 +623,7 @@ namespace RE
 		[[nodiscard]] bool                      IsGuard() const;
 		[[nodiscard]] bool                      IsHostileToActor(Actor* a_actor);
 		[[nodiscard]] bool                      IsInCastPowerList(SpellItem* a_power);
-		[[nodiscard]] constexpr bool            IsInKillMove() const noexcept { return GetActorRuntimeData().boolFlags.all(BOOL_FLAGS::kIsInKillMove); }
+		[[nodiscard]] bool                      IsInKillMove() const noexcept { return GetActorRuntimeData().boolFlags.all(BOOL_FLAGS::kIsInKillMove); }
 		[[nodiscard]] bool                      IsInMidair() const;
 		[[nodiscard]] bool                      IsInRagdollState() const;
 		[[nodiscard]] bool                      IsLeveled() const;
@@ -742,76 +743,13 @@ namespace RE
 			RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline ACTOR_RUNTIME_DATA& GetActorRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<ACTOR_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0xE0, 0xE8);
-		}
-
-		[[nodiscard]] inline const ACTOR_RUNTIME_DATA& GetActorRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<ACTOR_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0xE0, 0xE8);
-		}
-
-		[[nodiscard]] inline MagicTarget* AsMagicTarget() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<MagicTarget>(SKSE::RUNTIME_SSE_1_6_629, this, 0x98, 0xA0);
-		}
-
-		[[nodiscard]] inline const MagicTarget* AsMagicTarget() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<MagicTarget>(SKSE::RUNTIME_SSE_1_6_629, this, 0x98, 0xA0);
-		}
-
-		[[nodiscard]] inline ActorValueOwner* AsActorValueOwner() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<ActorValueOwner>(SKSE::RUNTIME_SSE_1_6_629, this, 0xB0, 0xB8);
-		}
-
-		[[nodiscard]] inline const ActorValueOwner* AsActorValueOwner() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<ActorValueOwner>(SKSE::RUNTIME_SSE_1_6_629, this, 0xB0, 0xB8);
-		}
-
-		[[nodiscard]] inline ActorState* AsActorState() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<ActorState>(SKSE::RUNTIME_SSE_1_6_629, this, 0xB8, 0xC0);
-		}
-
-		[[nodiscard]] inline const ActorState* AsActorState() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<ActorState>(SKSE::RUNTIME_SSE_1_6_629, this, 0xB8, 0xC0);
-		}
-
-		[[nodiscard]] inline BSTEventSink<BSTransformDeltaEvent>* AsBSTransformDeltaEventSink() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<BSTransformDeltaEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0xC8, 0xD0);
-		}
-
-		[[nodiscard]] inline const BSTEventSink<BSTransformDeltaEvent>* AsBSTransformDeltaEventSink() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<BSTransformDeltaEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0xC8, 0xD0);
-		}
-
-		[[nodiscard]] inline BSTEventSink<bhkCharacterMoveFinishEvent>* AsCharacterMoveFinishEventSink() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<bhkCharacterMoveFinishEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0xD0, 0xD8);
-		}
-
-		[[nodiscard]] inline const BSTEventSink<bhkCharacterMoveFinishEvent>* AsCharacterMoveFinishEventSink() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<BSTEventSink<bhkCharacterMoveFinishEvent>>(SKSE::RUNTIME_SSE_1_6_629, this, 0xD0, 0xD8);
-		}
-
-		[[nodiscard]] inline IPostAnimationChannelUpdateFunctor* AsIPostAnimationChannelUpdateFunctor() noexcept
-		{
-			return &REL::RelocateMemberIfNewer<IPostAnimationChannelUpdateFunctor>(SKSE::RUNTIME_SSE_1_6_629, this, 0xD8, 0xE0);
-		}
-
-		[[nodiscard]] inline const IPostAnimationChannelUpdateFunctor* AsIPostAnimationChannelUpdateFunctor() const noexcept
-		{
-			return &REL::RelocateMemberIfNewer<IPostAnimationChannelUpdateFunctor>(SKSE::RUNTIME_SSE_1_6_629, this, 0xD8, 0xE0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(ACTOR_RUNTIME_DATA, GetActorRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0xE0, 0xE8);
+		RUNTIME_CAST_ACCESSOR_VERSIONED(MagicTarget, AsMagicTarget, SKSE::RUNTIME_SSE_1_6_629, 0x98, 0xA0);
+		RUNTIME_CAST_ACCESSOR_VERSIONED(ActorValueOwner, AsActorValueOwner, SKSE::RUNTIME_SSE_1_6_629, 0xB0, 0xB8);
+		RUNTIME_CAST_ACCESSOR_VERSIONED(ActorState, AsActorState, SKSE::RUNTIME_SSE_1_6_629, 0xB8, 0xC0);
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<BSTransformDeltaEvent>, AsBSTransformDeltaEventSink, SKSE::RUNTIME_SSE_1_6_629, 0xC8, 0xD0);
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<bhkCharacterMoveFinishEvent>, AsCharacterMoveFinishEventSink, SKSE::RUNTIME_SSE_1_6_629, 0xD0, 0xD8);
+		RUNTIME_CAST_ACCESSOR_VERSIONED(IPostAnimationChannelUpdateFunctor, AsIPostAnimationChannelUpdateFunctor, SKSE::RUNTIME_SSE_1_6_629, 0xD8, 0xE0);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		RUNTIME_DATA_CONTENT
@@ -822,10 +760,6 @@ namespace RE
 		float       CalcEquippedWeight();
 		TESFaction* GetCrimeFactionImpl() const;
 	};
-#ifndef ENABLE_SKYRIM_AE
-	static_assert(sizeof(Actor) == 0x2B0);
-#else
-	static_assert(sizeof(Actor) == 0x78);
-#endif
+	STATIC_ASSERT_SIZE(Actor, 0x2B0, 0x78, 0x2B0, 0x78);
 }
 #undef RUNTIME_DATA_CONTENT

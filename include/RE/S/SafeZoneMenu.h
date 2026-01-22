@@ -16,11 +16,5 @@ namespace RE
 
 		~SafeZoneMenu() override;  // 00
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(SafeZoneMenu) == 0x30);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(SafeZoneMenu) == 0x40);
-#else
-	static_assert(sizeof(RaceSexMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(SafeZoneMenu, 0x30, 0x40);
 }

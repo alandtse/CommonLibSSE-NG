@@ -46,11 +46,5 @@ namespace RE
 		std::uint32_t                    revID;       // 134
 		NiTPrimitiveArray<std::uint32_t> childRevID;  // 138
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(NiSwitchNode) == 0x150);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(NiSwitchNode) == 0x178);
-#else
-	static_assert(sizeof(NiSwitchNode) == 0x138);
-#endif
+	STATIC_ASSERT_SIZE(NiSwitchNode, 0x150, 0x150, 0x178, 0x138);
 }

@@ -5,6 +5,7 @@
 #include "RE/N/NiRTTI.h"
 #include "RE/N/NiSkinPartition.h"
 #include "RE/N/NiSmartPointer.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -61,11 +62,7 @@ namespace RE
 #endif
 			MODEL_DATA_CONTENT
 		};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-		static_assert(sizeof(MODEL_DATA) == 0x10);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-		static_assert(sizeof(MODEL_DATA) == 0x28);
-#endif
+		STATIC_ASSERT_SIZE(MODEL_DATA, 0x10, 0x28);
 
 		struct GEOMETRY_RUNTIME_DATA
 		{
@@ -108,35 +105,10 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL BSSkinnedDecalTriShape* AsSkinnedDecalTriShape();  // 36 - { return 0; }
 		SKYRIM_REL_VR_VIRTUAL void                    Unk_37(void);              // 37 - { return 0; }
 
-		[[nodiscard]] inline MODEL_DATA& GetModelData() noexcept
-		{
-			return REL::RelocateMember<MODEL_DATA>(this, 0x110, 0x138);
-		}
-
-		[[nodiscard]] inline const MODEL_DATA& GetModelData() const noexcept
-		{
-			return REL::RelocateMember<MODEL_DATA>(this, 0x110, 0x138);
-		}
-
-		[[nodiscard]] inline GEOMETRY_RUNTIME_DATA& GetGeometryRuntimeData() noexcept
-		{
-			return REL::RelocateMember<GEOMETRY_RUNTIME_DATA>(this, 0x120, 0x160);
-		}
-
-		[[nodiscard]] inline const GEOMETRY_RUNTIME_DATA& GetGeometryRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<GEOMETRY_RUNTIME_DATA>(this, 0x120, 0x160);
-		}
-
-		[[nodiscard]] inline REX::EnumSet<Type, std::uint8_t>& GetType() noexcept
-		{
-			return REL::RelocateMember<REX::EnumSet<Type, std::uint8_t>>(this, 0x150, 0x190);
-		}
-
-		[[nodiscard]] inline const REX::EnumSet<Type, std::uint8_t>& GetType() const noexcept
-		{
-			return REL::RelocateMember<REX::EnumSet<Type, std::uint8_t>>(this, 0x150, 0x190);
-		}
+		RUNTIME_DATA_ACCESSOR_EX(MODEL_DATA, GetModelData, 0x110, 0x138);
+		RUNTIME_DATA_ACCESSOR_EX(GEOMETRY_RUNTIME_DATA, GetGeometryRuntimeData, 0x120, 0x160);
+		using BSGeometryTypeSet = REX::EnumSet<Type, std::uint8_t>;
+		RUNTIME_DATA_ACCESSOR_EX(BSGeometryTypeSet, GetType, 0x150, 0x190);
 
 		inline BSLightingShaderProperty* lightingShaderProp_cast()
 		{
@@ -168,11 +140,7 @@ namespace RE
 #	endif
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSGeometry) == 0x158);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSGeometry) == 0x1A0);
-#endif
+	STATIC_ASSERT_SIZE(BSGeometry, 0x158, 0x1A0);
 }
 #undef MODEL_DATA_CONTENT
 #undef RUNTIME_DATA_CONTENT

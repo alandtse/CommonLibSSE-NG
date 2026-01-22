@@ -4,6 +4,7 @@
 #include "RE/B/BSTEvent.h"
 #include "RE/G/GFxFunctionHandler.h"
 #include "RE/I/IMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -56,32 +57,20 @@ namespace RE
 		BSEventNotifyControl ProcessEvent(const BSSaveDataEvent* a_event, BSTEventSource<BSSaveDataEvent>* a_eventSource) override;  // 01
 #endif
 
-		[[nodiscard]] BSTEventSink<BSSystemEvent>* AsBSSystemEventSink() noexcept
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<BSSystemEvent>, AsBSSystemEventSink, 0x30, 0x40);
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<BSSaveDataEvent>, AsBSSaveDataEventSink, 0x38, 0x48);
+#endif
+		[[nodiscard]] inline GFxFunctionHandler* AsGFxFunctionHandler() noexcept
 		{
-			return &REL::RelocateMember<BSTEventSink<BSSystemEvent>>(this, 0x30, 0x40);
+			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
+				return nullptr;
+			} else {
+				return &REL::RelocateMember<GFxFunctionHandler>(this, 0, 0x50);
+			}
 		}
 
-		[[nodiscard]] const BSTEventSink<BSSystemEvent>* AsBSSystemEventSink() const noexcept
-		{
-			return const_cast<MainMenu*>(this)->AsBSSystemEventSink();
-		}
-
-		[[nodiscard]] BSTEventSink<BSSaveDataEvent>* AsBSSaveDataEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<BSSaveDataEvent>>(this, 0x38, 0x48);
-		}
-
-		[[nodiscard]] const BSTEventSink<BSSaveDataEvent>* AsBSSaveDataEventSink() const noexcept
-		{
-			return const_cast<MainMenu*>(this)->AsBSSaveDataEventSink();
-		}
-
-		[[nodiscard]] GFxFunctionHandler* AsGFxFunctionHandler() noexcept
-		{
-			return &REL::RelocateMember<GFxFunctionHandler>(this, 0x40, 0x50);
-		}
-
-		[[nodiscard]] const GFxFunctionHandler* AsGFxFunctionHandler() const noexcept
+		[[nodiscard]] inline const GFxFunctionHandler* AsGFxFunctionHandler() const noexcept
 		{
 			return const_cast<MainMenu*>(this)->AsGFxFunctionHandler();
 		}
@@ -114,27 +103,12 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x50, 0x60);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x50, 0x60);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x50, 0x60);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 50, 60
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(MainMenu) == 0x60);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(MainMenu) == 0x70);
-#else
-	static_assert(sizeof(MainMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(MainMenu, 0x60, 0x60, 0x70, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT

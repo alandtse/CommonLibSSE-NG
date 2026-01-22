@@ -26,11 +26,5 @@ namespace RE
 		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // 34
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSStripParticleSystem) == 0x198);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSStripParticleSystem) == 0x1E0);
-#else
-	static_assert(sizeof(BSStripParticleSystem) == 0x110);
-#endif
+	STATIC_ASSERT_SIZE(BSStripParticleSystem, 0x198, 0x198, 0x1E0, 0x110);
 }

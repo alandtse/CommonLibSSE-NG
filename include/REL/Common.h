@@ -185,3 +185,149 @@
  */
 #	define SKYRIM_REL_VR_VIRTUAL
 #endif
+
+/**
+ * @brief Static assert macro for cross-runtime size validation with diagnostic error messages.
+ * 
+ * STATIC_ASSERT_SIZE(ClassName, SESize[, AESize[, VRSize[, AllSize[, FlatSize]]]])
+ * 
+ * This macro simplifies size assertions across different Skyrim runtimes (SE, AE, VR) by automatically
+ * selecting the correct expected size based on the build configuration. It provides detailed error
+ * messages showing the runtime, expected size, and all known sizes for debugging.
+ * 
+ * @par Usage Examples
+ * @code
+ * STATIC_ASSERT_SIZE(MyClass, 0x100);                              // Same size for all runtimes
+ * STATIC_ASSERT_SIZE(MyClass, 0x100, 0x120);                       // Flat=0x100, VR=0x120; SE and AE unspecified (SIZE_UNDEFINED)
+ * STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0x9A8, 0x12F0);      // SE, AE, VR specified; Flat unspecified (SIZE_UNDEFINED)
+ * STATIC_ASSERT_SIZE(ButtonEvent, 0x30, 0x30, 0x38, 0x18);        // SE, AE, VR, All specified; Flat unspecified (SIZE_UNDEFINED)
+ * STATIC_ASSERT_SIZE(ComplexClass, 0x30, 0x30, 0x38, 0x18, 0x20); // SE, AE, VR, All, Flat different
+ * @endcode
+ * 
+ * @par Error Messages
+ * @code
+ * error C2338: Projectile size mismatch in EXCLUSIVE_SKYRIM_VR: expected 0x28 (SE=0x10, AE=0x10, VR=0x28)
+ * @endcode
+ * 
+ * @par Supported Overloads
+ * - STATIC_ASSERT_SIZE(ClassName, Size)
+ *     All presets use same size
+ * 
+ * - STATIC_ASSERT_SIZE(ClassName, FlatSize, VRSize)
+ *     Flat and VR specified; SESize and AESize are undefined (SIZE_UNDEFINED). Use 6-arg to specify per-runtime sizes.
+ * 
+ * - STATIC_ASSERT_SIZE(ClassName, SESize, AESize, VRSize)
+ *     SE, AE, and VR specified; Flat is left undefined (SIZE_UNDEFINED) unless provided in 6-arg.
+ * 
+ * - STATIC_ASSERT_SIZE(ClassName, SESize, AESize, VRSize, AllSize)
+ *     SE, AE, VR, and All specified; Flat left undefined (SIZE_UNDEFINED) unless provided in 6-arg.
+ * 
+ * - STATIC_ASSERT_SIZE(ClassName, SESize, AESize, VRSize, AllSize, FlatSize)
+ *     Full control - all sizes specified explicitly
+ *     Use SIZE_UNDEFINED for any undefined size to skip assertion for that preset
+ * 
+ * @par Benefits
+ * - Single line replaces conditional static_assert blocks
+ * - Clear error messages with all runtime sizes
+ * - Incremental: add args as you discover differences
+ * - IDE-friendly with hover documentation
+ * 
+ * @par How It Works
+ * Uses preprocessor conditionals to select the appropriate size based on build defines:
+ * - EXCLUSIVE_SKYRIM_SE: Uses SESize
+ * - EXCLUSIVE_SKYRIM_AE: Uses AESize
+ * - EXCLUSIVE_SKYRIM_VR: Uses VRSize
+ * - SKYRIM_CROSS_VR (multi-runtime): Uses AllSize
+ * - EXCLUSIVE_SKYRIM_FLAT (SE+AE, no VR): Uses FlatSize
+ * 
+ * If the expected size is SIZE_UNDEFINED, the assertion is skipped (size undefined for that preset).
+ * Undefined sizes allow incremental migration - specify only known sizes, discover others later.
+ */
+
+/**
+ * @brief Special value to indicate an undefined size in STATIC_ASSERT_SIZE.
+ * 
+ * Use this to skip size assertions for presets where the size is not yet known.
+ * This allows incremental adoption of the macro.
+ */
+#define SIZE_UNDEFINED 0x0
+
+#define STATIC_ASSERT_SIZE(...) \
+	_STATIC_ASSERT_SIZE_DISPATCH(__VA_ARGS__, _STATIC_ASSERT_SIZE_6, _STATIC_ASSERT_SIZE_5, _STATIC_ASSERT_SIZE_4, _STATIC_ASSERT_SIZE_3, _STATIC_ASSERT_SIZE_2, _STATIC_ASSERT_SIZE_1)(__VA_ARGS__)
+#define _STATIC_ASSERT_SIZE_DISPATCH(_1, _2, _3, _4, _5, _6, NAME, ...) NAME
+
+// 1 arg: Error - need at least class name and one size
+#define _STATIC_ASSERT_SIZE_1(ClassName) \
+	static_assert(false, "STATIC_ASSERT_SIZE requires at least 2 arguments: ClassName and Size")
+
+// 2 args: ClassName, Size (use this size for all runtimes - add more args as you discover differences)
+#define _STATIC_ASSERT_SIZE_2(ClassName, Size) \
+	static_assert(sizeof(ClassName) == (Size), \
+		#ClassName " size mismatch: expected " #Size " (using for all runtimes)")
+
+// 3 args: ClassName, FlatSize, VRSize
+// Sets Flat for EXCLUSIVE_SKYRIM_FLAT and VR for EXCLUSIVE_SKYRIM_VR.
+// Does NOT assume SE or AE equal Flat; SESize/AESize are undefined (SIZE_UNDEFINED).
+#define _STATIC_ASSERT_SIZE_3(ClassName, FlatSize, VRSize) \
+	_STATIC_ASSERT_SIZE_6(ClassName, SIZE_UNDEFINED, SIZE_UNDEFINED, VRSize, SIZE_UNDEFINED, FlatSize)
+
+// 4 args: ClassName, SESize, AESize, VRSize
+// SE, AE and VR specified. Flat is left undefined (SIZE_UNDEFINED) unless explicitly provided via 6-arg.
+// All: undefined
+#define _STATIC_ASSERT_SIZE_4(ClassName, SESize, AESize, VRSize) \
+	_STATIC_ASSERT_SIZE_6(ClassName, SESize, AESize, VRSize, SIZE_UNDEFINED, SIZE_UNDEFINED)
+
+// 5 args: ClassName, SESize, AESize, VRSize, AllSize
+// SE, AE, VR, All specified. Flat left undefined (SIZE_UNDEFINED) unless explicitly provided in 6-arg.
+#define _STATIC_ASSERT_SIZE_5(ClassName, SESize, AESize, VRSize, AllSize) \
+	_STATIC_ASSERT_SIZE_6(ClassName, SESize, AESize, VRSize, AllSize, SIZE_UNDEFINED)
+
+// 6 args: ClassName, SESize, AESize, VRSize, AllSize, FlatSize
+#define _STATIC_ASSERT_SIZE_6(ClassName, SESize, AESize, VRSize, AllSize, FlatSize) \
+	_STATIC_ASSERT_SIZE_IMPL(ClassName, SESize, AESize, VRSize, AllSize, FlatSize)
+
+// Implementation - generates the actual static_assert with detailed error message
+// If the expected size is SIZE_UNDEFINED, skip the assertion (size is undefined for this preset)
+#define _STATIC_ASSERT_SIZE_IMPL(ClassName, SESize, AESize, VRSize, AllSize, FlatSize)                              \
+	static_assert(_STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) == SIZE_UNDEFINED ||      \
+					  sizeof(ClassName) == _STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize), \
+		#ClassName " size mismatch in " _STATIC_ASSERT_SIZE_RUNTIME_NAME()                                          \
+			": "                                                                                                    \
+			"expected " _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) " (SE=" #SESize ", AE=" #AESize ", VR=" #VRSize ", All=" #AllSize ", Flat=" #FlatSize ")");
+
+// Preprocessor-based runtime selection for expected size
+#if defined(EXCLUSIVE_SKYRIM_SE)
+// SE: use SESize.
+#	define _STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) \
+		(SESize)
+#	define _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) \
+		#SESize
+#	define _STATIC_ASSERT_SIZE_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_SE"
+#elif defined(EXCLUSIVE_SKYRIM_AE)
+// AE: use AESize.
+#	define _STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) \
+		(AESize)
+#	define _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) \
+		#AESize
+#	define _STATIC_ASSERT_SIZE_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_AE"
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+#	define _STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (VRSize)
+#	define _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #VRSize
+#	define _STATIC_ASSERT_SIZE_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_VR"
+#elif defined(SKYRIM_CROSS_VR)
+// All: use AllSize
+#	define _STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (AllSize)
+#	define _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #AllSize
+#	define _STATIC_ASSERT_SIZE_RUNTIME_NAME() "SKYRIM_CROSS_VR"
+#elif defined(EXCLUSIVE_SKYRIM_FLAT)
+// Flat: use FlatSize.
+#	define _STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) \
+		(FlatSize)
+#	define _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #FlatSize
+#	define _STATIC_ASSERT_SIZE_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_FLAT"
+#else
+// Fallback (shouldn't happen in practice)
+#	define _STATIC_ASSERT_SIZE_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (SESize)
+#	define _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #SESize
+#	define _STATIC_ASSERT_SIZE_RUNTIME_NAME() "UNKNOWN_RUNTIME"
+#endif

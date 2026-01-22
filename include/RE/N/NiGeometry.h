@@ -4,6 +4,7 @@
 #include "RE/N/NiGeometryData.h"
 #include "RE/N/NiProperty.h"
 #include "RE/N/NiSkinInstance.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -51,24 +52,12 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void* Unk_3A(void);                           // 3A, 3B - ret call m_spModelData vtbl+0x94
 		SKYRIM_REL_VR_VIRTUAL std::uint16_t Unk_3B(bool unk1);              // 3B, 3C ??
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x110, 0x138);
-		}
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x110, 0x138);
 
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x110, 0x138);
-		}
-
+#ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 110, 138
-	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(NiGeometry) == 0x138);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(NiGeometry) == 0x160);
-#else
-	static_assert(sizeof(NiGeometry) == 0x138);
 #endif
+	};
+	STATIC_ASSERT_SIZE(NiGeometry, 0x138, 0x138, 0x160, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

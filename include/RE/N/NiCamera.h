@@ -5,6 +5,7 @@
 #include "RE/N/NiFrustum.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiRect.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -77,37 +78,15 @@ namespace RE
 		bool        WorldPtToScreenPt3(const NiPoint3& a_point, float& a_xOut, float& a_yOut, float& a_zOut, float a_zeroTolerance);
 		static bool WorldPtToScreenPt3(const float a_matrix[4][4], const NiRect<float>& a_port, const NiPoint3& a_point, float& a_xOut, float& a_yOut, float& a_zOut, float a_zeroTolerance);
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x110, 0x138);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x110, 0x138);
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA2& GetRuntimeData2() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x150, 0x1CC);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA2& GetRuntimeData2() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x150, 0x1CC);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x110, 0x138);
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x150, 0x1CC);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;   // 110, 138
 		RUNTIME_DATA2_CONTENT;  // 150, 1CC
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(NiCamera) == 0x188);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(NiCamera) == 0x208);
-#endif
+	STATIC_ASSERT_SIZE(NiCamera, 0x188, 0x188, 0x208, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT
 #undef RUNTIME_DATA2_CONTENT

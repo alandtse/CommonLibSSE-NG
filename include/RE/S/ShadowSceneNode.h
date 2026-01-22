@@ -3,6 +3,7 @@
 #include "RE/B/BSAtomic.h"
 #include "RE/B/BSTArray.h"
 #include "RE/N/NiNode.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -110,16 +111,7 @@ namespace RE
 		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // 34
 #endif
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x128, 0x150);
 		void AttachObject(RE::NiAVObject* object)
 		{
 			using func_t = decltype(&ShadowSceneNode::AttachObject);
@@ -141,10 +133,6 @@ namespace RE
 		RUNTIME_DATA_CONTENT;  // 128, 150
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(ShadowSceneNode) == 0x308);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(ShadowSceneNode) == 0x330);
-#endif
+	STATIC_ASSERT_SIZE(ShadowSceneNode, 0x308, 0x308, 0x330, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

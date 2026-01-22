@@ -20,9 +20,5 @@ namespace RE
 		std::uint64_t unk10;  // 10
 		std::uint64_t unk18;  // 18
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(ShoutHandler) == 0x20);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(ShoutHandler) == 0x38);
-#endif
+	STATIC_ASSERT_SIZE(ShoutHandler, 0x20, 0x38);
 }

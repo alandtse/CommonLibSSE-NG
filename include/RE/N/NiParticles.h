@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSGeometry.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -34,27 +35,12 @@ namespace RE
 		void          SaveBinary(NiStream& a_stream) override;            // 1B
 		bool          IsEqual(NiObject* a_object) override;               // 1C - { return BSGeometry::IsEqual(); }
 
-		[[nodiscard]] inline PARTICLES_RUNTIME_DATA& GetParticleRuntimeData() noexcept
-		{
-			return REL::RelocateMember<PARTICLES_RUNTIME_DATA>(this, 0x158, 0x198);
-		}
-
-		[[nodiscard]] inline const PARTICLES_RUNTIME_DATA& GetParticleRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<PARTICLES_RUNTIME_DATA>(this, 0x158, 0x198);
-		}
-
+		RUNTIME_DATA_ACCESSOR_EX(PARTICLES_RUNTIME_DATA, GetParticlesRuntimeData, 0x158, 0x198);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(NiParticles) == 0x168);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(NiParticles) == 0x1B0);
-#else
-	static_assert(sizeof(NiParticles) == 0x110);
-#endif
+	STATIC_ASSERT_SIZE(NiParticles, 0x168, 0x168, 0x1B0, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

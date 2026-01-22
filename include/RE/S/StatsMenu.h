@@ -7,6 +7,7 @@
 #include "RE/I/IMenu.h"
 #include "RE/M/MenuEventHandler.h"
 #include "RE/N/NiPoint3.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -168,37 +169,16 @@ namespace RE
 		bool ProcessButton(ButtonEvent* a_event) override;          // 05
 #endif
 
-		[[nodiscard]] MenuEventHandler* AsMenuEventHandler() noexcept
-		{
-			return &REL::RelocateMember<MenuEventHandler>(this, 0x30, 0x40);
-		}
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_CAST_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x30, 0x40);
+#endif
 
-		[[nodiscard]] const MenuEventHandler* AsMenuEventHandler() const noexcept
-		{
-			return const_cast<StatsMenu*>(this)->AsMenuEventHandler();
-		}
-
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x40, 0x50);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x40, 0x50);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0x50);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 40, 50
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(StatsMenu) == 0x328);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(StatsMenu) == 0x338);
-#else
-	static_assert(sizeof(StatsMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(StatsMenu, 0x328, 0x328, 0x338, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT

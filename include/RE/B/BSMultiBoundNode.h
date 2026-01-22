@@ -3,6 +3,7 @@
 #include "RE/B/BSCullingProcess.h"
 #include "RE/B/BSNiNode.h"
 #include "RE/N/NiSmartPointer.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -53,25 +54,12 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL bool              CheckBound1(const BSMultiBound& a_targetBound);  // 40
 		SKYRIM_REL_VR_VIRTUAL bool              CheckBound2(const NiBound& a_targetBound);       // 41
 
-		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
-		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
-		{
-			return REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x150);
-		}
-
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x128, 0x150);
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 128, 150
 #endif
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSMultiBoundNode) == 0x138);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSMultiBoundNode) == 0x160);
-#endif
+	STATIC_ASSERT_SIZE(BSMultiBoundNode, 0x138, 0x160);
 }
 #undef RUNTIME_DATA_CONTENT

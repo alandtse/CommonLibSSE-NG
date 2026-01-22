@@ -3,6 +3,7 @@
 #include "RE/B/BSPointerHandle.h"
 #include "RE/F/FormTypes.h"
 #include "RE/P/Projectile.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -54,16 +55,7 @@ namespace RE
 			BARRIER_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline BARRIER_RUNTIME_DATA& GetBarrierRuntimeData() noexcept
-		{
-			return REL::RelocateMemberIfNewer<BARRIER_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
-		[[nodiscard]] inline const BARRIER_RUNTIME_DATA& GetBarrierRuntimeData() const noexcept
-		{
-			return REL::RelocateMemberIfNewer<BARRIER_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x1D8, 0x1E0);
-		}
-
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(BARRIER_RUNTIME_DATA, GetBarrierRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x1D8, 0x1E0);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		BARRIER_RUNTIME_DATA_CONTENT;
