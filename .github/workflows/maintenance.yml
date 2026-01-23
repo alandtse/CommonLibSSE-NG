@@ -36,7 +36,10 @@ jobs:
         git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
 
     - name: Commit and push changes
-      if: steps.verify_diff.outputs.changed == 'true'
+      if: |
+        steps.verify_diff.outputs.changed == 'true' &&
+        (github.event_name == 'push' || 
+         github.event.pull_request.head.repo.full_name == github.repository)
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: "style: apply automated maintenance (formatting & file lists)"

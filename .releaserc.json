@@ -40,30 +40,12 @@
           {
             "files": ["vcpkg.json"],
             "from": "\"version-semver\": \".*\"",
-            "to": "\"version-semver\": \"${nextRelease.version}\"",
-            "results": [
-              {
-                "file": "vcpkg.json",
-                "hasChanged": true,
-                "numMatches": 1,
-                "numReplacements": 1
-              }
-            ],
-            "countMatches": true
+            "to": "\"version-semver\": \"${nextRelease.version}\""
           },
           {
             "files": ["CMakeLists.txt"],
             "from": "VERSION [0-9]+\\.[0-9]+\\.[0-9]+",
-            "to": "VERSION ${nextRelease.version}",
-            "results": [
-              {
-                "file": "CMakeLists.txt",
-                "hasChanged": true,
-                "numMatches": 1,
-                "numReplacements": 1
-              }
-            ],
-            "countMatches": true
+            "to": "VERSION ${nextRelease.version}"
           }
         ]
       }

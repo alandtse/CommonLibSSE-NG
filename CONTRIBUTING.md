@@ -11,9 +11,9 @@ This project uses [Conventional Commits](https://www.conventionalcommits.org/) f
 See the [Conventional Commits specification](https://www.conventionalcommits.org/) for full details.
 
 **Common types and their effect on versioning:**
-- `feat:` → Minor version bump (3.7.0 → 3.8.0)
-- `fix:`, `perf:`, `refactor:`, `style:` → Patch version bump (3.7.0 → 3.7.1)
-- `BREAKING CHANGE:` or `!` → Major version bump (3.7.0 → 4.0.0)
+- `feat:` → Minor version bump (1.2.0 → 1.3.0)
+- `fix:`, `perf:`, `refactor:`, `style:` → Patch version bump (1.2.0 → 1.2.1)
+- `BREAKING CHANGE:` or `!` → Major version bump (1.2.0 → 2.0.0)
 - `docs:`, `test:`, `chore:`, `ci:`, `build:` → No version bump
 
 **Examples:**
@@ -39,8 +39,8 @@ This will run before each commit:
 ### Automated Maintenance
 
 The maintenance workflow runs automatically on:
-- **Push** to `ng`, `dev-ng`, or `vr` branches
-- **Pull Requests** targeting these branches
+- **Push** to `ng` branch
+- **Pull Requests** targeting `ng` branch
 
 It performs:
 1. Code formatting with clang-format
@@ -60,11 +60,11 @@ Version bumps are **fully automated** using [semantic-release](https://github.co
 5. Creates GitHub release
 6. Commits changes with auto-generated message
 
-**Note:** `package.json` exists solely for semantic-release npm dependencies. C++ dependencies are in `vcpkg.json`.
+**Note:** Semantic versioning is handled by the [cycjimmy/semantic-release-action](https://github.com/cycjimmy/semantic-release-action) GitHub Action. C++ dependencies are managed in `vcpkg.json`.
 
 ### Pull Request Workflow
 
-1. **Create feature branch** from `ng` or `dev-ng`
+1. **Create feature branch** from `ng`
 2. **Make changes** and commit using conventional commit format
 3. **Push branch** - maintenance workflow auto-formats on PR
 4. **Review** - ensure CI passes and maintenance commits are applied
@@ -84,10 +84,8 @@ python scripts/cmake_generate.py
 ```
 
 **Check pending release version:**
-```bash
-npm install
-npx semantic-release --dry-run
-```
+
+Review commits since last release using conventional commit types to determine the next version that would be released.
 
 ## Code Style
 

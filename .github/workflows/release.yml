@@ -14,47 +14,22 @@ jobs:
   release:
     name: Semantic Release
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: false
+          persist-credentials: true
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install semantic-release
-        run: |
-          npm install -g \
-            semantic-release@24 \
-            @semantic-release/changelog@6 \
-            @semantic-release/git@10 \
-            @google/semantic-release-replace-plugin@2 \
-            conventional-changelog-conventionalcommits@8
-
-      - name: Verify Release Condition
-        id: semantic
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npx semantic-release --dry-run > release-output.txt 2>&1 || true
-          cat release-output.txt
-          if grep -q "Published release" release-output.txt || grep -q "There are no relevant changes" release-output.txt; then
-            echo "proceed=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Release
-        if: steps.semantic.outputs.proceed == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        with:
+          extra_plugins: |
+            @google/semantic-release-replace-plugin
+            @semantic-release/changelog
+            @semantic-release/git
+            conventional-changelog-conventionalcommits
