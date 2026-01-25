@@ -367,9 +367,41 @@ namespace RE
 
 		// override (MagicTarget)
 #ifndef ENABLE_SKYRIM_AE
-		[[nodiscard]] Actor*                       GetTargetStatsObject() override;      // 002 - { return this; }
-		[[nodiscard]] bool                         MagicTargetIsActor() const override;  // 003 - { return true; }
-		[[nodiscard]] BSSimpleList<ActiveEffect*>* GetActiveEffectList() override;       // 007
+		[[nodiscard]] Actor* GetTargetStatsObject() override;      // 002 - { return this; }
+		[[nodiscard]] bool   MagicTargetIsActor() const override;  // 003 - { return true; }
+		/**
+		 * @brief Get the list of active effects on this actor
+		 * @return Pointer to list of active effects
+		 * 
+		 * @warning Behavior differs between runtimes:
+		 * 
+		 * @note SE/AE: Returns the game's native persistent list stored in actor memory.
+		 *       The list remains valid and can be safely stored or iterated multiple times.
+		 * 
+		 * @note VR (when running on Skyrim VR): Returns a thread-local temporary snapshot.
+		 *       VR has no native GetActiveEffectList() - this is a compatibility shim.
+		 *       The returned pointer is ONLY valid until the next call to this function on the same thread.
+		 *       DO NOT store the pointer. Iterate immediately and discard.
+		 *       For robust VR code, use MagicTarget::VisitActiveEffects() instead.
+		 */
+		[[nodiscard]] BSSimpleList<ActiveEffect*>* GetActiveEffectList() override;  // 007
+#else
+		/**
+		 * @brief Get the list of active effects on this actor
+		 * @return Pointer to list of active effects
+		 * 
+		 * @warning Behavior differs between runtimes:
+		 * 
+		 * @note SE/AE: Returns the game's native persistent list stored in actor memory.
+		 *       The list remains valid and can be safely stored or iterated multiple times.
+		 * 
+		 * @note VR (when running on Skyrim VR): Returns a thread-local temporary snapshot.
+		 *       VR has no native GetActiveEffectList() - this is a compatibility shim.
+		 *       The returned pointer is ONLY valid until the next call to this function on the same thread.
+		 *       DO NOT store the pointer. Iterate immediately and discard.
+		 *       For robust VR code, use MagicTarget::VisitActiveEffects() instead.
+		 */
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL BSSimpleList<ActiveEffect*>* GetActiveEffectList();  // 007
 #endif
 
 		// add
