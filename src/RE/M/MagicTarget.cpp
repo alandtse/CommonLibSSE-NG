@@ -43,7 +43,7 @@ namespace RE
 
 	BSSimpleList<ActiveEffect*>* MagicTarget::GetActiveEffectList()
 	{
-		if (REL::Module::IsVR()) {
+		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
 			// VR: Build a thread-local snapshot using VisitActiveEffects
 			static thread_local std::vector<ActiveEffect*>  effectsVec{};
 			static thread_local BSSimpleList<ActiveEffect*> activeEffects{};

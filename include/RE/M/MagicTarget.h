@@ -132,18 +132,21 @@ namespace RE
 		bool               CanAddActiveEffect();                                    // 06
 
 		/**
-		 * @brief Get the list of active effects on this actor
+		 * @brief Get the list of active effects on this magic target
 		 * @return Pointer to list of active effects
 		 * 
-		 * @warning Behavior differs between runtimes:
+		 * @warning In VR-enabled builds (SKYRIM_CROSS_VR or EXCLUSIVE_SKYRIM_VR),
+		 *          behavior differs depending on the runtime:
 		 * 
-		 * @note SE/AE: Returns the game's native persistent list stored in actor memory.
-		 *       The list remains valid and can be safely stored or iterated multiple times.
+		 * @note When running on Skyrim SE/AE: Calls through the game's vtable and
+		 *       returns the native persistent list. The list remains valid and can
+		 *       be safely stored or iterated multiple times.
 		 * 
-		 * @note VR (when running on Skyrim VR): Returns a thread-local temporary snapshot.
+		 * @note When running on Skyrim VR: Returns a thread-local temporary snapshot.
 		 *       VR has no native GetActiveEffectList() - this is a compatibility shim.
-		 *       The returned pointer is ONLY valid until the next call to this function on the same thread.
-		 *       DO NOT store the pointer. Iterate immediately and discard.
+		 *       The returned pointer is ONLY valid until the next call to this function
+		 *       on the same thread. DO NOT store the pointer. DO NOT call recursively.
+		 *       Iterate immediately and discard.
 		 *       For robust VR code, use MagicTarget::VisitActiveEffects() instead.
 		 */
 		BSSimpleList<ActiveEffect*>* GetActiveEffectList();
