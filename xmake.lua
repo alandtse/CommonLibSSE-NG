@@ -141,7 +141,7 @@ target("commonlibsse-ng")
     set_pcxxheader("include/SKSE/Impl/PCH.h")
 
     -- add flags
-    add_cxxflags("/EHsc", "/permissive-", { public = true })
+    add_cxxflags("/EHsc", "/permissive-", "/Zc:preprocessor", { public = true })
 
     -- add flags (cl)
     add_cxxflags(
