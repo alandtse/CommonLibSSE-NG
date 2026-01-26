@@ -73,5 +73,5 @@ namespace RE
 	protected:
 		NiNode* Ctor(std::uint16_t a_arrBufLen);
 	};
-	STATIC_ASSERT_SIZE(NiNode, 0x128, 0x150)
+	STATIC_ASSERT_SIZE(NiNode, 0x128, 0x150);
 }
