@@ -112,7 +112,8 @@ namespace RE
 		virtual ~MagicTarget();  // 00
 
 		// add
-		virtual bool                         AddTarget(AddTargetData& a_targetData);                                               // 01
+		virtual bool AddTarget(AddTargetData& a_targetData);  // 01
+#ifndef ENABLE_SKYRIM_VR
 		virtual TESObjectREFR*               GetTargetStatsObject();                                                               // 02 - { return false; }
 		[[nodiscard]] virtual bool           MagicTargetIsActor() const;                                                           // 03 - { return false; }
 		virtual bool                         IsInvulnerable();                                                                     // 04 - { return false; }
@@ -123,7 +124,35 @@ namespace RE
 		virtual void                         EffectRemoved(ActiveEffect* a_effect);                                                // 09 - { return; }
 		virtual float                        CheckResistance(MagicItem* a_magicItem, Effect* a_effect, TESBoundObject* a_object);  // 0A - { return 1.0; }
 		virtual bool                         CheckAbsorb(Actor* a_actor, MagicItem* a_magicItem, const Effect* a_effect);          // 0B - { return false; }
+#else
+		TESObjectREFR*     GetTargetStatsObject();                                  // 02 - { return false; }
+		[[nodiscard]] bool MagicTargetIsActor() const;                              // 03 - { return false; }
+		bool               IsInvulnerable();                                        // 04 - { return false; }
+		void               InvalidateCommandedActorEffect(ActiveEffect* a_effect);  // 05 - { return; }
+		bool               CanAddActiveEffect();                                    // 06
 
+		/**
+		 * @brief Get the list of active effects on this actor
+		 * @return Pointer to list of active effects
+		 * 
+		 * @warning Behavior differs between runtimes:
+		 * 
+		 * @note SE/AE: Returns the game's native persistent list stored in actor memory.
+		 *       The list remains valid and can be safely stored or iterated multiple times.
+		 * 
+		 * @note VR (when running on Skyrim VR): Returns a thread-local temporary snapshot.
+		 *       VR has no native GetActiveEffectList() - this is a compatibility shim.
+		 *       The returned pointer is ONLY valid until the next call to this function on the same thread.
+		 *       DO NOT store the pointer. Iterate immediately and discard.
+		 *       For robust VR code, use MagicTarget::VisitActiveEffects() instead.
+		 */
+		BSSimpleList<ActiveEffect*>* GetActiveEffectList();
+		void                         EffectAdded(ActiveEffect* a_effect);                                                  // 08 - { return; }
+		void                         EffectRemoved(ActiveEffect* a_effect);                                                // 09 - { return; }
+		float                        CheckResistance(MagicItem* a_magicItem, Effect* a_effect, TESBoundObject* a_object);  // 0A - { return 1.0; }
+		bool                         CheckAbsorb(Actor* a_actor, MagicItem* a_magicItem, const Effect* a_effect);          // 0B - { return false; }
+
+#endif
 		bool DispelEffect(MagicItem* a_spell, BSPointerHandle<Actor>& a_caster, ActiveEffect* a_effect = nullptr);
 #if defined(ENABLE_SKYRIM_VR)
 		void DispelEffectsWithArchetype(Archetype a_type, bool a_force);

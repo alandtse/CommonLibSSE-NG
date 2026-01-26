@@ -2124,48 +2124,4 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::CheckClampDamageModifier)>(0x127, 0x129, this, a_av, a_delta);
 	}
 #endif
-
-#ifdef ENABLE_SKYRIM_VR
-	namespace
-	{
-		BSSimpleList<ActiveEffect*>* BuildActiveEffectSnapshot(MagicTarget& magicTarget)
-		{
-			static thread_local std::vector<ActiveEffect*>  effectsVec{};
-			static thread_local BSSimpleList<ActiveEffect*> activeEffects{};
-
-			effectsVec.clear();
-			activeEffects.clear();
-
-			magicTarget.VisitActiveEffects([&](ActiveEffect* ae) -> BSContainer::ForEachResult {
-				if (ae) {
-					effectsVec.push_back(ae);
-				}
-				return BSContainer::ForEachResult::kContinue;
-			});
-
-			for (auto it = effectsVec.rbegin(); it != effectsVec.rend(); ++it) {
-				activeEffects.push_front(*it);
-			}
-
-			return &activeEffects;
-		}
-	}
-#endif
-
-	BSSimpleList<ActiveEffect*>* Actor::GetActiveEffectList()
-	{
-		auto* magicTarget = this->AsMagicTarget();
-		if (!magicTarget) {
-			return nullptr;
-		}
-
-#ifdef ENABLE_SKYRIM_VR
-		if (REL::Module::IsVR()) {
-			// VR COMPATIBILITY SHIM: Skyrim VR lacks native GetActiveEffectList()
-			return BuildActiveEffectSnapshot(*magicTarget);
-		}
-#endif
-		// SE/AE: Call the game's native virtual implementation
-		return magicTarget->GetActiveEffectList();
-	}
 }
