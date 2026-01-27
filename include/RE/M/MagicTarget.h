@@ -154,7 +154,6 @@ namespace RE
 		void                         EffectRemoved(ActiveEffect* a_effect);                                                // 09 - { return; }
 		float                        CheckResistance(MagicItem* a_magicItem, Effect* a_effect, TESBoundObject* a_object);  // 0A - { return 1.0; }
 		bool                         CheckAbsorb(Actor* a_actor, MagicItem* a_magicItem, const Effect* a_effect);          // 0B - { return false; }
-
 #endif
 		bool DispelEffect(MagicItem* a_spell, BSPointerHandle<Actor>& a_caster, ActiveEffect* a_effect = nullptr);
 #if defined(ENABLE_SKYRIM_VR)
