@@ -493,8 +493,11 @@ namespace RE
 		LOADED_REF_DATA* loadedData;  // 68
 		ExtraDataList    extraList;   // 70
 
-#ifndef ENABLE_SKYRIM_AE
-		RUNTIME_DATA_CONTENT
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR)
+		RUNTIME_DATA_CONTENT;  // 0x88
+#elif defined(EXCLUSIVE_SKYRIM_AE)
+		// No padding needed - ExtraDataList naturally ends at 0x90
+		RUNTIME_DATA_CONTENT;  // 0x90
 #endif
 
 	private:
@@ -503,6 +506,6 @@ namespace RE
 		void              MoveTo_Impl(const ObjectRefHandle& a_targetHandle, TESObjectCELL* a_targetCell, TESWorldSpace* a_selfWorldSpace, const NiPoint3& a_position, const NiPoint3& a_rotation);
 		void              PlayAnimation_Impl(NiControllerManager* a_manager, NiControllerSequence* a_toSeq, NiControllerSequence* a_fromSeq, bool a_arg4 = false);
 	};
-	STATIC_ASSERT_SIZE(TESObjectREFR, 0x98, 0x78, 0x98);
+	STATIC_ASSERT_SIZE(TESObjectREFR, 0x98, 0x88, 0x98);
 }
 #undef RUNTIME_DATA_CONTENT

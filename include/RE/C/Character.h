@@ -56,5 +56,5 @@ namespace RE
 		virtual void Unk_128(void);  // 128
 		virtual void Unk_129(void);  // 129 - { return 1; }
 	};
-	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x78, 0x2B0, 0x78, 0x78);
+	STATIC_ASSERT_SIZE(Character, 0x2B0, 0xD0, 0x2B0, 0xC0, 0xC0);
 }

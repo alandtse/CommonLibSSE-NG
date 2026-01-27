@@ -135,7 +135,6 @@ namespace RE
 	NiSmartPointer(Actor);
 
 	class Actor :
-#ifndef ENABLE_SKYRIM_AE
 		public TESObjectREFR,                              // 000
 		public MagicTarget,                                // 098, 0A0
 		public ActorValueOwner,                            // 0B0, 0B8
@@ -143,9 +142,6 @@ namespace RE
 		public BSTEventSink<BSTransformDeltaEvent>,        // 0C8, 0D0
 		public BSTEventSink<bhkCharacterMoveFinishEvent>,  // 0D0, 0D8
 		public IPostAnimationChannelUpdateFunctor          // 0D8, 0E0
-#else
-		public TESObjectREFR  // 000
-#endif
 	{
 	private:
 		using EntryPoint = BGSEntryPointPerkEntry::EntryPoint;
@@ -759,6 +755,6 @@ namespace RE
 		float       CalcEquippedWeight();
 		TESFaction* GetCrimeFactionImpl() const;
 	};
-	STATIC_ASSERT_SIZE(Actor, 0x2B0, 0x78, 0x2B0, 0x78);
+	STATIC_ASSERT_SIZE(Actor, 0x2B0, 0xD0, 0x2B0, 0xC0);
 }
 #undef RUNTIME_DATA_CONTENT
