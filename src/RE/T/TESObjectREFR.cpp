@@ -1239,3 +1239,22 @@ namespace RE
 		MoveTo_Impl(CreateRefHandle(), GetParentCell(), GetWorldspace(), std::move(*nearestVertex), GetAngle());
 		return true;
 	}
+
+	bool TESObjectREFR::HasKeywordWithType(DEFAULT_OBJECT a_keywordType) const
+	{
+		auto dobj = BGSDefaultObjectManager::GetSingleton();
+		if (!dobj) {
+			return false;
+		}
+
+		auto keyword = dobj->GetObject<BGSKeyword>(a_keywordType);
+		return keyword ? HasKeyword(keyword) : false;
+	}
+
+	bool TESObjectREFR::NameIncludes(std::string a_word)
+	{
+		auto        obj = GetObjectReference();
+		std::string name = obj ? obj->GetName() : "";
+
+		return name.find(a_word) != std::string::npos;
+	}
