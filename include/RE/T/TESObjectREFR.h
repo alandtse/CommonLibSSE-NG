@@ -424,6 +424,7 @@ namespace RE
 		[[nodiscard]] bool                              HasCollision() const;
 		[[nodiscard]] bool                              HasContainer() const;
 		[[nodiscard]] bool                              HasKeyword(const BGSKeyword* a_keyword) const;
+		[[nodiscard]] bool                              HasKeywordWithType(DEFAULT_OBJECT a_keywordType) const;
 		[[nodiscard]] bool                              HasKeywordInArray(const std::vector<BGSKeyword*>& a_keywords, bool a_matchAll) const;
 		[[nodiscard]] bool                              HasKeywordInList(BGSListForm* a_keywordList, bool a_matchAll) const;
 		bool                                            HasKeywordWithType(DEFAULT_OBJECT keywordType) const;
@@ -454,6 +455,9 @@ namespace RE
 		[[nodiscard]] bool                              IsPointSubmergedMoreThan(const NiPoint3& a_pos, TESObjectCELL* a_cell, float a_waterLevel) const;
 		void                                            MoveRefToNewSpace(TESObjectCELL* a_interior, TESWorldSpace* a_world);
 		void                                            MoveTo(TESObjectREFR* a_target);
+		bool                                            MoveToEditorLocation();
+		bool                                            MoveToEditorLocation(const NiPoint3& a_position, const NiPoint3& a_rotation);
+		bool                                            MoveToNearestNavmesh(const float a_minimumOffset = 50.0f);
 		bool                                            MoveToNode(TESObjectREFR* a_target, const BSFixedString& a_nodeName);
 		bool                                            MoveToNode(TESObjectREFR* a_target, NiAVObject* a_node);
 		bool                                            NameIncludes(std::string_view a_word) const;

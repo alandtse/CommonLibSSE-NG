@@ -518,7 +518,9 @@ namespace RE
 		void                                    CastPermanentMagic(bool a_wornItemEnchantments, bool a_baseSpells, bool a_raceSpells, bool a_everyActorAbility);
 		[[nodiscard]] NiPoint3                  CalculateLOSLocation(ACTOR_LOS_LOCATION a_location);
 		[[nodiscard]] bool                      CanAttackActor(Actor* a_actor);
+		[[nodiscard]] bool                      CanFly() const;
 		[[nodiscard]] bool                      CanFlyHere() const;
+		[[nodiscard]] bool                      CanNavigateToPosition(const NiPoint3& a_pos, const NiPoint3& a_new_pos, float a_speed = 2.0f, float a_distance = 64.0f) const;
 		[[nodiscard]] bool                      CanOfferServices() const;
 		[[nodiscard]] bool                      CanPickpocket() const;
 		[[nodiscard]] bool                      CanTalkToPlayer() const;
@@ -537,12 +539,14 @@ namespace RE
 		void                                    EnableAI(bool a_enable);
 		void                                    EndInterruptPackage(bool a_skipDialogue);
 		void                                    EvaluatePackage(bool a_immediate = false, bool a_resetAI = false);
+		[[nodiscard]] bool                      FightsInWater() const;
 		[[nodiscard]] TESNPC*                   GetActorBase();
 		[[nodiscard]] const TESNPC*             GetActorBase() const;
 		[[nodiscard]] float                     GetActorValueMax(ActorValue a_value) const;
 		[[nodiscard]] float                     GetActorValueModifier(ACTOR_VALUE_MODIFIER a_modifier, ActorValue a_value) const;
 		[[nodiscard]] float                     GetAimAngle() const;
 		[[nodiscard]] float                     GetAimHeading() const;
+		[[nodiscard]] float                     GetAttackChance(Actor* a_target, BGSAttackData* a_attackData) const;
 		float                                   GetAttackReach() const;
 		[[nodiscard]] InventoryEntryData*       GetAttackingWeapon();
 		[[nodiscard]] const InventoryEntryData* GetAttackingWeapon() const;
@@ -576,8 +580,11 @@ namespace RE
 		[[nodiscard]] ObjectRefHandle           GetOccupiedFurniture() const;
 		[[nodiscard]] bool                      GetPlayerControls() const;
 		[[nodiscard]] TESRace*                  GetRace() const;
+		[[nodiscard]] float                     GetReach() const;
 		[[nodiscard]] float                     GetRegenDelay(ActorValue a_actorValue) const;
+		[[nodiscard]] bool                      GetRider(NiPointer<Actor>& a_outRider);
 		[[nodiscard]] TESObjectARMO*            GetSkin() const;
+		[[nodiscard]] float                     GetSubmergedLevel(float a_zPos, TESObjectCELL* a_cell);
 		[[nodiscard]] TESObjectARMO*            GetSkin(BGSBipedObjectForm::BipedObjectSlot a_slot, bool a_noInit = false);
 		[[nodiscard]] SOUL_LEVEL                GetSoulSize() const;
 		[[nodiscard]] TESNPC*                   GetTemplateBase();
@@ -593,6 +600,7 @@ namespace RE
 		[[nodiscard]] bool                      HasKeywordString(std::string_view a_formEditorID);
 		[[nodiscard]] bool                      HasLineOfSight(TESObjectREFR* a_ref, bool& a_arg2);
 		[[nodiscard]] bool                      HasOutfitItems(BGSOutfit* a_outfit);
+		[[nodiscard]] bool                      HasMagicEffectWithKeyword(BGSKeyword* a_keyword);
 		[[nodiscard]] bool                      HasPerk(BGSPerk* a_perk) const;
 		[[nodiscard]] bool                      HasShout(TESShout* a_shout) const;
 		[[nodiscard]] bool                      HasSpell(SpellItem* a_spell) const;
@@ -601,6 +609,7 @@ namespace RE
 		[[nodiscard]] bool                      IsAttacking() const;
 		[[nodiscard]] bool                      IsAIEnabled() const;
 		[[nodiscard]] bool                      IsAlarmed() const;
+		[[nodiscard]] bool                      IsAllowRotation() const;
 		[[nodiscard]] bool                      IsAMount() const;
 		[[nodiscard]] bool                      IsAngryWithPlayer() const { return GetActorRuntimeData().boolFlags.all(BOOL_FLAGS::kAngryWithPlayer); };
 		[[nodiscard]] bool                      IsAnimationDriven() const;
@@ -613,11 +622,14 @@ namespace RE
 		[[nodiscard]] bool                      IsDoingFavor() const;
 		[[nodiscard]] bool                      IsDualCasting() const;
 		[[nodiscard]] bool                      IsEssential() const;
+		[[nodiscard]] bool                      IsEssentialDown() const;
 		[[nodiscard]] bool                      IsFactionInCrimeGroup(const TESFaction* a_faction) const;
 		[[nodiscard]] bool                      IsGhost() const;
 		[[nodiscard]] bool                      IsGuard() const;
 		[[nodiscard]] bool                      IsHostileToActor(Actor* a_actor);
+		[[nodiscard]] bool                      IsInBleedout() const;
 		[[nodiscard]] bool                      IsInCastPowerList(SpellItem* a_power);
+		[[nodiscard]] bool                      IsInJumpState() const;
 		[[nodiscard]] bool                      IsInKillMove() const noexcept { return GetActorRuntimeData().boolFlags.all(BOOL_FLAGS::kIsInKillMove); }
 		[[nodiscard]] bool                      IsInMidair() const;
 		[[nodiscard]] bool                      IsInRagdollState() const;
@@ -625,9 +637,11 @@ namespace RE
 		[[nodiscard]] bool                      IsLimbGone(std::uint32_t a_limb);
 		[[nodiscard]] bool                      IsMoving() const;
 		[[nodiscard]] bool                      IsOnMount() const;
+		[[nodiscard]] bool                      IsOnWaterTriangle() const;
 		[[nodiscard]] bool                      IsOverEncumbered() const;
 		bool                                    IsPathing() const;
 		[[nodiscard]] bool                      IsPlayerTeammate() const;
+		[[nodiscard]] bool                      IsPointSubmergedMoreThan(const NiPoint3& a_pos, TESObjectCELL* a_cell, float a_waterLevel);
 		[[nodiscard]] bool                      IsPowerAttacking() const;
 		[[nodiscard]] bool                      IsProtected() const;
 		[[nodiscard]] bool                      IsRotationAllowed() const;
@@ -647,11 +661,14 @@ namespace RE
 		void                                    RemoveOutfitItems(BGSOutfit* a_outfit);
 		bool                                    RemoveSpell(SpellItem* a_spell);
 		[[nodiscard]] std::int32_t              RequestDetectionLevel(Actor* a_target, DETECTION_PRIORITY a_priority = DETECTION_PRIORITY::kNormal);
+		[[nodiscard]] std::int32_t              RequestLOS(Actor* a_target, float a_viewCone = 2.0f * std::numbers::pi_v<float>);
 		bool                                    SetDefaultOutfit(BGSOutfit* a_outfit, bool a_update3D);
 		void                                    SetHeading(float a_angle);  // SetRotationZ
 		void                                    SetLifeState(ACTOR_LIFE_STATE a_lifeState);
 		void                                    SetPlayerControls(bool a_enable);
 		void                                    SetLooking(float a_angle);  // SetRotationX
+		void                                    SetRotationX(float a_angle);
+		void                                    SetRotationZ(float a_angle);
 		bool                                    SetSleepOutfit(BGSOutfit* a_outfit, bool a_update3D);
 		void                                    StealAlarm(TESObjectREFR* a_ref, TESForm* a_object, std::int32_t a_num, std::int32_t a_total, TESForm* a_owner, bool a_allowWarning);
 		void                                    StopAlarmOnActor();
