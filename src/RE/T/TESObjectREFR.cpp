@@ -1207,3 +1207,35 @@ namespace RE
 	}
 #endif
 }
+
+	bool TESObjectREFR::MoveToEditorLocation()
+	{
+		return MoveToEditorLocation(GetStartingLocation(), GetStartingAngle());
+	}
+
+	bool TESObjectREFR::MoveToEditorLocation(const NiPoint3& a_position, const NiPoint3& a_rotation)
+	{
+		auto editorLocation = GetEditorLocation();
+		if (!editorLocation) {
+			return false;
+		}
+
+		auto worldLocRefHandle = editorLocation->worldLocMarker;
+		auto worldLocRef = worldLocRefHandle ? worldLocRefHandle.get() : nullptr;
+		if (worldLocRefHandle && worldLocRef) {
+			MoveTo_Impl(worldLocRefHandle, worldLocRef->GetParentCell(), worldLocRef->GetWorldspace(), a_position, a_rotation);
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TESObjectREFR::MoveToNearestNavmesh(const float a_minimumOffset)
+	{
+		auto nearestVertex = this->FindNearestVertex(a_minimumOffset);
+		if (!nearestVertex)
+			return false;
+
+		MoveTo_Impl(CreateRefHandle(), GetParentCell(), GetWorldspace(), std::move(*nearestVertex), GetAngle());
+		return true;
+	}

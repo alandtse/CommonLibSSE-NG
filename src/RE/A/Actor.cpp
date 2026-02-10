@@ -140,10 +140,24 @@ namespace RE
 		return func(this, a_actor);
 	}
 
+	bool Actor::CanFly() const
+	{
+		using func_t = decltype(&Actor::CanFly);
+		REL::Relocation<func_t> func{ RELOCATION_ID(36238, 0) };
+		return func(this);
+	}
+
 	bool Actor::CanFlyHere() const
 	{
 		const auto* worldSpace = GetWorldspace();
 		return worldSpace && worldSpace->HasMaxHeightData();
+	}
+
+	bool Actor::CanNavigateToPosition(const NiPoint3& a_pos, const NiPoint3& a_new_pos, float a_speed, float a_distance) const
+	{
+		using func_t = decltype(&Actor::CanNavigateToPosition);
+		REL::Relocation<func_t> func{ RELOCATION_ID(46050, 47314) };
+		return func(this, a_pos, a_new_pos, a_speed, a_distance);
 	}
 
 	bool Actor::CanOfferServices() const
@@ -2125,3 +2139,103 @@ namespace RE
 	}
 #endif
 }
+	bool Actor::FightsInWater() const
+	{
+		using func_t = decltype(&Actor::FightsInWater);
+		REL::Relocation<func_t> func{ RELOCATION_ID(36236, 0) };
+		return func(this);
+	}
+
+	float Actor::GetAttackChance(Actor* a_target, BGSAttackData* a_attackData) const
+	{
+		using func_t = decltype(&Actor::GetAttackChance);
+		REL::Relocation<func_t> func{ RELOCATION_ID(49748, 50675) };
+		return func(this, a_target, a_attackData);
+	}
+
+	float Actor::GetReach() const
+	{
+		using func_t = decltype(&Actor::GetReach);
+		REL::Relocation<func_t> func{ RELOCATION_ID(37588, 38538) };
+		return func(this);
+	}
+
+	bool Actor::GetRider(NiPointer<Actor>& a_outRider)
+	{
+		using func_t = decltype(&Actor::GetRider);
+		REL::Relocation<func_t> func{ RELOCATION_ID(37758, 38703) };
+		return func(this, a_outRider);
+	}
+
+	float Actor::GetSubmergedLevel(float a_zPos, TESObjectCELL* a_cell)
+	{
+		using func_t = decltype(&Actor::GetSubmergedLevel);
+		REL::Relocation<func_t> func{ REL::RelocationID(36452, 37448) };
+		return func(this, a_zPos, a_cell);
+	}
+
+	bool Actor::HasMagicEffectWithKeyword(BGSKeyword* a_keyword)
+	{
+		using func_t = decltype(&Actor::HasMagicEffectWithKeyword);
+		REL::Relocation<func_t> func{ RELOCATION_ID(19220, 19646) };
+		return func(this, a_keyword);
+	}
+
+	bool Actor::IsAllowRotation() const
+	{
+		bool result = false;
+		return GetGraphVariableBool("bAllowRotation", result) && result;
+	}
+
+	bool Actor::IsEssentialDown() const
+	{
+		using func_t = decltype(&Actor::IsEssentialDown);
+		REL::Relocation<func_t> func{ RELOCATION_ID(48460, 0) };
+		return func(this);
+	}
+
+	bool Actor::IsInBleedout() const
+	{
+		using func_t = decltype(&Actor::IsInBleedout);
+		REL::Relocation<func_t> func{ RELOCATION_ID(48461, 0) };
+		return func(this);
+	}
+
+	bool Actor::IsInJumpState() const
+	{
+		bool result = false;
+		return GetGraphVariableBool("bInJumpState", result) && result;
+	}
+
+	bool Actor::IsOnWaterTriangle() const
+	{
+		using func_t = decltype(&Actor::IsOnWaterTriangle);
+		REL::Relocation<func_t> func{ RELOCATION_ID(36817, 0) };
+		return func(this);
+	}
+
+	bool Actor::IsPointSubmergedMoreThan(const NiPoint3& a_pos, TESObjectCELL* a_cell, float a_waterLevel)
+	{
+		return IsPointDeepUnderWater(a_pos.z, a_cell) >= a_waterLevel;
+	}
+
+	std::int32_t Actor::RequestLOS(Actor* a_target, float a_viewCone)
+	{
+		using func_t = decltype(&Actor::RequestLOS);
+		REL::Relocation<func_t> func{ RELOCATION_ID(36752, 37768) };
+		return func(this, a_target, a_viewCone);
+	}
+
+	void Actor::SetRotationX(float a_angle)
+	{
+		using func_t = decltype(&Actor::SetRotationX);
+		REL::Relocation<func_t> func{ RELOCATION_ID(36602, 37610) };
+		return func(this, a_angle);
+	}
+
+	void Actor::SetRotationZ(float a_angle)
+	{
+		using func_t = decltype(&Actor::SetRotationZ);
+		REL::Relocation<func_t> func{ RELOCATION_ID(36248, 37230) };
+		return func(this, a_angle);
+	}
