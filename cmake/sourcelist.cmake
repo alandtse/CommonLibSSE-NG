@@ -1995,6 +1995,7 @@ set(SOURCES
 	src/RE/C/CombatBehaviorController.cpp
 	src/RE/C/CombatBehaviorTree.cpp
 	src/RE/C/CombatBehaviorTreeNode.cpp
+	src/RE/C/CombatController.cpp
 	src/RE/C/CommandTable.cpp
 	src/RE/C/ConeProjectile.cpp
 	src/RE/C/Console.cpp
