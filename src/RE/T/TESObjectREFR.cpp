@@ -1206,55 +1206,55 @@ namespace RE
 		REL::RelocateVirtual<decltype(&TESObjectREFR::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object);
 	}
 #endif
-}
 
-bool TESObjectREFR::MoveToEditorLocation()
-{
-	return MoveToEditorLocation(GetStartingLocation(), GetStartingAngle());
-}
+	bool TESObjectREFR::MoveToEditorLocation()
+	{
+		return MoveToEditorLocation(GetStartingLocation(), GetStartingAngle());
+	}
 
-bool TESObjectREFR::MoveToEditorLocation(const NiPoint3& a_position, const NiPoint3& a_rotation)
-{
-	auto editorLocation = GetEditorLocation();
-	if (!editorLocation) {
+	bool TESObjectREFR::MoveToEditorLocation(const NiPoint3& a_position, const NiPoint3& a_rotation)
+	{
+		auto editorLocation = GetEditorLocation();
+		if (!editorLocation) {
+			return false;
+		}
+
+		auto worldLocRefHandle = editorLocation->worldLocMarker;
+		auto worldLocRef = worldLocRefHandle ? worldLocRefHandle.get() : nullptr;
+		if (worldLocRefHandle && worldLocRef) {
+			MoveTo_Impl(worldLocRefHandle, worldLocRef->GetParentCell(), worldLocRef->GetWorldspace(), a_position, a_rotation);
+			return true;
+		}
+
 		return false;
 	}
 
-	auto worldLocRefHandle = editorLocation->worldLocMarker;
-	auto worldLocRef = worldLocRefHandle ? worldLocRefHandle.get() : nullptr;
-	if (worldLocRefHandle && worldLocRef) {
-		MoveTo_Impl(worldLocRefHandle, worldLocRef->GetParentCell(), worldLocRef->GetWorldspace(), a_position, a_rotation);
+	bool TESObjectREFR::MoveToNearestNavmesh(const float a_minimumOffset)
+	{
+		auto nearestVertex = this->FindNearestVertex(a_minimumOffset);
+		if (!nearestVertex)
+			return false;
+
+		MoveTo_Impl(CreateRefHandle(), GetParentCell(), GetWorldspace(), std::move(*nearestVertex), GetAngle());
 		return true;
 	}
 
-	return false;
-}
+	bool TESObjectREFR::HasKeywordWithType(DEFAULT_OBJECT a_keywordType) const
+	{
+		auto dobj = BGSDefaultObjectManager::GetSingleton();
+		if (!dobj) {
+			return false;
+		}
 
-bool TESObjectREFR::MoveToNearestNavmesh(const float a_minimumOffset)
-{
-	auto nearestVertex = this->FindNearestVertex(a_minimumOffset);
-	if (!nearestVertex)
-		return false;
-
-	MoveTo_Impl(CreateRefHandle(), GetParentCell(), GetWorldspace(), std::move(*nearestVertex), GetAngle());
-	return true;
-}
-
-bool TESObjectREFR::HasKeywordWithType(DEFAULT_OBJECT a_keywordType) const
-{
-	auto dobj = BGSDefaultObjectManager::GetSingleton();
-	if (!dobj) {
-		return false;
+		auto keyword = dobj->GetObject<BGSKeyword>(a_keywordType);
+		return keyword ? HasKeyword(keyword) : false;
 	}
 
-	auto keyword = dobj->GetObject<BGSKeyword>(a_keywordType);
-	return keyword ? HasKeyword(keyword) : false;
-}
+	bool TESObjectREFR::NameIncludes(std::string a_word)
+	{
+		auto        obj = GetObjectReference();
+		std::string name = obj ? obj->GetName() : "";
 
-bool TESObjectREFR::NameIncludes(std::string a_word)
-{
-	auto        obj = GetObjectReference();
-	std::string name = obj ? obj->GetName() : "";
-
-	return name.find(a_word) != std::string::npos;
+		return name.find(a_word) != std::string::npos;
+	}
 }

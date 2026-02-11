@@ -10,7 +10,7 @@ namespace RE
 	{
 	public:
 		static bool Validate(CombatBehaviorTreeNode*) { return true; }
-		static bool ValidateChildren(CombatBehaviorTreeNode* node, const BSFixedString& type);
+		static bool ValidateChildren(CombatBehaviorTreeNode* node, const BSFixedString& type) { return true; }
 
 		uint32_t SelectChild(CombatBehaviorTreeNode*, [[maybe_unused]] uint32_t selected_ind) const { return 0xFFFFFFFF; }
 	};

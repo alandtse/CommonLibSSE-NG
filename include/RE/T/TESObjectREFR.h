@@ -427,8 +427,7 @@ namespace RE
 		[[nodiscard]] bool                              HasKeywordWithType(DEFAULT_OBJECT a_keywordType) const;
 		[[nodiscard]] bool                              HasKeywordInArray(const std::vector<BGSKeyword*>& a_keywords, bool a_matchAll) const;
 		[[nodiscard]] bool                              HasKeywordInList(BGSListForm* a_keywordList, bool a_matchAll) const;
-		bool                                            HasKeywordWithType(DEFAULT_OBJECT keywordType) const;
-		bool                                            HasKeywordWithType(DefaultObjectID keywordType) const;
+		[[nodiscard]] bool                              HasKeywordWithType(DefaultObjectID keywordType) const;
 		[[nodiscard]] bool                              HasQuestObject() const;
 		void                                            InitChildActivates(TESObjectREFR* a_actionRef);
 		bool                                            InitInventoryIfRequired(bool a_ignoreContainerExtraData = false);

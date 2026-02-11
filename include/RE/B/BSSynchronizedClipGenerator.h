@@ -8,6 +8,7 @@ namespace RE
 	public:
 		class hkbDefaultSynchronizedScene : public hkReferencedObject
 		{
+		public:
 			inline static constexpr auto RTTI = RTTI_BSSynchronizedClipGenerator__hkbDefaultSynchronizedScene;
 			inline static constexpr auto VTABLE = VTABLE_BSSynchronizedClipGenerator__hkbDefaultSynchronizedScene;
 
