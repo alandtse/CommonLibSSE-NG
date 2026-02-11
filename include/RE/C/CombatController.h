@@ -80,26 +80,26 @@ namespace RE
 		bool CheckStraightPath(NiPoint3& dst, float dist, float min_dist = -1.0f) const;
 
 		// members
-		CombatGroup*                   combatGroup;           // 00
-		CombatState*                   state;                 // 08
-		CombatInventory*               inventory;             // 10
-		CombatBlackboard*              blackboard;            // 18
-		CombatBehaviorController*      behaviorController;    // 20
-		ActorHandle                    attackerHandle;        // 28
-		ActorHandle                    targetHandle;          // 2C
-		ActorHandle                    previousTargetHandle;  // 30
-		REX::EnumSet<COMBAT_STANCE, std::uint8_t> stance;    // 34
-		bool                           startedCombat;         // 35
-		std::uint8_t                   unk36;                 // 36
-		std::uint8_t                   unk37;                 // 37
-		TESCombatStyle*                combatStyle;           // 38
-		bool                           stoppedCombat;         // 40
-		bool                           unk41;                 // 41 - isbeingMeleeAttacked?
-		bool                           ignoringCombat;        // 42
-		bool                           inactive;              // 43
-		AITimer                        unk44;                 // 44
-		float                          lowMovementDelta;      // 4C
-		BSTArray<CombatAimController*> aimControllers;        // 50
+		CombatGroup*                              combatGroup;           // 00
+		CombatState*                              state;                 // 08
+		CombatInventory*                          inventory;             // 10
+		CombatBlackboard*                         blackboard;            // 18
+		CombatBehaviorController*                 behaviorController;    // 20
+		ActorHandle                               attackerHandle;        // 28
+		ActorHandle                               targetHandle;          // 2C
+		ActorHandle                               previousTargetHandle;  // 30
+		REX::EnumSet<COMBAT_STANCE, std::uint8_t> stance;                // 34
+		bool                                      startedCombat;         // 35
+		std::uint8_t                              unk36;                 // 36
+		std::uint8_t                              unk37;                 // 37
+		TESCombatStyle*                           combatStyle;           // 38
+		bool                                      stoppedCombat;         // 40
+		bool                                      unk41;                 // 41 - isbeingMeleeAttacked?
+		bool                                      ignoringCombat;        // 42
+		bool                                      inactive;              // 43
+		AITimer                                   unk44;                 // 44
+		float                                     lowMovementDelta;      // 4C
+		BSTArray<CombatAimController*>            aimControllers;        // 50
 #if defined(EXCLUSIVE_SKYRIM_AE)
 		AE_RUNTIME_DATA_CONTENT;
 #endif

@@ -13,9 +13,9 @@ namespace RE
 		class BSModelProcessor : public BSTSingletonExplicit<BSModelProcessor>
 		{
 		public:
-			inline static constexpr auto RTTI = RTTI_BSModelDB__BSModelProcessor;
-ttinline static constexpr auto VTABLE = VTABLE_ModelProcessor;
-			inline static constexpr auto VTABLE = VTABLE_BSModelDB__BSModelProcessor;
+			inline static constexpr auto   RTTI = RTTI_BSModelDB__BSModelProcessor;
+			ttinline static constexpr auto VTABLE = VTABLE_ModelProcessor;
+			inline static constexpr auto   VTABLE = VTABLE_BSModelDB__BSModelProcessor;
 
 			virtual ~BSModelProcessor();
 
@@ -29,9 +29,9 @@ ttinline static constexpr auto VTABLE = VTABLE_ModelProcessor;
 		class TESProcessor : public BSModelDB::BSModelProcessor
 		{
 		public:
-			inline static constexpr auto RTTI = RTTI_TESModelDB____TESProcessor;
-ttinline static constexpr auto VTABLE = VTABLE_ModelProcessor;
-			inline static constexpr auto VTABLE = VTABLE_TESModelDB____TESProcessor;
+			inline static constexpr auto   RTTI = RTTI_TESModelDB____TESProcessor;
+			ttinline static constexpr auto VTABLE = VTABLE_ModelProcessor;
+			inline static constexpr auto   VTABLE = VTABLE_TESModelDB____TESProcessor;
 
 			~TESProcessor() override;
 

@@ -6,9 +6,9 @@ namespace RE
 	class BSLeafAnimNode : public BSFadeNode
 	{
 	public:
-		inline static constexpr auto RTTI = RTTI_BSLeafAnimNode;
-ttinline static constexpr auto VTABLE = VTABLE_BSLeafAnimNode;
-		inline static auto           Ni_RTTI = NiRTTI_BSLeafAnimNode;
+		inline static constexpr auto   RTTI = RTTI_BSLeafAnimNode;
+		ttinline static constexpr auto VTABLE = VTABLE_BSLeafAnimNode;
+		inline static auto             Ni_RTTI = NiRTTI_BSLeafAnimNode;
 
 		~BSLeafAnimNode() override;  //00
 

@@ -127,22 +127,22 @@ namespace RE
 
 	//static_assert(sizeof(CombatBehaviorTreeNodeObject<Object>) == 0x28)
 
-	DECLARE_SPECIALIZATION(CombatBehaviorBlock, 46647, 0);                                          
-	DECLARE_SPECIALIZATION(CombatBehaviorBlockAttack, 46648, 0);                                    
-	DECLARE_SPECIALIZATION(CombatBehaviorChildSelector<ConditionalChildSelector>, 46756, 0);        
-	DECLARE_SPECIALIZATION(CombatBehaviorChildSelector<RandomValueChildSelector>, 46757, 0);        
-	DECLARE_SPECIALIZATION(CombatBehaviorChildSelector<ValueChildSelector>, 46477, 0);              
-	DECLARE_SPECIALIZATION(CombatBehaviorFallbackSelector<NextChildSelector>, 32407, 0);            
-	DECLARE_SPECIALIZATION(CombatBehaviorFallbackSelector<WeightedRandomChildSelector>, 47787, 0);  
-	DECLARE_SPECIALIZATION(CombatBehaviorParallel, 46279, 0);                                       
-	DECLARE_SPECIALIZATION(CombatBehaviorRepeat, 32409, 0);                                         
-	DECLARE_SPECIALIZATION(CombatBehaviorSequence, 46375, 0);                                       
+	DECLARE_SPECIALIZATION(CombatBehaviorBlock, 46647, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorBlockAttack, 46648, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorChildSelector<ConditionalChildSelector>, 46756, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorChildSelector<RandomValueChildSelector>, 46757, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorChildSelector<ValueChildSelector>, 46477, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorFallbackSelector<NextChildSelector>, 32407, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorFallbackSelector<WeightedRandomChildSelector>, 47787, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorParallel, 46279, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorRepeat, 32409, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorSequence, 46375, 0);
 
 #undef DECLARE_SPECIALIZATION
 
 	// Specs for instantiated nodes
 
-#define DECLARE_SPECIALIZATION(List, size, ARR)                                    \
+#define DECLARE_SPECIALIZATION(List, size, ARR)                                               \
 	template <>                                                                               \
 	class CombatBehaviorTreeNodeObject<List> : public CombatBehaviorTreeNodeObjectImpl<List>  \
 	{                                                                                         \
@@ -153,7 +153,7 @@ namespace RE
 		CombatBehaviorTreeNodeObject(auto&&... params) :                                      \
 			CombatBehaviorTreeNodeObjectImpl<List>(std::forward<decltype(params)>(params)...) \
 		{                                                                                     \
-			this->SetVftable(ARR[0]);              \
+			this->SetVftable(ARR[0]);                                                         \
 		}                                                                                     \
 	};
 
@@ -162,8 +162,8 @@ namespace RE
 #define COMMA ,
 	// TODO: rest
 
-	DECLARE_SPECIALIZATION(CombatBehaviorRepeat COMMA float, 0x30, RE::VTABLE_CombatBehaviorTreeNodeObject1_CombatBehaviorRepeat_float_);                                                             
-	DECLARE_SPECIALIZATION(CombatBehaviorRepeat COMMA float COMMA CombatBehaviorRepeat::Flags, 0x30, RE::VTABLE_CombatBehaviorTreeNodeObject2_CombatBehaviorRepeat_float_CombatBehaviorRepeat__FLAGS_); 
+	DECLARE_SPECIALIZATION(CombatBehaviorRepeat COMMA float, 0x30, RE::VTABLE_CombatBehaviorTreeNodeObject1_CombatBehaviorRepeat_float_);
+	DECLARE_SPECIALIZATION(CombatBehaviorRepeat COMMA float COMMA CombatBehaviorRepeat::Flags, 0x30, RE::VTABLE_CombatBehaviorTreeNodeObject2_CombatBehaviorRepeat_float_CombatBehaviorRepeat__FLAGS_);
 #undef COMMA
 
 #undef DECLARE_SPECIALIZATION

@@ -8,8 +8,8 @@ namespace RE
 	{
 	public:
 		using BipedObjectSlot = BIPED_MODEL::BipedObjectSlot;
-		inline static constexpr auto RTTI = RTTI___GetArmorInSlotFunctor;
-ttinline static constexpr auto VTABLE = VTABLE_GetArmorInSlotFunctor;
+		inline static constexpr auto   RTTI = RTTI___GetArmorInSlotFunctor;
+		ttinline static constexpr auto VTABLE = VTABLE_GetArmorInSlotFunctor;
 
 		virtual ~GetArmorInSlotFunctor();  // 00
 

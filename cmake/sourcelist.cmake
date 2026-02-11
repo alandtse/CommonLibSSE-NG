@@ -34,6 +34,7 @@ set(SOURCES
 	include/RE/A/AddCallbackVisitor.h
 	include/RE/A/AlchemyItem.h
 	include/RE/A/AlchemyMenu.h
+	include/RE/A/AnimationClipDataSingleton.h
 	include/RE/A/AnimationFileManagerSingleton.h
 	include/RE/A/AnimationObjects.h
 	include/RE/A/AnimationSystemUtils.h
@@ -286,6 +287,7 @@ set(SOURCES
 	include/RE/B/BSInvMarker.h
 	include/RE/B/BSJobs.h
 	include/RE/B/BSKeyboardDevice.h
+	include/RE/B/BSLeafAnimNode.h
 	include/RE/B/BSLensFlareRenderData.h
 	include/RE/B/BSLight.h
 	include/RE/B/BSLightingShader.h
@@ -393,6 +395,7 @@ set(SOURCES
 	include/RE/B/BSStripPSysData.h
 	include/RE/B/BSStripParticleSystem.h
 	include/RE/B/BSSubIndexTriShape.h
+	include/RE/B/BSSynchronizedClipGenerator.h
 	include/RE/B/BSSystemFile.h
 	include/RE/B/BSSystemFileStorage.h
 	include/RE/B/BSSystemUtility.h
@@ -518,6 +521,7 @@ set(SOURCES
 	include/RE/C/CharEvent.h
 	include/RE/C/Character.h
 	include/RE/C/ChestsLooted.h
+	include/RE/C/ChildSelectorBase.h
 	include/RE/C/ClickHandler.h
 	include/RE/C/CloakEffect.h
 	include/RE/C/Clouds.h
@@ -525,14 +529,73 @@ set(SOURCES
 	include/RE/C/CollisionLayers.h
 	include/RE/C/Color.h
 	include/RE/C/ColorUtil.h
+	include/RE/C/CombatAcquireItem.h
+	include/RE/C/CombatAimController.h
 	include/RE/C/CombatAnimation.h
+	include/RE/C/CombatAttackData.h
+	include/RE/C/CombatBehavior.h
+	include/RE/C/CombatBehaviorAccessors.h
+	include/RE/C/CombatBehaviorAcquireItem.h
+	include/RE/C/CombatBehaviorAcquireResource.h
+	include/RE/C/CombatBehaviorAdvance.h
+	include/RE/C/CombatBehaviorBackoff.h
+	include/RE/C/CombatBehaviorBlock.h
+	include/RE/C/CombatBehaviorBlockAttack.h
+	include/RE/C/CombatBehaviorChildSelector.h
+	include/RE/C/CombatBehaviorCircle.h
+	include/RE/C/CombatBehaviorCircleDistant.h
+	include/RE/C/CombatBehaviorContext.h
+	include/RE/C/CombatBehaviorContextAcquireWeapon.h
+	include/RE/C/CombatBehaviorContextBlock.h
+	include/RE/C/CombatBehaviorContextCloseMovement.h
+	include/RE/C/CombatBehaviorContextDodgeThreat.h
+	include/RE/C/CombatBehaviorContextFlankingMovement.h
+	include/RE/C/CombatBehaviorContextFlee.h
+	include/RE/C/CombatBehaviorContextMagic.h
+	include/RE/C/CombatBehaviorContextMelee.h
+	include/RE/C/CombatBehaviorContextRangedMovement.h
+	include/RE/C/CombatBehaviorContextSearch.h
+	include/RE/C/CombatBehaviorContextShout.h
 	include/RE/C/CombatBehaviorController.h
+	include/RE/C/CombatBehaviorDodgeThreat.h
+	include/RE/C/CombatBehaviorDynamicConditionalNode.h
+	include/RE/C/CombatBehaviorDynamicSelector.h
+	include/RE/C/CombatBehaviorEquipContext.h
+	include/RE/C/CombatBehaviorExpression.h
+	include/RE/C/CombatBehaviorFallback.h
+	include/RE/C/CombatBehaviorFallbackSelector.h
+	include/RE/C/CombatBehaviorFallbackToRanged.h
+	include/RE/C/CombatBehaviorFindWeapon.h
+	include/RE/C/CombatBehaviorIdle.h
+	include/RE/C/CombatBehaviorParallel.h
+	include/RE/C/CombatBehaviorPause.h
+	include/RE/C/CombatBehaviorRepeat.h
+	include/RE/C/CombatBehaviorReposition.h
+	include/RE/C/CombatBehaviorResource.h
+	include/RE/C/CombatBehaviorSequence.h
+	include/RE/C/CombatBehaviorSpawnParallel.h
 	include/RE/C/CombatBehaviorStack.h
+	include/RE/C/CombatBehaviorSurround.h
 	include/RE/C/CombatBehaviorThread.h
 	include/RE/C/CombatBehaviorTree.h
+	include/RE/C/CombatBehaviorTreeConditionalNode.h
+	include/RE/C/CombatBehaviorTreeCreateContextNode.h
 	include/RE/C/CombatBehaviorTreeLinkNode.h
 	include/RE/C/CombatBehaviorTreeManager.h
 	include/RE/C/CombatBehaviorTreeNode.h
+	include/RE/C/CombatBehaviorTreeNodeEvaluateFunction.h
+	include/RE/C/CombatBehaviorTreeNodeObject.h
+	include/RE/C/CombatBehaviorTreeRootNode.h
+	include/RE/C/CombatBehaviorTreeUtils.h
+	include/RE/C/CombatBehaviorTreeValueNode.h
+	include/RE/C/CombatBehaviorTreeValueNodeT.h
+	include/RE/C/CombatBehaviorTreeWrapperNode.h
+	include/RE/C/CombatBehaviorTrees.h
+	include/RE/C/CombatBlackboard.h
+	include/RE/C/CombatBlackboardFlag.h
+	include/RE/C/CombatBlackboardKey.h
+	include/RE/C/CombatBlackboardKeyBase.h
+	include/RE/C/CombatBlackboardManager.h
 	include/RE/C/CombatController.h
 	include/RE/C/CombatGroup.h
 	include/RE/C/CombatGroupDetectionListener.h
@@ -560,9 +623,15 @@ set(SOURCES
 	include/RE/C/CombatMagicCasterTargetEffect.h
 	include/RE/C/CombatMagicCasterWard.h
 	include/RE/C/CombatManager.h
+	include/RE/C/CombatMeleeAimController.h
 	include/RE/C/CombatObject.h
+	include/RE/C/CombatPath.h
 	include/RE/C/CombatSearchLocation.h
 	include/RE/C/CombatState.h
+	include/RE/C/CombatTargetLocation.h
+	include/RE/C/CombatTargetLocationSearch.h
+	include/RE/C/CombatTargetLocationSearchResult.h
+	include/RE/C/CombatThreat.h
 	include/RE/C/CombatUtilities.h
 	include/RE/C/CommandEffect.h
 	include/RE/C/CommandSummonedEffect.h
@@ -574,6 +643,7 @@ set(SOURCES
 	include/RE/C/ConcreteFormFactory.h
 	include/RE/C/ConcreteObjectFormFactory.h
 	include/RE/C/ConcussionEffect.h
+	include/RE/C/ConditionalChildSelector.h
 	include/RE/C/ConeProjectile.h
 	include/RE/C/ConfirmAndNameCallback.h
 	include/RE/C/ConfirmCloseRaceSexMenuCallback.h
@@ -598,6 +668,7 @@ set(SOURCES
 	include/RE/C/CrosshairPickData.h
 	include/RE/C/CureEffect.h
 	include/RE/C/CursorMenu.h
+	include/RE/D/DBTraits.h
 	include/RE/D/DamageImpactData.h
 	include/RE/D/DarknessEffect.h
 	include/RE/D/DecalData.h
@@ -987,6 +1058,8 @@ set(SOURCES
 	include/RE/G/GWaitable.h
 	include/RE/G/GameSettingCollection.h
 	include/RE/G/GarbageCollector.h
+	include/RE/G/GetArmorInSlotFunctor.h
+	include/RE/G/GetWornMaskVisitor.h
 	include/RE/G/GiftMenu.h
 	include/RE/G/GiftMenuCallbackFunc.h
 	include/RE/G/GlobalLocations.h
@@ -1019,6 +1092,9 @@ set(SOURCES
 	include/RE/H/hkArray.h
 	include/RE/H/hkBaseObject.h
 	include/RE/H/hkBaseTypes.h
+	include/RE/H/hkClass.h
+	include/RE/H/hkClassEnum.h
+	include/RE/H/hkClassMember.h
 	include/RE/H/hkContactPoint.h
 	include/RE/H/hkContactPointMaterial.h
 	include/RE/H/hkContainerAllocators.h
@@ -1051,6 +1127,7 @@ set(SOURCES
 	include/RE/H/hkaAnnotationTrack.h
 	include/RE/H/hkaDefaultAnimationControl.h
 	include/RE/H/hkaRagdollInstance.h
+	include/RE/H/hkaSplineCompressedAnimation.h
 	include/RE/H/hkbAnimationBindingSet.h
 	include/RE/H/hkbAssetBundleStringData.h
 	include/RE/H/hkbBehaviorGraph.h
@@ -1075,6 +1152,8 @@ set(SOURCES
 	include/RE/H/hkbRigidBodySetup.h
 	include/RE/H/hkbShapeSetup.h
 	include/RE/H/hkbStateMachine.h
+	include/RE/H/hkbVariableInfo.h
+	include/RE/H/hkbVariableValueSet.h
 	include/RE/H/hkp3AxisSweep.h
 	include/RE/H/hkpAction.h
 	include/RE/H/hkpAgentNnTrack.h
@@ -1225,6 +1304,7 @@ set(SOURCES
 	include/RE/I/IXAudio2EngineCallback.h
 	include/RE/I/IXAudio2Voice.h
 	include/RE/I/IXAudio2VoiceCallback.h
+	include/RE/I/ImageData.h
 	include/RE/I/ImageSpaceData.h
 	include/RE/I/ImageSpaceEffect.h
 	include/RE/I/ImageSpaceEffectDepthOfField.h
@@ -1341,14 +1421,17 @@ set(SOURCES
 	include/RE/M/MobIterOperator.h
 	include/RE/M/ModManagerData.h
 	include/RE/M/ModManagerMenu.h
+	include/RE/M/ModelProcessor.h
 	include/RE/M/ModelReferenceEffect.h
 	include/RE/M/Moon.h
+	include/RE/M/MotionDataContainer.h
 	include/RE/M/MouseMoveEvent.h
 	include/RE/M/MoveToFunctor.h
 	include/RE/M/Movement.h
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
+	include/RE/M/MovementParameters.h
 	include/RE/M/MoviePlayer.h
 	include/RE/M/MultiBoundMarkerData.h
 	include/RE/N/NativeFunction.h
@@ -1357,6 +1440,7 @@ set(SOURCES
 	include/RE/N/NavMesh.h
 	include/RE/N/NavMeshInfoMap.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
+	include/RE/N/NextChildSelector.h
 	include/RE/N/NiAVObject.h
 	include/RE/N/NiAVObjectPalette.h
 	include/RE/N/NiAccumulator.h
@@ -1488,6 +1572,7 @@ set(SOURCES
 	include/RE/P/PositionPlayerEvent.h
 	include/RE/P/Precipitation.h
 	include/RE/P/PrecomputedNavmeshInfoPathMap.h
+	include/RE/P/PriorityChildSelector.h
 	include/RE/P/ProcessLists.h
 	include/RE/P/ProcessType.h
 	include/RE/P/Profiler.h
@@ -1502,6 +1587,7 @@ set(SOURCES
 	include/RE/R/RaceSexMenu.h
 	include/RE/R/RaceSexMenuEvent.h
 	include/RE/R/RallyEffect.h
+	include/RE/R/RandomValueChildSelector.h
 	include/RE/R/RawFuncCallQuery.h
 	include/RE/R/ReadyWeaponHandler.h
 	include/RE/R/ReanimateEffect.h
@@ -1794,6 +1880,7 @@ set(SOURCES
 	include/RE/V/VRResetHMDHeight.h
 	include/RE/V/VRWandEvent.h
 	include/RE/V/ValueAndConditionsEffect.h
+	include/RE/V/ValueChildSelector.h
 	include/RE/V/ValueModifierEffect.h
 	include/RE/V/VampireLordEffect.h
 	include/RE/V/Variable.h
@@ -1806,6 +1893,7 @@ set(SOURCES
 	include/RE/W/WeaponAnimationGraphManagerHolder.h
 	include/RE/W/WeaponEnchantmentController.h
 	include/RE/W/WeatherType.h
+	include/RE/W/WeightedRandomChildSelector.h
 	include/RE/W/WerewolfEffect.h
 	include/RE/W/WerewolfFeedEffect.h
 	include/RE/W/WorldSpaceMenu.h

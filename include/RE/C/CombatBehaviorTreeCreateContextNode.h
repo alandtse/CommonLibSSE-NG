@@ -134,16 +134,16 @@ namespace RE
 
 	// TODO: rest
 
-	DECLARE_SPECIALIZATION(CombatBehaviorContextAcquireWeapon, 46373, 0);  
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextCloseMovement, 46753, 0);       
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextCover, 48865, 0);               
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextDodgeThreat, 46599, 0);         
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextFindAttackLocation, 46985, 0);  
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextFlankingMovement, 47164, 0);    
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextFlee, 47449, 0);                
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextHide, 47450, 0);                
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextRangedMovement, 48484, 0);      
-																		   //DECLARE_SPECIALIZATION(CombatBehaviorContextSearch, 48572, 0);              
+	DECLARE_SPECIALIZATION(CombatBehaviorContextAcquireWeapon, 46373, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextCloseMovement, 46753, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextCover, 48865, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextDodgeThreat, 46599, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextFindAttackLocation, 46985, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextFlankingMovement, 47164, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextFlee, 47449, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextHide, 47450, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextRangedMovement, 48484, 0);
+	//DECLARE_SPECIALIZATION(CombatBehaviorContextSearch, 48572, 0);
 
 #undef DECLARE_SPECIALIZATION
 

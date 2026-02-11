@@ -79,21 +79,21 @@ namespace RE
 	//static_assert(sizeof(CombatBehaviorTreeConditionalNode<Expr>) == (size))
 
 #define COMMA ,
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorUnaryExpression<CombatBehaviorFunc<bool (*)(Actor* COMMA Actor*) COMMA CombatBehaviorTreeUtils::CombatBehaviorAttacker COMMA CombatBehaviorTreeUtils::CombatBehaviorTarget> COMMA OpNot>>, 0x40, 47786, 0);  
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorEquipContext COMMA decltype(&CombatBehaviorEquipContext::CanEquipItem)>>, 0x38, 46484, 0);                                                                                          
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextFlee COMMA decltype(&CombatBehaviorContextFlee::CheckShouldFlee)>>, 0x38, 47448, 0);                                                                                         
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextFlankingMovement COMMA decltype(&CombatBehaviorContextFlankingMovement::CheckShouldStalk)>>, 0x38, 47163, 0);                                                                
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextDodgeThreat COMMA decltype(&CombatBehaviorContextDodgeThreat::CheckShouldDodge)>>, 0x38, 46598, 0);                                                                          
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextCloseMovement COMMA decltype(&CombatBehaviorContextCloseMovement::CheckShouldFallbackToRanged)>>, 0x38, 46752, 0);                                                           
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextAcquireWeapon COMMA decltype(&CombatBehaviorContextAcquireWeapon::HasAmmoTarget)>>, 0x38, 46372, 0);                                                                         
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(Actor*) COMMA CombatBehaviorTreeUtils::CombatBehaviorAttacker>>, 0x40, 47785, 0);                                                                                                              
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorBinaryExpression<CombatBehaviorMemberFunc<CombatBehaviorContextSearch COMMA decltype(&CombatBehaviorContextSearch::QCurrentSearchPriority)> COMMA unsigned int COMMA OpGreaterThan>>, 0x40, 48571, 0);       
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorUnaryExpression<CombatBehaviorFunc<bool (*)(Actor* COMMA Actor*) COMMA CombatBehaviorTreeUtils::CombatBehaviorAttacker COMMA CombatBehaviorTreeUtils::CombatBehaviorTarget> COMMA OpNot>>, 0x40, 47786, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorEquipContext COMMA decltype(&CombatBehaviorEquipContext::CanEquipItem)>>, 0x38, 46484, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextFlee COMMA decltype(&CombatBehaviorContextFlee::CheckShouldFlee)>>, 0x38, 47448, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextFlankingMovement COMMA decltype(&CombatBehaviorContextFlankingMovement::CheckShouldStalk)>>, 0x38, 47163, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextDodgeThreat COMMA decltype(&CombatBehaviorContextDodgeThreat::CheckShouldDodge)>>, 0x38, 46598, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextCloseMovement COMMA decltype(&CombatBehaviorContextCloseMovement::CheckShouldFallbackToRanged)>>, 0x38, 46752, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextAcquireWeapon COMMA decltype(&CombatBehaviorContextAcquireWeapon::HasAmmoTarget)>>, 0x38, 46372, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(Actor*) COMMA CombatBehaviorTreeUtils::CombatBehaviorAttacker>>, 0x40, 47785, 0);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorBinaryExpression<CombatBehaviorMemberFunc<CombatBehaviorContextSearch COMMA decltype(&CombatBehaviorContextSearch::QCurrentSearchPriority)> COMMA unsigned int COMMA OpGreaterThan>>, 0x40, 48571, 0);
 	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorBinaryExpression<CombatBehaviorMemberFunc<ActorState COMMA decltype(&ActorState::GetFlyState)> COMMA FLY_STATE COMMA OpEquals>>, 0x40, 47784, 0);
 #undef COMMA
 
 	// Specs for instantiated nodes
 
-#define DECLARE_SPECIALIZATION(Expr, size, ARR)                                              \
+#define DECLARE_SPECIALIZATION(Expr, size, ARR)                                                         \
 	template <>                                                                                         \
 	class CombatBehaviorTreeConditionalNode<Expr> : public CombatBehaviorTreeConditionalNodeImpl<Expr>  \
 	{                                                                                                   \
@@ -104,17 +104,17 @@ namespace RE
 		CombatBehaviorTreeConditionalNode(auto&& expr, bool isSelector) :                               \
 			CombatBehaviorTreeConditionalNodeImpl<Expr>(std::forward<decltype(expr)>(expr), isSelector) \
 		{                                                                                               \
-			this->SetVftable(ARR[0]);                        \
+			this->SetVftable(ARR[0]);                                                                   \
 		}                                                                                               \
 	};
 
 	//static_assert(sizeof(CombatBehaviorTreeConditionalNode<Expr>) == (size))
 
 #define COMMA ,
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextShout COMMA decltype(&CombatBehaviorContextShout::CalcCastMagicChance)>>>>, 0x40, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorMemberFunc_CombatBehaviorContextShout_float__CombatBehaviorContextShout_____void______);                                                                        
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextMagic COMMA decltype(&CombatBehaviorContextMagic::CalcCastMagicChance)>>>>, 0x40, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorMemberFunc_CombatBehaviorContextMagic_float__CombatBehaviorContextMagic_____void______);                                                                        
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorFunc<float (*)()>>>>, 0x40, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorFunc_float_____void______);                                                                                                                                                                                                                          
-	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorFunc<float (*)(Actor* COMMA Actor*) COMMA CombatBehaviorTreeUtils::CombatBehaviorAttacker COMMA CombatBehaviorTreeUtils::CombatBehaviorTarget>>>>, 0x48, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorFunc2_float_____Actor___Actor____CombatBehaviorTree__CombatBehaviorAttacker_CombatBehaviorTree__CombatBehaviorTarget_____);  
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextShout COMMA decltype(&CombatBehaviorContextShout::CalcCastMagicChance)>>>>, 0x40, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorMemberFunc_CombatBehaviorContextShout_float__CombatBehaviorContextShout_____void______);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorMemberFunc<CombatBehaviorContextMagic COMMA decltype(&CombatBehaviorContextMagic::CalcCastMagicChance)>>>>, 0x40, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorMemberFunc_CombatBehaviorContextMagic_float__CombatBehaviorContextMagic_____void______);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorFunc<float (*)()>>>>, 0x40, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorFunc_float_____void______);
+	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorFunc<float (*)(Actor* COMMA Actor*) COMMA CombatBehaviorTreeUtils::CombatBehaviorAttacker COMMA CombatBehaviorTreeUtils::CombatBehaviorTarget>>>>, 0x48, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorFunc2_float_____Actor___Actor____CombatBehaviorTree__CombatBehaviorAttacker_CombatBehaviorTree__CombatBehaviorTarget_____);
 	DECLARE_SPECIALIZATION(CombatBehaviorExpression<CombatBehaviorFunc<bool (*)(float) COMMA CombatBehaviorExpression<CombatBehaviorFunc<float (*)(Actor*) COMMA CombatBehaviorTreeUtils::CombatBehaviorAttacker>>>>, 0x48, RE::VTABLE_CombatBehaviorTreeConditionalNode_CombatBehaviorExpression_CombatBehaviorFunc1_bool_____float__CombatBehaviorExpression_CombatBehaviorFunc1_float_____Actor____CombatBehaviorTree__CombatBehaviorAttacker_____);
 #undef COMMA
 

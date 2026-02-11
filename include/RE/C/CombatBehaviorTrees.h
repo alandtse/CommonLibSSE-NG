@@ -9,7 +9,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeCombat* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeCombat*> singleton{ REL::ID(518752) };  
+			REL::Relocation<CombatBehaviorTreeCombat*> singleton{ REL::ID(518752) };
 			return singleton.get();
 		}
 
@@ -21,7 +21,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeMovement* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeMovement*> singleton{ REL::ID(519075) };  
+			REL::Relocation<CombatBehaviorTreeMovement*> singleton{ REL::ID(519075) };
 			return singleton.get();
 		}
 
@@ -33,7 +33,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeAcquireWeapon* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeAcquireWeapon*> singleton{ REL::ID(518759) };  
+			REL::Relocation<CombatBehaviorTreeAcquireWeapon*> singleton{ REL::ID(518759) };
 			return singleton.get();
 		}
 
@@ -45,7 +45,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeAction* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeAction*> singleton{ REL::ID(518776) };  
+			REL::Relocation<CombatBehaviorTreeAction*> singleton{ REL::ID(518776) };
 			return singleton.get();
 		}
 
@@ -57,7 +57,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeActionEquipmentSelector* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeActionEquipmentSelector*> singleton{ REL::ID(518777) };  
+			REL::Relocation<CombatBehaviorTreeActionEquipmentSelector*> singleton{ REL::ID(518777) };
 			return singleton.get();
 		}
 
@@ -69,7 +69,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeDodgeThreat* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeDodgeThreat*> singleton{ REL::ID(518800) };  
+			REL::Relocation<CombatBehaviorTreeDodgeThreat*> singleton{ REL::ID(518800) };
 			return singleton.get();
 		}
 
@@ -81,7 +81,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeBlock* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeBlock*> singleton{ REL::ID(518807) };  
+			REL::Relocation<CombatBehaviorTreeBlock*> singleton{ REL::ID(518807) };
 			return singleton.get();
 		}
 
@@ -93,7 +93,7 @@ namespace RE
 	public:
 		static CombatBehaviorTreeCloseMovement* GetSingleton()
 		{
-			REL::Relocation<CombatBehaviorTreeCloseMovement*> singleton{ REL::ID(518824) };  
+			REL::Relocation<CombatBehaviorTreeCloseMovement*> singleton{ REL::ID(518824) };
 			return singleton.get();
 		}
 
