@@ -10,7 +10,7 @@ It supports Skyrim Special Edition (SE), Skyrim Anniversary Edition (AE), and Sk
 
 ## Usage
 
-For SKSE plugin development, you want to have CommonLibSSE-NG available for discovery, and included as a build dependency.
+To develop a C++ project that uses CommonLibSSE, you'll want to have this code available for discovery, and included as a build dependency by your build manager. Below are examples using the `xmake` or `cmake` managers.
 
 ### Getting the code: Git SubModule
 
@@ -36,7 +36,6 @@ remote: Compressing objects: 100% (197/197), done.
 remote: Total 66210 (delta 2397), reused 2335 (delta 2329), pack-reused 63684 (from 1)
 Receiving objects: 100% (66210/66210), 18.99 MiB | 19.58 MiB/s, done.
 Resolving deltas: 100% (51252/51252), done.
-warning: in the working copy of '.gitmodules', LF will be replaced by CRLF the next time Git touches it
 PS E:\Git\foo-bar
 ```
 
@@ -44,6 +43,11 @@ PS E:\Git\foo-bar
 > If your submodule ended up in a location where the rest of the code can't find it, you can remove & re-add submodules, see https://stackoverflow.com/a/1260982
 
 At this point, git is tracking changes to your code in your machine. You can add a cloud-based remote for backup, distribution, or collaboration; instructions are here for [GitHub](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github) or [CodeBerg](https://docs.codeberg.org/getting-started/first-repository/).
+
+To update your project's submodules you can use:
+```powershell
+PS E:\Git\foo-bar> git submodule update --init --recursive
+```
 
 ### Build Dependency: Xmake
 
@@ -71,22 +75,20 @@ find_package(CommonLibSSE REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC CommonLibSSE::CommonLibSSE)
 ```
 
-For more information on how to use CommonLibSSE NG, you can look at the
-[example plugin](https://gitlab.com/colorglass/commonlibsse-sample-plugin).
-
 ### Example Projects
 
-#### PrismaUI-SKSE/example-skse-plugin
+#### Community Shaders
+
+Available at https://github.com/doodlum/skyrim-community-shaders, this is an SKSE plugin for advanced graphics manipulations, replacing several of Skyrim's shaders. It uses the `cmake` build system. Hosted on Nexus Mods at https://www.nexusmods.com/skyrimspecialedition/mods/86492
+
+#### Crash Logger SSE
+
+Available at https://github.com/alandtse/CrashLoggerSSE, this is an SKSE plugin that generates logs when the game crashes. It uses the `cmake` build system. Hosted on Nexus mods at [https://www.nexusmods.com/skyrimspecialedition/mods/87706](https://www.nexusmods.com/skyrimspecialedition/mods/59818)
+
+#### PrismaUI Example Plugin
 
 Available at https://github.com/PrismaUI-SKSE/example-skse-plugin, this is a template project, meant to be forked and tinkered. It uses the `xmake` build system, and has minimal configuration requirements. The PrismaUI components are easy to remove to make a more general SKSE plugin.
 
-#### Dylbill-Iroh/Skypal_NG
-
-Available at https://github.com/Dylbill-Iroh/Skypal_NG, this is a single-file full SKSE plugin. It produces a DLL drop-in replacement for SkyPal suitable for Skyrim AE. The result is hosted on Nexus Mods at https://www.nexusmods.com/skyrimspecialedition/mods/101817
-
-#### jarari/DynamicKeyActionFramework
-
-Available at https://github.com/jarari/DynamicKeyActionFramework, this is an SKSE plugin that allows playing animations with keybinds. Hosted on Nexus mods at https://www.nexusmods.com/skyrimspecialedition/mods/87706
 
 ## New Features
 
