@@ -390,8 +390,8 @@ CommonLibSSE NG uses different abstraction patterns based on the type and comple
 **Common Mistakes to Avoid:**
 
 1. **Incorrect Override Declarations**
-   - ? WRONG: Adding `override` when function doesn't actually override
-   - ? CORRECT: Only use `override` when signature exactly matches base class
+   - **WRONG:** Adding `override` when function doesn't actually override
+   - **CORRECT:** Only use `override` when signature exactly matches base class
 
    ```cpp
    // Base class: void OnVisible(NiCullingProcess&, std::int32_t)
@@ -430,8 +430,8 @@ CommonLibSSE NG uses different abstraction patterns based on the type and comple
 ### Resource Management
 
 1. **REL::Relocation Must Be Static**
-   - ? WRONG: `REL::Relocation<Type*> singleton{ REL::ID(12345) };`
-   - ? CORRECT: `static REL::Relocation<Type*> singleton{ REL::ID(12345) };`
+   - **WRONG:** `REL::Relocation<Type*> singleton{ REL::ID(12345) };`
+   - **CORRECT:** `static REL::Relocation<Type*> singleton{ REL::ID(12345) };`
 
    Static ensures singleton is initialized once and persists across calls.
 
@@ -462,9 +462,9 @@ CommonLibSSE NG uses different abstraction patterns based on the type and comple
 ### Comments and Documentation
 
 1. **No Version Difference Comments**
-   - ? WRONG: `// Moved to OtherFile.h`
-   - ? WRONG: `float member; // 0x158 in SE/AE, 0x110 in VR`
-   - ? CORRECT: `float member; // 158 / 110` (standard offset format)
+   - **WRONG:** `// Moved to OtherFile.h`
+   - **WRONG:** `float member; // 0x158 in SE/AE, 0x110 in VR`
+   - **CORRECT:** `float member; // 158 / 110` (standard offset format)
 
 2. **Keep Comments Minimal**
    - Only add comments explaining *why*, not *what*

@@ -27,7 +27,7 @@ if not defined VCVARS_PATH (
                 goto :vcvars_found
             )
             REM Check VS 2022 Professional
-            if exist "%%D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\\Build\vcvars64.bat" (
+            if exist "%%D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars64.bat" (
                 set "VCVARS_PATH=%%D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars64.bat"
                 goto :vcvars_found
             )
