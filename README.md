@@ -12,6 +12,9 @@ It supports Skyrim Special Edition (SE), Skyrim Anniversary Edition (AE), and Sk
 
 To develop a C++ project that uses CommonLibSSE, you'll want to have this code available for discovery, and included as a build dependency by your build manager. Below are examples using the `xmake` or `cmake` managers.
 
+> [!TIP]
+> For examples & templates see the wiki: https://github.com/alandtse/CommonLibVR/wiki/Projects-using-CommonLib
+
 ### Getting the code: Git SubModule
 
 Assuming you have a folder with your mod material, this can be converted to a git repository, for which this repo can be added as a submodule,
@@ -74,21 +77,6 @@ If using the [CMake build system](https://cmake.org/cmake/help/v4.2/index.html#)
 find_package(CommonLibSSE REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC CommonLibSSE::CommonLibSSE)
 ```
-
-### Example Projects
-
-#### Community Shaders
-
-Available at https://github.com/doodlum/skyrim-community-shaders, this is an SKSE plugin for advanced graphics manipulations, replacing several of Skyrim's shaders. It uses the `cmake` build system. Hosted on Nexus Mods at https://www.nexusmods.com/skyrimspecialedition/mods/86492
-
-#### Crash Logger SSE
-
-Available at https://github.com/alandtse/CrashLoggerSSE, this is an SKSE plugin that generates logs when the game crashes. It uses the `cmake` build system. Hosted on Nexus mods at [https://www.nexusmods.com/skyrimspecialedition/mods/87706](https://www.nexusmods.com/skyrimspecialedition/mods/59818)
-
-#### PrismaUI Example Plugin
-
-Available at https://github.com/PrismaUI-SKSE/example-skse-plugin, this is a template project, meant to be forked and tinkered. It uses the `xmake` build system, and has minimal configuration requirements. The PrismaUI components are easy to remove to make a more general SKSE plugin.
-
 
 ## New Features
 
