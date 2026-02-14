@@ -10,6 +10,7 @@
 #include "RE/E/ExtraWornLeft.h"
 #include "RE/F/FormTypes.h"
 #include "RE/M/MemoryManager.h"
+#include "RE/N/NiPoint3.h"
 #include "RE/S/SoulLevels.h"
 
 namespace RE
@@ -190,6 +191,7 @@ namespace RE
 		BGSEncounterZone*     GetEncounterZone();
 		ExtraTextDisplayData* GetExtraTextDisplayData();
 		TESObjectREFR*        GetLinkedRef(BGSKeyword* a_keyword);
+		float                 GetObjectHealth() const;
 		TESForm*              GetOwner();
 		SOUL_LEVEL            GetSoulLevel() const;
 		ObjectRefHandle       GetTeleportLinkedDoor();
@@ -205,6 +207,7 @@ namespace RE
 		void                  SetLinkedRef(TESObjectREFR* a_targetRef, BGSKeyword* a_keyword);
 		void                  SetOverrideName(const char* a_name);
 		void                  SetOwner(TESForm* a_owner);
+		void                  SetStartingPosition(TESObjectREFR* a_refr, const NiPoint3& a_position, const NiPoint3& a_rotation, BGSLocation* a_location);
 
 	private:
 		[[nodiscard]] BSExtraData*     GetByTypeImpl(ExtraDataType a_type) const;
@@ -214,8 +217,11 @@ namespace RE
 
 		// members
 		BaseExtraList _extraData;  // 00
-#ifndef ENABLE_SKYRIM_AE
-		mutable BSReadWriteLock _lock;  // 10, 18; offset 18 only for AE versions .629 and later.
+#ifndef SKYRIM_CROSS_VR
+		mutable BSReadWriteLock _lock;  // 10 / 18 (AE 1.6.629+)
 #endif
 	};
+	// Size varies by runtime due to lock offset changes in AE 1.6.629
+	// SE/VR: 0x18, AE<629: 0x18, AE>=629: 0x20
+	STATIC_ASSERT_SIZE(ExtraDataList, 0x18, 0x18, 0x18);
 }

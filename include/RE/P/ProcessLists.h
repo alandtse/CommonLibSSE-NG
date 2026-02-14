@@ -5,6 +5,7 @@
 #include "RE/B/BSPointerHandle.h"
 #include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTArray.h"
+#include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSingleton.h"
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/C/Crime.h"

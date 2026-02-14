@@ -231,6 +231,13 @@ namespace RE
 		return func(this, a_item, a_containerOwner, a_containerRef, a_eventType);
 	}
 
+	void PlayerCharacter::SetGodMode(bool a_enable)
+	{
+		using func_t = decltype(&PlayerCharacter::SetGodMode);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39424, 40500) };
+		return func(this, a_enable);
+	}
+
 	void PlayerCharacter::SetAIDriven(bool a_enable)
 	{
 		using func_t = decltype(&PlayerCharacter::SetAIDriven);

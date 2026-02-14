@@ -140,10 +140,24 @@ namespace RE
 		return func(this, a_actor);
 	}
 
+	bool Actor::CanFly() const
+	{
+		using func_t = decltype(&Actor::CanFly);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36238, 0) };
+		return func(this);
+	}
+
 	bool Actor::CanFlyHere() const
 	{
 		const auto* worldSpace = GetWorldspace();
 		return worldSpace && worldSpace->HasMaxHeightData();
+	}
+
+	bool Actor::CanNavigateToPosition(const NiPoint3& a_pos, const NiPoint3& a_new_pos, float a_speed, float a_distance) const
+	{
+		using func_t = decltype(&Actor::CanNavigateToPosition);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46050, 47314) };
+		return func(this, a_pos, a_new_pos, a_speed, a_distance);
 	}
 
 	bool Actor::CanOfferServices() const
@@ -287,6 +301,13 @@ namespace RE
 		return func(this, a_immediate, a_resetAI);
 	}
 
+	bool Actor::FightsInWater() const
+	{
+		using func_t = decltype(&Actor::FightsInWater);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36236, 0) };
+		return func(this);
+	}
+
 	TESNPC* Actor::GetActorBase()
 	{
 		auto obj = GetBaseObject();
@@ -310,6 +331,13 @@ namespace RE
 		using func_t = decltype(&Actor::GetActorValueModifier);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(37524, 38469) };
 		return func(this, a_modifier, a_value);
+	}
+
+	float Actor::GetAttackChance(Actor* a_targ, RE::BGSAttackData* a_atkData) const
+	{
+		using func_t = decltype(&Actor::GetAttackChance);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(49748, 50675) };
+		return func(this, a_targ, a_atkData);
 	}
 
 	float Actor::GetAimAngle() const
@@ -366,6 +394,13 @@ namespace RE
 		auto proc = _currentProcess->middleHigh;
 
 		return attackData->IsLeftAttack() ? proc->leftHand : proc->rightHand;
+	}
+
+	float Actor::GetBoundRadius() const
+	{
+		using func_t = decltype(&Actor::GetBoundRadius);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36444, 37439) };
+		return func(this);
 	}
 
 	bhkCharacterController* Actor::GetCharController() const
@@ -429,13 +464,6 @@ namespace RE
 			return GetActorRuntimeData().currentProcess->GetCurrentShout();
 		}
 		return nullptr;
-	}
-
-	float Actor::GetBoundRadius() const
-	{
-		using func_t = decltype(&Actor::GetBoundRadius);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(36444, 37439) };
-		return func(this);
 	}
 
 	InventoryEntryData* Actor::GetEquippedEntryData(bool a_leftHand) const
@@ -617,6 +645,11 @@ namespace RE
 		return false;
 	}
 
+	PROCESS_TYPE Actor::GetProcessLevel() const
+	{
+		return GetActorRuntimeData().currentProcess ? GetActorRuntimeData().currentProcess->processLevel.get() : PROCESS_TYPE::kNone;
+	}
+
 	TESRace* Actor::GetRace() const
 	{
 		auto* _race = GetActorRuntimeData().race;
@@ -628,6 +661,13 @@ namespace RE
 		return base ? base->race : nullptr;
 	}
 
+	float Actor::GetReach() const
+	{
+		using func_t = decltype(&Actor::GetReach);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(37588, 38538) };
+		return func(this);
+	}
+
 	float Actor::GetRegenDelay(ActorValue a_actorValue) const
 	{
 		const auto& runtimeData = GetActorRuntimeData();
@@ -635,6 +675,13 @@ namespace RE
 			return runtimeData.currentProcess->GetRegenDelay(a_actorValue);
 		}
 		return 0.0f;
+	}
+
+	float Actor::GetSubmergedLevel(float a_zPos, RE::TESObjectCELL* a_cell)
+	{
+		using func_t = decltype(&Actor::GetSubmergedLevel);
+		static REL::Relocation<func_t> func{ REL::RelocationID(36452, 37448) };
+		return func(this, a_zPos, a_cell);
 	}
 
 	TESObjectARMO* Actor::GetSkin() const
@@ -772,6 +819,13 @@ namespace RE
 		return func(this, a_ref, a_arg2);
 	}
 
+	bool Actor::HasMagicEffectWithKeyword(RE::BGSKeyword* a_kywd)
+	{
+		using func_t = decltype(&Actor::HasMagicEffectWithKeyword);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(19220, 19646) };
+		return func(this, a_kywd);
+	}
+
 	bool Actor::HasOutfitItems(BGSOutfit* a_outfit)
 	{
 		using func_t = decltype(&Actor::HasOutfitItems);
@@ -843,6 +897,12 @@ namespace RE
 		return GetGraphVariableBool(FixedStrings::GetSingleton()->bAnimationDriven, result) && result;
 	}
 
+	bool Actor::IsAllowRotation() const
+	{
+		bool result = false;
+		return GetGraphVariableBool("bAllowRotation", result) && result;
+	}
+
 	bool Actor::IsBeingRidden() const
 	{
 		return IsAMount() && extraList.HasType(ExtraDataType::kInteraction);
@@ -905,6 +965,13 @@ namespace RE
 		return GetActorRuntimeData().boolFlags.all(BOOL_FLAGS::kEssential);
 	}
 
+	bool Actor::IsEssentialDown() const
+	{
+		using func_t = decltype(&Actor::IsEssentialDown);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(48460, 0) };
+		return func(this);
+	}
+
 	bool Actor::IsFactionInCrimeGroup(const TESFaction* a_faction) const
 	{
 		auto crimFac = GetCrimeFaction();
@@ -938,11 +1005,24 @@ namespace RE
 		return func(this, a_actor);
 	}
 
+	bool Actor::IsInBleedout() const
+	{
+		using func_t = decltype(&Actor::IsInBleedout);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(48461, 0) };
+		return func(this);
+	}
+
 	bool Actor::IsInCastPowerList(SpellItem* a_power)
 	{
 		using func_t = decltype(&Actor::IsInCastPowerList);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(37793, 38742) };
 		return func(this, a_power);
+	}
+
+	bool Actor::IsInJumpState() const
+	{
+		bool result = false;
+		return GetGraphVariableBool("bInJumpState", result) && result;
 	}
 
 	bool Actor::IsInMidair() const
@@ -983,6 +1063,13 @@ namespace RE
 	bool Actor::IsOnMount() const
 	{
 		return !IsAMount() && extraList.HasType(ExtraDataType::kInteraction);
+	}
+
+	bool Actor::IsOnWaterTriangle() const
+	{
+		using func_t = decltype(&Actor::IsOnWaterTriangle);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36817, 0) };
+		return func(this);
 	}
 
 	bool Actor::IsOverEncumbered() const
@@ -1059,6 +1146,11 @@ namespace RE
 	{
 		auto* _currentProcess = GetActorRuntimeData().currentProcess;
 		return _currentProcess && _currentProcess->GetIsSummonedCreature();
+	}
+
+	bool Actor::IsSummonedByPlayer() const noexcept
+	{
+		return IsSummoned() && GetCommandingActor().get() && GetCommandingActor().get()->IsPlayerRef();
 	}
 
 	bool Actor::IsTrespassing() const
@@ -1148,6 +1240,13 @@ namespace RE
 		using func_t = decltype(&Actor::RequestDetectionLevel);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(36748, 37764) };
 		return func(this, a_target, a_priority);
+	}
+
+	std::int32_t Actor::RequestLOS(Actor* a_target, float a_viewCone)
+	{
+		using func_t = decltype(&Actor::RequestLOS);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36752, 37768) };
+		return func(this, a_target, a_viewCone);
 	}
 
 	bool Actor::SetDefaultOutfit(BGSOutfit* a_outfit, bool a_update3D)
@@ -1297,6 +1396,13 @@ namespace RE
 				}
 			}
 		}
+	}
+
+	bool Actor::UpdateNavPos(const NiPoint3& a_pos, const NiPoint3& a_new_pos, float a_speed, float a_distance) const
+	{
+		using func_t = decltype(&Actor::UpdateNavPos);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46050, 47314) };
+		return func(this, a_pos, a_new_pos, a_speed, a_distance);
 	}
 
 	void Actor::UpdateRegenDelay(ActorValue a_actorValue, float a_regenDelay)
@@ -1759,9 +1865,9 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::InitiateGetUpPackage)>(0x0DE, 0x0E0, this);
 	}
 
-	void Actor::PutCreatedPackage(TESPackage* a_package, bool a_tempPackage, bool a_createdPackage)
+	void Actor::PutCreatedPackage(TESPackage* a_package, bool a_tempPackage, bool a_createdPackage, bool a_allowFromFurniture)
 	{
-		RelocateVirtual<decltype(&Actor::PutCreatedPackage)>(0x0DF, 0x0E1, this, a_package, a_tempPackage, a_createdPackage);
+		RelocateVirtual<decltype(&Actor::PutCreatedPackage)>(0x0DF, 0x0E1, this, a_package, a_tempPackage, a_createdPackage, a_allowFromFurniture);
 	}
 
 	void Actor::UpdateAlpha()

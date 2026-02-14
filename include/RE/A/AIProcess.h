@@ -6,11 +6,11 @@
 #include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTSmartPointer.h"
+#include "RE/P/ProcessType.h"
 
 namespace RE
 {
 	enum class RESET_3D_FLAGS;
-	enum class PROCESS_TYPE;
 	class Actor;
 	class bhkCharacterController;
 	class BipedAnim;
@@ -110,6 +110,7 @@ namespace RE
 			kNone = 0,
 			kTargetActivated = 1 << 0,
 			kCurrentActionComplete = 1 << 1,
+			kIsAggressor = 1 << 2,
 			kAlert = 1 << 3,
 			kFollower = 1 << 4,
 			kPackageDoneOnce = 1 << 5,

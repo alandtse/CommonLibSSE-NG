@@ -55,8 +55,8 @@ namespace RE
 	BSTArray<NiPointer<BSLight>>       unk190;                /* 190 */                         \
 	mutable BSSpinLock                 lightQueueLock;        /* 1A8 */                         \
 	BSTArray<NiPointer<NiAVObject>>    litGeometry;           /* 1B0 */                         \
-	BSTArray<NiPointer<NiAVObject>>    objectList1;           /* 1C8 */                         \
-	BSTArray<NiPointer<NiAVObject>>    objectList2;           /* 1E0 */                         \
+	BSTArray<NiPointer<NiAVObject>>    particleNodes;         /* 1C8 */                         \
+	BSTArray<NiPointer<NiAVObject>>    actorRootNodes;        /* 1E0 */                         \
 	mutable BSSpinLock                 objectListLock;        /* 1F8 */                         \
 	BSLight*                           sunLight;              /* 200 */                         \
 	BSLight*                           cloudLight;            /* 208 */                         \
@@ -68,7 +68,7 @@ namespace RE
 	std::uint32_t                      pad21C;                /* 21C */                         \
 	NiPointer<BSFogProperty>           fogProperty;           /* 220 */                         \
 	BSPortalGraph*                     portalGraph;           /* 228 */                         \
-	BSTArray<BSShadowLight*>           shadowLightsAccum;     /* 230 */                         \
+	BSTArray<BSShadowLight*>           shadowCasterLights;    /* 230 */                         \
 	std::uint32_t                      firstPersonShadowMask; /* 248 */                         \
 	std::uint32_t                      unk24C;                /* 24C */                         \
 	std::uint64_t                      unk250;                /* 250 */                         \

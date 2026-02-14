@@ -48,6 +48,14 @@ namespace RE
 		void               PostDisplay() override;                           // 06
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x30, 0x40);
+
+		static void CloseTweenMenu()
+		{
+			using func_t = decltype(&CloseTweenMenu);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(51839, 52711) };
+			return func();
+		}
+
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 30, 40

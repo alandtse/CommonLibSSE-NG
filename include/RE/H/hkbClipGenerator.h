@@ -3,7 +3,7 @@
 #include "RE/H/hkQsTransform.h"
 #include "RE/H/hkaDefaultAnimationControl.h"
 #include "RE/H/hkbContext.h"
-#include "RE/H/hkbEventBase.h"
+#include "RE/H/hkbEvent.h"
 #include "RE/H/hkbGenerator.h"
 
 namespace RE

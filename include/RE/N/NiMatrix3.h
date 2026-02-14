@@ -28,6 +28,7 @@ namespace RE
 		NiPoint3 GetVectorY() const;
 		NiPoint3 GetVectorZ() const;
 
+		bool      Inverse(NiMatrix3& a_in) const;
 		bool      ToEulerAnglesXYZ(NiPoint3& a_angle) const;
 		bool      ToEulerAnglesXYZ(float& a_xAngle, float& a_yAngle, float& a_zAngle) const;
 		void      EulerAnglesToAxesZXY(const NiPoint3& a_angle);

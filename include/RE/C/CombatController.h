@@ -23,6 +23,12 @@ namespace RE
 	class CombatController
 	{
 	public:
+		enum class COMBAT_STANCE : uint8_t
+		{
+			None,
+			Sneak
+		};
+
 		struct RUNTIME_DATA
 		{
 #define RUNTIME_DATA_CONTENT                                                                  \
@@ -69,6 +75,8 @@ namespace RE
 		{
 			return state->isFleeing;
 		}
+		bool CheckCombatArea(Actor* atatcker) const;
+		bool CheckStraightPath(NiPoint3& dst, float dist, float min_dist = -1.0f) const;
 
 		// members
 		CombatGroup*                   combatGroup;           // 00
@@ -79,7 +87,7 @@ namespace RE
 		ActorHandle                    attackerHandle;        // 28
 		ActorHandle                    targetHandle;          // 2C
 		ActorHandle                    previousTargetHandle;  // 30
-		std::uint8_t                   unk34;                 // 34
+		COMBAT_STANCE                  stance;                // 34
 		bool                           startedCombat;         // 35
 		std::uint8_t                   unk36;                 // 36
 		std::uint8_t                   unk37;                 // 37

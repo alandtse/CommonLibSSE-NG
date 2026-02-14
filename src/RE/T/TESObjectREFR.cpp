@@ -100,6 +100,13 @@ namespace RE
 		return func(this);
 	}
 
+	void TESObjectREFR::ClearDestruction()
+	{
+		using func_t = decltype(&TESObjectREFR::ClearDestruction);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(14082, 14181) };
+		return func(this);
+	}
+
 	ObjectRefHandle TESObjectREFR::CreateRefHandle()
 	{
 		return GetHandle();
@@ -120,6 +127,34 @@ namespace RE
 		using func_t = decltype(&TESObjectREFR::Enable);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(19373, 19800) };
 		return func(this, a_resetInventory);
+	}
+
+	std::optional<RE::NiPoint3> TESObjectREFR::FindNearestVertex(const float a_minimum_offset)
+	{
+		auto cell = this->GetParentCell();
+
+		if (!cell || !cell->GetRuntimeData().navMeshes) {
+			return std::nullopt;
+		}
+
+		auto& navMeshes = *cell->GetRuntimeData().navMeshes;
+
+		auto shortestDistance = std::numeric_limits<float>::max();
+
+		std::optional<RE::NiPoint3> pos = std::nullopt;
+
+		for (auto& navMesh : navMeshes.navMeshes) {
+			for (auto& vertex : navMesh->vertices) {
+				auto linearDistance = this->GetPosition().GetDistance(vertex.location);
+
+				if (linearDistance < shortestDistance && linearDistance >= a_minimum_offset) {
+					shortestDistance = linearDistance;
+					pos.emplace(vertex.location);
+				}
+			}
+		}
+
+		return pos;
 	}
 
 	NiAVObject* TESObjectREFR::Get3D() const
@@ -847,6 +882,38 @@ namespace RE
 
 		auto handle = a_target->GetHandle();
 		MoveTo_Impl(handle, a_target->GetParentCell(), a_target->GetWorldspace(), a_target->GetPosition(), a_target->data.angle);
+	}
+
+	bool TESObjectREFR::MoveToEditorLocation(const NiPoint3& a_position, const NiPoint3& a_rotation)
+	{
+		auto editorLocation = GetEditorLocation();
+		if (!editorLocation) {
+			return false;
+		}
+
+		auto worldLocRefHandle = editorLocation->worldLocMarker;
+		auto worldLocRef = worldLocRefHandle ? worldLocRefHandle.get() : nullptr;
+		if (worldLocRefHandle && worldLocRef) {
+			MoveTo_Impl(worldLocRefHandle, worldLocRef->GetParentCell(), worldLocRef->GetWorldspace(), a_position, a_rotation);
+			return true;
+		}
+
+		return false;
+	}
+
+	bool TESObjectREFR::MoveToEditorLocation()
+	{
+		return MoveToEditorLocation(GetStartingLocation(), GetStartingAngle());
+	}
+
+	bool TESObjectREFR::MoveToNearestNavmesh(const float a_minimum_offset)
+	{
+		auto nearestVertex = this->FindNearestVertex(a_minimum_offset);
+		if (!nearestVertex)
+			return false;
+
+		MoveTo_Impl(CreateRefHandle(), GetParentCell(), GetWorldspace(), std::move(*nearestVertex), GetAngle());
+		return true;
 	}
 
 	bool TESObjectREFR::MoveToNode(TESObjectREFR* a_target, const BSFixedString& a_nodeName)

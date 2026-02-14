@@ -28,14 +28,20 @@ namespace RE
 		void     CalcContentStatistics(hkStatisticsCollector* a_collector, const hkClass* a_class) const override;  // 02
 		void     Activate(const hkbContext& a_context) override;                                                    // 04
 		void     Update(const hkbContext& a_context, float a_timestep) override;                                    // 05
-		void     Unk_06(void) override;                                                                             // 06
-		void     Deactivate(const hkbContext& a_context) override;                                                  // 07
-		void     Unk_09(void) override;                                                                             // 09
-		void     Unk_0C(void) override;                                                                             // 0C
-		void     Unk_16(void) override;                                                                             // 16 - { return 1; }
-		void     Generate(const hkbContext& a_context) override;                                                    // 17
-		void     Unk_18(void) override;                                                                             // 18 - { return 1; }
-		void     UpdateSync(const hkbContext& a_context) override;                                                  // 19
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
+		void Unk_06(void);  // 06 - New virtual in SE/AE
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+		// VR has different vtable layout - this function doesn't exist
+#else
+		void Unk_06(void);  // 06 - Multi-runtime (non-virtual)
+#endif
+		void Deactivate(const hkbContext& a_context) override;  // 07
+		void Unk_09(void) override;                             // 09
+		void Unk_0C(void) override;                             // 0C
+		void Unk_16(void) override;                             // 16 - { return 1; }
+		void Generate(const hkbContext& a_context) override;    // 17
+		void Unk_18(void) override;                             // 18 - { return 1; }
+		void UpdateSync(const hkbContext& a_context) override;  // 19
 
 		// members
 		REX::EnumSet<VariableMode, std::uint8_t> variableMode;                     // 048

@@ -7,6 +7,7 @@
 namespace RE
 {
 	class CombatBehaviorTree;
+	class CombatBehaviorTreeNode;
 
 	class CombatBehaviorTreeManager : public BSTSingletonImplicit<CombatBehaviorTreeManager>
 	{
@@ -17,6 +18,12 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(32551, 33306) };
 			return func();
 		}
+
+		const CombatBehaviorTreeNode* FindRootNode(const BSFixedString& a_name) const;
+		const CombatBehaviorTree*     FindTree(const BSFixedString& a_name) const;
+		void                          Init();
+		void                          InitializeTrees();
+		void                          RegisterBehaviorTree(CombatBehaviorTree* a_tree);
 
 		// members
 		BSTHashMap<BSFixedString, CombatBehaviorTree*> trees;  // 00

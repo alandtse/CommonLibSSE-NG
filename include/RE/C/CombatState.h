@@ -18,18 +18,22 @@ namespace RE
 		// members
 		BGSWorldLocation loc;        // 00
 		AITimeStamp      timestamp;  // 18
-		std::uint32_t    pad20;      // 20
+		std::uint32_t    pad1C;      // 1C
 	};
 	static_assert(sizeof(UnreachableLocation) == 0x20);
 
 	class CombatState
 	{
 	public:
+		bool CheckShouldFlee() const;
+		bool CheckShouldHide() const;
+		bool QTargetLost() const;
+
 		// members
 		float                             unk00;                        // 00
 		bool                              isFleeing;                    // 04
 		bool                              isDetected;                   // 05
-		std::uint8_t                      unk06;                        // 06
+		bool                              targetLost;                   // 06
 		std::uint8_t                      unk07;                        // 07
 		std::uint8_t                      unk08;                        // 08
 		std::uint8_t                      unk09;                        // 09

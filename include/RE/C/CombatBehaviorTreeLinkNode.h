@@ -12,8 +12,8 @@ namespace RE
 
 		// override (CombatBehaviorTreeNode)
 		void                 Enter(CombatBehaviorThread* a_thread) override;           // 02
-		bool                 Validate(const CombatBehaviorTreeNode* a_node) override;  // 08
-		const BSFixedString& GetType() override;                                       // 09
+		bool                 Validate(CombatBehaviorTreeNode* a_node) const override;  // 08
+		const BSFixedString& GetType() const override;                                 // 09
 
 		// members
 		BSFixedString linkName;  // 28

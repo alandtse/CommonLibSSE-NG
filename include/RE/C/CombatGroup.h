@@ -5,6 +5,7 @@
 #include "RE/B/BGSWorldLocation.h"
 #include "RE/B/BSAtomic.h"
 #include "RE/B/BSPointerHandle.h"
+#include "RE/B/BSTArray.h"
 #include "RE/C/CombatGroupDetectionListener.h"
 
 namespace RE
@@ -69,6 +70,8 @@ namespace RE
 	class CombatGroup
 	{
 	public:
+		bool IsSearching() const;
+
 		// members
 		std::uint32_t                  groupID;                      // 000
 		std::uint32_t                  groupIndex;                   // 004

@@ -93,6 +93,8 @@ namespace RE
 		bool Load(TESFile* a_mod) override;  // 06
 		void InitItemImpl() override;        // 13
 
+		bool HasFlag(FLAG flag) const { return (flags.all(flag)); }
+
 		// members
 		CombatStyleGeneralData            generalData;     // 20 - CSGD
 		CombatStyleMeleeData              meleeData;       // 48 - CSME

@@ -34,6 +34,7 @@ set(SOURCES
 	include/RE/A/AddCallbackVisitor.h
 	include/RE/A/AlchemyItem.h
 	include/RE/A/AlchemyMenu.h
+	include/RE/A/AnimationClipDataSingleton.h
 	include/RE/A/AnimationFileManagerSingleton.h
 	include/RE/A/AnimationObjects.h
 	include/RE/A/AnimationSystemUtils.h
@@ -286,6 +287,7 @@ set(SOURCES
 	include/RE/B/BSInvMarker.h
 	include/RE/B/BSJobs.h
 	include/RE/B/BSKeyboardDevice.h
+	include/RE/B/BSLeafAnimNode.h
 	include/RE/B/BSLensFlareRenderData.h
 	include/RE/B/BSLight.h
 	include/RE/B/BSLightingShader.h
@@ -340,7 +342,12 @@ set(SOURCES
 	include/RE/B/BSParticleShaderRainEmitter.h
 	include/RE/B/BSParticleShaderSnowEmitter.h
 	include/RE/B/BSPathing.h
+	include/RE/B/BSPathingActorAttributes.h
+	include/RE/B/BSPathingAvoidNode.h
 	include/RE/B/BSPathingCell.h
+	include/RE/B/BSPathingLocation.h
+	include/RE/B/BSPathingRequest.h
+	include/RE/B/BSPathingSearchParameters.h
 	include/RE/B/BSPointerHandle.h
 	include/RE/B/BSPointerHandleManager.h
 	include/RE/B/BSPointerHandleSmartPointer.h
@@ -393,6 +400,7 @@ set(SOURCES
 	include/RE/B/BSStripPSysData.h
 	include/RE/B/BSStripParticleSystem.h
 	include/RE/B/BSSubIndexTriShape.h
+	include/RE/B/BSSynchronizedClipGenerator.h
 	include/RE/B/BSSystemFile.h
 	include/RE/B/BSSystemFileStorage.h
 	include/RE/B/BSSystemUtility.h
@@ -518,6 +526,7 @@ set(SOURCES
 	include/RE/C/CharEvent.h
 	include/RE/C/Character.h
 	include/RE/C/ChestsLooted.h
+	include/RE/C/ChildSelectorBase.h
 	include/RE/C/ClickHandler.h
 	include/RE/C/CloakEffect.h
 	include/RE/C/Clouds.h
@@ -525,14 +534,73 @@ set(SOURCES
 	include/RE/C/CollisionLayers.h
 	include/RE/C/Color.h
 	include/RE/C/ColorUtil.h
+	include/RE/C/CombatAcquireItem.h
+	include/RE/C/CombatAimController.h
 	include/RE/C/CombatAnimation.h
+	include/RE/C/CombatAttackData.h
+	include/RE/C/CombatBehavior.h
+	include/RE/C/CombatBehaviorAccessors.h
+	include/RE/C/CombatBehaviorAcquireItem.h
+	include/RE/C/CombatBehaviorAcquireResource.h
+	include/RE/C/CombatBehaviorAdvance.h
+	include/RE/C/CombatBehaviorBackoff.h
+	include/RE/C/CombatBehaviorBlock.h
+	include/RE/C/CombatBehaviorBlockAttack.h
+	include/RE/C/CombatBehaviorChildSelector.h
+	include/RE/C/CombatBehaviorCircle.h
+	include/RE/C/CombatBehaviorCircleDistant.h
+	include/RE/C/CombatBehaviorContext.h
+	include/RE/C/CombatBehaviorContextAcquireWeapon.h
+	include/RE/C/CombatBehaviorContextBlock.h
+	include/RE/C/CombatBehaviorContextCloseMovement.h
+	include/RE/C/CombatBehaviorContextDodgeThreat.h
+	include/RE/C/CombatBehaviorContextFlankingMovement.h
+	include/RE/C/CombatBehaviorContextFlee.h
+	include/RE/C/CombatBehaviorContextMagic.h
+	include/RE/C/CombatBehaviorContextMelee.h
+	include/RE/C/CombatBehaviorContextRangedMovement.h
+	include/RE/C/CombatBehaviorContextSearch.h
+	include/RE/C/CombatBehaviorContextShout.h
 	include/RE/C/CombatBehaviorController.h
+	include/RE/C/CombatBehaviorDodgeThreat.h
+	include/RE/C/CombatBehaviorDynamicConditionalNode.h
+	include/RE/C/CombatBehaviorDynamicSelector.h
+	include/RE/C/CombatBehaviorEquipContext.h
+	include/RE/C/CombatBehaviorExpression.h
+	include/RE/C/CombatBehaviorFallback.h
+	include/RE/C/CombatBehaviorFallbackSelector.h
+	include/RE/C/CombatBehaviorFallbackToRanged.h
+	include/RE/C/CombatBehaviorFindWeapon.h
+	include/RE/C/CombatBehaviorIdle.h
+	include/RE/C/CombatBehaviorParallel.h
+	include/RE/C/CombatBehaviorPause.h
+	include/RE/C/CombatBehaviorRepeat.h
+	include/RE/C/CombatBehaviorReposition.h
+	include/RE/C/CombatBehaviorResource.h
+	include/RE/C/CombatBehaviorSequence.h
+	include/RE/C/CombatBehaviorSpawnParallel.h
 	include/RE/C/CombatBehaviorStack.h
+	include/RE/C/CombatBehaviorSurround.h
 	include/RE/C/CombatBehaviorThread.h
 	include/RE/C/CombatBehaviorTree.h
+	include/RE/C/CombatBehaviorTreeConditionalNode.h
+	include/RE/C/CombatBehaviorTreeCreateContextNode.h
 	include/RE/C/CombatBehaviorTreeLinkNode.h
 	include/RE/C/CombatBehaviorTreeManager.h
 	include/RE/C/CombatBehaviorTreeNode.h
+	include/RE/C/CombatBehaviorTreeNodeEvaluateFunction.h
+	include/RE/C/CombatBehaviorTreeNodeObject.h
+	include/RE/C/CombatBehaviorTreeRootNode.h
+	include/RE/C/CombatBehaviorTreeUtils.h
+	include/RE/C/CombatBehaviorTreeValueNode.h
+	include/RE/C/CombatBehaviorTreeValueNodeT.h
+	include/RE/C/CombatBehaviorTreeWrapperNode.h
+	include/RE/C/CombatBehaviorTrees.h
+	include/RE/C/CombatBlackboard.h
+	include/RE/C/CombatBlackboardFlag.h
+	include/RE/C/CombatBlackboardKey.h
+	include/RE/C/CombatBlackboardKeyBase.h
+	include/RE/C/CombatBlackboardManager.h
 	include/RE/C/CombatController.h
 	include/RE/C/CombatGroup.h
 	include/RE/C/CombatGroupDetectionListener.h
@@ -560,9 +628,15 @@ set(SOURCES
 	include/RE/C/CombatMagicCasterTargetEffect.h
 	include/RE/C/CombatMagicCasterWard.h
 	include/RE/C/CombatManager.h
+	include/RE/C/CombatMeleeAimController.h
 	include/RE/C/CombatObject.h
+	include/RE/C/CombatPath.h
 	include/RE/C/CombatSearchLocation.h
 	include/RE/C/CombatState.h
+	include/RE/C/CombatTargetLocation.h
+	include/RE/C/CombatTargetLocationSearch.h
+	include/RE/C/CombatTargetLocationSearchResult.h
+	include/RE/C/CombatThreat.h
 	include/RE/C/CombatUtilities.h
 	include/RE/C/CommandEffect.h
 	include/RE/C/CommandSummonedEffect.h
@@ -574,6 +648,7 @@ set(SOURCES
 	include/RE/C/ConcreteFormFactory.h
 	include/RE/C/ConcreteObjectFormFactory.h
 	include/RE/C/ConcussionEffect.h
+	include/RE/C/ConditionalChildSelector.h
 	include/RE/C/ConeProjectile.h
 	include/RE/C/ConfirmAndNameCallback.h
 	include/RE/C/ConfirmCloseRaceSexMenuCallback.h
@@ -987,6 +1062,8 @@ set(SOURCES
 	include/RE/G/GWaitable.h
 	include/RE/G/GameSettingCollection.h
 	include/RE/G/GarbageCollector.h
+	include/RE/G/GetArmorInSlotFunctor.h
+	include/RE/G/GetWornMaskVisitor.h
 	include/RE/G/GiftMenu.h
 	include/RE/G/GiftMenuCallbackFunc.h
 	include/RE/G/GlobalLocations.h
@@ -1019,6 +1096,9 @@ set(SOURCES
 	include/RE/H/hkArray.h
 	include/RE/H/hkBaseObject.h
 	include/RE/H/hkBaseTypes.h
+	include/RE/H/hkClass.h
+	include/RE/H/hkClassEnum.h
+	include/RE/H/hkClassMember.h
 	include/RE/H/hkContactPoint.h
 	include/RE/H/hkContactPointMaterial.h
 	include/RE/H/hkContainerAllocators.h
@@ -1051,6 +1131,7 @@ set(SOURCES
 	include/RE/H/hkaAnnotationTrack.h
 	include/RE/H/hkaDefaultAnimationControl.h
 	include/RE/H/hkaRagdollInstance.h
+	include/RE/H/hkaSplineCompressedAnimation.h
 	include/RE/H/hkbAnimationBindingSet.h
 	include/RE/H/hkbAssetBundleStringData.h
 	include/RE/H/hkbBehaviorGraph.h
@@ -1075,6 +1156,8 @@ set(SOURCES
 	include/RE/H/hkbRigidBodySetup.h
 	include/RE/H/hkbShapeSetup.h
 	include/RE/H/hkbStateMachine.h
+	include/RE/H/hkbVariableInfo.h
+	include/RE/H/hkbVariableValueSet.h
 	include/RE/H/hkp3AxisSweep.h
 	include/RE/H/hkpAction.h
 	include/RE/H/hkpAgentNnTrack.h
@@ -1343,12 +1426,15 @@ set(SOURCES
 	include/RE/M/ModManagerMenu.h
 	include/RE/M/ModelReferenceEffect.h
 	include/RE/M/Moon.h
+	include/RE/M/MotionDataContainer.h
 	include/RE/M/MouseMoveEvent.h
 	include/RE/M/MoveToFunctor.h
 	include/RE/M/Movement.h
+	include/RE/M/MovementActorAvoidanceParameters.h
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
+	include/RE/M/MovementParameters.h
 	include/RE/M/MoviePlayer.h
 	include/RE/M/MultiBoundMarkerData.h
 	include/RE/N/NativeFunction.h
@@ -1357,6 +1443,7 @@ set(SOURCES
 	include/RE/N/NavMesh.h
 	include/RE/N/NavMeshInfoMap.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
+	include/RE/N/NextChildSelector.h
 	include/RE/N/NiAVObject.h
 	include/RE/N/NiAVObjectPalette.h
 	include/RE/N/NiAccumulator.h
@@ -1488,6 +1575,7 @@ set(SOURCES
 	include/RE/P/PositionPlayerEvent.h
 	include/RE/P/Precipitation.h
 	include/RE/P/PrecomputedNavmeshInfoPathMap.h
+	include/RE/P/PriorityChildSelector.h
 	include/RE/P/ProcessLists.h
 	include/RE/P/ProcessType.h
 	include/RE/P/Profiler.h
@@ -1502,6 +1590,7 @@ set(SOURCES
 	include/RE/R/RaceSexMenu.h
 	include/RE/R/RaceSexMenuEvent.h
 	include/RE/R/RallyEffect.h
+	include/RE/R/RandomValueChildSelector.h
 	include/RE/R/RawFuncCallQuery.h
 	include/RE/R/ReadyWeaponHandler.h
 	include/RE/R/ReanimateEffect.h
@@ -1794,6 +1883,7 @@ set(SOURCES
 	include/RE/V/VRResetHMDHeight.h
 	include/RE/V/VRWandEvent.h
 	include/RE/V/ValueAndConditionsEffect.h
+	include/RE/V/ValueChildSelector.h
 	include/RE/V/ValueModifierEffect.h
 	include/RE/V/VampireLordEffect.h
 	include/RE/V/Variable.h
@@ -1806,6 +1896,7 @@ set(SOURCES
 	include/RE/W/WeaponAnimationGraphManagerHolder.h
 	include/RE/W/WeaponEnchantmentController.h
 	include/RE/W/WeatherType.h
+	include/RE/W/WeightedRandomChildSelector.h
 	include/RE/W/WerewolfEffect.h
 	include/RE/W/WerewolfFeedEffect.h
 	include/RE/W/WorldSpaceMenu.h
@@ -1867,6 +1958,7 @@ set(SOURCES
 	include/SKSE/Impl/PCH.h
 	include/SKSE/Impl/RegistrationTraits.h
 	include/SKSE/Impl/Stubs.h
+	include/SKSE/Impl/Util.h
 	include/SKSE/InputMap.h
 	include/SKSE/Interfaces.h
 	include/SKSE/Logger.h
@@ -1889,6 +1981,8 @@ set(SOURCES
 	src/RE/A/ActorValueList.cpp
 	src/RE/A/ActorValueOwner.cpp
 	src/RE/A/AddCallbackVisitor.cpp
+	src/RE/A/AnimationClipDataSingleton.cpp
+	src/RE/A/AnimationSystemUtils.cpp
 	src/RE/A/ArmorRatingVisitor.cpp
 	src/RE/A/ArmorRatingVisitorBase.cpp
 	src/RE/A/Array.cpp
@@ -1942,6 +2036,7 @@ set(SOURCES
 	src/RE/B/BSInstanceTriShape.cpp
 	src/RE/B/BSInvMarker.cpp
 	src/RE/B/BSKeyboardDevice.cpp
+	src/RE/B/BSLeafAnimNode.cpp
 	src/RE/B/BSLightingShaderMaterialBase.cpp
 	src/RE/B/BSLightingShaderProperty.cpp
 	src/RE/B/BSModelDB.cpp
@@ -1952,6 +2047,8 @@ set(SOURCES
 	src/RE/B/BSPCGamepadDeviceDelegate.cpp
 	src/RE/B/BSPCGamepadDeviceHandler.cpp
 	src/RE/B/BSPCOrbisGamepadDevice.cpp
+	src/RE/B/BSPathingLocation.cpp
+	src/RE/B/BSPathingRequest.cpp
 	src/RE/B/BSPointerHandle.cpp
 	src/RE/B/BSPortalGraph.cpp
 	src/RE/B/BSPortalGraphEntry.cpp
@@ -1988,14 +2085,78 @@ set(SOURCES
 	src/RE/C/CFilter.cpp
 	src/RE/C/Calendar.cpp
 	src/RE/C/ChestsLooted.cpp
+	src/RE/C/ChildSelectorBase.cpp
 	src/RE/C/CollisionLayers.cpp
 	src/RE/C/Color.cpp
 	src/RE/C/ColorUtil.cpp
+	src/RE/C/CombatAcquireItem.cpp
+	src/RE/C/CombatAimController.cpp
 	src/RE/C/CombatAnimation.cpp
+	src/RE/C/CombatBehavior.cpp
+	src/RE/C/CombatBehaviorAccessors.cpp
+	src/RE/C/CombatBehaviorAcquireItem.cpp
+	src/RE/C/CombatBehaviorAcquireResource.cpp
+	src/RE/C/CombatBehaviorAdvance.cpp
+	src/RE/C/CombatBehaviorBackoff.cpp
+	src/RE/C/CombatBehaviorBlock.cpp
+	src/RE/C/CombatBehaviorBlockAttack.cpp
+	src/RE/C/CombatBehaviorChildSelector.cpp
+	src/RE/C/CombatBehaviorCircle.cpp
+	src/RE/C/CombatBehaviorCircleDistant.cpp
+	src/RE/C/CombatBehaviorContext.cpp
+	src/RE/C/CombatBehaviorContextAcquireWeapon.cpp
+	src/RE/C/CombatBehaviorContextBlock.cpp
+	src/RE/C/CombatBehaviorContextCloseMovement.cpp
+	src/RE/C/CombatBehaviorContextDodgeThreat.cpp
+	src/RE/C/CombatBehaviorContextFlankingMovement.cpp
+	src/RE/C/CombatBehaviorContextFlee.cpp
+	src/RE/C/CombatBehaviorContextMagic.cpp
+	src/RE/C/CombatBehaviorContextMelee.cpp
+	src/RE/C/CombatBehaviorContextRangedMovement.cpp
+	src/RE/C/CombatBehaviorContextSearch.cpp
+	src/RE/C/CombatBehaviorContextShout.cpp
 	src/RE/C/CombatBehaviorController.cpp
+	src/RE/C/CombatBehaviorDodgeThreat.cpp
+	src/RE/C/CombatBehaviorDynamicConditionalNode.cpp
+	src/RE/C/CombatBehaviorEquipContext.cpp
+	src/RE/C/CombatBehaviorFallback.cpp
+	src/RE/C/CombatBehaviorFallbackSelector.cpp
+	src/RE/C/CombatBehaviorFallbackToRanged.cpp
+	src/RE/C/CombatBehaviorFindWeapon.cpp
+	src/RE/C/CombatBehaviorIdle.cpp
+	src/RE/C/CombatBehaviorParallel.cpp
+	src/RE/C/CombatBehaviorPause.cpp
+	src/RE/C/CombatBehaviorRepeat.cpp
+	src/RE/C/CombatBehaviorReposition.cpp
+	src/RE/C/CombatBehaviorResource.cpp
+	src/RE/C/CombatBehaviorSequence.cpp
+	src/RE/C/CombatBehaviorSpawnParallel.cpp
+	src/RE/C/CombatBehaviorStack.cpp
+	src/RE/C/CombatBehaviorSurround.cpp
+	src/RE/C/CombatBehaviorThread.cpp
 	src/RE/C/CombatBehaviorTree.cpp
+	src/RE/C/CombatBehaviorTreeLinkNode.cpp
+	src/RE/C/CombatBehaviorTreeManager.cpp
 	src/RE/C/CombatBehaviorTreeNode.cpp
+	src/RE/C/CombatBehaviorTreeNodeEvaluateFunction.cpp
+	src/RE/C/CombatBehaviorTreeNodeObject.cpp
+	src/RE/C/CombatBehaviorTreeRootNode.cpp
+	src/RE/C/CombatBehaviorTreeUtils.cpp
+	src/RE/C/CombatBehaviorTrees.cpp
+	src/RE/C/CombatBlackboard.cpp
+	src/RE/C/CombatBlackboardFlag.cpp
+	src/RE/C/CombatBlackboardManager.cpp
+	src/RE/C/CombatController.cpp
+	src/RE/C/CombatGroup.cpp
+	src/RE/C/CombatInventory.cpp
+	src/RE/C/CombatPath.cpp
+	src/RE/C/CombatState.cpp
+	src/RE/C/CombatTargetLocation.cpp
+	src/RE/C/CombatTargetLocationSearch.cpp
+	src/RE/C/CombatTargetLocationSearchResult.cpp
+	src/RE/C/CombatThreat.cpp
 	src/RE/C/CommandTable.cpp
+	src/RE/C/ConditionalChildSelector.cpp
 	src/RE/C/ConeProjectile.cpp
 	src/RE/C/Console.cpp
 	src/RE/C/ConsoleLog.cpp
@@ -2067,6 +2228,7 @@ set(SOURCES
 	src/RE/G/GString.cpp
 	src/RE/G/GViewport.cpp
 	src/RE/G/GameSettingCollection.cpp
+	src/RE/G/GetWornMaskVisitor.cpp
 	src/RE/G/GiftMenu.cpp
 	src/RE/H/HUDMeter.cpp
 	src/RE/H/HUDObject.cpp
@@ -2075,12 +2237,17 @@ set(SOURCES
 	src/RE/H/HeldStateHandler.cpp
 	src/RE/H/HorseCameraState.cpp
 	src/RE/H/hkBaseTypes.cpp
+	src/RE/H/hkMemoryRouter.cpp
 	src/RE/H/hkReferencedObject.cpp
 	src/RE/H/hkStringPtr.cpp
 	src/RE/H/hkVector4.cpp
+	src/RE/H/hkbBehaviorGraph.cpp
+	src/RE/H/hkbBehaviorGraphData.cpp
+	src/RE/H/hkbVariableValueSet.cpp
 	src/RE/H/hkpBroadPhase.cpp
 	src/RE/H/hkpCdBody.cpp
 	src/RE/H/hkpCharacterProxyListener.cpp
+	src/RE/H/hkpCharacterRigidBody.cpp
 	src/RE/H/hkpMaterial.cpp
 	src/RE/H/hkpProperty.cpp
 	src/RE/H/hkpRigidBody.cpp
@@ -2091,6 +2258,7 @@ set(SOURCES
 	src/RE/I/IHandlerFunctor.cpp
 	src/RE/I/IMemoryStore.cpp
 	src/RE/I/IMenu.cpp
+	src/RE/I/IMovementState.cpp
 	src/RE/I/INIPrefSettingCollection.cpp
 	src/RE/I/INISettingCollection.cpp
 	src/RE/I/IObjectHandlePolicy.cpp
@@ -2133,6 +2301,7 @@ set(SOURCES
 	src/RE/M/Misc.cpp
 	src/RE/M/MissileProjectile.cpp
 	src/RE/N/NativeFunctionBase.cpp
+	src/RE/N/NextChildSelector.cpp
 	src/RE/N/NiAVObject.cpp
 	src/RE/N/NiAlphaProperty.cpp
 	src/RE/N/NiAnimationKey.cpp
@@ -2180,10 +2349,12 @@ set(SOURCES
 	src/RE/P/PlayerCharacter.cpp
 	src/RE/P/PlayerControls.cpp
 	src/RE/P/PlayerInputHandler.cpp
+	src/RE/P/PriorityChildSelector.cpp
 	src/RE/P/ProcessLists.cpp
 	src/RE/P/Projectile.cpp
 	src/RE/Q/QuestStatus.cpp
 	src/RE/R/RaceSexMenu.cpp
+	src/RE/R/RandomValueChildSelector.cpp
 	src/RE/R/ReferenceEffectController.cpp
 	src/RE/R/RemoveCallbackVisitor.cpp
 	src/RE/R/Renderer.cpp
@@ -2254,8 +2425,10 @@ set(SOURCES
 	src/RE/U/UnlinkedTypes.cpp
 	src/RE/U/UserEvents.cpp
 	src/RE/V/VATSCameraState.cpp
+	src/RE/V/ValueChildSelector.cpp
 	src/RE/V/Variable.cpp
 	src/RE/V/VirtualMachine.cpp
+	src/RE/W/WeightedRandomChildSelector.cpp
 	src/RE/W/WorldSpaceMenu.cpp
 	src/RE/Z/ZeroFunctionArguments.cpp
 	src/REL/ID.cpp

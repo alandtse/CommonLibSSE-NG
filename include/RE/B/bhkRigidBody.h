@@ -2,6 +2,8 @@
 
 #include "RE/B/BSTArray.h"
 #include "RE/B/bhkEntity.h"
+#include "RE/H/hkQuaternion.h"
+#include "RE/H/hkVector4.h"
 
 namespace RE
 {
@@ -10,6 +12,7 @@ namespace RE
 	class hkQuaternion;
 	class hkVector4;
 	class hkpRigidBody;
+	class bhkRigidBodyT;
 
 	class bhkRigidBody : public bhkEntity
 	{

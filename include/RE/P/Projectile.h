@@ -27,6 +27,8 @@ namespace RE
 	class CombatController;
 	class MagicItem;
 	class QueuedFile;
+	class CombatController;
+	class MagicItem;
 
 	class Projectile : public TESObjectREFR
 	{
@@ -132,7 +134,7 @@ namespace RE
 		};
 		static_assert(sizeof(ImpactData) == 0x50);
 
-		enum class Flags
+		enum class Flags : uint32_t
 		{
 			kNone = 0,
 			kUnk0 = 1 << 0,
@@ -166,7 +168,7 @@ namespace RE
 			kIsDual = 1 << 28,
 			kUseOrigin = 1 << 29,
 			kUnk30 = 1 << 30,
-			kMoved = 1 << 31
+			kMoved = 1u << 31
 		};
 
 		~Projectile() override;  // 00
@@ -233,6 +235,7 @@ namespace RE
 		BGSProjectile* GetProjectileBase() const;
 		float          GetHeight() const;
 		float          GetSpeed() const;
+		void           Kill();
 
 		static ProjectileHandle* Launch(ProjectileHandle* a_result, LaunchData& a_data) noexcept;
 		static ProjectileHandle* LaunchSpell(ProjectileHandle* a_result, Actor* a_shooter, SpellItem* a_spell, const NiPoint3& a_origin, const ProjectileRot& a_angles) noexcept;
@@ -289,8 +292,6 @@ namespace RE
 
 			PROJECTILE_RUNTIME_DATA_CONTENT
 		};
-
-		void Kill();
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(PROJECTILE_RUNTIME_DATA, GetProjectileRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x98, 0xA0);
 		// members

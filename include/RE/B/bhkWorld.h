@@ -2,6 +2,7 @@
 
 #include "RE/B/BSAtomic.h"
 #include "RE/B/bhkSerializable.h"
+#include "RE/H/hkVector4.h"
 
 namespace RE
 {

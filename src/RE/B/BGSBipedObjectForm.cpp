@@ -16,9 +16,9 @@ namespace RE
 	}
 
 	auto BGSBipedObjectForm::GetSlotMask() const
-		-> BipedObjectSlot
+		-> REX::EnumSet<BipedObjectSlot, std::uint32_t>
 	{
-		return *bipedModelData.bipedObjectSlots;
+		return bipedModelData.bipedObjectSlots;
 	}
 
 	bool BGSBipedObjectForm::HasPartOf(BipedObjectSlot a_flag) const

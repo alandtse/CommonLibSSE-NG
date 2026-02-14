@@ -2,6 +2,7 @@
 
 #include "RE/B/BSPointerHandle.h"
 #include "RE/F/FormTypes.h"
+#include "RE/M/MemoryManager.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
 
@@ -41,11 +42,22 @@ namespace RE
 			kExplosion = 1 << 20
 		};
 
-		void Populate(Actor* a_aggressor, Actor* a_target, InventoryEntryData* a_weapon)
+		void Populate(Actor* a_aggressor, Actor* a_target, InventoryEntryData* a_weapon, bool a_bIsLeftHand = false)
 		{
 			using func_t = decltype(&HitData::Populate);
 			static REL::Relocation<func_t> func(RELOCATION_ID(42832, 44001));
-			return func(this, a_aggressor, a_target, a_weapon);
+			return func(this, a_aggressor, a_target, a_weapon, a_bIsLeftHand);
+		}
+
+		static HitData* Create(Actor* a_aggressor, Actor* a_target, InventoryEntryData* a_weapon, bool a_bIsLeftHand = false)
+		{
+			auto hitData = malloc<HitData>();
+			if (hitData) {
+				hitData->Ctor();
+				hitData->Populate(a_aggressor, a_target, a_weapon, a_bIsLeftHand);
+			}
+
+			return hitData;
 		}
 
 		// members
@@ -77,6 +89,14 @@ namespace RE
 		std::uint32_t                         equipIndex;              // 84
 		ActorValue                            skill;                   // 88
 		REX::Enum<BGSBodyPartDefs::LIMB_ENUM> damageLimb;              // 8C
+
+	private:
+		HitData* Ctor()
+		{
+			using func_t = decltype(&HitData::Ctor);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(42826, 43995) };
+			return func(this);
+		}
 	};
 	static_assert(sizeof(HitData) == 0x90);
 }

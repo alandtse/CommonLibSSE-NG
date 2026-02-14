@@ -11,7 +11,14 @@ namespace RE
 	void BarterMenu::OpenMenu(Actor* a_targetActor)
 	{
 		using func_t = decltype(&BarterMenu::OpenMenu);
-		REL::Relocation<func_t> func{ RELOCATION_ID(0, 50955) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(0, 50955) };
 		return func(a_targetActor);
+	}
+
+	bool BarterMenu::IsViewingVendorItems() noexcept
+	{
+		RE::GFxValue result;
+		auto         runtimeData = GetRuntimeData();
+		return (runtimeData.root.Invoke("isViewingVendorItems", &result) && result.GetBool());
 	}
 }

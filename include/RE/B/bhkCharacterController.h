@@ -3,12 +3,14 @@
 #include "RE/B/BSBound.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTHashMap.h"
+#include "RE/B/bhkWorld.h"
 #include "RE/H/hkRefPtr.h"
 #include "RE/H/hkStepInfo.h"
 #include "RE/H/hkVector4.h"
 #include "RE/H/hkpCharacterContext.h"
 #include "RE/H/hkpCharacterControl.h"
 #include "RE/H/hkpCharacterState.h"
+#include "RE/H/hkpRigidBody.h"
 #include "RE/M/MaterialIDs.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiRefObject.h"
@@ -79,24 +81,24 @@ namespace RE
 		~bhkCharacterController() override;  // 00
 
 		// add
-		virtual void            GetPositionImpl(hkVector4& a_pos, bool a_applyCenterOffset) const = 0;                    // 02
-		virtual void            SetPositionImpl(const hkVector4& a_pos, bool a_applyCenterOffset, bool a_forceWarp) = 0;  // 03
-		virtual void            GetTransformImpl(hkTransform& a_tranform) const = 0;                                      // 04
-		virtual void            SetTransformImpl(const hkTransform& a_tranform) = 0;                                      // 05
-		virtual void            GetLinearVelocityImpl(hkVector4& a_velocity) const = 0;                                   // 06
-		virtual void            SetLinearVelocityImpl(const hkVector4& a_velocity) = 0;                                   // 07
-		virtual void            GetCollisionFilterInfo(CFilter& a_collisionFilterInfo) const = 0;                         // 08
-		virtual void            Unk_09(void) = 0;                                                                         // 09
-		virtual void            Unk_0A(void) = 0;                                                                         // 0A
-		virtual void            Unk_0B(void) = 0;                                                                         // 0B
-		virtual void            Unk_0C(void) = 0;                                                                         // 0C
-		virtual void            CheckSupportImpl() = 0;                                                                   // 0D
-		virtual void            Unk_0E(void) = 0;                                                                         // 0E
-		virtual bhkWorld*       GetWorldImpl() = 0;                                                                       // 0F
-		virtual hkpWorldObject* GetBodyImpl() = 0;                                                                        // 10
-		virtual float           GetVDBAlpha() const = 0;                                                                  // 11
-		virtual void            Unk_12(void) = 0;                                                                         // 12
-		virtual void            RotateImpl(hkTransform& a_tranform) = 0;                                                  // 13
+		virtual void          GetPositionImpl(hkVector4& a_pos, bool a_applyCenterOffset) const = 0;                    // 02
+		virtual void          SetPositionImpl(const hkVector4& a_pos, bool a_applyCenterOffset, bool a_forceWarp) = 0;  // 03
+		virtual void          GetTransformImpl(hkTransform& a_tranform) const = 0;                                      // 04
+		virtual void          SetTransformImpl(const hkTransform& a_tranform) = 0;                                      // 05
+		virtual void          GetLinearVelocityImpl(hkVector4& a_velocity) const = 0;                                   // 06
+		virtual void          SetLinearVelocityImpl(const hkVector4& a_velocity) = 0;                                   // 07
+		virtual void          GetCollisionFilterInfo(CFilter& a_collisionFilterInfo) const = 0;                         // 08
+		virtual void          Unk_09(void) = 0;                                                                         // 09
+		virtual void          Unk_0A(void) = 0;                                                                         // 0A
+		virtual void          Unk_0B(void) = 0;                                                                         // 0B
+		virtual void          Unk_0C(void) = 0;                                                                         // 0C
+		virtual void          CheckSupportImpl() = 0;                                                                   // 0D
+		virtual void          Unk_0E(void) = 0;                                                                         // 0E
+		virtual bhkWorld*     GetHavokWorld() const = 0;                                                                // 0F
+		virtual hkpRigidBody* GetRigidBody() const = 0;                                                                 // 10
+		virtual float         GetVDBAlpha() const = 0;                                                                  // 11
+		virtual void          Unk_12(void) = 0;                                                                         // 12
+		virtual void          RotateImpl(hkTransform& a_tranform) = 0;                                                  // 13
 
 		inline void GetPosition(hkVector4& a_pos, bool a_applyCenterOffset) const { return GetPositionImpl(a_pos, a_applyCenterOffset); }
 
@@ -129,8 +131,7 @@ namespace RE
 		hkVector4                                              supportNorm;                // 110
 		BSBound                                                collisionBound;             // 120
 		BSBound                                                bumperCollisionBound;       // 150
-		std::uint64_t                                          unk180;                     // 180
-		std::uint64_t                                          unk188;                     // 188
+		hkVector4                                              deltaPos;                   // 180
 		bhkICharOrientationController*                         orientationCtrl;            // 190
 		std::uint64_t                                          pad198;                     // 198
 		hkpSurfaceInfo                                         surfaceInfo;                // 1A0
@@ -160,23 +161,34 @@ namespace RE
 		std::uint64_t                                          unk270;                     // 270
 		std::uint64_t                                          unk278;                     // 278
 		NiPointer<bhkShape>                                    shapes[2];                  // 280
-		std::uint64_t                                          unk290;                     // 290
-		std::uint32_t                                          unk298;                     // 298
+		float                                                  radius;                     // 290
+		float                                                  height;                     // 294
+		float                                                  destRadius;                 // 298
 		float                                                  lodDistance;                // 29C
-		std::uint64_t                                          unk2A0;                     // 2A0
-		std::uint64_t                                          unk2A8;                     // 2A8
+		std::uint32_t                                          size;                       // 2A0
+		std::uint32_t                                          priority;                   // 2A4
+		std::int32_t                                           supportCount;               // 2A8
+		std::uint32_t                                          pad2AC;                     // 2AC
 		hkRefPtr<hkpRigidBody>                                 supportBody;                // 2B0
 		float                                                  bumpedForce;                // 2B8
 		std::uint32_t                                          pad2BC;                     // 2BC
 		hkRefPtr<hkpRigidBody>                                 bumpedBody;                 // 2C0
 		hkRefPtr<hkpRigidBody>                                 bumpedCharCollisionObject;  // 2C8
 		BSTHashMap<NiPointer<bhkRigidBody>, DamageImpactData*> damageImpacts;              // 2D0
-		std::uint32_t                                          maxSlope;                   // 300
+		float                                                  zNormal;                    // 300
 		MATERIAL_ID                                            surfaceMaterial;            // 304
-		std::uint64_t                                          unk308;                     // 308
-		std::uint64_t                                          unk310;                     // 310
-		std::uint64_t                                          unk318;                     // 318
-		std::uint64_t                                          unk320;                     // 320
+		std::uint32_t                                          unk308;                     // 308
+		float                                                  unk30C;                     // 30C
+		float                                                  unk310;                     // 310
+		std::uint32_t                                          contactPointsCount;         // 314
+		std::uint32_t                                          collisionFilterGroup;       // 318
+		bool                                                   unk31C;                     // 31C
+		std::uint8_t                                           unk31D;                     // 31D
+		std::uint8_t                                           unk31E;                     // 31E
+		std::uint8_t                                           unk31F;                     // 31F
+		std::uint16_t                                          unk320;                     // 320
+		std::uint16_t                                          unk322;                     // 322
+		std::uint32_t                                          unk324;                     // 324
 		std::uint64_t                                          unk328;                     // 328
 	};
 	static_assert(sizeof(bhkCharacterController) == 0x330);

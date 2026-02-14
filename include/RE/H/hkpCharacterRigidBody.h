@@ -3,9 +3,12 @@
 #include "RE/H/hkArray.h"
 #include "RE/H/hkContactPoint.h"
 #include "RE/H/hkReferencedObject.h"
+#include "RE/H/hkStepInfo.h"
 #include "RE/H/hkVector4.h"
+#include "RE/H/hkpCharacterControl.h"
 #include "RE/H/hkpEntityListener.h"
 #include "RE/H/hkpWorldPostSimulationListener.h"
+#include "REX/REX/EnumSet.h"
 
 namespace RE
 {
@@ -46,6 +49,7 @@ namespace RE
 		void PostSimulationCallback(hkpWorld* a_world) override;  // 01
 
 		// add
+		void                                   SetLinearVelocity(const hkVector4& a_newVel, float a_timestep);
 		virtual void                           CheckSupport(const hkStepInfo& a_stepInfo, hkpSurfaceInfo& a_ground);                                                   // 03
 		virtual hkpSurfaceInfo::SupportedState GetSupportInfo(const hkStepInfo& a_stepInfo, hkArray<SupportInfo>& a_supportInfo) const;                                // 04
 		virtual void                           GetGround(const hkArray<SupportInfo>& a_supportInfo, bool a_useDynamicBodyVelocities, hkpSurfaceInfo& a_ground) const;  // 05

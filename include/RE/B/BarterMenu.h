@@ -57,6 +57,7 @@ namespace RE
 		void               PostDisplay() override;                           // 06
 
 		[[nodiscard]] static RefHandle GetTargetRefHandle();
+		bool                           IsViewingVendorItems() noexcept;
 
 		static void OpenMenu(Actor* a_targetActor);
 

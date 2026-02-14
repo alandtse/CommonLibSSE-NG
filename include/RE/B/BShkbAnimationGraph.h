@@ -42,6 +42,17 @@ namespace RE
 			uint32_t unk0C;
 		};
 
+		struct ProjectDBData
+		{
+			void*                           vtbl;                // 00
+			std::uint8_t                    unk08[0x70 - 0x08];  // 08
+			BSTHashMap<char*, std::int32_t> unk70;               // 70 - BSTHashMap<char *, hkInt32> // event name -> event id
+			BSTHashMap<char*, std::int32_t> unkA0;               // A0 - BSTHashMap<char *, hkInt32> // event name -> event id. This one is read from when handling anim events.
+			BSTArray<char*>                 unkD0;               // D0 - all anim events (~2000 total)
+			BSTArray<char*>                 unkE8;               // E8 - state names?
+		};
+		static_assert(offsetof(ProjectDBData, unkA0) == 0xA0);
+
 		~BShkbAnimationGraph() override;  // 00
 
 		// override (BSIRagdollDriver)
@@ -131,7 +142,7 @@ namespace RE
 		float                          interpolationTimeOffsets[2];  // 1E8
 		BSFixedString                  projectName;                  // 1F0
 		BSResource::ID*                unk1F8;                       // 1F8
-		void*                          projectDBData;                // 200 - BShkbHkxDB::ProjectDBData*
+		ProjectDBData*                 projectDBData;                // 200 - BShkbHkxDB::ProjectDBData*
 		hkbBehaviorGraph*              behaviorGraph;                // 208
 		Actor*                         holder;                       // 210
 		BSFadeNode*                    rootNode;                     // 218

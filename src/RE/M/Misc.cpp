@@ -95,6 +95,13 @@ namespace RE
 		return func(a_editorID);
 	}
 
+	bool RandomBoolChance(float chance)
+	{
+		using func_t = decltype(&RandomBoolChance);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(26009, 0) };
+		return func(chance);
+	}
+
 	void ShakeCamera(float a_strength, const NiPoint3& a_position, float a_duration)
 	{
 		using func_t = decltype(&ShakeCamera);

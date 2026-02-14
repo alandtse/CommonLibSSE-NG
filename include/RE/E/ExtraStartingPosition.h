@@ -7,6 +7,7 @@
 namespace RE
 {
 	class BGSLocation;
+	class TESObjectREFR;
 
 	struct FILE_POS_ROT
 	{

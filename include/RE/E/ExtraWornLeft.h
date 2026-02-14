@@ -12,10 +12,11 @@ namespace RE
 		inline static constexpr auto VTABLE = VTABLE_ExtraWornLeft;
 		inline static constexpr auto EXTRADATATYPE = ExtraDataType::kWornLeft;
 
-		~ExtraWornLeft() override;  // 00
+		ExtraWornLeft() = default;
+		~ExtraWornLeft() = default;  // 00
 
 		// override (BSExtraData)
-		[[nodiscard]] ExtraDataType GetType() const override;  // 01 - { return kWorn; }
+		[[nodiscard]] ExtraDataType GetType() const override { return ExtraDataType::kWornLeft; };  // 01 - { return kWorn; }
 	};
 	static_assert(sizeof(ExtraWornLeft) == 0x10);
 }

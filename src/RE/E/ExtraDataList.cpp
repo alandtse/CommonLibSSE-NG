@@ -263,6 +263,13 @@ namespace RE
 		return linkedRef;
 	}
 
+	float ExtraDataList::GetObjectHealth() const
+	{
+		using func_t = decltype(&ExtraDataList::GetObjectHealth);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(11865, 0) };
+		return func(this);
+	}
+
 	TESForm* ExtraDataList::GetOwner()
 	{
 		auto xOwner = GetByType<ExtraOwnership>();
@@ -396,6 +403,13 @@ namespace RE
 			xOwner = new ExtraOwnership(a_owner);
 			Add(xOwner);
 		}
+	}
+
+	void ExtraDataList::SetStartingPosition(TESObjectREFR* a_refr, const NiPoint3& a_position, const NiPoint3& a_rotation, BGSLocation* a_location)
+	{
+		using func_t = decltype(&ExtraDataList::SetStartingPosition);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(11851, 11990) };
+		return func(this, a_refr, a_position, a_rotation, a_location);
 	}
 
 	BSExtraData* ExtraDataList::GetByTypeImpl(ExtraDataType a_type) const

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSPathingLocation.h"
 #include "RE/F/FindTriangleForLocationFilterCheckDeltaZ.h"
 
 namespace RE
@@ -11,19 +12,6 @@ namespace RE
 	class IMovementParameters;
 	class MovementMessage;
 	class PathingCell;
-
-	struct BSPathingLocation
-	{
-		NiPoint3                       location;          // 00
-		BSNavmeshInfo*                 navMeshInfo;       // 10
-		BSTArray<BSNavmeshInfo*>*      navMeshInfoArray;  // 18
-		BSTSmartPointer<BSPathingCell> pathingCell;       // 20
-		std::uint16_t                  triangle;          // 28
-		std::uint8_t                   flags;             // 2A
-		std::uint8_t                   clientData;        // 2B
-	};
-
-	static_assert(sizeof(BSPathingLocation) == 0x30);
 
 	struct BSVirtualPathingNode
 	{
@@ -69,25 +57,7 @@ namespace RE
 	};
 	static_assert(sizeof(BSPathingGoal) == 0x50);
 
-	struct BSPathingAvoidNode
-	{
-		enum class AvoidNodeType
-		{
-			AVOID_NODE_SPHERE = 0,
-			AVOID_NODE_CYLINDER,
-			AVOID_NODE_SPHERE_ACTOR,
-			AVOID_NODE_SPHERE_TARGET,
-			AVOID_NODE_SPHERE_THREAT,
-			AVOID_NODE_SPHERE_OBSTACLE
-		};
-
-		NiPoint3                    point1;         // 00
-		NiPoint3                    point2;         // 0C
-		float                       radius;         // 18
-		float                       cost;           // 1C
-		REX::EnumSet<AvoidNodeType> avoidNodeType;  // 20
-	};
-	static_assert(sizeof(BSPathingAvoidNode) == 0x24);
+	class BSPathingAvoidNode;
 
 	struct BSPathingRestrictions
 	{
@@ -102,57 +72,10 @@ namespace RE
 	};
 	static_assert(sizeof(BSPathingRestrictions) == 0x18);
 
-	struct BSPathingSearchParameters
-	{
-		float         preferredCostFactor;     // 00
-		float         tangentSmoothingFactor;  // 04
-		std::uint16_t retryCount;              // 08
-		std::uint16_t flags;                   // 0A
-	};
-	static_assert(sizeof(BSPathingSearchParameters) == 0xC);
-
-	struct BSPathingActorAttributes
-	{
-		float                              radius;    // 00
-		float                              height;    // 04
-		BSTSmartPointer<BSPathingLockData> lockData;  // 08
-		std::uint32_t                      data;      // 10
-	};
-	static_assert(sizeof(BSPathingActorAttributes) == 0x18);
-
-	struct MovementActorAvoidanceParameters
-	{
-		BSTSmallArray<std::uint32_t, 1> actors;  // 00
-		std::uint32_t                   flags;   // 18
-	};
-	static_assert(sizeof(MovementActorAvoidanceParameters) == 0x20);
-
-	class BSPathingRequest : public BSIntrusiveRefCounted
-	{
-	public:
-		inline static constexpr auto RTTI = RTTI_BSPathingRequest;
-		inline static constexpr auto VTABLE = VTABLE_BSPathingRequest;
-
-		virtual ~BSPathingRequest();  // 00
-
-		// add
-		virtual std::uint32_t GetType();                                // 01 - CRC32("BSPathingRequest")
-		virtual void          CopyTo(BSPathingRequest& a_dest);         // 02
-		virtual void          Write(BSPathingStreamWrite* a_stream);    // 03
-		virtual void          Read(BSPathingStreamRead* a_stream);      // 04
-		virtual void          CheckValid();                             // 05
-		virtual void          PrintDebugText(IDebugText* a_debugText);  // 06
-
-		// members
-		BSPathingStart                       start;                             // 10
-		BSPathingGoal                        goal;                              // 48
-		BSPathingRestrictions                restrictions;                      // 98
-		BSPathingSearchParameters            searchParameters;                  // B0
-		BSPathingActorAttributes             actorAttributes;                   // C0
-		MovementActorAvoidanceParameters     movementActorAvoidanceParameters;  // D8
-		BSTSmartPointer<IMovementParameters> defaultParameters;                 // F8
-	};
-	static_assert(sizeof(BSPathingRequest) == 0x100);
+	class BSPathingSearchParameters;
+	class BSPathingActorAttributes;
+	class MovementActorAvoidanceParameters;
+	class BSPathingRequest;
 
 	class BSPathing : public BSTSingletonExplicit<BSPathing>
 	{

@@ -75,7 +75,7 @@ namespace RE
 		void     Unk_03(void) override;                                                                             // 03
 		void     Activate(const hkbContext& a_context) override;                                                    // 04
 		void     Update(const hkbContext& a_context, float a_timestep) override;                                    // 05
-		void     Unk_06(void) override;                                                                             // 06
+		void     handleEvent(const hkbContext& context, const hkbEvent e) override;                                 // 06
 		void     Deactivate(const hkbContext& a_context) override;                                                  // 07
 		void     Unk_08(void) override;                                                                             // 08
 		void     Unk_09(void) override;                                                                             // 09

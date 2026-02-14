@@ -74,6 +74,15 @@ namespace RE
 		return func(this);
 	}
 
+	const float TESNPC::GetBaseScale() const
+	{
+		if (race) {
+			return race->data.height[GetSex()];
+		}
+
+		return 1.f;
+	}
+
 	std::optional<std::uint32_t> TESNPC::GetPerkIndex(BGSPerk* a_perk) const
 	{
 		if (perks) {
