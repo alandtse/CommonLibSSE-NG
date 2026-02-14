@@ -954,7 +954,7 @@ namespace RE
 	private:
 		bool CenterOnCell_Impl(const char* a_cellName, RE::TESObjectCELL* a_cell);
 	};
-	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xA00, 0x12F0, 0x1E8);
+	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xA08, 0x12F0, 0x1E8);
 }
 #undef PLAYER_RUNTIME_DATA_CONTENT
 #undef VR_PLAYER_RUNTIME_DATA_CONTENT

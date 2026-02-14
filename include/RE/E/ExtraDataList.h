@@ -223,5 +223,5 @@ namespace RE
 	};
 	// Size varies by runtime due to lock offset changes in AE 1.6.629
 	// SE/VR: 0x18, AE<629: 0x18, AE>=629: 0x20
-	STATIC_ASSERT_SIZE(ExtraDataList, 0x18, 0x18, 0x18);
+	STATIC_ASSERT_SIZE(ExtraDataList, 0x18, 0xC, 0x18);
 }

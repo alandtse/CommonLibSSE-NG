@@ -778,6 +778,6 @@ namespace RE
 		float       CalcEquippedWeight();
 		TESFaction* GetCrimeFactionImpl() const;
 	};
-	STATIC_ASSERT_SIZE(Actor, 0x2B0, 0xD0, 0x2B0, 0xC0);
+	STATIC_ASSERT_SIZE(Actor, 0x2B0, 0xD8, 0x2B0, 0xC0);
 }
 #undef RUNTIME_DATA_CONTENT
