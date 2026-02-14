@@ -27,7 +27,7 @@ if not defined VCVARS_PATH (
                 goto :vcvars_found
             )
             REM Check VS 2022 Professional
-            if exist "%%D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars64.bat" (
+            if exist "%%D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\\Build\vcvars64.bat" (
                 set "VCVARS_PATH=%%D:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars64.bat"
                 goto :vcvars_found
             )
@@ -42,16 +42,16 @@ if not defined VCVARS_PATH (
 
 :vcvars_found
 
+REM Allow override via environment variable
+if defined VCVARS64_PATH (
+    set "VCVARS_PATH=%VCVARS64_PATH%"
+)
+
 REM Check if we found vcvars64.bat
 if not defined VCVARS_PATH (
     echo ERROR: Could not find vcvars64.bat. Please ensure Visual Studio is installed.
     echo You can also set the VCVARS64_PATH environment variable to the full path of vcvars64.bat
     exit /b 1
-)
-
-REM Allow override via environment variable
-if defined VCVARS64_PATH (
-    set "VCVARS_PATH=%VCVARS64_PATH%"
 )
 
 echo Using Visual Studio environment: %VCVARS_PATH%
@@ -75,18 +75,34 @@ for %%P in (%PRESETS%) do (
     echo Building preset: %%P
     echo ----------------------------------------
     
-    REM Build preset
-    cmake --build --preset %%P >nul 2>&1
+    REM Configure preset (capture output)
+    echo Configuring build-%%P...
+    cmake --preset build-%%P > "%TEMP%\config_%%P.log" 2>&1
+    
+    if !ERRORLEVEL! NEQ 0 (
+        echo [CONFIGURE FAILED] build-%%P - showing errors:
+        echo.
+        type "%TEMP%\config_%%P.log"
+        echo.
+        echo Full output saved to: "%TEMP%\config_%%P.log"
+        exit /b 1
+    )
+    del "%TEMP%\config_%%P.log" >nul 2>&1
+
+    REM Build preset (capture output to temp file)
+    echo Building...
+    cmake --build --preset %%P > "%TEMP%\build_%%P.log" 2>&1
     
     if !ERRORLEVEL! EQU 0 (
         echo [SUCCESS] %%P
         echo.
+        del "%TEMP%\build_%%P.log" >nul 2>&1
     ) else (
-        echo [FAILED] %%P - showing errors:
+        echo [BUILD FAILED] %%P - showing errors:
         echo.
-        cmake --build --preset %%P 2>&1 | findstr /C:"error C" /C:"error LNK" /C:"FAILED"
+        type "%TEMP%\build_%%P.log" | findstr /C:"error C" /C:"error LNK" /C:"FAILED"
         echo.
-        echo To see full output, run: cmake --build --preset %%P
+        echo Full output saved to: "%TEMP%\build_%%P.log"
         exit /b 1
     )
 )
