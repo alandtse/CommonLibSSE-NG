@@ -241,7 +241,7 @@ namespace RE
 		void                         ChangeHeadPart(BGSHeadPart* a_target);
 		bool                         ContainsKeyword(std::string_view a_editorID);
 		[[nodiscard]] BGSHeadPart**  GetBaseOverlays() const;
-		[[nodiscard]] const float    GetBaseScale() const;
+		[[nodiscard]] float          GetBaseScale() const;
 		BGSHeadPart*                 GetCurrentHeadPartByType(HeadPartType a_type);
 		BGSHeadPart*                 GetHeadPartByType(HeadPartType a_type);
 		BGSHeadPart*                 GetHeadPartOverlayByType(HeadPartType a_type);

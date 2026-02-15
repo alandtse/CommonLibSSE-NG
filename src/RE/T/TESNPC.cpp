@@ -74,7 +74,7 @@ namespace RE
 		return func(this);
 	}
 
-	const float TESNPC::GetBaseScale() const
+	float TESNPC::GetBaseScale() const
 	{
 		if (race) {
 			return race->data.height[GetSex()];
