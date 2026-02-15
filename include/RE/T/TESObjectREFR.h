@@ -315,7 +315,7 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void RemoveWeapon(BIPED_OBJECT equipIndex);  // 82 - { return; }
 		SKYRIM_REL_VR_VIRTUAL void Unk_83(void);                           // 83 - { return; }
 #if defined(EXCLUSIVE_SKYRIM_VR)
-		virtual void Unk_84(void);
+		SKYRIM_REL_VR_VIRTUAL void Unk_84(void);
 #endif
 		SKYRIM_REL_VR_VIRTUAL void                         SetObjectReference(TESBoundObject* a_object);                                         // 84 - sets flag 24 if the object has destructibles
 		SKYRIM_REL_VR_VIRTUAL void                         MoveHavok(bool a_forceRec);                                                           // 85

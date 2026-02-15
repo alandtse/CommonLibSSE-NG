@@ -9,9 +9,9 @@ namespace RE
 	class ChildSelectorBase
 	{
 	public:
-		static bool Validate(CombatBehaviorTreeNode*) { return true; }
+		static bool Validate(CombatBehaviorTreeNode*);
 		static bool ValidateChildren(CombatBehaviorTreeNode* node, const BSFixedString& type);
 
-		uint32_t SelectChild(CombatBehaviorTreeNode*, [[maybe_unused]] uint32_t selected_ind) const { return 0xFFFFFFFF; }
+		uint32_t SelectChild(CombatBehaviorTreeNode*, [[maybe_unused]] uint32_t selected_ind) const;
 	};
 }

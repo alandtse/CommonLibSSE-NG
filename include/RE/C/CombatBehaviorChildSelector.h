@@ -25,7 +25,7 @@ namespace RE
 		{
 			auto cur_thread = GetStaticTLSData()->combatAIThread;
 			auto ind = Selector::SelectChild(const_cast<CombatBehaviorTreeNode*>(cur_thread->currentNode), 0xFFFFFFFF);
-			if (ind == -1) {
+			if (ind == static_cast<uint32_t>(-1)) {
 				cur_thread->SetFailed(true);
 				cur_thread->Ascend();
 			} else {

@@ -295,7 +295,7 @@ namespace RE
 			CombatUtilities__GetAngleToProjectedTarget(&vec_angles, &origin, target, a_spell->GetAVEffect()->data.projectileBase->data.speed, 0, /* head */ 2);
 			angles = { vec_angles.x, vec_angles.z };
 		} else {
-			angles = { 0 };
+			angles = { 0, 0 };
 		}
 
 		return LaunchSpell(a_result, a_shooter, a_spell, origin, angles);

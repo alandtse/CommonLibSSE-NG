@@ -32,7 +32,7 @@ namespace RE
 		template <typename T, typename... Args>
 		ObjectPtr Allocate(Args&&... args)
 		{
-			ObjectPtr result{ this, size };
+			ObjectPtr result{ this, size, 0 };
 
 			std::uint32_t newSize = size + sizeof(T);
 			CheckBuffer(newSize);

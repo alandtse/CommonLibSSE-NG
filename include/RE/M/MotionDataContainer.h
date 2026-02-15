@@ -15,23 +15,18 @@ namespace RE
 			//{ }
 
 			half(float a_value) :
-				value{ _mm_cvtps_ph([&a_value]() -> __m128 {
-					__m128 value128;
-					value128.m128_f32[0] = a_value;
-
-					return value128;
-				}(),
-					1)
-						   .m128i_u16[0] }
+				value{ [&a_value]() -> std::uint16_t {
+					__m128  f = _mm_set_ss(a_value);
+					__m128i h = _mm_cvtps_ph(f, 1);
+					return static_cast<std::uint16_t>(_mm_extract_epi16(h, 0));
+				}() }
 			{}
 
 			inline operator float()
 			{
-				__m128i value128;
-
-				value128.m128i_u16[0] = value;
-
-				return _mm_cvtph_ps(value128).m128_f32[0];
+				__m128i h = _mm_cvtsi32_si128(value);
+				__m128  f = _mm_cvtph_ps(h);
+				return _mm_cvtss_f32(f);
 			}
 
 		private:
