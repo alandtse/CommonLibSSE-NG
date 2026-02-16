@@ -8,7 +8,7 @@ namespace RE
 	void CombatBehaviorAccessors::Fail()
 	{
 		using func_t = decltype(Fail);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46417, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46417, 0) };
 		return func();
 	}
 

@@ -18,35 +18,35 @@ namespace RE
 		void* BlockAlloc(std::int32_t a_numBytesIn) override  // 01
 		{
 			using func_t = decltype(&hkLifoAllocator::BlockAlloc);
-			REL::Relocation<func_t> func{ RELOCATION_ID(56627, 57032) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56627, 57032) };
 			return func(this, a_numBytesIn);
 		}
 
 		void BlockFree(void* a_ptr, std::int32_t a_numBytesIn) override  // 02
 		{
 			using func_t = decltype(&hkLifoAllocator::BlockFree);
-			REL::Relocation<func_t> func{ RELOCATION_ID(56628, 57033) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56628, 57033) };
 			return func(this, a_ptr, a_numBytesIn);
 		}
 
 		void* BufAlloc(std::int32_t& a_reqNumBytesInOut) override  // 03
 		{
 			using func_t = decltype(&hkLifoAllocator::BufAlloc);
-			REL::Relocation<func_t> func{ RELOCATION_ID(56629, 57034) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56629, 57034) };
 			return func(this, a_reqNumBytesInOut);
 		}
 
 		void BufFree(void* a_ptr, std::int32_t a_numBytes) override  // 04
 		{
 			using func_t = decltype(&hkLifoAllocator::BufFree);
-			REL::Relocation<func_t> func{ RELOCATION_ID(56630, 57035) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56630, 57035) };
 			return func(this, a_ptr, a_numBytes);
 		}
 
 		void* BufRealloc(void* a_old, std::int32_t a_oldNumBytes, std::int32_t& a_reqNumBytesInOut) override  // 05
 		{
 			using func_t = decltype(&hkLifoAllocator::BufRealloc);
-			REL::Relocation<func_t> func{ RELOCATION_ID(56631, 57036) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56631, 57036) };
 			return func(this, a_old, a_oldNumBytes, a_reqNumBytesInOut);
 		}
 
@@ -59,14 +59,14 @@ namespace RE
 			hkMemoryAllocator* a_internalAllocator)
 		{
 			using func_t = decltype(&hkLifoAllocator::Init);
-			REL::Relocation<func_t> func{ RELOCATION_ID(56625, 57030) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56625, 57030) };
 			return func(this, a_slabAllocator, a_largeAllocator, a_internalAllocator);
 		}
 
 		void Quit()
 		{
 			using func_t = decltype(&hkLifoAllocator::Quit);
-			REL::Relocation<func_t> func{ RELOCATION_ID(56626, 57031) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56626, 57031) };
 			return func(this);
 		}
 

@@ -64,8 +64,8 @@ namespace RE
 		BGSAttackData* Ctor()
 		{
 			using func_t = decltype(&BGSAttackData::Ctor);
-			REL::Relocation<func_t> func{ RELOCATION_ID(26718, 27397) };
-			BGSAttackData*          attackData = func(this);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26718, 27397) };
+			BGSAttackData*                 attackData = func(this);
 			return attackData;
 		}
 

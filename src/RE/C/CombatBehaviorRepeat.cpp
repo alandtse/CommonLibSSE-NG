@@ -34,7 +34,7 @@ namespace RE
 	void CombatBehaviorRepeat::Update()
 	{
 		using func_t = decltype(&CombatBehaviorRepeat::Update);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46184, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46184, 0) };
 		return func(this);
 	}
 }

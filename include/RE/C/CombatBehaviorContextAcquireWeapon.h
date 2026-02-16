@@ -10,8 +10,8 @@ namespace RE
 	public:
 		void                     Enter();
 		void                     Exit();
-		const CombatAcquireItem& getAcquireAmmo() const;
-		const CombatAcquireItem& getAcquireWeapon() const;
+		const CombatAcquireItem& GetAcquireAmmo() const;
+		const CombatAcquireItem& GetAcquireWeapon() const;
 		bool                     HasAmmoTarget() const;
 
 		// members

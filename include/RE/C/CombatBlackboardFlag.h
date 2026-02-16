@@ -9,8 +9,8 @@ namespace RE
 	public:
 		CombatBlackboardFlag();
 
-		static CombatBlackboardFlag* getHiding();
-		static CombatBlackboardFlag* getUsingCover();
+		static CombatBlackboardFlag* GetHiding();
+		static CombatBlackboardFlag* GetUsingCover();
 
 		// members
 		BSFixedString name;   // 00

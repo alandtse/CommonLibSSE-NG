@@ -9,7 +9,7 @@ namespace RE
 	void CombatBehaviorSequence::Enter()
 	{
 		using func_t = decltype(&CombatBehaviorSequence::Enter);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46148, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46148, 0) };
 		return func(this);
 	}
 

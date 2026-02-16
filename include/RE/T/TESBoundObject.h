@@ -48,7 +48,7 @@ namespace RE
 		[[nodiscard]] BGSDestructibleObjectForm* GetDestructibleForm() const
 		{
 			using func_t = decltype(&TESBoundObject::GetDestructibleForm);
-			REL::Relocation<func_t> func{ RELOCATION_ID(14055, 14152) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14055, 14152) };
 			return func(this);
 		}
 

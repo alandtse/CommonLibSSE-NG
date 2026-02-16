@@ -5,14 +5,14 @@ namespace RE
 	void CombatBehaviorAdvance::Enter()
 	{
 		using func_t = decltype(&CombatBehaviorAdvance::Enter);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46703, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46703, 0) };
 		return func(this);
 	}
 
 	void CombatBehaviorAdvance::Update()
 	{
 		using func_t = decltype(&CombatBehaviorAdvance::Update);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46704, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46704, 0) };
 		return func(this);
 	}
 }

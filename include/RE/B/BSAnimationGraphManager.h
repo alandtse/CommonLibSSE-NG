@@ -120,14 +120,14 @@ namespace RE
 		bool QueryAnimations(const BSScrapArray<BSFixedString>& a_events, std::int32_t a_activeGraphIndex, BSFixedString& a_projectName, BSScrapArray<ClipData>& a_clips)
 		{
 			using func_t = bool(BSAnimationGraphManager*, const BSScrapArray<BSFixedString>&, std::int32_t, BSFixedString&, BSScrapArray<ClipData>&);
-			REL::Relocation<func_t> func{ RELOCATION_ID(62432, 0) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(62432, 0) };
 			return func(this, a_events, a_activeGraphIndex, a_projectName, a_clips);
 		}
 
 		bool QueryAnimations(float a_fromTime, BSFixedString& a_projectName, BSScrapArray<ClipData>& a_clips, std::int32_t a_activeGraphIndex)
 		{
 			using func_t = bool(BSAnimationGraphManager*, float, BSFixedString&, BSScrapArray<ClipData>&, std::int32_t);
-			REL::Relocation<func_t> func{ RELOCATION_ID(62431, 0) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(62431, 0) };
 			return func(this, a_fromTime, a_projectName, a_clips, a_activeGraphIndex);
 		}
 		// members

@@ -5,21 +5,21 @@ namespace RE
 	void CombatBehaviorParallel::Abort()
 	{
 		using func_t = decltype(&CombatBehaviorParallel::Abort);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46170, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46170, 0) };
 		return func(this);
 	}
 
 	void CombatBehaviorParallel::Enter()
 	{
 		using func_t = decltype(&CombatBehaviorParallel::Enter);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46168, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46168, 0) };
 		return func(this);
 	}
 
 	void CombatBehaviorParallel::Update()
 	{
 		using func_t = decltype(&CombatBehaviorParallel::Enter);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46169, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46169, 0) };
 		return func(this);
 	}
 }

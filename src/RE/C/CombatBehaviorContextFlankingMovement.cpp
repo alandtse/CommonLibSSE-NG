@@ -5,7 +5,7 @@ namespace RE
 	bool CombatBehaviorContextFlankingMovement::CheckShouldStalk()
 	{
 		using func_t = decltype(&CombatBehaviorContextFlankingMovement::CheckShouldStalk);
-		REL::Relocation<func_t> func{ RELOCATION_ID(47118, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(47118, 0) };
 		return func(this);
 	}
 }

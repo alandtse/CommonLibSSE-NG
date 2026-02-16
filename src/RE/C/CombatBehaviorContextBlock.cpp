@@ -5,7 +5,7 @@ namespace RE
 	bool CombatBehaviorContextBlock::CheckStopBlocking()
 	{
 		using func_t = decltype(&CombatBehaviorContextBlock::CheckStopBlocking);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46627, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46627, 0) };
 		return func(this);
 	}
 }

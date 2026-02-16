@@ -5,23 +5,23 @@ namespace RE
 	void CombatBehaviorContextAcquireWeapon::Enter()
 	{
 		using func_t = decltype(&CombatBehaviorContextAcquireWeapon::Enter);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46341, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46341, 0) };
 		return func(this);
 	}
 
 	void CombatBehaviorContextAcquireWeapon::Exit()
 	{
 		using func_t = decltype(&CombatBehaviorContextAcquireWeapon::Exit);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46342, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46342, 0) };
 		return func(this);
 	}
 
-	const CombatAcquireItem& CombatBehaviorContextAcquireWeapon::getAcquireAmmo() const
+	const CombatAcquireItem& CombatBehaviorContextAcquireWeapon::GetAcquireAmmo() const
 	{
 		return ammo;
 	}
 
-	const CombatAcquireItem& CombatBehaviorContextAcquireWeapon::getAcquireWeapon() const
+	const CombatAcquireItem& CombatBehaviorContextAcquireWeapon::GetAcquireWeapon() const
 	{
 		return weapon;
 	}
@@ -29,7 +29,7 @@ namespace RE
 	bool CombatBehaviorContextAcquireWeapon::HasAmmoTarget() const
 	{
 		using func_t = decltype(&CombatBehaviorContextAcquireWeapon::HasAmmoTarget);
-		REL::Relocation<func_t> func{ RELOCATION_ID(46442, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46442, 0) };
 		return func(this);
 	}
 }

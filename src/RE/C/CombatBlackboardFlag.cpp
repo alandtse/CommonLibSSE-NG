@@ -5,17 +5,19 @@ namespace RE
 	CombatBlackboardFlag::CombatBlackboardFlag()
 	{
 		using func_t = CombatBlackboardFlag*(CombatBlackboardFlag*);
-		REL::Relocation<func_t> func{ RELOCATION_ID(43311, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(43311, 0) };
 		func(this);
 	}
 
-	CombatBlackboardFlag* CombatBlackboardFlag::getHiding()
+	CombatBlackboardFlag* CombatBlackboardFlag::GetHiding()
 	{
-		return REL::Relocation<CombatBlackboardFlag*>(RELOCATION_ID(518923, 0).address()).get();
+		static REL::Relocation<CombatBlackboardFlag*> value{ RELOCATION_ID(518923, 0) };
+		return value.get();
 	}
 
-	CombatBlackboardFlag* CombatBlackboardFlag::getUsingCover()
+	CombatBlackboardFlag* CombatBlackboardFlag::GetUsingCover()
 	{
-		return REL::Relocation<CombatBlackboardFlag*>(RELOCATION_ID(519134, 0).address()).get();
+		static REL::Relocation<CombatBlackboardFlag*> value{ RELOCATION_ID(519134, 0) };
+		return value.get();
 	}
 }

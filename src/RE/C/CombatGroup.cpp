@@ -5,7 +5,7 @@ namespace RE
 	bool CombatGroup::IsSearching() const
 	{
 		using func_t = decltype(&CombatGroup::IsSearching);
-		REL::Relocation<func_t> func{ RELOCATION_ID(48023, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(48023, 0) };
 		return func(this);
 	}
 }
