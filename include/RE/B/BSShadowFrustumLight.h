@@ -15,7 +15,7 @@ namespace RE
 		// override (BSShadowLight)
 		bool AreFocusShadowsSupported() override;                                                                              // 04
 		bool IsSpotLight() override;                                                                                           // 05 GetIsFrustumLight
-		void Cull(uint32_t& globalShadowLightCount, uint32_t shadowMaskChannel, NiPointer<NiAVObject> cullingScene) override;  // 09 Accumulate
+		void Cull(uint32_t& globalShadowLightCount, uint32_t shadowMaskChannel, NiAVObject* cullingScene) override;  // 09 Accumulate
 		void RenderShadowmaps() override;                                                                                      // 0A Render
 		bool SetFrameCamera(const NiCamera& frameCamera) override;                                                             // 10 UpdateCamera
 

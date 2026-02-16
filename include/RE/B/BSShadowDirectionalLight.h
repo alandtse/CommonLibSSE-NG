@@ -30,7 +30,7 @@ namespace RE
 		// override (BSShadowLight)
 		bool AreFocusShadowsSupported() override;                                                                              // 04
 		bool IsDirectionalLight() override;                                                                                    // 06
-		void Cull(uint32_t& globalShadowLightCount, uint32_t shadowMaskChannel, NiPointer<NiAVObject> cullingScene) override;  // 09
+		void Cull(uint32_t& globalShadowLightCount, uint32_t shadowMaskChannel, NiAVObject* cullingScene) override;  // 09
 		void RenderShadowmaps() override;                                                                                      // 0A
 		void Reset() override;                                                                                                 // 0C
 		void Unk_0D() override;                                                                                                // 0D

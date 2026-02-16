@@ -15,7 +15,7 @@ namespace RE
 		// override (BSShadowLight)
 		bool IsParabolicLight() override;                                                                                      // 07 GetIsParabolicLight
 		bool IsOmnidirectionalLight() override;                                                                                // 08 GetIsOmniLight
-		void Cull(uint32_t& globalShadowLightCount, uint32_t shadowMaskChannel, NiPointer<NiAVObject> cullingScene) override;  // 09 Accumulate
+		void Cull(uint32_t& globalShadowLightCount, uint32_t shadowMaskChannel, NiAVObject* cullingScene) override;  // 09 Accumulate
 		void RenderShadowmaps() override;                                                                                      // 0A Render
 		void Reset() override;                                                                                                 // 0C ClearShadowMapData
 		void Unk_0D() override;                                                                                                // 0D
