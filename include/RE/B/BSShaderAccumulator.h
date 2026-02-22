@@ -40,7 +40,7 @@ namespace RE
 		// add
 		virtual void FinishAccumulatingPreResolveDepth(std::uint32_t flags);   // 2A
 		virtual void FinishAccumulatingPostResolveDepth(std::uint32_t flags);  // 2B
-		virtual void Unk_2C();                                                 // 2C
+		virtual void Unk_2C() = 0;                                             // 2C
 
 		struct RUNTIME_DATA
 		{

@@ -13,12 +13,11 @@ namespace RE
 		~BSShadowFrustumLight() override;  // 00
 
 		// override (BSShadowLight)
-		bool AreFocusShadowsSupported() override;  // 04
-		bool GetIsFrustumLight() override;         // 05 GetIsFrustumLight
-		// TODO: Fix method signatures - these don't match base class in upstream
-		// void Accumulate(uint32_t& globalShadowLightCount, uint32_t shadowMaskChannel, NiPointer<NiAVObject> cullingScene) override;  // 09 Accumulate
-		void Render() override;  // 0A Render
-		// bool UpdateCamera(const NiCamera& frameCamera) override;  // 10 UpdateCamera
+		bool GetIsFrustumOrDirectionalLight() override;                                                                                                      // 04
+		bool GetIsFrustumLight() override;                                                                                                                   // 05
+		void Accumulate(std::uint32_t& a_globalShadowLightCount, std::uint32_t& a_shadowMaskChannel, const NiPointer<NiAVObject>& a_cullingScene) override;  // 09
+		void Render() override;                                                                                                                              // 0A
+		bool UpdateCamera(const NiCamera* a_viewCamera) override;                                                                                            // 10
 
 		// members
 		float semiWidth;     // 560 xFOV

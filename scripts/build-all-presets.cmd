@@ -2,6 +2,15 @@
 setlocal enabledelayedexpansion
 REM Comprehensive build script for CommonLibVR
 REM Builds all presets and stops at first failure for faster LLM iteration
+REM
+REM Usage: build-all-presets.cmd [--clang]
+REM   --clang    Use clang-cl compiler instead of MSVC
+
+REM Parse arguments
+set "COMPILER=msvc"
+for %%A in (%*) do (
+    if /i "%%A"=="--clang" set "COMPILER=clang-cl"
+)
 
 REM Try to find Visual Studio installation dynamically
 set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
@@ -64,12 +73,12 @@ if !ERRORLEVEL! NEQ 0 (
 
 echo.
 echo ========================================
-echo CommonLibVR Build Script
+echo CommonLibVR Build Script [%COMPILER%]
 echo ========================================
 echo.
 
 REM Build order: SE, AE, VR, Flatrim, All
-set "PRESETS=release-msvc-vcpkg-se release-msvc-vcpkg-ae release-msvc-vcpkg-vr release-msvc-vcpkg-flatrim release-msvc-vcpkg-all"
+set "PRESETS=release-%COMPILER%-vcpkg-se release-%COMPILER%-vcpkg-ae release-%COMPILER%-vcpkg-vr release-%COMPILER%-vcpkg-flatrim release-%COMPILER%-vcpkg-all"
 
 for %%P in (%PRESETS%) do (
     echo Building preset: %%P

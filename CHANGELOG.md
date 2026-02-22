@@ -1,3 +1,9 @@
+## [4.3.0](https://github.com/alandtse/CommonLibVR/compare/v4.2.0...v4.3.0) (2026-02-22)
+
+### Features
+
+* merge po3 ([d3e2a39](https://github.com/alandtse/CommonLibVR/commit/d3e2a3931bd7119932b86e633b18d9b44561626b))
+
 ## [4.2.0](https://github.com/alandtse/CommonLibVR/compare/v4.1.3...v4.2.0) (2026-02-05)
 
 ### Features

@@ -1,11 +1,82 @@
 # CommonLibSSE NG
 
-[![C++23](https://img.shields.io/static/v1?label=standard&message=c%2B%2B20&color=blue&logo=c%2B%2B&&logoColor=white&style=flat)](https://en.cppreference.com/w/cpp/compiler_support)
+[![C++23](https://img.shields.io/static/v1?label=standard&message=c%2B%2B23&color=blue&logo=c%2B%2B&&logoColor=white&style=flat)](https://en.cppreference.com/w/cpp/compiler_support)
 ![Platform](https://img.shields.io/static/v1?label=platform&message=windows&color=dimgray&style=flat&logo=windows)
 [![Latest Release](https://img.shields.io/github/v/release/alandtse/CommonLibVR?logo=pkgsrc&logoColor=white)](#use)
 [![Main CI](https://github.com/alandtse/CommonLibVR/actions/workflows/main_ci.yml/badge.svg?branch=ng)](https://github.com/alandtse/CommonLibVR/actions/workflows/main_ci.yml)
 
-CommonLibSSE NG is a fork of CommonLibSSE which tracks upstream updates but adds a number of enhancements.
+CommonLibSSE NG is a fork of CharmedBaryon's CommonLibSSE-NG, itself a fork of CommonLibSSE, which tracks upstream updates but adds a number of enhancements.
+It supports Skyrim Special Edition (SE), Skyrim Anniversary Edition (AE), and Skyrim Virtual Reality (VR).
+
+## Usage
+
+To develop a C++ project that uses CommonLibSSE, you'll want to have this code available for discovery, and included as a build dependency by your build manager. Below are examples using the `xmake` or `cmake` managers.
+
+> [!TIP]
+> For examples & templates see the wiki: https://github.com/alandtse/CommonLibVR/wiki/Projects-using-CommonLib
+
+### Getting the code: Git SubModule
+
+Assuming you have a folder with your mod material, this can be converted to a git repository, for which this repo can be added as a submodule,
+allowing git to manage updates, paths, names, versions... To do this:
+
+Use the folder to [initialize a git repository](https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository):
+
+```powershell
+PS E:\Git\foo-bar> git init
+Initialized empty Git repository in E:/Git/foo-bar/.git/
+```
+
+Add this CommonLibSSE repo as a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules), specifying the `ng` branch,
+and storing it in `lib/commonlibsse-ng` folder:
+
+```powershell
+PS E:\Git\foo-bar> git submodule add -b ng https://github.com/alandtse/CommonLibVR.git lib/commonlibsse-ng
+Cloning into 'E:/Git/foo-bar/lib/commonlibsse-ng'...
+remote: Enumerating objects: 66210, done.
+remote: Counting objects: 100% (2526/2526), done.
+remote: Compressing objects: 100% (197/197), done.
+remote: Total 66210 (delta 2397), reused 2335 (delta 2329), pack-reused 63684 (from 1)
+Receiving objects: 100% (66210/66210), 18.99 MiB | 19.58 MiB/s, done.
+Resolving deltas: 100% (51252/51252), done.
+PS E:\Git\foo-bar
+```
+
+> [!TIP]
+> If your submodule ended up in a location where the rest of the code can't find it, you can remove & re-add submodules, see https://stackoverflow.com/a/1260982
+
+At this point, git is tracking changes to your code in your machine. You can add a cloud-based remote for backup, distribution, or collaboration; instructions are here for [GitHub](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github) or [CodeBerg](https://docs.codeberg.org/getting-started/first-repository/).
+
+To update your project's submodules you can use:
+```powershell
+PS E:\Git\foo-bar> git submodule update --init --recursive
+```
+
+### Build Dependency: Xmake
+
+If using the [Xmake build system](https://xmake.io/guide/introduction.html), you can add a build dependency and
+a custom rule suitable for SKSE plugins by adding this to your DLL target recipe:
+
+```xmake
+target("my_plugin")
+   set_kind("shared")                         --specifies this is a DLL
+   add_deps("commonlibsse-ng")                --adds the dependency
+
+   add_rules("commonlibsse-ng.plugin", {      --adds a custom build rule, whose details are in CommonLibSSE
+      name = "my_plugin",
+      author = "Dovahkiin",
+      description = "SKSE64 plugin using CommonLibSSE-NG"
+   })
+```
+
+### Build Dependency: CMake
+
+If using the [CMake build system](https://cmake.org/cmake/help/v4.2/index.html#), you can add the following in `CMakeLists.txt` to compile and link successfully:
+
+```cmake
+find_package(CommonLibSSE REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC CommonLibSSE::CommonLibSSE)
+```
 
 ## New Features
 
@@ -72,22 +143,14 @@ example, tests to be run within a single test suite that vary between SE, AE, an
 [Read more on
 the project wiki.](https://github.com/CharmedBaryon/CommonLibSSE-NG/wiki/Unit-Testing)
 
-### Versioned Releases via Vcpkg and Conan
+### Older Releases via Vcpkg and Conan
 
-![stability-stable](https://img.shields.io/static/v1?label=vcpkg&message=stable&color=dimgreen&style=flat)
+> [!WARNING]
+> These are not part of this repository and are not currently maintained.
 
-![stability-experimental](https://img.shields.io/static/v1?label=conan&message=experimental&color=orange&style=flat)
-
-Traditionally CommonLibSSE is consumed via a Git submodule; this practice generally requires the project using it to add
-CommonLibSSE's own Vcpkg dependencies and parts of it CMake configuration, as CommonLibSSE is built as a part of the
-plugin project. CommonLibSSE NG instead uses specific releases with semantic versioning, and distributes them as their
-own Vcpkg ports, through the [Color-Glass Studios Vcpkg repository](https://gitlab.com/colorglass/vcpkg-colorglass).
-As a result, it is simpler to use, does not require absorbing transitive requirements into your own project, and needs
-only be built once (cleaning will not require rebuilding CommonLibSSE, only your own code).
-
-In addition, starting with version 3.5.0, CommonLibSSE NG can now be both built and consumed via the Conan package
-manager, both as a source build or prebuilt packages targeting Windows on x86_64 with Visual Studio compiler versions 16
-and 17 (2019 and 2022).
+Older versions of CommonLibSSE, specifically CharmedByron's, are (were) available as a
+[vcpkg port](https://gitlab.com/colorglass/vcpkg-colorglass) and as a 
+[Conan package](https://charmedbaryon.jfrog.io/artifactory/api/conan/default-conan). These are not maintained as part of this project.
 
 [See how to use CommonLibSSE NG in your project.](#use)
 
@@ -97,7 +160,7 @@ and 17 (2019 and 2022).
 
 CommonLibSSE NG migrates the build system to Ninja, resulting in faster parallel builds than NMake.
 
-## Other Changes
+### Other Changes
 
 - Ability to define offsets and address IDs for objects which can exist in only a subset of runtimes, while being able
   dynamically test for feature support before using those offsets.
@@ -107,118 +170,19 @@ CommonLibSSE NG migrates the build system to Ninja, resulting in faster parallel
   [Fully Dynamic Game Engine](https://gitlab.com/colorglass/fully-dynamic-game-engine)).
 - Better support for the CLion IDE.
 
-## Use
-
-### Via Vcpkg
-
-CommonLibSSE NG is available as a Vcpkg port. To add it to your project, create a `vcpkg-configuration.json` file in the
-project root (next to `vcpkg.json`) with the following contents:
-
-```json
-{
-  "registries": [
-    {
-      "kind": "git",
-      "repository": "https://gitlab.com/colorglass/vcpkg-colorglass",
-      // Update this baseline to the latest commit from the above repo.
-      "baseline": "9eae9f03f03e0ca96fce5031f44f4e64cd6debdc",
-      "packages": [
-        "commonlibsse-ng",
-        "commonlibsse-ng-ae",
-        "commonlibsse-ng-se",
-        "commonlibsse-ng-vr",
-        "commonlibsse-ng-flatrim"
-      ]
-    }
-  ]
-}
-```
-
-Then add `commonlibsse-ng` as a dependency in `vcpkg.json`. There are also runtime-specific versions of the project:
-
-- `commonlibsse-ng-ae`: Supports AE executables (1.6.x) only.
-- `commonlibsse-ng-se`: Supports pre-AE executables (1.5.x) only.
-- `commonlibsse-ng-vr`: Supports VR only.
-- `commonlibsse-ng-flatrim`: Support for SE/AE, but not VR.
-
-The runtime-specific ports will not attempt to dynamically lookup the version of Skyrim at runtime, and will enable
-access to reverse engineered content that is specific to that version of Skyrim and non-portable (i.e. it does not exist
-in all versions of Skyrim, or has not been reverse engineered on all versions of Skyrim).
-
-### Via Conan
-
-CommonLibSSE NG is now available via Conan. Add it as a requirement to your project's `conanfile.txt` or `conanfile.py`:
-
-```ini
-[requires]
-commonlibsse-ng/3.5.2
-```
-
-```python
-class MyProject:
-    # ...
-    requires = 'commonlibsse-ng/3.5.2'
-```
-
-Update the version number to the version constraints you want. Conan support was added in version 3.5.0, making that the
-earliest version available. Currently Conan binaries are available for the following
-`build_type`/`arch`/`os`/`compiler`/`compiler.version` combinations:
-
-- Debug/x86_64/Windows/Visual Studio/16
-- Debug/x86_64/Windows/Visual Studio/17
-- Release/x86_64/Windows/Visual Studio/16
-- Release/x86_64/Windows/Visual Studio/17
-
-Selective runtime support is handled via package options:
-
-```ini
-[requires]
-commonlibsse-ng/3.5.2
-
-[options]
-commonlibsse-ng:ae=True
-commonlibsse-ng:se=True
-commonlibsse-ng:vr=True
-```
-
-```python
-class MyProject:
-    # ...
-    requires = 'commonlibsse-ng/3.5.2'
-    default_options = {
-      # ...
-      'commonlibsse-ng:with_ae': True,
-      'commonlibsse-ng:with_se': True,
-      'commonlibsse-ng:with_vr': True
-    }
-```
-
-The above shows the default values (which includes support for all runtimes). Disable any runtimes you do not want.
-
-### Linking in CMake
-
-You should have the following in `CMakeLists.txt` to compile and link successfully:
-
-```cmake
-find_package(CommonLibSSE REQUIRED)
-target_link_libraries(${PROJECT_NAME} PUBLIC CommonLibSSE::CommonLibSSE)
-```
-
-For more information on how to use CommonLibSSE NG, you can look at the
-[example plugin](https://gitlab.com/colorglass/commonlibsse-sample-plugin).
 
 ## Build Dependencies
 
 Dependencies are managed via vcpkg. See `vcpkg.json` for the complete list.
 
 **Core Dependencies:**
-- [fmt](https://github.com/fmtlib/fmt) 12.0.0+
-- [rapidcsv](https://github.com/d99kris/rapidcsv) 8.62+
-- [spdlog](https://github.com/gabime/spdlog) 1.16.0+
-- [xbyak](https://github.com/herumi/xbyak) 6.61.2+
+- [fmt](https://github.com/fmtlib/fmt) 12.1+
+- [rapidcsv](https://github.com/d99kris/rapidcsv) 8.9+
+- [spdlog](https://github.com/gabime/spdlog) 1.16+
+- [xbyak](https://github.com/herumi/xbyak) 7.28+
 - [catch2](https://github.com/catchorg/Catch2) 3.1.0+ (for testing)
-- [directxmath](https://github.com/microsoft/DirectXMath) - DirectX Math library
-- [directxtk](https://github.com/microsoft/DirectXTK) - DirectX Toolkit
+- [directxmath](https://github.com/microsoft/DirectXMath) 2025-04-03 - DirectX Math library
+- [directxtk](https://github.com/microsoft/DirectXTK) 2025-10-27 - DirectX Toolkit
 
 **Build Tools:**
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) - Desktop development with C++
@@ -237,9 +201,7 @@ Dependencies are managed via vcpkg. See `vcpkg.json` for the complete list.
   [VR Address Library for SKSEVR](https://www.nexusmods.com/skyrimspecialedition/mods/58101)
 - [clang-format 12.0.0](https://github.com/llvm/llvm-project/releases)
 - [CMake](https://cmake.org/)
-- [Conan](https://conan.io) or [Vcpkg](https://github.com/microsoft/vcpkg)
 
 ## Notes
 
-- CommonLib is incompatible with SKSE and is intended to replace it as a static dependency. However, you will still need
-- the runtime component.
+- CommonLib is incompatible with SKSE and is intended to replace it as a static dependency. However, you will still need the runtime component.

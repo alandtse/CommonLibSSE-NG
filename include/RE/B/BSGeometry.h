@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSLightingShaderProperty.h"
+#include "RE/B/BSShaderProperty.h"
 #include "RE/N/NiAVObject.h"
 #include "RE/N/NiRTTI.h"
 #include "RE/N/NiSkinPartition.h"
@@ -40,16 +41,6 @@ namespace RE
 			kInstanceGroup = 14
 		};
 
-		struct States
-		{
-			enum State
-			{
-				kProperty,
-				kEffect,
-				kTotal
-			};
-		};
-
 		struct MODEL_DATA
 		{
 #if defined(EXCLUSIVE_SKYRIM_VR)
@@ -66,12 +57,13 @@ namespace RE
 
 		struct GEOMETRY_RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                                   \
-	NiPointer<NiProperty>     properties[States::kTotal]; /* 00 */             \
-	NiPointer<NiSkinInstance> skinInstance;               /* 10 */             \
-	BSGraphics::TriShape*     rendererData;               /* 18 */             \
-	void*                     unk20;                      /* 20 - smart ptr */ \
-	BSGraphics::VertexDesc    vertexDesc;                 /* 28 */
+#define RUNTIME_DATA_CONTENT                                         \
+	NiPointer<NiAlphaProperty>  alphaProperty;  /* 00 */             \
+	NiPointer<BSShaderProperty> shaderProperty; /* 08 */             \
+	NiPointer<NiSkinInstance>   skinInstance;   /* 10 */             \
+	BSGraphics::TriShape*       rendererData;   /* 18 */             \
+	void*                       unk140;         /* 20 - smart ptr */ \
+	BSGraphics::VertexDesc      vertexDesc;     /* 28 */
 
 			RUNTIME_DATA_CONTENT
 		};
@@ -112,7 +104,7 @@ namespace RE
 
 		inline BSLightingShaderProperty* lightingShaderProp_cast()
 		{
-			if (auto effect = GetGeometryRuntimeData().properties[States::kEffect].get(); effect) {
+			if (auto effect = GetGeometryRuntimeData().shaderProperty.get(); effect) {
 				if (auto rtti = effect->GetRTTI(); rtti) {
 					const std::string rttiStr(rtti->GetName());
 					if (rttiStr == "BSLightingShaderProperty") {
@@ -128,15 +120,15 @@ namespace RE
 		MODEL_DATA_CONTENT;    // 110, 138
 		RUNTIME_DATA_CONTENT;  // 120, 160
 #	if defined(EXCLUSIVE_SKYRIM_FLAT)
-		REX::EnumSet<Type, std::uint8_t> type;   // 150
-		std::uint8_t                     pad31;  // 151
-		std::uint16_t                    pad32;  // 152
-		std::uint32_t                    pad34;  // 154
+		REX::EnumSet<Type, std::uint8_t> type;    // 150
+		std::uint8_t                     pad151;  // 151
+		std::uint16_t                    pad152;  // 152
+		std::uint32_t                    pad154;  // 154
 #	elif defined(EXCLUSIVE_SKYRIM_VR)
-		REX::EnumSet<Type, std::uint32_t> type;   // 190
-		std::uint8_t                      pad31;  // 194
-		std::uint16_t                     pad32;  // 195
-		std::uint32_t                     pad34;  // 197
+		REX::EnumSet<Type, std::uint32_t> type;    // 190
+		std::uint8_t                      pad151;  // 194
+		std::uint16_t                     pad152;  // 195
+		std::uint32_t                     pad154;  // 197
 #	endif
 #endif
 	};

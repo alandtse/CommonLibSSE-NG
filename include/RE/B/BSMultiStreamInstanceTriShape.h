@@ -28,7 +28,8 @@ namespace RE
 	BSTArray<InstanceGroup*> unk160;             /* 00 */ \
 	std::uint32_t            instanceGroupCount; /* 18 */ \
 	std::uint32_t            unk17C;             /* 1C */ \
-	std::uint64_t            unk180;             /* 20 */ \
+	float                    renderDistance;     /* 20 */ \
+	std::uint32_t            unk184;             /* 24 */ \
 	void*                    groupAlloc;         /* 28 */ \
 	std::uint32_t            instanceCount;      /* 30 */ \
 	std::uint32_t            instanceSize;       /* 34 */ \

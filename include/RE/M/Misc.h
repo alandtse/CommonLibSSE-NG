@@ -4,6 +4,7 @@
 
 namespace RE
 {
+	enum class ActorValue;
 	class Actor;
 	class IMessageBoxCallback;
 	template <class T>
@@ -25,4 +26,5 @@ namespace RE
 	void          PlaySound(const char* a_editorID);
 	bool          RandomBoolChance(float chance);
 	void          ShakeCamera(float a_strength, const NiPoint3& a_position, float a_duration);
+	void          FlashHUDMeter(ActorValue a_av);
 }

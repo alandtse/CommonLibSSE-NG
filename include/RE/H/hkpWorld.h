@@ -16,6 +16,7 @@ namespace RE
 	class hkpBroadPhase;
 	class hkpBroadPhaseBorder;
 	class hkpBroadPhaseBorderListener;
+	class hkpCdPointCollector;
 	class hkpCollisionDispatcher;
 	class hkpCollisionFilter;
 	class hkpConstraintListener;
@@ -43,6 +44,7 @@ namespace RE
 	class hkpWorldPostSimulationListener;
 	class hkWorldMemoryAvailableWatchDog;
 	struct hkpDebugInfoOnPendingOperationQueues;
+	struct hkpLinearCastInput;
 	struct hkpMtThreadStructure;
 	struct hkpProcessCollisionInput;
 	struct hkpViolatedConstraintArray;
@@ -88,6 +90,13 @@ namespace RE
 			using func_t = decltype(&hkpWorld::CastRay);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(60551, 61399) };
 			return func(this, a_input, a_output);
+		}
+
+		inline void LinearCast(const hkpCollidable* a_colA, const hkpLinearCastInput& a_input, hkpCdPointCollector& a_castCollector, hkpCdPointCollector* a_startCollector = nullptr) const
+		{
+			using func_t = decltype(&hkpWorld::LinearCast);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(60554, 61402) };
+			return func(this, a_colA, a_input, a_castCollector, a_startCollector);
 		}
 
 		// members

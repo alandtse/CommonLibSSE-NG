@@ -224,20 +224,6 @@ namespace RE
 		return func(this, a_spellType);
 	}
 
-	void PlayerCharacter::PlayPickupEvent(TESForm* a_item, TESForm* a_containerOwner, TESObjectREFR* a_containerRef, EventType a_eventType)
-	{
-		using func_t = decltype(&PlayerCharacter::PlayPickupEvent);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(39384, 40456) };
-		return func(this, a_item, a_containerOwner, a_containerRef, a_eventType);
-	}
-
-	void PlayerCharacter::SetGodMode(bool a_enable)
-	{
-		using func_t = decltype(&PlayerCharacter::SetGodMode);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(39424, 40500) };
-		return func(this, a_enable);
-	}
-
 	void PlayerCharacter::SetAIDriven(bool a_enable)
 	{
 		using func_t = decltype(&PlayerCharacter::SetAIDriven);
@@ -252,6 +238,13 @@ namespace RE
 		return func(this, a_flag, a_escaped);
 	}
 
+	void PlayerCharacter::SetGodMode(bool a_enable)
+	{
+		using func_t = decltype(&PlayerCharacter::SetGodMode);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39424, 40500) };
+		return func(this, a_enable);
+	}
+ 
 	void PlayerCharacter::StartGrabObject(VR_DEVICE a_device)
 	{
 		using func_t = decltype(&PlayerCharacter::StartGrabObject);

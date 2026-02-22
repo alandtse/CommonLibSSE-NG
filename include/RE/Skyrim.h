@@ -1162,6 +1162,8 @@
 #include "RE/H/hkpAction.h"
 #include "RE/H/hkpAgentNnTrack.h"
 #include "RE/H/hkpAllCdPointCollector.h"
+#include "RE/H/hkpAllRayHitCollector.h"
+#include "RE/H/hkpAllRayHitTempCollector.h"
 #include "RE/H/hkpArrayAction.h"
 #include "RE/H/hkpBoxShape.h"
 #include "RE/H/hkpBroadPhase.h"

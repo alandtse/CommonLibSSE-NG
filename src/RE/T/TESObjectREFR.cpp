@@ -951,13 +951,6 @@ namespace RE
 		return name.contains(a_word);
 	}
 
-	void TESObjectREFR::OpenContainer(std::int32_t a_openType) const
-	{
-		using func_t = decltype(&TESObjectREFR::OpenContainer);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(50211, 51140) };
-		func(this, a_openType);
-	}
-
 	NiPointer<TESObjectREFR> TESObjectREFR::PlaceObjectAtMe(TESBoundObject* a_baseToPlace, bool a_forcePersist) const
 	{
 		const auto handle = TESDataHandler::GetSingleton()->CreateReferenceAtLocation(a_baseToPlace, GetPosition(), GetAngle(), GetParentCell(), GetWorldspace(), nullptr, nullptr, ObjectRefHandle(), a_forcePersist, true);

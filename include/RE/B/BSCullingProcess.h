@@ -72,9 +72,14 @@ namespace RE
 		struct AlphaGroup
 		{
 		public:
-			std::int8_t   unk00[0x30];  // 00
-			std::uint32_t count;        // 30
-			std::uint32_t pad34;        // 34
+			void*         unk00;  // 00 - struct of size 0x108
+			AlphaGroup*   unk08;  // 08
+			void*         unk10;  // 10
+			void*         unk18;  // 18
+			void*         unk20;  // 20 - all ptr to same struct
+			std::uint64_t unk28;  // 28
+			std::uint32_t count;  // 30
+			std::uint32_t pad34;  // 34
 		};
 		static_assert(sizeof(AlphaGroup) == 0x38);
 
@@ -95,20 +100,20 @@ namespace RE
 
 		bool AddShared(NiAVObject* a_object);
 
-		BSTArray<NiPointer<NiAVObject>>                   objectArray;         // 00128
-		BSTLocklessQueue::ObjMultiProdCons<Data, 4096, 0> cullQueue;           // 00140
-		BSTHashMap<NiAVObject*, bool>                     roomSharedMap;       // 30160
-		BSPortalGraphEntry*                               portalGraphEntry;    // 30190
-		REX::Enum<BSCPCullingType>                        cullMode;            // 30198
-		BSCompoundFrustum*                                compoundFrustum;     // 301A0
-		REX::Enum<BSCPCullingType>                        cullModeStack[10];   // 301A8
-		std::uint32_t                                     cullModeStackIndex;  // 301D0
-		bool                                              recurseToGeometry;   // 301D4
-		bool                                              isGroupingAlphas;    // 301D5
-		std::uint16_t                                     unk301D6;            // 301D6
-		BSTArray<AlphaGroup*>                             alphaGroups;         // 301D8
-		std::int32_t                                      alphaGroupIndex;     // 301F0
-		std::uint32_t                                     unk301F4;            // 301F4
+		BSTArray<NiPointer<NiAVObject>>                   objectArray;          // 00128
+		BSTLocklessQueue::ObjMultiProdCons<Data, 4096, 0> cullQueue;            // 00140
+		BSTHashMap<NiAVObject*, bool>                     roomSharedMap;        // 30160
+		BSPortalGraphEntry*                               portalGraphEntry;     // 30190
+		REX::Enum<BSCPCullingType>                        cullMode;             // 30198
+		BSCompoundFrustum*                                compoundFrustum;      // 301A0
+		REX::Enum<BSCPCullingType>                        cullModeStack[10];    // 301A8
+		std::uint32_t                                     cullModeStackIndex;   // 301D0
+		bool                                              recurseToGeometry;    // 301D4
+		bool                                              isGroupingAlphas;     // 301D5
+		std::uint16_t                                     unk301D6;             // 301D6
+		BSTArray<AlphaGroup*>                             alphaGroups;          // 301D8
+		std::int32_t                                      alphaGroupIndex;      // 301F0
+		std::uint32_t                                     alphaGroupStopIndex;  // 301F4
 	};
 	static_assert(sizeof(BSCullingProcess) == 0x301F8);
 }

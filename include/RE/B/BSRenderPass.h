@@ -35,6 +35,7 @@ namespace RE
 		std::uint8_t      numLights;         // 1F
 		std::uint8_t      numShadowLights;   // 20
 		std::uint8_t      unk21;             // 21
+		std::uint32_t     unk24;             // 24
 		BSRenderPass*     next;              // 28
 		BSRenderPass*     passGroupNext;     // 30
 		BSLight**         sceneLights;       // 38

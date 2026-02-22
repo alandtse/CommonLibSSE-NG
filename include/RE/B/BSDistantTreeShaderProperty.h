@@ -14,12 +14,12 @@ namespace RE
 		~BSDistantTreeShaderProperty() override;  // 00
 
 		// override (BSShaderProperty)
-		const NiRTTI*                  GetRTTI() const override;                                                                                    // 02
-		RenderPassArray*               GetRenderPasses(BSGeometry* a_geometry, std::uint32_t a_arg2, BSShaderAccumulator* a_accumulator) override;  // 2A
-		void                           Unk_2B(void) override;                                                                                       // 2B
-		void                           Unk_2F(void) override;                                                                                       // 2F
-		std::int32_t                   ForEachTexture(ForEachVisitor& a_visitor) override;                                                          // 33
-		[[nodiscard]] NiSourceTexture* GetBaseTexture() override;                                                                                   // 37
+		const NiRTTI*                  GetRTTI() const override;                                                                                                          // 02
+		RenderPassArray*               GetRenderPasses(BSGeometry* a_geometry, std::uint32_t a_arg2, BSShaderAccumulator* a_accumulator) override;                        // 2A
+		RenderPassArray*               GetRenderPasses_ShadowMapOrMask(BSGeometry* a_geometry, std::uint32_t a_renderMode, BSShaderAccumulator* a_accumulator) override;  // 2B
+		BSRenderPass*                  GetRenderDepthPass(BSGeometry* a_geometry) override;                                                                               // 2F
+		std::int32_t                   ForEachTexture(ForEachVisitor& a_visitor) override;                                                                                // 33
+		[[nodiscard]] NiSourceTexture* GetBaseTexture() override;                                                                                                         // 37
 
 		// members
 		std::uint64_t unk88;  // 88

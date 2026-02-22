@@ -1,5 +1,6 @@
 #include "RE/M/Misc.h"
 
+#include "RE/A/ActorValues.h"
 #include "RE/B/BSTCreateFactoryManager.h"
 #include "RE/B/BSTDerivedCreator.h"
 #include "RE/G/GameSettingCollection.h"
@@ -107,5 +108,12 @@ namespace RE
 		using func_t = decltype(&ShakeCamera);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(32275, 33012) };
 		return func(a_strength, a_position, a_duration);
+	}
+
+	void FlashHUDMeter(ActorValue a_actorValue)
+	{
+		using func_t = decltype(&FlashHUDMeter);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(51907, 52845) };
+		return func(a_actorValue);
 	}
 }
