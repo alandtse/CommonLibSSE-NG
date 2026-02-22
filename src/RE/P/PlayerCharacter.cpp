@@ -244,7 +244,7 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(39424, 40500) };
 		return func(this, a_enable);
 	}
- 
+
 	void PlayerCharacter::StartGrabObject(VR_DEVICE a_device)
 	{
 		using func_t = decltype(&PlayerCharacter::StartGrabObject);
