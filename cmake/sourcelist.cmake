@@ -126,7 +126,6 @@ set(SOURCES
 	include/RE/B/BGSImpactDataSet.h
 	include/RE/B/BGSImpactManager.h
 	include/RE/B/BGSInstancedQuestObjective.h
-	include/RE/B/BGSKeyword.cpp
 	include/RE/B/BGSKeyword.h
 	include/RE/B/BGSKeywordForm.h
 	include/RE/B/BGSLensFlare.h
@@ -704,7 +703,6 @@ set(SOURCES
 	include/RE/D/DualValueModifierEffect.h
 	include/RE/E/Effect.h
 	include/RE/E/EffectArchetypes.h
-	include/RE/E/EffectSetting.cpp
 	include/RE/E/EffectSetting.h
 	include/RE/E/EmotionTypes.h
 	include/RE/E/EnchantConstructMenu.h
@@ -2003,6 +2001,7 @@ set(SOURCES
 	src/RE/B/BGSFootstepManager.cpp
 	src/RE/B/BGSHeadPart.cpp
 	src/RE/B/BGSIdleCollection.cpp
+	src/RE/B/BGSKeyword.cpp
 	src/RE/B/BGSKeywordForm.cpp
 	src/RE/B/BGSListForm.cpp
 	src/RE/B/BGSLocation.cpp
@@ -2170,6 +2169,7 @@ set(SOURCES
 	src/RE/D/DragonCameraState.cpp
 	src/RE/D/DragonSoulsGained.cpp
 	src/RE/E/Effect.cpp
+	src/RE/E/EffectSetting.cpp
 	src/RE/E/EnchantConstructMenu.cpp
 	src/RE/E/Explosion.cpp
 	src/RE/E/ExtraAliasInstanceArray.cpp
