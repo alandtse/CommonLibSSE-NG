@@ -1,6 +1,7 @@
 #include "RE/B/BGSRefAlias.h"
 
 #include "RE/A/Actor.h"
+#include "RE/F/FormTraits.h"
 #include "RE/T/TESQuest.h"
 
 namespace RE
