@@ -694,15 +694,19 @@ namespace SKSE
 	static_assert(sizeof(PluginDeclaration) == 0x350);
 }
 
-#define SKSEPluginInfo(...)                                                                                                                                         \
-	extern "C" [[maybe_unused]] __declspec(dllexport) constinit ::SKSE::PluginDeclaration SKSEPlugin_Version({ __VA_ARGS__ });                                      \
-	extern "C" [[maybe_unused]] __declspec(dllexport) bool                                SKSEPlugin_Query(::SKSE::QueryInterface*, ::SKSE::PluginInfo* pluginInfo) \
-	{                                                                                                                                                               \
-		pluginInfo->infoVersion = ::SKSE::PluginInfo::kVersion;                                                                                                     \
-		pluginInfo->name = SKSEPlugin_Version.GetName().data();                                                                                                     \
-		pluginInfo->version = static_cast<std::uint32_t>(SKSEPlugin_Version.GetVersion().pack());                                                                   \
-		return true;                                                                                                                                                \
+#define SKSE_EXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
+#define SKSE_PLUGIN_LOAD(...) SKSE_EXPORT bool SKSEPlugin_Load(__VA_ARGS__)
+#define SKSE_PLUGIN_VERSION SKSE_EXPORT constinit SKSE::PluginVersionData SKSEPlugin_Version
+
+#define SKSEPluginInfo(...)                                                                                                   \
+	SKSE_EXPORT constinit ::SKSE::PluginDeclaration SKSEPlugin_Version({ __VA_ARGS__ });                                      \
+	SKSE_EXPORT bool                                SKSEPlugin_Query(::SKSE::QueryInterface*, ::SKSE::PluginInfo* pluginInfo) \
+	{                                                                                                                         \
+		pluginInfo->infoVersion = ::SKSE::PluginInfo::kVersion;                                                               \
+		pluginInfo->name = SKSEPlugin_Version.GetName().data();                                                               \
+		pluginInfo->version = static_cast<std::uint32_t>(SKSEPlugin_Version.GetVersion().pack());                             \
+		return true;                                                                                                          \
 	}
 
-#define SKSEPluginLoad(...) extern "C" [[maybe_unused]] __declspec(dllexport) bool SKSEPlugin_Load(__VA_ARGS__)
-#define SKSEPluginVersion extern "C" [[maybe_unused]] __declspec(dllexport) constinit SKSE::PluginVersionData SKSEPlugin_Version
+#define SKSEPluginLoad(...) SKSE_EXPORT bool SKSEPlugin_Load(__VA_ARGS__)
+#define SKSEPluginVersion SKSE_EXPORT constinit SKSE::PluginVersionData SKSEPlugin_Version

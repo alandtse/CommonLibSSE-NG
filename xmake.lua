@@ -1,20 +1,18 @@
 -- set minimum xmake version
-set_xmakever("2.8.2")
+set_xmakever("3.0.0")
 
--- set project
+-- set project constants
 set_project("commonlibsse-ng")
 set_arch("x64")
 set_languages("c++23")
 set_warnings("allextra")
 set_encodings("utf-8")
 
--- add rules
+-- add common rules
 add_rules("mode.debug", "mode.releasedbg")
+add_rules("plugin.vsxmake.autoupdate")
 
--- make custom rules available
-includes("xmake-rules.lua")
-
--- define options
+-- add options
 option("rex_ini", function()
     set_default(false)
     set_description("Enable ini config support for REX")
@@ -63,32 +61,31 @@ option("tests", function()
     add_defines("ENABLE_COMMONLIBSSE_TESTING=1")
 end)
 
--- require packages
-add_requires("directxmath", "directxtk")
-add_requires("spdlog", { configs = { header_only = false, wchar = true, std_format = true } })
+-- add packages
+add_requires("directxmath 2024.02", "directxtk 24.2.0")
+add_requires("spdlog v1.16.0", { configs = { header_only = false, wchar = true, std_format = true } })
 
 if has_config("rex_ini") then
-    add_requires("simpleini")
+    add_requires("simpleini v4.25")
 end
 
 if has_config("rex_json") then
-    add_requires("nlohmann_json")
+    add_requires("nlohmann_json v3.12.0")
 end
 
 if has_config("rex_toml") then
-    add_requires("toml11")
+    add_requires("toml11 v4.4.0")
 end
 
 if has_config("skse_xbyak") then
-    add_requires("xbyak")
+    add_requires("xbyak v7.06")
 end
 
 if has_config("skyrim_vr") then
-    add_requires("rapidcsv")
+    add_requires("rapidcsv v8.92")
 end
 
--- define targets
-target("commonlibsse-ng")
+target("commonlibsse-ng", function()
     -- set target kind
     set_kind("static")
 
@@ -98,6 +95,7 @@ target("commonlibsse-ng")
     -- add packages
     add_packages("directxmath", "directxtk", "spdlog", { public = true })
 
+    -- add config packages
     if has_config("skyrim_vr") then
         add_packages("rapidcsv", { public = true })
         add_includedirs("extern/openvr/headers", { public = true })
@@ -214,12 +212,12 @@ target("commonlibsse-ng")
         "clang_cl::-Wno-unused-private-field",
         { public = true }
     )
-target_end()
+end)
 
 if has_config("tests") then
     add_requires("catch2")
 
-    target("commonlibsse-ng-tests")
+    target("commonlibsse-ng-tests", function()
         -- set target kind
         set_kind("binary")
 
@@ -248,5 +246,133 @@ if has_config("tests") then
             os.cp("$(scriptdir)/tests/REL/*.csv", plugins)
             os.cp("$(scriptdir)/tests/REL/*.bin", plugins)
         end)
-    target_end()
+    end)
 end
+
+-- copied from libxse/commonlib-shared
+rule("commonlib.plugin", function()
+    add_deps("win.sdk.resource")
+
+    on_config(function(target)
+        import("core.project.project")
+        import("core.base.semver")
+
+        target:set("arch", "x64")
+        target:set("kind", "shared")
+
+        target:set("configdir", target:autogendir())
+        target:add("configfiles", path.join(os.scriptdir(), "res/commonlib-plugin.rc.in"))
+        target:add("files", path.join(target:configdir(), "commonlib-plugin.rc"))
+
+        local data = target:data("commonlib.plugin.config") or {}
+        target:set("configvar", "COMMONLIB_PLUGIN_AUTHOR", data.author or "")
+        target:set("configvar", "COMMONLIB_PLUGIN_CONTACT", data.contact or "")
+        target:set("configvar", "COMMONLIB_PLUGIN_DESCRIPTION", data.description or "")
+        target:set("configvar", "COMMONLIB_PLUGIN_LICENSE", (target:license() or "Unknown") .. " License")
+        target:set("configvar", "COMMONLIB_PLUGIN_NAME", data.name or target:name())
+        target:set("configvar", "COMMONLIB_PLUGIN_VERSION", target:version() or "0.0.0")
+        target:set("configvar", "COMMONLIB_PLUGIN_VERSION_MAJOR", semver.new(target:version() or "0.0.0"):major())
+        target:set("configvar", "COMMONLIB_PLUGIN_VERSION_MINOR", semver.new(target:version() or "0.0.0"):minor())
+        target:set("configvar", "COMMONLIB_PLUGIN_VERSION_PATCH", semver.new(target:version() or "0.0.0"):patch())
+        target:set("configvar", "COMMONLIB_PROJECT_NAME", project.name() or "")
+        target:set("configvar", "COMMONLIB_PROJECT_VERSION", project.version() or "0.0.0")
+        target:set("configvar", "COMMONLIB_PROJECT_VERSION_MAJOR", semver.new(project.version() or "0.0.0"):major())
+        target:set("configvar", "COMMONLIB_PROJECT_VERSION_MINOR", semver.new(project.version() or "0.0.0"):minor())
+        target:set("configvar", "COMMONLIB_PROJECT_VERSION_PATCH", semver.new(project.version() or "0.0.0"):patch())
+    end)
+
+    on_install(function(target)
+        import("target.action.install")(target, { binaries = false, headers = false, libraries = false, packages = false })
+    end)
+
+    on_package(function(target)
+        import("core.project.config")
+        import("core.project.project")
+
+        local archivename = target:name() .. "-" .. (target:version() or "0.0.0") .. ".zip"
+        cprint("${dim}packaging %s .. ", archivename)
+
+        local rootdir = path.join(os.tmpdir(), "packages", project.name() or "", target:name())
+        os.tryrm(rootdir)
+
+        local data = target:data("commonlib.plugin.package") or {}
+        local installdir = path.join(rootdir, data.prefixdir or "")
+        os.mkdir(installdir)
+
+        local srcfiles, dstfiles = target:installfiles(installdir)
+        if srcfiles and #srcfiles > 0 and dstfiles and #dstfiles > 0 then
+            for idx, srcfile in ipairs(srcfiles) do
+                os.trycp(srcfile, dstfiles[idx])
+            end
+        else
+            return
+        end
+
+        local archivedir = path.absolute(path.join(config.builddir(), "packages"))
+        local archivefile = path.join(archivedir, archivename)
+        os.tryrm(archivefile)
+
+        local olddir = os.cd(rootdir)
+        local archivefiles = os.files("**")
+        os.cd(olddir)
+
+        import("utils.archive").archive(archivefile, archivefiles, { curdir = rootdir })
+
+        cprint("${dim}packaging %s to %s ... ${color.success}${text.success}", archivename, archivedir)
+    end)
+
+    after_build(function(target)
+        import("core.project.depend")
+        import("core.project.task")
+
+        depend.on_changed(function()
+            local srcfiles, dstfiles = target:installfiles()
+            if srcfiles and #srcfiles > 0 and dstfiles and #dstfiles > 0 then
+                task.run("install")
+            end
+        end, { changed = target:is_rebuilt(), files = { target:targetfile() } })
+    end)
+end)
+
+rule("commonlibsse-ng.plugin", function()
+    add_deps("commonlib.plugin")
+
+    on_load(function(target)
+        target:data_set("commonlib.plugin.config", target:extraconf("rules", "commonlibsse-ng.plugin"))
+        target:data_set("commonlib.plugin.package", { prefixdir = "Data" })
+    end)
+
+    on_config(function(target)
+        target:add("deps", "commonlibsse-ng")
+
+        target:add("configfiles", path.join(os.scriptdir(), "res/commonlibsse-ng-plugin.cpp.in"))
+        target:add("files", path.join(target:configdir(), "commonlibsse-ng-plugin.cpp"))
+
+        local conf = target:extraconf("rules", "commonlibsse-ng.plugin")
+        local conf_opt_struct_compatibility = "SKSE::StructCompatibility::Independent"
+        local conf_opt_runtime_compatibility = "SKSE::VersionIndependence::AddressLibrary"
+        if conf.options then
+            if conf.options.struct_dependent then
+                conf_opt_struct_compatibility = "SKSE::StructCompatibility::Dependent"
+            end
+
+            if conf.options.address_library or conf.options.signature_scanning then
+                if not conf.options.address_library then
+                    conf_opt_runtime_compatibility = "SKSE::VersionIndependence::SignatureScanning"
+                end
+            end
+        end
+
+        target:set("configvar", "COMMONLIBSSE_NG_OPTION_STRUCT_COMPATIBILITY", conf_opt_struct_compatibility)
+        target:set("configvar", "COMMONLIBSSE_NG_OPTION_RUNTIME_COMPATIBILITY", conf_opt_runtime_compatibility)
+
+        if os.getenv("XSE_TES5_MODS_PATH") then
+            target:set("installdir", path.join(os.getenv("XSE_TES5_MODS_PATH"), target:name()))
+        elseif os.getenv("XSE_TES5_GAME_PATH") then
+            target:set("installdir", path.join(os.getenv("XSE_TES5_GAME_PATH"), "Data"))
+        end
+
+        target:add("installfiles", target:targetfile(), { prefixdir = "SKSE/Plugins" })
+        target:add("installfiles", target:symbolfile(), { prefixdir = "SKSE/Plugins" })
+    end)
+end)
