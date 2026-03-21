@@ -35,8 +35,15 @@ namespace RE
 		static ButtonEvent* Create(INPUT_DEVICE a_inputDevice, const BSFixedString& a_userEvent, uint32_t a_idCode, float a_value, float a_heldDownSecs)
 		{
 			{
-				auto buttonEvent = malloc<ButtonEvent>(sizeof(ButtonEvent));
-				std::memset(reinterpret_cast<void*>(buttonEvent), 0, sizeof(ButtonEvent));
+				// In SKYRIM_CROSS_VR, sizeof(ButtonEvent) == sizeof(InputEvent) == 0x18
+				// because ButtonEvent only inherits from InputEvent at compile time.
+				// At runtime the object is larger: VRWandEvent + RUNTIME_DATA (0x38)
+				// or IDEvent + RUNTIME_DATA (0x30) for SE/AE.
+				const auto size = REL::Module::IsVR() ?
+				                      sizeof(VRWandEvent) + sizeof(RUNTIME_DATA) :
+				                      sizeof(IDEvent) + sizeof(RUNTIME_DATA);
+				auto       buttonEvent = malloc<ButtonEvent>(size);
+				std::memset(reinterpret_cast<void*>(buttonEvent), 0, size);
 				if (buttonEvent) {
 					stl::emplace_vtable<ButtonEvent>(buttonEvent);
 					buttonEvent->device = a_inputDevice;
