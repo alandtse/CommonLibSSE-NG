@@ -4,6 +4,8 @@
 #include "RE/B/BSIInputDevice.h"
 #include "RE/B/BSTHashMap.h"
 #include "RE/I/InputDevices.h"
+#include "REL/Common.h"
+#include "REL/RuntimeDataAccessors.h"
 
 #include <array>
 #include <unordered_map>
@@ -25,6 +27,20 @@ namespace RE
 		};
 		static_assert(sizeof(InputButton) == 0x10);
 
+		// VR note: an extra 8-byte field exists at 0x08 in VR, shifting all members by +8.
+		// SE: device@0x08, deviceButtons@0x10, buttonNameIDMap@0x40
+		// VR: device@0x10, deviceButtons@0x18, buttonNameIDMap@0x48
+		struct RUNTIME_DATA
+		{
+#define RUNTIME_DATA_CONTENT                                           \
+	INPUT_DEVICE                             device;          /* 08 */ \
+	std::uint32_t                            pad0C;           /* 0C */ \
+	BSTHashMap<std::uint32_t, InputButton*>  deviceButtons;   /* 10 */ \
+	BSTHashMap<BSFixedString, std::uint32_t> buttonNameIDMap; /* 40 */
+			RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0x68);
+
 		~BSInputDevice() override;  // 00
 
 		// override (BSIInputDevice)
@@ -42,13 +58,13 @@ namespace RE
 		void ResetButtonMaps();                                                                                                     // resets the button maps
 		void SetButtonState(std::uint32_t a_buttonId, float a_timeSinceLastPoll, bool a_buttonWasPressed, bool a_buttonIsPressed);  // sets the button state for a given key code and emits a button event if necessary
 
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x8, 0x10);
+#ifndef SKYRIM_CROSS_VR
 		// members
-		INPUT_DEVICE                             device;           // 08
-		std::uint32_t                            pad0C;            // 0C
-		BSTHashMap<std::uint32_t, InputButton*>  deviceButtons;    // 10
-		BSTHashMap<BSFixedString, std::uint32_t> buttonNameIDMap;  // 40
+		RUNTIME_DATA_CONTENT
+#endif
 	};
-	static_assert(sizeof(BSInputDevice) == 0x70);
+	STATIC_ASSERT_SIZE(BSInputDevice, 0x70, 0x70, 0x78, 0x8);
 
 	// Add enum for controller role
 	enum class ControllerRole : uint8_t
@@ -86,7 +102,6 @@ namespace RE
 		double GetCurrentHeldTime(double now) const { return isPressed ? (now - lastPressTime) : holdDuration; }
 	};
 
-	// --- Supplementary reusable input state structs for all input devices ---
 	// Tracks the state of a thumbstick (axes)
 	struct ThumbstickState
 	{
@@ -178,7 +193,6 @@ namespace RE
 	using KeyboardState = InputDeviceState;      // Keyboards use unified state
 	using MouseState = InputDeviceState;         // Mice use unified state
 
-	// --- General-purpose input helpers for all input devices ---
 	// Returns a string label for the thumbstick direction/quadrant
 	inline const char* GetQuadrantName(float x, float y)
 	{
@@ -208,5 +222,5 @@ namespace RE
 		int      key;            // Logical key (if applicable)
 		bool     isShift;        // True if shift modifier is required
 	};
-
 }
+#undef RUNTIME_DATA_CONTENT

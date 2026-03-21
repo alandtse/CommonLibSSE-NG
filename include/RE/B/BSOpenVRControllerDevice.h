@@ -121,7 +121,7 @@ namespace RE
 #	endif
 	};
 #	if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSOpenVRControllerDevice) == 0x150);
+	static_assert(sizeof(BSOpenVRControllerDevice) == 0x158);
 #	endif
 
 	// Returns a canonical string name for a given OpenVR controller key code

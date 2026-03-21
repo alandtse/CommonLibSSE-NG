@@ -24,5 +24,5 @@ namespace RE
 	protected:
 		BSWin32VirtualKeyboardDevice();
 	};
-	static_assert(sizeof(BSWin32VirtualKeyboardDevice) == 0x70);
+	STATIC_ASSERT_SIZE(BSWin32VirtualKeyboardDevice, 0x70, 0x70, 0x78, 0x8);
 }

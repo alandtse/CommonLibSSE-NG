@@ -8,8 +8,11 @@ namespace RE
 	struct BSGamepadEvent;
 
 	class BSGamepadDevice :
-		public BSInputDevice,                  // 00
-		public BSTEventSource<BSGamepadEvent>  // 70
+		public BSInputDevice  // 00
+#ifndef SKYRIM_CROSS_VR
+		,
+		public BSTEventSource<BSGamepadEvent>  // 70 SE / 78 VR
+#endif
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BSGamepadDevice;
@@ -28,14 +31,31 @@ namespace RE
 		virtual void NormalizeThumbstickValue(std::int32_t a_thumbX, std::int32_t a_thumbY, float& a_xOut, float& a_yOut);  // 0D
 		virtual void DoEnableListeningMode();                                                                               // 0E - { return; }
 
+		// BSTEventSource<BSGamepadEvent> base shifts from 0x70 (SE) to 0x78 (VR).
+		// In SKYRIM_CROSS_VR the base is excluded from the hierarchy; use AsBSGamepadEventSource().
+		RUNTIME_CAST_ACCESSOR(BSTEventSource<BSGamepadEvent>, AsBSGamepadEventSource, 0x70, 0x78);
+
+		// Members below shift accordingly: C8 (SE) -> D0 (VR).
+		struct RUNTIME_DATA
+		{
+#define RUNTIME_DATA_CONTENT                  \
+	std::int32_t  userIndex;         /* C8 */ \
+	bool          connected;         /* CC */ \
+	bool          listeningForInput; /* CD */ \
+	std::uint16_t padCE;             /* CE */
+			RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0x8);
+
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0xC8, 0xD0);
+#ifndef SKYRIM_CROSS_VR
 		// members
-		std::int32_t  userIndex;          // C8
-		bool          connected;          // CC
-		bool          listeningForInput;  // CD
-		std::uint16_t padCE;              // CE
+		RUNTIME_DATA_CONTENT
+#endif
 
 	protected:
 		BSGamepadDevice();
 	};
-	static_assert(sizeof(BSGamepadDevice) == 0xD0);
+	STATIC_ASSERT_SIZE(BSGamepadDevice, 0xD0, 0xD0, 0xD8, SIZE_UNDEFINED);
 }
+#undef RUNTIME_DATA_CONTENT

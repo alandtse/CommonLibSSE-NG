@@ -172,32 +172,45 @@ namespace RE
 
 		ButtonState GetPreviousButtonState() const
 		{
-			return stl::unrestricted_cast<ButtonState>(previousPadState.buttonState);
+			return stl::unrestricted_cast<ButtonState>(GetRuntimeData().previousPadState.buttonState);
 		}
 		ButtonState GetCurrentButtonState() const
 		{
-			return stl::unrestricted_cast<ButtonState>(currentPadState.buttonState);
+			return stl::unrestricted_cast<ButtonState>(GetRuntimeData().currentPadState.buttonState);
 		}
 
+		// VR note: own members start at 0xD8 (SE) / 0xE0 (VR) due to BSIInputDevice unk08.
+		struct RUNTIME_DATA
+		{
+#define RUNTIME_DATA_CONTENT                \
+	GamepadData previousPadState; /* 0D8 */ \
+	float       previousLT;       /* 150 */ \
+	float       previousRT;       /* 154 */ \
+	float       previousLX;       /* 158 */ \
+	float       previousLY;       /* 15C */ \
+	float       previousRX;       /* 160 */ \
+	float       previousRY;       /* 164 */ \
+	GamepadData currentPadState;  /* 168 */ \
+	float       currentLT;        /* 1E0 */ \
+	float       currentRT;        /* 1E4 */ \
+	float       currentLX;        /* 1E8 */ \
+	float       currentLY;        /* 1EC */ \
+	float       currentRX;        /* 1F0 */ \
+	float       currentRY;        /* 1F4 */
+            RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0x120);
+
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0xD8, 0xE0);
+#ifndef SKYRIM_CROSS_VR
 		// members
-		GamepadData previousPadState;  // 0D8
-		float       previousLT;        // 150
-		float       previousRT;        // 154
-		float       previousLX;        // 158
-		float       previousLY;        // 15C
-		float       previousRX;        // 160
-		float       previousRY;        // 164
-		GamepadData currentPadState;   // 168
-		float       currentLT;         // 1E0
-		float       currentRT;         // 1E4
-		float       currentLX;         // 1E8
-		float       currentLY;         // 1EC
-		float       currentRX;         // 1F0
-		float       currentRY;         // 1F4
+		RUNTIME_DATA_CONTENT
+#endif
 
 	protected:
 		friend class BSGamepadDeviceHandler;
 		BSPCOrbisGamepadDevice();
 	};
-	static_assert(sizeof(BSPCOrbisGamepadDevice) == 0x1F8);
+	STATIC_ASSERT_SIZE(BSPCOrbisGamepadDevice, 0x1F8, 0x1F8, 0x200, SIZE_UNDEFINED);
 }
+#undef RUNTIME_DATA_CONTENT

@@ -332,3 +332,77 @@
 #	define _STATIC_ASSERT_SIZE_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #SESize
 #	define _STATIC_ASSERT_SIZE_RUNTIME_NAME() "UNKNOWN_RUNTIME"
 #endif
+
+// -----------------------------------------------------------------------------
+// STATIC_ASSERT_OFFSET - offsetof-based static asserts with runtime variants
+// Usage examples:
+//   STATIC_ASSERT_OFFSET(MyClass, member, 0x10);
+//   STATIC_ASSERT_OFFSET(MyClass, member, 0x10, 0x10); // Flat, VR
+//   STATIC_ASSERT_OFFSET(MyClass, member, 0x10, 0x10, 0x10); // SE, AE, VR
+//   STATIC_ASSERT_OFFSET(MyClass, member, 0x10, 0x10, 0x10, 0x10); // SE, AE, VR, All
+//   STATIC_ASSERT_OFFSET(MyClass, member, 0x10, 0x10, 0x10, 0x10, 0x10); // SE, AE, VR, All, Flat
+// -----------------------------------------------------------------------------
+#define STATIC_ASSERT_OFFSET(...)                                                                                                                                            \
+	_STATIC_ASSERT_OFFSET_DISPATCH(__VA_ARGS__, _STATIC_ASSERT_OFFSET_7, _STATIC_ASSERT_OFFSET_6, _STATIC_ASSERT_OFFSET_5, _STATIC_ASSERT_OFFSET_4, _STATIC_ASSERT_OFFSET_3) \
+	(__VA_ARGS__)
+#define _STATIC_ASSERT_OFFSET_DISPATCH(_1, _2, _3, _4, _5, _6, _7, NAME, ...) NAME
+
+// 1-2 args: Error - need at least class name, member and one offset
+#define _STATIC_ASSERT_OFFSET_1(ClassName) \
+	static_assert(false, "STATIC_ASSERT_OFFSET requires at least 3 arguments: ClassName, MemberName and Offset")
+#define _STATIC_ASSERT_OFFSET_2(ClassName, Member) \
+	static_assert(false, "STATIC_ASSERT_OFFSET requires at least 3 arguments: ClassName, MemberName and Offset")
+
+// 3 args: ClassName, Member, Offset (use this offset for all runtimes)
+#define _STATIC_ASSERT_OFFSET_3(ClassName, Member, Offset) \
+	static_assert(offsetof(ClassName, Member) == (Offset), \
+		#ClassName "::" #Member " offset mismatch: expected " #Offset " (using for all runtimes)")
+
+// 4 args: ClassName, Member, FlatOffset, VROffset
+// Assumes SE and AE equal FlatOffset
+#define _STATIC_ASSERT_OFFSET_4(ClassName, Member, FlatOffset, VROffset) \
+	_STATIC_ASSERT_OFFSET_7(ClassName, Member, FlatOffset, FlatOffset, VROffset, SIZE_UNDEFINED, FlatOffset)
+
+// 5 args: ClassName, Member, SESize, AESize, VROffset
+#define _STATIC_ASSERT_OFFSET_5(ClassName, Member, SESize, AESize, VROffset) \
+	_STATIC_ASSERT_OFFSET_7(ClassName, Member, SESize, AESize, VROffset, SIZE_UNDEFINED, SIZE_UNDEFINED)
+
+// 6 args: ClassName, Member, SESize, AESize, VROffset, AllOffset
+#define _STATIC_ASSERT_OFFSET_6(ClassName, Member, SESize, AESize, VROffset, AllOffset) \
+	_STATIC_ASSERT_OFFSET_7(ClassName, Member, SESize, AESize, VROffset, AllOffset, SIZE_UNDEFINED)
+
+// 7 args: ClassName, Member, SESize, AESize, VROffset, AllOffset, FlatOffset
+#define _STATIC_ASSERT_OFFSET_7(ClassName, Member, SESize, AESize, VROffset, AllOffset, FlatOffset) \
+	_STATIC_ASSERT_OFFSET_IMPL(ClassName, Member, SESize, AESize, VROffset, AllOffset, FlatOffset)
+
+#define _STATIC_ASSERT_OFFSET_IMPL(ClassName, Member, SESize, AESize, VROffset, AllOffset, FlatOffset)                                \
+	static_assert(_STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VROffset, AllOffset, FlatOffset) == SIZE_UNDEFINED ||                \
+					  offsetof(ClassName, Member) == _STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VROffset, AllOffset, FlatOffset), \
+		#ClassName "::" #Member " offset mismatch in " _STATIC_ASSERT_OFFSET_RUNTIME_NAME() ": expected " _STATIC_ASSERT_OFFSET_EXPECTED_STR(SESize, AESize, VROffset, AllOffset, FlatOffset) " (SE=" #SESize ", AE=" #AESize ", VR=" #VROffset ", All=" #AllOffset ", Flat=" #FlatOffset ")")
+
+// Runtime selection
+#if defined(EXCLUSIVE_SKYRIM_SE)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (SESize)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #SESize
+#	define _STATIC_ASSERT_OFFSET_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_SE"
+#elif defined(EXCLUSIVE_SKYRIM_AE)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (AESize)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #AESize
+#	define _STATIC_ASSERT_OFFSET_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_AE"
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (VRSize)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #VRSize
+#	define _STATIC_ASSERT_OFFSET_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_VR"
+#elif defined(SKYRIM_CROSS_VR)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (AllSize)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #AllSize
+#	define _STATIC_ASSERT_OFFSET_RUNTIME_NAME() "SKYRIM_CROSS_VR"
+#elif defined(EXCLUSIVE_SKYRIM_FLAT)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (FlatSize)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #FlatSize
+#	define _STATIC_ASSERT_OFFSET_RUNTIME_NAME() "EXCLUSIVE_SKYRIM_FLAT"
+#else
+#	define _STATIC_ASSERT_OFFSET_EXPECTED(SESize, AESize, VRSize, AllSize, FlatSize) (SESize)
+#	define _STATIC_ASSERT_OFFSET_EXPECTED_STR(SESize, AESize, VRSize, AllSize, FlatSize) #SESize
+#	define _STATIC_ASSERT_OFFSET_RUNTIME_NAME() "UNKNOWN_RUNTIME"
+#endif

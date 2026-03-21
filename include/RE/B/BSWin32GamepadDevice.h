@@ -73,34 +73,47 @@ namespace RE
 		// Returns the previous ButtonState of the gamepad
 		ButtonState GetPreviousButtonState() const
 		{
-			return stl::unrestricted_cast<ButtonState>(previousState.gamepad.buttons & REX::W32::XINPUT_GAMEPAD_BUTTON_MASK);
+			return stl::unrestricted_cast<ButtonState>(GetRuntimeData().previousState.gamepad.buttons & REX::W32::XINPUT_GAMEPAD_BUTTON_MASK);
 		}
 
 		// Returns the current ButtonState of the gamepad
 		ButtonState GetCurrentButtonState() const
 		{
-			return stl::unrestricted_cast<ButtonState>(currentState.gamepad.buttons & REX::W32::XINPUT_GAMEPAD_BUTTON_MASK);
+			return stl::unrestricted_cast<ButtonState>(GetRuntimeData().currentState.gamepad.buttons & REX::W32::XINPUT_GAMEPAD_BUTTON_MASK);
 		}
 
+		// VR note: own members start at 0xD8 (SE) / 0xE0 (VR) due to BSIInputDevice unk08.
+		struct RUNTIME_DATA
+		{
+#define RUNTIME_DATA_CONTENT                        \
+	REX::W32::XINPUT_STATE previousState; /* 0D8 */ \
+	float                  previousLT;    /* 0E8 */ \
+	float                  previousRT;    /* 0EC */ \
+	float                  previousLX;    /* 0F0 */ \
+	float                  previousLY;    /* 0F4 */ \
+	float                  previousRX;    /* 0F8 */ \
+	float                  previousRY;    /* 0FC */ \
+	REX::W32::XINPUT_STATE currentState;  /* 100 */ \
+	float                  currentLT;     /* 110 */ \
+	float                  currentRT;     /* 114 */ \
+	float                  currentLX;     /* 118 */ \
+	float                  currentLY;     /* 11C */ \
+	float                  currentRX;     /* 120 */ \
+	float                  currentRY;     /* 124 */
+            RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0x50);
+
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0xD8, 0xE0);
+#ifndef SKYRIM_CROSS_VR
 		// members
-		REX::W32::XINPUT_STATE previousState;  // 0D8
-		float                  previousLT;     // 0E8
-		float                  previousRT;     // 0EC
-		float                  previousLX;     // 0F0
-		float                  previousLY;     // 0F4
-		float                  previousRX;     // 0F8
-		float                  previousRY;     // 0FC
-		REX::W32::XINPUT_STATE currentState;   // 100
-		float                  currentLT;      // 110
-		float                  currentRT;      // 114
-		float                  currentLX;      // 118
-		float                  currentLY;      // 11C
-		float                  currentRX;      // 120
-		float                  currentRY;      // 124
+		RUNTIME_DATA_CONTENT
+#endif
 
 	protected:
 		friend class BSGamepadDeviceHandler;
 		BSWin32GamepadDevice();
 	};
-	static_assert(sizeof(BSWin32GamepadDevice) == 0x128);
+	STATIC_ASSERT_SIZE(BSWin32GamepadDevice, 0x128, 0x128, 0x130, SIZE_UNDEFINED);
 }
+#undef RUNTIME_DATA_CONTENT

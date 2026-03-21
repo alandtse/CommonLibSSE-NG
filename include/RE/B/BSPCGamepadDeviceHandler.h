@@ -42,10 +42,6 @@ namespace RE
 		friend class BSInputDeviceFactory;
 		BSPCGamepadDeviceHandler();
 	};
-#ifndef SKYRIM_CROSS_VR
-	static_assert(sizeof(BSPCGamepadDeviceHandler) == 0x10);
-#else
-	static_assert(sizeof(BSPCGamepadDeviceHandler) == 0x8);
-#endif
+	STATIC_ASSERT_SIZE(BSPCGamepadDeviceHandler, 0x10, 0x10, 0x18, 0x8);
 }
 #undef RUNTIME_DATA_CONTENT

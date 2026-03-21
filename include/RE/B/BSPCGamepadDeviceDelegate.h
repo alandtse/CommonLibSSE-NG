@@ -21,12 +21,25 @@ namespace RE
 		void ClearInputState() override;                                     // 08 - { return; }
 		void SetVibration(float a_largeMotor, float a_smallMotor) override;  // 09 - { return; }
 
+		// VR note: gamepadDeviceHandler shifts from 0xD0 (SE) to 0xD8 (VR).
+		struct RUNTIME_DATA
+		{
+#define RUNTIME_DATA_CONTENT \
+	BSPCGamepadDeviceHandler* gamepadDeviceHandler; /* D0, D8 in VR */
+			RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0x8);
+
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0xD0, 0xD8);
+#ifndef SKYRIM_CROSS_VR
 		// members
-		BSPCGamepadDeviceHandler* gamepadDeviceHandler;  // D0
+		RUNTIME_DATA_CONTENT
+#endif
 
 	protected:
 		friend class BSGamepadDeviceHandler;
 		BSPCGamepadDeviceDelegate();
 	};
-	static_assert(sizeof(BSPCGamepadDeviceDelegate) == 0xD8);
+	STATIC_ASSERT_SIZE(BSPCGamepadDeviceDelegate, 0xD8, 0xD8, 0xE0, SIZE_UNDEFINED);
 }
+#undef RUNTIME_DATA_CONTENT

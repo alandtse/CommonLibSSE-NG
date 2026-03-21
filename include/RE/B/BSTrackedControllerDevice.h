@@ -29,11 +29,23 @@ namespace RE
 		bool               GetKeyCodeFromID(std::int32_t a_id, std::uint32_t& a_keyCode) override;        // 06
 		[[nodiscard]] bool IsEnabled() const override;                                                    // 07
 	public:
+		struct RUNTIME_DATA
+		{
+#	define RUNTIME_DATA_CONTENT                                   \
+		std::uint64_t            unk70;              /* 70 / 78 */ \
+		ControllerDeviceHand     hand;               /* 78 / 80 */ \
+		vr::TrackedDeviceIndex_t trackedDeviceIndex; /* 7C / 84 */
+			RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0x10);
+
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x70, 0x78);
+#	ifndef SKYRIM_CROSS_VR
 		// members
-		std::uint64_t            unk70;               // 70
-		ControllerDeviceHand     hand;                // 78
-		vr::TrackedDeviceIndex_t trackedDeviceIndex;  // 7C
+		RUNTIME_DATA_CONTENT
+#	endif
 	};
-	static_assert(sizeof(BSTrackedControllerDevice) == 0x80);
+	STATIC_ASSERT_SIZE(BSTrackedControllerDevice, 0x80, 0x80, 0x88, 0x8);
 }
+#	undef RUNTIME_DATA_CONTENT
 #endif

@@ -433,15 +433,15 @@ namespace SKSE
 			std::copy(a_src.begin(), a_src.end(), a_dst.begin());
 		}
 	};
-	static_assert(offsetof(PluginVersionData, dataVersion) == 0x000);
-	static_assert(offsetof(PluginVersionData, pluginVersion) == 0x004);
-	static_assert(offsetof(PluginVersionData, pluginName) == 0x008);
-	static_assert(offsetof(PluginVersionData, author) == 0x108);
-	static_assert(offsetof(PluginVersionData, supportEmail) == 0x208);
-	static_assert(offsetof(PluginVersionData, versionIndependenceEx) == 0x304);
-	static_assert(offsetof(PluginVersionData, versionIndependence) == 0x308);
-	static_assert(offsetof(PluginVersionData, compatibleVersions) == 0x30C);
-	static_assert(offsetof(PluginVersionData, xseMinimum) == 0x34C);
+	STATIC_ASSERT_OFFSET(PluginVersionData, dataVersion, 0x000);
+	STATIC_ASSERT_OFFSET(PluginVersionData, pluginVersion, 0x004);
+	STATIC_ASSERT_OFFSET(PluginVersionData, pluginName, 0x008);
+	STATIC_ASSERT_OFFSET(PluginVersionData, author, 0x108);
+	STATIC_ASSERT_OFFSET(PluginVersionData, supportEmail, 0x208);
+	STATIC_ASSERT_OFFSET(PluginVersionData, versionIndependenceEx, 0x304);
+	STATIC_ASSERT_OFFSET(PluginVersionData, versionIndependence, 0x308);
+	STATIC_ASSERT_OFFSET(PluginVersionData, compatibleVersions, 0x30C);
+	STATIC_ASSERT_OFFSET(PluginVersionData, xseMinimum, 0x34C);
 	static_assert(sizeof(PluginVersionData) == 0x350);
 
 	enum class VersionIndependence

@@ -4,23 +4,24 @@ namespace RE
 {
 	bool BSInputDevice::IsKeyboard() const
 	{
-		return device == INPUT_DEVICE::kKeyboard;
+		return GetRuntimeData().device == INPUT_DEVICE::kKeyboard;
 	}
 
 	bool BSInputDevice::IsMouse() const
 	{
-		return device == INPUT_DEVICE::kMouse;
+		return GetRuntimeData().device == INPUT_DEVICE::kMouse;
 	}
 
 	bool BSInputDevice::IsGamepad() const
 	{
-		return device == INPUT_DEVICE::kGamepad;
+		return GetRuntimeData().device == INPUT_DEVICE::kGamepad;
 	}
 
 	bool BSInputDevice::IsPressed(std::uint32_t a_keyCode) const
 	{
-		auto it = deviceButtons.find(a_keyCode);
-		return (it != deviceButtons.end()) && (it->second->heldDownSecs > 0.0f);
+		auto& rt = GetRuntimeData();
+		auto  it = rt.deviceButtons.find(a_keyCode);
+		return (it != rt.deviceButtons.end()) && (it->second->heldDownSecs > 0.0f);
 	}
 
 	bool BSInputDevice::LoadControlsDefinitionFile(const char* a_fileName)
@@ -32,8 +33,9 @@ namespace RE
 
 	void BSInputDevice::ResetButtonMaps()
 	{
-		buttonNameIDMap.clear();
-		deviceButtons.clear();
+		auto& rt = GetRuntimeData();
+		rt.buttonNameIDMap.clear();
+		rt.deviceButtons.clear();
 	}
 
 	void BSInputDevice::SetButtonState(std::uint32_t a_buttonId, float a_timeSinceLastPoll, bool a_buttonWasPressed, bool a_buttonIsPressed)

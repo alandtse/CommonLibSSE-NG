@@ -2,6 +2,7 @@
 
 #include "RE/B/BSFixedString.h"
 #include "RE/M/MemoryManager.h"
+#include "REL/Common.h"
 
 namespace RE
 {
@@ -22,6 +23,12 @@ namespace RE
 		virtual bool               GetKeyCodeFromID(std::int32_t a_id, std::uint32_t& a_keyCode) = 0;        // 06
 		[[nodiscard]] virtual bool IsEnabled() const = 0;                                                    // 07
 		virtual void               ClearInputState() = 0;                                                    // 08
+
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		// VR adds an 8-byte field here, confirmed by BSInputDevice and BSPCGamepadDeviceHandler
+		// both shifting all their members by +8 in the VR binary.
+		std::uint64_t unk08;  // 08 - VR only
+#endif
 	};
-	static_assert(sizeof(BSIInputDevice) == 0x8);
+	STATIC_ASSERT_SIZE(BSIInputDevice, 0x8, 0x10);
 }

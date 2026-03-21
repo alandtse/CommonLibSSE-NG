@@ -89,7 +89,7 @@ namespace RE
 	bool BSInputDeviceManager::IsMouseBackground()
 	{
 		auto mouse = GetMouse();
-		return mouse && mouse->backgroundMouse;
+		return mouse && static_cast<BSMouseDevice*>(mouse)->GetRuntimeData().backgroundMouse;
 	}
 
 	bool BSInputDeviceManager::GetDeviceButtonNameFromID(INPUT_DEVICE a_device, std::uint32_t a_key, BSFixedString& a_mapping)
