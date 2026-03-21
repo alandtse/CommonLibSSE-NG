@@ -120,9 +120,7 @@ namespace RE
 		std::uint32_t unk14C;       // 14C
 #	endif
 	};
-#	if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(BSOpenVRControllerDevice) == 0x158);
-#	endif
+	STATIC_ASSERT_SIZE(BSOpenVRControllerDevice, SIZE_UNDEFINED, SIZE_UNDEFINED, 0x158, SIZE_UNDEFINED, SIZE_UNDEFINED);
 
 	// Returns a canonical string name for a given OpenVR controller key code
 	inline const char* GetOpenVRButtonName(std::uint32_t keyCode)

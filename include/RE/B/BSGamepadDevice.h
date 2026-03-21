@@ -38,11 +38,11 @@ namespace RE
 		// Members below shift accordingly: C8 (SE) -> D0 (VR).
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                  \
-	std::int32_t  userIndex;         /* C8 */ \
-	bool          connected;         /* CC */ \
-	bool          listeningForInput; /* CD */ \
-	std::uint16_t padCE;             /* CE */
+#define RUNTIME_DATA_CONTENT                       \
+	std::int32_t  userIndex;         /* C8 / D0 */ \
+	bool          connected;         /* CC / D4 */ \
+	bool          listeningForInput; /* CD / D5 */ \
+	std::uint16_t padCE;             /* CE / D6 */
 			RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x8);
@@ -56,6 +56,6 @@ namespace RE
 	protected:
 		BSGamepadDevice();
 	};
-	STATIC_ASSERT_SIZE(BSGamepadDevice, 0xD0, 0xD0, 0xD8, SIZE_UNDEFINED);
+	STATIC_ASSERT_SIZE(BSGamepadDevice, 0xD0, 0xD0, 0xD8, 0x8, 0xD0);
 }
 #undef RUNTIME_DATA_CONTENT

@@ -245,12 +245,12 @@
  */
 
 /**
- * @brief Special value to indicate an undefined size in STATIC_ASSERT_SIZE.
- * 
- * Use this to skip size assertions for presets where the size is not yet known.
- * This allows incremental adoption of the macro.
+ * @brief Special value to indicate an undefined size/offset in STATIC_ASSERT_SIZE and STATIC_ASSERT_OFFSET.
+ *
+ * Use this to skip assertions for presets where the size/offset is not yet known.
+ * Uses a large impossible value so it cannot collide with valid offsets (including 0x0).
  */
-#define SIZE_UNDEFINED 0x0
+#define SIZE_UNDEFINED 0xDEAD
 
 #define STATIC_ASSERT_SIZE(...)                                                                                                                                                         \
 	_STATIC_ASSERT_SIZE_DISPATCH(__VA_ARGS__, _STATIC_ASSERT_SIZE_6, _STATIC_ASSERT_SIZE_5, _STATIC_ASSERT_SIZE_4, _STATIC_ASSERT_SIZE_3, _STATIC_ASSERT_SIZE_2, _STATIC_ASSERT_SIZE_1) \

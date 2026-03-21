@@ -82,24 +82,23 @@ namespace RE
 			return stl::unrestricted_cast<ButtonState>(GetRuntimeData().currentState.gamepad.buttons & REX::W32::XINPUT_GAMEPAD_BUTTON_MASK);
 		}
 
-		// VR note: own members start at 0xD8 (SE) / 0xE0 (VR) due to BSIInputDevice unk08.
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                        \
-	REX::W32::XINPUT_STATE previousState; /* 0D8 */ \
-	float                  previousLT;    /* 0E8 */ \
-	float                  previousRT;    /* 0EC */ \
-	float                  previousLX;    /* 0F0 */ \
-	float                  previousLY;    /* 0F4 */ \
-	float                  previousRX;    /* 0F8 */ \
-	float                  previousRY;    /* 0FC */ \
-	REX::W32::XINPUT_STATE currentState;  /* 100 */ \
-	float                  currentLT;     /* 110 */ \
-	float                  currentRT;     /* 114 */ \
-	float                  currentLX;     /* 118 */ \
-	float                  currentLY;     /* 11C */ \
-	float                  currentRX;     /* 120 */ \
-	float                  currentRY;     /* 124 */
+#define RUNTIME_DATA_CONTENT                              \
+	REX::W32::XINPUT_STATE previousState; /* 0D8 / 0E0 */ \
+	float                  previousLT;    /* 0E8 / 0F0 */ \
+	float                  previousRT;    /* 0EC / 0F4 */ \
+	float                  previousLX;    /* 0F0 / 0F8 */ \
+	float                  previousLY;    /* 0F4 / 0FC */ \
+	float                  previousRX;    /* 0F8 / 100 */ \
+	float                  previousRY;    /* 0FC / 104 */ \
+	REX::W32::XINPUT_STATE currentState;  /* 100 / 108 */ \
+	float                  currentLT;     /* 110 / 118 */ \
+	float                  currentRT;     /* 114 / 11C */ \
+	float                  currentLX;     /* 118 / 120 */ \
+	float                  currentLY;     /* 11C / 124 */ \
+	float                  currentRX;     /* 120 / 128 */ \
+	float                  currentRY;     /* 124 / 12C */
             RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x50);
@@ -114,6 +113,6 @@ namespace RE
 		friend class BSGamepadDeviceHandler;
 		BSWin32GamepadDevice();
 	};
-	STATIC_ASSERT_SIZE(BSWin32GamepadDevice, 0x128, 0x128, 0x130, SIZE_UNDEFINED);
+	STATIC_ASSERT_SIZE(BSWin32GamepadDevice, 0x128, 0x128, 0x130, 0x8, 0x128);
 }
 #undef RUNTIME_DATA_CONTENT

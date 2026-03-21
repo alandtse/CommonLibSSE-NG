@@ -15,11 +15,10 @@ namespace RE
 		// add
 		virtual void Reinitialize(void);  // 09 - { return; }
 
-		// VR note: backgroundMouse shifts from 0x70 (SE) to 0x78 (VR) due to BSIInputDevice unk08.
 		struct RUNTIME_DATA
 		{
 #define RUNTIME_DATA_CONTENT \
-	bool backgroundMouse; /* 70, 78 in VR */
+	bool backgroundMouse; /* 70 / 78 */
 			RUNTIME_DATA_CONTENT
 		};
 
