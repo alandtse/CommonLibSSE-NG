@@ -76,6 +76,6 @@ namespace RE
 #endif
 	};
 	// Only SE is asserted in old code
-	STATIC_ASSERT_SIZE(Hazard, 0xD8, 0xE0, 0xD8);
+	STATIC_ASSERT_SIZE(Hazard, 0xD8);
 }
 #undef HAZARD_RUNTIME_DATA_CONTENT

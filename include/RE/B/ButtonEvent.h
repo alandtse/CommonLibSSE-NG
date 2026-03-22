@@ -43,8 +43,11 @@ namespace RE
 				                      sizeof(VRWandEvent) + sizeof(RUNTIME_DATA) :
 				                      sizeof(IDEvent) + sizeof(RUNTIME_DATA);
 				auto       buttonEvent = malloc<ButtonEvent>(size);
+				if (!buttonEvent) {
+					return nullptr;
+				}
 				std::memset(reinterpret_cast<void*>(buttonEvent), 0, size);
-				if (buttonEvent) {
+				{
 					stl::emplace_vtable<ButtonEvent>(buttonEvent);
 					buttonEvent->device = a_inputDevice;
 					buttonEvent->eventType = INPUT_EVENT_TYPE::kButton;
