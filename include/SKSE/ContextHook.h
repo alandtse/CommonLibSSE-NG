@@ -45,7 +45,7 @@ namespace SKSE::stl
 				void* publicResume;
 			};
 			static thread_local std::vector<HookState> hookStack;
-			const bool needsRemap = internalResume != publicResume;
+			const bool                                 needsRemap = internalResume != publicResume;
 			if (needsRemap) {
 				hookStack.push_back({ internalResume, publicResume });
 			}
@@ -152,7 +152,7 @@ namespace SKSE::stl
 		std::size_t stubSize;
 		{
 			Xbyak::CodeGenerator sizer;
-			const auto sentinel = reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEADBEEFDEADBEEFull));
+			const auto           sentinel = reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEADBEEFDEADBEEFull));
 			buildStub(sizer, sentinel, sentinel);
 			stubSize = sizer.getSize();
 		}
