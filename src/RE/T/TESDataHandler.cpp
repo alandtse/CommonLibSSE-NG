@@ -4,22 +4,94 @@
 #include "RE/T/TESForm.h"
 
 #include "REX/W32/BASE.h"
+#include <atomic>
+#include <chrono>
 #undef GetModuleHandle
 
 namespace RE
 {
+	namespace
+	{
+		using GetCompiledFileCollection_t = const RE::TESFileCollection* (*)();
+
+		inline std::atomic<GetCompiledFileCollection_t> g_getCompiledFileCollectionExtern{ nullptr };
+		inline std::atomic<std::uint64_t>               g_nextVRESLProbeTimeMs{ 0 };
+		constexpr std::uint64_t                         kVRESLProbeIntervalMs = 5000;
+
+		[[nodiscard]] std::uint64_t GetMonotonicMs() noexcept
+		{
+			using namespace std::chrono;
+			return static_cast<std::uint64_t>(duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count());
+		}
+
+		[[nodiscard]] GetCompiledFileCollection_t ResolveGetCompiledFileCollectionExtern() noexcept
+		{
+			auto getter = g_getCompiledFileCollectionExtern.load(std::memory_order_acquire);
+			if (getter) {
+				return getter;
+			}
+
+			const auto vreslModule = REX::W32::GetModuleHandleW(L"skyrimvresl");
+			if (vreslModule == NULL) {
+				return nullptr;
+			}
+
+			getter = reinterpret_cast<GetCompiledFileCollection_t>(REX::W32::GetProcAddress(vreslModule, "GetCompiledFileCollectionExtern"));
+			if (getter) {
+				g_getCompiledFileCollectionExtern.store(getter, std::memory_order_release);
+			}
+
+			return getter;
+		}
+	}
+
+	TESFileCollection* TESDataHandler::GetVRCompiledFileCollection(bool a_allowRefresh) noexcept
+	{
+		if (!REL::Module::IsVR()) {
+			return nullptr;
+		}
+
+		auto collection = VRcompiledFileCollection;
+		if (HasValidVRCompiledFileCollection(collection)) {
+			return collection;
+		}
+
+		VRcompiledFileCollection = nullptr;
+
+		if (!a_allowRefresh) {
+			return nullptr;
+		}
+
+		const auto now = GetMonotonicMs();
+		auto       nextProbeTime = g_nextVRESLProbeTimeMs.load(std::memory_order_acquire);
+		if (now < nextProbeTime) {
+			return nullptr;
+		}
+
+		const auto desiredNextProbeTime = now + kVRESLProbeIntervalMs;
+		if (!g_nextVRESLProbeTimeMs.compare_exchange_strong(nextProbeTime, desiredNextProbeTime, std::memory_order_acq_rel, std::memory_order_acquire) && now < nextProbeTime) {
+			return nullptr;
+		}
+
+		const auto getter = ResolveGetCompiledFileCollectionExtern();
+		if (!getter) {
+			return nullptr;
+		}
+
+		collection = const_cast<TESFileCollection*>(getter());
+		if (!HasValidVRCompiledFileCollection(collection)) {
+			return nullptr;
+		}
+
+		VRcompiledFileCollection = collection;
+		return collection;
+	}
 
 	TESDataHandler* TESDataHandler::GetSingleton(bool a_VRESL)
 	{
 		static REL::Relocation<TESDataHandler**> singleton{ RELOCATION_ID(514141, 400269) };
-		if (REL::Module::IsVR() && a_VRESL && !VRcompiledFileCollection) {
-			const auto VRhandle = REX::W32::GetModuleHandleW(L"skyrimvresl");
-			if (VRhandle != NULL) {
-				const auto GetCompiledFileCollection = reinterpret_cast<const RE::TESFileCollection* (*)()>(REX::W32::GetProcAddress(VRhandle, "GetCompiledFileCollectionExtern"));
-				if (GetCompiledFileCollection != nullptr) {
-					TESDataHandler::VRcompiledFileCollection = const_cast<RE::TESFileCollection*>(GetCompiledFileCollection());
-				}
-			}
+		if (a_VRESL && REL::Module::IsVR()) {
+			(void)GetVRCompiledFileCollection(true);
 		}
 		return *singleton;
 	}
@@ -57,7 +129,7 @@ namespace RE
 			return 0;
 		}
 
-		if (REL::Module::IsVR() && !VRcompiledFileCollection) {
+		if (REL::Module::IsVR() && !HasValidVRCompiledFileCollection(GetVRCompiledFileCollection(false))) {
 			// Use SkyrimVR lookup logic, ignore light plugin index which doesn't exist in VR
 			return (a_localFormID & 0xFFFFFF) | (file->compileIndex << 24);
 		} else {
@@ -76,7 +148,7 @@ namespace RE
 		}
 
 		auto rawIndex = (a_rawFormID & 0xFF000000) >> 24;
-		if (REL::Module::IsVR() && !VRcompiledFileCollection) {
+		if (REL::Module::IsVR() && !HasValidVRCompiledFileCollection(GetVRCompiledFileCollection(false))) {
 			if (rawIndex >= file->masterCount) {
 				return 0;
 			}

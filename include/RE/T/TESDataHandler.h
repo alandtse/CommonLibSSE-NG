@@ -42,6 +42,17 @@ namespace RE
 	public:
 		inline static RE::TESFileCollection* VRcompiledFileCollection = nullptr;  // used by SkyrimVRESL to store pointer to VR version
 		static TESDataHandler*               GetSingleton(bool a_VRESL = true);
+		[[nodiscard]] static TESFileCollection* GetVRCompiledFileCollection(bool a_allowRefresh = true) noexcept;
+
+		[[nodiscard]] static inline bool HasValidVRCompiledFileCollection(const TESFileCollection* a_collection) noexcept
+		{
+			if (!a_collection) {
+				return false;
+			}
+
+			const auto address = reinterpret_cast<std::uintptr_t>(a_collection);
+			return address > 0x10000 && (address % alignof(TESFileCollection) == 0);
+		}
 
 		bool AddFormToDataHandler(TESForm* a_form);
 
@@ -104,7 +115,8 @@ namespace RE
 		[[nodiscard]] inline TESFile** GetLoadedMods() noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
-				return !VRcompiledFileCollection ? &REL::RelocateMember<TESFile*>(this, 0x0, 0xD78) : const_cast<TESFile**>(VRcompiledFileCollection->files.data());
+				const auto collection = GetVRCompiledFileCollection();
+				return !HasValidVRCompiledFileCollection(collection) ? &REL::RelocateMember<TESFile*>(this, 0x0, 0xD78) : const_cast<TESFile**>(collection->files.data());
 			} else {
 				return REL::RelocateMember<TESFileCollection>(this, 0xD70, 0).files.data();
 			}
@@ -113,7 +125,8 @@ namespace RE
 		[[nodiscard]] inline const TESFile* const* GetLoadedMods() const noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
-				return !VRcompiledFileCollection ? &REL::RelocateMember<const TESFile*>(this, 0x0, 0xD78) : VRcompiledFileCollection->files.data();
+				const auto collection = GetVRCompiledFileCollection();
+				return !HasValidVRCompiledFileCollection(collection) ? &REL::RelocateMember<const TESFile*>(this, 0x0, 0xD78) : collection->files.data();
 			} else {
 				return REL::RelocateMember<const TESFileCollection>(this, 0xD70, 0).files.data();
 			}
@@ -122,7 +135,8 @@ namespace RE
 		[[nodiscard]] inline std::uint8_t GetLoadedModCount() const noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
-				return static_cast<std::uint8_t>(!VRcompiledFileCollection ? REL::RelocateMember<std::uint32_t>(this, 0x0, 0xD70) : VRcompiledFileCollection->files.size());
+				const auto collection = GetVRCompiledFileCollection();
+				return static_cast<std::uint8_t>(!HasValidVRCompiledFileCollection(collection) ? REL::RelocateMember<std::uint32_t>(this, 0x0, 0xD70) : collection->files.size());
 			} else {
 				return static_cast<std::uint8_t>(REL::RelocateMember<const TESFileCollection>(this, 0xD70, 0).files.size());
 			}
@@ -131,7 +145,8 @@ namespace RE
 		[[nodiscard]] inline TESFile** GetLoadedLightMods() noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
-				return !VRcompiledFileCollection ? nullptr : const_cast<TESFile**>(VRcompiledFileCollection->smallFiles.data());
+				const auto collection = GetVRCompiledFileCollection();
+				return !HasValidVRCompiledFileCollection(collection) ? nullptr : const_cast<TESFile**>(collection->smallFiles.data());
 			} else {
 				return REL::RelocateMember<TESFileCollection>(this, 0xD70, 0).smallFiles.data();
 			}
@@ -140,7 +155,8 @@ namespace RE
 		[[nodiscard]] inline const TESFile* const* GetLoadedLightMods() const noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
-				return !VRcompiledFileCollection ? nullptr : VRcompiledFileCollection->smallFiles.data();
+				const auto collection = GetVRCompiledFileCollection();
+				return !HasValidVRCompiledFileCollection(collection) ? nullptr : collection->smallFiles.data();
 			} else {
 				return REL::RelocateMember<const TESFileCollection>(this, 0xD70, 0).smallFiles.data();
 			}
@@ -149,7 +165,8 @@ namespace RE
 		[[nodiscard]] inline std::uint16_t GetLoadedLightModCount() const noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
-				return (!VRcompiledFileCollection) ? 0 : static_cast<std::uint16_t>(VRcompiledFileCollection->smallFiles.size());
+				const auto collection = GetVRCompiledFileCollection();
+				return (!HasValidVRCompiledFileCollection(collection)) ? 0 : static_cast<std::uint16_t>(collection->smallFiles.size());
 			} else {
 				return static_cast<std::uint16_t>(REL::RelocateMember<const TESFileCollection>(this, 0xD70, 0).smallFiles.size());
 			}
