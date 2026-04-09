@@ -122,6 +122,13 @@ namespace RE
 		xTalk->talk = a_talk;
 	}
 
+	NiAVObject* Actor::CalculateLOS(NiPoint3* a_targetPosition, NiPoint3* a_rayHitPosition, float a_viewCone)
+	{
+		using func_t = decltype(&Actor::CalculateLOS);
+		static REL::Relocation<func_t> func{ REL::VariantID(36754, 37770, 0x0605B10) };
+		return func(this, a_targetPosition, a_rayHitPosition, a_viewCone);
+	}
+
 	NiPoint3 Actor::CalculateLOSLocation(ACTOR_LOS_LOCATION a_location)
 	{
 		NiPoint3 result;

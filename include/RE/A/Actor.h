@@ -519,6 +519,7 @@ namespace RE
 		void                                    AllowBleedoutDialogue(bool a_canTalk);
 		void                                    AllowPCDialogue(bool a_talk);
 		void                                    CastPermanentMagic(bool a_wornItemEnchantments, bool a_baseSpells, bool a_raceSpells, bool a_everyActorAbility);
+		[[nodiscard]] NiAVObject*               CalculateLOS(NiPoint3* a_targetPosition, NiPoint3* a_rayHitPosition, float a_viewCone);
 		[[nodiscard]] NiPoint3                  CalculateLOSLocation(ACTOR_LOS_LOCATION a_location);
 		[[nodiscard]] bool                      CanAttackActor(Actor* a_actor);
 		[[nodiscard]] bool                      CanFly() const;
