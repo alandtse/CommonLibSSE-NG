@@ -51,12 +51,12 @@ namespace RE
 			return nullptr;
 		}
 
-		auto collection = VRcompiledFileCollection;
+		auto collection = VRcompiledFileCollection.load(std::memory_order_acquire);
 		if (HasValidVRCompiledFileCollection(collection)) {
 			return collection;
 		}
 
-		VRcompiledFileCollection = nullptr;
+		VRcompiledFileCollection.compare_exchange_strong(collection, nullptr, std::memory_order_release, std::memory_order_relaxed);
 
 		if (!a_allowRefresh) {
 			return nullptr;
@@ -83,7 +83,7 @@ namespace RE
 			return nullptr;
 		}
 
-		VRcompiledFileCollection = collection;
+		VRcompiledFileCollection.store(collection, std::memory_order_release);
 		return collection;
 	}
 

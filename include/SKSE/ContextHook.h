@@ -5,6 +5,7 @@
 #include "REL/Relocation.h"
 #include "SKSE/Logger.h"
 #include "SKSE/Trampoline.h"
+#include <vector>
 
 #if defined(SKSE_SUPPORT_XBYAK)
 #	include <xbyak/xbyak.h>
@@ -17,7 +18,11 @@ namespace SKSE::stl
 		/// Restores registers saved above the CONTEXT on the stack, invokes the
 		/// user delegate with the captured register state, then calls
 		/// RtlRestoreContext to resume execution at resumeAddr.
-		inline void context_hook_execute(CONTEXT* ctx, void (*func)(CONTEXT&), void* resumeAddr)
+		inline void context_hook_execute(
+			CONTEXT* ctx,
+			void (*func)(CONTEXT&),
+			void* internalResume,
+			void* publicResume)
 		{
 			// The stub pushes (in order, lowest address last) onto the stack before
 			// allocating space for CONTEXT:
@@ -32,8 +37,29 @@ namespace SKSE::stl
 			ctx->Rcx = after[1];
 			ctx->Rax = after[2];
 			ctx->Rsp = after[3];
-			ctx->Rip = reinterpret_cast<DWORD64>(resumeAddr);
+			ctx->Rip = reinterpret_cast<DWORD64>(publicResume);
+
+			struct HookState
+			{
+				void* internalResume;
+				void* publicResume;
+			};
+			static thread_local std::vector<HookState> hookStack;
+			const bool                                 needsRemap = internalResume != publicResume;
+			if (needsRemap) {
+				hookStack.push_back({ internalResume, publicResume });
+			}
+
 			func(*ctx);
+
+			if (needsRemap) {
+				const auto state = hookStack.back();
+				hookStack.pop_back();
+
+				if (ctx->Rip == reinterpret_cast<DWORD64>(state.publicResume)) {
+					ctx->Rip = reinterpret_cast<DWORD64>(state.internalResume);
+				}
+			}
 			RtlRestoreContext(ctx, nullptr);
 		}
 	}
@@ -53,7 +79,9 @@ namespace SKSE::stl
 	///   > 0  copies the first a_includeSize bytes of the original instruction
 	///         BEFORE the stub (original prologue is preserved).
 	///   < 0  copies the first |a_includeSize| bytes AFTER the stub, followed
-	///         by an absolute JMP back to resumeAddr (original epilogue preserved).
+	///         by an absolute JMP back to resumeAddr (original epilogue preserved);
+	///         the delegate sees Rip == resumeAddr and unchanged Rip runs the
+	///         copied bytes before resuming.
 	///   = 0  original bytes are fully replaced.
 	///
 	/// Requires SKSE_SUPPORT_XBYAK. Uses SKSE::GetTrampoline() for stub allocation.
@@ -85,10 +113,10 @@ namespace SKSE::stl
 		//   2. Pushes a sentinel to record whether alignment padding was added.
 		//   3. 16-byte aligns the stack, padding with an extra qword if needed.
 		//   4. Allocates sizeof(CONTEXT) on the stack and calls RtlCaptureContext.
-		//   5. Calls detail::context_hook_execute(CONTEXT*, a_func, innerResume),
+		//   5. Calls detail::context_hook_execute(CONTEXT*, a_func, innerResume, resumeAddr),
 		//      which patches CONTEXT from the saved values and calls
 		//      RtlRestoreContext to resume execution — it does not return.
-		const auto buildStub = [&](Xbyak::CodeGenerator& gen, void* a_resumePtr) {
+		const auto buildStub = [&](Xbyak::CodeGenerator& gen, void* a_internalResume, void* a_publicResume) {
 			using namespace Xbyak::util;
 			Xbyak::Label aligned;
 			gen.push(rsp);  // save original RSP
@@ -111,7 +139,8 @@ namespace SKSE::stl
 			gen.mov(rcx, rsp);   // restore arg1 after call
 			gen.sub(rsp, 0x20);  // shadow space
 			gen.mov(rdx, reinterpret_cast<std::uint64_t>(a_func));
-			gen.mov(r8, reinterpret_cast<std::uint64_t>(a_resumePtr));
+			gen.mov(r8, reinterpret_cast<std::uint64_t>(a_internalResume));
+			gen.mov(r9, reinterpret_cast<std::uint64_t>(a_publicResume));
 			gen.mov(rax, reinterpret_cast<std::uint64_t>(&detail::context_hook_execute));
 			gen.call(rax);
 			gen.ready();
@@ -123,7 +152,8 @@ namespace SKSE::stl
 		std::size_t stubSize;
 		{
 			Xbyak::CodeGenerator sizer;
-			buildStub(sizer, reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEADBEEFDEADBEEFull)));
+			const auto           sentinel = reinterpret_cast<void*>(static_cast<uintptr_t>(0xDEADBEEFDEADBEEFull));
+			buildStub(sizer, sentinel, sentinel);
 			stubSize = sizer.getSize();
 		}
 
@@ -145,11 +175,12 @@ namespace SKSE::stl
 		// When a_includeSize < 0 the stub resumes into the copied original bytes
 		// (cave + stubSize); otherwise execution resumes after the patched bytes.
 		void* innerResume = (a_includeSize < 0) ? static_cast<void*>(cave + stubSize) : resumeAddr;
+		void* publicResume = resumeAddr;
 
 		// Pass 2: emit the stub directly into the cave.
 		auto*                stubDst = cave + (a_includeSize > 0 ? static_cast<std::size_t>(a_includeSize) : 0u);
 		Xbyak::CodeGenerator gen(stubSize + 16, stubDst);
-		buildStub(gen, innerResume);
+		buildStub(gen, innerResume, publicResume);
 
 		// Write included bytes preceding the stub (a_includeSize > 0 case).
 		if (a_includeSize > 0)
