@@ -56,7 +56,7 @@ namespace RE
 			return collection;
 		}
 
-		VRcompiledFileCollection.store(nullptr, std::memory_order_release);
+		VRcompiledFileCollection.compare_exchange_strong(collection, nullptr, std::memory_order_release, std::memory_order_relaxed);
 
 		if (!a_allowRefresh) {
 			return nullptr;
