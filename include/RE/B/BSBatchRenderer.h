@@ -46,6 +46,13 @@ namespace RE
 		virtual void RegisterPass(BSRenderPass* renderPass, std::uint32_t techniqueID);                                  // 02
 		virtual void RenderActivePassRange(std::uint32_t firstPass, std::uint32_t lastPass, std::uint32_t renderFlags);  // 03
 
+		void SetupAndDrawPass(BSRenderPass* a_pass, std::uint32_t a_technique, bool a_alphaTest, std::uint32_t a_renderFlags)
+		{
+			using func_t = decltype(&BSBatchRenderer::SetupAndDrawPass);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(100854, 107644) };
+			func(this, a_pass, a_technique, a_alphaTest, a_renderFlags);
+		}
+
 		// members
 		BSTArray<PassGroup*>                renderPass;           // 008
 		BSTFixedHashMap<uint32_t, uint32_t> renderPassMap;        // 020  Technique ID -> Index in renderPass
