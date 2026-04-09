@@ -40,8 +40,8 @@ namespace RE
 	class TESDataHandler : public BSTSingletonSDM<TESDataHandler>
 	{
 	public:
-		inline static RE::TESFileCollection* VRcompiledFileCollection = nullptr;  // used by SkyrimVRESL to store pointer to VR version
-		static TESDataHandler*               GetSingleton(bool a_VRESL = true);
+		inline static RE::TESFileCollection*    VRcompiledFileCollection = nullptr;  // used by SkyrimVRESL to store pointer to VR version
+		static TESDataHandler*                  GetSingleton(bool a_VRESL = true);
 		[[nodiscard]] static TESFileCollection* GetVRCompiledFileCollection(bool a_allowRefresh = true) noexcept;
 
 		[[nodiscard]] static inline bool HasValidVRCompiledFileCollection(const TESFileCollection* a_collection) noexcept
