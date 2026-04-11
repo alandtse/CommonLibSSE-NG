@@ -50,6 +50,21 @@ namespace RE
 	};
 	static_assert(sizeof(BSSaveDataSystemUtilityImage) == 0x18);
 
+	struct MainRuntimeData
+	{
+	public:
+		// members
+		bool quitGame;        // 010 VR 08
+		bool resetGame;       // 011 VR 09
+		bool fullReset;       // 012 VR 0a
+		bool gameActive;      // 013 VR 0b
+		bool onIdle;          // 014 VR 0c
+		bool reloadContent;   // 015 VR 0d
+		bool freezeTime;      // 016 VR 0e
+		bool freezeNextFrame; // 017 VR 0f
+	};
+	static_assert(sizeof(MainRuntimeData) == 0x08);
+
 	class Main :
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		public BSTEventSink<PositionPlayerEvent>,  // 00
@@ -79,16 +94,18 @@ namespace RE
 
 		bool IsRoomVisible(NiNode* a_room);
 		void SetActive(bool a_active);
+		
+		[[nodiscard]] inline MainRuntimeData& GetRuntimeData() noexcept
+		{
+			return REL::RelocateMember<MainRuntimeData>(this, 0x10, 0x08);
+		}
+
+		[[nodiscard]] inline const MainRuntimeData& GetRuntimeData() const noexcept
+		{
+			return REL::RelocateMember<MainRuntimeData>(this, 0x10, 0x08);
+		}
 
 		// members
-		bool                         quitGame;                     // 010 VR 08
-		bool                         resetGame;                    // 011 VR 09
-		bool                         fullReset;                    // 012 VR 0a
-		bool                         gameActive;                   // 013 VR 0b
-		bool                         onIdle;                       // 014 VR 0c
-		bool                         reloadContent;                // 015 VR 0d
-		bool                         freezeTime;                   // 016 VR 0e
-		bool                         freezeNextFrame;              // 017 VR 0f This continues for all members I assume
 		REX::W32::HWND               wnd;                          // 018
 		REX::W32::HINSTANCE          instance;                     // 020
 		std::uint32_t                threadID;                     // 028
