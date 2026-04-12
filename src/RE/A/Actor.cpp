@@ -125,7 +125,7 @@ namespace RE
 	NiAVObject* Actor::CalculateLOS(NiPoint3* a_targetPosition, NiPoint3* a_rayHitPosition, float a_viewCone)
 	{
 		using func_t = decltype(&Actor::CalculateLOS);
-		static REL::Relocation<func_t> func{ REL::VariantID(36754, 37770, 0x0605B10) };
+		static REL::Relocation<func_t> func{ REL::RelocationID(36754, 37770) };
 		return func(this, a_targetPosition, a_rayHitPosition, a_viewCone);
 	}
 
