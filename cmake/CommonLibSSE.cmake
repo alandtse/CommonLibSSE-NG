@@ -164,11 +164,12 @@ function(target_commonlibsse_properties TARGET)
 
     if(EXISTS "${commonlibsse_plugin_file}")
         file(READ "${commonlibsse_plugin_file}" _existing_content)
+        string(REPLACE "\r\n" "\n" _existing_content "${_existing_content}")
     else()
         set(_existing_content "")
     endif()
 
-    if(NOT _existing_content STREQUAL _plugin_content)
+    if(NOT "${_existing_content}" STREQUAL "${_plugin_content}")
         file(WRITE "${commonlibsse_plugin_file}" "${_plugin_content}")
     endif()
 
