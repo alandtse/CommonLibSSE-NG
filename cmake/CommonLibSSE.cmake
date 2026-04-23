@@ -147,7 +147,7 @@ function(target_commonlibsse_properties TARGET)
         set(commonlibsse_plugin_compatibility "{ ${commonlibsse_plugin_compatibility} }")
     endif()
 
-    file(WRITE "${commonlibsse_plugin_file}"
+    string(CONCAT _plugin_content
         "#include \"REL/Relocation.h\"\n"
         "#include \"SKSE/SKSE.h\"\n"
         "\n"
@@ -159,7 +159,18 @@ function(target_commonlibsse_properties TARGET)
         "    .StructCompatibility = ${commonlibsse_plugin_struct_compatibility},\n"
         "    .RuntimeCompatibility = ${commonlibsse_plugin_compatibility},\n"
         "    .MinimumSKSEVersion = ${commonlibsse_min_skse_version}\n"
-        ")\n")
+        ")\n"
+    )
+
+    if(EXISTS "${commonlibsse_plugin_file}")
+        file(READ "${commonlibsse_plugin_file}" _existing_content)
+    else()
+        set(_existing_content "")
+    endif()
+
+    if(NOT _existing_content STREQUAL _plugin_content)
+        file(WRITE "${commonlibsse_plugin_file}" "${_plugin_content}")
+    endif()
 
     target_sources("${TARGET}" PRIVATE "${commonlibsse_plugin_file}")
     target_compile_definitions("${TARGET}" PRIVATE __CMAKE_COMMONLIBSSE_PLUGIN=1)
