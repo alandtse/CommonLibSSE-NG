@@ -20,6 +20,19 @@ namespace RE
 		inline static constexpr auto Ni_RTTI = NiRTTI_BSSubIndexTriShape;
 		inline static constexpr auto VTABLE = VTABLE_BSSubIndexTriShape;
 
+		struct SUB_INDEX_TRISHAPE_RUNTIME_DATA
+		{
+#define RUNTIME_DATA_CONTENT             \
+	SegmentData*  segmentData;  /* 00 */ \
+	std::uint32_t numSegments;  /* 08 */ \
+	std::uint32_t unkSegCount;  /* 0C */ \
+	bool          unk170;       /* 10 */ \
+	bool          nonSegmented; /* 14 */
+
+			RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(SUB_INDEX_TRISHAPE_RUNTIME_DATA) == 0x18);
+
 		~BSSubIndexTriShape() override;  // 00
 
 		// override (BSTriShape)
@@ -36,12 +49,12 @@ namespace RE
 		void Unk_37(void) override;                                                            // 37
 #endif
 
+		RUNTIME_DATA_ACCESSOR_EX(SUB_INDEX_TRISHAPE_RUNTIME_DATA, GetSubIndexedTrishapeRuntimeData, 0x160, 0x1A8);
+
 		// members
-		SegmentData*  segmentData;   // 160
-		std::uint32_t numSegments;   // 168
-		std::uint32_t unkSegCount;   // 16C
-		bool          unk170;        // 170
-		bool          nonSegmented;  // 171
+#ifndef SKYRIM_CROSS_VR
+		RUNTIME_DATA_CONTENT;  // 160, 1A8
+#endif
 	};
-	STATIC_ASSERT_SIZE(BSSubIndexTriShape, 0x178, 0x178, 0x1C0, 0x128);
+	STATIC_ASSERT_SIZE(BSSubIndexTriShape, 0x178, 0x178, 0x1C0, 0x110);
 }
