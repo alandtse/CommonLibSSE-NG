@@ -53,8 +53,9 @@ namespace RE
 
 		// members
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT;  // 160, 1A8
+		RUNTIME_DATA_CONTENT  // 160, 1A8
 #endif
 	};
 	STATIC_ASSERT_SIZE(BSSubIndexTriShape, 0x178, 0x178, 0x1C0, 0x110);
 }
+#undef RUNTIME_DATA_CONTENT
