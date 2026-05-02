@@ -94,30 +94,30 @@ namespace RE
 		static_assert(sizeof(COpenVRContext) == 0x68);
 
 		// add
-		virtual void                     InitializeVR();                                                                                                                                                 // 00
-		virtual void                     ShutdownVR();                                                                                                                                                   // 01
-		virtual void                     PostPresentHandoff();                                                                                                                                           // 02
-		virtual vr::EVRCompositorError   Submit(const vr::Texture_t* pTexture, const vr::VRTextureBounds_t* pBounds = nullptr, vr::EVRSubmitFlags nSubmitFlags = vr::Submit_Default) = 0;                // 03
-		virtual vr::EVRCompositorError   SubmitForEye(vr::EVREye, const vr::Texture_t* pTexture, const vr::VRTextureBounds_t* pBounds = nullptr, vr::EVRSubmitFlags nSubmitFlags = vr::Submit_Default);  // 04
-		virtual void                     SetTrackingSpaceAsStanding();                                                                                                                                   // 05
-		virtual void                     SetTrackingSpaceAsSeated();                                                                                                                                     // 06
-		virtual void                     GetProjectionMatrix(NiTransform* a_out, vr::EVREye a_eye, float a_fNearZ, float a_fFarZ);                                                                     // 07
-		virtual void                     GetProjectionRaw(vr::EVREye eEye, float* pfLeft, float* pfRight, float* pfTop, float* pfBottom);                                                                // 08
-		virtual NiTransform*             GetEyeToHeadTransform(NiTransform& a_out, bool getRightEye);                                                                                                    // 09
-		virtual NiTransform*             Unk_0A(NiTransform& a_out, bool getRightController, bool a_unk1);                                                                                               // 0A
-		virtual void                     Unk_0B(void);                                                                                                                                                   // 0B - Processes events?
-		virtual vr::TrackedDeviceIndex_t GetTrackedDeviceIndexForHMD();                                                                                                                                  // 0C
-		virtual vr::TrackedDeviceIndex_t GetTrackedDeviceIndexForHand(bool getRightHand);                                                                                                                // 0D
-		virtual void                     TriggerHapticPulse(bool doRightController, float duration);                                                                                                     // 0E
-		virtual vr::ETrackedControllerRole GetControllerRoleForTrackedDeviceIndex(vr::TrackedDeviceIndex_t a_deviceIndex);                                                                            // 0F
-		virtual void                     Unk_10(void);                                                                                                                                                   // 10
-		virtual void                     Unk_11(void);                                                                                                                                                   // 11
-		virtual void                     GetRenderTargetSize(std::uint32_t* a_width, std::uint32_t* a_height);                                                                                           // 12
-		virtual void                     UpdateHMDFoV(void);                                                                                                                                              // 13
-		virtual RE::NiPointer<NiNode>*   GetControllerNode(RE::NiPointer<NiNode>& a_out, Hand a_hand);                                                                                                   // 14
-		virtual void                     Unk_15(void);                                                                                                                                                   // 15
-		virtual HMDDeviceType            GetHMDDeviceType();                                                                                                                                             // 16
-		virtual RE::NiPointer<NiNode>*   CreateControllerNode(RE::NiPointer<NiNode>& a_out, Hand a_hand);                                                                                                // 17
+		virtual void                       InitializeVR();                                                                                                                                                 // 00
+		virtual void                       ShutdownVR();                                                                                                                                                   // 01
+		virtual void                       PostPresentHandoff();                                                                                                                                           // 02
+		virtual vr::EVRCompositorError     Submit(const vr::Texture_t* pTexture, const vr::VRTextureBounds_t* pBounds = nullptr, vr::EVRSubmitFlags nSubmitFlags = vr::Submit_Default) = 0;                // 03
+		virtual vr::EVRCompositorError     SubmitForEye(vr::EVREye, const vr::Texture_t* pTexture, const vr::VRTextureBounds_t* pBounds = nullptr, vr::EVRSubmitFlags nSubmitFlags = vr::Submit_Default);  // 04
+		virtual void                       SetTrackingSpaceAsStanding();                                                                                                                                   // 05
+		virtual void                       SetTrackingSpaceAsSeated();                                                                                                                                     // 06
+		virtual void                       GetProjectionMatrix(NiTransform* a_out, vr::EVREye a_eye, float a_fNearZ, float a_fFarZ);                                                                       // 07
+		virtual void                       GetProjectionRaw(vr::EVREye eEye, float* pfLeft, float* pfRight, float* pfTop, float* pfBottom);                                                                // 08
+		virtual NiTransform*               GetEyeToHeadTransform(NiTransform& a_out, bool getRightEye);                                                                                                    // 09
+		virtual NiTransform*               Unk_0A(NiTransform& a_out, bool getRightController, bool a_unk1);                                                                                               // 0A
+		virtual void                       Unk_0B(void);                                                                                                                                                   // 0B - Processes events?
+		virtual vr::TrackedDeviceIndex_t   GetTrackedDeviceIndexForHMD();                                                                                                                                  // 0C
+		virtual vr::TrackedDeviceIndex_t   GetTrackedDeviceIndexForHand(bool getRightHand);                                                                                                                // 0D
+		virtual void                       TriggerHapticPulse(bool doRightController, float duration);                                                                                                     // 0E
+		virtual vr::ETrackedControllerRole GetControllerRoleForTrackedDeviceIndex(vr::TrackedDeviceIndex_t a_deviceIndex);                                                                                 // 0F
+		virtual void                       Unk_10(void);                                                                                                                                                   // 10
+		virtual void                       Unk_11(void);                                                                                                                                                   // 11
+		virtual void                       GetRenderTargetSize(std::uint32_t* a_width, std::uint32_t* a_height);                                                                                           // 12
+		virtual void                       UpdateHMDFoV(void);                                                                                                                                             // 13
+		virtual RE::NiPointer<NiNode>*     GetControllerNode(RE::NiPointer<NiNode>& a_out, Hand a_hand);                                                                                                   // 14
+		virtual void                       Unk_15(void);                                                                                                                                                   // 15
+		virtual HMDDeviceType              GetHMDDeviceType();                                                                                                                                             // 16
+		virtual RE::NiPointer<NiNode>*     CreateControllerNode(RE::NiPointer<NiNode>& a_out, Hand a_hand);                                                                                                // 17
 
 		// members
 		std::uint8_t          unk110;               // 110
