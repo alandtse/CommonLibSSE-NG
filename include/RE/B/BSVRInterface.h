@@ -101,7 +101,7 @@ namespace RE
 		virtual vr::EVRCompositorError   SubmitForEye(vr::EVREye, const vr::Texture_t* pTexture, const vr::VRTextureBounds_t* pBounds = nullptr, vr::EVRSubmitFlags nSubmitFlags = vr::Submit_Default);  // 04
 		virtual void                     SetTrackingSpaceAsStanding();                                                                                                                                   // 05
 		virtual void                     SetTrackingSpaceAsSeated();                                                                                                                                     // 06
-		virtual void                     Unk_07(void);                                                                                                                                                   // 07
+		virtual void                     GetProjectionMatrix(NiTransform* a_out, vr::EVREye a_eye, float a_fNearZ, float a_fFarZ);                                                                     // 07
 		virtual void                     GetProjectionRaw(vr::EVREye eEye, float* pfLeft, float* pfRight, float* pfTop, float* pfBottom);                                                                // 08
 		virtual NiTransform*             GetEyeToHeadTransform(NiTransform& a_out, bool getRightEye);                                                                                                    // 09
 		virtual NiTransform*             Unk_0A(NiTransform& a_out, bool getRightController, bool a_unk1);                                                                                               // 0A
@@ -109,11 +109,11 @@ namespace RE
 		virtual vr::TrackedDeviceIndex_t GetTrackedDeviceIndexForHMD();                                                                                                                                  // 0C
 		virtual vr::TrackedDeviceIndex_t GetTrackedDeviceIndexForHand(bool getRightHand);                                                                                                                // 0D
 		virtual void                     TriggerHapticPulse(bool doRightController, float duration);                                                                                                     // 0E
-		virtual void                     Unk_0F(void);                                                                                                                                                   // 0F
+		virtual vr::ETrackedControllerRole GetControllerRoleForTrackedDeviceIndex(vr::TrackedDeviceIndex_t a_deviceIndex);                                                                            // 0F
 		virtual void                     Unk_10(void);                                                                                                                                                   // 10
 		virtual void                     Unk_11(void);                                                                                                                                                   // 11
 		virtual void                     GetRenderTargetSize(std::uint32_t* a_width, std::uint32_t* a_height);                                                                                           // 12
-		virtual void                     Unk_13(void);                                                                                                                                                   // 13
+		virtual void                     UpdateHMDFoV(void);                                                                                                                                              // 13
 		virtual RE::NiPointer<NiNode>*   GetControllerNode(RE::NiPointer<NiNode>& a_out, Hand a_hand);                                                                                                   // 14
 		virtual void                     Unk_15(void);                                                                                                                                                   // 15
 		virtual HMDDeviceType            GetHMDDeviceType();                                                                                                                                             // 16
