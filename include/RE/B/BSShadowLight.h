@@ -116,7 +116,7 @@ namespace RE
 		// add
 		virtual bool          GetIsFrustumOrDirectionalLight() = 0;                                                                                                                     // 04
 		virtual bool          GetIsFrustumLight();                                                                                                                                      // 05
-		virtual void          GetIsDirectionalLight();                                                                                                                                  // 06
+		virtual bool          GetIsDirectionalLight();                                                                                                                                  // 06
 		virtual bool          GetIsParabolicLight();                                                                                                                                    // 07
 		virtual bool          GetIsOmniLight();                                                                                                                                         // 08
 		virtual void          Accumulate(std::uint32_t& a_globalShadowLightCount, std::uint32_t a_shadowMaskChannel, NiAVObject* a_cullingScene, std::uint8_t a_vrUpdateFlag = 0) = 0;  // 09 - a_vrUpdateFlag used by VR only, ignored by SE/AE
