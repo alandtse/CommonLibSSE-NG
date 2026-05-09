@@ -9,7 +9,7 @@ namespace SKSE
 	namespace Impl
 	{
 		template <class T>
-		using is_object_pointer = std::is_convertible<std::decay_t<T>, RE::TESObjectREFR*>;
+		using is_object_pointer = std::is_convertible<std::decay_t<T>, const RE::TESObjectREFR*>;
 
 		template <class T>
 		inline constexpr bool is_object_pointer_v = is_object_pointer<T>::value;
@@ -21,7 +21,7 @@ namespace SKSE
 		inline constexpr bool is_not_object_pointer_v = is_not_object_pointer<T>::value;
 
 		template <class T>
-		using is_form_pointer = std::is_convertible<std::decay_t<T>, RE::TESForm*>;
+		using is_form_pointer = std::is_convertible<std::decay_t<T>, const RE::TESForm*>;
 
 		template <class T>
 		inline constexpr bool is_form_pointer_v = is_form_pointer<T>::value;
@@ -140,7 +140,7 @@ namespace SKSE
 			template <class U, std::enable_if_t<std::is_same_v<std::decay_t<U>, value_type>, int> = 0>
 			void Pack(U&& a_arg)
 			{
-				_object.reset(a_arg);
+				_object.reset(const_cast<stored_type*>(a_arg));
 			}
 
 			value_type Unpack()
@@ -149,7 +149,8 @@ namespace SKSE
 			}
 
 		private:
-			RE::NiPointer<std::remove_pointer_t<value_type>> _object;
+			using stored_type = std::remove_const_t<std::remove_pointer_t<value_type>>;
+			RE::NiPointer<stored_type> _object;
 		};
 
 		template <class T>
