@@ -325,6 +325,7 @@ set(SOURCES
 	include/RE/B/BSMusicManager.h
 	include/RE/B/BSNavmesh.h
 	include/RE/B/BSNavmeshInfoMap.h
+	include/RE/B/BSNavmeshInfoSearch.h
 	include/RE/B/BSNavmeshSearch.h
 	include/RE/B/BSNiAllocator.h
 	include/RE/B/BSNiNode.h
@@ -344,10 +345,12 @@ set(SOURCES
 	include/RE/B/BSParticleShaderProperty.h
 	include/RE/B/BSParticleShaderRainEmitter.h
 	include/RE/B/BSParticleShaderSnowEmitter.h
+	include/RE/B/BSPathBuilder.h
 	include/RE/B/BSPathing.h
 	include/RE/B/BSPathingActorAttributes.h
 	include/RE/B/BSPathingAvoidNode.h
 	include/RE/B/BSPathingCell.h
+	include/RE/B/BSPathingDoor.h
 	include/RE/B/BSPathingLocation.h
 	include/RE/B/BSPathingRequest.h
 	include/RE/B/BSPathingSearchParameters.h
@@ -359,6 +362,7 @@ set(SOURCES
 	include/RE/B/BSPortalGraphEntry.h
 	include/RE/B/BSPortalSharedNode.h
 	include/RE/B/BSPrecomputedNavmeshInfoPathMap.h
+	include/RE/B/BSPrecomputedNavmeshInfoSearch.h
 	include/RE/B/BSReloadShaderI.h
 	include/RE/B/BSRenderManager.h
 	include/RE/B/BSRenderPass.h
@@ -1307,6 +1311,8 @@ set(SOURCES
 	include/RE/I/IObjectProcessor.h
 	include/RE/I/IPackageData.h
 	include/RE/I/IPackageDataAIWorldLocationHandle.h
+	include/RE/I/IPathBuilder.h
+	include/RE/I/IPathBuilderTracker.h
 	include/RE/I/IPostAnimationChannelUpdateFunctor.h
 	include/RE/I/IProcedureTreeItem.h
 	include/RE/I/IProfilePolicy.h
@@ -1560,6 +1566,7 @@ set(SOURCES
 	include/RE/N/NightEyeEffect.h
 	include/RE/N/NonActorMagicCaster.h
 	include/RE/N/NonActorMagicTarget.h
+	include/RE/N/NullPathBuilderTracker.h
 	include/RE/O/Object.h
 	include/RE/O/ObjectTypeInfo.h
 	include/RE/O/ObjectiveState.h
@@ -1576,6 +1583,7 @@ set(SOURCES
 	include/RE/P/ParalysisEffect.h
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
+	include/RE/P/PathingDoor.h
 	include/RE/P/PeakValueModifierEffect.h
 	include/RE/P/PerkEntryVisitor.h
 	include/RE/P/PerkRankVisitor.h
