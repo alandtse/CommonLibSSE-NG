@@ -21,7 +21,7 @@ namespace RE
 		void Load(TESFile* a_mod) override;  // 03
 		void Unk_04(void) override;          // 04
 		void Unk_05(void) override;          // 05
-		void Unk_06(void) override;          // 06
+		void Unk_06(void) override;          // 06 - tail-calls procedure->vtable[6] (executes the procedure); AVs if procedure is null (record loaded without its BGSProcedureBase, e.g. broken record / load order)
 		void Unk_07(void) override;          // 07
 		void Unk_08(void) override;          // 08
 		void Unk_09(void) override;          // 09
