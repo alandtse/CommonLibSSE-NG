@@ -831,7 +831,7 @@ namespace RE
 	std::uint32_t      isRightHandMainHand;                                                           /* 6D4 - Determined from Settings->VR->MainHand setting */                                                       \
 	std::uint32_t      isLeftHandMainHand;                                                            /* 6D8 - Determined from Settings->VR->MainHand setting  */                                                      \
 	std::uint32_t      unk6DC;                                                                        /* 6DC */                                                                                                        \
-	std::uint64_t      unk6F0[0x5D];                                                                  /* 6F0 */                                                                                                        \
+	std::uint64_t      unk6F0[0x5A];                                                                  /* 6F0 - 90 elements; was 0x5D (93) which over-sized the struct by 24 bytes — verified vs binary 0x12D8 */     \
 	mutable BSSpinLock questTargetsLock;                                                              /* 9C8 - Confirmed in ConsoleFunc__Handler::ShowQuestTargets_14032A200*/                                         \
 	CRIME_VALUE_CONTENT;                                                                              /* 9D0 */                                                                                                        \
 	ObjectRefHandle                                         commandWaitMarker;                        /* A30 */                                                                                                        \
@@ -946,7 +946,7 @@ namespace RE
 	private:
 		bool CenterOnCell_Impl(const char* a_cellName, RE::TESObjectCELL* a_cell);
 	};
-	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xA08, 0x12F0, 0x1E8);
+	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xA08, 0x12D8, 0x1E8);
 }
 #undef PLAYER_RUNTIME_DATA_CONTENT
 #undef VR_PLAYER_RUNTIME_DATA_CONTENT
