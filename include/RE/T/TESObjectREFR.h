@@ -501,7 +501,7 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR)
 		RUNTIME_DATA_CONTENT;  // 0x88
 #elif defined(EXCLUSIVE_SKYRIM_AE)
-		RUNTIME_DATA_CONTENT;  // 0x90 — ExtraDataList grows to 0x20 in AE so this lands correctly
+		RUNTIME_DATA_CONTENT;  // 0x90
 #endif
 
 	private:

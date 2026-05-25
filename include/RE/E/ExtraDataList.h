@@ -41,7 +41,7 @@ namespace RE
 		[[nodiscard]] const PresenceBitfield*& GetPresence() const noexcept;
 
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR)
-		~BaseExtraList();  // 00, non-virtual in SE/VR
+		~BaseExtraList();  // 00
 
 		TES_HEAP_REDEFINE_NEW();
 
@@ -49,11 +49,13 @@ namespace RE
 		BSExtraData*      data = nullptr;      // 00
 		PresenceBitfield* presence = nullptr;  // 08
 #elif defined(EXCLUSIVE_SKYRIM_AE)
-		virtual ~BaseExtraList() = default;  // 00, virtual on AE 1.6.629+
+		// AE 1.6.629+ promoted ~BaseExtraList from non-virtual to virtual,
+		// adding a vtable pointer at offset 0 and shifting members by 8.
+		virtual ~BaseExtraList() = default;  // 00
 
 		TES_HEAP_REDEFINE_NEW();
 
-		// members (shifted by 8 from vtable pointer)
+		// members
 		BSExtraData*      data = nullptr;      // 08
 		PresenceBitfield* presence = nullptr;  // 10
 #endif
