@@ -40,18 +40,28 @@ namespace RE
 
 		[[nodiscard]] const PresenceBitfield*& GetPresence() const noexcept;
 
-#ifndef ENABLE_SKYRIM_AE
-		~BaseExtraList();  // 00, virtual on AE 1.6.629 and later.
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR)
+		~BaseExtraList();  // 00, non-virtual in SE/VR
 
 		TES_HEAP_REDEFINE_NEW();
 
 		// members
-		BSExtraData*      data = nullptr;      // 00, 08
-		PresenceBitfield* presence = nullptr;  // 08, 10
+		BSExtraData*      data = nullptr;      // 00
+		PresenceBitfield* presence = nullptr;  // 08
+#elif defined(EXCLUSIVE_SKYRIM_AE)
+		virtual ~BaseExtraList() = default;  // 00, virtual on AE 1.6.629+
+
+		TES_HEAP_REDEFINE_NEW();
+
+		// members (shifted by 8 from vtable pointer)
+		BSExtraData*      data = nullptr;      // 08
+		PresenceBitfield* presence = nullptr;  // 10
 #endif
 	};
-#ifndef ENABLE_SKYRIM_AE
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(BaseExtraList) == 0x10);
+#elif defined(EXCLUSIVE_SKYRIM_AE)
+	static_assert(sizeof(BaseExtraList) == 0x18);
 #endif
 
 	class ExtraDataList
@@ -221,7 +231,6 @@ namespace RE
 		mutable BSReadWriteLock _lock;  // 10 / 18 (AE 1.6.629+)
 #endif
 	};
-	// Size varies by runtime due to lock offset changes in AE 1.6.629
-	// SE/VR: 0x18, AE<629: 0x18, AE>=629: 0x20
-	STATIC_ASSERT_SIZE(ExtraDataList, 0x18, 0xC, 0x18);
+	// AE-exclusive (1.6.629+) has virtual BaseExtraList → 0x18 + lock = 0x20
+	STATIC_ASSERT_SIZE(ExtraDataList, 0x18, 0x20, 0x18);
 }

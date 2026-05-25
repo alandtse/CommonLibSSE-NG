@@ -257,10 +257,10 @@ namespace RE
 		std::uint8_t                          pad047;           // 047
 		ExtraDataList                         extraList;        // 048
 
-#ifndef ENABLE_SKYRIM_AE
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT;
 #endif
 	};
-	STATIC_ASSERT_SIZE(TESObjectCELL, 0x140, 0x58, 0x140);
+	STATIC_ASSERT_SIZE(TESObjectCELL, 0x140, 0x148, 0x140);
 }
 #undef RUNTIME_DATA_CONTENT

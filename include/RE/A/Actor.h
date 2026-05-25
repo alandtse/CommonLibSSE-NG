@@ -770,15 +770,16 @@ namespace RE
 		RUNTIME_CAST_ACCESSOR_VERSIONED(IPostAnimationChannelUpdateFunctor, AsIPostAnimationChannelUpdateFunctor, SKSE::RUNTIME_SSE_1_6_629, 0xD8, 0xE0);
 
 		// members
-#ifndef ENABLE_SKYRIM_AE
-		RUNTIME_DATA_CONTENT
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
+		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()
 #endif
 
-	private:
-		void        CalculateCurrentVendorFaction() const;
+			private :
+			void
+					CalculateCurrentVendorFaction() const;
 		float       CalcEquippedWeight();
 		TESFaction* GetCrimeFactionImpl() const;
 	};
-	STATIC_ASSERT_SIZE(Actor, 0x2B0, 0xD8, 0x2B0, 0xC0);
+	STATIC_ASSERT_SIZE(Actor, 0x2B0, 0x2B8, 0x2B0, 0xC0);
 }
 #undef RUNTIME_DATA_CONTENT

@@ -21,7 +21,7 @@
 
 namespace RE
 {
-#ifndef ENABLE_SKYRIM_AE
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR)
 	BaseExtraList::~BaseExtraList()
 	{
 		using func_t = void (*)(BaseExtraList*);
@@ -29,6 +29,7 @@ namespace RE
 		func(this);
 	}
 #endif
+	// AE-exclusive dtor is `= default` virtual in header; game vtable handles real cleanup.
 
 	bool BaseExtraList::PresenceBitfield::HasType(std::uint32_t a_type) const
 	{
