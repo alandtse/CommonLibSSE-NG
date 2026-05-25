@@ -339,6 +339,45 @@ namespace RE
 		};
 		static_assert(sizeof(VRGrabData) == 0x68);
 
+		/**
+		 * Per-controller state stored inline in PlayerCharacter (VR-only).
+		 *
+		 * Binary-verified via VR PlayerCharacter::ctor at 0x1406a26a0 →
+		 * `_eh_vector_constructor_iterator(unk6F0 + 0x20, 0xD0, 2, ctor, dtor)`
+		 * where `ctor = FUN_1406e2540`. The ctor initializes 4 BSTArrays each
+		 * capped at 10 elements (history buffers) plus position and flag state.
+		 *
+		 * Most fields remain `unk*` pending deeper RE — interaction with this struct
+		 * happens through VR-input subsystem helpers, not direct member access.
+		 */
+		struct VRPlayerHandData
+		{
+			// members
+			std::uint64_t           unk00;     // 00
+			std::uint32_t           unk08;     // 08
+			std::uint32_t           pad0C;     // 0C
+			std::uint64_t           unk10;     // 10
+			std::uint64_t           unk18;     // 18
+			std::uint64_t           unk20;     // 20
+			std::uint64_t           unk28;     // 28 - init = 3 (state/mode flag)
+			NiPoint3                unkPos30;  // 30 - init = (0,0,0)
+			std::uint32_t           pad3C;     // 3C
+			BSTArray<std::uint32_t> historyA;  // 40 - cap=10, uint32 history (frame index / button IDs?)
+			BSTArray<NiPoint3>      historyB;  // 58 - cap=10, NiPoint3 history (position?)
+			BSTArray<NiPoint3>      historyC;  // 70 - cap=10, NiPoint3 history (velocity?)
+			BSTArray<NiPoint3>      historyD;  // 88 - cap=10, NiPoint3 history (angular?)
+			std::uint64_t           unkA0;     // A0
+			std::uint64_t           unkA8;     // A8
+			std::uint64_t           unkB0;     // B0
+			std::uint32_t           unkB8;     // B8
+			std::uint16_t           unkBC;     // BC
+			std::uint16_t           padBE;     // BE
+			std::uint64_t           unkC0;     // C0
+			std::uint32_t           unkC8;     // C8
+			std::uint32_t           padCC;     // CC
+		};
+		static_assert(sizeof(VRPlayerHandData) == 0xD0);
+
 		struct PlayerFlags
 		{
 			// members
@@ -831,7 +870,9 @@ namespace RE
 	std::uint32_t      isRightHandMainHand;                                                           /* 6D4 - Determined from Settings->VR->MainHand setting */                                                       \
 	std::uint32_t      isLeftHandMainHand;                                                            /* 6D8 - Determined from Settings->VR->MainHand setting  */                                                      \
 	std::uint32_t      unk6DC;                                                                        /* 6DC */                                                                                                        \
-	std::uint64_t      unk6F0[0x5A];                                                                  /* 6F0 - 90 elements; was 0x5D (93) which over-sized the struct by 24 bytes — verified vs binary 0x12D8 */     \
+	std::uint64_t      unk6F0[0x4];                                                                   /* 6F0 - 32 bytes; 3 transforms (NiPoint3-like), exact layout pending RE */                                      \
+	VRPlayerHandData   hands[2];                                                                      /* 710 - per-controller state history (binary-verified via vector_constructor_iterator in PC ctor) */            \
+	std::uint64_t      unk8B0[0x22];                                                                  /* 8B0 - 272 bytes; misc VR state (more transforms, NiPoint3 sets) ending at 0x9C0 */                            \
 	mutable BSSpinLock questTargetsLock;                                                              /* 9C8 - Confirmed in ConsoleFunc__Handler::ShowQuestTargets_14032A200*/                                         \
 	CRIME_VALUE_CONTENT;                                                                              /* 9D0 */                                                                                                        \
 	ObjectRefHandle                                         commandWaitMarker;                        /* A30 */                                                                                                        \
