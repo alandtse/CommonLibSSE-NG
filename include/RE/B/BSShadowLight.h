@@ -77,36 +77,36 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                                                     \
-	BSTArray<ShadowmapDescriptor>   shadowmapDescriptors;         /* 148 shadowMapDataList */    \
-	ShadowmapDescriptor             focusShadowmapDescriptors[4]; /* 160 shadowMapData */        \
-	std::uint32_t                   maskIndex;                    /* 520 */                      \
-	std::uint32_t                   accumulatedIndex;             /* 524 */                      \
-	BSTArray<NiPointer<NiAVObject>> sceneAccumArray;              /* 528 sceneAccumArray */      \
-	float                           shadowBiasScale;              /* 540 */                      \
-	NiRect<std::uint32_t>           projectedBoundingBox;         /* 544 projectedBoundingBox */ \
-	std::uint32_t                   sceneGraphIndex;              /* 554 */                      \
-	bool                            drawFocusShadows;             /* 558 */                      \
-	std::uint8_t                    pad559;                       /* 559 */                      \
-	std::uint8_t                    pad55A;                       /* 55A */                      \
+#define RUNTIME_DATA_CONTENT                                                                                                                                                                                                                                                \
+	BSTArray<ShadowmapDescriptor>   shadowmapDescriptors;         /* 148 shadowMapDataList */                                                                                                                                                                               \
+	ShadowmapDescriptor             focusShadowmapDescriptors[4]; /* 160 shadowMapData */                                                                                                                                                                                   \
+	std::uint32_t                   maskIndex;                    /* 520 - shadow mask channel index (0..3 for R/G/B/A). Used as a direct index into a 4-entry shader-technique lookup table; engine does not bounds-check, so values outside [0..3] read out of bounds. */ \
+	std::uint32_t                   accumulatedIndex;             /* 524 */                                                                                                                                                                                                 \
+	BSTArray<NiPointer<NiAVObject>> sceneAccumArray;              /* 528 sceneAccumArray */                                                                                                                                                                                 \
+	float                           shadowBiasScale;              /* 540 */                                                                                                                                                                                                 \
+	NiRect<std::uint32_t>           projectedBoundingBox;         /* 544 projectedBoundingBox */                                                                                                                                                                            \
+	std::uint32_t                   sceneGraphIndex;              /* 554 */                                                                                                                                                                                                 \
+	bool                            drawFocusShadows;             /* 558 */                                                                                                                                                                                                 \
+	std::uint8_t                    pad559;                       /* 559 */                                                                                                                                                                                                 \
+	std::uint8_t                    pad55A;                       /* 55A */                                                                                                                                                                                                 \
 	std::uint32_t                   pad55B;                       /* 55B */
             RUNTIME_DATA_CONTENT
 		};
 
 		struct RUNTIME_DATA_VR
 		{
-#define RUNTIME_DATA_CONTENT_VR                                                                    \
-	BSTArray<ShadowmapDescriptorVR> shadowmapDescriptors;         /* 148 shadowMapDataList (VR) */ \
-	ShadowmapDescriptorVR           focusShadowmapDescriptors[4]; /* 160 shadowMapData (VR) */     \
-	std::uint32_t                   maskIndex;                    /* 580 */                        \
-	std::uint32_t                   accumulatedIndex;             /* 584 */                        \
-	BSTArray<NiPointer<NiAVObject>> sceneAccumArray;              /* 588 */                        \
-	float                           shadowBiasScale;              /* 5A0 */                        \
-	NiRect<std::uint32_t>           projectedBoundingBox;         /* 5A4 */                        \
-	std::uint32_t                   sceneGraphIndex;              /* 5B4 */                        \
-	bool                            drawFocusShadows;             /* 5B8 */                        \
-	std::uint8_t                    pad559;                       /* 5B9 */                        \
-	std::uint8_t                    pad55A;                       /* 5BA */                        \
+#define RUNTIME_DATA_CONTENT_VR                                                                                                             \
+	BSTArray<ShadowmapDescriptorVR> shadowmapDescriptors;         /* 148 shadowMapDataList (VR) */                                          \
+	ShadowmapDescriptorVR           focusShadowmapDescriptors[4]; /* 160 shadowMapData (VR) */                                              \
+	std::uint32_t                   maskIndex;                    /* 580 - shadow mask channel index (0..3); see SE branch comment above */ \
+	std::uint32_t                   accumulatedIndex;             /* 584 */                                                                 \
+	BSTArray<NiPointer<NiAVObject>> sceneAccumArray;              /* 588 */                                                                 \
+	float                           shadowBiasScale;              /* 5A0 */                                                                 \
+	NiRect<std::uint32_t>           projectedBoundingBox;         /* 5A4 */                                                                 \
+	std::uint32_t                   sceneGraphIndex;              /* 5B4 */                                                                 \
+	bool                            drawFocusShadows;             /* 5B8 */                                                                 \
+	std::uint8_t                    pad559;                       /* 5B9 */                                                                 \
+	std::uint8_t                    pad55A;                       /* 5BA */                                                                 \
 	std::uint32_t                   pad55B;                       /* 5BB */
             RUNTIME_DATA_CONTENT_VR
 		};
