@@ -342,13 +342,22 @@ namespace RE
 		/**
 		 * Per-controller state stored inline in PlayerCharacter (VR-only).
 		 *
-		 * Binary-verified via VR PlayerCharacter::ctor at 0x1406a26a0 →
-		 * `_eh_vector_constructor_iterator(unk6F0 + 0x20, 0xD0, 2, ctor, dtor)`
-		 * where `ctor = FUN_1406e2540`. The ctor initializes 4 BSTArrays each
-		 * capped at 10 elements (history buffers) plus position and flag state.
+		 * Binary-verified via:
+		 *   - VR PlayerCharacter::ctor at 0x1406a26a0 →
+		 *     `_eh_vector_constructor_iterator(unk6F0 + 0x20, 0xD0, 2, ctor, dtor)`
+		 *     confirms a 2-element array (one per controller).
+		 *   - Element ctor `FUN_1406e2540` initializes 4 BSTArrays (cap=10) +
+		 *     NiPoint3 + state flag.
+		 *   - Element dtor `FUN_1406e3f70` shows classic `NiRefObject` refcount
+		 *     LOCK/decrement/release at offsets 0x10/0x18/0x20 → those are
+		 *     `NiPointer<>` smart pointers (likely scene-graph nodes for the
+		 *     controller's model/attachments).
 		 *
-		 * Most fields remain `unk*` pending deeper RE — interaction with this struct
-		 * happens through VR-input subsystem helpers, not direct member access.
+		 * The 4 BSTArrays form a ring-buffer pattern (10 samples each, with 1
+		 * uint32 stream + 3 NiPoint3 streams) — consistent with VR controller
+		 * input smoothing (timestamp + position + velocity + angular).
+		 *
+		 * Most sub-field semantics remain `unk*` pending deeper RE.
 		 */
 		struct VRPlayerHandData
 		{
@@ -356,13 +365,13 @@ namespace RE
 			std::uint64_t           unk00;     // 00
 			std::uint32_t           unk08;     // 08
 			std::uint32_t           pad0C;     // 0C
-			std::uint64_t           unk10;     // 10
-			std::uint64_t           unk18;     // 18
-			std::uint64_t           unk20;     // 20
+			NiPointer<NiAVObject>   unk10;     // 10 - NiPointer (likely controller scene node)
+			NiPointer<NiAVObject>   unk18;     // 18 - NiPointer
+			NiPointer<NiAVObject>   unk20;     // 20 - NiPointer
 			std::uint64_t           unk28;     // 28 - init = 3 (state/mode flag)
 			NiPoint3                unkPos30;  // 30 - init = (0,0,0)
 			std::uint32_t           pad3C;     // 3C
-			BSTArray<std::uint32_t> historyA;  // 40 - cap=10, uint32 history (frame index / button IDs?)
+			BSTArray<std::uint32_t> historyA;  // 40 - cap=10, uint32 history (frame index / timestamps?)
 			BSTArray<NiPoint3>      historyB;  // 58 - cap=10, NiPoint3 history (position?)
 			BSTArray<NiPoint3>      historyC;  // 70 - cap=10, NiPoint3 history (velocity?)
 			BSTArray<NiPoint3>      historyD;  // 88 - cap=10, NiPoint3 history (angular?)
