@@ -37,9 +37,8 @@ namespace RE
 		BSEffectShaderMaterial* GetMaterial() { return static_cast<BSEffectShaderMaterial*>(GetBaseMaterial()); }
 
 		// members
-		NiColor*      unk88;  // 88
-		std::uint64_t unk90;  // 90
-		std::uint64_t unk98;  // 98
+		NiColor*        emittanceColor;                 // 88 - external emittance override (kExternalEmittance); null = white
+		RenderPassArray shadowMapOrMaskRenderPassList;  // 90
 	};
 	static_assert(sizeof(BSEffectShaderProperty) == 0xA0);
 }
