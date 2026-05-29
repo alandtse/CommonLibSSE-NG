@@ -16,7 +16,7 @@ namespace RE
 		void Unk_01(void) override;  // 01
 		void Unk_02(void) override;  // 02
 		void Unk_03(void) override;  // 03
-		void Unk_04(void) override;  // 04 - sets flags |= 2 on both locations, assigns null ref handle
+		void Unk_04(void) override;  // 04
 		void Unk_05(void) override;  // 05
 		void Unk_06(void) override;  // 06
 		void Unk_07(void) override;  // 07
@@ -26,7 +26,7 @@ namespace RE
 		void Unk_0B(void) override;  // 0B
 		void Unk_0C(void) override;  // 0C
 		void Unk_0D(void) override;  // 0D
-		void Unk_0E(void) override;  // 0E - handles ref handle resolution via FindReferenceForHandle
+		void Unk_0E(void) override;  // 0E
 		void Unk_0F(void) override;  // 0F
 		void Unk_10(void) override;  // 10
 		void Unk_11(void) override;  // 11
