@@ -1,3 +1,11 @@
+ci:
+  autofix_prs: true
+  autoupdate_schedule: monthly
+  # cmake-generate is a language: system hook (needs the repo's python + scripts);
+  # it can't run in the pre-commit.ci container, so skip it there. Contributors
+  # still run it via the local pre-commit hook.
+  skip: [cmake-generate]
+
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
     rev: v16.0.6
