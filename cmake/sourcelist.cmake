@@ -2257,7 +2257,6 @@ set(SOURCES
 	src/RE/H/HeldStateHandler.cpp
 	src/RE/H/HorseCameraState.cpp
 	src/RE/H/hkBaseTypes.cpp
-	src/RE/H/hkMemoryRouter.cpp
 	src/RE/H/hkReferencedObject.cpp
 	src/RE/H/hkStringPtr.cpp
 	src/RE/H/hkVector4.cpp
