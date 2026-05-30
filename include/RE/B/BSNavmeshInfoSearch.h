@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSTArray.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
@@ -52,14 +53,10 @@ namespace RE
 		BSTSmallArray<BSNavmeshInfoSearchNode*, 22> neighbors;      // 130
 		bool                                        shouldYield;    // 1F0 - if set, search yields via Sleep(1) every 0x32 misses
 		std::uint8_t                                pad1F1[0x07];   // 1F1
-		float                                       startX;         // 1F8
-		float                                       startY;         // 1FC
-		float                                       startZ;         // 200
+		NiPoint3                                    start;          // 1F8 - search start world position
 		std::uint32_t                               pad204;         // 204
 		void*                                       startContext;   // 208 - has NiPoint3 at +0x04 and a vtable-bearing sub-object at +0x38; NOT a BSPathingDoor (decompile of setup ruled it out)
-		float                                       goalX;          // 210
-		float                                       goalY;          // 214
-		float                                       goalZ;          // 218
+		NiPoint3                                    goal;           // 210 - search goal world position
 		std::uint32_t                               pad21C;         // 21C
 		BSPathingDoor*                              goalDoor;       // 220 - CONFIRMED by IsAtGoal: node->door == this->goalDoor
 		void*                                       unk228;         // 228 - stored from first ptr arg of setup; semantics TBD
