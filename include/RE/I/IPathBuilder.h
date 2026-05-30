@@ -10,7 +10,6 @@ namespace RE
 
 		virtual ~IPathBuilder();  // 00
 
-		// add
 		virtual void Build() = 0;  // 01
 	};
 	STATIC_ASSERT_SIZE(IPathBuilder, 0x8);

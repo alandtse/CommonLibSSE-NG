@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "RE/N/NiPoint3.h"
+
 namespace RE
 {
 	class BSNavmesh;
@@ -20,9 +22,7 @@ namespace RE
 		std::uint16_t triIndex;              // 10
 		std::uint16_t pad12;                 // 12
 		std::uint32_t pad14;                 // 14
-		float         centerX;               // 18 - triangle centroid
-		float         centerY;               // 1C
-		float         centerZ;               // 20
+		NiPoint3      center;                // 18 - triangle centroid
 		std::uint32_t pad24;                 // 24
 		BSNavmesh*    parentNavMesh;         // 28 - navMesh of predecessor node
 		std::uint16_t parentTriIndex;        // 30

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RE/B/BSTArray.h"
+
 namespace RE
 {
 	class BSPathingDoor;
@@ -35,39 +37,36 @@ namespace RE
 
 		virtual ~BSNavmeshInfoSearch();  // 00
 
-		// add
 		virtual void GetNeighbors(BSNavmeshInfoSearchNode* a_node, void* a_outNeighbors);  // 01
 		virtual bool IsAtGoal(BSNavmeshInfoSearchNode* a_node);                            // 02
 
 		// members  (most state belongs to AStarSearch<...> base — padding regions are AStar
 		//           internals: priority-queue buckets, allocator pools, etc., not yet typed)
-		std::uint8_t              pad008[0x110];      // 008
-		BSNavmeshInfoSearchNode*  savedGoalNode;      // 118 - output: node where IsAtGoal returned true
-		BSNavmeshInfoSearchNode*  currentNode;        // 120 - input: candidate node passed to GetNeighbors / IsAtGoal
-		std::uint8_t              pad128[0x08];       // 128
-		std::uint32_t             neighborsCapacity;  // 130 - bit31 = inline-storage flag
-		std::uint32_t             pad134;             // 134
-		BSNavmeshInfoSearchNode** neighborsData;      // 138 - array of successor node pointers
-		std::uint8_t              pad140[0xA8];       // 140
-		std::uint32_t             neighborCount;      // 1E8
-		std::uint32_t             pad1EC;             // 1EC
-		bool                      shouldYield;        // 1F0 - if set, search yields via Sleep(1) every 0x32 misses
-		std::uint8_t              pad1F1[0x07];       // 1F1
-		float                     startX;             // 1F8
-		float                     startY;             // 1FC
-		float                     startZ;             // 200
-		std::uint32_t             pad204;             // 204
-		void*                     startContext;       // 208 - has NiPoint3 at +0x04 and a vtable-bearing sub-object at +0x38; NOT a BSPathingDoor (decompile of setup ruled it out)
-		float                     goalX;              // 210
-		float                     goalY;              // 214
-		float                     goalZ;              // 218
-		std::uint32_t             pad21C;             // 21C
-		BSPathingDoor*            goalDoor;           // 220 - CONFIRMED by IsAtGoal: node->door == this->goalDoor
-		void*                     unk228;             // 228 - stored from first ptr arg of setup; semantics TBD
-		std::uint32_t             flag230;            // 230 - uint flag from setup param
-		bool                      boolResult234;      // 234 - result of door-to-door virtual call during setup
-		std::int8_t               char235;            // 235 - char from setup param
-		std::uint16_t             pad236;             // 236
+		std::uint8_t             pad008[0x110];  // 008
+		BSNavmeshInfoSearchNode* savedGoalNode;  // 118 - output: node where IsAtGoal returned true
+		BSNavmeshInfoSearchNode* currentNode;    // 120 - input: candidate node passed to GetNeighbors / IsAtGoal
+		std::uint8_t             pad128[0x08];   // 128
+		// successor open-set. capacity (bit31 = inline-storage flag) @130, inline buffer of 22 node
+		// pointers @138 (22 = AStarSearch template param), _size (neighborCount) @1E8. Verified in
+		// BSPrecomputedNavmeshInfoSearch::sub_1410B7F00.
+		BSTSmallArray<BSNavmeshInfoSearchNode*, 22> neighbors;      // 130
+		bool                                        shouldYield;    // 1F0 - if set, search yields via Sleep(1) every 0x32 misses
+		std::uint8_t                                pad1F1[0x07];   // 1F1
+		float                                       startX;         // 1F8
+		float                                       startY;         // 1FC
+		float                                       startZ;         // 200
+		std::uint32_t                               pad204;         // 204
+		void*                                       startContext;   // 208 - has NiPoint3 at +0x04 and a vtable-bearing sub-object at +0x38; NOT a BSPathingDoor (decompile of setup ruled it out)
+		float                                       goalX;          // 210
+		float                                       goalY;          // 214
+		float                                       goalZ;          // 218
+		std::uint32_t                               pad21C;         // 21C
+		BSPathingDoor*                              goalDoor;       // 220 - CONFIRMED by IsAtGoal: node->door == this->goalDoor
+		void*                                       unk228;         // 228 - stored from first ptr arg of setup; semantics TBD
+		std::uint32_t                               flag230;        // 230 - uint flag from setup param
+		bool                                        boolResult234;  // 234 - result of door-to-door virtual call during setup
+		std::int8_t                                 char235;        // 235 - char from setup param
+		std::uint16_t                               pad236;         // 236
 	};
 	STATIC_ASSERT_SIZE(BSNavmeshInfoSearch, 0x238);
 }

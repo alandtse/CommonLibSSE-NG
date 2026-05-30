@@ -10,7 +10,6 @@ namespace RE
 
 		virtual ~IPathBuilderTracker();  // 00
 
-		// add
 		virtual void Unk_01(void) = 0;  // 01
 		virtual void Unk_02(void) = 0;  // 02
 	};
