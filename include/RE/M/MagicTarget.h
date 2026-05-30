@@ -240,6 +240,7 @@ namespace RE
 
 		// members
 		SpellDispelData* postUpdateDispelList;  // 08
+		std::uint16_t    pad10;                 // 10
 		std::uint16_t    pad12;                 // 12
 		std::uint32_t    pad14;                 // 14
 	};
