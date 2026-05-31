@@ -65,6 +65,6 @@ namespace RE
 		RUNTIME_DATA_CONTENT;
 #endif
 	};
-	STATIC_ASSERT_SIZE(NiParticleSystem, 0x198, 0x198, 0x1E0, 0x110);
+	STATIC_ASSERT_SIZE(NiParticleSystem, 0x198, 0x198, 0x1D8, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

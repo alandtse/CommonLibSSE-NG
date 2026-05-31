@@ -125,14 +125,14 @@ namespace RE
 		std::uint16_t                    pad152;  // 152
 		std::uint32_t                    pad154;  // 154
 #	elif defined(EXCLUSIVE_SKYRIM_VR)
-		REX::EnumSet<Type, std::uint32_t> type;    // 190
-		std::uint8_t                      pad151;  // 194
-		std::uint16_t                     pad152;  // 195
-		std::uint32_t                     pad154;  // 197
+		BSGeometryTypeSet type;    // 190
+		std::uint8_t      pad191;  // 191
+		std::uint16_t     pad192;  // 192
+		std::uint32_t     pad194;  // 194
 #	endif
 #endif
 	};
-	STATIC_ASSERT_SIZE(BSGeometry, 0x158, 0x1A0);
+	STATIC_ASSERT_SIZE(BSGeometry, 0x158, 0x198);
 }
 #undef MODEL_DATA_CONTENT
 #undef RUNTIME_DATA_CONTENT

@@ -36,7 +36,7 @@ namespace RE
 		void               SaveBinary(NiStream& a_stream) override;            // 1B
 		bool               IsEqual(NiObject* a_object) override;               // 1C
 
-		RUNTIME_DATA_ACCESSOR_EX(DYNAMIC_TRISHAPE_RUNTIME_DATA, GetDynamicTrishapeRuntimeData, 0x160, 0x1A8);
+		RUNTIME_DATA_ACCESSOR_EX(DYNAMIC_TRISHAPE_RUNTIME_DATA, GetDynamicTrishapeRuntimeData, 0x160, 0x1A0);
 		BSDynamicTriShape* ctor()
 		{
 			using func_t = decltype(&BSDynamicTriShape::ctor);
@@ -45,9 +45,9 @@ namespace RE
 		}
 
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT;  // 160, 1A8
+		RUNTIME_DATA_CONTENT;  // 160, 1A0
 #endif
 	};
-	STATIC_ASSERT_SIZE(BSDynamicTriShape, 0x180, 0x180, 0x1C8, 0x110);
+	STATIC_ASSERT_SIZE(BSDynamicTriShape, 0x180, 0x180, 0x1C0, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

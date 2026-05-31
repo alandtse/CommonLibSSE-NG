@@ -58,12 +58,12 @@ namespace RE
 		void          RemoveGroup(std::uint32_t a_numInstance) override;                                                                   // 3D
 #endif
 
-		RUNTIME_DATA_ACCESSOR_EX(MULTISTREAM_TRISHAPE_RUNTIME_DATA, GetMultiStreamTrishapeRuntimeData, 0x160, 0x1A8);
+		RUNTIME_DATA_ACCESSOR_EX(MULTISTREAM_TRISHAPE_RUNTIME_DATA, GetMultiStreamTrishapeRuntimeData, 0x160, 0x1A0);
 		// members
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT  // 160, 1A8
+		RUNTIME_DATA_CONTENT  // 160, 1A0
 #endif
 	};
-	STATIC_ASSERT_SIZE(BSMultiStreamInstanceTriShape, 0x1A0, 0x1A0, 0x1E8, 0x110);
+	STATIC_ASSERT_SIZE(BSMultiStreamInstanceTriShape, 0x1A0, 0x1A0, 0x1E0, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

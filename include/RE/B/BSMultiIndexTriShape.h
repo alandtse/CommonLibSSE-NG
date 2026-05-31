@@ -54,12 +54,12 @@ namespace RE
 		BSMultiIndexTriShape* AsMultiIndexTriShape() override;  // 35 - { return this; }
 #endif
 
-		RUNTIME_DATA_ACCESSOR_EX(MULTI_INDEX_TRISHAPE_RUNTIME_DATA, GetMultiIndexTrishapeRuntimeData, 0x160, 0x1A8);
+		RUNTIME_DATA_ACCESSOR_EX(MULTI_INDEX_TRISHAPE_RUNTIME_DATA, GetMultiIndexTrishapeRuntimeData, 0x160, 0x1A0);
 		// members
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT  // 160, 1A8
+		RUNTIME_DATA_CONTENT  // 160, 1A0
 #endif
 	};
-	STATIC_ASSERT_SIZE(BSMultiIndexTriShape, 0x1D8, 0x1D8, 0x220, 0x110);
+	STATIC_ASSERT_SIZE(BSMultiIndexTriShape, 0x1D8, 0x1D8, 0x218, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

@@ -49,13 +49,13 @@ namespace RE
 		void Unk_37(void) override;                                                            // 37
 #endif
 
-		RUNTIME_DATA_ACCESSOR_EX(SUB_INDEX_TRISHAPE_RUNTIME_DATA, GetSubIndexedTrishapeRuntimeData, 0x160, 0x1A8);
+		RUNTIME_DATA_ACCESSOR_EX(SUB_INDEX_TRISHAPE_RUNTIME_DATA, GetSubIndexedTrishapeRuntimeData, 0x160, 0x1A0);
 
 		// members
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT  // 160, 1A8
+		RUNTIME_DATA_CONTENT  // 160, 1A0
 #endif
 	};
-	STATIC_ASSERT_SIZE(BSSubIndexTriShape, 0x178, 0x178, 0x1C0, 0x110);
+	STATIC_ASSERT_SIZE(BSSubIndexTriShape, 0x178, 0x178, 0x1B8, 0x110);
 }
 #undef RUNTIME_DATA_CONTENT

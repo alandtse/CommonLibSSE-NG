@@ -26,5 +26,5 @@ namespace RE
 		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // 34
 #endif
 	};
-	STATIC_ASSERT_SIZE(BSStripParticleSystem, 0x198, 0x198, 0x1E0, 0x110);
+	STATIC_ASSERT_SIZE(BSStripParticleSystem, 0x198, 0x198, 0x1D8, 0x110);
 }
