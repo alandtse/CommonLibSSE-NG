@@ -51,12 +51,11 @@ namespace RE
 
 	void MessageBoxMenu::SelectOption(std::int32_t a_buttonIndex)
 	{
-		static REL::Relocation<BSTArray<MessageBoxData*>*> queue{ RELOCATION_ID(519819, 406362) };
-		if (queue->empty()) {
+		auto* data = GetCurrentMessageBoxData();
+		if (!data) {
 			return;
 		}
 
-		auto* data = queue->back();
 		// Hold a ref so the callback survives RemoveMessageFromQueue destroying `data`.
 		BSTSmartPointer<IMessageBoxCallback> callback = data->callback;
 		const auto                           option = static_cast<IMessageBoxCallback::Message>(data->optionIndexOffset + a_buttonIndex);
@@ -64,7 +63,7 @@ namespace RE
 		RemoveMessageFromQueue(data);
 
 		// No SWF is driving the close, so hide the menu ourselves once nothing else is queued.
-		if (queue->empty()) {
+		if (!GetCurrentMessageBoxData()) {
 			if (auto* uiQueue = UIMessageQueue::GetSingleton()) {
 				uiQueue->AddMessage(MENU_NAME.data(), UI_MESSAGE_TYPE::kHide, nullptr);
 			}
