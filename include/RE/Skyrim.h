@@ -1382,6 +1382,7 @@
 #include "RE/L/LevelUpMenu.h"
 #include "RE/L/LightEffect.h"
 #include "RE/L/LinkerProcessor.h"
+#include "RE/L/LoadGameMissingContentCallBack.h"
 #include "RE/L/LoadStorageWrapper.h"
 #include "RE/L/LoadWaitSpinner.h"
 #include "RE/L/LoadingMenu.h"

@@ -38,6 +38,16 @@ namespace RE
 		static std::uint32_t   GetQueueSize();
 		static void            QueueMessage(MessageBoxData* a_data);
 
+		// The currently-displayed message (the most recently queued; the queue is LIFO), or nullptr if
+		// no message box is active. Read bodyText/buttonText/type/optionIndexOffset from it.
+		static MessageBoxData* GetCurrentMessageBoxData();
+		// Removes a_data from the message-box queue and destroys it.
+		static void RemoveMessageFromQueue(MessageBoxData* a_data);
+		// Programmatically answer the active message box as if button a_buttonIndex (0-based into
+		// buttonText) was clicked: pops the message, hides the menu if the queue empties, then invokes
+		// the data's IMessageBoxCallback with (optionIndexOffset + a_buttonIndex).
+		static void SelectOption(std::int32_t a_buttonIndex);
+
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x30, 0x40);
 		// members
 #ifndef SKYRIM_CROSS_VR

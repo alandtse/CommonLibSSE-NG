@@ -1982,7 +1982,7 @@ namespace RE
 	constexpr std::array<REL::VariantID, 1>  VTABLE_BSTCommonStaticMessageQueue_BSTSmartPointer_bgs__saveload__Request_BSTSmartPointerIntrusiveRefCount__8_{ REL::VariantID(258754, 206618, 0x16bcdd8) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_BGSSaveLoadManager__Thread{ REL::VariantID(258755, 206620, 0x16bce18) };
 	constexpr std::array<REL::VariantID, 3>  VTABLE_BGSSaveLoadManager{ REL::VariantID(258756, 206622, 0x16bce38), REL::VariantID(258757, 206624, 0x16bce50), REL::VariantID(258758, 206626, 0x16bce68) };
-	constexpr std::array<REL::VariantID, 1>  VTABLE___LoadGameMissingContentCallBack{ REL::VariantID(258783, 206638, 0x16bd138) };
+	constexpr std::array<REL::VariantID, 1>  VTABLE___LoadGameMissingContentCallBack{ REL::VariantID(258783, 465335, 0x16bd138) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_bgs__saveload__Request{ REL::VariantID(258818, 206668, 0x16bd670) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_NiTMapBase_DFALL_NiTMapItem_ENUM_FORM_ID_BSSimpleList_SavedFormData________ENUM_FORM_ID_BSSimpleList_SavedFormData______{ REL::VariantID(258840, 206675, 0x16bd9c8) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_NiTMap_ENUM_FORM_ID_BSSimpleList_SavedFormData______{ REL::VariantID(258841, 206677, 0x16bda08) };

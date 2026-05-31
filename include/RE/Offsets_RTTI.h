@@ -2232,7 +2232,7 @@ namespace RE
 	constexpr REL::VariantID RTTI_BGSSaveLoadManager__Thread(686610, 394453, 0x1f02280);
 	constexpr REL::VariantID RTTI_BGSSaveLoadManager(686602, 394445, 0x1f02078);
 	constexpr REL::VariantID RTTI_BSTEventSource_BGSSaveLoadManagerEvent_(686605, 394448, 0x1f02130);
-	constexpr REL::VariantID RTTI___LoadGameMissingContentCallBack(686614, 394457, 0x1f02440);
+	constexpr REL::VariantID RTTI___LoadGameMissingContentCallBack(686614, 502590, 0x1f02440);
 	constexpr REL::VariantID RTTI_NiTMapBase_DFALL_NiTMapItem_ENUM_FORM_ID_BSSimpleList_SavedFormData________ENUM_FORM_ID_BSSimpleList_SavedFormData______(686617, 394460, 0x1f02520);
 	constexpr REL::VariantID RTTI_NiTMap_ENUM_FORM_ID_BSSimpleList_SavedFormData______(686616, 394459, 0x1f024c0);
 	constexpr REL::VariantID RTTI_BGSSaveLoadStatsMap(686615, 394458, 0x1f02488);
