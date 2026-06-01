@@ -13,6 +13,11 @@ permissions:
 jobs:
   maintenance:
     runs-on: ubuntu-latest
+    # Skip on fork PRs: the head branch does not exist on this repo (so the ref
+    # checkout below fails), and the auto-commit step cannot push to a fork anyway.
+    if: |
+      github.event_name == 'push' ||
+      github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
     - uses: actions/checkout@v5
