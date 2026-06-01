@@ -6,6 +6,7 @@
 #include "RE/N/NiTransform.h"
 #include "REL/Common.h"
 #include "REL/Module.h"
+#include "REL/Relocation.h"
 
 namespace RE
 {
@@ -73,16 +74,6 @@ namespace RE
 			}
 		}
 
-		[[nodiscard]] std::byte* GetBoneDataAddress(std::uint32_t a_idx) noexcept
-		{
-			return reinterpret_cast<std::byte*>(boneData) + (static_cast<std::size_t>(a_idx) * GetBoneDataStride());
-		}
-
-		[[nodiscard]] const std::byte* GetBoneDataAddress(std::uint32_t a_idx) const noexcept
-		{
-			return reinterpret_cast<const std::byte*>(boneData) + (static_cast<std::size_t>(a_idx) * GetBoneDataStride());
-		}
-
 		[[nodiscard]] NiTransform& GetBoneDataSkinToBone(std::uint32_t a_idx) noexcept
 		{
 			return *reinterpret_cast<NiTransform*>(GetBoneDataAddress(a_idx));
@@ -127,12 +118,45 @@ namespace RE
 			return *reinterpret_cast<const std::uint16_t*>(GetBoneDataAddress(a_idx) + offset);
 		}
 
+		[[nodiscard]] std::uint32_t& GetBoneCount() noexcept
+		{
+			return REL::RelocateMember<std::uint32_t>(this, 0x58, 0x58);
+		}
+
+		[[nodiscard]] const std::uint32_t& GetBoneCount() const noexcept
+		{
+			return REL::RelocateMember<std::uint32_t>(this, 0x58, 0x58);
+		}
+
 		// members
 		NiPointer<NiSkinPartition> skinPartition;     // 10
 		NiTransform                rootParentToSkin;  // 18
-		BoneData*                  boneData;          // 50
-		std::uint32_t              bones;             // 58
-		std::uint32_t              pad5C;             // 5C
+#ifndef SKYRIM_CROSS_VR
+		BoneData*     boneData;  // 50
+		std::uint32_t bones;     // 58
+		std::uint32_t pad5C;     // 5C
+#endif
+
+	private:
+		[[nodiscard]] std::byte* GetBoneDataAddress(std::uint32_t a_idx) noexcept
+		{
+			return reinterpret_cast<std::byte*>(GetBoneData()) + (static_cast<std::size_t>(a_idx) * GetBoneDataStride());
+		}
+
+		[[nodiscard]] const std::byte* GetBoneDataAddress(std::uint32_t a_idx) const noexcept
+		{
+			return reinterpret_cast<const std::byte*>(GetBoneData()) + (static_cast<std::size_t>(a_idx) * GetBoneDataStride());
+		}
+
+		[[nodiscard]] BoneData* GetBoneData() noexcept
+		{
+			return REL::RelocateMember<BoneData*>(this, 0x50, 0x50);
+		}
+
+		[[nodiscard]] const BoneData* GetBoneData() const noexcept
+		{
+			return REL::RelocateMember<BoneData*>(this, 0x50, 0x50);
+		}
 	};
-	static_assert(sizeof(NiSkinData) == 0x60);
+	STATIC_ASSERT_SIZE(NiSkinData, 0x60, 0x60, 0x60, 0x50, 0x60);
 }
