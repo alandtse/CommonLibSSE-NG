@@ -1,13 +1,13 @@
 #pragma once
 
 #include "RE/H/hkStepInfo.h"
+#include "RE/H/hkpCollisionAgentConfig.h"
 #include "RE/H/hkpCollisionInput.h"
+#include "RE/H/hkpCollisionQualityInfo.h"
 
 namespace RE
 {
 	struct hkpAgent1nSector;
-	struct hkpCollisionAgentConfig;
-	struct hkpCollisionQualityInfo;
 
 	struct hkpProcessCollisionInput : public hkpCollisionInput
 	{
