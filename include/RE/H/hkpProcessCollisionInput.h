@@ -22,6 +22,7 @@ namespace RE
 		std::uint16_t            pad8A;                          // 8A
 		std::uint32_t            pad8C;                          // 8C
 		hkpCollisionAgentConfig* config;                         // 90
+																 // tail padded to 0xA0: hkStepInfo is alignas(0x10), so the struct is 16-aligned (members end at 0x98)
 	};
-	static_assert(sizeof(hkpProcessCollisionInput) == 0x98);
+	static_assert(sizeof(hkpProcessCollisionInput) == 0xA0);
 }

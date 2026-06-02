@@ -4,7 +4,7 @@
 
 namespace RE
 {
-	class hkpContactMgr : public hkReferencedObject  // hkReferencedObject base = 0x10
+	struct hkpContactMgr : public hkReferencedObject  // hkReferencedObject base = 0x10
 	{
 	public:
 		enum class Type
