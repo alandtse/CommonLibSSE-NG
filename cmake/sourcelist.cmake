@@ -1174,6 +1174,7 @@ set(SOURCES
 	include/RE/H/hkp3AxisSweep.h
 	include/RE/H/hkpAabbPhantom.h
 	include/RE/H/hkpAction.h
+	include/RE/H/hkpAgent3ProcessInput.h
 	include/RE/H/hkpAgentNnTrack.h
 	include/RE/H/hkpAllCdPointCollector.h
 	include/RE/H/hkpAllRayHitCollector.h
@@ -1236,6 +1237,7 @@ set(SOURCES
 	include/RE/H/hkpPhantom.h
 	include/RE/H/hkpPhantomListener.h
 	include/RE/H/hkpPhantomType.h
+	include/RE/H/hkpProcessCollisionInput.h
 	include/RE/H/hkpProperty.h
 	include/RE/H/hkpRagdollConstraintData.h
 	include/RE/H/hkpRayCollidableFilter.h
