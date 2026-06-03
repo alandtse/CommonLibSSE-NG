@@ -10,7 +10,12 @@ add_rules("mode.debug", "mode.releasedbg")
 set_defaultmode("releasedbg")
 
 -- Match the options the prebuilt library was built with (see
--- lib/commonlibsse-ng/PREBUILT.md). These must be set before includes().
+-- lib/commonlibsse-ng/PREBUILT.md). These must be set before includes(). Set the
+-- runtime flags explicitly rather than relying on defaults so the test always
+-- matches the published "all" contract even if the upstream defaults drift.
+set_config("skyrim_se", true)
+set_config("skyrim_ae", true)
+set_config("skyrim_vr", true)
 set_config("rex_ini", true)
 set_config("skse_xbyak", true)
 

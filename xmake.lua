@@ -101,6 +101,28 @@ target("commonlibsse-ng", function()
         add_linkdirs("lib", { public = true })
         add_links("commonlibsse-ng", { public = true })
         add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version", { public = true })
+
+        -- The shipped library baked a fixed option set. Linking it while the consumer
+        -- compiles CommonLib headers with different option-derived defines (REX_OPTION_*,
+        -- ENABLE_SKYRIM_*, SKSE_SUPPORT_XBYAK) is a silent ABI mismatch, so refuse unless
+        -- the consumer's options match what the lib was built with (see PREBUILT.md).
+        -- Checked in on_config so consumer options are fully resolved (not the defaults
+        -- seen during initial option discovery).
+        on_config(function(target)
+            local baked = {
+                skyrim_se = true, skyrim_ae = true, skyrim_vr = true,
+                rex_ini = true, skse_xbyak = true,
+                rex_json = false, rex_toml = false,
+            }
+            for opt, want in pairs(baked) do
+                local got = has_config(opt) and true or false
+                if got ~= want then
+                    raise("prebuilt commonlibsse-ng.lib was built with %s=%s, but the consumer has %s=%s. "
+                        .. "Match the baked config (skyrim all + rex_ini + skse_xbyak; see PREBUILT.md) "
+                        .. "or build from source.", opt, want and "y" or "n", opt, got and "y" or "n")
+                end
+            end
+        end)
     end
 
     -- set build by default

@@ -72,7 +72,10 @@ jobs:
         id: bundle
         shell: pwsh
         run: |
-          $stage = "commonlibsse-ng-prebuilt-all-msvc"
+          # Version the asset name with the release tag when publishing (matches the
+          # name documented in PREBUILT.md); fall back to an unversioned name for PR runs.
+          $tag = "${{ inputs.attach_tag }}"
+          $stage = if ($tag) { "commonlibsse-ng-prebuilt-$tag-all-msvc" } else { "commonlibsse-ng-prebuilt-all-msvc" }
           New-Item -ItemType Directory -Force -Path "$stage/lib","$stage/extern/openvr" | Out-Null
           # Drop-in replacement for the lib/commonlibsse-ng source tree: same xmake.lua
           # (auto-detects the shipped lib), headers, plugin-rule templates, VR headers.
