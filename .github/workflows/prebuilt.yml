@@ -1,0 +1,117 @@
+# Build a prebuilt CommonLib bundle for the canonical "all" config and prove it is
+# consumable. Runs on every PR to ng (validation only) and is called by release.yml on
+# a published release (with attach_tag set) to attach the bundle to the GitHub release.
+#
+# xmake consumers only: the bundle ships the same xmake.lua (auto-detects the prebuilt),
+# headers, plugin-rule templates and VR headers, so a consumer's includes()/the
+# commonlibsse-ng.plugin rule work unchanged with zero CommonLib recompile. Baked
+# config: skyrim all (SE+AE+VR) + rex_ini + skse_xbyak, releasedbg, MSVC.
+#
+# CMake consumers are intentionally not served here — see PREBUILT.md (use vcpkg
+# binary caching for the vcpkg-port consumers).
+name: Prebuilt bundles
+
+on:
+  pull_request:
+    branches: [ng]
+    paths:
+      - xmake.lua
+      - CMakeLists.txt
+      - cmake/**
+      - include/**
+      - src/**
+      - res/**
+      - vcpkg.json
+      - .github/workflows/prebuilt.yml
+      - tests/prebuilt-consumer/**
+      - tests/prebuilt-consumer-cmake/**
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        default: ""
+      attach_tag:
+        description: "If set, create/attach the bundles to this release tag."
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  xmake:
+    name: xmake bundle + self-test
+    runs-on: windows-latest
+    permissions:
+      contents: write # only used when attach_tag is set
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+          submodules: recursive # extern/openvr headers ship in the bundle
+
+      - name: Set up xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+          package-cache: true
+          build-cache: true
+          project-path: .
+
+      - name: Update xmake package repo
+        run: xmake repo --update
+
+      - name: Build commonlibsse-ng (all + rex_ini + skse_xbyak, releasedbg)
+        run: |
+          xmake config -m releasedbg -a x64 --skyrim_se=y --skyrim_ae=y --skyrim_vr=y --rex_ini=y --skse_xbyak=y --yes
+          xmake build --yes commonlibsse-ng
+
+      - name: Assemble bundle + stage into self-test consumer
+        id: bundle
+        shell: pwsh
+        run: |
+          $stage = "commonlibsse-ng-prebuilt-all-msvc"
+          New-Item -ItemType Directory -Force -Path "$stage/lib","$stage/extern/openvr" | Out-Null
+          # Drop-in replacement for the lib/commonlibsse-ng source tree: same xmake.lua
+          # (auto-detects the shipped lib), headers, plugin-rule templates, VR headers.
+          Copy-Item xmake.lua, PREBUILT.md "$stage/"
+          Copy-Item -Recurse include "$stage/include"
+          Copy-Item -Recurse res "$stage/res"
+          Copy-Item -Recurse extern/openvr/headers "$stage/extern/openvr/headers"
+          $lib = "build/windows/x64/releasedbg/commonlibsse-ng.lib"
+          if (-not (Test-Path $lib)) { Write-Error "lib not found at $lib"; exit 1 }
+          Copy-Item $lib "$stage/lib/"
+          7z a -t7z -mx=9 "$stage.7z" "$stage" | Out-Null
+          "bundle=$stage.7z" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          # Stage the same tree as the self-test consumer's lib/commonlibsse-ng.
+          $dst = "tests/prebuilt-consumer/lib/commonlibsse-ng"
+          New-Item -ItemType Directory -Force -Path $dst | Out-Null
+          Copy-Item -Recurse "$stage/*" $dst
+
+      - name: Self-test — build a plugin against the prebuilt
+        working-directory: tests/prebuilt-consumer
+        run: |
+          xmake f -P . -m releasedbg -a x64 --yes
+          xmake b -P . --yes --rebuild
+
+      - name: Upload bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuilt-bundle-xmake
+          path: ${{ steps.bundle.outputs.bundle }}
+          if-no-files-found: error
+
+      - name: Attach bundle to release
+        if: inputs.attach_tag != ''
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view "${{ inputs.attach_tag }}" *> $null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create "${{ inputs.attach_tag }}" --title "CommonLibSSE-NG ${{ inputs.attach_tag }}" `
+              --notes "Prebuilt CommonLib bundle for downstream xmake consumers (config: skyrim all + rex_ini + skse_xbyak). See PREBUILT.md."
+          }
+          gh release upload "${{ inputs.attach_tag }}" "${{ steps.bundle.outputs.bundle }}" --clobber

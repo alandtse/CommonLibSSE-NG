@@ -64,5 +64,23 @@ switches to prebuilt mode — same target, same `commonlibsse-ng.plugin` rule, s
 transitive deps (`directxmath`, `directxtk`, `spdlog`, `simpleini`, `xbyak`,
 `rapidcsv`), just no CommonLib recompile.
 
-> CMake / vcpkg consumers should keep using the `commonlibsse-ng` vcpkg port (with
-> vcpkg binary caching) rather than this bundle.
+## Size & cost
+
+The `releasedbg` "all" library carries full debug info for three runtimes, so it is
+**~1.2 GB extracted** — but compresses ~24× to a **~52 MB** download. A consumer build
+against it is **seconds** (e.g. ~6 s for the self-test plugin) versus a full source
+build (minutes cold). The large on-disk size is the trade for keeping CommonLib frames
+symbolicatable in crash logs; the extra link cost is negligible.
+
+## CMake consumers
+
+This bundle is **xmake-only**. CMake consumers are better served by their own
+toolchain:
+
+- **vcpkg-port consumers** (`"commonlibsse-ng"` in `vcpkg.json`): use **vcpkg binary
+  caching** (a shared NuGet/GHA/S3 backend) so the port builds once and is reused
+  across CI — idiomatic, no custom artifact.
+- **`add_subdirectory`/extern-path consumers**: keep building from the source
+  submodule, or open an issue if a `find_package(CommonLibSSE CONFIG)` prebuilt is
+  wanted (it needs `cmake/config.cmake.in` to `find_dependency` the full transitive
+  set, not just `spdlog`).
