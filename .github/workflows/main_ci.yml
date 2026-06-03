@@ -34,6 +34,12 @@ jobs:
         compiler:
           - msvc
           - clang-cl
+    # Persist vcpkg-built dependency binaries in the GitHub Actions cache so the matrix
+    # configs (and future runs) restore prebuilt .libs (spdlog, DirectXTK, …) instead of
+    # recompiling them every time. Validated: a warm cache turns a dep build into a ~ms
+    # restore.
+    env:
+      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -59,6 +65,15 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: ${{ steps.get_vcpkg_baseline.outputs.baseline }}
+
+      # x-gha reads the Actions cache service endpoint from these two variables, which
+      # GitHub only exposes to the github-script runtime — re-export them so vcpkg sees them.
+      - name: Enable vcpkg GitHub Actions binary cache
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Build
         uses: lukka/run-cmake@v10
