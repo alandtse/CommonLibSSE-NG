@@ -71,10 +71,12 @@ jobs:
       - name: Assemble bundle + stage into self-test consumer
         id: bundle
         shell: pwsh
+        env:
+          ATTACH_TAG: ${{ inputs.attach_tag }} # via env, not template interpolation (injection-safe)
         run: |
           # Version the asset name with the release tag when publishing (matches the
           # name documented in PREBUILT.md); fall back to an unversioned name for PR runs.
-          $tag = "${{ inputs.attach_tag }}"
+          $tag = $env:ATTACH_TAG
           $stage = if ($tag) { "commonlibsse-ng-prebuilt-$tag-all-msvc" } else { "commonlibsse-ng-prebuilt-all-msvc" }
           New-Item -ItemType Directory -Force -Path "$stage/lib","$stage/extern/openvr" | Out-Null
           # Drop-in replacement for the lib/commonlibsse-ng source tree: same xmake.lua
@@ -111,10 +113,11 @@ jobs:
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ATTACH_TAG: ${{ inputs.attach_tag }} # via env, not template interpolation (injection-safe)
         run: |
-          gh release view "${{ inputs.attach_tag }}" *> $null
+          gh release view "$env:ATTACH_TAG" *> $null
           if ($LASTEXITCODE -ne 0) {
-            gh release create "${{ inputs.attach_tag }}" --title "CommonLibSSE-NG ${{ inputs.attach_tag }}" `
+            gh release create "$env:ATTACH_TAG" --title "CommonLibSSE-NG $env:ATTACH_TAG" `
               --notes "Prebuilt CommonLib bundle for downstream xmake consumers (config: skyrim all + rex_ini + skse_xbyak). See PREBUILT.md."
           }
-          gh release upload "${{ inputs.attach_tag }}" "${{ steps.bundle.outputs.bundle }}" --clobber
+          gh release upload "$env:ATTACH_TAG" "${{ steps.bundle.outputs.bundle }}" --clobber
