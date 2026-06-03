@@ -1,0 +1,68 @@
+# Prebuilt CommonLib bundles
+
+Each release attaches a prebuilt **static-library bundle** so downstream **xmake**
+projects can consume CommonLib without recompiling it (CommonLib is the bulk of a
+plugin's build time). The bundle is produced by `.github/workflows/release.yml` and
+validated by the `test-prebuilt` job before publish.
+
+## What's in the bundle
+
+`commonlibsse-ng-prebuilt-<tag>-all-msvc.7z` is a drop-in replacement for the
+`lib/commonlibsse-ng` source tree:
+
+```
+xmake.lua            # the same build script, which auto-detects lib/commonlibsse-ng.lib
+                     #   and links it instead of compiling src/ ("prebuilt mode")
+include/             # public headers (RE/ REL/ REX/ SKSE/)
+res/                 # commonlibsse-ng.plugin rule templates
+extern/openvr/headers/   # VR headers (the "all" config enables VR)
+lib/commonlibsse-ng.lib  # the prebuilt static library
+PREBUILT.md
+```
+
+## Baked configuration (must match in the consumer)
+
+The library is compiled **once**, for the config our xmake consumers use:
+
+| Axis | Value |
+|------|-------|
+| Runtime | **all** — `skyrim_se` + `skyrim_ae` + `skyrim_vr` |
+| REX | **`rex_ini`** on |
+| Trampoline | **`skse_xbyak`** on |
+| Build | `releasedbg`, x64, **MSVC** |
+| C++ | C++23 |
+
+A prebuilt static library bakes its config and toolchain in. To link it safely a
+consumer **must** build with a compatible setup:
+
+- Same options: set `rex_ini = true` and `skse_xbyak = true` **before** `includes()`
+  (the `skyrim_*` runtimes default on). Different options (e.g. `rex_json`, or
+  disabling a runtime) are **not** served by this bundle — build from source for those.
+- Same mode/ABI: xmake `releasedbg` (release CRT `/MD`, `NDEBUG`). No `debug` bundle
+  is published. A true `debug` build must compile from source.
+- Same compiler family (**MSVC**) and a compatible MSVC toolset version. Toolset drift
+  between this bundle and the consumer is the most common cause of link/ABI errors.
+
+## How to consume (xmake)
+
+Replace the `lib/commonlibsse-ng` **source submodule** with the **extracted bundle**
+(same path). Your existing build is otherwise unchanged:
+
+```lua
+set_config("rex_ini", true)      -- match the bundle
+set_config("skse_xbyak", true)
+includes("lib/commonlibsse-ng")  -- now a prebuilt bundle, not source
+
+target("my-plugin")
+    add_deps("commonlibsse-ng")
+    add_rules("commonlibsse-ng.plugin", { name = "my-plugin", author = "you" })
+    add_files("src/**.cpp")
+```
+
+`includes()` runs the bundled `xmake.lua`, which sees `lib/commonlibsse-ng.lib` and
+switches to prebuilt mode — same target, same `commonlibsse-ng.plugin` rule, same
+transitive deps (`directxmath`, `directxtk`, `spdlog`, `simpleini`, `xbyak`,
+`rapidcsv`), just no CommonLib recompile.
+
+> CMake / vcpkg consumers should keep using the `commonlibsse-ng` vcpkg port (with
+> vcpkg binary caching) rather than this bundle.

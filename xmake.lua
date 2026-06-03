@@ -86,8 +86,22 @@ if has_config("skyrim_vr") then
 end
 
 target("commonlibsse-ng", function()
+    -- Prebuilt mode: when a `lib/commonlibsse-ng.lib` is shipped alongside this
+    -- xmake.lua (i.e. consumed from a prebuilt release bundle rather than source),
+    -- link that static library instead of compiling src/. Consumers keep using
+    -- `includes(...)` + the `commonlibsse-ng.plugin` rule unchanged — the only
+    -- difference is zero recompile. They MUST set the same options the lib was built
+    -- with (see PREBUILT.md: skyrim all + rex_ini + skse_xbyak).
+    local prebuilt = os.isfile(path.join(os.scriptdir(), "lib", "commonlibsse-ng.lib"))
+
     -- set target kind
-    set_kind("static")
+    set_kind(prebuilt and "phony" or "static")
+
+    if prebuilt then
+        add_linkdirs("lib", { public = true })
+        add_links("commonlibsse-ng", { public = true })
+        add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version", { public = true })
+    end
 
     -- set build by default
     set_default(os.scriptdir() == os.projectdir())
@@ -120,11 +134,15 @@ target("commonlibsse-ng", function()
     -- add options
     add_options("rex_ini", "rex_json", "rex_toml", "skyrim_se", "skyrim_ae", "skyrim_vr", "skse_xbyak", "tests", { public = true })
 
-    -- add system links
-    add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version")
+    -- compile-only configuration (skipped in prebuilt mode, where the shipped
+    -- library already contains these and dependents link it directly)
+    if not prebuilt then
+        -- add system links
+        add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version")
 
-    -- add source files
-    add_files("src/**.cpp")
+        -- add source files
+        add_files("src/**.cpp")
+    end
 
     -- add header files
     add_includedirs("include", { public = true })
@@ -135,8 +153,10 @@ target("commonlibsse-ng", function()
         "include/(SKSE/**.h)"
     )
 
-    -- set precompiled header
-    set_pcxxheader("include/SKSE/Impl/PCH.h")
+    -- set precompiled header (only meaningful when compiling sources)
+    if not prebuilt then
+        set_pcxxheader("include/SKSE/Impl/PCH.h")
+    end
 
     -- add flags
     add_cxxflags("/EHsc", "/permissive-", "/Zc:preprocessor", { public = true })

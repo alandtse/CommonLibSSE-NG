@@ -40,6 +40,10 @@ jobs:
     concurrency:
       group: semantic-release-publish
       cancel-in-progress: false
+    outputs:
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
+      new_release_git_tag: ${{ steps.semantic.outputs.new_release_git_tag }}
 
     steps:
       - name: Checkout
@@ -49,6 +53,7 @@ jobs:
           persist-credentials: true
 
       - name: Semantic Release
+        id: semantic
         uses: cycjimmy/semantic-release-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -58,3 +63,127 @@ jobs:
             @semantic-release/changelog
             @semantic-release/git
             conventional-changelog-conventionalcommits
+
+  # Build a prebuilt static-library bundle for the canonical "all" config and attach
+  # it to the release so downstream xmake projects can consume CommonLib without
+  # recompiling it. Config baked into the lib: skyrim all (SE+AE+VR) + rex_ini +
+  # skse_xbyak (the superset our xmake consumers use — see PREBUILT.md). Runs only
+  # when semantic-release actually published a new version.
+  build-prebuilt:
+    name: Build prebuilt (all · msvc · releasedbg)
+    needs: release
+    if: needs.release.outputs.new_release_published == 'true'
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ needs.release.outputs.new_release_git_tag }}
+    steps:
+      - name: Checkout released tag
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.release.outputs.new_release_git_tag }}
+          submodules: recursive # extern/openvr headers are part of the bundle
+
+      - name: Set up xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+          package-cache: true
+          build-cache: true
+          project-path: .
+
+      - name: Update xmake package repo
+        run: xmake repo --update
+
+      - name: Configure (all + rex_ini + skse_xbyak, releasedbg)
+        run: xmake config -m releasedbg -a x64 --skyrim_se=y --skyrim_ae=y --skyrim_vr=y --rex_ini=y --skse_xbyak=y --yes --verbose
+
+      - name: Build commonlibsse-ng
+        run: xmake build --yes commonlibsse-ng
+
+      - name: Assemble prebuilt bundle
+        id: bundle
+        shell: pwsh
+        run: |
+          $stage = "commonlibsse-ng-prebuilt-$env:TAG-all-msvc"
+          New-Item -ItemType Directory -Force -Path "$stage/lib", "$stage/extern/openvr" | Out-Null
+          # The bundle is a drop-in replacement for the lib/commonlibsse-ng source
+          # tree: same xmake.lua (auto-detects the shipped lib), headers, plugin-rule
+          # templates, VR headers, plus the prebuilt static library.
+          Copy-Item xmake.lua, PREBUILT.md "$stage/"
+          Copy-Item -Recurse include "$stage/include"
+          Copy-Item -Recurse res "$stage/res"
+          Copy-Item -Recurse extern/openvr/headers "$stage/extern/openvr/headers"
+          $lib = "build/windows/x64/releasedbg/commonlibsse-ng.lib"
+          if (-not (Test-Path $lib)) { Write-Error "Prebuilt lib not found at $lib"; exit 1 }
+          Copy-Item $lib "$stage/lib/"
+          7z a -t7z -mx=9 "$stage.7z" "$stage" | Out-Null
+          "bundle=$stage.7z" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          Write-Host "Assembled $stage.7z"
+
+      - name: Upload bundle as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuilt-bundle
+          path: ${{ steps.bundle.outputs.bundle }}
+          if-no-files-found: error
+
+      - name: Attach bundle to release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # semantic-release tags but does not create a GitHub Release; create one on
+          # the tag if missing, then attach the prebuilt bundle.
+          gh release view "$env:TAG" *> $null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create "$env:TAG" --title "CommonLibSSE-NG $env:TAG" `
+              --notes "Prebuilt CommonLib static library for downstream xmake consumers (config: skyrim all + rex_ini + skse_xbyak). See PREBUILT.md for how to consume."
+          }
+          gh release upload "$env:TAG" "${{ steps.bundle.outputs.bundle }}" --clobber
+
+  # Prove the bundle is actually consumable: extract it into a minimal xmake SKSE
+  # plugin and build+link against the prebuilt library (no CommonLib recompile).
+  test-prebuilt:
+    name: Test prebuilt consumer
+    needs: [release, build-prebuilt]
+    if: needs.release.outputs.new_release_published == 'true'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Download prebuilt bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: prebuilt-bundle
+          path: bundle
+
+      - name: Stage bundle as the consumer's lib/commonlibsse-ng
+        shell: pwsh
+        run: |
+          $archive = Get-ChildItem bundle/*.7z | Select-Object -First 1
+          $dest = "tests/prebuilt-consumer/lib"
+          New-Item -ItemType Directory -Force -Path $dest | Out-Null
+          7z x "$($archive.FullName)" "-o$dest" -y | Out-Null
+          # The archive contains a single top-level folder; rename it to commonlibsse-ng.
+          $extracted = Get-ChildItem $dest -Directory | Select-Object -First 1
+          Rename-Item $extracted.FullName "commonlibsse-ng"
+          Get-ChildItem "$dest/commonlibsse-ng"
+
+      - name: Set up xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: latest
+          package-cache: true
+          project-path: tests/prebuilt-consumer
+
+      - name: Update xmake package repo
+        run: xmake repo --update
+
+      - name: Build consumer against prebuilt
+        working-directory: tests/prebuilt-consumer
+        run: |
+          xmake config -m releasedbg -a x64 --yes --verbose
+          xmake build --yes
