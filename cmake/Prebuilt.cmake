@@ -34,9 +34,17 @@ function(commonlib_resolve_prebuilt out_dir)
     endif()
 
     # The bundle is baked Release (/MD, NDEBUG). Linking it from a Debug config (/MDd) is a
-    # CRT/ABI mismatch, and a multi-config generator can't promise the chosen config at
-    # configure time — so only use the prebuilt for a single-config, non-Debug build.
-    if(CMAKE_CONFIGURATION_TYPES OR NOT CMAKE_BUILD_TYPE MATCHES "^(Release|RelWithDebInfo|MinSizeRel)$")
+    # CRT/ABI mismatch. A single-config build must therefore be a non-Debug config. A
+    # multi-config generator (Visual Studio) chooses the config at build time, so by default
+    # we can't promise Debug won't be built and skip it. A consumer that only ever builds
+    # release-like configs can opt in with COMMONLIB_PREBUILT_MULTICONFIG=ON: the IMPORTED
+    # target then serves Release (RelWithDebInfo/MinSizeRel map to it) and maps Debug to
+    # nothing, so a stray Debug build fails to link loudly instead of silently linking Release.
+    if(CMAKE_CONFIGURATION_TYPES)
+        if(NOT COMMONLIB_PREBUILT_MULTICONFIG)
+            return()
+        endif()
+    elseif(NOT CMAKE_BUILD_TYPE MATCHES "^(Release|RelWithDebInfo|MinSizeRel)$")
         return()
     endif()
 

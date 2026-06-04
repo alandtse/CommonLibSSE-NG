@@ -138,7 +138,16 @@ It falls back to a normal **source build** whenever the prebuilt can't be used s
 top-level project is CommonLib itself (you only auto-fetch when *consumed*), a Debug or
 multi-config build (the bundle is Release `/MD`; a Debug `/MDd` link would be an ABI
 mismatch), not on an exact tag, a dirty tree, options that don't match the baked config, or
-a missing/unverified asset. The download is cached under
+a missing/unverified asset.
+
+A **multi-config generator** (Visual Studio) is skipped by default because the config is
+chosen at build time, so Debug can't be ruled out. A consumer that only ever builds
+release-like configs can opt in with **`-DCOMMONLIB_PREBUILT_MULTICONFIG=ON`** (e.g. in its
+preset's `cacheVariables`): the IMPORTED target serves Release (RelWithDebInfo/MinSizeRel map
+onto it) and maps **Debug to nothing**, so a stray Debug build fails loudly rather than
+silently linking the Release lib into a `/MDd` target.
+
+The download is cached under
 `${CMAKE_CURRENT_BINARY_DIR}/.prebuilt/<tag>` — with the advertised
 `add_subdirectory(… commonlib)` layout that is the CommonLib sub-build dir, e.g.
 `<build>/commonlib/.prebuilt/<tag>` — and attempted at most once per tag. Local dev builds
