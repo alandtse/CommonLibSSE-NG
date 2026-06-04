@@ -9,6 +9,20 @@
 # Anything else (no exact tag, dirty tree, options that don't match the baked config,
 # missing/unverified asset, offline) leaves the output empty so the caller builds from
 # source. The download is cached under the build tree and attempted at most once per tag.
+# A bundle is only usable if all four pieces the IMPORTED target consumes are present
+# (include/, the lib, openvr lib + headers); otherwise a partial extraction or stale cache
+# would resolve and fail deep in configure/build instead of falling back to source.
+function(_commonlib_prebuilt_complete dir out_var)
+    if(IS_DIRECTORY "${dir}/include"
+       AND EXISTS "${dir}/lib/CommonLibSSE.lib"
+       AND EXISTS "${dir}/lib/openvr_api.lib"
+       AND IS_DIRECTORY "${dir}/extern/openvr/headers")
+        set(${out_var} TRUE PARENT_SCOPE)
+    else()
+        set(${out_var} FALSE PARENT_SCOPE)
+    endif()
+endfunction()
+
 function(commonlib_resolve_prebuilt out_dir)
     set(${out_dir} "" PARENT_SCOPE)
 
@@ -27,12 +41,12 @@ function(commonlib_resolve_prebuilt out_dir)
     endif()
 
     # explicit override: a consumer (or this repo's self-test) points at an extracted bundle
-    if(COMMONLIB_PREBUILT_DIR
-       AND EXISTS "${COMMONLIB_PREBUILT_DIR}/lib/CommonLibSSE.lib"
-       AND EXISTS "${COMMONLIB_PREBUILT_DIR}/lib/openvr_api.lib"
-       AND IS_DIRECTORY "${COMMONLIB_PREBUILT_DIR}/extern/openvr/headers")
-        set(${out_dir} "${COMMONLIB_PREBUILT_DIR}" PARENT_SCOPE)
-        return()
+    if(COMMONLIB_PREBUILT_DIR)
+        _commonlib_prebuilt_complete("${COMMONLIB_PREBUILT_DIR}" _ok)
+        if(_ok)
+            set(${out_dir} "${COMMONLIB_PREBUILT_DIR}" PARENT_SCOPE)
+            return()
+        endif()
     endif()
 
     if(NOT (DEFINED ENV{GITHUB_ACTIONS} OR COMMONLIB_PREBUILT))
@@ -60,7 +74,8 @@ function(commonlib_resolve_prebuilt out_dir)
     endif()
 
     set(_cache "${CMAKE_CURRENT_BINARY_DIR}/.prebuilt/${_tag}")
-    if(EXISTS "${_cache}/lib/CommonLibSSE.lib")
+    _commonlib_prebuilt_complete("${_cache}" _ok)
+    if(_ok)
         set(${out_dir} "${_cache}" PARENT_SCOPE)
         return()
     endif()
@@ -97,5 +112,11 @@ function(commonlib_resolve_prebuilt out_dir)
     get_filename_component(_root "${_found}" DIRECTORY)        # .../lib
     get_filename_component(_root "${_root}" DIRECTORY)         # bundle root
     file(RENAME "${_root}" "${_cache}")
+    _commonlib_prebuilt_complete("${_cache}" _ok)
+    if(NOT _ok)
+        file(MAKE_DIRECTORY "${_cache}")
+        file(TOUCH "${_cache}/.failed")
+        return()
+    endif()
     set(${out_dir} "${_cache}" PARENT_SCOPE)
 endfunction()
