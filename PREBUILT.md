@@ -113,12 +113,15 @@ sidesteps `find_package`/`install(EXPORT)` relocatability entirely — the paths
 just-extracted bundle's own.
 
 The bundle is baked the same as the xmake one (skyrim all + `skse_xbyak` + `rex_ini`,
-MSVC, **`Release`** `/MD NDEBUG`, C++23), but the consumer does **not** have to match every
-option. The runtime set (`ENABLE_SKYRIM_SE/AE/VR=ON`) and `SKSE_SUPPORT_XBYAK=ON` change
-public-header layout, so a consumer must enable those. `REX_OPTION_INI` only adds the
-self-contained `REX::INI` namespace, so the baked lib is a **superset**: a consumer with
-`REX_OPTION_INI=OFF` simply doesn't see `REX::INI` and links fine — it is **not** required.
-`REX_OPTION_JSON/TOML` must stay **OFF** (the lib lacks those symbols).
+MSVC, **`Release`** `/MD NDEBUG`, C++23), but the consumer only has to match the part that
+is ABI-critical. The **runtime set** (`ENABLE_SKYRIM_SE/AE/VR=ON`) changes the layout of
+dozens of public headers, so a consumer **must** build for all three. `REX_OPTION_INI` and
+`SKSE_SUPPORT_XBYAK` are **additive** — ini adds a self-contained `REX::INI` namespace, and
+xbyak adds an `#if`'d `ContextHook` block plus one non-virtual `Trampoline` method (no data
+member, so the class layout is identical) — so the baked lib is a **superset**: a consumer
+may leave either off and still link cleanly (it just doesn't see that API, and the IMPORTED
+target only defines the matching option). `REX_OPTION_JSON/TOML` must stay **OFF** (the lib
+lacks those symbols).
 
 ### Automatic fetch on a clean release tag (CMake)
 

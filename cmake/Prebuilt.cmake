@@ -53,13 +53,16 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
-    # options must be compatible with the baked config (skyrim all + skse_xbyak + rex_ini;
-    # rex_json/toml off). The runtime set and skse_xbyak change public-header layout, so they
-    # must match exactly. rex_ini/json/toml each only add a self-contained REX::{INI,JSON,TOML}
-    # namespace: the lib bakes rex_ini, so it is a superset for ini (a rex_ini-OFF consumer
-    # just never sees REX::INI) and rex_ini is not required here — but it LACKS json/toml, so a
-    # consumer enabling those would reference missing symbols and must keep them off.
-    if(NOT (ENABLE_SKYRIM_SE AND ENABLE_SKYRIM_AE AND ENABLE_SKYRIM_VR AND SKSE_SUPPORT_XBYAK)
+    # Only the skyrim runtime set is truly ABI-critical: ENABLE_SKYRIM_SE/AE/VR change the
+    # layout of dozens of public headers, so a consumer must build for all three (as the lib
+    # does). The baked extras are additive and the lib is a superset of them:
+    #   * rex_ini  — adds a self-contained REX::INI namespace (one header)
+    #   * skse_xbyak — adds an #if'd ContextHook block + one non-virtual Trampoline method
+    #                  declaration (no data member → class layout is identical either way)
+    # so a consumer may leave either off and still link cleanly. rex_json/toml are additive
+    # too but baked OFF, so the lib LACKS those symbols — a consumer enabling them would fail
+    # to link and must keep them off.
+    if(NOT (ENABLE_SKYRIM_SE AND ENABLE_SKYRIM_AE AND ENABLE_SKYRIM_VR)
        OR REX_OPTION_JSON OR REX_OPTION_TOML)
         return()
     endif()
