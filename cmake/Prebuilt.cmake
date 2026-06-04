@@ -33,13 +33,9 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
-    # The bundle is baked Release (/MD, NDEBUG). Linking it from a Debug config (/MDd) is a
-    # CRT/ABI mismatch. A single-config build must therefore be a non-Debug config. A
-    # multi-config generator (Visual Studio) chooses the config at build time, so by default
-    # we can't promise Debug won't be built and skip it. A consumer that only ever builds
-    # release-like configs can opt in with COMMONLIB_PREBUILT_MULTICONFIG=ON: the IMPORTED
-    # target then serves Release (RelWithDebInfo/MinSizeRel map to it) and maps Debug to
-    # nothing, so a stray Debug build fails to link loudly instead of silently linking Release.
+    # The bundle is Release (/MD); a Debug (/MDd) link is a CRT mismatch. Single-config must be
+    # non-Debug; a multi-config generator picks the config at build time, so it's skipped unless
+    # the consumer promises release-only via COMMONLIB_PREBUILT_MULTICONFIG.
     if(CMAKE_CONFIGURATION_TYPES)
         if(NOT COMMONLIB_PREBUILT_MULTICONFIG)
             return()
@@ -48,10 +44,8 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
-    # The bundle uses the dynamic CRT (/MD). A consumer compiling with the static CRT (/MT,
-    # e.g. the x64-windows-static triplet) can't link it — mismatched CRTs collide (LNK4098,
-    # duplicate allocators, two heaps) — so fall back to source. An unset runtime library is
-    # CMake's /MD default, which matches; only an explicit non-DLL value is rejected.
+    # The bundle is /MD; a static-CRT (/MT) consumer can't link it (mismatched CRTs → LNK4098),
+    # so fall back to source. An unset runtime library is CMake's /MD default and matches.
     if(DEFINED CMAKE_MSVC_RUNTIME_LIBRARY AND NOT "${CMAKE_MSVC_RUNTIME_LIBRARY}" MATCHES "DLL")
         return()
     endif()
@@ -69,14 +63,9 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
-    # Only the skyrim runtime set is truly ABI-critical: ENABLE_SKYRIM_SE/AE/VR change the
-    # layout of dozens of public headers, so a consumer must build for all three (as the lib
-    # does). Every REX config (ini/json/toml) and skse_xbyak is additive — each adds a
-    # self-contained `#if`'d namespace/block with no layout change — and the bundle bakes them
-    # all, so the lib is a full superset. A consumer may enable any combination (or none) and
-    # still link: the symbols are present, and the REX json/toml parsers live only in the lib
-    # (their public headers don't pull toml11/nlohmann), so a prebuilt consumer needs no extra
-    # dependency for them. Hence the runtime set is the only thing that must match.
+    # Only the skyrim runtime set is ABI-critical (it changes public-header layout). The lib
+    # bakes every REX config + xbyak as additive supersets — and their json/toml parsers live in
+    # the lib, not the headers — so a consumer may enable any subset with no extra dependency.
     if(NOT (ENABLE_SKYRIM_SE AND ENABLE_SKYRIM_AE AND ENABLE_SKYRIM_VR))
         return()
     endif()

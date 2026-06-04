@@ -46,10 +46,8 @@ commonlib_resolve_prebuilt(COMMONLIB_PREBUILT_RESOLVED)
 if(COMMONLIB_PREBUILT_RESOLVED)
 	message(STATUS "CommonLibSSE: linking prebuilt binary from ${COMMONLIB_PREBUILT_RESOLVED}")
 	add_library("${PROJECT_NAME}" STATIC IMPORTED GLOBAL)
-	# The bundle is Release. Pin the lib to the Release config and map the other release-like
-	# configs onto it. Map Debug to nothing (empty) so that under a multi-config generator
-	# (opted in via COMMONLIB_PREBUILT_MULTICONFIG) a Debug build fails to link loudly instead
-	# of silently picking the Release lib — a /MDd-vs-/MD CRT/ABI mismatch.
+	# Pin the lib to Release and map the other release-like configs onto it. Map Debug to nothing
+	# so a stray Debug build (multi-config) fails loudly instead of silently linking the Release lib.
 	set_target_properties(
 		"${PROJECT_NAME}" PROPERTIES
 		IMPORTED_CONFIGURATIONS RELEASE
@@ -77,22 +75,13 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 		ENABLE_SKYRIM_VR=1
 		HAS_SKYRIM_MULTI_TARGETING=1
 	)
-	# rex_ini and skse_xbyak are additive — the lib bakes them (so the symbols are present to
-	# link) but they don't change layout, so only expose each (define it) when the consumer
-	# opts in. That way a consumer sees exactly the API it asked for and doesn't drag in the
-	# xbyak headers it isn't using.
-	if(REX_OPTION_INI)
-		target_compile_definitions("${PROJECT_NAME}" INTERFACE REX_OPTION_INI=1)
-	endif()
-	if(REX_OPTION_JSON)
-		target_compile_definitions("${PROJECT_NAME}" INTERFACE REX_OPTION_JSON=1)
-	endif()
-	if(REX_OPTION_TOML)
-		target_compile_definitions("${PROJECT_NAME}" INTERFACE REX_OPTION_TOML=1)
-	endif()
-	if(SKSE_SUPPORT_XBYAK)
-		target_compile_definitions("${PROJECT_NAME}" INTERFACE SKSE_SUPPORT_XBYAK=1)
-	endif()
+	# The lib bakes every REX config + xbyak, but they're additive — expose only the ones the
+	# consumer opted into, so it gets exactly the API (and headers) it asked for.
+	foreach(_opt REX_OPTION_INI REX_OPTION_JSON REX_OPTION_TOML SKSE_SUPPORT_XBYAK)
+		if(${_opt})
+			target_compile_definitions("${PROJECT_NAME}" INTERFACE ${_opt}=1)
+		endif()
+	endforeach()
 	if(MSVC)
 		target_compile_options(
 			"${PROJECT_NAME}" INTERFACE
