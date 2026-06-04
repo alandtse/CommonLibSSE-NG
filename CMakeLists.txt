@@ -36,6 +36,67 @@ find_package(spdlog CONFIG REQUIRED)
 find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
 find_package(directxtk CONFIG REQUIRED)
 
+# Prefer a published prebuilt binary over a ~16-min source compile (clean release tag,
+# in CI or with COMMONLIB_PREBUILT / COMMONLIB_PREBUILT_DIR) — see cmake/Prebuilt.cmake.
+# Runs inside the consumer's add_subdirectory build, so the IMPORTED target points at the
+# bundle's local paths — no install/export and none of the relocatability that find_package
+# would require. Falls through to the source build on anything unsafe.
+include(cmake/Prebuilt.cmake)
+commonlib_resolve_prebuilt(COMMONLIB_PREBUILT_RESOLVED)
+if(COMMONLIB_PREBUILT_RESOLVED)
+	message(STATUS "CommonLibSSE: linking prebuilt binary from ${COMMONLIB_PREBUILT_RESOLVED}")
+	add_library("${PROJECT_NAME}" STATIC IMPORTED GLOBAL)
+	set_target_properties(
+		"${PROJECT_NAME}" PROPERTIES
+		IMPORTED_LOCATION "${COMMONLIB_PREBUILT_RESOLVED}/lib/CommonLibSSE.lib"
+	)
+	add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
+
+	target_compile_features("${PROJECT_NAME}" INTERFACE cxx_std_23)
+	target_include_directories(
+		"${PROJECT_NAME}" INTERFACE
+		"${COMMONLIB_PREBUILT_RESOLVED}/include"
+		"${COMMONLIB_PREBUILT_RESOLVED}/extern/openvr/headers"
+	)
+	# Baked config: skyrim all (SE+AE+VR) + rex_ini + skse_xbyak; rex_json/toml off.
+	target_compile_definitions(
+		"${PROJECT_NAME}" INTERFACE
+		WINVER=0x0601
+		_WIN32_WINNT=0x0601
+		REX_OPTION_INI=1
+		SKSE_SUPPORT_XBYAK=1
+		ENABLE_SKYRIM_SE=1
+		ENABLE_SKYRIM_AE=1
+		ENABLE_SKYRIM_VR=1
+		HAS_SKYRIM_MULTI_TARGETING=1
+	)
+	if(MSVC)
+		target_compile_options(
+			"${PROJECT_NAME}" INTERFACE
+			/Zc:preprocessor
+			/wd4005 /wd4061 /wd4068 /wd4200 /wd4201 /wd4265 /wd4266 /wd4371
+			/wd4514 /wd4582 /wd4583 /wd4623 /wd4625 /wd4626 /wd4702 /wd4710
+			/wd4711 /wd4820 /wd4996 /wd5026 /wd5027 /wd5045 /wd5053 /wd5204 /wd5220
+		)
+	endif()
+	target_link_libraries(
+		"${PROJECT_NAME}" INTERFACE
+		spdlog::spdlog
+		Microsoft::DirectXTK
+		Advapi32.lib
+		bcrypt.lib
+		D3D11.lib
+		d3dcompiler.lib
+		Dbghelp.lib
+		DXGI.lib
+		Ole32.lib
+		Version.lib
+		"${COMMONLIB_PREBUILT_RESOLVED}/lib/openvr_api.lib"
+	)
+	include(cmake/CommonLibSSE.cmake)  # add_commonlibsse_plugin() helper for consumers
+	return()
+endif()
+
 include(cmake/sourcelist.cmake)
 include(cmake/testlist.cmake)
 
