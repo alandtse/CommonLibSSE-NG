@@ -40,6 +40,14 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
+    # The bundle uses the dynamic CRT (/MD). A consumer compiling with the static CRT (/MT,
+    # e.g. the x64-windows-static triplet) can't link it — mismatched CRTs collide (LNK4098,
+    # duplicate allocators, two heaps) — so fall back to source. An unset runtime library is
+    # CMake's /MD default, which matches; only an explicit non-DLL value is rejected.
+    if(DEFINED CMAKE_MSVC_RUNTIME_LIBRARY AND NOT "${CMAKE_MSVC_RUNTIME_LIBRARY}" MATCHES "DLL")
+        return()
+    endif()
+
     # explicit override: a consumer (or this repo's self-test) points at an extracted bundle
     if(COMMONLIB_PREBUILT_DIR)
         _commonlib_prebuilt_complete("${COMMONLIB_PREBUILT_DIR}" _ok)
