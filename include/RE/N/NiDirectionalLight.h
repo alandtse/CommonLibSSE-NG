@@ -35,15 +35,10 @@ namespace RE
 
 		static NiDirectionalLight* Create()
 		{
-			// In SKYRIM_CROSS_VR, sizeof(NiDirectionalLight) collapses to 0x110 because the
-			// NiLight/NiDirectionalLight runtime-data members are stripped at compile time
-			// (#ifndef SKYRIM_CROSS_VR). The engine ctor still builds the full runtime
-			// object (0x158 SE/AE, 0x180 VR), so allocating sizeof(NiDirectionalLight) would
-			// overflow the heap. Allocate the real per-runtime size instead.
-			const auto size = REL::Module::IsVR() ? 0x180 : 0x158;
-			auto       light = malloc<NiDirectionalLight>(size);
+			// sizeof(NiDirectionalLight) is wrong under SKYRIM_CROSS_VR (runtime-data
+			// members stripped); allocate the real per-runtime size. See malloc_runtime.
+			auto light = malloc_runtime<NiDirectionalLight>(0x158, 0x180);
 			if (light) {
-				std::memset((void*)light, 0, size);
 				light->Ctor();
 			}
 			return light;

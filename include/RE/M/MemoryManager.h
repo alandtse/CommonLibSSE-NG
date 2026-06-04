@@ -115,6 +115,28 @@ namespace RE
 		return malloc<T>(sizeof(T));
 	}
 
+	// Allocate and zero-initialize a runtime-correctly-sized object.
+	//
+	// For types whose runtime-data members are stripped under SKYRIM_CROSS_VR
+	// (the RUNTIME_DATA_ACCESSOR pattern), sizeof(T) collapses to the small
+	// cross-VR layout while the engine constructor still builds the full object.
+	// A plain malloc<T>() therefore under-allocates and the ctor overflows the
+	// heap. Pass the flat (SE/AE) and VR sizes from the type's STATIC_ASSERT_SIZE
+	// so the allocation matches the running runtime instead.
+	//
+	// Prefer this over malloc<T>() + memset for any self-allocating Create().
+	// See ButtonEvent/NiPointLight::Create(); guards against alandtse/CommonLibVR#120.
+	template <class T>
+	inline T* malloc_runtime(std::size_t a_flatSize, std::size_t a_vrSize)
+	{
+		const auto size = REL::Module::IsVR() ? a_vrSize : a_flatSize;
+		auto       mem = malloc<T>(size);
+		if (mem) {
+			std::memset(reinterpret_cast<void*>(mem), 0, size);
+		}
+		return mem;
+	}
+
 	inline void* aligned_alloc(std::size_t a_alignment, std::size_t a_size)
 	{
 		auto heap = MemoryManager::GetSingleton();
