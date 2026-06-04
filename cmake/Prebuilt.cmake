@@ -53,10 +53,13 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
-    # options must match the config the bundle was baked with (skyrim all + rex_ini +
-    # skse_xbyak; rex_json/toml off) — otherwise the headers/lib would mismatch ABI.
-    if(NOT (ENABLE_SKYRIM_SE AND ENABLE_SKYRIM_AE AND ENABLE_SKYRIM_VR
-            AND REX_OPTION_INI AND SKSE_SUPPORT_XBYAK)
+    # options must be compatible with the baked config (skyrim all + skse_xbyak + rex_ini;
+    # rex_json/toml off). The runtime set and skse_xbyak change public-header layout, so they
+    # must match exactly. rex_ini/json/toml each only add a self-contained REX::{INI,JSON,TOML}
+    # namespace: the lib bakes rex_ini, so it is a superset for ini (a rex_ini-OFF consumer
+    # just never sees REX::INI) and rex_ini is not required here — but it LACKS json/toml, so a
+    # consumer enabling those would reference missing symbols and must keep them off.
+    if(NOT (ENABLE_SKYRIM_SE AND ENABLE_SKYRIM_AE AND ENABLE_SKYRIM_VR AND SKSE_SUPPORT_XBYAK)
        OR REX_OPTION_JSON OR REX_OPTION_TOML)
         return()
     endif()

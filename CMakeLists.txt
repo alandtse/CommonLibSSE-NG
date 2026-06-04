@@ -63,18 +63,24 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 		"${COMMONLIB_PREBUILT_RESOLVED}/include"
 		"${COMMONLIB_PREBUILT_RESOLVED}/extern/openvr/headers"
 	)
-	# Baked config: skyrim all (SE+AE+VR) + rex_ini + skse_xbyak; rex_json/toml off.
+	# Baked config: skyrim all (SE+AE+VR) + skse_xbyak (these change public-header layout, so
+	# the resolver requires the consumer to match them); rex_json/toml off.
 	target_compile_definitions(
 		"${PROJECT_NAME}" INTERFACE
 		WINVER=0x0601
 		_WIN32_WINNT=0x0601
-		REX_OPTION_INI=1
 		SKSE_SUPPORT_XBYAK=1
 		ENABLE_SKYRIM_SE=1
 		ENABLE_SKYRIM_AE=1
 		ENABLE_SKYRIM_VR=1
 		HAS_SKYRIM_MULTI_TARGETING=1
 	)
+	# The lib bakes rex_ini, so REX::INI is available to link, but it is a self-contained
+	# additive namespace — only expose it (define REX_OPTION_INI) when the consumer opts in,
+	# so a rex_ini-OFF consumer sees exactly the API it asked for.
+	if(REX_OPTION_INI)
+		target_compile_definitions("${PROJECT_NAME}" INTERFACE REX_OPTION_INI=1)
+	endif()
 	if(MSVC)
 		target_compile_options(
 			"${PROJECT_NAME}" INTERFACE

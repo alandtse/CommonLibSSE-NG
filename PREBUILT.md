@@ -112,9 +112,13 @@ and defines `CommonLibSSE` as an **IMPORTED** target pointing at these local pat
 sidesteps `find_package`/`install(EXPORT)` relocatability entirely — the paths are the
 just-extracted bundle's own.
 
-The baked configuration is the same as the xmake bundle, with the CMake spelling:
-`ENABLE_SKYRIM_SE/AE/VR=ON`, `REX_OPTION_INI=ON`, `SKSE_SUPPORT_XBYAK=ON`
-(`REX_OPTION_JSON/TOML=OFF`), MSVC, **`Release`** (`/MD`, `NDEBUG`), C++23.
+The bundle is baked the same as the xmake one (skyrim all + `skse_xbyak` + `rex_ini`,
+MSVC, **`Release`** `/MD NDEBUG`, C++23), but the consumer does **not** have to match every
+option. The runtime set (`ENABLE_SKYRIM_SE/AE/VR=ON`) and `SKSE_SUPPORT_XBYAK=ON` change
+public-header layout, so a consumer must enable those. `REX_OPTION_INI` only adds the
+self-contained `REX::INI` namespace, so the baked lib is a **superset**: a consumer with
+`REX_OPTION_INI=OFF` simply doesn't see `REX::INI` and links fine — it is **not** required.
+`REX_OPTION_JSON/TOML` must stay **OFF** (the lib lacks those symbols).
 
 ### Automatic fetch on a clean release tag (CMake)
 
