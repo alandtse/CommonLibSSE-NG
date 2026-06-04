@@ -25,7 +25,9 @@ jobs:
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgJsonGlob: '**/vcpkg.json'
+          # Only the root manifest — tests/ ship their own vcpkg.json (self-test consumers),
+          # and a '**/' glob would match multiple and fail baseline detection.
+          vcpkgJsonGlob: 'vcpkg.json'
       
       - name: Install vcpkg dependencies
         run: |
