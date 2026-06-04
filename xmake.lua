@@ -113,6 +113,10 @@ target("commonlibsse-ng", function()
             if not (os.getenv("GITHUB_ACTIONS") or os.getenv("COMMONLIB_PREBUILT")) then
                 return nil
             end
+            -- actions/checkout fetches submodules shallow and without tags, so describe can't
+            -- see the release tag in CI; pull tags best-effort first (depth 1, ~fast). Still
+            -- uses --exact-match, so a non-tag commit safely falls back to a source build.
+            try { function() os.iorunv("git", { "-C", scriptdir, "fetch", "--tags", "--depth=1", "origin" }) end }
             local tag = try { function()
                 return os.iorunv("git", { "-C", scriptdir, "describe", "--tags", "--exact-match", "--dirty" })
             end }

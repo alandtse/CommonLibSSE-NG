@@ -71,6 +71,12 @@ function(commonlib_resolve_prebuilt out_dir)
     if(NOT Git_FOUND)
         return()
     endif()
+    # actions/checkout fetches submodules shallow and without tags, so describe can't see the
+    # release tag in CI; pull tags best-effort first (depth 1, ~fast). Still uses --exact-match,
+    # so a non-tag commit safely falls back to a source build.
+    execute_process(
+        COMMAND "${GIT_EXECUTABLE}" -C "${CMAKE_CURRENT_SOURCE_DIR}" fetch --tags --depth=1 origin
+        RESULT_VARIABLE _ignore ERROR_QUIET OUTPUT_QUIET)
     execute_process(
         COMMAND "${GIT_EXECUTABLE}" -C "${CMAKE_CURRENT_SOURCE_DIR}" describe --tags --exact-match --dirty
         OUTPUT_VARIABLE _tag OUTPUT_STRIP_TRAILING_WHITESPACE
