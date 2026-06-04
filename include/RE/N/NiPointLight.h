@@ -35,9 +35,15 @@ namespace RE
 		bool                 IsEqual(NiObject* a_object) override;               // 1C
 		static NiPointLight* Create()
 		{
-			auto light = malloc<NiPointLight>();
-			std::memset((void*)light, 0, sizeof(NiPointLight));
+			// In SKYRIM_CROSS_VR, sizeof(NiPointLight) collapses to 0x110 because the
+			// NiLight/NiPointLight runtime-data members are stripped at compile time
+			// (#ifndef SKYRIM_CROSS_VR). The engine ctor still builds the full runtime
+			// object (0x150 SE/AE, 0x178 VR), so allocating sizeof(NiPointLight) would
+			// overflow the heap. Allocate the real per-runtime size instead.
+			const auto size = REL::Module::IsVR() ? 0x178 : 0x150;
+			auto       light = malloc<NiPointLight>(size);
 			if (light) {
+				std::memset((void*)light, 0, size);
 				light->Ctor();
 			}
 			return light;
