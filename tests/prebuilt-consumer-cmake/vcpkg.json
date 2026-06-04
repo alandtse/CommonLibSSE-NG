@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "prebuilt-consumer-cmake",
+  "version": "0.0.1",
+  "builtin-baseline": "ee12231b20c95013c6638d845d04c91559a1d1ff",
+  "description": "Self-test consumer for the CommonLibSSE CMake prebuilt auto-fetch. The baked bundle (skyrim all + rex_ini + skse_xbyak) pulls these header deps from the consumer's own vcpkg, same as a real consumer.",
+  "supports": "windows & x64",
+  "dependencies": [
+    "spdlog",
+    "fmt",
+    "directxtk",
+    "directxmath",
+    "xbyak"
+  ]
+}

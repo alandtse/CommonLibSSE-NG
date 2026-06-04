@@ -12,6 +12,13 @@
 function(commonlib_resolve_prebuilt out_dir)
     set(${out_dir} "" PARENT_SCOPE)
 
+    # Auto-fetch only makes sense for add_subdirectory consumers. When CommonLibSSE is the
+    # top-level project (developing or releasing CommonLib itself, including the bundle
+    # producer building at a release tag) always build from source.
+    if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
+        return()
+    endif()
+
     # explicit override: a consumer (or this repo's self-test) points at an extracted bundle
     if(COMMONLIB_PREBUILT_DIR AND EXISTS "${COMMONLIB_PREBUILT_DIR}/lib/CommonLibSSE.lib")
         set(${out_dir} "${COMMONLIB_PREBUILT_DIR}" PARENT_SCOPE)
