@@ -64,6 +64,22 @@ switches to prebuilt mode — same target, same `commonlibsse-ng.plugin` rule, s
 transitive deps (`directxmath`, `directxtk`, `spdlog`, `simpleini`, `xbyak`,
 `rapidcsv`), just no CommonLib recompile.
 
+## Automatic fetch on a clean release tag (no bundle swap needed)
+
+You don't have to extract the bundle by hand. When CommonLib is consumed as a normal
+**source submodule** pinned to a clean release **tag**, `xmake.lua` will — in CI
+(`GITHUB_ACTIONS`), or anywhere with `COMMONLIB_PREBUILT=1` — download that tag's bundle
+from the GitHub release, verify its `.sha256`, and link it instead of compiling. So a
+plugin whose `lib/commonlibsse-ng` submodule sits on `vX.Y.Z` gets the prebuilt for free
+on CI, with zero changes to its repo.
+
+It falls back to a normal **source build** whenever the prebuilt can't be used safely:
+not on an exact tag, a dirty submodule, options that don't match the baked config, a
+missing/unverified asset, or no network. The download is cached under
+`build/.prebuilt/<tag>` and attempted at most once per tag. Local dev builds stay
+source-by-default (set `COMMONLIB_PREBUILT=1` to opt in). The consumer must still set the
+options the lib was baked with (`rex_ini`, `skse_xbyak`; runtimes default on).
+
 ## Size & cost
 
 The `releasedbg` "all" library carries full debug info for three runtimes, so it is

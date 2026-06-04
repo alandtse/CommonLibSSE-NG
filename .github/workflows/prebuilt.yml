@@ -89,7 +89,10 @@ jobs:
           if (-not (Test-Path $lib)) { Write-Error "lib not found at $lib"; exit 1 }
           Copy-Item $lib "$stage/lib/"
           7z a -t7z -mx=9 "$stage.7z" "$stage" | Out-Null
+          # Publish a checksum so consumers (and the xmake clean-tag auto-fetch) verify it.
+          ((Get-FileHash "$stage.7z" -Algorithm SHA256).Hash.ToLower() + "  $stage.7z") | Out-File "$stage.7z.sha256" -Encoding ascii -NoNewline
           "bundle=$stage.7z" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "sha=$stage.7z.sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           # Stage the same tree as the self-test consumer's lib/commonlibsse-ng.
           $dst = "tests/prebuilt-consumer/lib/commonlibsse-ng"
           New-Item -ItemType Directory -Force -Path $dst | Out-Null
@@ -120,4 +123,4 @@ jobs:
             gh release create "$env:ATTACH_TAG" --title "CommonLibSSE-NG $env:ATTACH_TAG" `
               --notes "Prebuilt CommonLib bundle for downstream xmake consumers (config: skyrim all + rex_ini + skse_xbyak). See PREBUILT.md."
           }
-          gh release upload "$env:ATTACH_TAG" "${{ steps.bundle.outputs.bundle }}" --clobber
+          gh release upload "$env:ATTACH_TAG" "${{ steps.bundle.outputs.bundle }}" "${{ steps.bundle.outputs.sha }}" --clobber

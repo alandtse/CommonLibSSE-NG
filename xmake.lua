@@ -86,44 +86,106 @@ if has_config("skyrim_vr") then
 end
 
 target("commonlibsse-ng", function()
-    -- Prebuilt mode: when a `lib/commonlibsse-ng.lib` is shipped alongside this
-    -- xmake.lua (i.e. consumed from a prebuilt release bundle rather than source),
-    -- link that static library instead of compiling src/. Consumers keep using
-    -- `includes(...)` + the `commonlibsse-ng.plugin` rule unchanged — the only
-    -- difference is zero recompile. They MUST set the same options the lib was built
-    -- with (see PREBUILT.md: skyrim all + rex_ini + skse_xbyak).
-    local prebuilt = os.isfile(path.join(os.scriptdir(), "lib", "commonlibsse-ng.lib"))
+    -- Prebuilt mode: when a prebuilt `lib/commonlibsse-ng.lib` is available — a bundle
+    -- shipped alongside this xmake.lua, or one auto-fetched for a clean release tag — the
+    -- target links that static library (phony) instead of compiling src/. Consumers keep
+    -- using `includes(...)` + the `commonlibsse-ng.plugin` rule unchanged; the only
+    -- difference is zero recompile. The decision is made in on_load (not at parse) so the
+    -- network fetch can run and so any failure falls back cleanly to a normal source build.
+    -- (A phony target ignores add_files, so the source configuration below is harmless in
+    -- prebuilt mode and can stay unconditional.)
+    set_kind("static")
 
-    -- set target kind
-    set_kind(prebuilt and "phony" or "static")
+    on_load(function(target)
+        local scriptdir = target:scriptdir()
 
-    if prebuilt then
-        add_linkdirs("lib", { public = true })
-        add_links("commonlibsse-ng", { public = true })
-        add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version", { public = true })
-
-        -- The shipped library baked a fixed option set. Linking it while the consumer
-        -- compiles CommonLib headers with different option-derived defines (REX_OPTION_*,
-        -- ENABLE_SKYRIM_*, SKSE_SUPPORT_XBYAK) is a silent ABI mismatch, so refuse unless
-        -- the consumer's options match what the lib was built with (see PREBUILT.md).
-        -- Checked in on_config so consumer options are fully resolved (not the defaults
-        -- seen during initial option discovery).
-        on_config(function(target)
-            local baked = {
-                skyrim_se = true, skyrim_ae = true, skyrim_vr = true,
-                rex_ini = true, skse_xbyak = true,
-                rex_json = false, rex_toml = false,
-            }
-            for opt, want in pairs(baked) do
-                local got = has_config(opt) and true or false
-                if got ~= want then
-                    raise("prebuilt commonlibsse-ng.lib was built with %s=%s, but the consumer has %s=%s. "
-                        .. "Match the baked config (skyrim all + rex_ini + skse_xbyak; see PREBUILT.md) "
-                        .. "or build from source.", opt, want and "y" or "n", opt, got and "y" or "n")
-                end
+        -- Resolve a directory containing a prebuilt lib/commonlibsse-ng.lib:
+        --   1. a bundle shipped next to this xmake.lua, or
+        --   2. on a CLEAN release tag, in CI (or with COMMONLIB_PREBUILT set), the matching
+        --      bundle downloaded from the GitHub release and SHA256-verified.
+        -- Anything else (no tag, dirty tree, missing/unverified asset, offline) returns nil
+        -- so the target stays a source build. The download runs at most once per tag
+        -- (cached under build/.prebuilt/<tag>; a failure is remembered, not retried).
+        local function resolve()
+            if os.isfile(path.join(scriptdir, "lib", "commonlibsse-ng.lib")) then
+                return scriptdir
             end
-        end)
-    end
+            if not (os.getenv("GITHUB_ACTIONS") or os.getenv("COMMONLIB_PREBUILT")) then
+                return nil
+            end
+            local tag = try { function()
+                return os.iorunv("git", { "-C", scriptdir, "describe", "--tags", "--exact-match", "--dirty" })
+            end }
+            if not tag then return nil end
+            tag = tag:trim()
+            if tag:find("dirty", 1, true) or not tag:match("^v%d") then return nil end
+
+            local cachedir = path.join(scriptdir, "build", ".prebuilt", tag)
+            if os.isfile(path.join(cachedir, "lib", "commonlibsse-ng.lib")) then return cachedir end
+            if os.isfile(path.join(cachedir, ".failed")) then return nil end
+
+            local got = try { function()
+                import("net.http")
+                import("utils.archive")
+                local base = "https://github.com/alandtse/CommonLibVR/releases/download/" .. tag
+                local asset = "commonlibsse-ng-prebuilt-" .. tag .. "-all-msvc.7z"
+                local arch = os.tmpfile() .. ".7z"
+                http.download(base .. "/" .. asset, arch)
+                local shafile = os.tmpfile()
+                http.download(base .. "/" .. asset .. ".sha256", shafile)
+                local want = (io.readfile(shafile) or ""):match("%x+")
+                assert(want and hash.sha256(arch):lower() == want:lower(), "sha256 verification failed")
+                os.mkdir(cachedir)
+                archive.extract(arch, cachedir)
+                -- the archive has a single top-level folder; surface its lib/ directory
+                local found = os.files(path.join(cachedir, "**", "lib", "commonlibsse-ng.lib"))[1]
+                return found and path.directory(path.directory(found))
+            end }
+            if got then return got end
+            os.mkdir(cachedir)
+            io.writefile(path.join(cachedir, ".failed"), "")
+            return nil
+        end
+
+        local prebuiltdir = resolve()
+        if prebuiltdir then
+            target:set("kind", "phony")
+            target:data_set("commonlib.prebuiltdir", prebuiltdir)
+            target:add("linkdirs", path.join(prebuiltdir, "lib"), { public = true })
+            target:add("links", "commonlibsse-ng", { public = true })
+            target:add("syslinks", "advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version", { public = true })
+        else
+            -- Source build only: a phony target ignores add_files but would still build a
+            -- pcxxheader, so set the PCH here rather than unconditionally.
+            target:set("pcxxheader", path.join(target:scriptdir(), "include", "SKSE", "Impl", "PCH.h"))
+        end
+    end)
+
+    -- Once options are resolved: if we're on a prebuilt, refuse a baked-option mismatch
+    -- (linking the fixed lib while compiling headers with different REX_OPTION_*/
+    -- ENABLE_SKYRIM_*/SKSE_SUPPORT_XBYAK defines is a silent ABI break), and supply openvr
+    -- headers from the bundle when the nested openvr submodule isn't checked out.
+    on_config(function(target)
+        if target:kind() ~= "phony" then return end
+        local baked = {
+            skyrim_se = true, skyrim_ae = true, skyrim_vr = true,
+            rex_ini = true, skse_xbyak = true,
+            rex_json = false, rex_toml = false,
+        }
+        for opt, want in pairs(baked) do
+            local got = has_config(opt) and true or false
+            if got ~= want then
+                raise("prebuilt commonlibsse-ng.lib was built with %s=%s, but the consumer has %s=%s. "
+                    .. "Match the baked config (skyrim all + rex_ini + skse_xbyak; see PREBUILT.md) "
+                    .. "or build from source.", opt, want and "y" or "n", opt, got and "y" or "n")
+            end
+        end
+        local prebuiltdir = target:data("commonlib.prebuiltdir")
+        if has_config("skyrim_vr") and prebuiltdir
+            and not os.isdir(path.join(target:scriptdir(), "extern", "openvr", "headers")) then
+            target:add("includedirs", path.join(prebuiltdir, "extern", "openvr", "headers"), { public = true })
+        end
+    end)
 
     -- set build by default
     set_default(os.scriptdir() == os.projectdir())
@@ -134,7 +196,12 @@ target("commonlibsse-ng", function()
     -- add config packages
     if has_config("skyrim_vr") then
         add_packages("rapidcsv", { public = true })
-        add_includedirs("extern/openvr/headers", { public = true })
+        -- Source-tree openvr headers (added only if present). A prebuilt consumer without
+        -- the nested openvr submodule gets them from the bundle instead (see on_config).
+        local ovr = path.join(os.scriptdir(), "extern", "openvr", "headers")
+        if os.isdir(ovr) then
+            add_includedirs(ovr, { public = true })
+        end
     end
 
     if has_config("rex_ini") then
@@ -156,15 +223,10 @@ target("commonlibsse-ng", function()
     -- add options
     add_options("rex_ini", "rex_json", "rex_toml", "skyrim_se", "skyrim_ae", "skyrim_vr", "skse_xbyak", "tests", { public = true })
 
-    -- compile-only configuration (skipped in prebuilt mode, where the shipped
-    -- library already contains these and dependents link it directly)
-    if not prebuilt then
-        -- add system links
-        add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version")
-
-        -- add source files
-        add_files("src/**.cpp")
-    end
+    -- System links + sources. A phony (prebuilt) target ignores add_files, and the
+    -- prebuilt path adds its own public syslinks in on_load, so this stays unconditional.
+    add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version")
+    add_files("src/**.cpp")
 
     -- add header files
     add_includedirs("include", { public = true })
@@ -175,10 +237,6 @@ target("commonlibsse-ng", function()
         "include/(SKSE/**.h)"
     )
 
-    -- set precompiled header (only meaningful when compiling sources)
-    if not prebuilt then
-        set_pcxxheader("include/SKSE/Impl/PCH.h")
-    end
 
     -- add flags
     add_cxxflags("/EHsc", "/permissive-", "/Zc:preprocessor", { public = true })
