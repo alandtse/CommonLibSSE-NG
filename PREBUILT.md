@@ -145,12 +145,14 @@ a missing/unverified asset. The download is cached under
 stay source-by-default (`-DCOMMONLIB_PREBUILT=ON` to opt in), or point
 `-DCOMMONLIB_PREBUILT_DIR=<extracted bundle>` at a bundle to skip the download.
 
-Because the headers are baked with `skse_xbyak` and link `spdlog`/`DirectXTK` PUBLIC, the
-consumer must provide those header deps from **its own `vcpkg.json`** (`spdlog`, `fmt`,
-`directxtk`, `directxmath`, `xbyak`) — exactly as a source build already requires. As with
-any CommonLibSSE-NG plugin, the consumer also supplies a **PCH** that includes
-`<SKSE/Impl/PCH.h>` and `using namespace std::literals;` (the headers are PCH-dependent).
-See `tests/prebuilt-consumer-cmake/` for a minimal working consumer.
+The headers link `spdlog`/`DirectXTK` PUBLIC, so the consumer provides those header deps
+from **its own `vcpkg.json`** (`spdlog`, `fmt`, `directxtk`, `directxmath`) — exactly as a
+source build already requires. Only add `xbyak` if the consumer enables `SKSE_SUPPORT_XBYAK`,
+and `simpleini` if it enables `REX_OPTION_INI`; a consumer that leaves those off needs
+neither (the baked lib still provides those symbols, unused). As with any CommonLibSSE-NG
+plugin, the consumer also supplies a **PCH** that includes `<SKSE/Impl/PCH.h>` and
+`using namespace std::literals;` (the headers are PCH-dependent). See
+`tests/prebuilt-consumer-cmake/` for a minimal working consumer.
 
 ### vcpkg-port consumers
 
