@@ -31,7 +31,7 @@ The library is compiled **once**, for the config our xmake consumers use:
 | Axis | Value |
 |------|-------|
 | Runtime | **all** — `skyrim_se` + `skyrim_ae` + `skyrim_vr` |
-| REX | **`rex_ini`** on |
+| REX | **`rex_ini` + `rex_json` + `rex_toml`** on (the full superset) |
 | Trampoline | **`skse_xbyak`** on |
 | Build | `releasedbg`, x64, **MSVC** |
 | C++ | C++23 |
@@ -40,10 +40,10 @@ A prebuilt static library bakes its config and toolchain in. To link it safely a
 consumer **must** build with a compatible setup:
 
 - Compatible options: keep the `skyrim_*` runtimes **all on** (they default on and are the
-  one layout-critical axis). `rex_ini` and `skse_xbyak` are additive — the lib bakes them, so
-  it is a superset and a consumer may set them either way. `rex_json`/`rex_toml` must stay
-  **off** (the lib lacks those symbols), and disabling a runtime is **not** served — build
-  from source for those.
+  one layout-critical axis — disabling a runtime is **not** served, build from source). Every
+  REX config (`rex_ini`/`rex_json`/`rex_toml`) and `skse_xbyak` is additive and **all baked**,
+  so the lib is a full superset: a consumer may enable any combination (or none) and still
+  link — the symbols are present regardless.
 - Same mode/ABI: xmake `releasedbg` (release CRT `/MD`, `NDEBUG`). No `debug` bundle
   is published. A true `debug` build must compile from source.
 - Same compiler family (**MSVC**) and a compatible MSVC toolset version. Toolset drift
@@ -81,11 +81,11 @@ on CI, with zero changes to its repo.
 
 It falls back to a normal **source build** whenever the prebuilt can't be used safely:
 not on an exact tag, a dirty submodule, a missing/unverified asset, or no network. Once
-fetched, an ABI-incompatible config (a disabled runtime, or `rex_json`/`rex_toml` on) is
-refused so it can't silently mislink. The download is cached under `build/.prebuilt/<tag>`
-and attempted at most once per tag. Local dev builds stay source-by-default (set
-`COMMONLIB_PREBUILT=1` to opt in). The consumer only needs the `skyrim_*` runtimes on (the
-default); `rex_ini`/`skse_xbyak` are optional (the lib is a superset).
+fetched, a disabled runtime (an ABI-incompatible header layout) is refused so it can't
+silently mislink. The download is cached under `build/.prebuilt/<tag>` and attempted at most
+once per tag. Local dev builds stay source-by-default (set `COMMONLIB_PREBUILT=1` to opt in).
+The consumer only needs the `skyrim_*` runtimes on (the default); `rex_ini`/`rex_json`/
+`rex_toml`/`skse_xbyak` are all optional (the lib bakes them all).
 
 ## Size & cost
 
@@ -115,16 +115,15 @@ and defines `CommonLibSSE` as an **IMPORTED** target pointing at these local pat
 sidesteps `find_package`/`install(EXPORT)` relocatability entirely — the paths are the
 just-extracted bundle's own.
 
-The bundle is baked the same as the xmake one (skyrim all + `skse_xbyak` + `rex_ini`,
+The bundle is baked the same as the xmake one (skyrim all + `skse_xbyak` + all REX configs,
 MSVC, **`Release`** `/MD NDEBUG`, C++23), but the consumer only has to match the part that
 is ABI-critical. The **runtime set** (`ENABLE_SKYRIM_SE/AE/VR=ON`) changes the layout of
-dozens of public headers, so a consumer **must** build for all three. `REX_OPTION_INI` and
-`SKSE_SUPPORT_XBYAK` are **additive** — ini adds a self-contained `REX::INI` namespace, and
-xbyak adds an `#if`'d `ContextHook` block plus one non-virtual `Trampoline` method (no data
-member, so the class layout is identical) — so the baked lib is a **superset**: a consumer
-may leave either off and still link cleanly (it just doesn't see that API, and the IMPORTED
-target only defines the matching option). `REX_OPTION_JSON/TOML` must stay **OFF** (the lib
-lacks those symbols).
+dozens of public headers, so a consumer **must** build for all three. Every REX config
+(`REX_OPTION_INI`/`JSON`/`TOML`) and `SKSE_SUPPORT_XBYAK` is **additive** — each adds a
+self-contained `#if`'d namespace/block with no layout change (xbyak adds one non-virtual
+`Trampoline` method, again no data member) — and the bundle **bakes them all**, so the lib is
+a full **superset**: a consumer may enable any combination, or none, and still link (it sees
+only the API it enabled, since the IMPORTED target defines only the consumer's options).
 
 ### Automatic fetch on a clean release tag (CMake)
 
@@ -147,9 +146,11 @@ stay source-by-default (`-DCOMMONLIB_PREBUILT=ON` to opt in), or point
 
 The headers link `spdlog`/`DirectXTK` PUBLIC, so the consumer provides those header deps
 from **its own `vcpkg.json`** (`spdlog`, `fmt`, `directxtk`, `directxmath`) — exactly as a
-source build already requires. Only add `xbyak` if the consumer enables `SKSE_SUPPORT_XBYAK`,
-and `simpleini` if it enables `REX_OPTION_INI`; a consumer that leaves those off needs
-neither (the baked lib still provides those symbols, unused). As with any CommonLibSSE-NG
+source build already requires. The REX config parsers (simpleini / nlohmann / toml11) live
+only in `REX.cpp` and their public headers (`REX::INI/JSON/TOML`) are dep-free, so a prebuilt
+consumer using them needs **nothing extra** — the parser is baked into the lib. The one
+exception is **`xbyak`**: `SKSE/ContextHook.h` includes `<xbyak/xbyak.h>` directly, so a
+consumer that enables `SKSE_SUPPORT_XBYAK` must add `xbyak`. As with any CommonLibSSE-NG
 plugin, the consumer also supplies a **PCH** that includes `<SKSE/Impl/PCH.h>` and
 `using namespace std::literals;` (the headers are PCH-dependent). See
 `tests/prebuilt-consumer-cmake/` for a minimal working consumer.

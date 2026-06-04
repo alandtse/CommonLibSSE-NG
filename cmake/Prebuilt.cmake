@@ -55,15 +55,13 @@ function(commonlib_resolve_prebuilt out_dir)
 
     # Only the skyrim runtime set is truly ABI-critical: ENABLE_SKYRIM_SE/AE/VR change the
     # layout of dozens of public headers, so a consumer must build for all three (as the lib
-    # does). The baked extras are additive and the lib is a superset of them:
-    #   * rex_ini  — adds a self-contained REX::INI namespace (one header)
-    #   * skse_xbyak — adds an #if'd ContextHook block + one non-virtual Trampoline method
-    #                  declaration (no data member → class layout is identical either way)
-    # so a consumer may leave either off and still link cleanly. rex_json/toml are additive
-    # too but baked OFF, so the lib LACKS those symbols — a consumer enabling them would fail
-    # to link and must keep them off.
-    if(NOT (ENABLE_SKYRIM_SE AND ENABLE_SKYRIM_AE AND ENABLE_SKYRIM_VR)
-       OR REX_OPTION_JSON OR REX_OPTION_TOML)
+    # does). Every REX config (ini/json/toml) and skse_xbyak is additive — each adds a
+    # self-contained `#if`'d namespace/block with no layout change — and the bundle bakes them
+    # all, so the lib is a full superset. A consumer may enable any combination (or none) and
+    # still link: the symbols are present, and the REX json/toml parsers live only in the lib
+    # (their public headers don't pull toml11/nlohmann), so a prebuilt consumer needs no extra
+    # dependency for them. Hence the runtime set is the only thing that must match.
+    if(NOT (ENABLE_SKYRIM_SE AND ENABLE_SKYRIM_AE AND ENABLE_SKYRIM_VR))
         return()
     endif()
 

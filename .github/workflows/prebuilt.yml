@@ -68,9 +68,9 @@ jobs:
       - name: Update xmake package repo
         run: xmake repo --update
 
-      - name: Build commonlibsse-ng (all + rex_ini + skse_xbyak, releasedbg)
+      - name: Build commonlibsse-ng (all + rex_ini + rex_json + rex_toml + skse_xbyak, releasedbg)
         run: |
-          xmake config -m releasedbg -a x64 --skyrim_se=y --skyrim_ae=y --skyrim_vr=y --rex_ini=y --skse_xbyak=y --yes
+          xmake config -m releasedbg -a x64 --skyrim_se=y --skyrim_ae=y --skyrim_vr=y --rex_ini=y --rex_json=y --rex_toml=y --skse_xbyak=y --yes
           xmake build --yes commonlibsse-ng
 
       - name: Assemble bundle + stage into self-test consumer
@@ -126,7 +126,7 @@ jobs:
           gh release view "$env:ATTACH_TAG" *> $null
           if ($LASTEXITCODE -ne 0) {
             gh release create "$env:ATTACH_TAG" --title "CommonLibSSE-NG $env:ATTACH_TAG" `
-              --notes "Prebuilt CommonLib bundle for downstream xmake consumers (config: skyrim all + rex_ini + skse_xbyak). See PREBUILT.md."
+              --notes "Prebuilt CommonLib bundle for downstream xmake consumers (config: skyrim all + rex_ini + rex_json + rex_toml + skse_xbyak). See PREBUILT.md."
           }
           gh release upload "$env:ATTACH_TAG" "${{ steps.bundle.outputs.bundle }}" "${{ steps.bundle.outputs.sha }}" --clobber
 
@@ -171,12 +171,12 @@ jobs:
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
-      - name: Build CommonLibSSE (all + rex_ini + skse_xbyak, release)
+      - name: Build CommonLibSSE (all + rex_ini + rex_json + rex_toml + skse_xbyak, release)
         uses: lukka/run-cmake@v10
         with:
           cmakeListsTxtPath: ${{ github.workspace }}/CMakeLists.txt
           configurePreset: build-release-msvc-vcpkg-all
-          configurePresetAdditionalArgs: "['-DREX_OPTION_INI=ON', '-DSKSE_SUPPORT_XBYAK=ON', '-DBUILD_TESTS=OFF']"
+          configurePresetAdditionalArgs: "['-DREX_OPTION_INI=ON', '-DREX_OPTION_JSON=ON', '-DREX_OPTION_TOML=ON', '-DSKSE_SUPPORT_XBYAK=ON', '-DBUILD_TESTS=OFF']"
           buildPreset: release-msvc-vcpkg-all
 
       - name: Assemble bundle
@@ -235,6 +235,6 @@ jobs:
           gh release view "$env:ATTACH_TAG" *> $null
           if ($LASTEXITCODE -ne 0) {
             gh release create "$env:ATTACH_TAG" --title "CommonLibSSE-NG $env:ATTACH_TAG" `
-              --notes "Prebuilt CommonLib bundles for downstream consumers (config: skyrim all + rex_ini + skse_xbyak). See PREBUILT.md."
+              --notes "Prebuilt CommonLib bundles for downstream consumers (config: skyrim all + rex_ini + rex_json + rex_toml + skse_xbyak). See PREBUILT.md."
           }
           gh release upload "$env:ATTACH_TAG" "${{ steps.bundle.outputs.bundle }}" "${{ steps.bundle.outputs.sha }}" --clobber
