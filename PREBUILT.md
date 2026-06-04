@@ -39,9 +39,11 @@ The library is compiled **once**, for the config our xmake consumers use:
 A prebuilt static library bakes its config and toolchain in. To link it safely a
 consumer **must** build with a compatible setup:
 
-- Same options: set `rex_ini = true` and `skse_xbyak = true` **before** `includes()`
-  (the `skyrim_*` runtimes default on). Different options (e.g. `rex_json`, or
-  disabling a runtime) are **not** served by this bundle — build from source for those.
+- Compatible options: keep the `skyrim_*` runtimes **all on** (they default on and are the
+  one layout-critical axis). `rex_ini` and `skse_xbyak` are additive — the lib bakes them, so
+  it is a superset and a consumer may set them either way. `rex_json`/`rex_toml` must stay
+  **off** (the lib lacks those symbols), and disabling a runtime is **not** served — build
+  from source for those.
 - Same mode/ABI: xmake `releasedbg` (release CRT `/MD`, `NDEBUG`). No `debug` bundle
   is published. A true `debug` build must compile from source.
 - Same compiler family (**MSVC**) and a compatible MSVC toolset version. Toolset drift
@@ -78,11 +80,12 @@ plugin whose `lib/commonlibsse-ng` submodule sits on `vX.Y.Z` gets the prebuilt 
 on CI, with zero changes to its repo.
 
 It falls back to a normal **source build** whenever the prebuilt can't be used safely:
-not on an exact tag, a dirty submodule, options that don't match the baked config, a
-missing/unverified asset, or no network. The download is cached under
-`build/.prebuilt/<tag>` and attempted at most once per tag. Local dev builds stay
-source-by-default (set `COMMONLIB_PREBUILT=1` to opt in). The consumer must still set the
-options the lib was baked with (`rex_ini`, `skse_xbyak`; runtimes default on).
+not on an exact tag, a dirty submodule, a missing/unverified asset, or no network. Once
+fetched, an ABI-incompatible config (a disabled runtime, or `rex_json`/`rex_toml` on) is
+refused so it can't silently mislink. The download is cached under `build/.prebuilt/<tag>`
+and attempted at most once per tag. Local dev builds stay source-by-default (set
+`COMMONLIB_PREBUILT=1` to opt in). The consumer only needs the `skyrim_*` runtimes on (the
+default); `rex_ini`/`skse_xbyak` are optional (the lib is a superset).
 
 ## Size & cost
 

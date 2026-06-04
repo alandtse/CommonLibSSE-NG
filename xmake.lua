@@ -161,22 +161,24 @@ target("commonlibsse-ng", function()
         end
     end)
 
-    -- Once options are resolved: if we're on a prebuilt, refuse a baked-option mismatch
-    -- (linking the fixed lib while compiling headers with different REX_OPTION_*/
-    -- ENABLE_SKYRIM_*/SKSE_SUPPORT_XBYAK defines is a silent ABI break), and supply openvr
-    -- headers from the bundle when the nested openvr submodule isn't checked out.
+    -- Once options are resolved: if we're on a prebuilt, refuse an ABI-incompatible config,
+    -- and supply openvr headers from the bundle when the nested openvr submodule isn't
+    -- checked out. Only the skyrim runtime set is layout-critical (linking the fixed lib while
+    -- compiling ENABLE_SKYRIM_* headers differently is a silent ABI break). rex_ini and
+    -- skse_xbyak are additive — the baked lib is a superset, and this target only adds their
+    -- defines/packages when the consumer enables them — so a consumer may leave them off.
+    -- rex_json/toml are baked off, so the lib lacks those symbols and they must stay off.
     on_config(function(target)
         if target:kind() ~= "phony" then return end
-        local baked = {
+        local required = {
             skyrim_se = true, skyrim_ae = true, skyrim_vr = true,
-            rex_ini = true, skse_xbyak = true,
             rex_json = false, rex_toml = false,
         }
-        for opt, want in pairs(baked) do
+        for opt, want in pairs(required) do
             local got = has_config(opt) and true or false
             if got ~= want then
-                raise("prebuilt commonlibsse-ng.lib was built with %s=%s, but the consumer has %s=%s. "
-                    .. "Match the baked config (skyrim all + rex_ini + skse_xbyak; see PREBUILT.md) "
+                raise("prebuilt commonlibsse-ng.lib requires %s=%s, but the consumer has %s=%s. "
+                    .. "Match the baked config (skyrim all; rex_json/toml off; see PREBUILT.md) "
                     .. "or build from source.", opt, want and "y" or "n", opt, got and "y" or "n")
             end
         end
