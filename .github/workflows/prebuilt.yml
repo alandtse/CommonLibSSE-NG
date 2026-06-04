@@ -20,6 +20,7 @@ on:
     paths:
       - xmake.lua
       - CMakeLists.txt
+      - CMakePresets.json
       - cmake/**
       - include/**
       - src/**
@@ -53,6 +54,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: ${{ inputs.ref }}
+          persist-credentials: false # don't leave the repo token in the workspace; we run PR code
           submodules: recursive # extern/openvr headers ship in the bundle
 
       - name: Set up xmake
@@ -140,6 +142,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: ${{ inputs.ref }}
+          persist-credentials: false # don't leave the repo token in the workspace; we run PR code
           submodules: recursive # extern/openvr (headers + win64/openvr_api.lib) ship in the bundle
 
       - name: Extract vcpkg baseline from vcpkg.json

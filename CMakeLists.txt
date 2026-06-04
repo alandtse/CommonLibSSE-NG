@@ -46,9 +46,14 @@ commonlib_resolve_prebuilt(COMMONLIB_PREBUILT_RESOLVED)
 if(COMMONLIB_PREBUILT_RESOLVED)
 	message(STATUS "CommonLibSSE: linking prebuilt binary from ${COMMONLIB_PREBUILT_RESOLVED}")
 	add_library("${PROJECT_NAME}" STATIC IMPORTED GLOBAL)
+	# The bundle is Release; the resolver only resolves for non-Debug single-config builds.
+	# Pin the lib to the Release config and map the other release-like configs onto it.
 	set_target_properties(
 		"${PROJECT_NAME}" PROPERTIES
-		IMPORTED_LOCATION "${COMMONLIB_PREBUILT_RESOLVED}/lib/CommonLibSSE.lib"
+		IMPORTED_CONFIGURATIONS RELEASE
+		IMPORTED_LOCATION_RELEASE "${COMMONLIB_PREBUILT_RESOLVED}/lib/CommonLibSSE.lib"
+		MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
+		MAP_IMPORTED_CONFIG_MINSIZEREL Release
 	)
 	add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 

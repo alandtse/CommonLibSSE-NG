@@ -125,11 +125,15 @@ extract it, and expose the IMPORTED target instead of compiling `src/`. A plugin
 submodule sits on `vX.Y.Z` gets the prebuilt for free on CI, unchanged.
 
 It falls back to a normal **source build** whenever the prebuilt can't be used safely: the
-top-level project is CommonLib itself (you only auto-fetch when *consumed*), not on an
-exact tag, a dirty tree, options that don't match the baked config, or a missing/unverified
-asset. The download is cached under `<build>/.prebuilt/<tag>` and attempted at most once
-per tag. Local dev builds stay source-by-default (`-DCOMMONLIB_PREBUILT=ON` to opt in), or
-point `-DCOMMONLIB_PREBUILT_DIR=<extracted bundle>` at a bundle to skip the download.
+top-level project is CommonLib itself (you only auto-fetch when *consumed*), a Debug or
+multi-config build (the bundle is Release `/MD`; a Debug `/MDd` link would be an ABI
+mismatch), not on an exact tag, a dirty tree, options that don't match the baked config, or
+a missing/unverified asset. The download is cached under
+`${CMAKE_CURRENT_BINARY_DIR}/.prebuilt/<tag>` — with the advertised
+`add_subdirectory(… commonlib)` layout that is the CommonLib sub-build dir, e.g.
+`<build>/commonlib/.prebuilt/<tag>` — and attempted at most once per tag. Local dev builds
+stay source-by-default (`-DCOMMONLIB_PREBUILT=ON` to opt in), or point
+`-DCOMMONLIB_PREBUILT_DIR=<extracted bundle>` at a bundle to skip the download.
 
 Because the headers are baked with `skse_xbyak` and link `spdlog`/`DirectXTK` PUBLIC, the
 consumer must provide those header deps from **its own `vcpkg.json`** (`spdlog`, `fmt`,

@@ -19,8 +19,18 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
+    # The bundle is baked Release (/MD, NDEBUG). Linking it from a Debug config (/MDd) is a
+    # CRT/ABI mismatch, and a multi-config generator can't promise the chosen config at
+    # configure time — so only use the prebuilt for a single-config, non-Debug build.
+    if(CMAKE_CONFIGURATION_TYPES OR NOT CMAKE_BUILD_TYPE MATCHES "^(Release|RelWithDebInfo|MinSizeRel)$")
+        return()
+    endif()
+
     # explicit override: a consumer (or this repo's self-test) points at an extracted bundle
-    if(COMMONLIB_PREBUILT_DIR AND EXISTS "${COMMONLIB_PREBUILT_DIR}/lib/CommonLibSSE.lib")
+    if(COMMONLIB_PREBUILT_DIR
+       AND EXISTS "${COMMONLIB_PREBUILT_DIR}/lib/CommonLibSSE.lib"
+       AND EXISTS "${COMMONLIB_PREBUILT_DIR}/lib/openvr_api.lib"
+       AND IS_DIRECTORY "${COMMONLIB_PREBUILT_DIR}/extern/openvr/headers")
         set(${out_dir} "${COMMONLIB_PREBUILT_DIR}" PARENT_SCOPE)
         return()
     endif()

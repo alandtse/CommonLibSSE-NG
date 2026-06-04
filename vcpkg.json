@@ -30,6 +30,10 @@
       "version>=": "8.90"
     },
     {
+      "name": "simpleini",
+      "version>=": "4.25"
+    },
+    {
       "name": "spdlog",
       "version>=": "1.16.0"
     },
