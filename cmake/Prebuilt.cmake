@@ -44,9 +44,13 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
-    # The bundle is /MD; a static-CRT (/MT) consumer can't link it (mismatched CRTs → LNK4098),
-    # so fall back to source. An unset runtime library is CMake's /MD default and matches.
-    if(DEFINED CMAKE_MSVC_RUNTIME_LIBRARY AND NOT "${CMAKE_MSVC_RUNTIME_LIBRARY}" MATCHES "DLL")
+    # The bundle is the Release dynamic CRT (/MD). A static CRT (/MT) or the Debug dynamic CRT
+    # (/MDd) is a mismatch (→ LNK4098), so fall back to source. Accept any DLL runtime except the
+    # always-Debug literal — not a plain STREQUAL "MultiThreadedDLL", since the standard /MD value
+    # is the Debug-conditional genex "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL". Unset = /MD default.
+    if(DEFINED CMAKE_MSVC_RUNTIME_LIBRARY
+       AND (NOT "${CMAKE_MSVC_RUNTIME_LIBRARY}" MATCHES "DLL"
+            OR "${CMAKE_MSVC_RUNTIME_LIBRARY}" STREQUAL "MultiThreadedDebugDLL"))
         return()
     endif()
 
