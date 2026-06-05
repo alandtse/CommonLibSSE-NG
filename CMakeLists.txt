@@ -46,15 +46,18 @@ commonlib_resolve_prebuilt(COMMONLIB_PREBUILT_RESOLVED)
 if(COMMONLIB_PREBUILT_RESOLVED)
 	message(STATUS "CommonLibSSE: linking prebuilt binary from ${COMMONLIB_PREBUILT_RESOLVED}")
 	add_library("${PROJECT_NAME}" STATIC IMPORTED GLOBAL)
-	# Pin the lib to Release and map the other release-like configs onto it. Map Debug to nothing
-	# so a stray Debug build (multi-config) fails loudly instead of silently linking the Release lib.
+	# Pin the lib to Release and map the other release-like configs onto it. Point Debug at a
+	# non-existent sentinel rather than nothing: a multi-config generator validates every config
+	# at generate time, so an empty Debug map fails the whole configure — the sentinel keeps
+	# generate happy while making a Debug *build* fail loudly with a self-documenting name (the
+	# Release-only bundle can't serve Debug; build it from source).
 	set_target_properties(
 		"${PROJECT_NAME}" PROPERTIES
-		IMPORTED_CONFIGURATIONS RELEASE
+		IMPORTED_CONFIGURATIONS "RELEASE;DEBUG"
 		IMPORTED_LOCATION_RELEASE "${COMMONLIB_PREBUILT_RESOLVED}/lib/CommonLibSSE.lib"
+		IMPORTED_LOCATION_DEBUG "${COMMONLIB_PREBUILT_RESOLVED}/lib/CommonLibSSE-debug-build-from-source.lib"
 		MAP_IMPORTED_CONFIG_RELWITHDEBINFO Release
 		MAP_IMPORTED_CONFIG_MINSIZEREL Release
-		MAP_IMPORTED_CONFIG_DEBUG ""
 	)
 	add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 
