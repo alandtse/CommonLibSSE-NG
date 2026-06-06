@@ -13,8 +13,10 @@ namespace RE
 		~ClickHandler() override;
 
 		// override (MenuEventHandler)
-		bool CanProcess(InputEvent* a_event) override;      // 01
-		bool ProcessButton(ButtonEvent* a_event) override;  // 05
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
+		bool ProcessButton(ButtonEvent* a_event) override;  // 05 (VR 08)
+#endif
 	};
 	static_assert(sizeof(ClickHandler) == 0x10);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSIntrusiveRefCounted.h"
+#include "REL/Relocation.h"
 
 namespace RE
 {
@@ -9,6 +10,8 @@ namespace RE
 	class KinectEvent;
 	class MouseMoveEvent;
 	class ThumbstickEvent;
+	class VrWandTouchpadPositionEvent;
+	class VrWandTouchpadSwipeEvent;
 
 	class MenuEventHandler : public BSIntrusiveRefCounted
 	{
@@ -20,22 +23,45 @@ namespace RE
 		virtual ~MenuEventHandler() = default;  // 00
 
 		virtual bool CanProcess(InputEvent* a_event) = 0;  // 01
+
+		// VR's vtable inserts three wand-touchpad input virtuals after CanProcess, shifting
+		// ProcessKinect/Thumbstick/MouseMove/Button from slots 02-05 down to 05-08. The
+		// MenuControls dispatcher routes INPUT_EVENT_TYPE::kVrTouchpadSwipe (7) -> slot 02 and
+		// kVrTouchpadPosition (6) -> slot 03; slot 04 is not routed by MenuControls.
 #if defined(EXCLUSIVE_SKYRIM_VR)
-		// VR's MenuEventHandler vtable has three extra controller-input virtuals inserted
-		// here, which shifts ProcessKinect/Thumbstick/MouseMove/Button down by +3 (to VR
-		// slots 05-08). Declaring them in EXCLUSIVE_SKYRIM_VR makes the compiler place those
-		// methods at the correct VR slots, so derived overrides bind correctly.
-		// Per the MenuControls input dispatcher these route VR-only INPUT_EVENT_TYPE values
-		// (type 7 -> Unk_02, type 6 -> Unk_03; Unk_04 is not routed by MenuControls). The
-		// exact VR event classes are not yet identified, hence the Unk_ names.
-		virtual bool Unk_02(void* a_event);  // VR 02 - { return false; }
-		virtual bool Unk_03(void* a_event);  // VR 03 - { return false; }
-		virtual bool Unk_04(void* a_event);  // VR 04 - { return false; }
+		virtual bool ProcessVrWandTouchpadSwipe(VrWandTouchpadSwipeEvent* a_event);        // VR 02 - { return false; }
+		virtual bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event);  // VR 03 - { return false; }
+		virtual bool Unk_04(void* a_event);                                                // VR 04 - { return false; }
+		virtual bool ProcessKinect(KinectEvent* a_event);                                  // VR 05 - { return false; }
+		virtual bool ProcessThumbstick(ThumbstickEvent* a_event);                          // VR 06 - { return false; }
+		virtual bool ProcessMouseMove(MouseMoveEvent* a_event);                            // VR 07 - { return false; }
+		virtual bool ProcessButton(ButtonEvent* a_event);                                  // VR 08 - { return false; }
+#elif !defined(SKYRIM_CROSS_VR)
+		// EXCLUSIVE_SKYRIM_FLAT (SE/AE)
+		virtual bool ProcessKinect(KinectEvent* a_event);          // 02 - { return false; }
+		virtual bool ProcessThumbstick(ThumbstickEvent* a_event);  // 03 - { return false; }
+		virtual bool ProcessMouseMove(MouseMoveEvent* a_event);    // 04 - { return false; }
+		virtual bool ProcessButton(ButtonEvent* a_event);          // 05 - { return false; }
+#else
+		// SKYRIM_CROSS_VR (multi-runtime): non-virtual wrappers dispatch to the correct
+		// per-runtime vtable slot, so a single binary works on both flat and VR.
+		bool ProcessKinect(KinectEvent* a_event)
+		{
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessKinect)>(0x02, 0x05, this, a_event);
+		}
+		bool ProcessThumbstick(ThumbstickEvent* a_event)
+		{
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessThumbstick)>(0x03, 0x06, this, a_event);
+		}
+		bool ProcessMouseMove(MouseMoveEvent* a_event)
+		{
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessMouseMove)>(0x04, 0x07, this, a_event);
+		}
+		bool ProcessButton(ButtonEvent* a_event)
+		{
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessButton)>(0x05, 0x08, this, a_event);
+		}
 #endif
-		virtual bool ProcessKinect(KinectEvent* a_event);          // 02, VR 05 - { return false; }
-		virtual bool ProcessThumbstick(ThumbstickEvent* a_event);  // 03, VR 06 - { return false; }
-		virtual bool ProcessMouseMove(MouseMoveEvent* a_event);    // 04, VR 07 - { return false; }
-		virtual bool ProcessButton(ButtonEvent* a_event);          // 05, VR 08 - { return false; }
 
 		// members
 		bool          registered;  // 0C

@@ -13,9 +13,11 @@ namespace RE
 		~MenuOpenHandler() override;  // 00
 
 		// override (MenuEventHandler)
-		bool CanProcess(InputEvent* a_event) override;      // 01
-		bool ProcessKinect(KinectEvent* a_event) override;  // 02
-		bool ProcessButton(ButtonEvent* a_event) override;  // 05
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
+		bool ProcessKinect(KinectEvent* a_event) override;  // 02 (VR 05)
+		bool ProcessButton(ButtonEvent* a_event) override;  // 05 (VR 08)
+#endif
 
 		// members
 		bool          unk10;  // 10

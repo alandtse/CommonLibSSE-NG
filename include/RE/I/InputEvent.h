@@ -12,7 +12,10 @@ namespace RE
 		kChar,
 		kThumbstick,
 		kDeviceConnect,
-		kKinect
+		kKinect,
+		// VR only (SkyrimVR): the VR runtime emits two extra wand-touchpad event types.
+		kVrTouchpadPosition,  // 6 - VrWandTouchpadPositionEvent
+		kVrTouchpadSwipe      // 7 - VrWandTouchpadSwipeEvent
 	};
 
 	class ButtonEvent;
