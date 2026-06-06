@@ -181,10 +181,10 @@ namespace RE
 	X2(ISWaterFlow, 157, 172)                            /* BSImagespaceShaderWaterFlow */                                      \
 	/* SE 158 missing */                                                                                                        \
 	/* VR only */                                                                                                               \
-	X2(ISCopyDepthBuffer, INVALID_INDEX, 98)                      /* BSImagespaceShaderCopyDepthBuffer */                       \
-	X2(ISCopyDepthBuffer_DR, INVALID_INDEX, 99)                   /* BSImagespaceShaderCopyDepthBuffer_DR */                    \
-	X2(ISCopyDepthBufferTargetSize, INVALID_INDEX, 100)           /* BSImagespaceShaderCopyDepthBuffer_TargetSize */            \
-	X2(ISGraphicsTextureFilterMode, INVALID_INDEX, 111)           /* ISGraphicsTextureFilterMode */                             \
+	X2(ISCopyDepthBuffer, INVALID_INDEX, 98)            /* BSImagespaceShaderCopyDepthBuffer */                                 \
+	X2(ISCopyDepthBuffer_DR, INVALID_INDEX, 99)         /* BSImagespaceShaderCopyDepthBuffer_DR */                              \
+	X2(ISCopyDepthBufferTargetSize, INVALID_INDEX, 100) /* BSImagespaceShaderCopyDepthBuffer_TargetSize */                      \
+	/* VR 111 = ISReflectionBlurHCS; ISGraphicsTextureFilterMode was a phantom (removed) */                                     \
 	X2(ISDownsampleHierarchicalDepthBufferCS, INVALID_INDEX, 126) /* BSImagespaceShaderISDownsampleHierarchicalDepthBufferCS */ \
 	X2(ISDiffScaleDownsampleDepthBufferCS, INVALID_INDEX, 127)    /* BSImagespaceShaderISDiffScaleDownsampleDepthBufferCS */    \
 	X2(ISFullScreenVR, INVALID_INDEX, 129)                        /* BSImagespaceShaderISFullScreenVR */                        \
