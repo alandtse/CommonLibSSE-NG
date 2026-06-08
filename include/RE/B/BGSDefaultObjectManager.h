@@ -574,7 +574,15 @@ namespace RE
 	};
 	using DEFAULT_OBJECT = DEFAULT_OBJECTS::DEFAULT_OBJECT;
 
-#define MakeDefaultObjectID(se, vr) (se | (vr << 16))
+// IDs pack SE (low 16) + VR (high 16). Single-runtime builds resolve to the
+// concrete index; SKYRIM_CROSS_VR keeps the packed form for runtime selection.
+#if defined(SKYRIM_CROSS_VR)
+#	define MakeDefaultObjectID(se, vr) (se | (vr << 16))
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+#	define MakeDefaultObjectID(se, vr) (vr)
+#else
+#	define MakeDefaultObjectID(se, vr) (se)
+#endif
 	enum class DefaultObjectID
 	{
 		kWerewolfSpell = 0,
