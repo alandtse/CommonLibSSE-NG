@@ -117,9 +117,13 @@ jobs:
       # is the only step that hits the network for vcpkg ports/tools, so a
       # transient GitHub-releases 504 (e.g. the PowerShell-core fetch) gets
       # retried here instead of failing the build. The subsequent run-cmake
-      # build step reuses this warm configure + the cached downloads,
-      # so it does no further network I/O. -DBUILD_TESTS=OFF keeps the
-      # warm-up minimal; the actual build step reconfigures with =ON.
+      # build step re-configures the real build directory fresh, so it sees
+      # BUILD_TESTS=ON and builds CommonLibSSETests.exe.
+      #
+      # IMPORTANT: use -B to redirect to a throwaway directory. If we
+      # configured into the preset's real binaryDir with -DBUILD_TESTS=OFF,
+      # run-cmake would reuse the CMakeCache.txt with BUILD_TESTS=OFF and
+      # the test exe would never be built (the failing mode before this fix).
       - name: Pre-install vcpkg dependencies (retry)
         uses: nick-fields/retry@v3
         with:
@@ -128,8 +132,7 @@ jobs:
           retry_wait_seconds: 30
           shell: pwsh
           command: |
-            Set-Location "${{ github.workspace }}/main"
-            cmake --preset build-${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.runtime }} -DBUILD_TESTS=OFF
+            cmake -S "${{ github.workspace }}/main" -B "$env:RUNNER_TEMP/vcpkg-warmup" --preset build-${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.runtime }} -DBUILD_TESTS=OFF
 
       - name: Build
         uses: lukka/run-cmake@v10
