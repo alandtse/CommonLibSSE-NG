@@ -57,12 +57,12 @@ namespace RE
 
 		struct GEOMETRY_RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                         \
-	NiPointer<NiAlphaProperty>  alphaProperty;  /* 00 */             \
-	NiPointer<BSShaderProperty> shaderProperty; /* 08 */             \
-	NiPointer<NiSkinInstance>   skinInstance;   /* 10 */             \
-	BSGraphics::TriShape*       rendererData;   /* 18 */             \
-	void*                       unk140;         /* 20 - smart ptr */ \
+#define RUNTIME_DATA_CONTENT                                                                                               \
+	NiPointer<NiAlphaProperty>  alphaProperty;  /* 00 */                                                                   \
+	NiPointer<BSShaderProperty> shaderProperty; /* 08 */                                                                   \
+	NiPointer<NiSkinInstance>   skinInstance;   /* 10 */                                                                   \
+	BSGraphics::TriShape*       rendererData;   /* 18 */                                                                   \
+	void*                       unk140;         /* 20 - refcounted buffer (refcount@0, NiMemFree); not a NiSkinInstance */ \
 	BSGraphics::VertexDesc      vertexDesc;     /* 28 */
 
 			RUNTIME_DATA_CONTENT
