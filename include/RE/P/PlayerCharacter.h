@@ -617,7 +617,7 @@ namespace RE
 	PlayerSkills*              skills;                                      /* 0E0 */                                 \
 	ActorHandle                autoAimActor;                                /* 0E8 */                                 \
 	RefHandle                  unk0EC;                                      /* 0EC */                                 \
-	std::uint64_t              unk118;                                      /* 0F0 */                                 \
+	std::uint32_t              unk118[2];                                   /* 0F0 */                                 \
 	NiPointer<NiAVObject>      targeted3D;                                  /* 0F8 */                                 \
 	CombatGroup*               combatGroup;                                 /* 100 */                                 \
 	BSTArray<ActorHandle>      actorsToDisplayOnTheHUDArray;                /* 108 */                                 \

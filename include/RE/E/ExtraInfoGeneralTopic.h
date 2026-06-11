@@ -16,7 +16,7 @@ namespace RE
 		{
 			std::uint64_t unk00;  // 00
 			std::uint64_t unk08;  // 08
-			std::uint64_t unk10;  // 10
+			Data*         unk10;  // 10
 			std::uint64_t unk18;  // 18
 			std::uint64_t unk20;  // 20
 			std::uint64_t unk28;  // 28

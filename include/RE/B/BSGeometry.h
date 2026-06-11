@@ -62,7 +62,7 @@ namespace RE
 	NiPointer<BSShaderProperty> shaderProperty; /* 08 */             \
 	NiPointer<NiSkinInstance>   skinInstance;   /* 10 */             \
 	BSGraphics::TriShape*       rendererData;   /* 18 */             \
-	void*                       unk140;         /* 20 - smart ptr */ \
+	NiPointer<NiSkinInstance>   unk140;         /* 20 - smart ptr */ \
 	BSGraphics::VertexDesc      vertexDesc;     /* 28 */
 
 			RUNTIME_DATA_CONTENT
