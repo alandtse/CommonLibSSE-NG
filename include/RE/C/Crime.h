@@ -38,16 +38,16 @@ namespace RE
 		std::uint64_t           unk00;              // 00
 		std::uint64_t           unk08;              // 08
 		std::uint64_t           unk10;              // 10
-		TESBoundObject*         unk18;              // 18
+		TESBoundObject*         object;             // 18 - object the crime concerns (stolen item for theft)
 		std::uint64_t           unk20;              // 20
 		BSTArray<ActorHandle>   actorsKnowOfCrime;  // 28
 		std::uint64_t           unk40;              // 40
 		std::uint64_t           unk48;              // 48
 		std::uint64_t           unk50;              // 50
-		TESFaction*             unk58;              // 58
+		std::uint64_t           unk58;              // 58
 		TESFaction*             crimeFaction;       // 60
 		std::uint32_t           unk68;              // 68
-		mutable BSReadWriteLock lock;               // 68
+		mutable BSReadWriteLock lock;               // 6C
 		std::uint32_t           unk74;              // 74
 	};
 	static_assert(sizeof(Crime) == 0x78);

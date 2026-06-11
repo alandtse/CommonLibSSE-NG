@@ -41,15 +41,15 @@ namespace RE
 			~StateInfo() override;  // 00
 
 			// members
-			std::uint64_t       unk30;  // 30
-			std::uint64_t       unk38;  // 38
-			std::uint64_t       unk40;  // 40
-			std::uint64_t       unk48;  // 48
-			std::uint64_t       unk50;  // 50
-			hkReferencedObject* unk58;  // 58
-			std::uint64_t       unk60;  // 60
-			std::uint64_t       unk68;  // 68
-			std::uint64_t       unk70;  // 70
+			std::uint64_t unk30;      // 30
+			std::uint64_t unk38;      // 38
+			std::uint64_t unk40;      // 40
+			std::uint64_t unk48;      // 48
+			std::uint64_t unk50;      // 50
+			hkbGenerator* generator;  // 58
+			std::uint64_t unk60;      // 60
+			std::uint64_t unk68;      // 68
+			std::uint64_t unk70;      // 70
 		};
 		static_assert(sizeof(StateInfo) == 0x78);
 

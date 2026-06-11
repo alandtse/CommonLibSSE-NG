@@ -16,9 +16,9 @@ namespace RE
 		bool IsValid(Actor* a_actor) override;  // 01
 
 		// members
-		std::uint64_t unk08;  // 08
-		Actor*        unk10;  // 10
-		std::uint64_t unk18;  // 18
+		std::uint64_t unk08;   // 08
+		Actor*        caster;  // 10 - excluded from valid targets (MagicCaster::GetOwner2)
+		std::uint64_t unk18;   // 18
 	};
 	static_assert(sizeof(ActorTargetCheck) == 0x20);
 }

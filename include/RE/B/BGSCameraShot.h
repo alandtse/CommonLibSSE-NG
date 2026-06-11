@@ -80,19 +80,19 @@ namespace RE
 		void InitItemImpl() override;        // 13
 
 		// members
-		CAMERA_SHOT_DATA      data;          // 58 - DATA
-		std::uint32_t         pad84;         // 84
-		NiPointer<NiAVObject> unk88;         // 88 - smart ptr
-		NiPointer<NiAVObject> unk90;         // 90 - smart ptr
-		RefHandle             unk98;         // 98
-		std::uint32_t         unk9C;         // 9C
-		NiPointer<NiNode>     cameraNode;    // A0 - smart ptr
-		NiPointer<NiAVObject> unkA8;         // A8 - smart ptr
-		std::uint8_t          unkB0;         // B0
-		bool                  unkB1;         // B1
-		std::uint16_t         padB2;         // B2
-		std::uint32_t         padB4;         // B4
-		ModelDBHandle         cameraHandle;  // B8
+		CAMERA_SHOT_DATA      data;               // 58 - DATA
+		std::uint32_t         pad84;              // 84
+		NiPointer<NiAVObject> locationNode;       // 88 - synthetic node tracking data.location
+		NiPointer<NiAVObject> targetNode;         // 90 - synthetic node tracking data.target
+		RefHandle             locationRefHandle;  // 98
+		std::uint32_t         unk9C;              // 9C
+		NiPointer<NiNode>     cameraNode;         // A0 - smart ptr
+		NiPointer<NiAVObject> targetFadeNode;     // A8 - target's BSFadeNode ancestor
+		std::uint8_t          unkB0;              // B0
+		bool                  unkB1;              // B1
+		std::uint16_t         padB2;              // B2
+		std::uint32_t         padB4;              // B4
+		ModelDBHandle         cameraHandle;       // B8
 	};
 	static_assert(sizeof(BGSCameraShot) == 0xC0);
 }
