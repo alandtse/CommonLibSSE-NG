@@ -82,8 +82,8 @@ namespace RE
 		// members
 		CAMERA_SHOT_DATA      data;          // 58 - DATA
 		std::uint32_t         pad84;         // 84
-		void*                 unk88;         // 88 - smart ptr
-		void*                 unk90;         // 90 - smart ptr
+		NiAVObject*           locationNode;  // 88
+		NiAVObject*           targetNode;    // 90
 		RefHandle             unk98;         // 98
 		std::uint32_t         unk9C;         // 9C
 		NiPointer<NiNode>     cameraNode;    // A0 - smart ptr

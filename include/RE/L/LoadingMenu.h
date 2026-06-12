@@ -32,7 +32,7 @@ namespace RE
 	BSTArray<TESLoadScreen*> loadScreens;     /* 58 */             \
 	std::uint32_t            unk70;           /* 70 */             \
 	std::uint32_t            pad74;           /* 74 */             \
-	std::uint64_t            unk78;           /* 78 */
+	TESLoadScreen*           loadScreen;      /* 78 */
 
 			RUNTIME_DATA_CONTENT
 		};
