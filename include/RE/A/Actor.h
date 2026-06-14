@@ -519,7 +519,8 @@ namespace RE
 		void                                    AllowBleedoutDialogue(bool a_canTalk);
 		void                                    AllowPCDialogue(bool a_talk);
 		void                                    CastPermanentMagic(bool a_wornItemEnchantments, bool a_baseSpells, bool a_raceSpells, bool a_everyActorAbility);
-		[[nodiscard]] NiAVObject*               CalculateLOS(NiPoint3* a_targetPosition, NiPoint3* a_rayHitPosition, float a_viewCone);
+		[[nodiscard]] ACTOR_LOS_LOCATION        CalculateLOS(Actor* a_target, float a_viewCone);
+		[[nodiscard]] NiAVObject*               CalculateLOS(const NiPoint3& a_targetPosition, const NiPoint3& a_rayHitPosition, float a_viewCone);
 		[[nodiscard]] NiPoint3                  CalculateLOSLocation(ACTOR_LOS_LOCATION a_location);
 		[[nodiscard]] bool                      CanAttackActor(Actor* a_actor);
 		[[nodiscard]] bool                      CanFly() const;
@@ -640,6 +641,7 @@ namespace RE
 		[[nodiscard]] bool                      IsInRagdollState() const;
 		[[nodiscard]] bool                      IsLeveled() const;
 		[[nodiscard]] bool                      IsLimbGone(std::uint32_t a_limb);
+		[[nodiscard]] bool                      IsMovementAnimationDriven() const;
 		[[nodiscard]] bool                      IsMoving() const;
 		[[nodiscard]] bool                      IsOnMount() const;
 		[[nodiscard]] bool                      IsOnWaterTriangle() const;
@@ -675,6 +677,7 @@ namespace RE
 		void                                    SetPlayerControls(bool a_enable);
 		void                                    SetLooking(float a_angle);  // SetRotationX
 		bool                                    SetSleepOutfit(BGSOutfit* a_outfit, bool a_update3D);
+		bool                                    StartCombat(Actor* a_target, CombatGroup* a_combatGroup = nullptr);
 		void                                    StealAlarm(TESObjectREFR* a_ref, TESForm* a_object, std::int32_t a_num, std::int32_t a_total, TESForm* a_owner, bool a_allowWarning);
 		void                                    StopAlarmOnActor();
 		void                                    StopInteractingQuick(bool a_unk02);

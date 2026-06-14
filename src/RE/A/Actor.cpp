@@ -122,10 +122,17 @@ namespace RE
 		xTalk->talk = a_talk;
 	}
 
-	NiAVObject* Actor::CalculateLOS(NiPoint3* a_targetPosition, NiPoint3* a_rayHitPosition, float a_viewCone)
+	ACTOR_LOS_LOCATION Actor::CalculateLOS(Actor* a_target, float a_viewCone)
 	{
-		using func_t = decltype(&Actor::CalculateLOS);
-		static REL::Relocation<func_t> func{ REL::RelocationID(36754, 37770) };
+		using func_t = ACTOR_LOS_LOCATION(Actor*, Actor*, float);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36752, 37768) };
+		return func(this, a_target, a_viewCone);
+	}
+
+	NiAVObject* Actor::CalculateLOS(const NiPoint3& a_targetPosition, const NiPoint3& a_rayHitPosition, float a_viewCone)
+	{
+		using func_t = NiAVObject*(Actor*, const NiPoint3&, const NiPoint3&, float);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36754, 37770) };
 		return func(this, a_targetPosition, a_rayHitPosition, a_viewCone);
 	}
 
@@ -1060,6 +1067,13 @@ namespace RE
 		return func(this, a_limb);
 	}
 
+	bool Actor::IsMovementAnimationDriven() const
+	{
+		using func_t = decltype(&Actor::IsMovementAnimationDriven);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36487, 37486) };
+		return func(this);
+	}
+
 	bool Actor::IsMoving() const
 	{
 		using func_t = decltype(&Actor::IsMoving);
@@ -1317,6 +1331,13 @@ namespace RE
 			AddWornOutfit(a_outfit, a_update3D);
 		}
 		return true;
+	}
+
+	bool Actor::StartCombat(Actor* a_target, CombatGroup* a_combatGroup)
+	{
+		using func_t = decltype(&Actor::StartCombat);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(37608, 38561) };
+		return func(this, a_target, a_combatGroup);
 	}
 
 	void Actor::StealAlarm(TESObjectREFR* a_ref, TESForm* a_object, std::int32_t a_num, std::int32_t a_total, TESForm* a_owner, bool a_allowWarning)

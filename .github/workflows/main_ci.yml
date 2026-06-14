@@ -61,10 +61,48 @@ jobs:
         with:
           arch: x64
 
+      # Pin vcpkg's download cache to a stable, cacheable path. vcpkg checks
+      # this directory (by SHA512) before fetching any asset — port source
+      # tarballs AND tools acquired via vcpkg_find_acquire_program (e.g. the
+      # pinned PowerShell-core zip applocal.ps1 needs). Caching it (below)
+      # lets those downloads survive across runs, so a transient GitHub
+      # releases 504 on a cache-cold tool fetch can't fail the build.
+      - name: Pin vcpkg downloads directory
+        shell: bash
+        run: echo "VCPKG_DOWNLOADS=${{ github.workspace }}/vcpkg_downloads" >> "$GITHUB_ENV"
+
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: ${{ steps.get_vcpkg_baseline.outputs.baseline }}
+          # Bootstrap vcpkg only; do NOT install here. Manifest install runs
+          # later during the retry-wrapped cmake configure, so the flaky
+          # asset fetches happen inside the retry + with the downloads cache
+          # already restored. Explicit so a future default flip can't move
+          # the install (and its network I/O) back ahead of those guards.
+          runVcpkgInstall: false
+
+      # vcpkg download (asset) cache. Keyed on the manifest + baseline, NOT
+      # the compiler — the set of fetched assets only changes when deps or
+      # the baseline change, so this survives VS toolset drift. Same
+      # trusted-write / untrusted-restore split as the build cache below.
+      - name: Cache vcpkg downloads (trusted, restore + save)
+        if: github.event_name != 'pull_request'
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg_downloads
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('main/vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-downloads-
+
+      - name: Restore vcpkg downloads (untrusted PR, restore-only)
+        if: github.event_name == 'pull_request'
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg_downloads
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('main/vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-downloads-
 
       # x-gha reads the Actions cache service endpoint from these two variables, which
       # GitHub only exposes to the github-script runtime — re-export them so vcpkg sees them.
@@ -74,6 +112,27 @@ jobs:
           script: |
             core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
             core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      # Pre-install vcpkg deps via a CMake configure, wrapped in retry. This
+      # is the only step that hits the network for vcpkg ports/tools, so a
+      # transient GitHub-releases 504 (e.g. the PowerShell-core fetch) gets
+      # retried here instead of failing the build. The subsequent run-cmake
+      # build step re-configures the real build directory fresh, so it sees
+      # BUILD_TESTS=ON and builds CommonLibSSETests.exe.
+      #
+      # IMPORTANT: use -B to redirect to a throwaway directory. If we
+      # configured into the preset's real binaryDir with -DBUILD_TESTS=OFF,
+      # run-cmake would reuse the CMakeCache.txt with BUILD_TESTS=OFF and
+      # the test exe would never be built (the failing mode before this fix).
+      - name: Pre-install vcpkg dependencies (retry)
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 30
+          max_attempts: 3
+          retry_wait_seconds: 30
+          shell: pwsh
+          command: |
+            cmake -S "${{ github.workspace }}/main" -B "$env:RUNNER_TEMP/vcpkg-warmup" --preset build-${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.runtime }} -DBUILD_TESTS=OFF
 
       - name: Build
         uses: lukka/run-cmake@v10

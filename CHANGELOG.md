@@ -1,3 +1,16 @@
+## [4.27.0](https://github.com/alandtse/CommonLibVR/compare/v4.26.2...v4.27.0) (2026-06-12)
+
+### Features
+
+* add actor func, misc cleanup ([5904b41](https://github.com/alandtse/CommonLibVR/commit/5904b4179c0dd28555b87e3a2bb689170fb249f8))
+* add actor funcs ([03c49b5](https://github.com/alandtse/CommonLibVR/commit/03c49b5bfc031a137bc20d93fb6785ad0f8db1c0))
+* add adjustments from Clib-NG ([1239701](https://github.com/alandtse/CommonLibVR/commit/1239701a505f3da5604d1f013b66c9018917a061))
+* add BGSConstructFormsInAllFilesMap::count ([b19c377](https://github.com/alandtse/CommonLibVR/commit/b19c37732f13951e1dc753262ff9c1966d3ba29a))
+* merge po3 ([cf748d1](https://github.com/alandtse/CommonLibVR/commit/cf748d16f06c9442623f2e7f4fd4ff72d9c00f82))
+* merge po3 ([d5f523c](https://github.com/alandtse/CommonLibVR/commit/d5f523cdf975064319f6c6bbdc34aada1007f5a0))
+* player controls RE ([f0d2071](https://github.com/alandtse/CommonLibVR/commit/f0d2071e584547f85d9b603ec6b3a6101426b11b))
+* RE MessageBox ([de3fac0](https://github.com/alandtse/CommonLibVR/commit/de3fac052bf1570320849c605dd2b79eac1dc526))
+
 ## [4.26.2](https://github.com/alandtse/CommonLibVR/compare/v4.26.1...v4.26.2) (2026-06-06)
 
 ### Bug Fixes
