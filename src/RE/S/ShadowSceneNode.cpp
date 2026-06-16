@@ -61,10 +61,24 @@ namespace RE
 		return func(this, a_light);
 	}
 
+	void ShadowSceneNode::ClearLightArrays()
+	{
+		using func_t = void (*)(ShadowSceneNode*);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(99704, 106338) };
+		return func(this);
+	}
+
 	BSCompoundFrustum* ShadowSceneNode::BuildSharedCompoundFrustum(BSCullingProcess* a_cullingProcess, BSPortal* a_portal)
 	{
 		using func_t = decltype(&ShadowSceneNode::BuildSharedCompoundFrustum);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(99735, 106379) };
 		return func(this, a_cullingProcess, a_portal);
+	}
+
+	void ShadowSceneNode::ResetScene(BSPortalGraph* a_graph)
+	{
+		using func_t = void (*)(ShadowSceneNode*, BSPortalGraph*);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(99741, 106385) };
+		return func(this, a_graph);
 	}
 }

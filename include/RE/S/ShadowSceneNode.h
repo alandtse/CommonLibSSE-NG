@@ -127,7 +127,9 @@ namespace RE
 		BSLight*           GetShadowLight(NiLight* a_light);
 		void               RemoveLight(NiLight* a_light);
 		void               RemoveLight(const NiPointer<BSLight>& a_light);
+		void               ClearLightArrays();  // bulk teardown: queues every active light into lightQueueRemove
 		BSCompoundFrustum* BuildSharedCompoundFrustum(BSCullingProcess* a_cullingProcess, BSPortal* a_portal);
+		void               ResetScene(BSPortalGraph* a_graph);  // portalGraph setter; called from ResetCellGrid on cell transition
 
 		// members
 #ifndef SKYRIM_CROSS_VR
