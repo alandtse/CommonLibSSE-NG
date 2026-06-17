@@ -262,7 +262,7 @@ namespace RE
 	void PlayerCharacter::UsePoisonFromInventory(AlchemyItem* a_poison)
 	{
 		using func_t = decltype(&PlayerCharacter::UsePoisonFromInventory);
-		static REL::Relocation<func_t> func{RELOCATION_ID(39406, 40481)};
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39406, 40481) };
 		return func(this, a_poison);
 	}
 
