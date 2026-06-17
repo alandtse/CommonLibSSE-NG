@@ -742,6 +742,7 @@ namespace RE
 		void                                   SetGodMode(bool a_enable);
 		void                                   StartGrabObject(VR_DEVICE a_device = VR_DEVICE::kLeftController);
 		void                                   UpdateCrosshairs();
+		void                                   UsePoisonFromInventory(AlchemyItem* a_poison);
 
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<BGSActorCellEvent>, AsBGSActorCellEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x2D0, 0x2D8)
 
