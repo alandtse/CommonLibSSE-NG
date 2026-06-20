@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RE/N/NiColor.h"
+
 namespace RE
 {
 	class BSVolumetricLightingRenderData
@@ -44,9 +46,7 @@ namespace RE
 		// members
 		float               intensity;            // 00 - CNAM
 		CustomColor         customColor;          // 04
-		float               red;                  // 08 - ENAM
-		float               green;                // 0C - FNAM
-		float               blue;                 // 10 - GNAM
+		NiColor             color;                // 08 - ENAM (red) / FNAM (green) / GNAM (blue)
 		Density             density;              // 14
 		PhaseFunction       phaseFunction;        // 24
 		SamplingRepartition samplingRepartition;  // 2C
