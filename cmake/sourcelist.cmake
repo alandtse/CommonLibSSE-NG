@@ -277,6 +277,7 @@ set(SOURCES
 	include/RE/B/BSISoundCategory.h
 	include/RE/B/BSISoundDescriptor.h
 	include/RE/B/BSISoundOutputModel.h
+	include/RE/B/BSIStream.h
 	include/RE/B/BSImagespaceShader.h
 	include/RE/B/BSImagespaceShaderBlur3.h
 	include/RE/B/BSImagespaceShaderISTemporalAA.h
@@ -2063,6 +2064,7 @@ set(SOURCES
 	src/RE/B/BSGamepadDevice.cpp
 	src/RE/B/BSGeometry.cpp
 	src/RE/B/BSHandleRefObject.cpp
+	src/RE/B/BSIStream.cpp
 	src/RE/B/BSInputDevice.cpp
 	src/RE/B/BSInputDeviceFactory.cpp
 	src/RE/B/BSInputDeviceManager.cpp

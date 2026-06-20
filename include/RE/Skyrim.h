@@ -279,6 +279,7 @@
 #include "RE/B/BSISoundCategory.h"
 #include "RE/B/BSISoundDescriptor.h"
 #include "RE/B/BSISoundOutputModel.h"
+#include "RE/B/BSIStream.h"
 #include "RE/B/BSImagespaceShader.h"
 #include "RE/B/BSImagespaceShaderBlur3.h"
 #include "RE/B/BSImagespaceShaderISTemporalAA.h"
