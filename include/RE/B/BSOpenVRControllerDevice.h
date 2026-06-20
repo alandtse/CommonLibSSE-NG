@@ -109,15 +109,21 @@ namespace RE
 
 	private:
 #	if defined(EXCLUSIVE_SKYRIM_VR)
-		std::uint64_t unk80[0x16];  // 080
+		// Per-frame controller state, maintained by Poll() via IVRSystem (see Poll RE).
+		// prevState is rolled from currentState at the top of Poll; currentState is filled by
+		// IVRSystem::GetControllerState(deviceIndex, &currentState, sizeof(currentState)).
+		vr::VRControllerState_t prevState;     // 080 - previous frame snapshot
+		vr::VRControllerState_t currentState;  // 0C0 - current frame (GetControllerState, 0x40)
+		std::uint64_t           unk100[6];     // 100 - unidentified (0x30; size of vr::HmdMatrix34_t, possibly a cached pose)
+		// Lighthouse/Vive trackpad swipe -> analog-stick emulation state (set by Poll's axis handlers).
 		std::uint32_t unk130;       // 130
-		std::uint32_t unk134;       // 134
-		std::uint32_t unk138;       // 138
-		std::uint32_t unk13C;       // 13C
-		std::uint32_t unk140;       // 140
-		std::uint32_t unk144;       // 144
-		std::uint32_t unk148;       // 148
-		std::uint32_t unk14C;       // 14C
+		float         swipeRefX;    // 134 - swipe reference point X
+		float         swipeRefY;    // 138 - swipe reference point Y
+		float         swipeLastX;   // 13C - last swipe sample X
+		float         swipeLastY;   // 140 - last swipe sample Y
+		std::uint32_t swipeAccum;   // 144
+		bool          swipeActive;  // 148 - trackpad swipe in progress
+		std::uint32_t swipeState;   // 14C - 4 = idle/armed
 #	endif
 	};
 	STATIC_ASSERT_SIZE(BSOpenVRControllerDevice, SIZE_UNDEFINED, SIZE_UNDEFINED, 0x158, SIZE_UNDEFINED, SIZE_UNDEFINED);
