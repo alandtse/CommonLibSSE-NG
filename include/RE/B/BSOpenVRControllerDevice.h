@@ -114,7 +114,7 @@ namespace RE
 		// IVRSystem::GetControllerState(deviceIndex, &currentState, sizeof(currentState)).
 		vr::VRControllerState_t prevState;     // 080 - previous frame snapshot
 		vr::VRControllerState_t currentState;  // 0C0 - current frame (GetControllerState, 0x40)
-		std::uint64_t           unk100[6];     // 100 - unidentified (0x30; size of vr::HmdMatrix34_t, possibly a cached pose)
+		std::uint64_t           unk100[6];     // 100 - unused/reserved (0x30; stays zero in live capture while controller is actively polled)
 		// Lighthouse/Vive trackpad swipe -> analog-stick emulation state (set by Poll's axis handlers).
 		std::uint32_t unk130;       // 130
 		float         swipeRefX;    // 134 - swipe reference point X
