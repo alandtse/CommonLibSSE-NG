@@ -1,7 +1,7 @@
 #include "RE/P/PlayerCamera.h"
 #include "RE/M/Main.h"
-#include "RE/N/NiNode.h"
 #include "RE/N/NiAVObject.h"
+#include "RE/N/NiNode.h"
 #include "RE/S/SceneGraph.h"
 
 namespace RE

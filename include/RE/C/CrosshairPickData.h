@@ -39,9 +39,12 @@ namespace RE
 			return target;
 #else
 			if (REL::Module::IsVR()) {
-				if (target[VR_DEVICE::kLeftController]) return target[VR_DEVICE::kLeftController];
-				if (target[VR_DEVICE::kRightController]) return target[VR_DEVICE::kRightController];
-				if (target[VR_DEVICE::kHeadset]) return target[VR_DEVICE::kHeadset];
+				if (target[VR_DEVICE::kLeftController])
+					return target[VR_DEVICE::kLeftController];
+				if (target[VR_DEVICE::kRightController])
+					return target[VR_DEVICE::kRightController];
+				if (target[VR_DEVICE::kHeadset])
+					return target[VR_DEVICE::kHeadset];
 				return ObjectRefHandle();
 			}
 			return target[0];
