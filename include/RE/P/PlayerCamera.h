@@ -126,6 +126,7 @@ namespace RE
 
 		bool                          ForceFirstPerson();
 		bool                          ForceThirdPerson();
+		[[nodiscard]] static NiPoint3 GetActiveCameraPosition();
 		bool                          IsInBleedoutMode() const;
 		bool                          IsInFirstPerson() const;
 		bool                          IsInFreeCameraMode() const;
@@ -134,7 +135,6 @@ namespace RE
 		void                          ToggleFreeCameraMode(bool a_freezeTime);
 		void                          Update();
 		void                          UpdateThirdPerson(bool a_weaponDrawn);
-		[[nodiscard]] static NiPoint3 GetActiveCameraPosition();
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0);
 

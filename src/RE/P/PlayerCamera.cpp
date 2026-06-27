@@ -92,7 +92,7 @@ namespace RE
 		if (REL::Module::IsVR()) {
 			if (auto worldRoot = RE::Main::WorldRootNode(); worldRoot && !worldRoot->GetChildren().empty()) {
 				if (auto frontNode = worldRoot->GetChildren().front()) {
-					return frontNode->local.translate;
+					return frontNode->world.translate;
 				}
 			}
 		}
