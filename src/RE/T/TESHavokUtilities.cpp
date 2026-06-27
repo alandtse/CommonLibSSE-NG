@@ -56,14 +56,14 @@ namespace RE
 		void LinearCastPhantom(bhkSimpleShapePhantom* a_phantom, bhkWorld* a_world, float* a_startPos, float* a_endPos, float* a_hitResult, TESObjectREFR** a_hitRef, float a_phantomSize)
 		{
 			using func_t = decltype(&LinearCastPhantom);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(32991, 33892) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(32270, 33007) };
 			return func(a_phantom, a_world, a_startPos, a_endPos, a_hitResult, a_hitRef, a_phantomSize);
 		}
 
 		bool CheckCharacterCollision(bhkSimpleShapePhantom* a_phantom, TESObjectREFR* a_character, float* a_pos, float a_casterSize, float a_checkHeight)
 		{
 			using func_t = decltype(&CheckCharacterCollision);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(32997, 33898) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(32271, 33008) };
 			return func(a_phantom, a_character, a_pos, a_casterSize, a_checkHeight);
 		}
 	}

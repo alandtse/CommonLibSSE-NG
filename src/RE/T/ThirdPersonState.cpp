@@ -58,7 +58,7 @@ namespace RE
 	void ThirdPersonState::ResetFreeRotation()
 	{
 		using func_t = decltype(&ThirdPersonState::ResetFreeRotation);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(49931, 50864) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(49966, 50902) };
 		func(this);
 	}
 
@@ -66,7 +66,7 @@ namespace RE
 	{
 		if (REL::Module::IsVR() || REL::Module::IsSE()) {
 			using func_t = decltype(&ThirdPersonState::UpdateCameraCollision);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(49957, 0) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(49980, 0) };
 			func(this);
 		}
 	}

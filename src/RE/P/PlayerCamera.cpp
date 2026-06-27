@@ -105,7 +105,7 @@ namespace RE
 	bool PlayerCamera::CheckCameraCollision(NiPoint3& a_pos, bool a_fadeCharacter)
 	{
 		using func_t = decltype(&PlayerCamera::CheckCameraCollision);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(49896, 50829) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(49899, 50832) };
 		return func(this, a_pos, a_fadeCharacter);
 	}
 
