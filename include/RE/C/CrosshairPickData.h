@@ -72,12 +72,12 @@ namespace RE
 		ObjectRefHandle                  grabPickRef[VR_DEVICE::kTotal];     // 1C
 		NiPoint3                         collisionPoint[VR_DEVICE::kTotal];  // 28
 		std::uint32_t                    pad4C;                              // 4C
-		std::uint64_t                    unk50[VR_DEVICE::kTotal];           // 50
+		bhkRigidBody*                    targetCollider[VR_DEVICE::kTotal];  // 50
 		float                            unk68;                              // 68
 		float                            unk6C;                              // 68
 		std::uint32_t                    unk70;                              // 70
 		std::uint32_t                    unk74;                              // 74
-		NiPointer<bhkSimpleShapePhantom> unk78;                              // 78
+		NiPointer<bhkSimpleShapePhantom> pickCollider;                       // 78
 		std::uint32_t                    unk80;                              // 80
 		std::uint16_t                    unk84;                              // 84
 		std::byte                        unk86;                              // 86
