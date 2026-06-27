@@ -48,5 +48,26 @@ namespace RE
 	{
 		REL::RelocateVirtual<decltype(&ThirdPersonState::HandleLookInput)>(0x0F, 0x10, this, a_input);
 	}
+
+	void ThirdPersonState::UpdateTranslation(float* a_rotationInput)
+	{
+		REL::RelocateVirtual<decltype(&ThirdPersonState::UpdateTranslation)>(0x10, 0x11, this, a_rotationInput);
+	}
 #endif
+
+	void ThirdPersonState::ResetFreeRotation()
+	{
+		using func_t = decltype(&ThirdPersonState::ResetFreeRotation);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(49931, 50864) };
+		func(this);
+	}
+
+	void ThirdPersonState::UpdateCameraCollision()
+	{
+		if (REL::Module::IsVR() || REL::Module::IsSE()) {
+			using func_t = decltype(&ThirdPersonState::UpdateCameraCollision);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(49957, 0) };
+			func(this);
+		}
+	}
 }

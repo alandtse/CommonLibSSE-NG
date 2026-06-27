@@ -52,6 +52,9 @@ namespace RE
 		virtual void SetFreeRotationMode(bool a_weaponSheathed);  // 0D/0E
 		virtual void UpdateRotation();                            // 0E/0F
 		virtual void HandleLookInput(const NiPoint2& a_input);    // 0F/10
+		void         ResetFreeRotation();
+		virtual void UpdateTranslation(float* a_rotationInput);  // 10/11
+		void         UpdateCameraCollision();
 
 		// members
 		NiAVObject*   thirdPersonCameraObj;   // 30

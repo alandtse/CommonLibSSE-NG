@@ -101,4 +101,20 @@ namespace RE
 		}
 		return NiPoint3::Zero();
 	}
+
+	bool PlayerCamera::CheckCameraCollision(NiPoint3& a_pos, bool a_fadeCharacter)
+	{
+		using func_t = decltype(&PlayerCamera::CheckCameraCollision);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(49896, 50829) };
+		return func(this, a_pos, a_fadeCharacter);
+	}
+
+	void PlayerCamera::UpdateYaw()
+	{
+		if (REL::Module::IsVR()) {
+			using func_t = decltype(&PlayerCamera::UpdateYaw);
+			static REL::Relocation<func_t> func{ REL::VariantID(0, 0, 0x876450) };
+			func(this);
+		}
+	}
 }

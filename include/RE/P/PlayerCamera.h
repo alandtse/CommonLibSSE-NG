@@ -135,6 +135,8 @@ namespace RE
 		void                          ToggleFreeCameraMode(bool a_freezeTime);
 		void                          Update();
 		void                          UpdateThirdPerson(bool a_weaponDrawn);
+		bool                          CheckCameraCollision(NiPoint3& a_pos, bool a_fadeCharacter);
+		void                          UpdateYaw();
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0);
 
