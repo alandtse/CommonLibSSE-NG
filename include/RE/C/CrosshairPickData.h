@@ -3,6 +3,7 @@
 #include "RE/B/BSPointerHandle.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
+#include "REL/Relocation.h"
 
 namespace RE
 {
@@ -30,6 +31,21 @@ namespace RE
 		{
 			static REL::Relocation<CrosshairPickData**> singleton{ RELOCATION_ID(515446, 401585) };
 			return *singleton;
+		}
+
+		[[nodiscard]] ObjectRefHandle GetActiveTarget() const
+		{
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
+			return target;
+#else
+			if (REL::Module::IsVR()) {
+				if (target[VR_DEVICE::kLeftController]) return target[VR_DEVICE::kLeftController];
+				if (target[VR_DEVICE::kRightController]) return target[VR_DEVICE::kRightController];
+				if (target[VR_DEVICE::kHeadset]) return target[VR_DEVICE::kHeadset];
+				return ObjectRefHandle();
+			}
+			return target[0];
+#endif
 		}
 
 		// members

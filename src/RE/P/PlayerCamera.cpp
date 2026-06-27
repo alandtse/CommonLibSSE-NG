@@ -1,4 +1,8 @@
 #include "RE/P/PlayerCamera.h"
+#include "RE/M/Main.h"
+#include "RE/N/NiNode.h"
+#include "RE/N/NiAVObject.h"
+#include "RE/S/SceneGraph.h"
 
 namespace RE
 {
@@ -81,5 +85,20 @@ namespace RE
 		using func_t = decltype(&PlayerCamera::UpdateThirdPerson);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(49908, 50841) };
 		return func(this, a_weaponDrawn);
+	}
+
+	NiPoint3 PlayerCamera::GetActiveCameraPosition()
+	{
+		if (REL::Module::IsVR()) {
+			if (auto worldRoot = RE::Main::WorldRootNode(); worldRoot && !worldRoot->GetChildren().empty()) {
+				if (auto frontNode = worldRoot->GetChildren().front()) {
+					return frontNode->local.translate;
+				}
+			}
+		}
+		if (auto pcCamera = PlayerCamera::GetSingleton(); pcCamera && pcCamera->cameraRoot) {
+			return pcCamera->cameraRoot->world.translate;
+		}
+		return NiPoint3::Zero();
 	}
 }
