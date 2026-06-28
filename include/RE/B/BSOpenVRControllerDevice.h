@@ -3,6 +3,7 @@
 #ifdef ENABLE_SKYRIM_VR
 
 #	include "RE/B/BSTrackedControllerDevice.h"
+#	include "RE/N/NiPoint2.h"
 
 namespace RE
 {
@@ -107,26 +108,41 @@ namespace RE
 			return IsLeftHandedMode() ? !isPhysSecondary : isPhysSecondary;
 		}
 
-	private:
-#	if defined(EXCLUSIVE_SKYRIM_VR)
-		// Per-frame controller state, maintained by Poll() via IVRSystem (see Poll RE).
-		// prevState is rolled from currentState at the top of Poll; currentState is filled by
-		// IVRSystem::GetControllerState(deviceIndex, &currentState, sizeof(currentState)).
-		vr::VRControllerState_t prevState;     // 080 - previous frame snapshot
-		vr::VRControllerState_t currentState;  // 0C0 - current frame (GetControllerState, 0x40)
-		std::uint64_t           unk100[6];     // 100 - unused/reserved (0x30; stays zero in live capture while controller is actively polled)
-		// Lighthouse/Vive trackpad swipe -> analog-stick emulation state (set by Poll's axis handlers).
-		std::uint32_t unk130;       // 130
-		float         swipeRefX;    // 134 - swipe reference point X
-		float         swipeRefY;    // 138 - swipe reference point Y
-		float         swipeLastX;   // 13C - last swipe sample X
-		float         swipeLastY;   // 140 - last swipe sample Y
-		std::uint32_t swipeAccum;   // 144
-		bool          swipeActive;  // 148 - trackpad swipe in progress
-		std::uint32_t swipeState;   // 14C - 4 = idle/armed
+		// Thumbstick / trackpad (rAxis[0]) from the last IVRSystem poll, x/y in [-1, 1]. Reads the
+		// typed currentState via GetRuntimeData() so it resolves correctly in every build: the
+		// accessor relocates to the verified VR offset (0xC0) regardless of the C++ base-class size,
+		// which shrinks in SKYRIM_CROSS_VR builds.
+		[[nodiscard]] NiPoint2 GetThumbstick() const noexcept
+		{
+			const auto& axis = GetRuntimeData().currentState.rAxis[0];
+			return { axis.x, axis.y };
+		}
+
+		// Device state block, maintained by Poll() via IVRSystem (see BSOpenVRControllerDevice::Poll
+		// RE). Begins at 0x88 (right after BSTrackedControllerDevice in VR); reached via the runtime
+		// accessor so cross-runtime builds, where the base classes drop their VR-only members from the
+		// C++ layout, still land on the engine's real offsets.
+		struct RUNTIME_DATA
+		{
+#	define RUNTIME_DATA_CONTENT                                                                         \
+		std::uint64_t           prevButtonPressed; /* 088 - prev-frame snapshot for edge detection */    \
+		std::uint64_t           prevButtonTouched; /* 090 */                                             \
+		vr::VRControllerAxis_t  prevAxis[5];       /* 098 - prev-frame axes (rolled from current) */     \
+		vr::VRControllerState_t currentState;      /* 0C0 - GetControllerState buffer (0x40) */          \
+		std::uint64_t           unk100[7];         /* 100 - unconfirmed (0x38); candidate cached pose */ \
+		std::uint32_t           swipe[8];          /* 138 - Vive/lighthouse trackpad swipe state */
+            RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0xD0);
+
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x88, 0x88);
+#	ifndef SKYRIM_CROSS_VR
+		// members
+		RUNTIME_DATA_CONTENT
 #	endif
 	};
 	STATIC_ASSERT_SIZE(BSOpenVRControllerDevice, SIZE_UNDEFINED, SIZE_UNDEFINED, 0x158, SIZE_UNDEFINED, SIZE_UNDEFINED);
+#	undef RUNTIME_DATA_CONTENT
 
 	// Returns a canonical string name for a given OpenVR controller key code
 	inline const char* GetOpenVRButtonName(std::uint32_t keyCode)
