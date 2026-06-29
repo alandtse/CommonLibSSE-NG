@@ -124,13 +124,13 @@ namespace RE
 		// C++ layout, still land on the engine's real offsets.
 		struct RUNTIME_DATA
 		{
-#	define RUNTIME_DATA_CONTENT                                                                         \
-		std::uint64_t           prevButtonPressed; /* 088 - prev-frame snapshot for edge detection */    \
-		std::uint64_t           prevButtonTouched; /* 090 */                                             \
-		vr::VRControllerAxis_t  prevAxis[5];       /* 098 - prev-frame axes (rolled from current) */     \
-		vr::VRControllerState_t currentState;      /* 0C0 - GetControllerState buffer (0x40) */          \
-		std::uint64_t           unk100[7];         /* 100 - unconfirmed (0x38); candidate cached pose */ \
-		std::uint32_t           swipe[8];          /* 138 - Vive/lighthouse trackpad swipe state */
+#	define RUNTIME_DATA_CONTENT                             \
+		std::uint64_t           prevButtonPressed; /* 088 */ \
+		std::uint64_t           prevButtonTouched; /* 090 */ \
+		vr::VRControllerAxis_t  prevAxis[5];       /* 098 */ \
+		vr::VRControllerState_t currentState;      /* 0C0 */ \
+		std::uint64_t           unk100[7];         /* 100 */ \
+		std::uint32_t           swipe[8];          /* 138 */
             RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0xD0);
