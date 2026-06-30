@@ -5,6 +5,7 @@
 #include "RE/M/MenuEventHandler.h"
 #include "RE/N/NiColor.h"
 #include "RE/N/NiMatrix3.h"
+#include "RE/N/NiPoint3.h"
 #include "RE/S/SimpleAnimationGraphManagerHolder.h"
 #include "REL/RuntimeDataAccessors.h"
 
@@ -86,6 +87,31 @@ namespace RE
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0xE8);
 
+		// VR appends deferred load-screen-model setup state past the shared RUNTIME_DATA (at +0x150): the
+		// model NIF streams in asynchronously, so SetupLoadScreenModel3D stashes the InitLoadScreen3D
+		// transform here and AdvanceMovie replays setup once the model lands. Absent on SE/AE (which load
+		// the model synchronously). Reachable in any build via GetVRRuntimeData().
+		struct VR_RUNTIME_DATA
+		{
+#define VR_RUNTIME_DATA_CONTENT                                                                              \
+	std::uint8_t  unk150[0x18];            /* 150 */                                                        \
+	bool          deferredSetupNeeded;     /* 168 - set when the load-screen model NIF is not yet loaded */ \
+	std::uint8_t  pad169[0x3];             /* 169 */                                                        \
+	float         stashedModelScale;       /* 16C */                                                        \
+	NiPoint3      stashedRotateOffset;     /* 170 */                                                        \
+	NiPoint3      stashedTranslateOffset;  /* 17C */                                                        \
+	NiPoint3      unk188;                  /* 188 */                                                        \
+	NiPoint3      unk194;                  /* 194 */                                                        \
+	std::uint8_t  unk1A0;                  /* 1A0 */                                                        \
+	bool          loadScreenModelReady;    /* 1A1 - set once the model is loaded and set up */              \
+	bool          loadScreen3DInitialized; /* 1A2 - set after InitLoadScreen3D runs on the model */         \
+	std::uint8_t  unk1A3;                  /* 1A3 */                                                         \
+	std::uint32_t unk1A4;                  /* 1A4 */
+
+			VR_RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x58);
+
 		~MistMenu() override;  // 00
 
 		// override (IMenu)
@@ -107,6 +133,25 @@ namespace RE
 #endif
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x58, 0x68);
+
+		// VR-only tail accessor; returns nullptr on SE/AE. Works in every build (incl. cross-VR) since it
+		// resolves the absolute VR offset rather than relying on inline members.
+		[[nodiscard]] inline VR_RUNTIME_DATA* GetVRRuntimeData() noexcept
+		{
+			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x150);
+			}
+			return nullptr;
+		}
+
+		[[nodiscard]] inline const VR_RUNTIME_DATA* GetVRRuntimeData() const noexcept
+		{
+			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x150);
+			}
+			return nullptr;
+		}
+
 		[[nodiscard]] static MistMenu* GetSingleton()
 		{
 			static REL::Relocation<MistMenu**> singleton{ RELOCATION_ID(519827, 406370) };
@@ -116,8 +161,20 @@ namespace RE
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 58, 68
+#	if defined(EXCLUSIVE_SKYRIM_VR)
+		VR_RUNTIME_DATA_CONTENT;  // 150
+#	endif
 #endif
 	};
-	STATIC_ASSERT_SIZE(MistMenu, 0x140, 0x140, 0x150, 0x30);
+#ifndef SKYRIM_CROSS_VR
+#	if defined(EXCLUSIVE_SKYRIM_VR)
+	static_assert(sizeof(MistMenu) == 0x1A8);
+#	else
+	static_assert(sizeof(MistMenu) == 0x140);
+#	endif
+#else
+	static_assert(sizeof(MistMenu) == 0x30);
+#endif
 }
 #undef RUNTIME_DATA_CONTENT
+#undef VR_RUNTIME_DATA_CONTENT
