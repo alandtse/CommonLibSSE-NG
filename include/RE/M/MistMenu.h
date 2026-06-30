@@ -93,20 +93,25 @@ namespace RE
 		// the model synchronously). Reachable in any build via GetVRRuntimeData().
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                                                             \
-	std::uint8_t  unk150[0x18];            /* 150 */                                                        \
-	bool          deferredSetupNeeded;     /* 168 - set when the load-screen model NIF is not yet loaded */ \
-	std::uint8_t  pad169[0x3];             /* 169 */                                                        \
-	float         stashedModelScale;       /* 16C */                                                        \
-	NiPoint3      stashedRotateOffset;     /* 170 */                                                        \
-	NiPoint3      stashedTranslateOffset;  /* 17C */                                                        \
-	NiPoint3      unk188;                  /* 188 */                                                        \
-	NiPoint3      unk194;                  /* 194 */                                                        \
-	std::uint8_t  unk1A0;                  /* 1A0 */                                                        \
-	bool          loadScreenModelReady;    /* 1A1 - set once the model is loaded and set up */              \
-	bool          loadScreen3DInitialized; /* 1A2 - set after InitLoadScreen3D runs on the model */         \
-	std::uint8_t  unk1A3;                  /* 1A3 */                                                        \
-	std::uint32_t unk1A4;                  /* 1A4 */
+#define VR_RUNTIME_DATA_CONTENT                                                                                              \
+	std::uint32_t     unk150;                  /* 150 */                                                                     \
+	std::uint32_t     pad154;                  /* 154 */                                                                     \
+	NiPointer<NiNode> unk158;                  /* 158 - NiPointer, released on camera-path teardown */                       \
+	NiPointer<NiNode> unk160;                  /* 160 - NiPointer, released on camera-path teardown */                       \
+	bool              deferredSetupNeeded;     /* 168 - set when the load-screen model NIF is not yet loaded */              \
+	std::uint8_t      pad169[0x3];             /* 169 */                                                                     \
+	float             stashedModelScale;       /* 16C */                                                                     \
+	NiPoint3          stashedRotateOffset;     /* 170 */                                                                     \
+	NiPoint3          stashedTranslateOffset;  /* 17C */                                                                     \
+	NiPoint3          unk188;                  /* 188 */                                                                     \
+	NiPoint3          unk194;                  /* 194 */                                                                     \
+	bool              cameraPathActive;        /* 1A0 - set once the camera path is initialized, guards teardown */          \
+	bool              loadScreenModelReady;    /* 1A1 - set once the model is loaded and set up */                           \
+	bool              loadScreen3DInitialized; /* 1A2 - set after InitLoadScreen3D runs on the model */                      \
+	bool              suppressPostDisplay;     /* 1A3 - when set, PostDisplay skips rendering if item menus are open */      \
+	bool              cameraSequenceEnabled;   /* 1A4 - enables camera path animation; default true */                       \
+	bool              resetCameraTimer;        /* 1A5 - cleared by AdvanceMovie after resetting the camera sequence timer */ \
+	std::uint8_t      pad1A6[2];               /* 1A6 */
 
 			VR_RUNTIME_DATA_CONTENT
 		};
