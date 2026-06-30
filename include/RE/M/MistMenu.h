@@ -166,15 +166,7 @@ namespace RE
 #	endif
 #endif
 	};
-#ifndef SKYRIM_CROSS_VR
-#	if defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(MistMenu) == 0x1A8);
-#	else
-	static_assert(sizeof(MistMenu) == 0x140);
-#	endif
-#else
-	static_assert(sizeof(MistMenu) == 0x30);
-#endif
+	STATIC_ASSERT_SIZE(MistMenu, 0x140, 0x140, 0x1A8, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT
