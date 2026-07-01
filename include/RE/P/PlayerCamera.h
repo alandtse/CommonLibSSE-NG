@@ -65,13 +65,13 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                                                                      \
-	BSTSmallArray<TESCameraState*, CameraStates::kTotal> tempReturnStates;                   /* 040, VR 040*/     \
-	BSTSmartPointer<TESCameraState>                      cameraStates[CameraStates::kTotal]; /* 0B8, VR 0C0*/     \
-	Unk120*                                              unk120;                             /* 120, VR 130*/     \
-	NiPointer<bhkRigidBody>                              rigidBody;                          /* 128, VR 138*/     \
-	RefHandle                                            objectFadeHandle;                   /* 130, VR 140 - ?*/ \
-	mutable BSSpinLock                                   lock;                               /* 134, VR 144 - ?*/
+#define RUNTIME_DATA_CONTENT                                                                                  \
+	BSTSmallArray<TESCameraState*, CameraStates::kTotal> tempReturnStates;                   /* 040, VR 040*/ \
+	BSTSmartPointer<TESCameraState>                      cameraStates[CameraStates::kTotal]; /* 0B8, VR 0C0*/ \
+	Unk120*                                              unk120;                             /* 120, VR 130*/ \
+	NiPointer<bhkRigidBody>                              rigidBody;                          /* 128, VR 138*/ \
+	RefHandle                                            objectFadeHandle;                   /* 130, VR 140*/ \
+	mutable BSSpinLock                                   lock;                               /* 134, VR 14C*/
 
 			RUNTIME_DATA_CONTENT
 		};
@@ -83,14 +83,17 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                                                                   \
-	BSTSmallArray<TESCameraState*, CameraStates::kVRTotal> tempReturnStates;                     /* 040, VR 040*/ \
-	BSTSmartPointer<TESCameraState>                        cameraStates[CameraStates::kVRTotal]; /* 0B8, VR 0C0*/ \
-	Unk120*                                                unk120;                               /* 120, VR 130*/ \
-	NiPointer<bhkRigidBody>                                rigidBody;                            /* 128, VR 138*/ \
-	RefHandle                                              objectFadeHandle;                     /* 130, VR 140*/ \
-	mutable BSSpinLock                                     lock;                                 /* 134, VR 144*/ \
-	char                                                   VRpad14C[6];                          /* VR 14C */
+#define VR_RUNTIME_DATA_CONTENT                                                                                                             \
+	BSTSmallArray<TESCameraState*, CameraStates::kVRTotal> tempReturnStates;                     /* 040, VR 040*/                           \
+	BSTSmartPointer<TESCameraState>                        cameraStates[CameraStates::kVRTotal]; /* 0B8, VR 0C0*/                           \
+	Unk120*                                                unk120;                               /* 120, VR 130*/                           \
+	NiPointer<bhkRigidBody>                                rigidBody;                            /* 128, VR 138*/                           \
+	RefHandle                                              objectFadeHandle;                     /* 130, VR 140*/                           \
+	RefHandle                                              unk144;                               /* VR 144 - default 0xFFFFFFFF, VR-only */ \
+	bool                                                   unk148;                               /* VR 148 - VR-only */                     \
+	std::uint8_t                                           pad149[3];                            /* VR 149 */                               \
+	mutable BSSpinLock                                     lock;                                 /* 134, VR 14C*/                           \
+	std::uint32_t                                          unk154;                               /* VR 154 - VR-only */
             VR_RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x118);
@@ -98,7 +101,10 @@ namespace RE
 		static_assert(offsetof(VR_RUNTIME_DATA, unk120) == 0xF0);
 		static_assert(offsetof(VR_RUNTIME_DATA, rigidBody) == 0xF8);
 		static_assert(offsetof(VR_RUNTIME_DATA, objectFadeHandle) == 0x100);
-		static_assert(offsetof(VR_RUNTIME_DATA, lock) == 0x104);
+		static_assert(offsetof(VR_RUNTIME_DATA, unk144) == 0x104);
+		static_assert(offsetof(VR_RUNTIME_DATA, unk148) == 0x108);
+		static_assert(offsetof(VR_RUNTIME_DATA, lock) == 0x10C);
+		static_assert(offsetof(VR_RUNTIME_DATA, unk154) == 0x114);
 
 		struct RUNTIME_DATA2
 		{
@@ -159,7 +165,7 @@ namespace RE
 		// VR requires a_cameraState with kVR enums > kAnimated
 		bool QCameraEquals(CameraState a_cameraState) const;
 	};
-	STATIC_ASSERT_SIZE(PlayerCamera, 0x168, 0x168, 0x180, 0x40);
+	STATIC_ASSERT_SIZE(PlayerCamera, 0x168, 0x168, 0x188, 0x40);
 }
 #undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT
