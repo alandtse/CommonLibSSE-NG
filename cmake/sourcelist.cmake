@@ -24,6 +24,7 @@ set(SOURCES
 	include/RE/A/ActorMagicCaster.h
 	include/RE/A/ActorMover.h
 	include/RE/A/ActorPackage.h
+	include/RE/A/ActorPackageData.h
 	include/RE/A/ActorSpeedChannel.h
 	include/RE/A/ActorState.h
 	include/RE/A/ActorTargetCheck.h
