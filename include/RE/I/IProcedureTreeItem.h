@@ -19,20 +19,22 @@ namespace RE
 		// -> FUN_1406429D0) and passed down through Execute(). No RTTI (plain struct).
 		struct ProcedureExecContext
 		{
-			Actor*    actor;             // 00
-			TESQuest* ownerQuest;        // 08 - TESPackage::ownerQuest of the running package
-			void*     packageDataTail;   // 10 - ActorPackage::data cast past ActorPackageData's 8-byte vtable
-										 //      ptr; points to the concrete subclass's own fields (e.g.
-										 //      EscortActorPackageData, GuardActorPackageData) -- type depends
-										 //      on the running package's PACKAGE_PROCEDURE_TYPE
-			ActorPackage* package;       // 18 - the currently executing package
-			bool          unk20;         // 20
-			bool          unk21;         // 21
-			bool          continueFlag;  // 22 - cleared before each Execute call; caller checks it after
-			std::uint8_t  pad23[5];      // 23
-			void*         manager;       // 28 - stack-local closure; vtable[1] = SetActiveProcedure(BGSProcedureBase*)
-			std::uint32_t unk30;         // 30
-			std::uint32_t processType;   // 34 - RE::PROCESS_TYPE in the low byte (see Character::GetActorProcessType)
+			Actor*    actor;                  // 00
+			TESQuest* ownerQuest;             // 08 - TESPackage::ownerQuest of the running package
+			void*     packageDataTail;        // 10 - ActorPackage::data cast past ActorPackageData's 8-byte vtable
+											  //      ptr; points to the concrete subclass's own fields (e.g.
+											  //      EscortActorPackageData, GuardActorPackageData) -- type depends
+											  //      on the running package's PACKAGE_PROCEDURE_TYPE
+			ActorPackage* package;            // 18 - the currently executing package
+			bool          unk20;              // 20 - usually 0; propagated from an outer bool param in one caller
+			bool          recheckConditions;  // 21 - constant true in normal AI-tick callers; computed from
+											  //      TESCustomPackageData::alwaysRecheckConditions in one caller;
+											  //      false in the query-only GameFunc::IsWarningAbout
+			bool          continueFlag;       // 22 - cleared before each Execute call; caller checks it after
+			std::uint8_t  pad23[5];           // 23
+			void*         manager;            // 28 - stack-local closure; vtable[1] = SetActiveProcedure(BGSProcedureBase*)
+			float         deltaTime;          // 30 - gSecondsSinceLastFrame_WorldTime at every observed call site
+			std::uint32_t processType;        // 34 - RE::PROCESS_TYPE in the low byte (see Character::GetActorProcessType)
 		};
 		static_assert(sizeof(ProcedureExecContext) == 0x38);
 
