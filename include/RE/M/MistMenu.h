@@ -93,8 +93,8 @@ namespace RE
 #define VR_RUNTIME_DATA_CONTENT                          \
 	std::uint32_t     unk150;                  /* 150 */ \
 	std::uint32_t     pad154;                  /* 154 */ \
-	NiPointer<NiNode> unk158;                  /* 158 */ \
-	NiPointer<NiNode> unk160;                  /* 160 */ \
+	NiPointer<NiNode> loadScreen3DModelNode;   /* 158 */ \
+	NiPointer<NiNode> loadScreen3DSceneNode;   /* 160 */ \
 	bool              deferredSetupNeeded;     /* 168 */ \
 	std::uint8_t      pad169[0x3];             /* 169 */ \
 	float             stashedModelScale;       /* 16C */ \
