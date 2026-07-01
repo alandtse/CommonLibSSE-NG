@@ -108,20 +108,20 @@ namespace RE
 
 		struct RUNTIME_DATA2
 		{
-#define RUNTIME_DATA2_CONTENT                                            \
-	float         worldFOV;            /* 13C, VR 158*/                  \
-	float         firstPersonFOV;      /* 140, VR 15c*/                  \
-	NiPoint3      pos;                 /* 144, VR 160 - ?*/              \
-	float         idleTimer;           /* 150, VR 16c - ?*/              \
-	float         yaw;                 /* 154, VR 170 - ? - in radians*/ \
-	std::uint32_t unk158;              /* 158 - ?*/                      \
-	std::uint32_t unk15C;              /* 15C - ?*/                      \
-	bool          allowAutoVanityMode; /* 160, VR 17c*/                  \
-	bool          bowZoomedIn;         /* 161, VR 17d*/                  \
-	bool          isWeapSheathed;      /* 162, VR 17e - ?*/              \
-	bool          isProcessed;         /* 163, VR 17f - ?*/              \
-	std::uint8_t  unk164;              /* 164*/                          \
-	std::uint8_t  unk165;              /* 165*/                          \
+#define RUNTIME_DATA2_CONTENT                                                                                               \
+	float         worldFOV;            /* 13C, VR 158*/                                                                     \
+	float         firstPersonFOV;      /* 140, VR 15c*/                                                                     \
+	NiPoint3      pos;                 /* 144, VR 160 - ?*/                                                                 \
+	float         idleTimer;           /* 150, VR 16c - countdown to auto-vanity camera when idle */                        \
+	float         yaw;                 /* 154, VR 170 - target's heading + per-state offset, radians, set by UpdateYaw() */ \
+	std::uint32_t unk158;              /* 158 - ?*/                                                                         \
+	std::uint32_t unk15C;              /* 15C - ?*/                                                                         \
+	bool          allowAutoVanityMode; /* 160, VR 17c - default depends on a game setting */                                \
+	bool          bowZoomedIn;         /* 161, VR 17d - default false*/                                                     \
+	bool          isWeapSheathed;      /* 162, VR 17e - default true*/                                                      \
+	bool          isProcessed;         /* 163, VR 17f - default false*/                                                     \
+	std::uint8_t  unk164;              /* 164*/                                                                             \
+	std::uint8_t  unk165;              /* 165*/                                                                             \
 	std::uint16_t pad166;              /* 166*/
 			RUNTIME_DATA2_CONTENT
 		};
