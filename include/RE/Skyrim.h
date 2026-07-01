@@ -1323,6 +1323,7 @@
 #include "RE/I/IPathBuilder.h"
 #include "RE/I/IPathBuilderTracker.h"
 #include "RE/I/IPostAnimationChannelUpdateFunctor.h"
+#include "RE/I/IProcedureTreeExecState.h"
 #include "RE/I/IProcedureTreeItem.h"
 #include "RE/I/IProfilePolicy.h"
 #include "RE/I/ISavePatcherInterface.h"

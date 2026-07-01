@@ -14,8 +14,8 @@ namespace RE
 		~BGSProcedureTreeSequence() override;  // 00
 
 		// override (BGSProcedureTreeBranch)
-		void Execute(void* a_execState) override;  // 04
-		void Unk_06(void) override;                // 06
+		void Execute(IProcedureTreeItem::ExecStateContext* a_execState) override;  // 04
+		void Unk_06(void) override;                                                // 06
 	};
 	static_assert(sizeof(BGSProcedureTreeSequence) == 0x30);
 }

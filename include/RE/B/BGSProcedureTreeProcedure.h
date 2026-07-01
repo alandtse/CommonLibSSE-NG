@@ -16,11 +16,11 @@ namespace RE
 		~BGSProcedureTreeProcedure() override;  // 00
 
 		// override (BGSProcedureTreeConditionalItem)
-		void Unk_01(void) override;                // 01
-		void Unk_02(void) override;                // 02
-		void Load(TESFile* a_mod) override;        // 03
-		void Execute(void* a_execState) override;  // 04
-		void Unk_05(void) override;                // 05
+		void Unk_01(void) override;                                                // 01
+		void Unk_02(void) override;                                                // 02
+		void Load(TESFile* a_mod) override;                                        // 03
+		void Execute(IProcedureTreeItem::ExecStateContext* a_execState) override;  // 04
+		void Unk_05(void) override;                                                // 05
 		// Unk_06 tail-calls procedure->vtable[6] (executes the procedure); AVs if procedure
 		// is null (record loaded without its BGSProcedureBase, e.g. broken record / load order)
 		void Unk_06(void) override;  // 06
