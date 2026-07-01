@@ -56,8 +56,8 @@ namespace RE
 
 		struct Unk120
 		{
-			NiPointer<bhkSimpleShapePhantom*> unk00;  // 00
-			NiPointer<bhkSimpleShapePhantom*> unk08;  // 08
+			NiPointer<bhkSimpleShapePhantom> unk00;  // 00
+			NiPointer<bhkSimpleShapePhantom> unk08;  // 08
 		};
 		static_assert(sizeof(Unk120) == 0x10);
 
@@ -68,10 +68,10 @@ namespace RE
 #define RUNTIME_DATA_CONTENT                                                                                      \
 	BSTSmallArray<TESCameraState*, CameraStates::kTotal> tempReturnStates;                   /* 040, VR 040*/     \
 	BSTSmartPointer<TESCameraState>                      cameraStates[CameraStates::kTotal]; /* 0B8, VR 0C0*/     \
-	Unk120*                                              unk120;                             /* 120, */           \
-	NiPointer<bhkRigidBody>                              rigidBody;                          /* 128, VR 130 - ?*/ \
-	RefHandle                                            objectFadeHandle;                   /* 130, VR 138 - ?*/ \
-	mutable BSSpinLock                                   lock;                               /* 134, VR 13c*/
+	Unk120*                                              unk120;                             /* 120, VR 130*/     \
+	NiPointer<bhkRigidBody>                              rigidBody;                          /* 128, VR 138*/     \
+	RefHandle                                            objectFadeHandle;                   /* 130, VR 140 - ?*/ \
+	mutable BSSpinLock                                   lock;                               /* 134, VR 144 - ?*/
 
 			RUNTIME_DATA_CONTENT
 		};
@@ -83,20 +83,22 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                                                                       \
-	BSTSmallArray<TESCameraState*, CameraStates::kVRTotal> tempReturnStates;                     /* 040, VR 040*/     \
-	BSTSmartPointer<TESCameraState>                        cameraStates[CameraStates::kVRTotal]; /* 0B8, VR 0C0*/     \
-	NiPointer<bhkRigidBody>                                rigidBody;                            /* 128, VR 130 - ?*/ \
-	RefHandle                                              objectFadeHandle;                     /* 130, VR 138 - ?*/ \
-	mutable BSSpinLock                                     lock;                                 /* 134, VR 13c*/     \
-	char                                                   VRpad144[14];                         /* VR 144 */
+#define VR_RUNTIME_DATA_CONTENT                                                                                   \
+	BSTSmallArray<TESCameraState*, CameraStates::kVRTotal> tempReturnStates;                     /* 040, VR 040*/ \
+	BSTSmartPointer<TESCameraState>                        cameraStates[CameraStates::kVRTotal]; /* 0B8, VR 0C0*/ \
+	Unk120*                                                unk120;                               /* 120, VR 130*/ \
+	NiPointer<bhkRigidBody>                                rigidBody;                            /* 128, VR 138*/ \
+	RefHandle                                              objectFadeHandle;                     /* 130, VR 140*/ \
+	mutable BSSpinLock                                     lock;                                 /* 134, VR 144*/ \
+	char                                                   VRpad14C[6];                          /* VR 14C */
             VR_RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x118);
 		static_assert(offsetof(VR_RUNTIME_DATA, cameraStates) == 0x80);
-		static_assert(offsetof(VR_RUNTIME_DATA, rigidBody) == 0xF0);
-		static_assert(offsetof(VR_RUNTIME_DATA, objectFadeHandle) == 0xF8);
-		static_assert(offsetof(VR_RUNTIME_DATA, lock) == 0xFC);
+		static_assert(offsetof(VR_RUNTIME_DATA, unk120) == 0xF0);
+		static_assert(offsetof(VR_RUNTIME_DATA, rigidBody) == 0xF8);
+		static_assert(offsetof(VR_RUNTIME_DATA, objectFadeHandle) == 0x100);
+		static_assert(offsetof(VR_RUNTIME_DATA, lock) == 0x104);
 
 		struct RUNTIME_DATA2
 		{
