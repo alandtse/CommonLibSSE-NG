@@ -12,14 +12,11 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_IProcedureTreeItem;
 		inline static constexpr auto VTABLE = VTABLE_IProcedureTreeItem;
 
-		// Opaque context passed to Execute(). Binary layout (anonymous struct, no RTTI):
-		//   [0x00] void* context  — plain struct: Actor* at [0x00], bool interruptFlag at [0x21],
-		//                           exec-state manager object at [0x28] (vtable[1] = SetActiveProcedure)
-		//   [0x08] IProcedureTreeExecState* nodeState — node-specific state (e.g. BGSProcedureTreeOneChildExecState)
+		// Opaque context passed to Execute(). Anonymous struct, no RTTI.
 		struct ExecStateContext
 		{
-			void*                    context;    // [0x00]
-			IProcedureTreeExecState* nodeState;  // [0x08]
+			void*                    context;    // 00 - plain struct: Actor* at 00, bool interruptFlag at 21, exec-state manager at 28 (vtable[1] = SetActiveProcedure)
+			IProcedureTreeExecState* nodeState;  // 08 - node-specific state (e.g. BGSProcedureTreeOneChildExecState)
 		};
 		static_assert(sizeof(ExecStateContext) == 0x10);
 
