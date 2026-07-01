@@ -25,6 +25,11 @@ namespace RE
 
 		~SandBoxActorPackageData() override;  // 00
 
+		// override (ActorPackageData)
+		void Unk_01(void) override;  // 01
+		void Unk_05(void) override;  // 05
+		void Unk_06(void) override;  // 06
+
 		// members
 		std::uint32_t   unk08;     // 08
 		std::uint32_t   unk0C;     // 0C - default 0xFFFFFFFF (index/id sentinel)

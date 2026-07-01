@@ -15,6 +15,11 @@ namespace RE
 
 		~EscortActorPackageData() override;  // 00
 
+		// override (ActorPackageData)
+		void Unk_01(void) override;  // 01
+		void Unk_05(void) override;  // 05
+		void Unk_06(void) override;  // 06
+
 		// Init(target, escortPackage, ...) writes target/escortPackage/escortPackageData below;
 		// exact parameter ABI unconfirmed, not exposed here.
 

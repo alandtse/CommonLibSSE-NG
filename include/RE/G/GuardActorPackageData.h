@@ -13,6 +13,11 @@ namespace RE
 
 		~GuardActorPackageData() override;  // 00
 
+		// override (ActorPackageData)
+		void Unk_01(void) override;  // 01
+		void Unk_05(void) override;  // 05
+		void Unk_06(void) override;  // 06
+
 		// members
 		std::uint32_t   unk08;         // 08
 		ObjectRefHandle target;        // 0C - set via sub_140710EA0 (target setter)

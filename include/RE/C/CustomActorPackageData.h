@@ -14,6 +14,11 @@ namespace RE
 
 		~CustomActorPackageData() override;  // 00
 
+		// override (ActorPackageData)
+		void Unk_01(void) override;  // 01
+		void Unk_05(void) override;  // 05
+		void Unk_06(void) override;  // 06
+
 		// members
 		BGSPackageDataList data;   // 08
 		void*              unk20;  // 20

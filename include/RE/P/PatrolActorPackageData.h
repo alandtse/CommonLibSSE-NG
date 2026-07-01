@@ -15,6 +15,11 @@ namespace RE
 
 		~PatrolActorPackageData() override;  // 00
 
+		// override (ActorPackageData)
+		void Unk_01(void) override;  // 01
+		void Unk_05(void) override;  // 05
+		void Unk_06(void) override;  // 06
+
 		// members
 		std::uint32_t                        unk08;        // 08 - observed 5
 		std::uint32_t                        pad0C;        // 0C
