@@ -684,6 +684,7 @@ set(SOURCES
 	include/RE/C/CrosshairPickData.h
 	include/RE/C/CureEffect.h
 	include/RE/C/CursorMenu.h
+	include/RE/C/CustomActorPackageData.h
 	include/RE/D/DamageImpactData.h
 	include/RE/D/DarknessEffect.h
 	include/RE/D/DecalData.h
@@ -722,6 +723,7 @@ set(SOURCES
 	include/RE/E/EnhanceWeaponEffect.h
 	include/RE/E/ErrorCodes.h
 	include/RE/E/ErrorLogger.h
+	include/RE/E/EscortActorPackageData.h
 	include/RE/E/EtherealizationEffect.h
 	include/RE/E/Explosion.h
 	include/RE/E/ExtraAction.h
@@ -1083,6 +1085,7 @@ set(SOURCES
 	include/RE/G/GrenadeProjectile.h
 	include/RE/G/GridArray.h
 	include/RE/G/GridCellArray.h
+	include/RE/G/GuardActorPackageData.h
 	include/RE/G/GuideEffect.h
 	include/RE/H/HUDChargeMeter.h
 	include/RE/H/HUDData.h
@@ -1594,6 +1597,7 @@ set(SOURCES
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
 	include/RE/P/PathingDoor.h
+	include/RE/P/PatrolActorPackageData.h
 	include/RE/P/PeakValueModifierEffect.h
 	include/RE/P/PerkEntryVisitor.h
 	include/RE/P/PerkRankVisitor.h
@@ -1652,6 +1656,7 @@ set(SOURCES
 	include/RE/RTTI.h
 	include/RE/S/SFTypes.h
 	include/RE/S/SafeZoneMenu.h
+	include/RE/S/SandBoxActorPackageData.h
 	include/RE/S/SaveFileHandleReaderWriter.h
 	include/RE/S/SavePatcher.h
 	include/RE/S/SaveStorageWrapper.h
@@ -1908,6 +1913,7 @@ set(SOURCES
 	include/RE/U/UnlinkedTypes.h
 	include/RE/U/UpdateConstellationAnims.h
 	include/RE/U/UpdateStarText.h
+	include/RE/U/UseWeaponActorPackageData.h
 	include/RE/U/UserEventEnabled.h
 	include/RE/U/UserEvents.h
 	include/RE/V/VATS.h
