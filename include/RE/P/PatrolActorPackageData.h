@@ -14,13 +14,21 @@ namespace RE
 		~PatrolActorPackageData() override;  // 00
 
 		// members
-		std::uint32_t   unk08;        // 08
-		std::uint32_t   pad0C;        // 0C
-		ObjectRefHandle target;       // 10
-		std::uint32_t   pad14;        // 14
-		std::uint8_t    unk18[0x10];  // 18 - BSTArrayHeapAllocator-constructed (likely a BSTArray<T>); element type unconfirmed
-		std::uint32_t   unk28;        // 28
-		std::uint8_t    pad2C[0x14];  // 2C - untouched by the ctor
+		std::uint32_t   unk08;   // 08 - observed 5
+		std::uint32_t   pad0C;   // 0C
+		ObjectRefHandle target;  // 10
+		std::uint32_t   pad14;   // 14
+		// 18: array-like block; sub_1407110F0 constructs it via BSTArray<BGSInstancedQuestObjective>::Ctor.
+		// Not this repo's RE::BSTArray<T> byte-for-byte (that's 0x18 here, this block is only 0x10).
+		std::uint8_t    objectives18[0x10];  // 18
+		std::uint32_t   unk28;               // 28
+		std::uint32_t   pad2C;               // 2C
+		ObjectRefHandle refHandle30;         // 30
+		bool            unk34;               // 34
+		bool            unk35;               // 35 - observed true
+		std::uint16_t   pad36;               // 36
+		std::uint32_t   unk38;               // 38
+		std::uint32_t   pad3C;               // 3C
 	};
 	static_assert(sizeof(PatrolActorPackageData) == 0x40);
 }
