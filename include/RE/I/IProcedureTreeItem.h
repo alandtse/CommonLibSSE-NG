@@ -4,7 +4,11 @@
 
 namespace RE
 {
+	class Actor;
+	class ActorPackage;
+	class ActorPackageData;
 	class TESFile;
+	class TESQuest;
 
 	class IProcedureTreeItem
 	{
@@ -12,10 +16,28 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_IProcedureTreeItem;
 		inline static constexpr auto VTABLE = VTABLE_IProcedureTreeItem;
 
-		// Opaque context passed to Execute(). Anonymous struct, no RTTI.
+		// Per-invocation execution context, built on the caller's stack (e.g. SE Character::sub_1405E20D0
+		// -> FUN_1406429D0) and passed down through Execute(). No RTTI (plain struct).
+		struct ProcedureExecContext
+		{
+			Actor*            actor;         // 00
+			TESQuest*         ownerQuest;    // 08 - TESPackage::ownerQuest of the running package
+			ActorPackageData* packageData;   // 10 - one past ActorPackage::data (caller does data+1)
+			ActorPackage*     package;       // 18 - the currently executing package
+			bool              unk20;         // 20
+			bool              unk21;         // 21
+			bool              continueFlag;  // 22 - cleared before each Execute call; caller checks it after
+			std::uint8_t      pad23[5];      // 23
+			void*             manager;       // 28 - stack-local closure; vtable[1] = SetActiveProcedure(BGSProcedureBase*)
+			std::uint32_t     unk30;         // 30
+			std::uint32_t     processType;   // 34 - RE::PROCESS_TYPE in the low byte (see Character::GetActorProcessType)
+		};
+		static_assert(sizeof(ProcedureExecContext) == 0x38);
+
+		// Opaque pair passed to Execute().
 		struct ExecStateContext
 		{
-			void*                    context;    // 00 - plain struct: Actor* at 00, bool interruptFlag at 21, exec-state manager at 28 (vtable[1] = SetActiveProcedure)
+			ProcedureExecContext*    context;    // 00
 			IProcedureTreeExecState* nodeState;  // 08 - node-specific state (e.g. BGSProcedureTreeOneChildExecState)
 		};
 		static_assert(sizeof(ExecStateContext) == 0x10);
