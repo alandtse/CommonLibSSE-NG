@@ -109,9 +109,11 @@ namespace RE
 		struct RUNTIME_DATA2
 		{
 #define RUNTIME_DATA2_CONTENT                                                                                               \
-	float         worldFOV;            /* 13C, VR 158*/                                                                     \
-	float         firstPersonFOV;      /* 140, VR 15c*/                                                                     \
-	NiPoint3      pos;                 /* 144, VR 160 - ?*/                                                                 \
+	float    worldFOV;                 /* 13C, VR 158*/                                                                     \
+	float    firstPersonFOV;           /* 140, VR 15c*/                                                                     \
+	NiPoint3 pos;                      /* 144, VR 160 - cached camera-anchor position; recomputed from the camera */        \
+									   /*                node's world position or actor-root + eye-level offset, */         \
+									   /*                cf. ThirdPersonState::collisionPos's cache+valid-flag pattern */   \
 	float         idleTimer;           /* 150, VR 16c - countdown to auto-vanity camera when idle */                        \
 	float         yaw;                 /* 154, VR 170 - target's heading + per-state offset, radians, set by UpdateYaw() */ \
 	std::uint32_t unk158;              /* 158 - ?*/                                                                         \
