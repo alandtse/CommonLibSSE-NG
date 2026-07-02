@@ -22,12 +22,15 @@ namespace RE
 		virtual void ModifyActorValue(Actor* a_actor, float a_value, ActorValue a_actorValue) override;  // 20
 
 		// add
-		virtual ActorValue GetAdditionalActorValue() const;  // 21
-		virtual float      GetSecondaryAVWeight() const;     // 22
+		virtual ActorValue GetAdditionalActorValue() const;  // 21 - returns GetBaseObject()->data.secondaryAV; not cached in a member
+		virtual float      GetSecondaryAVWeight() const;     // 22 - returns secondaryAVWeight
 
 		// members
-		ActorValue secondaryActorValue;  // 98
-		float      secondaryAVWeight;    // 9C
+		// The ctor stores mgef->data.secondAVWeight here (0.0f when
+		// data.secondaryAV is kNone); the secondary ActorValue itself is
+		// never cached — read it via GetAdditionalActorValue().
+		float         secondaryAVWeight;  // 98
+		std::uint32_t pad9C;              // 9C
 	};
 	static_assert(sizeof(DualValueModifierEffect) == 0xA0);
 }
