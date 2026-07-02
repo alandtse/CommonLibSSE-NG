@@ -259,6 +259,15 @@ namespace RE
 		return func(this);
 	}
 
+	void PlayerCharacter::UpdateVRComfortCheck()
+	{
+		if (REL::Module::IsVR()) {
+			using func_t = decltype(&PlayerCharacter::UpdateVRComfortCheck);
+			static REL::Relocation<func_t> func{ REL::VariantID(0, 0, 0x6B9AA0) };
+			func(this);
+		}
+	}
+
 	void PlayerCharacter::UsePoisonFromInventory(AlchemyItem* a_poison)
 	{
 		using func_t = decltype(&PlayerCharacter::UsePoisonFromInventory);

@@ -450,7 +450,7 @@ namespace RE
 			bool unk6_5: 1;                                                                // 6:5
 			bool unk6_6: 1;                                                                // 6:6
 			bool unk6_7: 1;                                                                // 6:7
-			bool unk7_0: 1;                                                                // 7:0
+			bool vrComfortFadeActive: 1;                                                   // 7:0 - Set/cleared by PlayerCharacter::UpdateVRComfortCheck's per-frame comfort-radius Havok collision test (normally around the player's head; retargeted at DialogueMenu::occlusionCheckNode's position while a dialogue is open). Drives the VR comfort screen-fade-to-black. VR only.
 			bool unk7_1: 1;                                                                // 7:1
 			bool unk7_2: 1;                                                                // 7:2
 			bool unk7_3: 1;                                                                // 7:3
@@ -742,7 +742,13 @@ namespace RE
 		void                                   SetGodMode(bool a_enable);
 		void                                   StartGrabObject(VR_DEVICE a_device = VR_DEVICE::kLeftController);
 		void                                   UpdateCrosshairs();
-		void                                   UsePoisonFromInventory(AlchemyItem* a_poison);
+		// Per-frame VR comfort-radius Havok collision check; sets/clears playerFlags.vrComfortFadeActive.
+		// Normally casts around the player's head (radius fPlayerComfortRadiusMeters:VRTeleport);
+		// retargets at DialogueMenu::occlusionCheckNode's world position (radius
+		// fPlayerDialogueMenuOcclusionCheckSize:VRUI) while the dialogue menu is open and no other
+		// blocking menu (container/barter/training/gift) is open. No-op outside VR.
+		void UpdateVRComfortCheck();
+		void UsePoisonFromInventory(AlchemyItem* a_poison);
 
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<BGSActorCellEvent>, AsBGSActorCellEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x2D0, 0x2D8)
 
