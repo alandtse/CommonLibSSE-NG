@@ -236,6 +236,15 @@ namespace RE
 		return func(this);
 	}
 
+#ifdef SKYRIMVR
+	void PlayerCharacter::UpdateVRComfortCheck()
+	{
+		using func_t = decltype(&PlayerCharacter::UpdateVRComfortCheck);
+		static REL::Relocation<func_t> func{ REL::Offset(0x6B9AA0) };
+		return func(this);
+	}
+#endif
+
 	bool PlayerCharacter::CenterOnCell_Impl(const char* a_cellName, RE::TESObjectCELL* a_cell)
 	{
 		using func_t = decltype(&PlayerCharacter::CenterOnCell_Impl);

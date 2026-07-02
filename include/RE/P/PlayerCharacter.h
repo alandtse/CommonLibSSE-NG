@@ -297,7 +297,7 @@ namespace RE
 			bool unk6_5: 1;                                                       // 6:5
 			bool unk6_6: 1;                                                       // 6:6
 			bool unk6_7: 1;                                                       // 6:7
-			bool unk7_0: 1;                                                       // 7:0
+			bool vrComfortFadeActive: 1;                                          // 7:0 - Set/cleared by PlayerCharacter::UpdateVRComfortCheck's per-frame comfort-radius Havok collision test (normally around the player's head; retargeted at DialogueMenu::occlusionCheckNode's position while a dialogue is open). Drives the VR comfort screen-fade-to-black.
 			bool unk7_1: 1;                                                       // 7:1
 			bool unk7_2: 1;                                                       // 7:2
 			bool unk7_3: 1;                                                       // 7:3
@@ -440,6 +440,14 @@ namespace RE
 		void SetAIDriven(bool a_enable);
 		void SetEscaping(bool a_flag, bool a_escaped);
 		void UpdateCrosshairs();
+#ifdef SKYRIMVR
+		// Per-frame VR comfort-radius Havok collision check; sets/clears playerFlags.vrComfortFadeActive.
+		// Normally casts around the player's head (radius fPlayerComfortRadiusMeters:VRTeleport);
+		// retargets at DialogueMenu::occlusionCheckNode's world position (radius
+		// fPlayerDialogueMenuOcclusionCheckSize:VRUI) while the dialogue menu is open and no other
+		// blocking menu (container/barter/training/gift) is open.
+		void UpdateVRComfortCheck();
+#endif
 
 		template <class T>
 		inline BSTEventSource<T>* GetEventSource()
