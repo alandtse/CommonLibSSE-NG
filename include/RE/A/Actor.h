@@ -588,7 +588,6 @@ namespace RE
 		[[nodiscard]] TESRace*                  GetRace() const;
 		[[nodiscard]] float                     GetReach() const;
 		[[nodiscard]] float                     GetRegenDelay(ActorValue a_actorValue) const;
-		[[nodiscard]] bool                      GetRider(NiPointer<Actor>& a_outRider);
 		[[nodiscard]] float                     GetSubmergedLevel(float a_zPos, RE::TESObjectCELL* a_cell);
 		[[nodiscard]] TESObjectARMO*            GetSkin() const;
 		[[nodiscard]] TESObjectARMO*            GetSkin(BGSBipedObjectForm::BipedObjectSlot a_slot, bool a_noInit = false);
