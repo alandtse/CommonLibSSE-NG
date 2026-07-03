@@ -654,7 +654,6 @@ namespace RE
 		[[nodiscard]] bool                      IsRunning() const;
 		[[nodiscard]] bool                      IsSneaking() const;
 		[[nodiscard]] bool                      IsStaggering() const;
-		[[nodiscard]] bool                      IsPointSubmergedMoreThan(const NiPoint3& a_pos, TESObjectCELL* a_cell, float a_waterLevel);
 		[[nodiscard]] bool                      IsSummoned() const noexcept;
 		[[nodiscard]] bool                      IsSummonedByPlayer() const noexcept;
 		[[nodiscard]] bool                      IsTrespassing() const;
