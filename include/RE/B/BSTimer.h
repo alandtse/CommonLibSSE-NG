@@ -31,21 +31,40 @@ namespace RE
 		}
 
 		// members
-		std::uint64_t unk00;                          // 00
-		std::uint32_t lastPerformanceCount;           // 08
-		std::uint32_t pad0C;                          // 0C
+		//
+		// Field semantics verified by RE (decompiled + disassembled, cross-checked byte-for-byte
+		// identical on SE 1.5.97, AE 1.6.1170, and VR 1.4.15): SetGlobalTimeMultiplier, the per-frame
+		// tick update, the smoothing-window setter, and Pause()/Unpause(). See CommonLibVR PR #203.
+		//
+		// qpcBaseline (08): a QueryPerformanceCounter baseline Pause()/Unpause() use to measure pause
+		//   duration. Verified as ONE 64-bit read (`sub rax,[this+8]`) on all three runtimes -- NOT the
+		//   two uint32_t fields this used to be split into (the high dword was never unused padding).
+		// smoothedTickCount (20) / tickCount (24): paired tick bookkeeping. tickCount is set to the
+		//   frame's consumed tick count every update; smoothedTickCount mirrors it when unsmoothed but
+		//   drifts by the averaged-delta contribution when smoothing is active. Both are advanced by the
+		//   pause duration in Unpause(), paired respectively with pausedSmoothedOffset/pausedTickOffset.
+		// tickCountBaseline (28): external raw tick counter is diffed against this each update. Verified
+		//   uint32_t, not the previous (incorrect) float typing.
+		// pausedSmoothedOffset (2C) / pausedTickOffset (30): Pause() scratch = ticksAtPause minus
+		//   smoothedTickCount/tickCountBaseline; Unpause() uses them to advance those fields by the
+		//   pause duration.
+		// smoothingSampleCount (38): AE's decompile names this setter parameter
+		//   iUnstableFrameTimeHistorySize_Display (gated by bCompensateUnstableFrameTime_Display) -- an
+		//   authoritative Bethesda name. 0-2 = passthrough, >=3 = moving average over smoothingBuffer.
+		float*        smoothingBuffer;                // 00
+		std::int64_t  qpcBaseline;                    // 08
 		float         clamp;                          // 10
 		float         clampRemainder;                 // 14
 		float         delta;                          // 18
 		float         realTimeDelta;                  // 1C
-		std::uint32_t unk20;                          // 20
-		std::uint32_t unk24;                          // 24
-		float         unk28;                          // 28
-		std::uint32_t unk2C;                          // 2C
-		std::uint32_t unk30;                          // 30
-		std::uint32_t unk34;                          // 34
-		std::uint8_t  unk38;                          // 38
-		std::uint8_t  unk39;                          // 39
+		std::uint32_t smoothedTickCount;              // 20
+		std::uint32_t tickCount;                      // 24
+		std::uint32_t tickCountBaseline;              // 28
+		std::uint32_t pausedSmoothedOffset;           // 2C
+		std::uint32_t pausedTickOffset;               // 30
+		std::uint32_t pauseCount;                     // 34
+		std::uint8_t  smoothingSampleCount;           // 38
+		std::uint8_t  smoothingBufferIndex;           // 39
 		bool          useGlobalTimeMultiplierTarget;  // 3A
 		std::uint8_t  pad3B;                          // 3B
 		std::uint32_t pad3C;                          // 3C
