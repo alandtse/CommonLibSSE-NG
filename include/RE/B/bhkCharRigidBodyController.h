@@ -23,7 +23,7 @@ namespace RE
 		virtual void ConsiderCollisionEntryForSlope(const hkpWorld* world, hkpCharacterRigidBody* characterRB, const hkpLinkedCollidable::CollisionEntry& entry, hkpSimpleConstraintContactMgr* mgr, hkArray<std::uint16_t>& contactPointIds) override;                   // 06
 		virtual void ConsiderCollisionEntryForMassModification(const hkpWorld* world, hkpCharacterRigidBody* characterRB, const hkpLinkedCollidable::CollisionEntry& entry, hkpSimpleConstraintContactMgr* mgr, const hkArray<std::uint16_t>& contactPointIds) override;  // 07
 
-		// Reverse engineered: the mass of whatever the character is currently standing on.
+		// The mass of whatever the character is currently standing on.
 		float GetSupportMass()
 		{
 			using func_t = decltype(&bhkCharRigidBodyController::GetSupportMass);
