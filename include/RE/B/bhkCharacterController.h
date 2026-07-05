@@ -116,8 +116,8 @@ namespace RE
 			func(this, a_body, a_contactPoint);
 		}
 
-		// hkpWorld::LinearCast sweep test against a_pos, validated against the fGoodPosCheckDepth_HAVOK/
-		// fGoodPosCastCheckDepth_HAVOK inis; applies via the position/velocity setters on success.
+		// hkpWorld::LinearCast sweep test against a_pos, validated against the fGoodPosCheckDepth_HAVOK
+		// and fGoodPosCastCheckDepth_HAVOK ini settings; applies via the position/velocity setters on success.
 		bool TryMoveTo(const hkVector4& a_pos, void* a_arg2, bool a_ignoreDepth)
 		{
 			using func_t = decltype(&bhkCharacterController::TryMoveTo);
