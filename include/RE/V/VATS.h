@@ -41,9 +41,8 @@ namespace RE
 	class VATS : public BSTSingletonSDM<VATS>
 	{
 	public:
-		// SetMode's decompile also handles 2 and 3 (both run identical setup: attach a NiPointLight
-		// if VATSLight is unset); no caller in the binary reaches either, and both are behaviorally
-		// indistinguishable from what's decompiled, so they're intentionally left unnamed here.
+		// SetMode also handles values 2 and 3 identically; no caller reaches either, so they're
+		// intentionally omitted rather than guessed.
 		enum class VATS_MODE : std::uint32_t
 		{
 			kNone = 0,
