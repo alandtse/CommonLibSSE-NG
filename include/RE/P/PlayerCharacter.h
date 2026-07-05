@@ -883,7 +883,9 @@ namespace RE
 	std::uint32_t      isRightHandMainHand;                                                           /* 6D4 - Likely derived from the bLeftHandedMode:VRInput ini setting; write site not yet traced */                                                                                                                                                                                                                                                                \
 	std::uint32_t      isLeftHandMainHand;                                                            /* 6D8 - see isRightHandMainHand */                                                                                                                                                                                                                                                                                                                               \
 	std::uint32_t      unk6DC;                                                                        /* 6DC */                                                                                                                                                                                                                                                                                                                                                         \
+	std::uint64_t      pad6E0[0x2];                                                                   /* 6E0 - 16-byte undeclared gap (issue #207), real per offsetof probe */                                                                                                                                                                                                                                                                                          \
 	std::uint64_t      unk6F0[0x3];                                                                   /* 6F0 - 24 bytes; VR PC ctor writes 6 consecutive floats with NiPoint3-component init values — 2 NiPoint3 */                                                                                                                                                                                                                                                   \
+	std::uint64_t      pad708;                                                                        /* 708 - 8-byte undeclared gap before hands, real per offsetof probe */                                                                                                                                                                                                                                                                                           \
 	VRPlayerHandData   hands[2];                                                                      /* 710 - per-controller state history (binary-verified via vector_constructor_iterator in PC ctor) */                                                                                                                                                                                                                                                             \
 	std::uint64_t      unk8B0[0x22];                                                                  /* 8B0 - 272 bytes; misc VR state. +0x00-0x27 ctor sentinels/floats; VRPlayerViewState_Init handles +0x28 on: +0x38 float 75.0 (likely FOV), +0x3C/+0x60 NiMatrix3 Identity, +0x84..+0xB3 4× NiPoint3 — VR stereo view state */                                                                                                                                \
 	std::uint64_t      pad9C0;                                                                        /* 9C0 - real gap (binary-verified in Ghidra); do not remove */                                                                                                                                                                                                                                                                                                   \
@@ -1005,7 +1007,12 @@ namespace RE
 	private:
 		bool CenterOnCell_Impl(const char* a_cellName, RE::TESObjectCELL* a_cell);
 	};
-	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xBE8, 0x12C0, 0x1E8);
+	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xBE8, 0x12D8, 0x1E8);
+#if defined(EXCLUSIVE_SKYRIM_VR)
+	static_assert(offsetof(PlayerCharacter, questTargetsLock) == 0x9C8);
+	static_assert(offsetof(PlayerCharacter, questTargets) == 0xB88);
+	static_assert(offsetof(PlayerCharacter, questLog) == 0xB60);
+#endif
 }
 #undef PLAYER_RUNTIME_DATA_CONTENT
 #undef VR_PLAYER_RUNTIME_DATA_CONTENT
