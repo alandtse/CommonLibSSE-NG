@@ -290,7 +290,8 @@ namespace RE
 		void RelayEvent(VMHandle handle, BSFixedString* event, BSScript::IFunctionArguments* args, ISendEventFilter* optionalFilter);
 		void SendAndRelayEvent(VMHandle handle, BSFixedString* event, BSScript::IFunctionArguments* args, ISendEventFilter* optionalFilter);
 
-		// Blocks the calling thread, pumping ProcessRegisteredUpdates, until isFrozen or a timeout.
+		// Blocks the calling thread, pumping ProcessRegisteredUpdates, until GetIsFrozen() returns true
+		// (see BSScript::IFreezeQuery) or a timeout.
 		void Freeze();
 
 		// members
