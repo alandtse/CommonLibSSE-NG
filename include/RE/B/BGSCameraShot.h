@@ -8,6 +8,8 @@
 
 namespace RE
 {
+	class TESObjectREFR;
+
 	class BGSCameraShot :
 		public TESForm,                     // 00
 		public TESModel,                    // 20
@@ -102,6 +104,31 @@ namespace RE
 			using func_t = decltype(&BGSCameraShot::SetTargetNode);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(20266, 20709) };
 			return func(this, a_node);
+		}
+
+		// Mirrors SetTargetNode, but for locationNode.
+		void SetLocationNode(NiAVObject* a_node)
+		{
+			using func_t = decltype(&BGSCameraShot::SetLocationNode);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20265, 20708) };
+			return func(this, a_node);
+		}
+
+		// Starts the shot: requests the camera model, validates its NiCamera/interpolator, sets up
+		// VATS dolly-timing state, and plays the transition sound.
+		void Play(TESObjectREFR* a_target, std::int32_t a_mode)
+		{
+			using func_t = decltype(&BGSCameraShot::Play);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20262, 20705) };
+			return func(this, a_target, a_mode);
+		}
+
+		// Per-frame position/frustum tick.
+		void Update(float a_currentTime)
+		{
+			using func_t = decltype(&BGSCameraShot::Update);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20267, 20710) };
+			return func(this, a_currentTime);
 		}
 
 		// members
