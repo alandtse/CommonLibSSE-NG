@@ -126,7 +126,7 @@ namespace RE
 		// Convenience overload for a non-shadow, non-portal-strict, never-fading light.
 		void AddLight(NiLight* a_light)
 		{
-			using func_t = decltype(static_cast<void (ShadowSceneNode::*)(NiLight*)>(&ShadowSceneNode::AddLight));
+			using func_t = void (*)(ShadowSceneNode*, NiLight*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(99691, 106325) };
 			return func(this, a_light);
 		}

@@ -139,7 +139,7 @@ namespace RE
 		RefHandle             unk98;           // 98
 		std::uint32_t         unk9C;           // 9C
 		NiPointer<NiNode>     cameraNode;      // A0 - smart ptr
-		NiPointer<NiAVObject> targetFadeNode;  // A8 - smart ptr; nearest ancestor NiFadeNode of targetNode
+		NiPointer<NiAVObject> targetFadeNode;  // A8 - smart ptr; nearest fade-capable ancestor node of targetNode
 		std::uint8_t          unkB0;           // B0
 		bool                  unkB1;           // B1
 		std::uint16_t         padB2;           // B2
