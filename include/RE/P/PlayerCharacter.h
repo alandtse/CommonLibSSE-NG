@@ -94,93 +94,93 @@ namespace RE
 
 	struct VR_NODE_DATA
 	{
-#define VR_NODE_DATA_CONTENT                                                                                                                                                  \
-	NiPointer<NiNode>          PlayerWorldNode;                 /* 3F0 */                                                                                                     \
-	NiPointer<NiNode>          FollowNode;                      /* 3F8 */                                                                                                     \
-	NiPointer<NiNode>          FollowOffset;                    /* 400 */                                                                                                     \
-	NiPointer<NiNode>          HeightOffsetNode;                /* 408 */                                                                                                     \
-	NiPointer<NiNode>          SnapWalkOffsetNode;              /* 410 */                                                                                                     \
-	NiPointer<NiNode>          RoomNode;                        /* 418 */                                                                                                     \
-	NiPointer<NiNode>          BlackSphere;                     /* 420 */                                                                                                     \
-	NiPointer<NiNode>          uiNode;                          /* 428 */                                                                                                     \
-	NiPointer<BSTriShape>      InWorldUIQuadGeo;                /* 430 */                                                                                                     \
-	NiPointer<NiNode>          UIPointerNode;                   /* 438 */                                                                                                     \
-	NiPointer<BSTriShape>      UIPointerGeo;                    /* 440 */                                                                                                     \
-	NiPointer<NiNode>          DialogueUINode;                  /* 448 */                                                                                                     \
-	NiPointer<NiNode>          TeleportDestinationPreview;      /* 450 */                                                                                                     \
-	NiPointer<NiNode>          TeleportDestinationFail;         /* 458 */                                                                                                     \
-	NiPointer<NiNode>          TeleportSprintPreview;           /* 460 */                                                                                                     \
-	NiPointer<NiNode>          SpellOrigin;                     /* 468 */                                                                                                     \
-	NiPointer<NiNode>          SpellDestination;                /* 470 */                                                                                                     \
-	NiPointer<NiNode>          ArrowOrigin;                     /* 478 */                                                                                                     \
-	NiPointer<NiNode>          ArrowDestination;                /* 480 */                                                                                                     \
-	NiPointer<NiNode>          QuestMarker;                     /* 488 */                                                                                                     \
-	NiPointer<NiNode>          LeftWandNode;                    /* 490 */                                                                                                     \
-	NiPointer<NiNode>          LeftWandShakeNode;               /* 498 */                                                                                                     \
-	NiPointer<NiNode>          LeftValveIndexControllerNode;    /* 4A0 */                                                                                                     \
-	NiPointer<NiNode>          unkNode4A8;                      /* 4A8 */                                                                                                     \
-	NiPointer<NiNode>          LeftWeaponOffsetNode;            /* 4B0 */                                                                                                     \
-	NiPointer<NiNode>          LeftCrossbowOffsetNode;          /* 4B8 */                                                                                                     \
-	NiPointer<NiNode>          LeftMeleeWeaponOffsetNode;       /* 4C0 */                                                                                                     \
-	NiPointer<NiNode>          LeftStaffWeaponOffsetNode;       /* 4C8 */                                                                                                     \
-	NiPointer<NiNode>          LeftShieldOffsetNode;            /* 4D0 */                                                                                                     \
-	NiPointer<NiNode>          RightShieldOffsetNode;           /* 4D8 */                                                                                                     \
-	NiPointer<NiNode>          SecondaryMagicOffsetNode;        /* 4E0 */                                                                                                     \
-	NiPointer<NiNode>          SecondaryMagicAimNode;           /* 4E8 */                                                                                                     \
-	NiPointer<NiNode>          SecondaryStaffMagicOffsetNode;   /* 4F0 */                                                                                                     \
-	NiPointer<NiNode>          RightWandNode;                   /* 4F8 */                                                                                                     \
-	NiPointer<NiNode>          RightWandShakeNode;              /* 500 */                                                                                                     \
-	NiPointer<NiNode>          RightValveIndexControllerNode;   /* 508 */                                                                                                     \
-	NiPointer<NiNode>          unkNode510;                      /* 510 */                                                                                                     \
-	NiPointer<NiNode>          RightWeaponOffsetNode;           /* 518 */                                                                                                     \
-	NiPointer<NiNode>          RightCrossbowOffsetNode;         /* 520 */                                                                                                     \
-	NiPointer<NiNode>          RightMeleeWeaponOffsetNode;      /* 528 */                                                                                                     \
-	NiPointer<NiNode>          RightStaffWeaponOffsetNode;      /* 530 */                                                                                                     \
-	NiPointer<NiNode>          PrimaryMagicOffsetNode;          /* 538 */                                                                                                     \
-	NiPointer<NiNode>          PrimaryMagicAimNode;             /* 540 */                                                                                                     \
-	NiPointer<NiNode>          PrimaryStaffMagicOffsetNode;     /* 548 */                                                                                                     \
-	std::uint64_t              unk550;                          /* 550 - two uint32 (both init = 3 in VR_NODE_DATA ctor); likely mode/index pair */                           \
-	NiPointer<NiBillboardNode> CrosshairParent;                 /* 558 */                                                                                                     \
-	NiPointer<NiBillboardNode> CrosshairSecondaryParent;        /* 560 */                                                                                                     \
-	NiPointer<NiBillboardNode> TargetLockParent;                /* 568 */                                                                                                     \
-	NiPointer<NiNode>          GamepadNode;                     /* 570 */                                                                                                     \
-	NiPointer<NiNode>          LastSyncPos;                     /* 578 */                                                                                                     \
-	NiPointer<NiNode>          UprightHmdNode;                  /* 580 */                                                                                                     \
-	NiPointer<NiNode>          MapMarkers3D;                    /* 588 */                                                                                                     \
-	NiPointer<NiNode>          NPCLHnd;                         /* 590 */                                                                                                     \
-	NiPointer<NiNode>          NPCRHnd;                         /* 598 */                                                                                                     \
-	NiPointer<NiNode>          NPCLClv;                         /* 5A0 */                                                                                                     \
-	NiPointer<NiNode>          NPCRClv;                         /* 5A8 */                                                                                                     \
-	std::uint32_t              unk5B0;                          /* 5B0 */                                                                                                     \
-	std::uint32_t              unk5B4;                          /* 5B4 */                                                                                                     \
-	std::uint64_t              unk5B8;                          /* 5B8 */                                                                                                     \
-	VR_Bow_State               bowState;                        /* 5C0 */                                                                                                     \
-	std::uint32_t              unk5C4;                          /* 5C4 */                                                                                                     \
-	NiPointer<NiNode>          BowAimNode;                      /* 5C8 */                                                                                                     \
-	NiPointer<NiNode>          BowRotationNode;                 /* 5D0 */                                                                                                     \
-	NiPointer<NiNode>          ArrowSnapNode;                   /* 5D8 */                                                                                                     \
-	NiPointer<BSFadeNode>      ArrowNode;                       /* 5E0 */                                                                                                     \
-	NiPointer<BSFadeNode>      ArrowFireNode;                   /* 5E8 */                                                                                                     \
-	std::uint64_t              unk5F0;                          /* 5F0 */                                                                                                     \
-	NiPointer<NiNode>          ArrowHoldOffsetNode;             /* 5F8 */                                                                                                     \
-	NiPointer<NiNode>          ArrowHoldNode;                   /* 600 */                                                                                                     \
-	std::uint64_t              unk608;                          /* 608 */                                                                                                     \
-	float                      currentArrowSnapDistance;        /* 610 */                                                                                                     \
-	std::uint32_t              unk614;                          /* 614 */                                                                                                     \
-	float                      currentBowDrawAmount;            /* 618 - 0 to 1 */                                                                                            \
-	float                      lastRumbleBowDrawAmount;         /* 61C - 0 to 1 */                                                                                            \
-	std::uint64_t              unk620;                          /* 620 */                                                                                                     \
-	std::uint64_t              unk628;                          /* 628 */                                                                                                     \
-	std::uint64_t              unk630;                          /* 630 */                                                                                                     \
-	void*                      QuestMarkerBillBoardsNodeArray;  /* 638    TODO - Make into proper data structure */                                                           \
-	void*                      TeleportNodeArray;               /* 640    TODO - Make into proper data structure */                                                           \
-	void*                      QuestMarkerBillBoardsNodeArray2; /* 648    TODO - Make into proper data structure -> points to same place as QuestMarkerBillBoardsNodeArray */ \
-	std::uint64_t              unk650;                          /* 650 */                                                                                                     \
-	void*                      TeleportNodeArray2;              /* 658    TODO - Make into proper data structure -> points to same place as TeleportNodeArray */              \
-	void*                      QuestMarkerBillBoardsNodeArray3; /* 660    TODO - Make into proper data structure -> points to same place as QuestMarkerBillBoardsNodeArray */ \
-	std::uint64_t              unk668;                          /* 668 */                                                                                                     \
-	float                      unkFloat670;                     /* 670 */                                                                                                     \
-	std::uint32_t              unk674;                          /* 674 */                                                                                                     \
+#define VR_NODE_DATA_CONTENT                                                                                                                                                                                                               \
+	NiPointer<NiNode>          PlayerWorldNode;                 /* 3F0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          FollowNode;                      /* 3F8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          FollowOffset;                    /* 400 */                                                                                                                                                                  \
+	NiPointer<NiNode>          HeightOffsetNode;                /* 408 */                                                                                                                                                                  \
+	NiPointer<NiNode>          SnapWalkOffsetNode;              /* 410 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RoomNode;                        /* 418 */                                                                                                                                                                  \
+	NiPointer<NiNode>          BlackSphere;                     /* 420 */                                                                                                                                                                  \
+	NiPointer<NiNode>          uiNode;                          /* 428 */                                                                                                                                                                  \
+	NiPointer<BSTriShape>      InWorldUIQuadGeo;                /* 430 */                                                                                                                                                                  \
+	NiPointer<NiNode>          UIPointerNode;                   /* 438 */                                                                                                                                                                  \
+	NiPointer<BSTriShape>      UIPointerGeo;                    /* 440 */                                                                                                                                                                  \
+	NiPointer<NiNode>          DialogueUINode;                  /* 448 */                                                                                                                                                                  \
+	NiPointer<NiNode>          TeleportDestinationPreview;      /* 450 */                                                                                                                                                                  \
+	NiPointer<NiNode>          TeleportDestinationFail;         /* 458 */                                                                                                                                                                  \
+	NiPointer<NiNode>          TeleportSprintPreview;           /* 460 */                                                                                                                                                                  \
+	NiPointer<NiNode>          SpellOrigin;                     /* 468 */                                                                                                                                                                  \
+	NiPointer<NiNode>          SpellDestination;                /* 470 */                                                                                                                                                                  \
+	NiPointer<NiNode>          ArrowOrigin;                     /* 478 */                                                                                                                                                                  \
+	NiPointer<NiNode>          ArrowDestination;                /* 480 */                                                                                                                                                                  \
+	NiPointer<NiNode>          QuestMarker;                     /* 488 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftWandNode;                    /* 490 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftWandShakeNode;               /* 498 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftValveIndexControllerNode;    /* 4A0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          unkNode4A8;                      /* 4A8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftWeaponOffsetNode;            /* 4B0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftCrossbowOffsetNode;          /* 4B8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftMeleeWeaponOffsetNode;       /* 4C0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftStaffWeaponOffsetNode;       /* 4C8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          LeftShieldOffsetNode;            /* 4D0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightShieldOffsetNode;           /* 4D8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          SecondaryMagicOffsetNode;        /* 4E0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          SecondaryMagicAimNode;           /* 4E8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          SecondaryStaffMagicOffsetNode;   /* 4F0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightWandNode;                   /* 4F8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightWandShakeNode;              /* 500 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightValveIndexControllerNode;   /* 508 */                                                                                                                                                                  \
+	NiPointer<NiNode>          unkNode510;                      /* 510 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightWeaponOffsetNode;           /* 518 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightCrossbowOffsetNode;         /* 520 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightMeleeWeaponOffsetNode;      /* 528 */                                                                                                                                                                  \
+	NiPointer<NiNode>          RightStaffWeaponOffsetNode;      /* 530 */                                                                                                                                                                  \
+	NiPointer<NiNode>          PrimaryMagicOffsetNode;          /* 538 */                                                                                                                                                                  \
+	NiPointer<NiNode>          PrimaryMagicAimNode;             /* 540 */                                                                                                                                                                  \
+	NiPointer<NiNode>          PrimaryStaffMagicOffsetNode;     /* 548 */                                                                                                                                                                  \
+	std::uint64_t              unk550;                          /* 550 - two uint32 (both init = 3 in VR_NODE_DATA ctor); likely mode/index pair */                                                                                        \
+	NiPointer<NiBillboardNode> CrosshairParent;                 /* 558 */                                                                                                                                                                  \
+	NiPointer<NiBillboardNode> CrosshairSecondaryParent;        /* 560 */                                                                                                                                                                  \
+	NiPointer<NiBillboardNode> TargetLockParent;                /* 568 */                                                                                                                                                                  \
+	NiPointer<NiNode>          HmdNode;                         /* 570 - live-tracked HMD pose node; PlayerCharacter ctor writes eyeHeight to +0x74, and ApplyRoomscaleMovement reads its world position to drive TryMoveTo/SetPosition */ \
+	NiPointer<NiNode>          LastSyncPos;                     /* 578 */                                                                                                                                                                  \
+	NiPointer<NiNode>          UprightHmdNode;                  /* 580 */                                                                                                                                                                  \
+	NiPointer<NiNode>          MapMarkers3D;                    /* 588 */                                                                                                                                                                  \
+	NiPointer<NiNode>          NPCLHnd;                         /* 590 */                                                                                                                                                                  \
+	NiPointer<NiNode>          NPCRHnd;                         /* 598 */                                                                                                                                                                  \
+	NiPointer<NiNode>          NPCLClv;                         /* 5A0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          NPCRClv;                         /* 5A8 */                                                                                                                                                                  \
+	std::uint32_t              unk5B0;                          /* 5B0 */                                                                                                                                                                  \
+	std::uint32_t              unk5B4;                          /* 5B4 */                                                                                                                                                                  \
+	std::uint64_t              unk5B8;                          /* 5B8 */                                                                                                                                                                  \
+	VR_Bow_State               bowState;                        /* 5C0 */                                                                                                                                                                  \
+	std::uint32_t              unk5C4;                          /* 5C4 */                                                                                                                                                                  \
+	NiPointer<NiNode>          BowAimNode;                      /* 5C8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          BowRotationNode;                 /* 5D0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          ArrowSnapNode;                   /* 5D8 */                                                                                                                                                                  \
+	NiPointer<BSFadeNode>      ArrowNode;                       /* 5E0 */                                                                                                                                                                  \
+	NiPointer<BSFadeNode>      ArrowFireNode;                   /* 5E8 */                                                                                                                                                                  \
+	std::uint64_t              unk5F0;                          /* 5F0 */                                                                                                                                                                  \
+	NiPointer<NiNode>          ArrowHoldOffsetNode;             /* 5F8 */                                                                                                                                                                  \
+	NiPointer<NiNode>          ArrowHoldNode;                   /* 600 */                                                                                                                                                                  \
+	std::uint64_t              unk608;                          /* 608 */                                                                                                                                                                  \
+	float                      currentArrowSnapDistance;        /* 610 */                                                                                                                                                                  \
+	std::uint32_t              unk614;                          /* 614 */                                                                                                                                                                  \
+	float                      currentBowDrawAmount;            /* 618 - 0 to 1 */                                                                                                                                                         \
+	float                      lastRumbleBowDrawAmount;         /* 61C - 0 to 1 */                                                                                                                                                         \
+	std::uint64_t              unk620;                          /* 620 */                                                                                                                                                                  \
+	std::uint64_t              unk628;                          /* 628 */                                                                                                                                                                  \
+	std::uint64_t              unk630;                          /* 630 */                                                                                                                                                                  \
+	void*                      QuestMarkerBillBoardsNodeArray;  /* 638    TODO - Make into proper data structure */                                                                                                                        \
+	void*                      TeleportNodeArray;               /* 640    TODO - Make into proper data structure */                                                                                                                        \
+	void*                      QuestMarkerBillBoardsNodeArray2; /* 648    TODO - Make into proper data structure -> points to same place as QuestMarkerBillBoardsNodeArray */                                                              \
+	std::uint64_t              unk650;                          /* 650 */                                                                                                                                                                  \
+	void*                      TeleportNodeArray2;              /* 658    TODO - Make into proper data structure -> points to same place as TeleportNodeArray */                                                                           \
+	void*                      QuestMarkerBillBoardsNodeArray3; /* 660    TODO - Make into proper data structure -> points to same place as QuestMarkerBillBoardsNodeArray */                                                              \
+	std::uint64_t              unk668;                          /* 668 */                                                                                                                                                                  \
+	float                      unkFloat670;                     /* 670 */                                                                                                                                                                  \
+	std::uint32_t              unk674;                          /* 674 */                                                                                                                                                                  \
 	void*                      TeleportNodeArray3;              /* 678    TODO - Make into proper data structure */
         VR_NODE_DATA_CONTENT
 	};
@@ -872,9 +872,6 @@ namespace RE
 		struct VR_PLAYER_RUNTIME_DATA
 		{
 #define VR_PLAYER_RUNTIME_DATA_CONTENT                                                                                                                                                                                                                                                                                                                                                                                                                                  \
-	NiPointer<NiNode> unk3D8;                                                                         /* 3D8 - ancestor chain above PlayerWorldNode: unk3D8(root)->unk3E0->unk3E8->PlayerWorldNode; each shares its child's name string */                                                                                                                                                                                                                              \
-	NiPointer<NiNode> unk3E0;                                                                         /* 3E0 - see unk3D8 */                                                                                                                                                                                                                                                                                                                                            \
-	NiPointer<NiNode> unk3E8;                                                                         /* 3E8 - see unk3D8 */                                                                                                                                                                                                                                                                                                                                            \
 	VR_NODE_DATA_CONTENT;                                                                             /* 3F0 */                                                                                                                                                                                                                                                                                                                                                         \
 	std::uint64_t      unk680;                                                                        /* 680 */                                                                                                                                                                                                                                                                                                                                                         \
 	std::uint64_t      unk688;                                                                        /* 688 */                                                                                                                                                                                                                                                                                                                                                         \
@@ -1008,7 +1005,7 @@ namespace RE
 	private:
 		bool CenterOnCell_Impl(const char* a_cellName, RE::TESObjectCELL* a_cell);
 	};
-	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xBE8, 0x12D8, 0x1E8);
+	STATIC_ASSERT_SIZE(PlayerCharacter, 0xBE0, 0xBE8, 0x12C0, 0x1E8);
 }
 #undef PLAYER_RUNTIME_DATA_CONTENT
 #undef VR_PLAYER_RUNTIME_DATA_CONTENT
