@@ -120,8 +120,16 @@ namespace RE
 			return func(this, object);
 		}
 
-		BSLight*           AddLight(NiLight* a_light, const LIGHT_CREATE_PARAMS& a_params);
-		void               AddLight(BSLight* a_light);
+		BSLight* AddLight(NiLight* a_light, const LIGHT_CREATE_PARAMS& a_params);
+		void     AddLight(BSLight* a_light);
+
+		// Convenience overload for a non-shadow, non-portal-strict, never-fading light.
+		void AddLight(NiLight* a_light)
+		{
+			using func_t = decltype(static_cast<void (ShadowSceneNode::*)(NiLight*)>(&ShadowSceneNode::AddLight));
+			static REL::Relocation<func_t> func{ RELOCATION_ID(99691, 106325) };
+			return func(this, a_light);
+		}
 		BSLight*           GetLight(NiLight* a_light);
 		BSLight*           GetPointLight(NiLight* a_light);
 		BSLight*           GetShadowLight(NiLight* a_light);

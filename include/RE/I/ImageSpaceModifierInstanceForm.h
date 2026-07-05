@@ -34,6 +34,15 @@ namespace RE
 			return func(a_imod);
 		}
 
+		// Retargets an already-active instance. Returns false without effect if either the current or
+		// new target has a lock-like flag set (checked at +0x20 on both).
+		bool SetTarget(TESImageSpaceModifier* a_target, float a_transitionTime, float a_duration, NiAVObject* a_node)
+		{
+			using func_t = decltype(&ImageSpaceModifierInstanceForm::SetTarget);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18183, 18568) };
+			return func(this, a_target, a_transitionTime, a_duration, a_node);
+		}
+
 		static void StopCrossFade(float a_seconds)
 		{
 			using func_t = decltype(&ImageSpaceModifierInstanceForm::StopCrossFade);

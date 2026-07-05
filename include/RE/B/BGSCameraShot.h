@@ -79,20 +79,46 @@ namespace RE
 		bool Load(TESFile* a_mod) override;  // 06
 		void InitItemImpl() override;        // 13
 
+		// False for CAM_ACTION::kZoom shots; otherwise requires a loaded model and a non-null cameraNode.
+		bool IsValid()
+		{
+			using func_t = decltype(&BGSCameraShot::IsValid);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20263, 20706) };
+			return func(this);
+		}
+
+		// Releases locationNode/targetNode/cameraNode; called on camera-shot teardown.
+		void ReleaseNodes()
+		{
+			using func_t = decltype(&BGSCameraShot::ReleaseNodes);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20264, 20707) };
+			return func(this);
+		}
+
+		// a_node == nullptr clears targetNode/targetFadeNode. Otherwise creates a positional-snapshot
+		// proxy node (or follows a_node directly, depending on an as-yet-unnamed flag) and caches the
+		// nearest ancestor fade node into targetFadeNode.
+		void SetTargetNode(NiNode* a_node)
+		{
+			using func_t = decltype(&BGSCameraShot::SetTargetNode);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20266, 20709) };
+			return func(this, a_node);
+		}
+
 		// members
-		CAMERA_SHOT_DATA      data;          // 58 - DATA
-		std::uint32_t         pad84;         // 84
-		NiAVObject*           locationNode;  // 88
-		NiAVObject*           targetNode;    // 90
-		RefHandle             unk98;         // 98
-		std::uint32_t         unk9C;         // 9C
-		NiPointer<NiNode>     cameraNode;    // A0 - smart ptr
-		NiPointer<NiAVObject> unkA8;         // A8 - smart ptr
-		std::uint8_t          unkB0;         // B0
-		bool                  unkB1;         // B1
-		std::uint16_t         padB2;         // B2
-		std::uint32_t         padB4;         // B4
-		ModelDBHandle         cameraHandle;  // B8
+		CAMERA_SHOT_DATA      data;            // 58 - DATA
+		std::uint32_t         pad84;           // 84
+		NiAVObject*           locationNode;    // 88
+		NiAVObject*           targetNode;      // 90
+		RefHandle             unk98;           // 98
+		std::uint32_t         unk9C;           // 9C
+		NiPointer<NiNode>     cameraNode;      // A0 - smart ptr
+		NiPointer<NiAVObject> targetFadeNode;  // A8 - smart ptr; nearest ancestor NiFadeNode of targetNode
+		std::uint8_t          unkB0;           // B0
+		bool                  unkB1;           // B1
+		std::uint16_t         padB2;           // B2
+		std::uint32_t         padB4;           // B4
+		ModelDBHandle         cameraHandle;    // B8
 	};
 	static_assert(sizeof(BGSCameraShot) == 0xC0);
 }
