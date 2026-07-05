@@ -30,6 +30,15 @@ namespace RE
 			return func(this, a_multiplier, a_arg2);
 		}
 
+		// Per-frame tick: computes delta/realTimeDelta from a_currentTicks (a millisecond counter),
+		// applying smoothing/fixed-timestep clamping. No-ops while pauseCount != 0.
+		void Update(std::int32_t a_currentTicks)
+		{
+			using func_t = decltype(&BSTimer::Update);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(66987, 68244) };
+			return func(this, a_currentTicks);
+		}
+
 		// members (layout is identical on SE/AE/VR; do not add a per-runtime offset shift)
 		float*        smoothingBuffer;                // 00: ring buffer of past deltas, sized by smoothingSampleCount
 		std::int64_t  qpcBaseline;                    // 08: one 64-bit QueryPerformanceCounter value, not two uint32_t
