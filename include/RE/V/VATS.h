@@ -18,6 +18,9 @@ namespace RE
 	class Projectile;
 	class TESBoundObject;
 
+	// Opaque node in VATS::cameraShotQueue's singly-linked list; layout unknown.
+	struct VATSCameraShotQueueNode;
+
 	class VATSCommand
 	{
 	public:
@@ -80,12 +83,12 @@ namespace RE
 		}
 
 		// Pops the front of commandList once it finishes playing, or fully clears it and restores
-		// the global time multiplier when a_last is false.
-		void AdvanceCommand(bool a_arg1, bool a_last, bool a_arg3)
+		// the global time multiplier when a_hasMoreCommands is false.
+		void AdvanceCommand(bool a_arg1, bool a_hasMoreCommands, bool a_arg3)
 		{
 			using func_t = decltype(&VATS::AdvanceCommand);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(43094, 44289) };
-			return func(this, a_arg1, a_last, a_arg3);
+			return func(this, a_arg1, a_hasMoreCommands, a_arg3);
 		}
 
 		// Per-frame kill-cam update; no-ops unless mode == kKillCam.
@@ -101,7 +104,7 @@ namespace RE
 		BSTArray<BSTSmartPointer<VATSCommand>> commandList;              // 08
 		VATS_MODE                              mode;                     // 20
 		std::uint32_t                          pad24;                    // 24
-		void*                                  cameraShotQueue;          // 28 - singly-linked list of pending BGSCameraShot nodes; advanced when cameraTime elapses
+		VATSCameraShotQueueNode*               cameraShotQueue;          // 28 - singly-linked list of pending BGSCameraShot nodes; advanced when cameraTime elapses
 		BGSCameraShot*                         cameraShot;               // 30
 		float                                  safetyTime;               // 38
 		float                                  cameraTime;               // 3C
