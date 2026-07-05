@@ -290,6 +290,9 @@ namespace RE
 		void RelayEvent(VMHandle handle, BSFixedString* event, BSScript::IFunctionArguments* args, ISendEventFilter* optionalFilter);
 		void SendAndRelayEvent(VMHandle handle, BSFixedString* event, BSScript::IFunctionArguments* args, ISendEventFilter* optionalFilter);
 
+		// Blocks the calling thread, pumping ProcessRegisteredUpdates, until isFrozen or a timeout.
+		void Freeze();
+
 		// members
 		BSTSmartPointer<BSScript::IVirtualMachine> impl;                       // 0200
 		BSScript::IVMSaveLoadInterface*            saveLoadInterface;          // 0208

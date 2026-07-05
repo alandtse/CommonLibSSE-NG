@@ -30,4 +30,11 @@ namespace RE
 		impl.get()->SendEvent(a_handle, *a_event, a_args);
 		RelayEvent(a_handle, a_event, a_args, a_optionalFilter);
 	}
+
+	void SkyrimVM::Freeze()
+	{
+		using func_t = decltype(&SkyrimVM::Freeze);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(53204, 54015) };
+		return func(this);
+	}
 }
