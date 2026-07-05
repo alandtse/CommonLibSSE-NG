@@ -95,9 +95,8 @@ namespace RE
 			return func(this);
 		}
 
-		// a_node == nullptr clears targetNode/targetFadeNode. Otherwise creates a positional-snapshot
-		// proxy node (or follows a_node directly, depending on an as-yet-unnamed flag) and caches the
-		// nearest ancestor fade node into targetFadeNode.
+		// nullptr clears targetNode/targetFadeNode; otherwise creates a positional-snapshot proxy (or
+		// follows a_node directly, per an as-yet-unnamed flag) and caches the nearest fade-node ancestor.
 		void SetTargetNode(NiNode* a_node)
 		{
 			using func_t = decltype(&BGSCameraShot::SetTargetNode);
