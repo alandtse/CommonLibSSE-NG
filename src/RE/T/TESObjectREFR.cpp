@@ -22,6 +22,7 @@
 #include "RE/N/NiControllerManager.h"
 #include "RE/N/NiControllerSequence.h"
 #include "RE/N/NiMath.h"
+#include "RE/N/NiMatrix3.h"
 #include "RE/N/NiTimeController.h"
 #include "RE/T/TESContainer.h"
 #include "RE/T/TESDataHandler.h"
@@ -566,6 +567,13 @@ namespace RE
 		using func_t = decltype(&TESObjectREFR::GetOwner);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(19789, 20194) };
 		return func(this);
+	}
+
+	NiMatrix3* TESObjectREFR::GetRotationMatrix(NiMatrix3* a_out) const
+	{
+		using func_t = decltype(&TESObjectREFR::GetRotationMatrix);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(19325, 19752) };
+		return func(this, a_out);
 	}
 
 	float TESObjectREFR::GetScale() const

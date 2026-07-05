@@ -48,6 +48,7 @@ namespace RE
 	class NiAVObject;
 	class NiControllerManager;
 	class NiControllerSequence;
+	class NiMatrix3;
 	class NiNode;
 	class NiObject;
 	class Projectile;
@@ -414,6 +415,7 @@ namespace RE
 		[[nodiscard]] constexpr float                   GetPositionX() const noexcept { return data.location.x; }
 		[[nodiscard]] constexpr float                   GetPositionY() const noexcept { return data.location.y; }
 		[[nodiscard]] constexpr float                   GetPositionZ() const noexcept { return data.location.z; }
+		[[nodiscard]] NiMatrix3*                        GetRotationMatrix(NiMatrix3* a_out) const;
 		[[nodiscard]] float                             GetScale() const;
 		[[nodiscard]] NiControllerSequence*             GetSequence(stl::zstring a_name) const;
 		[[nodiscard]] std::uint32_t                     GetStealValue(const InventoryEntryData* a_entryData, std::uint32_t a_numItems, bool a_useMult) const;
