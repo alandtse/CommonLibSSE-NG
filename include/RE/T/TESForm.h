@@ -295,6 +295,9 @@ namespace RE
 		[[nodiscard]] FormID GetLocalFormID() const
 		{
 			auto file = GetFile(0);
+			if (!file) {
+				return formID;
+			}
 
 			RE::FormID fileIndex = file->compileIndex << (3 * 8);
 			fileIndex += file->smallFileCompileIndex << ((1 * 8) + 4);
