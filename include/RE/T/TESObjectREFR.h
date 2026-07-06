@@ -314,11 +314,8 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		SKYRIM_REL_VR_VIRTUAL void AttachWeapon(RE::TESObjectWEAP* a_weapon, bool attachToShieldHand);  // 82 - Virtual in VR, non-virtual in SE/AE. Shield hand may be just left hand?
 #endif
-		SKYRIM_REL_VR_VIRTUAL void RemoveWeapon(BIPED_OBJECT equipIndex);  // 82 - { return; }
-		SKYRIM_REL_VR_VIRTUAL void Unk_83(void);                           // 83 - { return; }
-#if defined(EXCLUSIVE_SKYRIM_VR)
-		SKYRIM_REL_VR_VIRTUAL void Unk_84(void);
-#endif
+		SKYRIM_REL_VR_VIRTUAL void                         RemoveWeapon(BIPED_OBJECT equipIndex);                                                // 82 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void                         Unk_83(void);                                                                         // 83 - { return; }
 		SKYRIM_REL_VR_VIRTUAL void                         SetObjectReference(TESBoundObject* a_object);                                         // 84 - sets flag 24 if the object has destructibles
 		SKYRIM_REL_VR_VIRTUAL void                         MoveHavok(bool a_forceRec);                                                           // 85
 		SKYRIM_REL_VR_VIRTUAL void                         GetLinearVelocity(NiPoint3& a_velocity) const;                                        // 86
