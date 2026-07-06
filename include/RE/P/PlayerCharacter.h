@@ -997,8 +997,8 @@ namespace RE
 		// plus WriteToSaveGame/FinishLoadGame (questLog, questTargets) in all three binaries.
 		using QuestTargetsMap = BSTHashMap<TESQuest*, BSTArray<TESQuestTarget*>*>;
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSpinLock, GetQuestTargetsLock, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x9C8, 0x3E0);
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSimpleList<TESQuestStageItem*>, GetQuestLog, SKSE::RUNTIME_SSE_1_6_629, 0x570, 0xB60, 0x570);
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(QuestTargetsMap, GetQuestTargets, SKSE::RUNTIME_SSE_1_6_629, 0x598, 0xB88, 0x598);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSimpleList<TESQuestStageItem*>, GetQuestLog, SKSE::RUNTIME_SSE_1_6_629, 0x570, 0xB60, 0x578);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(QuestTargetsMap, GetQuestTargets, SKSE::RUNTIME_SSE_1_6_629, 0x598, 0xB88, 0x5A0);
 
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(INFO_RUNTIME_DATA, GetInfoRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x8E4, 0x8E4, 0x8EC);
 
