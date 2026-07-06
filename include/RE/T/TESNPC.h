@@ -218,7 +218,7 @@ namespace RE
 		bool            Activate(TESObjectREFR* a_targetRef, TESObjectREFR* a_activatorRef, std::uint8_t a_arg3, TESBoundObject* a_object, std::int32_t a_targetCount) override;  // 37
 		void            UnClone3D(TESObjectREFR* a_ref) override;                                                                                                                 // 41
 		void            SetObjectVoiceType(BGSVoiceType* a_voiceType) override;                                                                                                   // 48 - { TESActorBaseData::voice = a_voiceType; }
-		BGSVoiceType*   GetObjectVoiceType() const override;                                                                                                                      // 49
+		BGSVoiceType*   GetObjectVoiceType() const override;                                                                                                                      // 49 - race-default fallback when unset; can differ from GetVoiceType()/voiceType member (#145)
 		NiAVObject*     Clone3D(TESObjectREFR* a_ref) override;                                                                                                                   // 4A
 		bool            GetActivateText(TESObjectREFR* a_activator, BSString& a_dst) override;                                                                                    // 4C
 		bool            CalculateDoFavor(Actor* a_activator, bool a_arg2, TESObjectREFR* a_toActivate, float a_arg3) override;                                                    // 4D
