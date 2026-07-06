@@ -39,7 +39,7 @@ namespace RE
 			return func(this, a_currentTicks);
 		}
 
-		// members (layout is identical on SE/AE/VR; do not add a per-runtime offset shift)
+		// members: layout is identical on SE/AE/VR
 		float*        smoothingBuffer;                // 00: ring buffer of past deltas, sized by smoothingSampleCount
 		std::int64_t  qpcBaseline;                    // 08: one 64-bit QueryPerformanceCounter value, not two uint32_t
 		float         clamp;                          // 10: fixed-timestep step size in ticks; 0 = variable timestep
