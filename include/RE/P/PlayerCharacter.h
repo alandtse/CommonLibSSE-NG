@@ -990,6 +990,16 @@ namespace RE
 
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(GameStateData, GetGameStatsData, SKSE::RUNTIME_SSE_1_6_629, 0xAF8, 0x11F4, 0xB00);
 
+		// #207: cross-VR plugins had no safe way to reach these three (SE/AE-only direct member
+		// access silently reads garbage under EXCLUSIVE_SKYRIM_VR since VR's layout differs
+		// entirely). SE/AE/VR offsets independently confirmed via disassembly of
+		// ConsoleFunc::handler::ShowQuestTargets (questTargetsLock), and PlayerCharacter::Revert
+		// plus WriteToSaveGame/FinishLoadGame (questLog, questTargets) in all three binaries.
+		using QuestTargetsMap = BSTHashMap<TESQuest*, BSTArray<TESQuestTarget*>*>;
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSpinLock, GetQuestTargetsLock, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x9C8, 0x3E0);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSimpleList<TESQuestStageItem*>, GetQuestLog, SKSE::RUNTIME_SSE_1_6_629, 0x570, 0xB60, 0x570);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(QuestTargetsMap, GetQuestTargets, SKSE::RUNTIME_SSE_1_6_629, 0x598, 0xB88, 0x598);
+
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(INFO_RUNTIME_DATA, GetInfoRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x8E4, 0x8E4, 0x8EC);
 
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(PlayerFlags, GetPlayerFlags, SKSE::RUNTIME_SSE_1_6_629, 0xBD8, 0x12D0, 0xBE0);
