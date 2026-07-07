@@ -343,34 +343,32 @@ namespace RE
 		// slots verified independently against both the SE/AE and VR binaries -- see commit
 		// history; do not trust these to a single shared compile-time ordinal, VR genuinely
 		// inserts extra vtable entries relative to SE/AE past this point).
-		SKYRIM_REL_VR_VIRTUAL void                   RemoveWeapon(BIPED_OBJECT equipIndex);                        // SE/AE 0x82, VR 0x83
-		SKYRIM_REL_VR_VIRTUAL void                   SetObjectReference(TESBoundObject* a_object);                 // SE/AE 0x84, VR 0x85
-		SKYRIM_REL_VR_VIRTUAL void                   MoveHavok(bool a_forceRec);                                   // SE/AE 0x85, VR 0x86
-		SKYRIM_REL_VR_VIRTUAL void                   GetLinearVelocity(NiPoint3& a_velocity) const;                // SE/AE 0x86, VR 0x87
-		SKYRIM_REL_VR_VIRTUAL void                   SetActionComplete(bool a_set);                                // SE/AE 0x87, VR 0x88
-		SKYRIM_REL_VR_VIRTUAL void                   ResetInventory(bool a_leveledOnly);                           // SE/AE 0x8A, VR 0x8B
-		SKYRIM_REL_VR_VIRTUAL NiNode*                GetFireNode();                                                // SE/AE 0x8C, VR 0x8D
-		SKYRIM_REL_VR_VIRTUAL void                   SetFireNode(NiNode* a_fireNode);                              // SE/AE 0x8D, VR 0x8E
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool     OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const;  // SE/AE 0x90, VR 0x91
-		SKYRIM_REL_VR_VIRTUAL void                   DoMoveToHigh();                                               // SE/AE 0x91, VR 0x92
-		SKYRIM_REL_VR_VIRTUAL bool                   TryChangeSkyCellActorsProcessLevel();                         // SE/AE 0x93, VR 0x94
-		SKYRIM_REL_VR_VIRTUAL void                   Unk_96(void);                                                 // SE/AE 0x95, VR 0x96
-		SKYRIM_REL_VR_VIRTUAL void                   SetParentCell(TESObjectCELL* a_cell);                         // SE/AE 0x98, VR 0x99
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESAmmo* GetCurrentAmmo() const;                                       // SE/AE 0x9F, VR 0xA0
-		SKYRIM_REL_VR_VIRTUAL void                   UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object);  // SE/AE 0xA1, VR 0xA2
-
-#ifndef SKYRIM_CROSS_VR
-		// Override functions past where Skyrim VR breaks compatibility.
-		// NOT YET migrated to RelocateVirtual -- real vtable slot could not be confidently
-		// determined for these even with decompilation (ambiguous/unanalyzed candidates in one
-		// or both binaries); still excluded entirely from SKYRIM_CROSS_VR builds.
-		void               Disable() override;                                                                            // 089
-		void               TryMoveToMiddleLow() override;                                                                 // 092
-		void               TryUpdateActorLastSeenTime() override;                                                         // 095
-		[[nodiscard]] bool IsDead(bool a_notEssential = true) const override;                                             // 099
-		bool               ProcessInWater(hkpCollidable* a_collidable, float a_waterHeight, float a_deltaTime) override;  // 09C
-		bool               ApplyCurrent(float a_velocityTime, const hkVector4& a_velocity) override;                      // 09D
-#endif
+		SKYRIM_REL_VR_VIRTUAL void RemoveWeapon(BIPED_OBJECT equipIndex);          // SE/AE 0x82, VR 0x83
+		SKYRIM_REL_VR_VIRTUAL void SetObjectReference(TESBoundObject* a_object);   // SE/AE 0x84, VR 0x85
+		SKYRIM_REL_VR_VIRTUAL void MoveHavok(bool a_forceRec);                     // SE/AE 0x85, VR 0x86
+		SKYRIM_REL_VR_VIRTUAL void GetLinearVelocity(NiPoint3& a_velocity) const;  // SE/AE 0x86, VR 0x87
+		SKYRIM_REL_VR_VIRTUAL void SetActionComplete(bool a_set);                  // SE/AE 0x87, VR 0x88
+		// Real vtable slot verified independently against SE/AE/VR binaries (semantic decompile match confirmed).
+		SKYRIM_REL_VR_VIRTUAL void               Disable();                                                    // SE/AE 0x89, VR 0x8A
+		SKYRIM_REL_VR_VIRTUAL void               ResetInventory(bool a_leveledOnly);                           // SE/AE 0x8A, VR 0x8B
+		SKYRIM_REL_VR_VIRTUAL NiNode*            GetFireNode();                                                // SE/AE 0x8C, VR 0x8D
+		SKYRIM_REL_VR_VIRTUAL void               SetFireNode(NiNode* a_fireNode);                              // SE/AE 0x8D, VR 0x8E
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const;  // SE/AE 0x90, VR 0x91
+		SKYRIM_REL_VR_VIRTUAL void               DoMoveToHigh();                                               // SE/AE 0x91, VR 0x92
+		// Real vtable slot verified independently against SE/AE/VR binaries (semantic decompile match confirmed).
+		SKYRIM_REL_VR_VIRTUAL void TryMoveToMiddleLow();                  // SE/AE 0x92, VR 0x93
+		SKYRIM_REL_VR_VIRTUAL bool TryChangeSkyCellActorsProcessLevel();  // SE/AE 0x93, VR 0x94
+		// Real vtable slot verified independently against SE/AE/VR binaries (semantic decompile match confirmed;
+		// replaces the former Unk_96 placeholder, which claimed this same slot).
+		SKYRIM_REL_VR_VIRTUAL void TryUpdateActorLastSeenTime();          // SE/AE 0x95, VR 0x96
+		SKYRIM_REL_VR_VIRTUAL void SetParentCell(TESObjectCELL* a_cell);  // SE/AE 0x98, VR 0x99
+		// Real vtable slot verified independently against SE/AE/VR binaries (semantic decompile match confirmed).
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool IsDead(bool a_notEssential = true) const;  // SE/AE 0x99, VR 0x9A
+		// Real vtable slots verified independently against SE/AE/VR binaries (semantic decompile match confirmed).
+		SKYRIM_REL_VR_VIRTUAL bool                   ProcessInWater(hkpCollidable* a_collidable, float a_waterHeight, float a_deltaTime);  // SE/AE 0x9C, VR 0x9D
+		SKYRIM_REL_VR_VIRTUAL bool                   ApplyCurrent(float a_velocityTime, const hkVector4& a_velocity);                      // SE/AE 0x9D, VR 0x9E
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESAmmo* GetCurrentAmmo() const;                                                               // SE/AE 0x9F, VR 0xA0
+		SKYRIM_REL_VR_VIRTUAL void                   UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object);                          // SE/AE 0xA1, VR 0xA2
 
 		// override (MagicTarget)
 #ifndef ENABLE_SKYRIM_VR

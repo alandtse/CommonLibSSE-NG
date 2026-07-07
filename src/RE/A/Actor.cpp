@@ -1613,6 +1613,11 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::SetActionComplete)>(0x87, 0x88, this, a_set);
 	}
 
+	void Actor::Disable()
+	{
+		RelocateVirtual<decltype(&Actor::Disable)>(0x89, 0x8A, this);
+	}
+
 	void Actor::ResetInventory(bool a_leveledOnly)
 	{
 		RelocateVirtual<decltype(&Actor::ResetInventory)>(0x8A, 0x8B, this, a_leveledOnly);
@@ -1638,19 +1643,39 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::DoMoveToHigh)>(0x91, 0x92, this);
 	}
 
+	void Actor::TryMoveToMiddleLow()
+	{
+		RelocateVirtual<decltype(&Actor::TryMoveToMiddleLow)>(0x92, 0x93, this);
+	}
+
 	bool Actor::TryChangeSkyCellActorsProcessLevel()
 	{
 		return RelocateVirtual<decltype(&Actor::TryChangeSkyCellActorsProcessLevel)>(0x93, 0x94, this);
 	}
 
-	void Actor::Unk_96()
+	void Actor::TryUpdateActorLastSeenTime()
 	{
-		RelocateVirtual<decltype(&Actor::Unk_96)>(0x95, 0x96, this);
+		RelocateVirtual<decltype(&Actor::TryUpdateActorLastSeenTime)>(0x95, 0x96, this);
 	}
 
 	void Actor::SetParentCell(TESObjectCELL* a_cell)
 	{
 		RelocateVirtual<decltype(&Actor::SetParentCell)>(0x98, 0x99, this, a_cell);
+	}
+
+	bool Actor::IsDead(bool a_notEssential) const
+	{
+		return RelocateVirtual<decltype(&Actor::IsDead)>(0x99, 0x9A, this, a_notEssential);
+	}
+
+	bool Actor::ProcessInWater(hkpCollidable* a_collidable, float a_waterHeight, float a_deltaTime)
+	{
+		return RelocateVirtual<decltype(&Actor::ProcessInWater)>(0x9C, 0x9D, this, a_collidable, a_waterHeight, a_deltaTime);
+	}
+
+	bool Actor::ApplyCurrent(float a_velocityTime, const hkVector4& a_velocity)
+	{
+		return RelocateVirtual<decltype(&Actor::ApplyCurrent)>(0x9D, 0x9E, this, a_velocityTime, a_velocity);
 	}
 
 	TESAmmo* Actor::GetCurrentAmmo() const
