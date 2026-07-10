@@ -23,20 +23,11 @@ function(_commonlib_prebuilt_complete dir out_var)
     endif()
 endfunction()
 
-# A CRT/config match (checked by the caller) doesn't guarantee the bundle links: its objects
-# may reference MSVC STL internal dispatch helpers (e.g. __std_replace_copy_2) that only exist
-# in the import libs of a specific toolset/SDK vintage — these aren't part of the stable ABI,
-# so a mismatch in EITHER direction can hit a deep LNK2001 at final link (a newer consumer
-# toolset isn't safe either: MS can drop an internal helper a preview channel had, as observed
-# between a stable release and a newer VS Insiders build). TOOLSET_VERSION.txt (added to the
-# bundle by prebuilt.yml's assemble step) records the producer's cl.exe version; require the
-# same major.minor toolset (an exact patch/build match would over-trigger on ordinary
-# servicing updates that change nothing relevant). Missing stamp (a bundle published before
-# this check existed), or CMAKE_CXX_COMPILER_VERSION not yet available (CXX not enabled at
-# this point), is treated as compatible — matching prior behavior for already-published tags.
-# Gated on CMAKE_CXX_COMPILER_ID rather than the MSVC variable: MSVC is also TRUE for clang-cl,
-# whose CMAKE_CXX_COMPILER_VERSION is the Clang version, not the cl.exe version this stamp
-# records, so comparing them would be comparing two unrelated numbering schemes.
+# A CRT/config match doesn't guarantee the bundle links: MSVC STL internal dispatch helpers
+# (e.g. __std_replace_copy_2) aren't part of the stable ABI, so a toolset mismatch in either
+# direction can LNK2001 at final link. Requires matching major.minor against TOOLSET_VERSION.txt
+# (a bundle/compiler predating this stamp is treated as compatible); CMAKE_CXX_COMPILER_ID, not
+# MSVC, since MSVC is also TRUE for clang-cl, whose version isn't the cl.exe one being compared.
 function(_commonlib_prebuilt_toolset_compatible dir out_var)
     set(${out_var} TRUE PARENT_SCOPE)
     if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR NOT CMAKE_CXX_COMPILER_VERSION)
@@ -95,9 +86,8 @@ function(commonlib_resolve_prebuilt out_dir)
     endif()
 
     # explicit override: a consumer (or this repo's self-test) points at an extracted bundle.
-    # An incomplete override falls through to auto-fetch (existing behavior); a complete but
-    # toolset-incompatible one returns empty rather than silently auto-fetching an unrelated
-    # release tag the caller didn't ask for.
+    # Incomplete falls through to auto-fetch (existing behavior); toolset-incompatible returns
+    # empty instead, so it doesn't silently auto-fetch an unrelated tag.
     if(COMMONLIB_PREBUILT_DIR)
         _commonlib_prebuilt_complete("${COMMONLIB_PREBUILT_DIR}" _ok)
         if(_ok)
@@ -141,10 +131,8 @@ function(commonlib_resolve_prebuilt out_dir)
     set(_cache "${CMAKE_CURRENT_BINARY_DIR}/.prebuilt/${_tag}")
     _commonlib_prebuilt_complete("${_cache}" _ok)
     if(_ok)
-        # A complete-but-toolset-incompatible cache is left as-is (no .failed marker): the
-        # completeness check above always wins on a later run, so a marker here would never
-        # be read — and leaving the extracted bundle in place lets a later run re-check
-        # cheaply if the consumer's toolset changes, without re-downloading.
+        # No .failed marker for toolset incompatibility: completeness always wins on a later
+        # run, so a marker here would never be read, and this lets a toolset upgrade retry free.
         _commonlib_prebuilt_toolset_compatible("${_cache}" _toolset_ok)
         if(_toolset_ok)
             set(${out_dir} "${_cache}" PARENT_SCOPE)

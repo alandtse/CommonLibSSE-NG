@@ -246,12 +246,8 @@ jobs:
           # openvr_api.lib is linked PUBLIC by the IMPORTED target, so it ships in the bundle.
           Copy-Item extern/openvr/lib/win64/openvr_api.lib "$stage/lib/"
           Copy-Item PREBUILT.md "$stage/"
-          # Stamp the producing cl.exe version so a consumer's cmake/Prebuilt.cmake can refuse
-          # (and fall back to source) a different toolset that may lack MSVC STL internal
-          # dispatch symbols this bundle's objects reference (see Prebuilt.cmake for detail).
-          # Reads the file-version resource directly rather than scraping the usage banner:
-          # locale-independent, and matches the dotted numbering CMAKE_CXX_COMPILER_VERSION
-          # reports on the consumer side.
+          # Stamp the toolset version (Prebuilt.cmake's compatibility gate); the file-version
+          # resource, not the usage banner, is locale-independent and matches CMake's own format.
           $clPath = (Get-Command cl.exe -ErrorAction Stop).Source
           $clVersion = (Get-Item $clPath).VersionInfo.FileVersion
           if (-not $clVersion) { Write-Error "could not read cl.exe FileVersion"; exit 1 }
