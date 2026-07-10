@@ -138,7 +138,22 @@ top-level project is CommonLib itself (you only auto-fetch when *consumed*), a D
 multi-config build (the bundle is Release `/MD`; a Debug `/MDd` link would be an ABI
 mismatch), a **static-CRT** consumer (`/MT` / the `x64-windows-static` triplet — the bundle
 is `/MD`, so the CRTs would collide), not on an exact tag, a dirty tree, options that don't
-match the baked config, or a missing/unverified asset.
+match the baked config, a missing/unverified asset, or a **different MSVC toolset** than the
+one that produced the bundle (see below).
+
+A CRT/config match doesn't guarantee the bundle links: its objects may reference MSVC STL
+internal dispatch helpers (e.g. `__std_replace_copy_2`) that only exist in the import libs of
+a specific toolset/SDK vintage — not part of the stable ABI, so a toolset mismatch in either
+direction can hit a deep `LNK2001` at final link that a CRT/config check can't predict. The
+bundle carries a `TOOLSET_VERSION.txt` stamp (the producing `cl.exe` version); `Prebuilt.cmake`
+rejects the bundle — falling back to source, with a `STATUS` message — unless the consumer's
+toolset shares the same **major.minor** version (an exact patch/build match would over-trigger
+on ordinary servicing updates that change nothing relevant). This only protects against
+version *drift*, not a preview/Insiders channel that has genuinely dropped or not-yet-added a
+given internal symbol at the same nominal version — that residual case still needs a manual
+`-DCOMMONLIB_PREBUILT=OFF`. A bundle published before this stamp existed, or a non-MSVC/clang-cl
+compiler (whose reported version isn't the cl.exe toolset version this stamp compares against),
+is treated as compatible (no change for already-published tags).
 
 A **multi-config generator** (Visual Studio) is skipped by default because the config is
 chosen at build time, so Debug can't be ruled out. A consumer that only ever builds
