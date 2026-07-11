@@ -339,10 +339,9 @@ namespace RE
 		bool                                 ShouldSaveAnimationOnSaving() const override;                                                                                                                                                                         // 07B
 		bool                                 ShouldPerformRevert() const override;                                                                                                                                                                                 // 07C
 		void                                 UpdateAnimation(float a_delta) override;                                                                                                                                                                              // 07D
-		// The following are migrated to the RelocateVirtual cross-runtime pattern (real vtable
-		// slots verified independently against both the SE/AE and VR binaries -- see commit
-		// history; do not trust these to a single shared compile-time ordinal, VR genuinely
-		// inserts extra vtable entries relative to SE/AE past this point).
+		// VR inserts extra vtable entries relative to SE/AE past this point, so a single
+		// compile-time ordinal can't address all three runtimes; each function below resolves
+		// its real per-runtime slot via RelocateVirtual instead.
 		SKYRIM_REL_VR_VIRTUAL void RemoveWeapon(BIPED_OBJECT equipIndex);          // SE/AE 0x82, VR 0x83
 		SKYRIM_REL_VR_VIRTUAL void SetObjectReference(TESBoundObject* a_object);   // SE/AE 0x84, VR 0x85
 		SKYRIM_REL_VR_VIRTUAL void MoveHavok(bool a_forceRec);                     // SE/AE 0x85, VR 0x86
