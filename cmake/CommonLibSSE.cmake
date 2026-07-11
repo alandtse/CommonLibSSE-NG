@@ -119,7 +119,7 @@ function(target_commonlibsse_properties TARGET)
         endif()
 
         if(NOT ADD_COMMONLIBSSE_PLUGIN_USE_ADDRESS_LIBRARY)
-            set(commonlibsse_plugin_compatibility "VersionIndependence::SignatureScanning")
+            set(commonlibsse_plugin_compatibility "SKSE::VersionIndependence::SignatureScanning")
         else()
             set(commonlibsse_plugin_compatibility "SKSE::VersionIndependence::AddressLibrary")
         endif()
