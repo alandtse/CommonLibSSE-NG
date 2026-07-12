@@ -333,7 +333,7 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void                      SetMovementComplete(bool a_set);                // 89 - { return; }
 		SKYRIM_REL_VR_VIRTUAL void                      Disable();                                      // 8A
 		SKYRIM_REL_VR_VIRTUAL void                      ResetInventory(bool a_leveledOnly);             // 8B
-		SKYRIM_REL_VR_VIRTUAL void                      Unk_8C(void);                                   // 8C - real slot (RE'd 2026-07); checks a field at +0x430, conditionally calls cleanup
+		SKYRIM_REL_VR_VIRTUAL void                      Unk_8C(void);                                   // 8C - real slot; checks a field at +0x430, conditionally calls cleanup
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL NiNode*     GetFireNode();                                  // 8D - { return 0; }
 		SKYRIM_REL_VR_VIRTUAL void                      SetFireNode(NiNode* a_fireNode);                // 8E - { return; }
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL NiAVObject* GetCurrent3D() const;                           // 8F - { return Get3D2(); }
