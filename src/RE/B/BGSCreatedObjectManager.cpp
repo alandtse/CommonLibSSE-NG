@@ -22,6 +22,20 @@ namespace RE
 		return func(this, a_effects);
 	}
 
+	AlchemyItem* BGSCreatedObjectManager::AddPoison(BSTSmartPointer<AlchemyItem>& a_out, BSTArray<Effect>& a_effects)
+	{
+		using func_t = decltype(&BGSCreatedObjectManager::AddPoison);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(35266, 36168) };
+		return func(this, a_out, a_effects);
+	}
+
+	AlchemyItem* BGSCreatedObjectManager::AddPotion(BSTSmartPointer<AlchemyItem>& a_out, BSTArray<Effect>& a_effects)
+	{
+		using func_t = decltype(&BGSCreatedObjectManager::AddPotion);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(35265, 36167) };
+		return func(this, a_out, a_effects);
+	}
+
 	void BGSCreatedObjectManager::DestroyEnchantment(EnchantmentItem* a_enchantment, bool a_isWeapon)
 	{
 		using func_t = decltype(&BGSCreatedObjectManager::DestroyEnchantment);

@@ -4,12 +4,14 @@
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTHashMap.h"
 #include "RE/B/BSTSingleton.h"
+#include "RE/B/BSTSmartPointer.h"
 #include "RE/E/Effect.h"
 
 namespace RE
 {
 	class MagicItem;
 	class EnchantmentItem;
+	class AlchemyItem;
 
 	class BGSCreatedObjectManager : public BSTSingletonSDM<BGSCreatedObjectManager>
 	{
@@ -26,6 +28,8 @@ namespace RE
 
 		EnchantmentItem* AddArmorEnchantment(BSTArray<Effect>& a_effects);
 		EnchantmentItem* AddWeaponEnchantment(BSTArray<Effect>& a_effects);
+		AlchemyItem*     AddPoison(BSTSmartPointer<AlchemyItem>& a_out, BSTArray<Effect>& a_effects);
+		AlchemyItem*     AddPotion(BSTSmartPointer<AlchemyItem>& a_out, BSTArray<Effect>& a_effects);
 		void             DestroyEnchantment(EnchantmentItem* a_enchantment, bool a_isWeapon);
 
 		// members
