@@ -313,6 +313,16 @@ namespace RE
 		virtual void                                            SetBiped(const BSTSmartPointer<BipedAnim>& a_biped);                                                                                                                                                         // 81 - { return; }																																																																			 // Virtual functions defined in TESObjectREFR after the vtable structure becomes different in VR.
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		SKYRIM_REL_VR_VIRTUAL void AttachWeapon(RE::TESObjectWEAP* a_weapon, bool attachToShieldHand);  // 82 - Virtual in VR, non-virtual in SE/AE. Shield hand may be just left hand?
+#elif defined(SKYRIM_CROSS_VR)
+		// Virtual on VR only (real slot 0x82); SE/AE calls it directly (non-virtually) and
+		// CommonLib doesn't bind that address, so this only reaches the real implementation
+		// when actually running under VR -- a no-op otherwise.
+		void AttachWeapon(RE::TESObjectWEAP* a_weapon, bool attachToShieldHand)
+		{
+			if (REL::Module::IsVR()) {
+				REL::RelocateVirtual<decltype(&TESObjectREFR::AttachWeapon)>(0, 0x82, this, a_weapon, attachToShieldHand);
+			}
+		}
 #endif
 		SKYRIM_REL_VR_VIRTUAL void                      RemoveWeapon(BIPED_OBJECT equipIndex);          // 82 - { return; }
 		SKYRIM_REL_VR_VIRTUAL void                      Unk_83(void);                                   // 83 - { return; }

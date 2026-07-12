@@ -1124,6 +1124,16 @@ namespace RE
 	}
 
 #ifdef SKYRIM_CROSS_VR
+	void TESObjectREFR::RemoveWeapon(BIPED_OBJECT equipIndex)
+	{
+		REL::RelocateVirtual<decltype(&TESObjectREFR::RemoveWeapon)>(0x82, 0x83, this, equipIndex);
+	}
+
+	void TESObjectREFR::Unk_83()
+	{
+		REL::RelocateVirtual<decltype(&TESObjectREFR::Unk_83)>(0x83, 0x84, this);
+	}
+
 	void TESObjectREFR::SetObjectReference(TESBoundObject* a_object)
 	{
 		REL::RelocateVirtual<decltype(&TESObjectREFR::SetObjectReference)>(0x84, 0x85, this, a_object);
