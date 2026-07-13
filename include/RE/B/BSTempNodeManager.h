@@ -25,8 +25,9 @@ namespace RE
 		// Per-frame update: decrements each attached BSTempNode child's remaining lifetime by
 		// elapsed time, detaching any that reach zero.
 		void UpdateTempNodeTimers(float a_elapsedTime);
+
+	private:
+		std::uint64_t unk128;  // 128 - not yet reverse engineered
 	};
-#if !defined(SKYRIM_CROSS_VR) || !defined(ENABLE_SKYRIM_VR)
-	static_assert(sizeof(BSTempNodeManager) == 0x130);
-#endif
+	STATIC_ASSERT_SIZE(BSTempNodeManager, 0x130, 0x158);
 }

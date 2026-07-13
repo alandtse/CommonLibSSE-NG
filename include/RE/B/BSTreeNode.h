@@ -20,19 +20,23 @@ namespace RE
 		void      SaveBinary(NiStream& a_stream) override;             // 1B
 		void      ProcessClone(NiCloningProcess& a_cloning) override;  // 1D
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // 34
+		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // SE/AE 34
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		// VR has different vtable layout - this function doesn't exist as a virtual here.
+		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex) override;  // VR 35
 #else
-		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex);  // 34 - Multi-runtime (non-virtual)
+		// VR inserts an extra vtable entry (NiAVObject::ApplyLocalTransformToWorld) ahead of this
+		// slot, so a single compile-time ordinal can't address both runtimes; resolve the real
+		// per-runtime slot via RelocateVirtual instead.
+		void OnVisible(NiCullingProcess& a_process, std::int32_t a_alphaGroupIndex);  // SE/AE 34, VR 35
 #endif
 
 		// add
 
 		// Computes an index-based LOD blend ratio for tree canopy rendering.
 		float ComputeTreeLODBlend();
+
+	private:
+		std::byte unk170[0x48];  // 170 - not yet reverse engineered
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(BSTreeNode) == 0x1B8);
-#endif
+	STATIC_ASSERT_SIZE(BSTreeNode, SIZE_UNDEFINED, SIZE_UNDEFINED, SIZE_UNDEFINED, SIZE_UNDEFINED, 0x1B8);
 }

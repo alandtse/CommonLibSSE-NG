@@ -2094,6 +2094,7 @@ set(SOURCES
 	src/RE/B/BSPCGamepadDeviceDelegate.cpp
 	src/RE/B/BSPCGamepadDeviceHandler.cpp
 	src/RE/B/BSPCOrbisGamepadDevice.cpp
+	src/RE/B/BSParticleSystemManager.cpp
 	src/RE/B/BSPathingLocation.cpp
 	src/RE/B/BSPathingRequest.cpp
 	src/RE/B/BSPointerHandle.cpp
@@ -2111,6 +2112,8 @@ set(SOURCES
 	src/RE/B/BSSystemFileStorage.cpp
 	src/RE/B/BSTArray.cpp
 	src/RE/B/BSTCreateFactoryManager.cpp
+	src/RE/B/BSTempNodeManager.cpp
+	src/RE/B/BSTreeNode.cpp
 	src/RE/B/BSUIMessageData.cpp
 	src/RE/B/BSVirtualKeyboardDevice.cpp
 	src/RE/B/BSVisit.cpp

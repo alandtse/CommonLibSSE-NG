@@ -31,8 +31,14 @@ namespace RE
 		// Thread-safe (mutex-guarded) registry of BSMasterParticleSystem entries.
 		bool                    IsValidMasterParticleSystem(std::uint32_t a_index);
 		BSMasterParticleSystem* GetMasterParticleSystemAt(std::uint32_t a_index);
+
+	private:
+		BSMasterParticleSystem** masterParticleSystems;          // 128 - BSTArray<BSMasterParticleSystem*> data
+		std::uint32_t            masterParticleSystemsCapacity;  // 130
+		std::uint32_t            unk134;                         // 134 - pad
+		std::uint32_t            masterParticleSystemsCount;     // 138
+		std::uint32_t            unk13C;                         // 13C - pad
+		void*                    unk140;                         // 140 - not yet reverse engineered
 	};
-#if !defined(SKYRIM_CROSS_VR) || !defined(ENABLE_SKYRIM_VR)
-	static_assert(sizeof(BSParticleSystemManager) == 0x148);
-#endif
+	STATIC_ASSERT_SIZE(BSParticleSystemManager, 0x148, 0x170);
 }
