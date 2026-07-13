@@ -40,5 +40,5 @@ namespace RE
 		std::uint32_t            unk13C;                         // 13C - pad
 		void*                    unk140;                         // 140 - not yet reverse engineered
 	};
-	STATIC_ASSERT_SIZE(BSParticleSystemManager, 0x148, 0x170);
+	STATIC_ASSERT_SIZE(BSParticleSystemManager, 0x148, 0x148, 0x170, SIZE_UNDEFINED, 0x148);
 }

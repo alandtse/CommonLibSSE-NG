@@ -38,5 +38,5 @@ namespace RE
 	private:
 		std::byte unk170[0x48];  // 170 - not yet reverse engineered
 	};
-	STATIC_ASSERT_SIZE(BSTreeNode, SIZE_UNDEFINED, SIZE_UNDEFINED, SIZE_UNDEFINED, SIZE_UNDEFINED, 0x1B8);
+	STATIC_ASSERT_SIZE(BSTreeNode, 0x1B8, 0x1B8, 0x1E0, SIZE_UNDEFINED, 0x1B8);
 }
