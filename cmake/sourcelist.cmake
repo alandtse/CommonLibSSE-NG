@@ -347,6 +347,7 @@ set(SOURCES
 	include/RE/B/BSParticleShaderProperty.h
 	include/RE/B/BSParticleShaderRainEmitter.h
 	include/RE/B/BSParticleShaderSnowEmitter.h
+	include/RE/B/BSParticleSystemManager.h
 	include/RE/B/BSPathBuilder.h
 	include/RE/B/BSPathing.h
 	include/RE/B/BSPathingActorAttributes.h
@@ -437,6 +438,7 @@ set(SOURCES
 	include/RE/B/BSTempEffectSPG.h
 	include/RE/B/BSTempEffectSimpleDecal.h
 	include/RE/B/BSTempEffectWeaponBlood.h
+	include/RE/B/BSTempNodeManager.h
 	include/RE/B/BSTerrainEffect.h
 	include/RE/B/BSTextureSet.h
 	include/RE/B/BSThread.h
@@ -445,6 +447,7 @@ set(SOURCES
 	include/RE/B/BSTimer.h
 	include/RE/B/BSTrackedControllerDevice.h
 	include/RE/B/BSTreeManager.h
+	include/RE/B/BSTreeNode.h
 	include/RE/B/BSTriShape.h
 	include/RE/B/BSUIMessageData.h
 	include/RE/B/BSUIScaleformData.h
