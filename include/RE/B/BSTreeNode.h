@@ -32,8 +32,9 @@ namespace RE
 
 		// add
 
-		// Computes an index-based LOD blend ratio for tree canopy rendering.
-		float ComputeTreeLODBlend();
+		// Computes per-child LOD blend transforms for tree canopy rendering over the range
+		// [Index_38, Index_38 + count). Argument types are not yet fully reverse engineered.
+		void ComputeTreeLODBlend(std::uintptr_t a_arg1, std::uintptr_t a_arg2, std::uintptr_t a_arg3);
 
 	private:
 		std::byte unk170[0x48];  // 170 - not yet reverse engineered
