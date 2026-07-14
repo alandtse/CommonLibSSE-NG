@@ -33,12 +33,12 @@ namespace RE
 		BSMasterParticleSystem* GetMasterParticleSystemAt(std::uint32_t a_index);
 
 	private:
-		BSMasterParticleSystem** masterParticleSystems;          // 128 - BSTArray<BSMasterParticleSystem*> data
-		std::uint32_t            masterParticleSystemsCapacity;  // 130
-		std::uint32_t            unk134;                         // 134 - pad
-		std::uint32_t            masterParticleSystemsCount;     // 138
-		std::uint32_t            unk13C;                         // 13C - pad
-		void*                    unk140;                         // 140 - not yet reverse engineered
+		BSMasterParticleSystem** masterParticleSystems;          // 128 / 150 - BSTArray<BSMasterParticleSystem*> data
+		std::uint32_t            masterParticleSystemsCapacity;  // 130 / 158
+		std::uint32_t            unk134;                         // 134 / 15C - pad
+		std::uint32_t            masterParticleSystemsCount;     // 138 / 160
+		std::uint32_t            unk13C;                         // 13C / 164 - pad
+		void*                    unk140;                         // 140 / 168 - not yet reverse engineered
 	};
 	STATIC_ASSERT_SIZE(BSParticleSystemManager, 0x148, 0x148, 0x170, SIZE_UNDEFINED, 0x148);
 }

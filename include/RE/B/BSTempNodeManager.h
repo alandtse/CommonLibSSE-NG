@@ -27,7 +27,7 @@ namespace RE
 		void UpdateTempNodeTimers(float a_elapsedTime);
 
 	private:
-		std::uint64_t unk128;  // 128 - not yet reverse engineered
+		std::uint64_t unk128;  // 128 / 150 - not yet reverse engineered
 	};
 	STATIC_ASSERT_SIZE(BSTempNodeManager, 0x130, 0x130, 0x158, SIZE_UNDEFINED, 0x130);
 }
