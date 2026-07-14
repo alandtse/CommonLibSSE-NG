@@ -14,10 +14,20 @@ namespace RE
 		~BSTempNodeManager() override;  // 00
 
 		// override (NiNode)
-#ifndef SKYRIM_CROSS_VR
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
 		void UpdateDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;          // 2C
 		void UpdateSelectedDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;  // 2D
 		void UpdateRigidDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;     // 2E
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+		void UpdateDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;          // 2D
+		void UpdateSelectedDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;  // 2E
+		void UpdateRigidDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2) override;     // 2F
+#else
+		// VR shifts these slots by +1 (NiAVObject::ApplyLocalTransformToWorld is inserted ahead of
+		// them); resolve the real per-runtime slot via RelocateVirtual instead of a fixed ordinal.
+		void UpdateDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2);          // SE/AE 2C, VR 2D
+		void UpdateSelectedDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2);  // SE/AE 2D, VR 2E
+		void UpdateRigidDownwardPass(NiUpdateData& a_data, std::uint32_t a_arg2);     // SE/AE 2E, VR 2F
 #endif
 
 		// add
