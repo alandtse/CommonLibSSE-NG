@@ -63,7 +63,7 @@ namespace RE
 
 		// override (NiAVObject)
 		const NiRTTI* GetRTTI() const override;                           // 02
-		NiObject*     CreateClone(NiCloningProcess& a_cloning) override;  // 17 - { return this; }
+		NiObject*     CreateClone(NiCloningProcess& a_cloning) override;  // 17
 		void          LoadBinary(NiStream& a_stream) override;            // 18 - { return; }
 		void          LinkObject(NiStream& a_stream) override;            // 19 - { return; }
 		bool          RegisterStreamables(NiStream& a_stream) override;   // 1A
@@ -82,6 +82,9 @@ namespace RE
 		bool        WindowPointToRay(std::int32_t a_x, std::int32_t a_y, NiPoint3& a_origin, NiPoint3& a_dir, float a_windowWidth, float a_windowHeight);
 		bool        WorldPtToScreenPt3(const NiPoint3& a_point, float& a_xOut, float& a_yOut, float& a_zOut, float a_zeroTolerance);
 		static bool WorldPtToScreenPt3(const float a_matrix[4][4], const NiRect<float>& a_port, const NiPoint3& a_point, float& a_xOut, float& a_yOut, float& a_zOut, float a_zeroTolerance);
+
+		// Called by CreateClone: copies worldToCam, viewFrustum, and world.translate onto a_target.
+		void CopyMembers(NiCamera* a_target, NiCloningProcess& a_cloning);
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x110, 0);
 		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x150, 0x1D0);

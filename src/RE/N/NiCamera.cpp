@@ -42,4 +42,11 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(69270, 70640) };
 		return func(a_matrix, a_port, a_point, a_xOut, a_yOut, a_zOut, a_zeroTolerance);
 	}
+
+	void NiCamera::CopyMembers(NiCamera* a_target, NiCloningProcess& a_cloning)
+	{
+		using func_t = decltype(&NiCamera::CopyMembers);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(69251, 70617) };
+		return func(this, a_target, a_cloning);
+	}
 }
