@@ -11,19 +11,11 @@ namespace RE
 		return *singleton;
 	}
 
-	std::int8_t ControlMap::AllowTextInput(bool a_allow)
+	void ControlMap::AllowTextInput(bool a_allow)
 	{
-		if (a_allow) {
-			if (GetRuntimeData().textEntryCount != -1) {
-				++GetRuntimeData().textEntryCount;
-			}
-		} else {
-			if (GetRuntimeData().textEntryCount != 0) {
-				--GetRuntimeData().textEntryCount;
-			}
-		}
-
-		return GetRuntimeData().textEntryCount;
+		using func_t = decltype(&ControlMap::AllowTextInput);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67252, 68552) };
+		return func(this, a_allow);
 	}
 
 	bool ControlMap::GetButtonNameFromUserEvent(const BSFixedString& a_eventID, INPUT_DEVICE a_device, BSFixedString& a_buttonName)
