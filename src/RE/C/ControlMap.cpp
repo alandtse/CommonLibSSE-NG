@@ -135,4 +135,11 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(67250, 68550) };
 		return func(this);
 	}
+
+	void ControlMap::SetGamePadType(PC_GAMEPAD_TYPE a_gamePadType)
+	{
+		using func_t = decltype(&ControlMap::SetGamePadType);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67237, 68537) };
+		return func(this, a_gamePadType);
+	}
 }

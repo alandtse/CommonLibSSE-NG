@@ -90,6 +90,7 @@ namespace RE
 		bool                      GetMappingFromEventName(const BSFixedString& a_eventID, UserEvents::INPUT_CONTEXT_ID a_context, INPUT_DEVICE a_device, UserEventMapping& a_mapping);
 		std::string_view          GetUserEventName(std::uint32_t a_buttonID, INPUT_DEVICE a_device, InputContextID a_context = InputContextID::kGameplay) const;
 		constexpr PC_GAMEPAD_TYPE GetGamePadType() const noexcept { return GetRuntimeData().gamePadMapType.get(); }
+		void                      SetGamePadType(PC_GAMEPAD_TYPE a_gamePadType);
 		constexpr bool            IsActivateControlsEnabled() const noexcept { return GetRuntimeData().enabledControls.all(UEFlag::kActivate); }
 		constexpr bool            IsConsoleControlsEnabled() const noexcept { return GetRuntimeData().enabledControls.all(UEFlag::kConsole); }
 		constexpr bool            IsFightingControlsEnabled() const noexcept { return GetRuntimeData().enabledControls.all(UEFlag::kFighting); }
