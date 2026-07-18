@@ -109,6 +109,7 @@ namespace RE
 		void                      ToggleControls(UEFlag a_flags, bool a_enable, bool a_storeState);
 		void                      GetControlsState(std::uint32_t& a_enabledControls, std::uint32_t& a_storedControls) const;
 		void                      SetControlsState(std::uint32_t a_enabledControls, std::uint32_t a_storedControls);
+		void                      ResetControls();
 
 		struct RUNTIME_DATA
 		{

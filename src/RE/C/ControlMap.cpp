@@ -1,7 +1,5 @@
 #include "RE/C/ControlMap.h"
 
-#include "RE/B/BSInputDeviceManager.h"
-
 namespace RE
 {
 	ControlMap* ControlMap::GetSingleton()
@@ -19,25 +17,9 @@ namespace RE
 
 	bool ControlMap::GetButtonNameFromUserEvent(const BSFixedString& a_eventID, INPUT_DEVICE a_device, BSFixedString& a_buttonName)
 	{
-		for (const auto& inputContext : controlMap) {
-			if (!inputContext) {
-				continue;
-			}
-
-			for (const auto& mapping : inputContext->deviceMappings[a_device]) {
-				if (mapping.eventID == a_eventID) {
-					if (mapping.inputKey == 0xFF) {
-						break;
-					}
-
-					const auto inputDeviceManager = BSInputDeviceManager::GetSingleton();
-					inputDeviceManager->GetButtonNameFromID(a_device, mapping.inputKey, a_buttonName);
-					return true;
-				}
-			}
-		}
-
-		return false;
+		using func_t = decltype(&ControlMap::GetButtonNameFromUserEvent);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67253, 68553) };
+		return func(this, a_eventID, a_device, a_buttonName);
 	}
 
 	std::uint32_t ControlMap::GetMappedKey(std::string_view a_eventID, INPUT_DEVICE a_device, InputContextID a_context) const
@@ -145,5 +127,12 @@ namespace RE
 		using func_t = decltype(&ControlMap::SetControlsState);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(67249, 68549) };
 		return func(this, a_enabledControls, a_storedControls);
+	}
+
+	void ControlMap::ResetControls()
+	{
+		using func_t = decltype(&ControlMap::ResetControls);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67250, 68550) };
+		return func(this);
 	}
 }
