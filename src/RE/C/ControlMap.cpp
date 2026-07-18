@@ -1,7 +1,6 @@
 #include "RE/C/ControlMap.h"
 
 #include "RE/B/BSInputDeviceManager.h"
-#include "RE/U/UserEventEnabled.h"
 
 namespace RE
 {
@@ -115,41 +114,36 @@ namespace RE
 
 	void ControlMap::StoreControls()
 	{
-		auto& rd = GetRuntimeData();
-		if (rd.storedControls == UEFlag::kInvalid) {
-			rd.storedControls = rd.enabledControls;
-		}
+		using func_t = decltype(&ControlMap::StoreControls);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67246, 68546) };
+		return func(this);
 	}
 
 	void ControlMap::LoadStoredControls()
 	{
-		auto& rd = GetRuntimeData();
-		if (rd.storedControls != UEFlag::kInvalid) {
-			rd.enabledControls = rd.storedControls;
-			rd.storedControls = UEFlag::kInvalid;
-		}
+		using func_t = decltype(&ControlMap::LoadStoredControls);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67247, 68547) };
+		return func(this);
 	}
 
 	void ControlMap::ToggleControls(UEFlag a_flags, bool a_enable, bool a_storeState)
 	{
-		auto& rd = GetRuntimeData();
-		auto  oldState = rd.enabledControls;
+		using func_t = decltype(&ControlMap::ToggleControls);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67245, 68545) };
+		return func(this, a_flags, a_enable, a_storeState);
+	}
 
-		// update enabled controls
-		if (a_enable)
-			rd.enabledControls.set(a_flags);
-		else
-			rd.enabledControls.reset(a_flags);
+	void ControlMap::GetControlsState(std::uint32_t& a_enabledControls, std::uint32_t& a_storedControls) const
+	{
+		using func_t = decltype(&ControlMap::GetControlsState);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67248, 68548) };
+		return func(this, a_enabledControls, a_storedControls);
+	}
 
-		// optionally store state
-		if (a_storeState && rd.storedControls != UEFlag::kInvalid) {
-			if (a_enable)
-				rd.storedControls.set(a_flags);
-			else
-				rd.storedControls.reset(a_flags);
-		}
-
-		UserEventEnabled event{ rd.enabledControls, oldState };
-		SendEvent(std::addressof(event));
+	void ControlMap::SetControlsState(std::uint32_t a_enabledControls, std::uint32_t a_storedControls)
+	{
+		using func_t = decltype(&ControlMap::SetControlsState);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(67249, 68549) };
+		return func(this, a_enabledControls, a_storedControls);
 	}
 }
