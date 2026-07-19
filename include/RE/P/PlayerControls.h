@@ -46,6 +46,9 @@ namespace RE
 
 		constexpr ActivateHandler* GetActivateHandler() const noexcept { return activateHandler; }
 
+		void RegisterHandler(PlayerInputHandler* a_handler, bool a_addToHeldStateHandlers);
+		void UnregisterHandler(PlayerInputHandler* a_handler);
+
 		// members
 		std::uint8_t                  pad021;                 // 021
 		std::uint16_t                 pad022;                 // 022
