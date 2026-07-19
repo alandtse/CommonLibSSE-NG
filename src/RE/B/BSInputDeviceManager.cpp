@@ -152,8 +152,8 @@ namespace RE
 	void BSInputDeviceManager::PollInputDevices(float a_secsSinceLastFrame)
 	{
 		// Calls Process() on each device
-		// Calls ControlMap::sub_140C11600(InputEvent*)
-		// Calls Rumble::Update_140C10860(float secsSinceLastFrame)
+		// Calls ControlMap::ProcessButtonEvent(ButtonEvent*)
+		// Calls Rumble::Update(float secsSinceLastFrame)
 		// Emits the last InputEvent
 		// resets the global BSInputEventQueue
 		using func_t = decltype(&BSInputDeviceManager::PollInputDevices);
