@@ -64,10 +64,12 @@ namespace RE
 		static MenuControls* GetSingleton();
 
 		void               AddHandler(MenuEventHandler* a_handler);
+		void               GetKeyRepeatRates(float& a_shortRate, float& a_longRate);
 		[[nodiscard]] bool InBeastForm() const noexcept { return GetRuntimeData().beastForm; }
 		void               RegisterHandler(MenuEventHandler* a_handler);
 		void               RemoveHandler(MenuEventHandler* a_handler);
 		bool               QueueScreenshot();
+		void               SetKeyRepeatRates(float a_shortRate, float a_longRate);
 		void               UnregisterHandler(MenuEventHandler* a_handler);
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x80, 0x88);
