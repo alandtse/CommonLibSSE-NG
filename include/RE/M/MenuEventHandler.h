@@ -28,6 +28,12 @@ namespace RE
 		// ProcessKinect/Thumbstick/MouseMove/Button from slots 02-05 down to 05-08. The
 		// MenuControls dispatcher routes INPUT_EVENT_TYPE::kVrTouchpadSwipe (7) -> slot 02 and
 		// kVrTouchpadPosition (6) -> slot 03; slot 04 is not routed by MenuControls.
+		//
+		// No SKYRIM_CROSS_VR accessor exists for these three (unlike the four below): RelocateVirtual
+		// needs a slot in BOTH layouts to relocate between, and flat has none for touchpad input at
+		// all (its vtable goes straight from CanProcess(01) to ProcessKinect(02)). A SKYRIM_CROSS_VR
+		// derived class genuinely cannot receive VR wand-touchpad events today; that would need a new
+		// mechanism, not a RelocateVirtual wrapper.
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		virtual bool ProcessVrWandTouchpadSwipe(VrWandTouchpadSwipeEvent* a_event);        // VR 02 - { return false; }
 		virtual bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event);  // VR 03 - { return false; }
