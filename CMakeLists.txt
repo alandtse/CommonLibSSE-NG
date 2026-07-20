@@ -246,6 +246,12 @@ if(SKSE_SUPPORT_PATCH_SAFETY)
 	# consumer's include path.
 	target_sources("${PROJECT_NAME}" PRIVATE "${hde64_SOURCE_DIR}/src/hde/hde64.c")
 	target_include_directories("${PROJECT_NAME}" PRIVATE "${hde64_SOURCE_DIR}/src/hde")
+	# The Visual Studio generator doesn't reliably infer a .c file's language when it lives
+	# outside the project's own source tree (a FetchContent _deps directory here) -- without
+	# this it silently classifies hde64.c as <None> (never compiled at all) instead of
+	# <ClCompile>, which only fails at LINK time with an unresolved hde64_disasm symbol, not
+	# at configure/compile time. Ninja-based generators infer this correctly on their own.
+	set_source_files_properties("${hde64_SOURCE_DIR}/src/hde/hde64.c" PROPERTIES LANGUAGE C)
 endif()
 
 target_compile_definitions(
