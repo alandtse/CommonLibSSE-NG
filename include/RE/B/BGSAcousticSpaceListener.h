@@ -15,6 +15,10 @@ namespace RE
 		// override (hkpEntityListener)
 		void EntityRemovedCallback(hkpEntity* a_entity) override;  // 02
 
+		// add
+		virtual void Unk_06(void);  // 06 - removes an entry from an internal handle set
+		virtual void Unk_07(void);  // 07 - inserts an entry into the same handle set
+
 		// members
 		std::uint8_t unk08[0x48];  // 08 - not yet RE'd
 	};
