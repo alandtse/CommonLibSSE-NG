@@ -23,6 +23,7 @@ namespace RE
 	class hkpContactImpulseLimitBreachedListener;
 	class hkpContactListener;
 	class hkpConvexListFilter;
+	class hkpEntity;
 	class hkpEntityEntityBroadPhaseListener;
 	class hkpEntityListener;
 	class hkpIslandActivationListener;
@@ -83,6 +84,13 @@ namespace RE
 			using func_t = decltype(&hkpWorld::RemovePhantom);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(60504, 61316) };
 			return func(this, a_phantom);
+		}
+
+		inline void RemoveEntity(hkpEntity* a_entity)
+		{
+			using func_t = decltype(&hkpWorld::RemoveEntity);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(60493, 61305) };
+			return func(this, a_entity);
 		}
 
 		inline void CastRay(const hkpWorldRayCastInput& a_input, hkpWorldRayCastOutput& a_output) const
