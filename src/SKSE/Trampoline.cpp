@@ -15,10 +15,71 @@
 #	undef PAGE_EXECUTE_READWRITE
 #endif
 
+// hde64.h transitively pulls in <Windows.h> (like xbyak above), colliding with REX::W32's
+// own MEM_*/PAGE_* names used below.
+#ifdef SKSE_SUPPORT_PATCH_SAFETY
+#	include <hde64.h>
+#	undef max
+#	undef MEM_COMMIT
+#	undef MEM_FREE
+#	undef MEM_RELEASE
+#	undef MEM_RESERVE
+#	undef PAGE_EXECUTE_READWRITE
+#endif
+
 namespace SKSE
 {
 	namespace detail
 	{
+#ifdef SKSE_SUPPORT_PATCH_SAFETY
+		// A write_branch<N> patch is safe iff [a_src, a_src+a_len) lands exactly on
+		// instruction boundaries, or ends inside the single instruction it starts in. It's
+		// unsafe the moment it fully consumes one instruction and then partially overwrites
+		// the next -- that leaves corrupted, non-instruction bytes at an address that used
+		// to be (and, to anything that jumps/calls there, still looks like) a real
+		// instruction's start. Confirmed by an actual incident: EngineFixesSkyrim64 patched
+		// a 4-byte load with a 5-byte jmp, borrowing 1 byte of the following `test`
+		// instruction; that byte turned out to be independently reachable and the resulting
+		// corruption crashed a live game. Log-only: a decode we can't trust (or a real
+		// unsafe site) still gets the intended patch written, matching how the rest of this
+		// codebase degrades -- log with context, never silently break an install that
+		// worked yesterday.
+		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len)
+		{
+			std::size_t consumed = 0;
+			std::size_t instrCount = 0;
+			std::size_t lastLen = 0;
+
+			while (consumed < a_len) {
+				hde64s     hs{};
+				const auto len = hde64_disasm(reinterpret_cast<const void*>(a_src + consumed), &hs);
+				if (len == 0 || (hs.flags & F_ERROR) != 0) {
+					log::warn(
+						"patch-site safety: failed to decode instruction at 0x{:X} (+0x{:X} into a "
+						"write_branch<{}> at 0x{:X}) -- skipping boundary check for this patch"sv,
+						a_src + consumed, consumed, a_len, a_src);
+					return;
+				}
+				consumed += len;
+				lastLen = len;
+				++instrCount;
+			}
+
+			if (consumed == a_len || instrCount == 1) {
+				return;  // safe: exact boundary, or never left the first instruction
+			}
+
+			const auto badAddr = a_src + (consumed - lastLen);
+			const auto overwritten = a_len - (consumed - lastLen);
+			log::warn(
+				"patch-site safety: write_branch<{}> at 0x{:X} fully consumes {} instruction(s) then "
+				"partially overwrites {} of {} bytes of the instruction at 0x{:X} -- that address is "
+				"a real instruction boundary something else may target, not just this patch's own "
+				"trampoline. Writing anyway; consider relocating this patch to a longer instruction."sv,
+				a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr);
+		}
+#endif
+
 		[[nodiscard]] constexpr std::size_t roundup(std::size_t a_number, std::size_t a_multiple) noexcept
 		{
 			if (a_multiple == 0)
@@ -168,6 +229,10 @@ namespace SKSE
 			stl::report_and_fail("displacement is out of range"sv);
 		}
 
+#ifdef SKSE_SUPPORT_PATCH_SAFETY
+		detail::check_patch_site_boundary(a_src, sizeof(SrcAssembly));
+#endif
+
 		SrcAssembly assembly;
 		assembly.opcode = a_opcode;
 		assembly.disp = static_cast<std::int32_t>(disp);
@@ -209,6 +274,10 @@ namespace SKSE
 		if (!in_range(disp)) {  // the trampoline should already be in range, so this should never happen
 			stl::report_and_fail("displacement is out of range"sv);
 		}
+
+#ifdef SKSE_SUPPORT_PATCH_SAFETY
+		detail::check_patch_site_boundary(a_src, sizeof(Assembly));
+#endif
 
 		Assembly assembly;
 		assembly.opcode = static_cast<std::uint8_t>(0xFF);
