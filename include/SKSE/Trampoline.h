@@ -78,8 +78,14 @@ namespace SKSE
 		[[nodiscard]] constexpr std::size_t allocated_size() const noexcept { return _size; }
 		[[nodiscard]] constexpr std::size_t free_size() const noexcept { return _capacity - _size; }
 
+		// a_skipSafetyCheck: suppress the SKSE_SUPPORT_PATCH_SAFETY instruction-boundary
+		// check for this specific call site. Only pass true once you've actually verified
+		// the site is safe (walked callers/xrefs for the boundary byte the check flagged) --
+		// prefer this over disabling the whole feature, and prefer fixing the patch site
+		// (a longer instruction, or re-running more of the displaced code in the trampoline)
+		// over suppressing when relocating the site is practical.
 		template <std::size_t N>
-		std::uintptr_t write_branch(std::uintptr_t a_src, std::uintptr_t a_dst)
+		std::uintptr_t write_branch(std::uintptr_t a_src, std::uintptr_t a_dst, bool a_skipSafetyCheck = false)
 		{
 			std::uint8_t data = 0;
 			if constexpr (N == 5) {
@@ -94,17 +100,17 @@ namespace SKSE
 				static_assert(false && N, "invalid branch size");
 			}
 
-			return write_branch<N>(a_src, a_dst, data);
+			return write_branch<N>(a_src, a_dst, data, a_skipSafetyCheck);
 		}
 
 		template <std::size_t N, class F>
-		std::uintptr_t write_branch(std::uintptr_t a_src, F a_dst)
+		std::uintptr_t write_branch(std::uintptr_t a_src, F a_dst, bool a_skipSafetyCheck = false)
 		{
-			return write_branch<N>(a_src, stl::unrestricted_cast<std::uintptr_t>(a_dst));
+			return write_branch<N>(a_src, stl::unrestricted_cast<std::uintptr_t>(a_dst), a_skipSafetyCheck);
 		}
 
 		template <std::size_t N>
-		std::uintptr_t write_call(std::uintptr_t a_src, std::uintptr_t a_dst)
+		std::uintptr_t write_call(std::uintptr_t a_src, std::uintptr_t a_dst, bool a_skipSafetyCheck = false)
 		{
 			std::uint8_t data = 0;
 			if constexpr (N == 5) {
@@ -119,24 +125,24 @@ namespace SKSE
 				static_assert(false && N, "invalid call size");
 			}
 
-			return write_branch<N>(a_src, a_dst, data);
+			return write_branch<N>(a_src, a_dst, data, a_skipSafetyCheck);
 		}
 
 		template <std::size_t N, class F>
-		std::uintptr_t write_call(std::uintptr_t a_src, F a_dst)
+		std::uintptr_t write_call(std::uintptr_t a_src, F a_dst, bool a_skipSafetyCheck = false)
 		{
-			return write_call<N>(a_src, stl::unrestricted_cast<std::uintptr_t>(a_dst));
+			return write_call<N>(a_src, stl::unrestricted_cast<std::uintptr_t>(a_dst), a_skipSafetyCheck);
 		}
 
 	private:
 		[[nodiscard]] void* do_create(std::size_t a_size, std::uintptr_t a_address);
 		[[nodiscard]] void* do_allocate(std::size_t a_size);
 
-		void write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode);
-		void write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm);
+		void write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode, bool a_skipSafetyCheck);
+		void write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm, bool a_skipSafetyCheck);
 
 		template <std::size_t N>
-		[[nodiscard]] std::uintptr_t write_branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_data)
+		[[nodiscard]] std::uintptr_t write_branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_data, bool a_skipSafetyCheck = false)
 		{
 			const auto isNop = *reinterpret_cast<std::int8_t*>(a_src) == 0x90;
 			const auto disp = reinterpret_cast<std::int32_t*>(a_src + N - 4);
@@ -144,9 +150,9 @@ namespace SKSE
 			const auto func = isNop ? 0 : nextOp + *disp;
 
 			if constexpr (N == 5) {
-				write_5branch(a_src, a_dst, a_data);
+				write_5branch(a_src, a_dst, a_data, a_skipSafetyCheck);
 			} else if constexpr (N == 6) {
-				write_6branch(a_src, a_dst, a_data);
+				write_6branch(a_src, a_dst, a_data, a_skipSafetyCheck);
 			} else {
 				static_assert(false && N, "invalid branch size");
 			}

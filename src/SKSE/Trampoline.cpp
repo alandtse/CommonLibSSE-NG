@@ -44,6 +44,18 @@ namespace SKSE
 		// unsafe site) still gets the intended patch written, matching how the rest of this
 		// codebase degrades -- log with context, never silently break an install that
 		// worked yesterday.
+		//
+		// A flagged site is a real structural risk (the boundary byte genuinely used to be
+		// a valid instruction start), not proof of an active bug -- the check has no way to
+		// confirm anything actually targets that byte (our real incident wasn't visible via
+		// static xrefs either). Logged at `debug`, not `warn`: this codebase's own logger
+		// convention (see EngineFixesSkyrim64/src/main.cpp) sets Release builds -- what ships
+		// to players -- to `info` and above, and Debug builds to `debug` and above, so this
+		// is dev-visible by default and silent for end users without any extra plumbing here.
+		// A specific site a developer has manually verified safe (walked callers, confirmed
+		// no reachable entry into the boundary byte) can suppress this per call site via
+		// write_branch's `a_skipSafetyCheck` parameter -- prefer that over disabling the
+		// whole feature once you've actually done the verification.
 		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len)
 		{
 			std::size_t consumed = 0;
@@ -54,7 +66,7 @@ namespace SKSE
 				hde64s     hs{};
 				const auto len = hde64_disasm(reinterpret_cast<const void*>(a_src + consumed), &hs);
 				if (len == 0 || (hs.flags & F_ERROR) != 0) {
-					log::warn(
+					log::debug(
 						"patch-site safety: failed to decode instruction at 0x{:X} (+0x{:X} into a "
 						"write_branch<{}> at 0x{:X}) -- skipping boundary check for this patch"sv,
 						a_src + consumed, consumed, a_len, a_src);
@@ -71,11 +83,12 @@ namespace SKSE
 
 			const auto badAddr = a_src + (consumed - lastLen);
 			const auto overwritten = a_len - (consumed - lastLen);
-			log::warn(
+			log::debug(
 				"patch-site safety: write_branch<{}> at 0x{:X} fully consumes {} instruction(s) then "
 				"partially overwrites {} of {} bytes of the instruction at 0x{:X} -- that address is "
 				"a real instruction boundary something else may target, not just this patch's own "
-				"trampoline. Writing anyway; consider relocating this patch to a longer instruction."sv,
+				"trampoline. Writing anyway; consider relocating this patch to a longer instruction "
+				"or passing a_skipSafetyCheck=true once verified safe."sv,
 				a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr);
 		}
 #endif
@@ -184,7 +197,7 @@ namespace SKSE
 		return mem;
 	}
 
-	void Trampoline::write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode)
+	void Trampoline::write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode, bool a_skipSafetyCheck)
 	{
 #pragma pack(push, 1)
 		struct SrcAssembly
@@ -230,7 +243,9 @@ namespace SKSE
 		}
 
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
-		detail::check_patch_site_boundary(a_src, sizeof(SrcAssembly));
+		if (!a_skipSafetyCheck) {
+			detail::check_patch_site_boundary(a_src, sizeof(SrcAssembly));
+		}
 #endif
 
 		SrcAssembly assembly;
@@ -244,7 +259,7 @@ namespace SKSE
 		mem->addr = static_cast<std::uint64_t>(a_dst);
 	}
 
-	void Trampoline::write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm)
+	void Trampoline::write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm, bool a_skipSafetyCheck)
 	{
 #pragma pack(push, 1)
 		struct Assembly
@@ -276,7 +291,9 @@ namespace SKSE
 		}
 
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
-		detail::check_patch_site_boundary(a_src, sizeof(Assembly));
+		if (!a_skipSafetyCheck) {
+			detail::check_patch_site_boundary(a_src, sizeof(Assembly));
+		}
 #endif
 
 		Assembly assembly;
