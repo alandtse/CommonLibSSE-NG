@@ -123,6 +123,10 @@ if(SKSE_SUPPORT_PATCH_SAFETY)
 	# how many whole instructions a hotpatch jmp safely covers). Populate-only: we want the
 	# 3 files as plain sources, not MinHook's own CMake project (its own trampoline/hooking
 	# code is irrelevant here and must not be added as a subdirectory/target).
+	# hde64.c is plain C; the project only declares LANGUAGES CXX, so its LANGUAGE C source
+	# property (below) needs C explicitly enabled or Ninja-based generators fail at generate
+	# time (the Visual Studio generator tolerates the omission, Ninja does not).
+	enable_language(C)
 	include(FetchContent)
 	FetchContent_Declare(
 		hde64
@@ -251,7 +255,15 @@ if(SKSE_SUPPORT_PATCH_SAFETY)
 	# this it silently classifies hde64.c as <None> (never compiled at all) instead of
 	# <ClCompile>, which only fails at LINK time with an unresolved hde64_disasm symbol, not
 	# at configure/compile time. Ninja-based generators infer this correctly on their own.
-	set_source_files_properties("${hde64_SOURCE_DIR}/src/hde/hde64.c" PROPERTIES LANGUAGE C)
+	# A C file can't consume the project's C++ precompiled header. hde64.c is vendored,
+	# unmodified third-party source -- /WX- keeps its own build warnings from becoming
+	# errors without touching the vendored file.
+	set_source_files_properties(
+		"${hde64_SOURCE_DIR}/src/hde/hde64.c" PROPERTIES
+		LANGUAGE C
+		SKIP_PRECOMPILE_HEADERS ON
+		COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:MSVC>:/WX->"
+	)
 endif()
 
 target_compile_definitions(
