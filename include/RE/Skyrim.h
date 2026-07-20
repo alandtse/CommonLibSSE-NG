@@ -66,6 +66,7 @@
 #include "RE/A/ahkpWorld.h"
 #include "RE/B/BGSAbilityPerkEntry.h"
 #include "RE/B/BGSAcousticSpace.h"
+#include "RE/B/BGSAcousticSpaceListener.h"
 #include "RE/B/BGSAction.h"
 #include "RE/B/BGSActionData.h"
 #include "RE/B/BGSActorCellEvent.h"
