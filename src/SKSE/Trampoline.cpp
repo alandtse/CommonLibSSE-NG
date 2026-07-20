@@ -39,23 +39,38 @@ namespace SKSE
 		// to be (and, to anything that jumps/calls there, still looks like) a real
 		// instruction's start. Confirmed by an actual incident: EngineFixesSkyrim64 patched
 		// a 4-byte load with a 5-byte jmp, borrowing 1 byte of the following `test`
-		// instruction; that byte turned out to be independently reachable and the resulting
-		// corruption crashed a live game. Log-only: a decode we can't trust (or a real
-		// unsafe site) still gets the intended patch written, matching how the rest of this
-		// codebase degrades -- log with context, never silently break an install that
-		// worked yesterday.
+		// instruction; that byte turned out to be independently reachable -- specifically as
+		// an indirect vtable dispatch target, not a direct CALL/JMP -- and the resulting
+		// corruption crashed a live game.
+		//
+		// A plain "search for code xrefs to this address" is not sufficient to verify a
+		// flagged site -- it's exactly what missed the real incident. Also check whether the
+		// boundary address is stored as a function-pointer value in any vtable (RTTI class
+		// layout / vtable dump): a vtable slot pointing
+		// mid-function into the boundary byte is a DATA reference, and most disassemblers
+		// only surface it as a code xref if the vtable array is already typed as function
+		// pointers. Example: for a class C with vtable slot C::vtbl[k] == badAddr, that's
+		// disqualifying even though nothing in the disassembly shows a CALL/JMP literal to
+		// badAddr -- the call arrives indirectly via `call [vtableReg + k*8]`.
+		//
+		// Log-only: a decode we can't trust (or a real unsafe site) still gets the intended
+		// patch written, matching how the rest of this codebase degrades -- log with
+		// context, never silently break an install that worked yesterday.
 		//
 		// A flagged site is a real structural risk (the boundary byte genuinely used to be
 		// a valid instruction start), not proof of an active bug -- the check has no way to
 		// confirm anything actually targets that byte (our real incident wasn't visible via
-		// static xrefs either). Logged at `debug`, not `warn`: this codebase's own logger
-		// convention (see EngineFixesSkyrim64/src/main.cpp) sets Release builds -- what ships
-		// to players -- to `info` and above, and Debug builds to `debug` and above, so this
-		// is dev-visible by default and silent for end users without any extra plumbing here.
-		// A specific site a developer has manually verified safe (walked callers, confirmed
-		// no reachable entry into the boundary byte) can suppress this per call site via
-		// write_branch's `a_skipSafetyCheck` parameter -- prefer that over disabling the
-		// whole feature once you've actually done the verification.
+		// a plain xref scan either, for the vtable reason above). Logged at `debug`, not
+		// `warn`: this codebase's own logger convention (see EngineFixesSkyrim64/src/main.cpp)
+		// sets Release builds -- what ships to players -- to `info` and above, and Debug
+		// builds to `debug` and above, so this is dev-visible by default and silent for end
+		// users without any extra plumbing here.
+		//
+		// A specific site a developer has manually verified safe (walked BOTH code xrefs
+		// and vtable slots for the boundary address, confirmed neither reaches it) can
+		// suppress this per call site via write_branch's `a_skipSafetyCheck` parameter --
+		// prefer that over disabling the whole feature once you've actually done the
+		// verification.
 		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len)
 		{
 			std::size_t consumed = 0;
@@ -85,10 +100,12 @@ namespace SKSE
 			const auto overwritten = a_len - (consumed - lastLen);
 			log::debug(
 				"patch-site safety: write_branch<{}> at 0x{:X} fully consumes {} instruction(s) then "
-				"partially overwrites {} of {} bytes of the instruction at 0x{:X} -- that address is "
-				"a real instruction boundary something else may target, not just this patch's own "
-				"trampoline. Writing anyway; consider relocating this patch to a longer instruction "
-				"or passing a_skipSafetyCheck=true once verified safe."sv,
+				"partially overwrites {} of {} bytes of the instruction at 0x{:X} -- that address "
+				"used to be a valid instruction start. Before treating this site as safe, check for "
+				"anything targeting it directly: code xrefs (CALL/JMP) AND vtable slots holding it "
+				"as a function pointer (indirect vtable dispatch won't show as a code xref). If "
+				"clean, pass a_skipSafetyCheck=true to silence this; otherwise relocate the patch "
+				"onto a longer instruction. Writing anyway for now."sv,
 				a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr);
 		}
 #endif
