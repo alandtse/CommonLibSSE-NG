@@ -168,6 +168,21 @@
 		return const_cast<std::remove_const_t<std::remove_pointer_t<decltype(this)>>*>(this)->FuncName(); \
 	}
 
+// Versioned runtime-aware base class cast accessor (SE/VR/AE)
+// Usage: RUNTIME_CAST_ACCESSOR_VERSIONED_VR(MagicTarget, AsMagicTarget, SKSE::RUNTIME_SSE_1_6_629, 0x98, 0xA0, 0xA8)
+#define RUNTIME_CAST_ACCESSOR_VERSIONED_VR(StructType, FuncName, Version, SEOffset, VROffset, AEOffset)    \
+	[[nodiscard]] inline StructType* FuncName() noexcept                                                   \
+	{                                                                                                      \
+		if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {                                                    \
+			return &REL::RelocateMemberIfNewer<StructType>(Version, this, SEOffset, AEOffset);             \
+		}                                                                                                  \
+		return &REL::RelocateMember<StructType>(this, SEOffset, VROffset);                                 \
+	}                                                                                                      \
+	[[nodiscard]] inline const StructType* FuncName() const noexcept                                       \
+	{                                                                                                      \
+		return const_cast<std::remove_const_t<std::remove_pointer_t<decltype(this)>>*>(this)->FuncName();  \
+	}
+
 // ========================================
 // Three-Runtime Accessors (SE/AE/VR)
 // ========================================

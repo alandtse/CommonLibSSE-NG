@@ -750,11 +750,11 @@ namespace RE
 		void UpdateVRComfortCheck();
 		void UsePoisonFromInventory(AlchemyItem* a_poison);
 
-		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<BGSActorCellEvent>, AsBGSActorCellEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x2D0, 0x2D8)
+		RUNTIME_CAST_ACCESSOR_VERSIONED_VR(BSTEventSource<BGSActorCellEvent>, AsBGSActorCellEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x2D0, 0x2E8, 0x2D8)
 
-		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<BGSActorDeathEvent>, AsBGSActorDeathEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x328, 0x330)
+		RUNTIME_CAST_ACCESSOR_VERSIONED_VR(BSTEventSource<BGSActorDeathEvent>, AsBGSActorDeathEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x328, 0x340, 0x330)
 
-		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<PositionPlayerEvent>, AsPositionPlayerEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x380, 0x388)
+		RUNTIME_CAST_ACCESSOR_VERSIONED_VR(BSTEventSource<PositionPlayerEvent>, AsPositionPlayerEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x380, 0x398, 0x388)
 
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2B0, 0x2B8)
 
