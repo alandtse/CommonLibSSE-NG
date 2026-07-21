@@ -312,6 +312,34 @@ namespace RE
 			bool                            taaEnabled;                            // 18
 		};
 
+		// Real type of the field misnamed BSImagespaceShaderISSAOBlurH below (SE/AE only;
+		// confirmed via disassembly the feeding allocation is 0x70 bytes, not
+		// sizeof(BSImagespaceShader) == 0x1A8). Populated once by ImageSpaceManager's SAO
+		// wiring step (a separate function on SE, inlined into InitializeEffects on AE)
+		// with pointers to the rest of the SAO chain plus SAO/DOF Display-menu ini
+		// defaults, incl. bSAOEnable:Display into enableSAO. Not confirmed for VR, whose
+		// wiring step constructs a differently-shaped object.
+		struct SAOEffectParams
+		{
+			ImageSpaceEffect* blurH;            // 00 - ISSAOBlurH (self)
+			ImageSpaceEffect* blurV;            // 08 - ISSAOBlurV
+			ImageSpaceEffect* cameraZ;          // 10 - ISSAOCameraZ
+			ImageSpaceEffect* compositeSAO;     // 18 - ISSAOCompositeSAO
+			ImageSpaceEffect* compositeFog;     // 20 - ISSAOCompositeFog
+			ImageSpaceEffect* compositeSAOFog;  // 28 - ISSAOCompositeSAOFog
+			ImageSpaceEffect* minify;           // 30 - ISMinify
+			ImageSpaceEffect* minifyContrast;   // 38 - ISMinifyContrast
+			ImageSpaceEffect* rawAO;            // 40 - ISSAORawAO
+			ImageSpaceEffect* rawAONoTemporal;  // 48 - ISSAORawAONoTemporal
+			bool              enableSAO;        // 50 - from bSAOEnable:Display (low byte of an 8-byte slot)
+			std::uint8_t      pad51[3];         // 51
+			std::uint32_t     unk54;            // 54 - always 0 at construction
+			std::uint64_t     unk58;            // 58 - always 0 at construction
+			std::uint64_t     unk60;            // 60 - always 0 at construction
+			std::uint64_t     unk68;            // 68 - always 0 at construction
+		};
+		static_assert(sizeof(SAOEffectParams) == 0x70);
+
 		struct RUNTIME_DATA
 		{
 #define RUNTIME_DATA_CONTENT                                                                                                                                                                     \
@@ -343,7 +371,7 @@ namespace RE
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISLightingComposite;           /* 1B0, VR 1D0 */                                                                                       \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISPerlinNoiseCS;               /* 1B8, VR 1D8 */                                                                                       \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderReflectionsRayTracing;         /* 1C0, VR 1E8 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSAOBlurH;                    /* 1C8, VR 1F0 */                                                                                       \
+	SAOEffectParams*                    BSImagespaceShaderISSAOBlurH;                    /* 1C8, VR 1F0 -- see SAOEffectParams doc comment */                                                    \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSAOBlurHCS;                  /* 1D0, VR 1F8 */                                                                                       \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSILComposite;                /* 1D8, VR 200 */                                                                                       \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSimpleColor;                 /* 1E0, VR 208 */                                                                                       \
@@ -361,51 +389,51 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                                                                                                                                                          \
-	NiPointer<BSTriShape> VRunk58;                                                               /* VR 058 */                                                                                            \
-	NiPointer<BSTriShape> VRunk60;                                                               /* VR 060 */                                                                                            \
-	std::uint32_t         unk5C;                                                                 /* 05C, VR 68 */                                                                                        \
-	std::uint32_t         unk60;                                                                 /* 060, VR 6C */                                                                                        \
-	RENDER_TARGET         renderTarget;                                                          /* 064, VR 70 */                                                                                        \
-	std::uint32_t         unk68;                                                                 /* 068, VR 74 */                                                                                        \
-	std::uint32_t         unk6C;                                                                 /* 06C, VR 78 */                                                                                        \
-	std::uint32_t         unk70;                                                                 /* 070, VR 7C */                                                                                        \
-	float                 VRunk84;                                                               /* VR, 84*/                                                                                             \
-	float                 unk74;                                                                 /* 074, VR 80 */                                                                                        \
-	ImageSpaceTexture     unk78;                                                                 /* 078, VR 88 */                                                                                        \
-	NiColorA              refractionTint;                                                        /* 098, VR A8 */                                                                                        \
-	ImageSpaceBaseData*   currentBaseData;                                                       /* 0A8, VR B8 */                                                                                        \
-	ImageSpaceBaseData*   overrideBaseData;                                                      /* 0B0, VR C0 */                                                                                        \
-	ImageSpaceBaseData*   underwaterBaseData;                                                    /* 0B8, VR C8 */                                                                                        \
-	ImageSpaceBaseData*   consoleBaseData;                                                       /* 0C0, VR D0 */                                                                                        \
-	ImageSpaceData        data;                                                                  /* 0C8, VR D8 */                                                                                        \
-																								 /* the structure is unclear and varies for each, but at least the first entry is a BSImagespaceShader*/ \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderApplyReflections;                      /* 168, VR 178 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISApplyVolumetricLighting;             /* 170, VR 180 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISBasicCopy;                           /* 178, VR 188 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISBlur;                                /* 180, VR 190 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISVolumetricLightingBlurHCS;           /* 188, VR 198 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISCompositeVolumetricLighting;         /* 190, VR 1A0 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISCopySubRegionCS;                     /* 198, VR 1A8 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISDebugSnow;                           /* 1A0, VR 1B0 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISDownsampleHierarchicalDepthBufferCS; /* VR, 1B8 */                                                                                           \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISExp;                                 /* 1A8, VR 1C0 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISFullScreenVR;                        /* VR 1C8 */                                                                                            \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISLightingComposite;                   /* 1B0, VR 1D0 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISPerlinNoiseCS;                       /* 1B8, VR 1D8 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderTransformLvl7PreTest;                  /* VR 1E0 */                                                                                            \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderReflectionsRayTracing;                 /* 1C0, VR 1E8 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSAOBlurH;                            /* 1C8, VR 1F0 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSAOBlurHCS;                          /* 1D0, VR 1F8 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSILComposite;                        /* 1D8, VR 200 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSimpleColor;                         /* 1E0, VR 208 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSnowSSS;                             /* 1E8, VR 210 */                                                                                       \
-	UNK_BSImagespaceShaderISTemporalAA* BSImagespaceShaderISTemporalAA;                          /* 1F0, VR 218 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISUpsampleDynamicResolution;           /* 1F8, VR 220 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISWaterBlend;                          /* 200, VR 228 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISUnderwaterMask;                      /* 208, VR 230 */                                                                                       \
-	bool                                usesLDR;                                                 /* 210, VR 238 */                                                                                       \
-	bool                                unk211;                                                  /* 211, VR 239 */                                                                                       \
+#define VR_RUNTIME_DATA_CONTENT                                                                                                                                                                                                                                                            \
+	NiPointer<BSTriShape> VRunk58;                                                               /* VR 058 */                                                                                                                                                                              \
+	NiPointer<BSTriShape> VRunk60;                                                               /* VR 060 */                                                                                                                                                                              \
+	std::uint32_t         unk5C;                                                                 /* 05C, VR 68 */                                                                                                                                                                          \
+	std::uint32_t         unk60;                                                                 /* 060, VR 6C */                                                                                                                                                                          \
+	RENDER_TARGET         renderTarget;                                                          /* 064, VR 70 */                                                                                                                                                                          \
+	std::uint32_t         unk68;                                                                 /* 068, VR 74 */                                                                                                                                                                          \
+	std::uint32_t         unk6C;                                                                 /* 06C, VR 78 */                                                                                                                                                                          \
+	std::uint32_t         unk70;                                                                 /* 070, VR 7C */                                                                                                                                                                          \
+	float                 VRunk84;                                                               /* VR, 84*/                                                                                                                                                                               \
+	float                 unk74;                                                                 /* 074, VR 80 */                                                                                                                                                                          \
+	ImageSpaceTexture     unk78;                                                                 /* 078, VR 88 */                                                                                                                                                                          \
+	NiColorA              refractionTint;                                                        /* 098, VR A8 */                                                                                                                                                                          \
+	ImageSpaceBaseData*   currentBaseData;                                                       /* 0A8, VR B8 */                                                                                                                                                                          \
+	ImageSpaceBaseData*   overrideBaseData;                                                      /* 0B0, VR C0 */                                                                                                                                                                          \
+	ImageSpaceBaseData*   underwaterBaseData;                                                    /* 0B8, VR C8 */                                                                                                                                                                          \
+	ImageSpaceBaseData*   consoleBaseData;                                                       /* 0C0, VR D0 */                                                                                                                                                                          \
+	ImageSpaceData        data;                                                                  /* 0C8, VR D8 */                                                                                                                                                                          \
+																								 /* the structure is unclear and varies for each, but at least the first entry is a BSImagespaceShader*/                                                                                   \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderApplyReflections;                      /* 168, VR 178 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISApplyVolumetricLighting;             /* 170, VR 180 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISBasicCopy;                           /* 178, VR 188 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISBlur;                                /* 180, VR 190 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISVolumetricLightingBlurHCS;           /* 188, VR 198 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISCompositeVolumetricLighting;         /* 190, VR 1A0 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISCopySubRegionCS;                     /* 198, VR 1A8 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISDebugSnow;                           /* 1A0, VR 1B0 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISDownsampleHierarchicalDepthBufferCS; /* VR, 1B8 */                                                                                                                                                                             \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISExp;                                 /* 1A8, VR 1C0 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISFullScreenVR;                        /* VR 1C8 */                                                                                                                                                                              \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISLightingComposite;                   /* 1B0, VR 1D0 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISPerlinNoiseCS;                       /* 1B8, VR 1D8 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderTransformLvl7PreTest;                  /* VR 1E0 */                                                                                                                                                                              \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderReflectionsRayTracing;                 /* 1C0, VR 1E8 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSAOBlurH;                            /* 1C8, VR 1F0 -- SE/AE real type is SAOEffectParams* (see doc comment above), not this; VR's wiring step builds a differently-shaped object and this field's true type is unconfirmed */ \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSAOBlurHCS;                          /* 1D0, VR 1F8 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSILComposite;                        /* 1D8, VR 200 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSimpleColor;                         /* 1E0, VR 208 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSnowSSS;                             /* 1E8, VR 210 */                                                                                                                                                                         \
+	UNK_BSImagespaceShaderISTemporalAA* BSImagespaceShaderISTemporalAA;                          /* 1F0, VR 218 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISUpsampleDynamicResolution;           /* 1F8, VR 220 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISWaterBlend;                          /* 200, VR 228 */                                                                                                                                                                         \
+	NiPointer<BSImagespaceShader>       BSImagespaceShaderISUnderwaterMask;                      /* 208, VR 230 */                                                                                                                                                                         \
+	bool                                usesLDR;                                                 /* 210, VR 238 */                                                                                                                                                                         \
+	bool                                unk211;                                                  /* 211, VR 239 */                                                                                                                                                                         \
 	NiPointer<NiAVObject>               underwaterSplitterGeom;                                  /* 218, VR 240 */
             VR_RUNTIME_DATA_CONTENT
 		};
