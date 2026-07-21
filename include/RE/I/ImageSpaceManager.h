@@ -313,12 +313,9 @@ namespace RE
 		};
 
 		// Real type of the field misnamed BSImagespaceShaderISSAOBlurH below (all three
-		// runtimes; confirmed via disassembly the feeding allocation is 0x70 bytes, not
-		// sizeof(BSImagespaceShader) == 0x1A8). Populated once by ImageSpaceManager's SAO
-		// wiring step (a separate function on SE, inlined into InitializeEffects on AE;
-		// VR has its own equivalent function using effects[] indices shifted +0xF for its
-		// extra VR-specific effects) with pointers to the rest of the SAO chain plus
-		// SAO/DOF Display-menu ini defaults, incl. bSAOEnable:Display into enableSAO.
+		// runtimes; the feeding allocation is 0x70 bytes, not sizeof(BSImagespaceShader)
+		// == 0x1A8). Holds pointers to the rest of the SAO effect chain plus SAO/DOF
+		// Display-menu ini defaults, incl. bSAOEnable:Display into enableSAO.
 		struct SAOEffectParams
 		{
 			ImageSpaceEffect* blurH;            // 00 - ISSAOBlurH (self)
