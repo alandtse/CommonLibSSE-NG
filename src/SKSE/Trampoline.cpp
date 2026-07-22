@@ -32,45 +32,11 @@ namespace SKSE
 	namespace detail
 	{
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
-		// A write_branch<N> patch is safe iff [a_src, a_src+a_len) lands exactly on
-		// instruction boundaries, or ends inside the single instruction it starts in. It's
-		// unsafe the moment it fully consumes one instruction and then partially overwrites
-		// the next -- that leaves corrupted, non-instruction bytes at an address that used
-		// to be (and, to anything that jumps/calls there, still looks like) a real
-		// instruction's start. Confirmed by an actual incident: EngineFixesSkyrim64 patched
-		// a 4-byte load with a 5-byte jmp, borrowing 1 byte of the following `test`
-		// instruction; that byte turned out to be independently reachable -- specifically as
-		// an indirect vtable dispatch target, not a direct CALL/JMP -- and the resulting
-		// corruption crashed a live game.
-		//
-		// A plain "search for code xrefs to this address" is not sufficient to verify a
-		// flagged site -- it's exactly what missed the real incident. Also check whether the
-		// boundary address is stored as a function-pointer value in any vtable (RTTI class
-		// layout / vtable dump): a vtable slot pointing
-		// mid-function into the boundary byte is a DATA reference, and most disassemblers
-		// only surface it as a code xref if the vtable array is already typed as function
-		// pointers. Example: for a class C with vtable slot C::vtbl[k] == badAddr, that's
-		// disqualifying even though nothing in the disassembly shows a CALL/JMP literal to
-		// badAddr -- the call arrives indirectly via `call [vtableReg + k*8]`.
-		//
-		// Log-only: a decode we can't trust (or a real unsafe site) still gets the intended
-		// patch written, matching how the rest of this codebase degrades -- log with
-		// context, never silently break an install that worked yesterday.
-		//
-		// A flagged site is a real structural risk (the boundary byte genuinely used to be
-		// a valid instruction start), not proof of an active bug -- the check has no way to
-		// confirm anything actually targets that byte (our real incident wasn't visible via
-		// a plain xref scan either, for the vtable reason above). Logged at `debug`, not
-		// `warn`: this codebase's own logger convention (see EngineFixesSkyrim64/src/main.cpp)
-		// sets Release builds -- what ships to players -- to `info` and above, and Debug
-		// builds to `debug` and above, so this is dev-visible by default and silent for end
-		// users without any extra plumbing here.
-		//
-		// A specific site a developer has manually verified safe (walked BOTH code xrefs
-		// and vtable slots for the boundary address, confirmed neither reaches it) can
-		// suppress this per call site via write_branch's `a_skipSafetyCheck` parameter --
-		// prefer that over disabling the whole feature once you've actually done the
-		// verification.
+		// A write_branch<N> patch is unsafe once it fully consumes one instruction and
+		// partially overwrites the next -- the resulting bytes can still be a live
+		// indirect-dispatch target even with no direct CALL/JMP to them. Log-only (never
+		// blocks the write); see write_branch's a_skipSafetyCheck to suppress a site
+		// you've manually verified safe.
 		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len)
 		{
 			std::size_t consumed = 0;

@@ -78,12 +78,9 @@ namespace SKSE
 		[[nodiscard]] constexpr std::size_t allocated_size() const noexcept { return _size; }
 		[[nodiscard]] constexpr std::size_t free_size() const noexcept { return _capacity - _size; }
 
-		// a_skipSafetyCheck: suppress the SKSE_SUPPORT_PATCH_SAFETY instruction-boundary
-		// check for this specific call site. Only pass true once you've actually verified
-		// the site is safe (walked callers/xrefs for the boundary byte the check flagged) --
-		// prefer this over disabling the whole feature, and prefer fixing the patch site
-		// (a longer instruction, or re-running more of the displaced code in the trampoline)
-		// over suppressing when relocating the site is practical.
+		// a_skipSafetyCheck: suppress the SKSE_SUPPORT_PATCH_SAFETY boundary check for this
+		// call site. Only pass true once you've verified the flagged byte is unreachable;
+		// prefer relocating the patch over suppressing when that's practical.
 		template <std::size_t N>
 		std::uintptr_t write_branch(std::uintptr_t a_src, std::uintptr_t a_dst, bool a_skipSafetyCheck = false)
 		{

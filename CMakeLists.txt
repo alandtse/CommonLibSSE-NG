@@ -118,14 +118,9 @@ include(cmake/sourcelist.cmake)
 include(cmake/testlist.cmake)
 
 if(SKSE_SUPPORT_PATCH_SAFETY)
-	# hde64 (Hacker Disassembler Engine 64) has no vcpkg port -- it's a 3-file, ~500-line
-	# instruction-length decoder vendored inside MinHook for exactly this purpose (deciding
-	# how many whole instructions a hotpatch jmp safely covers). Populate-only: we want the
-	# 3 files as plain sources, not MinHook's own CMake project (its own trampoline/hooking
-	# code is irrelevant here and must not be added as a subdirectory/target).
-	# hde64.c is plain C; the project only declares LANGUAGES CXX, so its LANGUAGE C source
-	# property (below) needs C explicitly enabled or Ninja-based generators fail at generate
-	# time (the Visual Studio generator tolerates the omission, Ninja does not).
+	# hde64 has no vcpkg port -- vendor MinHook's 3-file instruction-length decoder directly.
+	# LANGUAGE C (set below) needs an explicit enable_language(C), or Ninja-based
+	# generators fail at generate time (the VS generator tolerates the omission).
 	enable_language(C)
 	include(FetchContent)
 	FetchContent_Declare(
@@ -133,10 +128,8 @@ if(SKSE_SUPPORT_PATCH_SAFETY)
 		GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
 		GIT_TAG v1.3.4
 		GIT_SHALLOW TRUE
-		# MinHook's own root CMakeLists.txt builds its full hooking library, which we don't
-		# want as a subdirectory/target. src/hde has no CMakeLists.txt of its own, so
-		# FetchContent_MakeAvailable populates the source without trying to add_subdirectory
-		# anything -- source-only fetch, no deprecated FetchContent_Populate call needed.
+		# Populate source only -- MinHook's own root CMakeLists.txt would otherwise add
+		# its full hooking library as a subdirectory/target, which we don't want.
 		SOURCE_SUBDIR src/hde
 	)
 	FetchContent_MakeAvailable(hde64)
@@ -250,14 +243,9 @@ if(SKSE_SUPPORT_PATCH_SAFETY)
 	# consumer's include path.
 	target_sources("${PROJECT_NAME}" PRIVATE "${hde64_SOURCE_DIR}/src/hde/hde64.c")
 	target_include_directories("${PROJECT_NAME}" PRIVATE "${hde64_SOURCE_DIR}/src/hde")
-	# The Visual Studio generator doesn't reliably infer a .c file's language when it lives
-	# outside the project's own source tree (a FetchContent _deps directory here) -- without
-	# this it silently classifies hde64.c as <None> (never compiled at all) instead of
-	# <ClCompile>, which only fails at LINK time with an unresolved hde64_disasm symbol, not
-	# at configure/compile time. Ninja-based generators infer this correctly on their own.
-	# A C file can't consume the project's C++ precompiled header. hde64.c is vendored,
-	# unmodified third-party source -- /WX- keeps its own build warnings from becoming
-	# errors without touching the vendored file.
+	# VS doesn't reliably infer hde64.c's LANGUAGE without this (silent <None>, fails only
+	# at link time); a vendored C file also can't use our C++ precompiled header, and /WX-
+	# keeps its own warnings from becoming errors without touching the file itself.
 	set_source_files_properties(
 		"${hde64_SOURCE_DIR}/src/hde/hde64.c" PROPERTIES
 		LANGUAGE C
