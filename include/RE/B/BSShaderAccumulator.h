@@ -2,6 +2,7 @@
 
 #include "RE/N/NiAlphaAccumulator.h"
 #include "RE/N/NiColor.h"
+#include "REX/REX/EnumSet.h"
 
 namespace RE
 {
@@ -13,21 +14,21 @@ namespace RE
 	public:
 		enum class RENDER_MODE : std::uint32_t
 		{
-			kNormal = 0,
-			kShadowMask = 12,
-			kShadowMapPlain = 13,
-			kShadowMapClamped = 14,
-			kShadowMapPb = 15,
-			kShadowMapCube = 17,
-			kLocalMap = 18,
-			kLodLandscapePass = 20,
-			kWaterReflectionPass = 21,
-			kBloodDecalPass = 22,
-			kAlphaTransparencyShadowPass = 23,
-			kSunGlintRefractionPass = 24,
-			kVolumetricLightingPass = 25,
-			kOcclusion = 26,
-			kPrecipitationOcclusionMap = 28
+			kNormal = 0x00,
+			kShadowMask = 0x0C,
+			kShadowMapPlain = 0x0D,
+			kShadowMapClamped = 0x0E,
+			kShadowMapPb = 0x0F,
+			kShadowMapCube = 0x11,
+			kLocalMap = 0x12,
+			kLodLandscapePass = 0x14,
+			kWaterReflectionPass = 0x15,
+			kBloodDecalPass = 0x16,
+			kAlphaTransparencyShadowPass = 0x17,
+			kSunGlintRefractionPass = 0x18,
+			kVolumetricLightingPass = 0x19,
+			kOcclusion = 0x1A,
+			kPrecipitationOcclusionMap = 0x1C
 		};
 
 		class SunOcclusionTest
@@ -59,7 +60,7 @@ namespace RE
 		// add
 		virtual void FinishAccumulatingPreResolveDepth(std::uint32_t flags);   // 2A
 		virtual void FinishAccumulatingPostResolveDepth(std::uint32_t flags);  // 2B
-		virtual void Unk_2C() = 0;                                             // 2C
+		virtual void FinishAccumulatingSunGlint() = 0;                         // 2C
 
 		struct RUNTIME_DATA
 		{
@@ -96,7 +97,7 @@ namespace RE
 	bool             currentActive;            /* 140 */ \
 	std::uint8_t     pad141[0x7];              /* 141 */ \
 	ShadowSceneNode* activeShadowSceneNode;    /* 148 */ \
-	std::uint32_t    renderMode;               /* 150 */ \
+	RENDER_MODE      renderMode;               /* 150 */ \
 	std::uint8_t     pad154[0x4];              /* 154 */ \
 	void*            unk158;                   /* 158 */ \
 	void*            unk160;                   /* 160 */ \

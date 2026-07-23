@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSShaderAccumulator.h"
 #include "RE/N/NiBound.h"
 #include "RE/N/NiColor.h"
 #include "RE/N/NiPoint2.h"
@@ -24,11 +25,7 @@ namespace RE
 			kTotal = 5,
 		};
 
-		enum etRenderMode
-		{
-			BSSM_RENDER_NORMAL = 0,
-			BSSM_RENDER_PRECIPITATION_OCCLUSION_MAP = 28,
-		};
+		using etRenderMode = BSShaderAccumulator::RENDER_MODE;
 
 		class State
 		{
