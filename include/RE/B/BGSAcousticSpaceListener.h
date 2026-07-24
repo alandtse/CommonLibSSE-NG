@@ -21,8 +21,22 @@ namespace RE
 		virtual void RemoveCollidable(const hkpCollidable* a_collidable);  // 06
 		virtual void AddCollidable(const hkpCollidable* a_collidable);     // 07
 
+		struct Entry
+		{
+			std::uint32_t refHandle;  // 00
+			std::uint32_t refCount;   // 04
+			std::uint64_t pad08;      // 08
+		};
+		static_assert(sizeof(Entry) == 0x10);
+
 		// members
-		std::uint8_t unk08[0x48];  // 08 - not yet RE'd
+		void*         unk08;        // 08
+		std::uint32_t count;        // 10
+		std::uint32_t capacity;     // 14
+		std::uint32_t numBuckets;   // 18
+		std::uint32_t pad1C;        // 1C
+		Entry*        entries;      // 20
+		std::uint8_t  unk28[0x28];  // 28
 	};
 	static_assert(sizeof(BGSAcousticSpaceListener) == 0x50);
 }
