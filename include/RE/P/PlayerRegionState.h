@@ -1,12 +1,15 @@
 #pragma once
 
 #include "RE/B/BGSActorCellEvent.h"
+#include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSingleton.h"
 
 namespace RE
 {
 	class BGSMusicType;
+	class TESRegion;
+	class TESRegionDataSound;
 
 	class PlayerRegionState :
 		public BSTEventSink<BGSActorCellEvent>,
@@ -28,15 +31,15 @@ namespace RE
 		}
 
 		// members
-		BSTArray<void*>                    unk10;  // 10
-		BSTArray<void*>                    unk28;  // 28
-		bool                               unk40;  // 40
-		bool                               unk41;  // 41
-		std::uint16_t                      pad42;  // 42
-		std::uint32_t                      pad44;  // 44
-		TESRegion*                         unk48;  // 48
-		BGSMusicType*                      unk50;  // 50
-		BSTEventSource<BGSActorCellEvent>* unk58;  // 58
+		BSTArray<TESRegionDataSound*>      soundData;             // 10
+		BSTArray<TESRegion*>               regions;               // 28
+		bool                               inSoundRegion;         // 40
+		bool                               unk41;                 // 41
+		std::uint16_t                      pad42;                 // 42
+		std::uint32_t                      pad44;                 // 44
+		TESRegion*                         currentRegion;         // 48
+		BGSMusicType*                      currentMusicType;      // 50
+		BSTEventSource<BGSActorCellEvent>* actorCellEventSource;  // 58
 	};
 	static_assert(sizeof(PlayerRegionState) == 0x60);
 }
