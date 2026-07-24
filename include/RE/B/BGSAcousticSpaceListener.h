@@ -15,9 +15,11 @@ namespace RE
 		// override (hkpEntityListener)
 		void EntityRemovedCallback(hkpEntity* a_entity) override;  // 02
 
+		class hkpCollidable;
+
 		// add
-		virtual void Unk_06(void);  // 06 - removes an entry from an internal handle set
-		virtual void Unk_07(void);  // 07 - inserts an entry into the same handle set
+		virtual void RemoveCollidable(const hkpCollidable* a_collidable);  // 06
+		virtual void AddCollidable(const hkpCollidable* a_collidable);     // 07
 
 		// members
 		std::uint8_t unk08[0x48];  // 08 - not yet RE'd
