@@ -211,11 +211,12 @@ Dependencies are managed via vcpkg. See `vcpkg.json` for the complete list.
 ## License
 
 [GPL-3.0-or-later](COPYING) WITH [Modding Exception AND GPL-3.0 Linking Exception (with Corresponding Source)](EXCEPTIONS.md).
-Specifically, the Modded Code is Skyrim (and its variants) and any plugin/mod code that links against this library, and Modding Libraries include SKSE, Windows, and other libraries commonly used by the Skyrim modding ecosystem.
+Specifically, the Modded Code is Skyrim (and its variants), and Modding Libraries include SKSE and Windows.
 
 > [!IMPORTANT]
-> This is a breaking change from the previous MIT license. Plugins that statically link CommonLibSSE NG are covered
-> by the Modding Exception above and are not required to be GPL-licensed themselves; see [EXCEPTIONS.md](EXCEPTIONS.md)
-> for the exact terms.
+> This is a breaking change from the previous MIT license. The Modding Exception only covers this library's own
+> interoperation with Skyrim itself (a proprietary binary nobody can relicense) -- it does **not** cover plugin/mod
+> code. A plugin that statically links CommonLibSSE NG forms a combined work with it and must itself be licensed
+> under the GPL-3.0-or-later (or a GPL-compatible license); see [EXCEPTIONS.md](EXCEPTIONS.md) for the exact terms.
 
 Originally based on code under [MIT](LICENSE).
