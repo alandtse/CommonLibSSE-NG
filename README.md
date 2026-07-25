@@ -211,12 +211,21 @@ Dependencies are managed via vcpkg. See `vcpkg.json` for the complete list.
 ## License
 
 [GPL-3.0-or-later](COPYING) WITH [Modding Exception AND GPL-3.0 Linking Exception (with Corresponding Source)](EXCEPTIONS.md).
-Specifically, the Modded Code is Skyrim (and its variants), and Modding Libraries include SKSE and Windows.
+Specifically, the Modded Code includes:
+
+- Skyrim (and its variants)
+- Hardware drivers to enable additional functionality provided via proprietary SDKs, such as [Nvidia DLSS/Streamline](https://developer.nvidia.com/rtx/dlss/get-started) and [AMD FidelityFX FSR3](https://gpuopen.com/fidelityfx-super-resolution-3/)
+
+The Modding Libraries include:
+
+- [SKSE](https://skse.silverlock.org/)
+- Windows
 
 > [!IMPORTANT]
-> This is a breaking change from the previous MIT license. The Modding Exception only covers this library's own
-> interoperation with Skyrim itself (a proprietary binary nobody can relicense) -- it does **not** cover plugin/mod
-> code. A plugin that statically links CommonLibSSE NG forms a combined work with it and must itself be licensed
-> under the GPL-3.0-or-later (or a GPL-compatible license); see [EXCEPTIONS.md](EXCEPTIONS.md) for the exact terms.
+> This is a breaking change from the previous MIT license. The Modding Exception only covers interoperation with
+> Skyrim itself and proprietary hardware SDKs (like DLSS/Streamline or FSR3) that neither we nor plugin authors have
+> the right to relicense -- it does **not** cover plugin/mod code. A plugin that statically links CommonLibSSE NG
+> forms a combined work with it and must itself be licensed under the GPL-3.0-or-later (or a GPL-compatible
+> license); see [EXCEPTIONS.md](EXCEPTIONS.md) for the exact terms.
 
 Originally based on code under [MIT](LICENSE).
