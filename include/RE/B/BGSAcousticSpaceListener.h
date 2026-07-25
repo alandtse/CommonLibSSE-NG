@@ -13,7 +13,9 @@ namespace RE
 		~BGSAcousticSpaceListener() override;  // 00
 
 		// override (hkpEntityListener)
+		void EntityAddedCallback(hkpEntity* a_entity) override;    // 01 - { return; }
 		void EntityRemovedCallback(hkpEntity* a_entity) override;  // 02
+		void EntityDeletedCallback(hkpEntity* a_entity) override;  // 05 - { return; }
 
 		// add
 		virtual void RemoveCollidable(hkpEntity* a_entity);                      // 06
