@@ -2,6 +2,7 @@
 
 [![C++23](https://img.shields.io/static/v1?label=standard&message=c%2B%2B23&color=blue&logo=c%2B%2B&&logoColor=white&style=flat)](https://en.cppreference.com/w/cpp/compiler_support)
 ![Platform](https://img.shields.io/static/v1?label=platform&message=windows&color=dimgray&style=flat&logo=windows)
+[![License: GPL-3.0-or-later](https://img.shields.io/static/v1?label=license&message=GPL-3.0-or-later&color=blue&style=flat)](#license)
 [![Latest Release](https://img.shields.io/github/v/release/alandtse/CommonLibVR?logo=pkgsrc&logoColor=white)](#use)
 [![Main CI](https://github.com/alandtse/CommonLibVR/actions/workflows/main_ci.yml/badge.svg?branch=ng)](https://github.com/alandtse/CommonLibVR/actions/workflows/main_ci.yml)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/alandtse/CommonLibVR)
@@ -206,3 +207,15 @@ Dependencies are managed via vcpkg. See `vcpkg.json` for the complete list.
 ## Notes
 
 - CommonLib is incompatible with SKSE and is intended to replace it as a static dependency. However, you will still need the runtime component.
+
+## License
+
+[GPL-3.0-or-later](COPYING) WITH [Modding Exception AND GPL-3.0 Linking Exception (with Corresponding Source)](EXCEPTIONS.md).
+Specifically, the Modded Code is Skyrim (and its variants) and any plugin/mod code that links against this library, and Modding Libraries include SKSE, Windows, and other libraries commonly used by the Skyrim modding ecosystem.
+
+> [!IMPORTANT]
+> This is a breaking change from the previous MIT license. Plugins that statically link CommonLibSSE NG are covered
+> by the Modding Exception above and are not required to be GPL-licensed themselves; see [EXCEPTIONS.md](EXCEPTIONS.md)
+> for the exact terms.
+
+Originally based on code under [MIT](LICENSE).
