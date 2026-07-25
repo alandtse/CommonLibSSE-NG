@@ -2037,6 +2037,7 @@ set(SOURCES
 	src/RE/A/ArmorRatingVisitorBase.cpp
 	src/RE/A/Array.cpp
 	src/RE/A/AutoVanityState.cpp
+	src/RE/B/BGSAcousticSpace.cpp
 	src/RE/B/BGSAttackData.cpp
 	src/RE/B/BGSBaseAlias.cpp
 	src/RE/B/BGSBipedObjectForm.cpp
