@@ -120,10 +120,16 @@ source_group(
 	FILES ${SOURCES}
 )
 
-check_ipo_supported(RESULT USE_IPO OUTPUT IPO_OUTPUT)
+# IPO/LTCG substantially slows Release compile+link (MSVC's LTCG especially) for a
+# correctness-only CI matrix that ships no artifact. Off by default there
+# (-DCOMMONLIB_ENABLE_IPO=OFF); the real prebuilt/release builds keep it on.
+option(COMMONLIB_ENABLE_IPO "Enable interprocedural (link-time) optimization for Release builds" ON)
 
-if(USE_IPO)
-	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION "$<$<CONFIG:RELEASE>:ON>")
+if(COMMONLIB_ENABLE_IPO)
+	check_ipo_supported(RESULT USE_IPO OUTPUT IPO_OUTPUT)
+	if(USE_IPO)
+		set(CMAKE_INTERPROCEDURAL_OPTIMIZATION "$<$<CONFIG:RELEASE>:ON>")
+	endif()
 endif()
 
 add_library(

@@ -43,6 +43,11 @@ on:
 permissions:
   contents: read
 
+# Cancel a PR's in-flight run when it's superseded by a new push.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   xmake:
     name: xmake bundle + self-test
@@ -137,6 +142,10 @@ jobs:
       contents: write # only used when attach_tag is set
     env:
       VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+      # Same GHA-backed sccache as main_ci.yml, so this job's release-msvc-vcpkg-all
+      # build reuses object files main_ci.yml's matching matrix cell already compiled
+      # (and vice versa) instead of recompiling CommonLib's own source from scratch.
+      SCCACHE_GHA_ENABLED: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -156,6 +165,9 @@ jobs:
         uses: TheMrMilchmann/setup-msvc-dev@v4.0.0
         with:
           arch: x64
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.9
 
       # Pin vcpkg's download cache to a stable, cacheable path. vcpkg checks
       # this directory (by SHA512) before fetching any asset — port source
@@ -221,7 +233,7 @@ jobs:
           shell: pwsh
           command: |
             Set-Location "${{ github.workspace }}"
-            cmake --preset build-release-msvc-vcpkg-all -DREX_OPTION_INI=ON -DREX_OPTION_JSON=ON -DREX_OPTION_TOML=ON -DSKSE_SUPPORT_XBYAK=ON -DBUILD_TESTS=OFF
+            cmake --preset build-release-msvc-vcpkg-all -DREX_OPTION_INI=ON -DREX_OPTION_JSON=ON -DREX_OPTION_TOML=ON -DSKSE_SUPPORT_XBYAK=ON -DBUILD_TESTS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
 
       - name: Build CommonLibSSE (all + rex_ini + rex_json + rex_toml + skse_xbyak, release)
         uses: lukka/run-cmake@v10
@@ -230,6 +242,9 @@ jobs:
           configurePreset: build-release-msvc-vcpkg-all
           configurePresetAdditionalArgs: "['-DREX_OPTION_INI=ON', '-DREX_OPTION_JSON=ON', '-DREX_OPTION_TOML=ON', '-DSKSE_SUPPORT_XBYAK=ON', '-DBUILD_TESTS=OFF']"
           buildPreset: release-msvc-vcpkg-all
+
+      - name: sccache stats
+        run: sccache --show-stats
 
       - name: Assemble bundle
         id: bundle
