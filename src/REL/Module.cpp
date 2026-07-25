@@ -6,6 +6,20 @@
 
 namespace REL
 {
+	namespace
+	{
+		// Emitted once per process via OutputDebugString rather than left as an inert string
+		// literal -- MSVC's /Gy + /OPT:REF would otherwise strip an unreferenced constant from
+		// a Release build. Every consumer that binds any RELOCATION_ID pulls this translation
+		// unit in, so this notice reaches any plugin statically linking CommonLibVR.
+		constexpr const char* kLicenseNotice =
+			"CommonLibVR " COMMONLIB_VERSION
+			" (statically linked) is licensed under GPL-3.0-or-later with a Modding Exception. "
+			"Source: https://github.com/alandtse/CommonLibVR";
+	}
+
+	Module::Module() noexcept { REX::W32::OutputDebugStringA(kLicenseNotice); }
+
 	Module Module::_instance;
 
 	void Module::load_segments()

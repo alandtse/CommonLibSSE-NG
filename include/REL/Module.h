@@ -264,7 +264,7 @@ namespace REL
 		}
 
 	private:
-		Module() = default;
+		Module() noexcept;
 		Module(const Module&) = delete;
 		Module(Module&&) = delete;
 

@@ -153,6 +153,14 @@ target_compile_definitions(
 	"$<$<AND:$<BOOL:${ENABLE_SKYRIM_AE}>,$<BOOL:${ENABLE_SKYRIM_VR}>>:HAS_SKYRIM_MULTI_TARGETING=1>"
 )
 
+# PRIVATE: only REL::Module's embedded license notice reads this, so it stays out of the
+# consumer-visible PUBLIC definitions above to avoid macro collisions.
+target_compile_definitions(
+	"${PROJECT_NAME}"
+	PRIVATE
+	COMMONLIB_VERSION="${PROJECT_VERSION}"
+)
+
 target_compile_features(
 	"${PROJECT_NAME}"
 	PUBLIC
