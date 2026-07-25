@@ -4,6 +4,8 @@
 
 namespace RE
 {
+	class hkpCollidable;
+
 	class BGSAcousticSpaceListener : public hkpEntityListener
 	{
 	public:
@@ -14,8 +16,6 @@ namespace RE
 
 		// override (hkpEntityListener)
 		void EntityRemovedCallback(hkpEntity* a_entity) override;  // 02
-
-		class hkpCollidable;
 
 		// add
 		virtual void RemoveCollidable(const hkpCollidable* a_collidable);  // 06
