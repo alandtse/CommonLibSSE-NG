@@ -43,12 +43,9 @@ jobs:
     # Persist vcpkg-built dependency binaries in the GitHub Actions cache so the matrix
     # configs (and future runs) restore prebuilt .libs (spdlog, DirectXTK, …) instead of
     # recompiling them every time. Validated: a warm cache turns a dep build into a ~ms
-    # restore. SCCACHE_GHA_ENABLED backs sccache (below) with the same cache service so
-    # CommonLib's own object files -- not just vcpkg deps -- are reused across runs, and
-    # across this workflow and prebuilt.yml's matching release-msvc-vcpkg-all build.
+    # restore.
     env:
       VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
-      SCCACHE_GHA_ENABLED: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -69,9 +66,6 @@ jobs:
         uses: TheMrMilchmann/setup-msvc-dev@v4.0.0
         with:
           arch: x64
-
-      - name: Setup sccache
-        uses: mozilla-actions/sccache-action@v0.0.9
 
       # Pin vcpkg's download cache to a stable, cacheable path. vcpkg checks
       # this directory (by SHA512) before fetching any asset — port source
@@ -151,11 +145,8 @@ jobs:
         with:
           cmakeListsTxtPath: ${{ github.workspace }}/main/CMakeLists.txt
           configurePreset: build-${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.runtime }}
-          configurePresetAdditionalArgs: "['-DCOMMONLIB_ENABLE_IPO=OFF', '-DCMAKE_C_COMPILER_LAUNCHER=sccache', '-DCMAKE_CXX_COMPILER_LAUNCHER=sccache']"
+          configurePresetAdditionalArgs: "['-DCOMMONLIB_ENABLE_IPO=OFF']"
           buildPreset: ${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.runtime }}
-
-      - name: sccache stats
-        run: sccache --show-stats
 
       - name: Unit tests
         timeout-minutes: 5
