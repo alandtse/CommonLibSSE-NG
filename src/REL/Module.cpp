@@ -8,10 +8,11 @@ namespace REL
 {
 	namespace
 	{
-		// Emitted once per process via OutputDebugString rather than left as an inert string
-		// literal -- MSVC's /Gy + /OPT:REF would otherwise strip an unreferenced constant from
-		// a Release build. Every consumer that binds any RELOCATION_ID pulls this translation
-		// unit in, so this notice reaches any plugin statically linking CommonLibSSE-NG.
+		// Emitted once per linked module (each plugin DLL statically links its own copy of
+		// REL::Module) via OutputDebugString rather than left as an inert string literal --
+		// MSVC's /Gy + /OPT:REF would otherwise strip an unreferenced constant from a Release
+		// build. Every consumer that binds any RELOCATION_ID pulls this translation unit in,
+		// so this notice reaches any plugin statically linking CommonLibSSE-NG.
 		constexpr const char* kLicenseNotice =
 			"CommonLibSSE-NG " COMMONLIB_VERSION
 			" (statically linked) is licensed under GPL-3.0-or-later with a Modding Exception. "

@@ -158,7 +158,7 @@ target_compile_definitions(
 target_compile_definitions(
 	"${PROJECT_NAME}"
 	PRIVATE
-	COMMONLIB_VERSION="${PROJECT_VERSION}"
+	"COMMONLIB_VERSION=\"${PROJECT_VERSION}\""
 )
 
 target_compile_features(
