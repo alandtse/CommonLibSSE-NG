@@ -4,6 +4,13 @@
 
 #include "REX/W32/KERNEL32.h"
 
+// Only the CMake build defines this (tied to PROJECT_VERSION, kept in sync with releases
+// by the semantic-release replace-plugin); xmake has no equivalent version tracking, so
+// fall back rather than fail to compile there.
+#ifndef COMMONLIB_VERSION
+#	define COMMONLIB_VERSION "unknown"
+#endif
+
 namespace REL
 {
 	namespace
