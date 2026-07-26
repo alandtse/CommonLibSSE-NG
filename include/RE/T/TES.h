@@ -88,27 +88,21 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                   \
-	std::uint8_t  unk128;            /* 128 */ \
-	bool          showLANDborders;   /* 129 */ \
-	std::uint8_t  unk12A;            /* 12A */ \
-	std::uint8_t  unk12B;            /* 12B */ \
-	std::uint8_t  unk12C;            /* 12C */ \
-	std::uint8_t  unk12D;            /* 12D */ \
-	std::uint8_t  unk12E;            /* 12E */ \
-	std::uint8_t  unk12F;            /* 12F */ \
-	std::uint16_t unk130;            /* 130 */ \
-	std::uint8_t  unk132;            /* 132 */ \
-	std::uint8_t  unk133;            /* 133 */ \
-	bool          unk134;            /* 134 */ \
-	bool          unk135;            /* 135 */ \
-	bool          unk136;            /* 136 */ \
-	bool          runningCellTests;  /* 137 */ \
-	bool          runningCellTests2; /* 138 */ \
-	bool          unk139;            /* 139 */ \
-	bool          unk13A;            /* 13A */ \
-	bool          unk13B;            /* 13B */ \
-	bool          allowUnusedPurge;  /* 13C */ \
+#define RUNTIME_DATA_CONTENT                     \
+	std::uint8_t  unk128;              /* 128 */ \
+	bool          showLANDborders;     /* 129 */ \
+	std::uint8_t  unk12A;              /* 12A */ \
+	std::uint8_t  unk12B;              /* 12B */ \
+	std::uint8_t  unk12C;              /* 12C */ \
+	std::uint8_t  unk12D;              /* 12D */ \
+	std::uint8_t  unk12E;              /* 12E */ \
+	std::uint8_t  unk12F;              /* 12F */ \
+	std::uint16_t unk130;              /* 130 */ \
+	std::uint8_t  unk132;              /* 132 */ \
+	std::uint8_t  unk133;              /* 133 */ \
+	float         gridBufferDistanceX; /* 134 */ \
+	float         gridBufferDistanceY; /* 138 */ \
+	bool          allowUnusedPurge;    /* 13C */ \
 	std::byte     pad13D[3];
             RUNTIME_DATA_CONTENT
 		};
@@ -117,21 +111,15 @@ namespace RE
 		// 1130 and later
 		struct AE_RUNTIME_DATA
 		{
-#define AE_RUNTIME_DATA_CONTENT                \
-	std::uint32_t unk128;            /* 128 */ \
-	std::uint32_t landBorderMode;    /* 12C */ \
-	std::uint32_t borderColorAGBR;   /* 130 */ \
-	bool          unk134;            /* 134 */ \
-	bool          unk135;            /* 135 */ \
-	bool          unk136;            /* 136 */ \
-	bool          runningCellTests;  /* 137 */ \
-	bool          runningCellTests2; /* 138 */ \
-	bool          unk139;            /* 139 */ \
-	bool          unk13A;            /* 13A */ \
-	bool          unk13B;            /* 13B */ \
-	bool          allowUnusedPurge;  /* 13C */ \
-	std::byte     pad13D[3];         /* 13D */ \
-	std::uint64_t unk140;            /* 140 - actual offset change is somewhere near showLandBorder */
+#define AE_RUNTIME_DATA_CONTENT                  \
+	std::uint32_t unk128;              /* 128 */ \
+	std::uint32_t landBorderMode;      /* 12C */ \
+	std::uint32_t borderColorAGBR;     /* 130 */ \
+	float         gridBufferDistanceX; /* 134 */ \
+	float         gridBufferDistanceY; /* 138 */ \
+	bool          allowUnusedPurge;    /* 13C */ \
+	std::byte     pad13D[3];           /* 13D */ \
+	std::uint64_t unk140;              /* 140 - actual offset change is somewhere near showLandBorder */
 			AE_RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(AE_RUNTIME_DATA) == 0x20);
