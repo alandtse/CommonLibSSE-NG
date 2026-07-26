@@ -162,6 +162,17 @@ target("commonlibsse-ng", function()
             -- Source build only: a phony target ignores add_files but would still build a
             -- pcxxheader, so set the PCH here rather than unconditionally.
             target:set("pcxxheader", path.join(target:scriptdir(), "include", "SKSE", "Impl", "PCH.h"))
+
+            -- The embedded license notice (src/REL/Module.cpp) wants a version string.
+            -- Derive it from the git tag rather than tracking a second, manually-synced
+            -- version number -- CMake's PROJECT_VERSION is itself just a mirror of the
+            -- same tag, kept in sync by semantic-release's replace-plugin; the tag is
+            -- the actual source of truth. --always falls back to an abbreviated commit
+            -- hash when no tag is reachable (e.g. a shallow clone).
+            local version = try { function()
+                return os.iorunv("git", { "-C", scriptdir, "describe", "--tags", "--always", "--dirty" })
+            end }
+            target:add("defines", "COMMONLIB_VERSION=\"" .. (version and version:trim() or "unknown") .. "\"")
         end
     end)
 
