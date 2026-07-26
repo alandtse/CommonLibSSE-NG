@@ -143,7 +143,7 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
 
-    set(_base "https://github.com/alandtse/CommonLibVR/releases/download/${_tag}")
+    set(_base "https://github.com/alandtse/CommonLibSSE-NG/releases/download/${_tag}")
     set(_asset "commonlibsse-ng-prebuilt-${_tag}-all-msvc-cmake.zip")
     set(_zip "${_cache}.zip")
     file(DOWNLOAD "${_base}/${_asset}.sha256" "${_cache}.sha256" STATUS _s1)

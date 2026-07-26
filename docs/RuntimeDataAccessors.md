@@ -1,10 +1,10 @@
 # Runtime Data Accessors
 
-This document describes the helper macros and tooling for managing runtime data structures in CommonLibVR.
+This document describes the helper macros and tooling for managing runtime data structures in CommonLibSSE-NG.
 
 ## Overview
 
-CommonLibVR supports multiple Skyrim runtimes (SE, AE, VR) with different memory layouts. Runtime data accessors provide a consistent API to access data at runtime-specific offsets without manual `RelocateMember` calls.
+CommonLibSSE-NG supports multiple Skyrim runtimes (SE, AE, VR) with different memory layouts. Runtime data accessors provide a consistent API to access data at runtime-specific offsets without manual `RelocateMember` calls.
 
 ## Macro Reference
 

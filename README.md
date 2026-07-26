@@ -3,9 +3,9 @@
 [![C++23](https://img.shields.io/static/v1?label=standard&message=c%2B%2B23&color=blue&logo=c%2B%2B&&logoColor=white&style=flat)](https://en.cppreference.com/w/cpp/compiler_support)
 ![Platform](https://img.shields.io/static/v1?label=platform&message=windows&color=dimgray&style=flat&logo=windows)
 [![License: GPL-3.0-or-later](https://img.shields.io/static/v1?label=license&message=GPL-3.0-or-later&color=blue&style=flat)](#license)
-[![Latest Release](https://img.shields.io/github/v/release/alandtse/CommonLibVR?logo=pkgsrc&logoColor=white)](#use)
-[![Main CI](https://github.com/alandtse/CommonLibVR/actions/workflows/main_ci.yml/badge.svg?branch=ng)](https://github.com/alandtse/CommonLibVR/actions/workflows/main_ci.yml)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/alandtse/CommonLibVR)
+[![Latest Release](https://img.shields.io/github/v/release/alandtse/CommonLibSSE-NG?logo=pkgsrc&logoColor=white)](#use)
+[![Main CI](https://github.com/alandtse/CommonLibSSE-NG/actions/workflows/main_ci.yml/badge.svg?branch=ng)](https://github.com/alandtse/CommonLibSSE-NG/actions/workflows/main_ci.yml)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/alandtse/CommonLibSSE-NG)
 
 CommonLibSSE NG is a fork of CharmedBaryon's CommonLibSSE-NG, itself a fork of CommonLibSSE, which tracks upstream updates but adds a number of enhancements.
 It supports Skyrim Special Edition (SE), Skyrim Anniversary Edition (AE), and Skyrim Virtual Reality (VR).
@@ -15,7 +15,7 @@ It supports Skyrim Special Edition (SE), Skyrim Anniversary Edition (AE), and Sk
 To develop a C++ project that uses CommonLibSSE, you'll want to have this code available for discovery, and included as a build dependency by your build manager. Below are examples using the `xmake` or `cmake` managers.
 
 > [!TIP]
-> For examples & templates see the wiki: https://github.com/alandtse/CommonLibVR/wiki/Projects-using-CommonLib
+> For examples & templates see the wiki: https://github.com/alandtse/CommonLibSSE-NG/wiki/Projects-using-CommonLib
 
 ### Getting the code: Git SubModule
 
@@ -33,7 +33,7 @@ Add this CommonLibSSE repo as a [git submodule](https://git-scm.com/book/en/v2/G
 and storing it in `lib/commonlibsse-ng` folder:
 
 ```powershell
-PS E:\Git\foo-bar> git submodule add -b ng https://github.com/alandtse/CommonLibVR.git lib/commonlibsse-ng
+PS E:\Git\foo-bar> git submodule add -b ng https://github.com/alandtse/CommonLibSSE-NG.git lib/commonlibsse-ng
 Cloning into 'E:/Git/foo-bar/lib/commonlibsse-ng'...
 remote: Enumerating objects: 66210, done.
 remote: Counting objects: 100% (2526/2526), done.

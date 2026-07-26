@@ -1,4 +1,4 @@
-# Self-test for the CMake clean-tag auto-fetch: add_subdirectory the CommonLibVR repo
+# Self-test for the CMake clean-tag auto-fetch: add_subdirectory the CommonLibSSE-NG repo
 # with COMMONLIB_PREBUILT_DIR pointing at the just-assembled bundle, so the resolver in
 # cmake/Prebuilt.cmake exposes CommonLibSSE as an IMPORTED target. add_commonlibsse_plugin
 # then compiles a generated plugin TU against the prebuilt headers and links the prebuilt
@@ -11,7 +11,7 @@ project(prebuilt_consumer_cmake LANGUAGES CXX)
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../.." commonlib)
 
 add_commonlibsse_plugin(prebuilt_consumer_cmake
-	AUTHOR "CommonLibVR"
+	AUTHOR "CommonLibSSE-NG"
 	NAME "prebuilt_consumer_cmake"
 	VERSION 1.0.0)
 

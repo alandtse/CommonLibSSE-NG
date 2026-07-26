@@ -131,7 +131,7 @@ target("commonlibsse-ng", function()
             local got = try { function()
                 import("net.http")
                 import("utils.archive")
-                local base = "https://github.com/alandtse/CommonLibVR/releases/download/" .. tag
+                local base = "https://github.com/alandtse/CommonLibSSE-NG/releases/download/" .. tag
                 local asset = "commonlibsse-ng-prebuilt-" .. tag .. "-all-msvc.7z"
                 local arch = os.tmpfile() .. ".7z"
                 http.download(base .. "/" .. asset, arch)
