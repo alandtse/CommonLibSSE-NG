@@ -2,9 +2,9 @@
 
 namespace RE
 {
-	void TESWaterReflections::Update()
+	bool TESWaterReflections::UpdateActor()
 	{
-		using func_t = decltype(&TESWaterReflections::Update);
+		using func_t = decltype(&TESWaterReflections::UpdateActor);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(31373, 32160) };
 		return func(this);
 	}

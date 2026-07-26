@@ -44,7 +44,9 @@ namespace RE
 
 		virtual ~TESWaterReflections() override { Dtor(); };  // 00
 
-		void Update();
+		// Returns whether this instance was actively processed this frame (== activeThisFrame),
+		// gated by a per-frame budget of cubeMapSides.size() (6).
+		bool UpdateActor();
 
 		// members
 		REX::EnumSet<Flags, std::uint16_t> flags;                  // 10
