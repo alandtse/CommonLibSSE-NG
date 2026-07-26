@@ -125,7 +125,7 @@ namespace RE
 	// so the allocation matches the running runtime instead.
 	//
 	// Prefer this over malloc<T>() + memset for any self-allocating Create().
-	// See ButtonEvent/NiPointLight::Create(); guards against alandtse/CommonLibVR#120.
+	// See ButtonEvent/NiPointLight::Create(); guards against alandtse/CommonLibSSE-NG#120.
 	template <class T>
 	inline T* malloc_runtime(std::size_t a_flatSize, std::size_t a_vrSize)
 	{

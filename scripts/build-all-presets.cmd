@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
-REM Comprehensive build script for CommonLibVR
+REM Comprehensive build script for CommonLibSSE-NG
 REM Builds all presets and stops at first failure for faster LLM iteration
 REM
 REM Usage: build-all-presets.cmd [--clang]
@@ -73,7 +73,7 @@ if !ERRORLEVEL! NEQ 0 (
 
 echo.
 echo ========================================
-echo CommonLibVR Build Script [%COMPILER%]
+echo CommonLibSSE-NG Build Script [%COMPILER%]
 echo ========================================
 echo.
 

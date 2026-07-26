@@ -381,7 +381,7 @@ CommonLibSSE NG uses different abstraction patterns based on the type and comple
 - Use macro abstraction for repetitive complex patterns (data structures)
 - Document offset calculations and Address Library relationships
 - Standardize member accessor patterns using `RelocateMember`
-## CommonLibVR Code Conventions & Best Practices
+## CommonLibSSE-NG Code Conventions & Best Practices
 
 ### Virtual Function Implementation Guidelines
 
