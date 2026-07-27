@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [ ng ]
 
+# Cancel a superseded run (a new push to the same PR, or a newer merge to ng) instead of
+# letting a ~16-20 min job finish testing a commit nobody will look at anymore.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test-as-dependency:
     name: Test CommonLib as Dependency
