@@ -40,8 +40,8 @@ namespace RE
 #endif
 
 		// add
-		SKYRIM_REL_VR_VIRTUAL void Unk_C2(void);  // C2 - { return 0; }
-		SKYRIM_REL_VR_VIRTUAL void Unk_C3(void);  // C3 - { return 0; }
+		SKYRIM_REL_VR_VIRTUAL void Unk_C2(void);  // SE/AE 0xC2, VR 0xC3 - { return 0; }
+		SKYRIM_REL_VR_VIRTUAL void Unk_C3(void);  // SE/AE 0xC3, VR 0xC4 - { return 0; }
 
 		struct MISSILE_RUNTIME_DATA
 		{
