@@ -51,7 +51,7 @@ namespace RE
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x18);
 
-		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x190);
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x190);
 
 		// members
 		std::uint8_t unk48[0x148];  // 48 - own state (interpolators, event source, geometry/tasklet pointers, animation keyframe bookkeeping); not yet broken out field-by-field
