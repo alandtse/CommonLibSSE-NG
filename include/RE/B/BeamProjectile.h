@@ -59,6 +59,9 @@ namespace RE
 #ifndef ENABLE_SKYRIM_AE
 		BEAM_RUNTIME_DATA_CONTENT;
 #endif
+
+	private:
+		TES_HEAP_REDEFINE_NEW();
 	};
 #ifndef ENABLE_SKYRIM_AE
 	static_assert(sizeof(BeamProjectile) == 0x240);

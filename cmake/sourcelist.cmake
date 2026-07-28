@@ -2132,6 +2132,7 @@ set(SOURCES
 	src/RE/B/BSXAudio2GameSound.cpp
 	src/RE/B/BSXFlags.cpp
 	src/RE/B/BarterMenu.cpp
+	src/RE/B/BeamProjectile.cpp
 	src/RE/B/BipedAnim.cpp
 	src/RE/B/BleedoutCameraState.cpp
 	src/RE/B/BookMenu.cpp
