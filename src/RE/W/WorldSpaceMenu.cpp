@@ -16,7 +16,9 @@ namespace RE
 			menuNode.reset();
 		}
 
-		GetVRRuntimeData().menuName.~BSFixedString();
+		if (auto* vrData = GetVRRuntimeData()) {
+			vrData->menuName.~BSFixedString();
+		}
 		fxDelegate.reset();
 		uiMovie.reset();
 	}
@@ -78,13 +80,15 @@ namespace RE
 		if (matchAsTopMenu) {
 			RE::IMenu* topMenu = 0;
 			UI::GetSingleton()->GetTopMostMenu(&topMenu, 15);
-			if (topMenu &&
-				topMenu->GetVRRuntimeData().menuName == InterfaceStrings::GetSingleton()->hudMenu &&
+			auto* topVrData = topMenu ? topMenu->GetVRRuntimeData() : nullptr;
+			if (topVrData &&
+				topVrData->menuName == InterfaceStrings::GetSingleton()->hudMenu &&
 				a_message->menu == InterfaceStrings::GetSingleton()->topMenu) {
 				isTopMenu = true;
 			}
 		}
-		return isTopMenu || a_message->menu == GetVRRuntimeData().menuName;
+		auto* vrData = GetVRRuntimeData();
+		return isTopMenu || (vrData && a_message->menu == vrData->menuName);
 	}
 }
 #endif

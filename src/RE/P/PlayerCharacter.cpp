@@ -122,7 +122,7 @@ namespace RE
 	NiPointer<TESObjectREFR> PlayerCharacter::GetGrabbedRef(VR_DEVICE a_device)
 	{
 		if SKYRIM_REL_CONSTEXPR (Module::IsVR()) {
-			return GetVRPlayerRuntimeData().grabbedObjectData[a_device].grabbedObject.get();
+			return GetVRPlayerRuntimeData()->grabbedObjectData[a_device].grabbedObject.get();
 		} else {
 			return REL::RelocateMemberIfNewer<ObjectRefHandle>(SKSE::RUNTIME_SSE_1_6_629, this, 0x8C8, 0x8D0).get();
 		}
@@ -199,7 +199,7 @@ namespace RE
 	bool PlayerCharacter::IsGrabbing() const
 	{
 		if SKYRIM_REL_CONSTEXPR (Module::IsVR()) {
-			for (auto& VRgrabData : GetVRPlayerRuntimeData().grabbedObjectData) {
+			for (auto& VRgrabData : GetVRPlayerRuntimeData()->grabbedObjectData) {
 				if (VRgrabData.grabbedObject) {
 					return true;
 				}
@@ -213,7 +213,8 @@ namespace RE
 #ifdef ENABLE_SKYRIM_VR
 	bool PlayerCharacter::IsGrabbingWithDevice(VR_DEVICE a_device) const
 	{
-		return static_cast<bool>(GetVRPlayerRuntimeData().grabbedObjectData[a_device].grabbedObject);
+		auto* vrData = GetVRPlayerRuntimeData();
+		return vrData && static_cast<bool>(vrData->grabbedObjectData[a_device].grabbedObject);
 	}
 #endif
 

@@ -443,7 +443,7 @@ namespace RE
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x58, 0);
 
-		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
 
 		/**
 		 * @brief Gets all effects supported by the current runtime, sorted by index.

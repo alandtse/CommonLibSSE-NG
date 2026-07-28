@@ -6,6 +6,7 @@
 #include "RE/G/GPtr.h"
 #include "RE/S/Setting.h"
 #include "RE/U/UserEvents.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -126,9 +127,21 @@ namespace RE
             VR_RUNTIME_DATA_CONTENT
 		};
 
-		[[nodiscard]] inline VR_RUNTIME_DATA& GetVRRuntimeData() noexcept
+		// Returns nullptr on SE/AE; uses absolute VR offset so it works in cross-VR builds too.
+		[[nodiscard]] inline VR_RUNTIME_DATA* GetVRRuntimeData() noexcept
 		{
-			return REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x0, 0x0);
+			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x0, 0x0);
+			}
+			return nullptr;
+		}
+
+		[[nodiscard]] inline const VR_RUNTIME_DATA* GetVRRuntimeData() const noexcept
+		{
+			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x0, 0x0);
+			}
+			return nullptr;
 		}
 
 		// members
