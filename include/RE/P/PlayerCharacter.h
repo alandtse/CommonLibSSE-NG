@@ -982,7 +982,7 @@ namespace RE
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(PLAYER_RUNTIME_DATA, GetPlayerRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x3E0);
 		// VR's block starts 0x18 later than SE's 0x3D8 anchor (3 extra VR-only BSTEventSink members);
 		// matches GetVRNodeData's own 0x3F0 anchor below.
-		VR_RUNTIME_DATA_ACCESSOR(VR_PLAYER_RUNTIME_DATA, GetVRPlayerRuntimeData, 0x3F0);
+		VR_ONLY_POINTER_ACCESSOR(VR_PLAYER_RUNTIME_DATA, GetVRPlayerRuntimeData, 0x3F0);
 
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(CrimeValue, GetCrimeValue, SKSE::RUNTIME_SSE_1_6_629, 0x3E0, 0x9D0, 0x3E8);
 

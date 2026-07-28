@@ -34,7 +34,7 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		RUNTIME_DATA_CONTENT;
 #endif
-		VR_RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, GetRuntimeData, 0x20);
+		VR_ONLY_POINTER_ACCESSOR(RUNTIME_DATA, GetRuntimeData, 0x20);
 	};
 	STATIC_ASSERT_SIZE(FastTravelConfirmCallback, 0x20, 0x20, 0x30);
 }

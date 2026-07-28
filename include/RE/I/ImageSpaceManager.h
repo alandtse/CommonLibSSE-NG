@@ -443,7 +443,13 @@ namespace RE
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x58, 0);
 
-		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
+
+		// Prefer these over GetRuntimeData()/GetVRRuntimeData() directly --
+		// always resolves the right struct regardless of layout differences.
+		RUNTIME_DATA_FIELD_ACCESSOR(ImageSpaceData, GetImageSpaceData, GetRuntimeData, GetVRRuntimeData, data);
+		RUNTIME_DATA_FIELD_ACCESSOR(ImageSpaceBaseData*, GetCurrentBaseData, GetRuntimeData, GetVRRuntimeData, currentBaseData);
+		RUNTIME_DATA_FIELD_ACCESSOR(ImageSpaceBaseData*, GetOverrideBaseData, GetRuntimeData, GetVRRuntimeData, overrideBaseData);
 
 		/**
 		 * @brief Gets all effects supported by the current runtime, sorted by index.

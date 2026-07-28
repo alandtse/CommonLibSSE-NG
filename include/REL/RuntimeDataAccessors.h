@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+
 #include "REL/Relocation.h"
 #include "SKSE/Version.h"
 
@@ -27,14 +29,20 @@
 
 // Generates GetXXX() accessor with SE/VR offsets
 // Params: StructType, FuncName, SEOffset, VROffset
-#define RUNTIME_DATA_ACCESSOR_EX(StructType, FuncName, SEOffset, VROffset) \
-	[[nodiscard]] inline StructType& FuncName() noexcept                   \
-	{                                                                      \
-		return REL::RelocateMember<StructType>(this, SEOffset, VROffset);  \
-	}                                                                      \
-	[[nodiscard]] inline const StructType& FuncName() const noexcept       \
-	{                                                                      \
-		return REL::RelocateMember<StructType>(this, SEOffset, VROffset);  \
+// VROffset=0 means "no VR layout" -- misuse would silently read `this + 0`
+// as StructType instead of failing loudly, so this asserts on it in VR.
+#define RUNTIME_DATA_ACCESSOR_EX(StructType, FuncName, SEOffset, VROffset)                             \
+	[[nodiscard]] inline StructType& FuncName() noexcept                                               \
+	{                                                                                                  \
+		assert(!((VROffset) == 0 && REL::Module::IsVR()) &&                                            \
+			   #FuncName "() has no VR layout (VROffset=0) -- call GetVRRuntimeData() instead in VR"); \
+		return REL::RelocateMember<StructType>(this, SEOffset, VROffset);                              \
+	}                                                                                                  \
+	[[nodiscard]] inline const StructType& FuncName() const noexcept                                   \
+	{                                                                                                  \
+		assert(!((VROffset) == 0 && REL::Module::IsVR()) &&                                            \
+			   #FuncName "() has no VR layout (VROffset=0) -- call GetVRRuntimeData() instead in VR"); \
+		return REL::RelocateMember<StructType>(this, SEOffset, VROffset);                              \
 	}
 
 // Generates GetXXX() accessor with SE old/AE new version gate
@@ -76,6 +84,29 @@
 	[[nodiscard]] inline const StructType& FuncName() const noexcept \
 	{                                                                \
 		return REL::RelocateMember<StructType>(this, 0, VROffset);   \
+	}
+
+// Generates a GetXXX() accessor for a field shared by name (not offset)
+// between a class's SE/AE and VR runtime-data structs -- no "wrong" struct
+// left to pick, unlike RUNTIME_DATA_ACCESSOR_EX + a manual IsVR() branch.
+// Params: FieldType, FuncName, RuntimeDataFunc, VRRuntimeDataFunc, FieldName
+// VRRuntimeDataFunc must be a self-guarding pointer accessor (e.g.
+// VR_ONLY_POINTER_ACCESSOR); guaranteed non-null here since IsVR() is true.
+// Usage: RUNTIME_DATA_FIELD_ACCESSOR(ImageSpaceBaseData*, GetCurrentBaseData, GetRuntimeData, GetVRRuntimeData, currentBaseData)
+#define RUNTIME_DATA_FIELD_ACCESSOR(FieldType, FuncName, RuntimeDataFunc, VRRuntimeDataFunc, FieldName) \
+	[[nodiscard]] inline FieldType& FuncName() noexcept                                                 \
+	{                                                                                                   \
+		if (REL::Module::IsVR()) {                                                                      \
+			return VRRuntimeDataFunc()->FieldName;                                                      \
+		}                                                                                               \
+		return RuntimeDataFunc().FieldName;                                                             \
+	}                                                                                                   \
+	[[nodiscard]] inline FieldType const& FuncName() const noexcept                                     \
+	{                                                                                                   \
+		if (REL::Module::IsVR()) {                                                                      \
+			return VRRuntimeDataFunc()->FieldName;                                                      \
+		}                                                                                               \
+		return RuntimeDataFunc().FieldName;                                                             \
 	}
 
 // ========================================

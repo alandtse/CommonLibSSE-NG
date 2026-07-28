@@ -125,7 +125,7 @@ namespace RE
 		};
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x0, 0x0);
-		RUNTIME_DATA_ACCESSOR_EX(VR_RUNTIME_DATA, GetVRRuntimeData, 0x0, 0x0);
+		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x0);
 		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x30, 0x1fe);
 		[[nodiscard]] bool GetGlobalAllowChanges() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kGlobalAllowChanges); }
 		[[nodiscard]] bool GetSaveGameLoading() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kSaveGameLoading); }
