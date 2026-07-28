@@ -2,6 +2,7 @@
 
 #include "RE/B/BSFixedString.h"
 #include "RE/N/NiInterpController.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -42,14 +43,25 @@ namespace RE
 		void                 GuaranteeTimeRange(float a_startTime, float a_endTime) override;                                                                                                                                         // 3A
 		bool                 InterpolatorIsCorrectType(NiInterpolator* a_interpolator, std::uint16_t a_index) const override;                                                                                                         // 3B
 
+		struct VR_RUNTIME_DATA
+		{
+#define VR_RUNTIME_DATA_CONTENT \
+	std::uint8_t unk[0x18];  // 190 - VR-only extra tail; not yet identified
+			VR_RUNTIME_DATA_CONTENT;
+		};
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x18);
+
+		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x190);
+
 		// members
 		std::uint8_t unk48[0x148];  // 48 - own state (interpolators, event source, geometry/tasklet pointers, animation keyframe bookkeeping); not yet broken out field-by-field
-#ifdef ENABLE_SKYRIM_VR
-		std::uint8_t unkVR190[0x18];  // 190 - VR-only extra tail; not yet identified
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		VR_RUNTIME_DATA_CONTENT;  // 190
 #endif
 
 	private:
 		void Dtor();
 	};
-	STATIC_ASSERT_SIZE(BSProceduralLightningController, 0x190, 0x190, 0x1A8);
+#undef VR_RUNTIME_DATA_CONTENT
+	STATIC_ASSERT_SIZE(BSProceduralLightningController, 0x190, 0x190, 0x1A8, 0x190);
 }
