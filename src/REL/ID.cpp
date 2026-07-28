@@ -152,35 +152,36 @@ namespace REL
 		version = in.GetCell<std::string>(1, 0);
 		_vrAddressLibraryVersion = Version(version);
 		const auto byteSize = static_cast<std::size_t>(address_count * sizeof(mapping_t));
-		if (!_mmap.open(mapname, byteSize) &&
-			!_mmap.create(mapname, byteSize)) {
+		if (_mmap.open(mapname, byteSize)) {
+			_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
+		} else if (_mmap.create(mapname, byteSize)) {
+			_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
+			if (in.GetRowCount() > address_count + 1) {
+				return stl::report_and_error(
+					std::format("VR Address Library {} tried to exceed {} allocated entries."sv,
+						version, address_count),
+					a_failOnError);
+			} else if (in.GetRowCount() < address_count + 1) {
+				return stl::report_and_error(
+					std::format("VR Address Library {} loaded only {} entries but expected {}. Please redownload."sv,
+						version, in.GetRowCount() - 1, address_count),
+					a_failOnError);
+			}
+
+			std::size_t index = 1;
+			for (; index < in.GetRowCount(); ++index) {
+				id = in.GetCell<std::size_t>(0, index);
+				offset = in.GetCell<std::string>(1, index);
+				_id2offset[index - 1] = { static_cast<std::uint64_t>(id),
+					static_cast<std::uint64_t>(std::stoul(offset, nullptr, 16)) };
+			}
+
+			std::sort(_id2offset.begin(), _id2offset.end(), [](auto&& a_lhs, auto&& a_rhs) {
+				return a_lhs.id < a_rhs.id;
+			});
+		} else {
 			return stl::report_and_error("failed to create shared mapping"sv, a_failOnError);
 		}
-
-		_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
-		if (in.GetRowCount() > address_count + 1) {
-			return stl::report_and_error(
-				std::format("VR Address Library {} tried to exceed {} allocated entries."sv,
-					version, address_count),
-				a_failOnError);
-		} else if (in.GetRowCount() < address_count + 1) {
-			return stl::report_and_error(
-				std::format("VR Address Library {} loaded only {} entries but expected {}. Please redownload."sv,
-					version, in.GetRowCount() - 1, address_count),
-				a_failOnError);
-		}
-
-		std::size_t index = 1;
-		for (; index < in.GetRowCount(); ++index) {
-			id = in.GetCell<std::size_t>(0, index);
-			offset = in.GetCell<std::string>(1, index);
-			_id2offset[index - 1] = { static_cast<std::uint64_t>(id),
-				static_cast<std::uint64_t>(std::stoul(offset, nullptr, 16)) };
-		}
-
-		std::sort(_id2offset.begin(), _id2offset.end(), [](auto&& a_lhs, auto&& a_rhs) {
-			return a_lhs.id < a_rhs.id;
-		});
 
 		return true;
 	}

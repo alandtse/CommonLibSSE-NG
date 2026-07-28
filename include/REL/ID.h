@@ -129,12 +129,15 @@ namespace REL
 
 		[[nodiscard]] static IDDatabase& get()
 		{
+			if (_initialized.load(std::memory_order_acquire)) {
+				return _instance;
+			}
+			std::unique_lock lock(_initLock);
 			if (_initialized.load(std::memory_order_relaxed)) {
 				return _instance;
 			}
-			[[maybe_unused]] std::unique_lock lock(_initLock);
 			_instance.load();
-			_initialized.store(true, std::memory_order_relaxed);
+			_initialized.store(true, std::memory_order_release);
 			return _instance;
 		}
 
@@ -500,7 +503,7 @@ namespace REL
 		[[nodiscard]] std::uintptr_t address() const
 		{
 			auto thisOffset = offset();
-			return thisOffset ? base() + offset() : 0;
+			return thisOffset ? base() + thisOffset : 0;
 		}
 
 		[[nodiscard]] std::size_t offset() const
@@ -572,7 +575,7 @@ namespace REL
 		[[nodiscard]] std::uintptr_t address() const
 		{
 			auto thisOffset = offset();
-			return thisOffset ? base() + offset() : 0;
+			return thisOffset ? base() + thisOffset : 0;
 		}
 
 		[[nodiscard]] std::size_t offset() const
