@@ -46,7 +46,7 @@ namespace RE
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x18);
 
-		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0xB0);
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0xB0);
 
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		VR_RUNTIME_DATA_CONTENT;  // B0
