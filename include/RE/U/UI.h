@@ -9,6 +9,7 @@
 #include "RE/B/BSTimer.h"
 #include "RE/G/GPtr.h"
 #include "RE/I/IMenu.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -142,12 +143,24 @@ namespace RE
 		bool                                   closingAllMenus;               // 1C1
 		std::uint16_t                          pad1C2;                        // 1C2
 		std::uint32_t                          pad1C4;                        // 1C4
-#ifdef ENABLE_SKYRIM_VR
-		std::uint32_t unk1C8;  // 1C8
-		std::uint32_t unk1CA;  // 1CA
+
+		struct VR_RUNTIME_DATA
+		{
+#define VR_RUNTIME_DATA_CONTENT      \
+	std::uint32_t unk1C8;  /* 1C8 */ \
+	std::uint32_t unk1CA;  // 1CA
+			VR_RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x8);
+
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x1C8);
+
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		VR_RUNTIME_DATA_CONTENT;
 #endif
 	};
-	STATIC_ASSERT_SIZE(UI, 0x1C8, 0x1C8, 0x1D0, 0x1D0);
+#undef VR_RUNTIME_DATA_CONTENT
+	STATIC_ASSERT_SIZE(UI, 0x1C8, 0x1C8, 0x1D0, 0x1C8);
 
 	template <class T>
 	void UI::AddEventSink(BSTEventSink<T>* a_sink)
