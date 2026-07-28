@@ -2,14 +2,13 @@
 
 #include "RE/B/BSProceduralGeomEvent.h"
 #include "RE/B/BSTEvent.h"
+#include "RE/B/BeamProjectileImpactEvent.h"
 #include "RE/F/FormTypes.h"
 #include "RE/P/Projectile.h"
 #include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
-	struct BeamProjectileImpactEvent;
-
 	class BeamProjectile :
 		public Projectile,                                 // 000
 		public BSTEventSource<BeamProjectileImpactEvent>,  // 1E0
@@ -59,6 +58,9 @@ namespace RE
 #ifndef ENABLE_SKYRIM_AE
 		BEAM_RUNTIME_DATA_CONTENT;
 #endif
+
+	private:
+		TES_HEAP_REDEFINE_NEW();
 	};
 #ifndef ENABLE_SKYRIM_AE
 	static_assert(sizeof(BeamProjectile) == 0x240);

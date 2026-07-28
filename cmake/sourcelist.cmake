@@ -369,6 +369,7 @@ set(SOURCES
 	include/RE/B/BSPrecomputedNavmeshInfoPathMap.h
 	include/RE/B/BSPrecomputedNavmeshInfoSearch.h
 	include/RE/B/BSProceduralGeomEvent.h
+	include/RE/B/BSProceduralLightningTasklet.h
 	include/RE/B/BSReloadShaderI.h
 	include/RE/B/BSRenderManager.h
 	include/RE/B/BSRenderPass.h
@@ -435,6 +436,7 @@ set(SOURCES
 	include/RE/B/BSTSingleton.h
 	include/RE/B/BSTSmartPointer.h
 	include/RE/B/BSTTuple.h
+	include/RE/B/BSTaskletData.h
 	include/RE/B/BSTempEffect.h
 	include/RE/B/BSTempEffectDebris.h
 	include/RE/B/BSTempEffectGeometryDecal.h
@@ -482,6 +484,7 @@ set(SOURCES
 	include/RE/B/BaseFormComponent.h
 	include/RE/B/BaseHandleReaderWriter.h
 	include/RE/B/BeamProjectile.h
+	include/RE/B/BeamProjectileImpactEvent.h
 	include/RE/B/BipedAnim.h
 	include/RE/B/BipedObjects.h
 	include/RE/B/BleedoutCameraState.h
@@ -539,6 +542,7 @@ set(SOURCES
 	include/RE/C/Calendar.h
 	include/RE/C/CalibrationOptionMenu.h
 	include/RE/C/CalmEffect.h
+	include/RE/C/ChainExplosion.h
 	include/RE/C/CharEvent.h
 	include/RE/C/Character.h
 	include/RE/C/ChestsLooted.h
@@ -1299,6 +1303,7 @@ set(SOURCES
 	include/RE/I/ICellAttachDetachEventSource.h
 	include/RE/I/ID.h
 	include/RE/I/IDEvent.h
+	include/RE/I/IExplosionFactory.h
 	include/RE/I/IFormFactory.h
 	include/RE/I/IFreezeQuery.h
 	include/RE/I/IFuncCallQuery.h
@@ -2107,6 +2112,7 @@ set(SOURCES
 	src/RE/B/BSPointerHandle.cpp
 	src/RE/B/BSPortalGraph.cpp
 	src/RE/B/BSPortalGraphEntry.cpp
+	src/RE/B/BSProceduralLightningTasklet.cpp
 	src/RE/B/BSResourceNiBinaryStream.cpp
 	src/RE/B/BSResponse.cpp
 	src/RE/B/BSScaleformManager.cpp
@@ -2133,6 +2139,7 @@ set(SOURCES
 	src/RE/B/BSXAudio2GameSound.cpp
 	src/RE/B/BSXFlags.cpp
 	src/RE/B/BarterMenu.cpp
+	src/RE/B/BeamProjectile.cpp
 	src/RE/B/BipedAnim.cpp
 	src/RE/B/BleedoutCameraState.cpp
 	src/RE/B/BookMenu.cpp
@@ -2141,6 +2148,7 @@ set(SOURCES
 	src/RE/B/bhkRigidBody.cpp
 	src/RE/C/CFilter.cpp
 	src/RE/C/Calendar.cpp
+	src/RE/C/ChainExplosion.cpp
 	src/RE/C/ChestsLooted.cpp
 	src/RE/C/ChildSelectorBase.cpp
 	src/RE/C/CollisionLayers.cpp

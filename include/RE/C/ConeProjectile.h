@@ -46,7 +46,7 @@ namespace RE
 #endif
 
 		// add
-		SKYRIM_REL_VR_VIRTUAL void Unk_C2(void);  // C2 - { return 1; }
+		SKYRIM_REL_VR_VIRTUAL void Unk_C2(void);  // SE/AE 0xC2, VR 0xC3 - { return 1; }
 
 		inline float GetHeight() const
 		{
