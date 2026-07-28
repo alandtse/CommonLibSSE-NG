@@ -146,9 +146,11 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT      \
-	std::uint32_t unk1C8;  /* 1C8 */ \
-	std::uint32_t unk1CA;  // 1CA
+#define VR_RUNTIME_DATA_CONTENT                                                            \
+	std::uint32_t consoleMenuFlags; /* 1C8 - byte 0 gates a render-to-texture pass for  \
+                                        the Console/Debug Text menus; byte 1 cleared    \
+                                        once per frame after the message queue drains */ \
+	std::uint32_t unk1CC;           // 1CC - real offset (unk1C8 is a full 4-byte field, not 2)
 			VR_RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x8);
