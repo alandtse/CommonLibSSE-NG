@@ -368,6 +368,7 @@ set(SOURCES
 	include/RE/B/BSPortalSharedNode.h
 	include/RE/B/BSPrecomputedNavmeshInfoPathMap.h
 	include/RE/B/BSPrecomputedNavmeshInfoSearch.h
+	include/RE/B/BSProceduralLightningTasklet.h
 	include/RE/B/BSReloadShaderI.h
 	include/RE/B/BSRenderManager.h
 	include/RE/B/BSRenderPass.h
@@ -434,6 +435,7 @@ set(SOURCES
 	include/RE/B/BSTSingleton.h
 	include/RE/B/BSTSmartPointer.h
 	include/RE/B/BSTTuple.h
+	include/RE/B/BSTaskletData.h
 	include/RE/B/BSTempEffect.h
 	include/RE/B/BSTempEffectDebris.h
 	include/RE/B/BSTempEffectGeometryDecal.h
@@ -2106,6 +2108,7 @@ set(SOURCES
 	src/RE/B/BSPointerHandle.cpp
 	src/RE/B/BSPortalGraph.cpp
 	src/RE/B/BSPortalGraphEntry.cpp
+	src/RE/B/BSProceduralLightningTasklet.cpp
 	src/RE/B/BSResourceNiBinaryStream.cpp
 	src/RE/B/BSResponse.cpp
 	src/RE/B/BSScaleformManager.cpp
