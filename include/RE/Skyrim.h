@@ -483,6 +483,7 @@
 #include "RE/B/BaseFormComponent.h"
 #include "RE/B/BaseHandleReaderWriter.h"
 #include "RE/B/BeamProjectile.h"
+#include "RE/B/BeamProjectileImpactEvent.h"
 #include "RE/B/BipedAnim.h"
 #include "RE/B/BipedObjects.h"
 #include "RE/B/BleedoutCameraState.h"
