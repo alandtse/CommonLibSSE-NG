@@ -99,9 +99,9 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT              \
-	std::uint8_t pluginList[0xFF]; /* 000 */ \
-	std::uint8_t unk18[0xFF];      /* 0FF */
+#define VR_RUNTIME_DATA_CONTENT                                                                                    \
+	std::uint8_t saveToLoadOrderIndex[0xFF]; /* 000 - save index -> current load-order index, 0xFF if not found */ \
+	std::uint8_t loadOrderToSaveIndex[0xFF]; /* 0FF - reverse: load-order index -> save index */
 			VR_RUNTIME_DATA_CONTENT
 		};
 
