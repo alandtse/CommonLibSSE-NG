@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSProceduralGeomEvent.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/F/FormTypes.h"
 #include "RE/P/Projectile.h"
@@ -7,7 +8,6 @@
 
 namespace RE
 {
-	class BSProceduralGeomEvent;
 	struct BeamProjectileImpactEvent;
 
 	class BeamProjectile :

@@ -370,6 +370,7 @@
 #include "RE/B/BSPortalSharedNode.h"
 #include "RE/B/BSPrecomputedNavmeshInfoPathMap.h"
 #include "RE/B/BSPrecomputedNavmeshInfoSearch.h"
+#include "RE/B/BSProceduralGeomEvent.h"
 #include "RE/B/BSReloadShaderI.h"
 #include "RE/B/BSRenderManager.h"
 #include "RE/B/BSRenderPass.h"
