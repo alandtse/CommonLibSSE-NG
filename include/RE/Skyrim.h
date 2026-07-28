@@ -371,6 +371,7 @@
 #include "RE/B/BSPrecomputedNavmeshInfoPathMap.h"
 #include "RE/B/BSPrecomputedNavmeshInfoSearch.h"
 #include "RE/B/BSProceduralGeomEvent.h"
+#include "RE/B/BSProceduralLightningController.h"
 #include "RE/B/BSProceduralLightningTasklet.h"
 #include "RE/B/BSReloadShaderI.h"
 #include "RE/B/BSRenderManager.h"
