@@ -63,7 +63,11 @@ namespace RE
 
 	bool PlayerCamera::QCameraEquals(CameraState a_cameraState) const
 	{
-		return currentState && currentState == (!REL::Module::IsVR() ? GetRuntimeData().cameraStates[a_cameraState] : GetVRRuntimeData().cameraStates[a_cameraState]);
+		if (!REL::Module::IsVR()) {
+			return currentState && currentState == GetRuntimeData().cameraStates[a_cameraState];
+		}
+		auto* vrData = GetVRRuntimeData();
+		return vrData && currentState && currentState == vrData->cameraStates[a_cameraState];
 	}
 
 	void PlayerCamera::ToggleFreeCameraMode(bool a_freezeTime)

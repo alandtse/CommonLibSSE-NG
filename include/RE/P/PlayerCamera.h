@@ -150,7 +150,7 @@ namespace RE
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0);
 
-		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x40);
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x40);
 		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x13c, 0x158);
 		std::uint8_t  pad039;        // 039
 		std::uint16_t pad03A;        // 03A
