@@ -122,6 +122,29 @@
 		}                                                               \
 	}
 
+// Generates GetXXX() pointer accessor for AE-only inline data present since AE's
+// initial release (returns nullptr on SE/VR). For AE data reached via a stored
+// pointer member, or added partway through AE's own version lifecycle, hand-roll
+// instead (see CombatController/BGSSaveLoadManager/TES's GetAERuntimeData).
+// Params: StructType, FuncName, AEOffset
+#define AE_ONLY_POINTER_ACCESSOR(StructType, FuncName, AEOffset)     \
+	[[nodiscard]] inline StructType* FuncName() noexcept             \
+	{                                                                \
+		if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {              \
+			return &REL::RelocateMember<StructType>(this, AEOffset); \
+		} else {                                                     \
+			return nullptr;                                          \
+		}                                                            \
+	}                                                                \
+	[[nodiscard]] inline const StructType* FuncName() const noexcept \
+	{                                                                \
+		if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {              \
+			return &REL::RelocateMember<StructType>(this, AEOffset); \
+		} else {                                                     \
+			return nullptr;                                          \
+		}                                                            \
+	}
+
 // ========================================
 // Pointer Member Accessors
 // ========================================
