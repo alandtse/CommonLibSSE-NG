@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSTaskletData.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -36,12 +37,24 @@ namespace RE
 		std::uint32_t unkA8;        // A8
 		bool          unkAC;        // AC
 		std::uint8_t  padAD[3];     // AD
-#ifdef ENABLE_SKYRIM_VR
-		std::uint8_t unkVRB0[0x18];  // B0 - VR-only extra tail; not yet identified
+
+		struct VR_RUNTIME_DATA
+		{
+#define VR_RUNTIME_DATA_CONTENT \
+	std::uint8_t unk[0x18];  // B0 - VR-only extra tail; not yet identified
+			VR_RUNTIME_DATA_CONTENT;
+		};
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x18);
+
+		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0xB0);
+
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		VR_RUNTIME_DATA_CONTENT;  // B0
 #endif
 
 	private:
 		void Dtor();
 	};
-	STATIC_ASSERT_SIZE(BSProceduralLightningTasklet, 0xB0, 0xB0, 0xC8);
+#undef VR_RUNTIME_DATA_CONTENT
+	STATIC_ASSERT_SIZE(BSProceduralLightningTasklet, 0xB0, 0xB0, 0xC8, 0xB0);
 }
