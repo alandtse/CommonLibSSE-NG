@@ -90,24 +90,24 @@ namespace RE
 		// VR-only tail: model loads async (SE/AE sync), so SetupLoadScreenModel3D stashes the transform here until AdvanceMovie can replay InitLoadScreen3D.
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                          \
-	std::uint32_t     unk150;                  /* 150 */ \
-	std::uint32_t     pad154;                  /* 154 */ \
-	NiPointer<NiNode> loadScreen3DModelNode;   /* 158 */ \
-	NiPointer<NiNode> loadScreen3DSceneNode;   /* 160 */ \
-	bool              deferredSetupNeeded;     /* 168 */ \
-	std::uint8_t      pad169[0x3];             /* 169 */ \
-	float             stashedModelScale;       /* 16C */ \
-	NiPoint3          stashedRotateOffset;     /* 170 */ \
-	NiPoint3          stashedTranslateOffset;  /* 17C */ \
-	NiPoint3          unk188;                  /* 188 */ \
-	NiPoint3          unk194;                  /* 194 */ \
-	bool              cameraPathActive;        /* 1A0 */ \
-	bool              loadScreenModelReady;    /* 1A1 */ \
-	bool              loadScreen3DInitialized; /* 1A2 */ \
-	bool              suppressPostDisplay;     /* 1A3 */ \
-	bool              cameraSequenceEnabled;   /* 1A4 */ \
-	bool              resetCameraTimer;        /* 1A5 */ \
+#define VR_RUNTIME_DATA_CONTENT                                                                              \
+	std::uint32_t     unk150;                  /* 150 - ctor default 0x3f800000 (1.0f); no consumer found */ \
+	std::uint32_t     pad154;                  /* 154 */                                                     \
+	NiPointer<NiNode> loadScreen3DModelNode;   /* 158 */                                                     \
+	NiPointer<NiNode> loadScreen3DSceneNode;   /* 160 */                                                     \
+	bool              deferredSetupNeeded;     /* 168 */                                                     \
+	std::uint8_t      pad169[0x3];             /* 169 */                                                     \
+	float             stashedModelScale;       /* 16C */                                                     \
+	NiPoint3          stashedRotateOffset;     /* 170 */                                                     \
+	NiPoint3          stashedTranslateOffset;  /* 17C */                                                     \
+	NiPoint3          unk188;                  /* 188 - ctor-zeroed; no consumer found */                    \
+	NiPoint3          unk194;                  /* 194 - ctor-zeroed; no consumer found */                    \
+	bool              cameraPathActive;        /* 1A0 */                                                     \
+	bool              loadScreenModelReady;    /* 1A1 */                                                     \
+	bool              loadScreen3DInitialized; /* 1A2 */                                                     \
+	bool              suppressPostDisplay;     /* 1A3 */                                                     \
+	bool              cameraSequenceEnabled;   /* 1A4 */                                                     \
+	bool              resetCameraTimer;        /* 1A5 */                                                     \
 	std::uint8_t      pad1A6[2];               /* 1A6 */
 
 			VR_RUNTIME_DATA_CONTENT
