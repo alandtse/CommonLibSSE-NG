@@ -440,6 +440,7 @@ set(SOURCES
 	include/RE/B/BSTaskletData.h
 	include/RE/B/BSTaskletGroup.h
 	include/RE/B/BSTaskletGroupData.h
+	include/RE/B/BSTaskletManager.h
 	include/RE/B/BSTempEffect.h
 	include/RE/B/BSTempEffectDebris.h
 	include/RE/B/BSTempEffectGeometryDecal.h
@@ -473,6 +474,7 @@ set(SOURCES
 	include/RE/B/BSWin32MouseDevice.h
 	include/RE/B/BSWin32SaveDataSystemUtility.h
 	include/RE/B/BSWin32SystemUtility.h
+	include/RE/B/BSWin32TaskletManager.h
 	include/RE/B/BSWin32VirtualKeyboardDevice.h
 	include/RE/B/BSWindModifier.h
 	include/RE/B/BSXAudio2Audio.h
