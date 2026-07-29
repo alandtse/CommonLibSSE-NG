@@ -196,20 +196,7 @@ namespace RE
 			return REL::RelocateMember<RUNTIME_DATA*>(this, 0x128, 0x128);
 		}
 
-		[[nodiscard]] inline AE_RUNTIME_DATA* GetAERuntimeData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_1130) != std::strong_ordering::less) {
-					return REL::RelocateMember<AE_RUNTIME_DATA*>(this, 0x120);
-				}
-			}
-			return nullptr;
-		}
-
-		[[nodiscard]] inline const AE_RUNTIME_DATA& GetAERuntimeData() const noexcept
-		{
-			return *const_cast<TES*>(this)->GetAERuntimeData();
-		}
+		AE_ONLY_POINTER_ACCESSOR_VERSIONED(AE_RUNTIME_DATA, GetAERuntimeData, SKSE::RUNTIME_SSE_1_6_1130, 0x120);
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(RUNTIME_DATA2, GetRuntimeData2, SKSE::RUNTIME_SSE_1_6_1130, 0x140, 0x148);
 		// members

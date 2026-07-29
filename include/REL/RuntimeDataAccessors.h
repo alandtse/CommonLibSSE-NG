@@ -124,8 +124,8 @@
 
 // Generates GetXXX() pointer accessor for AE-only inline data present since AE's
 // initial release (returns nullptr on SE/VR). For AE data reached via a stored
-// pointer member, or added partway through AE's own version lifecycle, hand-roll
-// instead (see CombatController/BGSSaveLoadManager/TES's GetAERuntimeData).
+// pointer member and added partway through AE's own version lifecycle, use
+// AE_ONLY_POINTER_ACCESSOR_VERSIONED instead.
 // Params: StructType, FuncName, AEOffset
 #define AE_ONLY_POINTER_ACCESSOR(StructType, FuncName, AEOffset)     \
 	[[nodiscard]] inline StructType* FuncName() noexcept             \
@@ -143,6 +143,27 @@
 		} else {                                                     \
 			return nullptr;                                          \
 		}                                                            \
+	}
+
+// Generates GetXXX() pointer accessor for AE-only data reached via a stored
+// pointer member, present only from a given SKSE runtime version onward within
+// AE itself (returns nullptr on SE/VR, and on AE before Version). For AE data
+// inline-embedded at a fixed offset with no version gate, use
+// AE_ONLY_POINTER_ACCESSOR instead.
+// Params: StructType, FuncName, Version, AEOffset
+#define AE_ONLY_POINTER_ACCESSOR_VERSIONED(StructType, FuncName, Version, AEOffset)                       \
+	[[nodiscard]] inline StructType* FuncName() noexcept                                                  \
+	{                                                                                                     \
+		if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {                                                   \
+			if (REL::Module::get().version().compare(Version) != std::strong_ordering::less) {            \
+				return REL::RelocateMember<StructType*>(this, AEOffset);                                  \
+			}                                                                                             \
+		}                                                                                                 \
+		return nullptr;                                                                                   \
+	}                                                                                                     \
+	[[nodiscard]] inline const StructType* FuncName() const noexcept                                      \
+	{                                                                                                     \
+		return const_cast<std::remove_const_t<std::remove_pointer_t<decltype(this)>>*>(this)->FuncName(); \
 	}
 
 // ========================================

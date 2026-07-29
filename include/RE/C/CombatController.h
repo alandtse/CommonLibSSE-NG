@@ -56,20 +56,7 @@ namespace RE
 		};
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_629, 0x68, 0x70);
-		[[nodiscard]] inline AE_RUNTIME_DATA* GetAERuntimeData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_629) != std::strong_ordering::less) {
-					return REL::RelocateMember<AE_RUNTIME_DATA*>(this, 0x68);
-				}
-			}
-			return nullptr;
-		}
-
-		[[nodiscard]] inline const AE_RUNTIME_DATA& GetAERuntimeData() const noexcept
-		{
-			return *const_cast<CombatController*>(this)->GetAERuntimeData();
-		}
+		AE_ONLY_POINTER_ACCESSOR_VERSIONED(AE_RUNTIME_DATA, GetAERuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x68);
 
 		[[nodiscard]] bool IsFleeing() const
 		{

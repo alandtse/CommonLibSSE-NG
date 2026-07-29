@@ -152,20 +152,7 @@ namespace RE
 		static_assert(offsetof(AE_RUNTIME_DATA, thread) == 0x48);
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_1130, 0x2b0, 0x2f8);
-		[[nodiscard]] inline AE_RUNTIME_DATA* GetAERuntimeData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_6_1130) != std::strong_ordering::less) {
-					return REL::RelocateMember<AE_RUNTIME_DATA*>(this, 0x2b0);
-				}
-			}
-			return nullptr;
-		}
-
-		[[nodiscard]] inline const AE_RUNTIME_DATA& GetAERuntimeData() const noexcept
-		{
-			return *const_cast<BGSSaveLoadManager*>(this)->GetAERuntimeData();
-		}
+		AE_ONLY_POINTER_ACCESSOR_VERSIONED(AE_RUNTIME_DATA, GetAERuntimeData, SKSE::RUNTIME_SSE_1_6_1130, 0x2b0);
 
 		// members
 		BSTHashMap<std::uint64_t, BSFixedString> characterIDNameMap;      // 078
