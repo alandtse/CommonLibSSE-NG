@@ -438,6 +438,8 @@ set(SOURCES
 	include/RE/B/BSTSmartPointer.h
 	include/RE/B/BSTTuple.h
 	include/RE/B/BSTaskletData.h
+	include/RE/B/BSTaskletGroup.h
+	include/RE/B/BSTaskletGroupData.h
 	include/RE/B/BSTempEffect.h
 	include/RE/B/BSTempEffectDebris.h
 	include/RE/B/BSTempEffectGeometryDecal.h

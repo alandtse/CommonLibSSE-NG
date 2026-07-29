@@ -4,6 +4,7 @@
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSProceduralLightningTasklet.h"
 #include "RE/B/BSTArray.h"
+#include "RE/B/BSTaskletGroup.h"
 #include "RE/N/NiInterpController.h"
 #include "RE/N/NiInterpolator.h"
 #include "RE/N/NiSmartPointer.h"
@@ -52,20 +53,20 @@ namespace RE
 		// right after cachedBounds, so interpolators onward shifts.
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                                                                                        \
-	std::uint8_t                  padE4[0x24];             /* E4 - unidentified */                                                  \
-	NiPointer<NiInterpolator>     interpolators[9];        /* 108 - matches GetInterpolatorIndex's 9-entry table */                 \
-	std::uint8_t                  pad150[0x18];            /* 150 - unidentified */                                                 \
-	float                         duration;                /* 168 */                                                                \
-	float                         progress;                /* 16C - duration / (a per-frame helper's return value) */               \
-	std::uint8_t                  pad170[2];               /* 170 */                                                                \
-	bool                          needsRegeneration;       /* 172 - gates full branch-mesh regen in the mesh builder */             \
-	bool                          regenerationSkipped;     /* 173 - 0 after a fresh regen, 1 on the fallback path */                \
-	std::uint8_t                  pad174[4];               /* 174 */                                                                \
-	std::uint64_t                 taskGroupHandle;         /* 178 - real type is BSTaskletGroup (has RTTI/VTABLE, no header yet) */ \
-	BSProceduralLightningTasklet* tasklet;                 /* 180 - refcounted internally; not an NiObject, so no NiPointer */      \
-	bool                          interpolator0EventCache; /* 188 - last-frame cached event query from interpolators[0] */          \
-	bool                          interpolator1EventCache; /* 189 - last-frame cached event query from interpolators[1] */          \
+#define RUNTIME_DATA_CONTENT                                                                                                   \
+	std::uint8_t                  padE4[0x24];             /* E4 - unidentified */                                             \
+	NiPointer<NiInterpolator>     interpolators[9];        /* 108 - matches GetInterpolatorIndex's 9-entry table */            \
+	std::uint8_t                  pad150[0x18];            /* 150 - unidentified */                                            \
+	float                         duration;                /* 168 */                                                           \
+	float                         progress;                /* 16C - duration / (a per-frame helper's return value) */          \
+	std::uint8_t                  pad170[2];               /* 170 */                                                           \
+	bool                          needsRegeneration;       /* 172 - gates full branch-mesh regen in the mesh builder */        \
+	bool                          regenerationSkipped;     /* 173 - 0 after a fresh regen, 1 on the fallback path */           \
+	std::uint8_t                  pad174[4];               /* 174 */                                                           \
+	BSTaskletGroup                taskGroupHandle;         /* 178 */                                                           \
+	BSProceduralLightningTasklet* tasklet;                 /* 180 - refcounted internally; not an NiObject, so no NiPointer */ \
+	bool                          interpolator0EventCache; /* 188 - last-frame cached event query from interpolators[0] */     \
+	bool                          interpolator1EventCache; /* 189 - last-frame cached event query from interpolators[1] */     \
 	std::uint8_t                  pad18A[6];               /* 18A */
             RUNTIME_DATA_CONTENT
 		};
@@ -84,25 +85,25 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                                                                                     \
-	float                         prevBounds[3];           /* E4 - not yet identified */                                            \
-	float                         extents[3];              /* F0 - not yet identified */                                            \
-	std::uint8_t                  padFC[0x1C];             /* FC - unidentified */                                                  \
-	NiPointer<NiObject>           unk118;                  /* 118 - refcounted; not yet identified beyond NiObject */               \
-	NiPointer<NiInterpolator>     interpolators[9];        /* 120 - matches GetInterpolatorIndex's 9-entry table */                 \
-	Lightning                     lightning[2];            /* 168 - BSProceduralGeometry::Lightning pair */                         \
-	float                         unk178;                  /* 178 - written by interpolators[7]'s GetValue call */                  \
-	std::uint8_t                  pad17C[4];               /* 17C - unidentified */                                                 \
-	float                         duration;                /* 180 */                                                                \
-	float                         progress;                /* 184 */                                                                \
-	std::uint8_t                  pad188[2];               /* 188 */                                                                \
-	bool                          needsRegeneration;       /* 18A - gates full branch-mesh regen in the mesh builder */             \
-	bool                          regenerationSkipped;     /* 18B - 0 after a fresh regen, 1 on the fallback path */                \
-	std::uint8_t                  pad18C[4];               /* 18C */                                                                \
-	std::uint64_t                 taskGroupHandle;         /* 190 - real type is BSTaskletGroup (has RTTI/VTABLE, no header yet) */ \
-	BSProceduralLightningTasklet* tasklet;                 /* 198 */                                                                \
-	bool                          interpolator0EventCache; /* 1A0 - last-frame cached event query from interpolators[0] */          \
-	bool                          interpolator1EventCache; /* 1A1 - last-frame cached event query from interpolators[1] */          \
+#define VR_RUNTIME_DATA_CONTENT                                                                                            \
+	float                         prevBounds[3];           /* E4 - not yet identified */                                   \
+	float                         extents[3];              /* F0 - not yet identified */                                   \
+	std::uint8_t                  padFC[0x1C];             /* FC - unidentified */                                         \
+	NiPointer<NiObject>           unk118;                  /* 118 - refcounted; not yet identified beyond NiObject */      \
+	NiPointer<NiInterpolator>     interpolators[9];        /* 120 - matches GetInterpolatorIndex's 9-entry table */        \
+	Lightning                     lightning[2];            /* 168 - BSProceduralGeometry::Lightning pair */                \
+	float                         unk178;                  /* 178 - written by interpolators[7]'s GetValue call */         \
+	std::uint8_t                  pad17C[4];               /* 17C - unidentified */                                        \
+	float                         duration;                /* 180 */                                                       \
+	float                         progress;                /* 184 */                                                       \
+	std::uint8_t                  pad188[2];               /* 188 */                                                       \
+	bool                          needsRegeneration;       /* 18A - gates full branch-mesh regen in the mesh builder */    \
+	bool                          regenerationSkipped;     /* 18B - 0 after a fresh regen, 1 on the fallback path */       \
+	std::uint8_t                  pad18C[4];               /* 18C */                                                       \
+	BSTaskletGroup                taskGroupHandle;         /* 190 */                                                       \
+	BSProceduralLightningTasklet* tasklet;                 /* 198 */                                                       \
+	bool                          interpolator0EventCache; /* 1A0 - last-frame cached event query from interpolators[0] */ \
+	bool                          interpolator1EventCache; /* 1A1 - last-frame cached event query from interpolators[1] */ \
 	std::uint8_t                  pad1A2[6];               /* 1A2 */
             VR_RUNTIME_DATA_CONTENT
 		};
