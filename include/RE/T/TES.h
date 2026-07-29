@@ -8,6 +8,7 @@
 #include "RE/M/MaterialIDs.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
+#include "RE/N/NiSourceTexture.h"
 #include "REL/RuntimeDataAccessors.h"
 #include "SKSE/Version.h"
 
@@ -22,12 +23,14 @@ namespace RE
 	class BSTempNodeManager;
 	class GridCellArray;
 	class ImageSpaceModifierInstance;
+	class LoadedAreaBound;
 	class NavMeshInfoMap;
 	class NiAVObject;
 	class NiDirectionalLight;
 	class NiFogProperty;
 	class NiNode;
 	class PlayerCharacter;
+	class QueuedFile;
 	class Sky;
 	class TESLandTexture;
 	class TESNPC;
@@ -126,52 +129,52 @@ namespace RE
 
 		struct RUNTIME_DATA2
 		{
-#define RUNTIME_DATA2_CONTENT                                                              \
-	TESWorldSpace*                                  worldSpace;      /* 140 */             \
-	BSSimpleList<BSTTuple<TESNPC*, std::uint16_t>*> deadCount;       /* 148 */             \
-	void*                                           unk158;          /* 158 - smart ptr */ \
-	void*                                           unk160;          /* 160 - smart ptr */ \
-	void*                                           unk168;          /* 168 - smart ptr */ \
-	void*                                           unk170;          /* 170 - smart ptr */ \
-	std::uint64_t                                   unk178;          /* 178 */             \
-	std::uint64_t                                   unk180;          /* 180 */             \
-	std::uint64_t                                   unk188;          /* 188 */             \
-	std::uint64_t                                   unk190;          /* 190 */             \
-	std::uint64_t                                   unk198;          /* 198 */             \
-	std::uint64_t                                   unk1A0;          /* 1A0 */             \
-	std::uint64_t                                   unk1A8;          /* 1A8 */             \
-	std::uint64_t                                   unk1B0;          /* 1B0 */             \
-	std::uint64_t                                   unk1B8;          /* 1B8 */             \
-	std::uint64_t                                   unk1C0;          /* 1C0 */             \
-	std::uint64_t                                   unk1C8;          /* 1C8 */             \
-	std::uint64_t                                   unk1D0;          /* 1D0 */             \
-	std::uint64_t                                   unk1D8;          /* 1D8 */             \
-	std::uint64_t                                   unk1E0;          /* 1E0 */             \
-	std::uint64_t                                   unk1E8;          /* 1E8 */             \
-	std::uint64_t                                   unk1F0;          /* 1F0 */             \
-	std::uint64_t                                   unk1F8;          /* 1F8 */             \
-	std::uint64_t                                   unk200;          /* 200 */             \
-	std::uint64_t                                   unk208;          /* 208 */             \
-	std::uint64_t                                   unk210;          /* 210 */             \
-	std::uint64_t                                   unk218;          /* 218 */             \
-	std::uint64_t                                   unk220;          /* 220 */             \
-	PlayerCharacter*                                playerCharacter; /* 228 */             \
-	std::uint64_t                                   unk230;          /* 230 */             \
-	std::uint64_t                                   unk238;          /* 238 */             \
-	std::uint64_t                                   unk240;          /* 240 */             \
-	std::uint64_t                                   unk248;          /* 248 */             \
-	std::uint64_t                                   unk250;          /* 250 */             \
-	std::uint64_t                                   unk258;          /* 258 */             \
-	std::uint64_t                                   unk260;          /* 260 */             \
-	std::uint64_t                                   unk268;          /* 268 */             \
-	std::uint64_t                                   unk270;          /* 270 */             \
-	std::uint64_t                                   unk278;          /* 278 */             \
-	std::uint64_t                                   unk280;          /* 280 */             \
-	std::uint64_t                                   unk288;          /* 288 */             \
-	SystemEventAdapter                              unk290;          /* 290 */             \
-	std::uint64_t                                   unk2A0;          /* 2A0 */             \
-	NavMeshInfoMap*                                 unk2A8;          /* 2A8 */             \
-	std::uint64_t                                   unk2B0;          /* 2B0 */
+#define RUNTIME_DATA2_CONTENT                                                                                                                                                 \
+	TESWorldSpace*                                  worldSpace;                        /* 140 */                                                                              \
+	BSSimpleList<BSTTuple<TESNPC*, std::uint16_t>*> deadCount;                         /* 148 */                                                                              \
+	QueuedFile*                                     queuedFaceGenAddonHandle;          /* 158 - refcounted; queues facegen addon-node model/texture swaps */                  \
+	NiPointer<NiSourceTexture>                      bloodDecalTexture;                 /* 160 - lazily loaded "Effects\\blooddecal.dds" */                                    \
+	QueuedFile*                                     queuedFormDataHandle;              /* 168 - refcounted; purpose beyond the handle itself unresolved */                    \
+	QueuedFile*                                     queuedBloodSprayWaterSplashHandle; /* 170 - refcounted; registers blood-spray/water-splash NIFs */                        \
+	std::uint64_t                                   unk178;                            /* 178 */                                                                              \
+	std::uint64_t                                   unk180;                            /* 180 */                                                                              \
+	std::uint64_t                                   unk188;                            /* 188 */                                                                              \
+	std::uint64_t                                   unk190;                            /* 190 */                                                                              \
+	std::uint64_t                                   unk198;                            /* 198 */                                                                              \
+	std::uint64_t                                   unk1A0;                            /* 1A0 */                                                                              \
+	std::uint64_t                                   unk1A8;                            /* 1A8 */                                                                              \
+	std::uint64_t                                   unk1B0;                            /* 1B0 */                                                                              \
+	std::uint64_t                                   unk1B8;                            /* 1B8 */                                                                              \
+	std::uint64_t                                   unk1C0;                            /* 1C0 */                                                                              \
+	std::uint64_t                                   unk1C8;                            /* 1C8 */                                                                              \
+	std::uint64_t                                   unk1D0;                            /* 1D0 */                                                                              \
+	std::uint64_t                                   unk1D8;                            /* 1D8 */                                                                              \
+	std::uint64_t                                   unk1E0;                            /* 1E0 */                                                                              \
+	std::uint64_t                                   unk1E8;                            /* 1E8 */                                                                              \
+	std::uint64_t                                   unk1F0;                            /* 1F0 */                                                                              \
+	std::uint64_t                                   unk1F8;                            /* 1F8 */                                                                              \
+	std::uint64_t                                   unk200;                            /* 200 */                                                                              \
+	std::uint64_t                                   unk208;                            /* 208 */                                                                              \
+	std::uint64_t                                   unk210;                            /* 210 */                                                                              \
+	std::uint64_t                                   unk218;                            /* 218 */                                                                              \
+	std::uint64_t                                   unk220;                            /* 220 */                                                                              \
+	PlayerCharacter*                                playerCharacter;                   /* 228 */                                                                              \
+	std::uint64_t                                   unk230;                            /* 230 */                                                                              \
+	std::uint64_t                                   unk238;                            /* 238 */                                                                              \
+	std::uint64_t                                   unk240;                            /* 240 */                                                                              \
+	std::uint64_t                                   unk248;                            /* 248 */                                                                              \
+	std::uint64_t                                   unk250;                            /* 250 */                                                                              \
+	std::uint64_t                                   unk258;                            /* 258 */                                                                              \
+	std::uint64_t                                   unk260;                            /* 260 */                                                                              \
+	std::uint64_t                                   unk268;                            /* 268 */                                                                              \
+	std::uint64_t                                   unk270;                            /* 270 */                                                                              \
+	std::uint64_t                                   unk278;                            /* 278 - ctor zeroes only bytes 27C-283; real sub-object boundary unresolved */        \
+	std::uint64_t                                   unk280;                            /* 280 - ctor sets only bytes 284-285 to 0x100; real sub-object boundary unresolved */ \
+	void*                                           unk288;                            /* 288 - head of a callback-keyed clone/cache linked list, not a scalar */             \
+	SystemEventAdapter                              unk290;                            /* 290 */                                                                              \
+	std::uint64_t                                   unk2A0;                            /* 2A0 - ctor zeroes only the low 4 bytes; may be two 4-byte sub-fields */             \
+	NavMeshInfoMap*                                 unk2A8;                            /* 2A8 - lazily constructed on first access */                                         \
+	LoadedAreaBound*                                loadedAreaBound;                   /* 2B0 - refcounted */
             RUNTIME_DATA2_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA2) == 0x178);
