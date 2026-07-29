@@ -11,6 +11,13 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_BSWin32TaskletManager;
 		inline static constexpr auto VTABLE = VTABLE_BSWin32TaskletManager;
 
+		[[nodiscard]] static BSWin32TaskletManager* GetSingleton()
+		{
+			using func_t = decltype(&BSWin32TaskletManager::GetSingleton);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(68203, 69554) };
+			return func();
+		}
+
 		// members
 		REX::W32::HANDLE           monitorThread;             // 20
 		std::uint32_t              desiredWorkerThreadCount;  // 28 - clamped <=6; the real singleton always requests 6

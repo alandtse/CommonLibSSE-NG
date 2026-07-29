@@ -1,10 +1,12 @@
 #pragma once
 
+#include "REL/Relocation.h"
 #include "REX/W32/BASE.h"
 
 namespace RE
 {
 	class BSTaskletData;
+	class BSTaskletGroup;
 	class BSTaskletGroupData;
 
 	class BSTaskletManager
@@ -25,6 +27,13 @@ namespace RE
 		virtual bool CloseTaskGroupData(BSTaskletGroupData* a_taskGroupData) = 0;                                 // 07
 		virtual void ReleaseTaskletData(BSTaskletData* a_tasklet) = 0;                                            // 08
 		virtual void Unk_09() { return; }                                                                         // 09 - { return; } (notification hook; unoverridden in SE/AE/VR)
+
+		bool CreateTaskGroup(BSTaskletGroup& a_taskGroup)
+		{
+			using func_t = decltype(&BSTaskletManager::CreateTaskGroup);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(68207, 69558) };
+			return func(this, a_taskGroup);
+		}
 
 		// members
 		bool             canCreateTaskGroup;  // 08 - true once >=1 worker thread started successfully
