@@ -86,6 +86,14 @@ namespace RE
 		NiAVObject*     Pick(bhkPickData& a_pickData);
 		void            PurgeBufferedCells();
 
+		// Post-load finalization: clears the cached LoadedAreaBound and fixes
+		// up stale high-process-actor cell/animgraph references.
+		void FinishLoad();
+
+		// Core interior/exterior cell-transition engine backing every cell
+		// attach/detach (interior enter/exit, coc, worldspace load).
+		void SetCurrentCell(TESObjectCELL* a_cell, const NiPoint3& a_position, float a_unk4);
+
 		struct RUNTIME_DATA
 		{
 #define RUNTIME_DATA_CONTENT                     \
