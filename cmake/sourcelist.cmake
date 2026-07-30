@@ -1337,6 +1337,7 @@ set(SOURCES
 	include/RE/I/INIPrefSettingCollection.h
 	include/RE/I/INISettingCollection.h
 	include/RE/I/IOManager.h
+	include/RE/I/IOTask.h
 	include/RE/I/IObjectHandlePolicy.h
 	include/RE/I/IObjectProcessor.h
 	include/RE/I/IPackageData.h
