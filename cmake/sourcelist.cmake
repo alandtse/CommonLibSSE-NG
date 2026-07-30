@@ -371,6 +371,7 @@ set(SOURCES
 	include/RE/B/BSProceduralGeomEvent.h
 	include/RE/B/BSProceduralLightningController.h
 	include/RE/B/BSProceduralLightningTasklet.h
+	include/RE/B/BSQueuedResourceCollectionBase.h
 	include/RE/B/BSReloadShaderI.h
 	include/RE/B/BSRenderManager.h
 	include/RE/B/BSRenderPass.h
@@ -1862,6 +1863,7 @@ set(SOURCES
 	include/RE/T/TESQuestStageEvent.h
 	include/RE/T/TESQuestStageItem.h
 	include/RE/T/TESQuestStartStopEvent.h
+	include/RE/T/TESQueuedHandles.h
 	include/RE/T/TESRace.h
 	include/RE/T/TESRaceForm.h
 	include/RE/T/TESReactionForm.h
