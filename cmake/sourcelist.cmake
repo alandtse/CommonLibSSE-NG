@@ -437,6 +437,7 @@ set(SOURCES
 	include/RE/B/BSTSingleton.h
 	include/RE/B/BSTSmartPointer.h
 	include/RE/B/BSTTuple.h
+	include/RE/B/BSTask.h
 	include/RE/B/BSTaskletData.h
 	include/RE/B/BSTempEffect.h
 	include/RE/B/BSTempEffectDebris.h
