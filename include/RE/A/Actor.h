@@ -110,11 +110,14 @@ namespace RE
 		private:
 			[[nodiscard]] T* GetAt(char a_actorValue) const
 			{
-				auto akVals = actorValues.data();
+				// keys are stored as (actorValue + 1) so that 0 can terminate the
+				// C-string; see SetBaseValue/GetBaseValue in the game binary.
+				const auto key = static_cast<char>(a_actorValue + 1);
+				auto       akVals = actorValues.data();
 				if (akVals && entries) {
 					std::uint32_t idx = 0;
 					while (akVals[idx] != '\0') {
-						if (akVals[idx] == a_actorValue) {
+						if (akVals[idx] == key) {
 							break;
 						}
 						++idx;
