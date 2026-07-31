@@ -59,9 +59,11 @@ namespace RE
 		std::uint64_t                       unk48;                // 048
 		std::uint32_t                       currentFirstPass;     // 050
 		std::uint32_t                       currentLastPass;      // 054
-		BSSimpleList<uint32_t>              activePassIndexList;  // 060
-		std::uint32_t                       groupingAlphasCount;  // 064
-		bool                                autoClearPasses;      // 068
+		BSSimpleList<uint32_t>              activePassIndexList;  // 058  head node embedded: item 058, next 060
+		std::uint32_t                       groupingAlphasCount;  // 068
+		bool                                autoClearPasses;      // 06C
+		std::uint8_t                        pad06D;               // 06D
+		std::uint16_t                       pad06E;               // 06E
 		GeometryGroup*                      geometryGroups[16];   // 070
 		GeometryGroup*                      alphaGroup;           // 0F0
 		void*                               unk0F8;               // 0F8
