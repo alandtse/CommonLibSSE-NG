@@ -67,9 +67,9 @@ namespace RE
 		void                Unk_4B(void) override;                                                                    // 4B
 		void                Unk_4C(void) override;                                                                    // 4C
 		void                Unk_4D(void) override;                                                                    // 4D
-		bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact) override;  // 4E - only used by the label-overload of GotoAndPlay/GotoAndStop
+		bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact) override;  // 4E
 		void                SetFrame(std::int32_t a_frame) override;                                                  // 4F
-		void                SetPlayState(bool a_playing) override;                                                    // 50 - GotoAndPlay always passes true here
+		void                SetPlayState(bool a_playing) override;                                                    // 50
 		void                Unk_51(void) override;                                                                    // 51
 		void                Unk_52(void) override;                                                                    // 52
 		void                Unk_53(void) override;                                                                    // 53
