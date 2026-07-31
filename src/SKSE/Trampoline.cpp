@@ -32,11 +32,9 @@ namespace SKSE
 	namespace detail
 	{
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
-		// A write_branch<N> patch is unsafe once it fully consumes one instruction and
-		// partially overwrites the next -- the resulting bytes can still be a live
-		// indirect-dispatch target even with no direct CALL/JMP to them. Log-only (never
-		// blocks the write); see write_branch's a_skipSafetyCheck to suppress a site
-		// you've manually verified safe.
+		// Warns (never blocks) when a write_branch<N> patch partially overwrites the
+		// instruction after the one it targets -- those bytes can still be a live
+		// indirect-dispatch target. Suppress via write_branch's a_skipSafetyCheck.
 		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len)
 		{
 			std::size_t consumed = 0;
