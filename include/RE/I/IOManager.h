@@ -1,8 +1,6 @@
 #pragma once
 
 #include "RE/B/BSTEvent.h"
-#include "RE/I/IMemoryHeap.h"
-#include "RE/N/NiSmartPointer.h"
 
 namespace RE
 {
@@ -31,13 +29,13 @@ namespace RE
 		virtual void Unk_01() { return; }  // 01
 		virtual void Unk_02() { return; }  // 02
 
-		// add (SynchronizedMap base; not overridden by IOManager)
-		virtual bool          FindOrInsert(std::int64_t a_key, NiPointer<BSTask>& a_value, IMemoryHeap* a_heap, bool a_skipDuplicates);        // 03
-		virtual bool          FindOrInsertByHash(std::int64_t a_key, NiPointer<BSTask>& a_value, IMemoryHeap* a_heap, bool a_skipDuplicates);  // 04 - like 03, but hashes the key itself
-		virtual bool          Unk_05(BSTask* a_task);                                                                                          // 05 - predicate gating NotifyTaskComplete's decrement; real signature may take more args than modeled here
-		virtual bool          Erase(std::int64_t a_key, NiPointer<BSTask>& a_valueOut);                                                        // 06
-		virtual bool          FindFirstMatching(NiPointer<BSTask>& a_valueOut);                                                                // 07 - calls 06 with increasing indices until it returns true
-		virtual std::uint32_t Unk_08(std::uint64_t a_packed);                                                                                  // 08 - bucket index = byte0 + byte1*4 of a packed 2-byte key (base class instead does key % bucketCount)
+		// add (SynchronizedMap base; not overridden by IOManager, no external call site)
+		virtual void Unk_03() { return; }  // 03 - FindOrInsert
+		virtual void Unk_04() { return; }  // 04 - FindOrInsertByHash; like 03, but hashes the key itself
+		virtual void Unk_05() { return; }  // 05 - predicate gating NotifyTaskComplete's decrement
+		virtual void Unk_06() { return; }  // 06 - Erase
+		virtual void Unk_07() { return; }  // 07 - FindFirstMatching; calls 06 with increasing indices until it returns true
+		virtual void Unk_08() { return; }  // 08 - bucket index = byte0 + byte1*4 of a packed 2-byte key (base class instead does key % bucketCount)
 
 		// add (SynchronizedMap base)
 		virtual void Unk_09() { return; }  // 09
@@ -61,8 +59,8 @@ namespace RE
 		virtual void Unk_23() { return; }  // 23
 		virtual void Unk_24() { return; }  // 24 - sets the same shared flag slot 22 clears
 
-		// members
-		void NotifyTaskComplete(BSTask* a_task);  // non-virtual; dispatches Unk_08 then Unk_05 to gate a per-bucket decrement
+		// NotifyTaskComplete omitted: non-virtual, purely internal bucket-decrement
+		// bookkeeping (dispatches Unk_08 then Unk_05), no external call site.
 
 		// SynchronizedMap<std::int64_t, NiPointer<BSTask>> base fields (08-40);
 		// BSTaskManager itself adds no further fields of its own.
