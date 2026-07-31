@@ -19,7 +19,7 @@ namespace RE
 		virtual void Unk_05() { return; }  // 05
 		virtual void Unk_06() { return; }  // 06
 		virtual void Unk_07() { return; }  // 07
-		virtual void Unk_08() { return; }  // 08 - overridden by QueuedFile as NotifyChildrenAndFinalize: recursively invokes this same slot on every child, then notifies IOManager
+		virtual void Unk_08() { return; }  // 08
 
 		// VR inherits BSTask's own +8-byte insertion, shifting this tail by +8.
 		struct RUNTIME_DATA
