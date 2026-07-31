@@ -211,13 +211,6 @@ namespace RE
 		return func(this);
 	}
 
-	void TES::FinishLoad()
-	{
-		using func_t = decltype(&TES::FinishLoad);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(13230, 13381) };
-		return func(this);
-	}
-
 	void TES::SetCurrentCell(TESObjectCELL* a_cell, const NiPoint3& a_position, float a_unk4)
 	{
 		using func_t = decltype(&TES::SetCurrentCell);
