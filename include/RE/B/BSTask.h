@@ -35,7 +35,7 @@ namespace RE
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0xC);
 
-		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x18, 0x0);
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x18, 0x20);
 		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x18);
 
 		// members
