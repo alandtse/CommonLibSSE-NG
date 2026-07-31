@@ -2,8 +2,10 @@
 
 #include "RE/B/BSDynamicTriShape.h"
 #include "RE/B/BSFixedString.h"
+#include "RE/B/BSProceduralGeomEvent.h"
 #include "RE/B/BSProceduralLightningTasklet.h"
 #include "RE/B/BSTArray.h"
+#include "RE/B/BSTEvent.h"
 #include "RE/B/BSTaskletGroup.h"
 #include "RE/N/NiInterpController.h"
 #include "RE/N/NiInterpolator.h"
@@ -12,7 +14,9 @@
 
 namespace RE
 {
-	class BSProceduralLightningController : public NiInterpController
+	class BSProceduralLightningController :
+		public NiInterpController,                    // 00
+		public BSTEventSource<BSProceduralGeomEvent>  // 48
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BSProceduralLightningController;
@@ -113,12 +117,6 @@ namespace RE
 		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0xE4);
 
 		// members
-		BSTArray<std::uint8_t>       unkArray1;    // 48 - observed always empty; element type unresolved
-		BSTArray<std::uint8_t>       unkArray2;    // 60 - observed always empty; element type unresolved
-		BSTArray<std::uint8_t>       unkArray3;    // 78 - observed always empty; element type unresolved
-		std::uint64_t                unk90;        // 90 - observed always zero
-		bool                         unk98;        // 98 - observed always zero
-		std::uint8_t                 pad99[7];     // 99 - unidentified
 		NiPointer<BSDynamicTriShape> geometry;     // A0 - lightning-bolt mesh geometry; unshifted in VR
 		std::uint8_t                 padA8[0x2C];  // A8 - lightning-path working buffer (point/vertex/branch
 												   //      pointers); owned alloc freed in dtor; feeds cachedBounds
