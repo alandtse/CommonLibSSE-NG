@@ -14,9 +14,9 @@ namespace RE
 	};
 	static_assert(sizeof(QueuedResourceEntry) == 0x10);
 
-	// Real owner of the fields/vtable slots previously mis-attributed to
-	// TESModelDB::TESQueuedHandles; multiply-inherits QueuedFile (primary)
-	// and BSResource::IEntryDB::PostFlushNotify (secondary).
+	// Base of TESModelDB::TESQueuedHandles and the BSQueuedResourceCollection<Traits,N>
+	// instantiations; multiply-inherits QueuedFile (primary) and
+	// BSResource::IEntryDB::PostFlushNotify (secondary).
 	class BSQueuedResourceCollectionBase :
 		public QueuedFile,                            // 00
 		public BSResource::IEntryDB::PostFlushNotify  // 38 (SE/AE) / 40 (VR)
