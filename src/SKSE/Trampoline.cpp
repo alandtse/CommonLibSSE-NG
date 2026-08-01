@@ -35,8 +35,15 @@ namespace SKSE
 		// Warns (never blocks) when a write_branch<N> patch partially overwrites the
 		// instruction after the one it targets -- those bytes can still be a live
 		// indirect-dispatch target. Suppress via write_branch's a_skipSafetyCheck.
-		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len)
+		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len, std::source_location a_loc)
 		{
+			// Basename only -- the full compiler path buries the one token that identifies
+			// the responsible patch (e.g. "actorvaluestorage_clear_race_crash.h").
+			std::string_view file{ a_loc.file_name() };
+			if (const auto sep = file.find_last_of("/\\"); sep != std::string_view::npos) {
+				file.remove_prefix(sep + 1);
+			}
+
 			std::size_t consumed = 0;
 			std::size_t instrCount = 0;
 			std::size_t lastLen = 0;
@@ -46,9 +53,9 @@ namespace SKSE
 				const auto len = hde64_disasm(reinterpret_cast<const void*>(a_src + consumed), &hs);
 				if (len == 0 || (hs.flags & F_ERROR) != 0) {
 					log::debug(
-						"patch-site safety: failed to decode instruction at 0x{:X} (+0x{:X} into a "
+						"patch-site safety [{}:{}]: failed to decode instruction at 0x{:X} (+0x{:X} into a "
 						"write_branch<{}> at 0x{:X}) -- skipping boundary check for this patch"sv,
-						a_src + consumed, consumed, a_len, a_src);
+						file, a_loc.line(), a_src + consumed, consumed, a_len, a_src);
 					return;
 				}
 				consumed += len;
@@ -63,14 +70,14 @@ namespace SKSE
 			const auto badAddr = a_src + (consumed - lastLen);
 			const auto overwritten = a_len - (consumed - lastLen);
 			log::debug(
-				"patch-site safety: write_branch<{}> at 0x{:X} fully consumes {} instruction(s) then "
+				"patch-site safety [{}:{}]: write_branch<{}> at 0x{:X} fully consumes {} instruction(s) then "
 				"partially overwrites {} of {} bytes of the instruction at 0x{:X} -- that address "
 				"used to be a valid instruction start. Before treating this site as safe, check for "
 				"anything targeting it directly: code xrefs (CALL/JMP) AND vtable slots holding it "
 				"as a function pointer (indirect vtable dispatch won't show as a code xref). If "
 				"clean, pass a_skipSafetyCheck=true to silence this; otherwise relocate the patch "
 				"onto a longer instruction. Writing anyway for now."sv,
-				a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr);
+				file, a_loc.line(), a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr);
 		}
 #endif
 
@@ -178,7 +185,7 @@ namespace SKSE
 		return mem;
 	}
 
-	void Trampoline::write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode, bool a_skipSafetyCheck)
+	void Trampoline::write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode, bool a_skipSafetyCheck, std::source_location a_loc)
 	{
 #pragma pack(push, 1)
 		struct SrcAssembly
@@ -225,7 +232,7 @@ namespace SKSE
 
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
 		if (!a_skipSafetyCheck) {
-			detail::check_patch_site_boundary(a_src, sizeof(SrcAssembly));
+			detail::check_patch_site_boundary(a_src, sizeof(SrcAssembly), a_loc);
 		}
 #endif
 
@@ -240,7 +247,7 @@ namespace SKSE
 		mem->addr = static_cast<std::uint64_t>(a_dst);
 	}
 
-	void Trampoline::write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm, bool a_skipSafetyCheck)
+	void Trampoline::write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm, bool a_skipSafetyCheck, std::source_location a_loc)
 	{
 #pragma pack(push, 1)
 		struct Assembly
@@ -273,7 +280,7 @@ namespace SKSE
 
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
 		if (!a_skipSafetyCheck) {
-			detail::check_patch_site_boundary(a_src, sizeof(Assembly));
+			detail::check_patch_site_boundary(a_src, sizeof(Assembly), a_loc);
 		}
 #endif
 
