@@ -26,6 +26,7 @@ namespace RE
 
 		const auto objectName = (a_objectName && a_objectName[0]) ? a_objectName : a_object->GetName();
 		const auto phrase = a_added ? *"sAddItemtoInventory"_gs : *"sRemoveItemfromInventory"_gs;
+		// Widen so that we don't risk overflowing with INT32_MIN
 		auto count = static_cast<std::int64_t>(a_count);
 		if (count < 0) {
 			count = count * -1;
