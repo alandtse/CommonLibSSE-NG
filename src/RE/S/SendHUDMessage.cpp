@@ -26,10 +26,11 @@ namespace RE
 
 		const auto objectName = (a_objectName && a_objectName[0]) ? a_objectName : a_object->GetName();
 		const auto phrase = a_added ? *"sAddItemtoInventory"_gs : *"sRemoveItemfromInventory"_gs;
-		if (a_count < 0) {
-			a_count = a_count * -1;
+		auto count = static_cast<std::int64_t>(a_count);
+		if (count < 0) {
+			count = count * -1;
 		}
-		const std::string message = a_count == 1 ? std::format("{} {}", objectName, phrase) : std::format("{} ({}) {}", objectName, a_count, phrase);
+		const std::string message = count == 1 ? std::format("{} {}", objectName, phrase) : std::format("{} ({}) {}", objectName, count, phrase);
 
 		ShowHUDMessage(message.c_str());
 
