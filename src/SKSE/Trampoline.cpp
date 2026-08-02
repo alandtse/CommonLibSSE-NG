@@ -32,10 +32,32 @@ namespace SKSE
 	namespace detail
 	{
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
-		// Warns (never blocks) when a write_branch<N> patch partially overwrites the
-		// instruction after the one it targets -- those bytes can still be a live
-		// indirect-dispatch target. Suppress via write_branch's a_skipSafetyCheck.
-		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len, std::source_location a_loc)
+		// FNV-1a 64-bit. Not a security hash -- just a cheap, deterministic change-detector
+		// so a_expectedPatchHash can tell "still the bytes I verified" from "something moved."
+		[[nodiscard]] std::uint64_t fnv1a64(std::uintptr_t a_addr, std::size_t a_len) noexcept
+		{
+			constexpr std::uint64_t offsetBasis = 0xCBF29CE484222325ULL;
+			constexpr std::uint64_t prime = 0x00000100000001B3ULL;
+
+			auto       hash = offsetBasis;
+			const auto bytes = reinterpret_cast<const std::uint8_t*>(a_addr);
+			for (std::size_t i = 0; i < a_len; ++i) {
+				hash ^= bytes[i];
+				hash *= prime;
+			}
+			return hash;
+		}
+
+		// Warns when a write_branch<N> patch partially overwrites the instruction after the
+		// one it targets -- those bytes can still be a live indirect-dispatch target. Never
+		// blocks the write either way.
+		//
+		// a_expectedPatchHash pins the check to a specific verified byte pattern (see
+		// SKSE::Trampoline::write_branch's doc comment): 0 means unset (today's behavior,
+		// always logs and prints the hash to capture), a match goes quiet (already verified,
+		// nothing to re-read), a mismatch escalates (something changed since verification --
+		// a different game binary, or a newly-installed patch colliding with this site).
+		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len, std::uint64_t a_expectedPatchHash, std::source_location a_loc)
 		{
 			// Basename only -- the full compiler path buries the one token that identifies
 			// the responsible patch (e.g. "actorvaluestorage_clear_race_crash.h").
@@ -69,15 +91,36 @@ namespace SKSE
 
 			const auto badAddr = a_src + (consumed - lastLen);
 			const auto overwritten = a_len - (consumed - lastLen);
+			const auto hash = fnv1a64(badAddr, lastLen);
+
+			if (a_expectedPatchHash != 0 && a_expectedPatchHash == hash) {
+				log::trace(
+					"patch-site safety [{}:{}]: write_branch<{}> at 0x{:X} matches its pinned hash "
+					"0x{:X} -- already verified, nothing changed."sv,
+					file, a_loc.line(), a_len, a_src, hash);
+				return;
+			}
+
+			if (a_expectedPatchHash != 0 && a_expectedPatchHash != hash) {
+				log::warn(
+					"patch-site safety [{}:{}]: write_branch<{}> at 0x{:X} pinned hash 0x{:X} no longer "
+					"matches the live bytes at 0x{:X} (now 0x{:X}) -- the verification this site relied "
+					"on may no longer hold (different game binary, or another patch now overlaps this "
+					"site). Re-verify: code xrefs (CALL/JMP) AND vtable slots holding 0x{:X} as a "
+					"function pointer. Writing anyway for now."sv,
+					file, a_loc.line(), a_len, a_src, a_expectedPatchHash, badAddr, hash, badAddr);
+				return;
+			}
+
 			log::debug(
 				"patch-site safety [{}:{}]: write_branch<{}> at 0x{:X} fully consumes {} instruction(s) then "
-				"partially overwrites {} of {} bytes of the instruction at 0x{:X} -- that address "
-				"used to be a valid instruction start. Before treating this site as safe, check for "
-				"anything targeting it directly: code xrefs (CALL/JMP) AND vtable slots holding it "
-				"as a function pointer (indirect vtable dispatch won't show as a code xref). If "
-				"clean, pass a_skipSafetyCheck=true to silence this; otherwise relocate the patch "
-				"onto a longer instruction. Writing anyway for now."sv,
-				file, a_loc.line(), a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr);
+				"partially overwrites {} of {} bytes of the instruction at 0x{:X} (hash 0x{:X}) -- that "
+				"address used to be a valid instruction start. Before treating this site as safe, check "
+				"for anything targeting it directly: code xrefs (CALL/JMP) AND vtable slots holding it "
+				"as a function pointer (indirect vtable dispatch won't show as a code xref). If clean, "
+				"pass a_expectedPatchHash=0x{:X} to pin this verified state (re-checked every launch), "
+				"or relocate the patch onto a longer instruction. Writing anyway for now."sv,
+				file, a_loc.line(), a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr, hash, hash);
 		}
 #endif
 
@@ -185,7 +228,7 @@ namespace SKSE
 		return mem;
 	}
 
-	void Trampoline::write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode, bool a_skipSafetyCheck, std::source_location a_loc)
+	void Trampoline::write_5branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_opcode, bool a_skipSafetyCheck, std::uint64_t a_expectedPatchHash, std::source_location a_loc)
 	{
 #pragma pack(push, 1)
 		struct SrcAssembly
@@ -232,7 +275,7 @@ namespace SKSE
 
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
 		if (!a_skipSafetyCheck) {
-			detail::check_patch_site_boundary(a_src, sizeof(SrcAssembly), a_loc);
+			detail::check_patch_site_boundary(a_src, sizeof(SrcAssembly), a_expectedPatchHash, a_loc);
 		}
 #endif
 
@@ -247,7 +290,7 @@ namespace SKSE
 		mem->addr = static_cast<std::uint64_t>(a_dst);
 	}
 
-	void Trampoline::write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm, bool a_skipSafetyCheck, std::source_location a_loc)
+	void Trampoline::write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm, bool a_skipSafetyCheck, std::uint64_t a_expectedPatchHash, std::source_location a_loc)
 	{
 #pragma pack(push, 1)
 		struct Assembly
@@ -280,7 +323,7 @@ namespace SKSE
 
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
 		if (!a_skipSafetyCheck) {
-			detail::check_patch_site_boundary(a_src, sizeof(Assembly), a_loc);
+			detail::check_patch_site_boundary(a_src, sizeof(Assembly), a_expectedPatchHash, a_loc);
 		}
 #endif
 
