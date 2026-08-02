@@ -1,5 +1,6 @@
 #include "SKSE/Trampoline.h"
 
+#include "REL/Verify.h"
 #include "SKSE/Logger.h"
 
 #include "REX/W32/KERNEL32.h"
@@ -32,40 +33,14 @@ namespace SKSE
 	namespace detail
 	{
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
-		// FNV-1a 64-bit. Not a security hash -- just a cheap, deterministic change-detector
-		// so a_expectedPatchHash can tell "still the bytes I verified" from "something moved."
-		[[nodiscard]] std::uint64_t fnv1a64(std::uintptr_t a_addr, std::size_t a_len) noexcept
-		{
-			constexpr std::uint64_t offsetBasis = 0xCBF29CE484222325ULL;
-			constexpr std::uint64_t prime = 0x00000100000001B3ULL;
-
-			auto       hash = offsetBasis;
-			const auto bytes = reinterpret_cast<const std::uint8_t*>(a_addr);
-			for (std::size_t i = 0; i < a_len; ++i) {
-				hash ^= bytes[i];
-				hash *= prime;
-			}
-			return hash;
-		}
-
-		// Warns when a write_branch<N> patch partially overwrites the instruction after the
-		// one it targets -- those bytes can still be a live indirect-dispatch target. Never
-		// blocks the write either way.
-		//
-		// a_expectedPatchHash pins the check to a specific verified byte pattern (see
-		// SKSE::Trampoline::write_branch's doc comment): 0 means unset (today's behavior,
-		// always logs and prints the hash to capture), a match goes quiet (already verified,
-		// nothing to re-read), a mismatch escalates (something changed since verification --
-		// a different game binary, or a newly-installed patch colliding with this site).
+		// Detects when a write_branch<N> patch partially overwrites the instruction after
+		// the one it targets -- those bytes can still be a live indirect-dispatch target.
+		// Never blocks the write either way; hands the actual verification (and its
+		// unset/match/mismatch logging) off to REL::VerifyBytes, which is independent of
+		// this detection -- a caller can pin/verify any byte range without ever going
+		// through this overlap scan.
 		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len, std::uint64_t a_expectedPatchHash, std::source_location a_loc)
 		{
-			// Basename only -- the full compiler path buries the one token that identifies
-			// the responsible patch (e.g. "actorvaluestorage_clear_race_crash.h").
-			std::string_view file{ a_loc.file_name() };
-			if (const auto sep = file.find_last_of("/\\"); sep != std::string_view::npos) {
-				file.remove_prefix(sep + 1);
-			}
-
 			std::size_t consumed = 0;
 			std::size_t instrCount = 0;
 			std::size_t lastLen = 0;
@@ -74,6 +49,12 @@ namespace SKSE
 				hde64s     hs{};
 				const auto len = hde64_disasm(reinterpret_cast<const void*>(a_src + consumed), &hs);
 				if (len == 0 || (hs.flags & F_ERROR) != 0) {
+					// Basename only -- the full compiler path buries the one token that
+					// identifies the responsible patch (e.g. "actorvaluestorage_clear_race_crash.h").
+					std::string_view file{ a_loc.file_name() };
+					if (const auto sep = file.find_last_of("/\\"); sep != std::string_view::npos) {
+						file.remove_prefix(sep + 1);
+					}
 					log::debug(
 						"patch-site safety [{}:{}]: failed to decode instruction at 0x{:X} (+0x{:X} into a "
 						"write_branch<{}> at 0x{:X}) -- skipping boundary check for this patch"sv,
@@ -90,37 +71,7 @@ namespace SKSE
 			}
 
 			const auto badAddr = a_src + (consumed - lastLen);
-			const auto overwritten = a_len - (consumed - lastLen);
-			const auto hash = fnv1a64(badAddr, lastLen);
-
-			if (a_expectedPatchHash != 0 && a_expectedPatchHash == hash) {
-				log::trace(
-					"patch-site safety [{}:{}]: write_branch<{}> at 0x{:X} matches its pinned hash "
-					"0x{:X} -- already verified, nothing changed."sv,
-					file, a_loc.line(), a_len, a_src, hash);
-				return;
-			}
-
-			if (a_expectedPatchHash != 0 && a_expectedPatchHash != hash) {
-				log::warn(
-					"patch-site safety [{}:{}]: write_branch<{}> at 0x{:X} pinned hash 0x{:X} no longer "
-					"matches the live bytes at 0x{:X} (now 0x{:X}) -- the verification this site relied "
-					"on may no longer hold (different game binary, or another patch now overlaps this "
-					"site). Re-verify: code xrefs (CALL/JMP) AND vtable slots holding 0x{:X} as a "
-					"function pointer. Writing anyway for now."sv,
-					file, a_loc.line(), a_len, a_src, a_expectedPatchHash, badAddr, hash, badAddr);
-				return;
-			}
-
-			log::debug(
-				"patch-site safety [{}:{}]: write_branch<{}> at 0x{:X} fully consumes {} instruction(s) then "
-				"partially overwrites {} of {} bytes of the instruction at 0x{:X} (hash 0x{:X}) -- that "
-				"address used to be a valid instruction start. Before treating this site as safe, check "
-				"for anything targeting it directly: code xrefs (CALL/JMP) AND vtable slots holding it "
-				"as a function pointer (indirect vtable dispatch won't show as a code xref). If clean, "
-				"pass a_expectedPatchHash=0x{:X} to pin this verified state (re-checked every launch), "
-				"or relocate the patch onto a longer instruction. Writing anyway for now."sv,
-				file, a_loc.line(), a_len, a_src, instrCount - 1, overwritten, lastLen, badAddr, hash, hash);
+			REL::VerifyBytes(badAddr, lastLen, a_expectedPatchHash, "orphan tail past write_branch"sv, a_loc);
 		}
 #endif
 

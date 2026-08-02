@@ -81,9 +81,12 @@ namespace SKSE
 		// a_skipSafetyCheck: suppress the SKSE_SUPPORT_PATCH_SAFETY boundary check for this
 		// call site. Only pass true once you've verified the flagged byte is unreachable;
 		// prefer relocating the patch over suppressing when that's practical.
-		// a_expectedPatchHash: pass the hash the check printed once you've verified this
-		// site, instead of a_skipSafetyCheck=true -- re-verified every launch, re-escalates
-		// on mismatch instead of trusting the old verdict forever. 0 = unset.
+		// a_expectedPatchHash: pass a hook-verification hash (see REL::VerifyBytes) for the
+		// orphan tail past this patch, instead of a_skipSafetyCheck=true -- re-verified every
+		// launch, re-escalates on mismatch instead of trusting the old verdict forever. 0 =
+		// unset. This only pins the boundary-overlap check's own byte range; call
+		// REL::VerifyBytes directly to pin any other range (e.g. the patch's own target
+		// bytes before writing).
 		// a_loc names the calling patch in that check's log line; leave it defaulted unless
 		// forwarding a location through a wrapper.
 		template <std::size_t N>

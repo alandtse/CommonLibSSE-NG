@@ -1958,6 +1958,7 @@ set(SOURCES
 	include/REL/REL.h
 	include/REL/Relocation.h
 	include/REL/RuntimeDataAccessors.h
+	include/REL/Verify.h
 	include/REL/Version.h
 	include/REX/PS4.h
 	include/REX/PS4/SCEPAD.h
@@ -2489,6 +2490,7 @@ set(SOURCES
 	src/REL/ID.cpp
 	src/REL/Module.cpp
 	src/REL/Relocation.cpp
+	src/REL/Verify.cpp
 	src/REL/Version.cpp
 	src/REX/REX.cpp
 	src/REX/W32.cpp
