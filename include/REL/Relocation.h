@@ -743,21 +743,7 @@ namespace REL
 			safe_write(address(), a_data.data(), a_data.size_bytes());
 		}
 
-		// a_skipSafetyCheck: suppress the SKSE_SUPPORT_PATCH_SAFETY instruction-boundary
-		// check (see SKSE::Trampoline::write_branch) for this call site. Only pass true
-		// once you've manually verified the flagged boundary byte isn't reachable.
-		//
-		// a_expectedPatchHash: once you've done that verification, pass the hash printed
-		// (rather than a_skipSafetyCheck=true) so it re-verifies on every launch instead of
-		// trusting you forever -- a match stays silent, a mismatch (the game binary or a
-		// conflicting mod's patch shifted since you verified) re-escalates instead of
-		// silently assuming the old verdict still holds. Leave at 0 (unset) until you have
-		// a real hash to pin. This only covers the boundary-overlap check's own byte range
-		// -- for hook verification generally, see REL::VerifyBytes (REL/Verify.h), which is
-		// independent of write_branch/write_call and callable on any byte range.
-		//
-		// a_loc defaults to the caller's location and is forwarded so the safety-check log
-		// line names the patch's own source file instead of Trampoline.cpp. Leave defaulted.
+		// a_skipSafetyCheck/a_expectedPatchHash/a_loc: see SKSE::Trampoline::write_branch.
 		template <std::size_t N>
 		std::uintptr_t write_branch(const std::uintptr_t a_dst, bool a_skipSafetyCheck = false, std::uint64_t a_expectedPatchHash = 0, std::source_location a_loc = std::source_location::current())
 			requires(std::same_as<value_type, std::uintptr_t>)

@@ -33,12 +33,8 @@ namespace SKSE
 	namespace detail
 	{
 #ifdef SKSE_SUPPORT_PATCH_SAFETY
-		// Detects when a write_branch<N> patch partially overwrites the instruction after
-		// the one it targets -- those bytes can still be a live indirect-dispatch target.
-		// Never blocks the write either way; hands the actual verification (and its
-		// unset/match/mismatch logging) off to REL::VerifyBytes, which is independent of
-		// this detection -- a caller can pin/verify any byte range without ever going
-		// through this overlap scan.
+		// Detects a write_branch<N> patch overwriting part of the next instruction, then
+		// delegates verification to REL::VerifyBytes.
 		void check_patch_site_boundary(std::uintptr_t a_src, std::size_t a_len, std::uint64_t a_expectedPatchHash, std::source_location a_loc)
 		{
 			std::size_t consumed = 0;
