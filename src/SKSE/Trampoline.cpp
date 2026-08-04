@@ -45,12 +45,7 @@ namespace SKSE
 				hde64s     hs{};
 				const auto len = hde64_disasm(reinterpret_cast<const void*>(a_src + consumed), &hs);
 				if (len == 0 || (hs.flags & F_ERROR) != 0) {
-					// Basename only -- the full compiler path buries the one token that
-					// identifies the responsible patch (e.g. "actorvaluestorage_clear_race_crash.h").
-					std::string_view file{ a_loc.file_name() };
-					if (const auto sep = file.find_last_of("/\\"); sep != std::string_view::npos) {
-						file.remove_prefix(sep + 1);
-					}
+					const auto file = REL::detail::basename(a_loc);
 					log::debug(
 						"patch-site safety [{}:{}]: failed to decode instruction at 0x{:X} (+0x{:X} into a "
 						"write_branch<{}> at 0x{:X}) -- skipping boundary check for this patch"sv,

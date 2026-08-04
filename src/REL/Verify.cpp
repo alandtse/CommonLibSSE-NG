@@ -21,13 +21,7 @@ namespace REL
 	VerifyResult VerifyBytes(std::uintptr_t a_addr, std::size_t a_len, std::uint64_t a_expectedHash,
 		std::string_view a_context, std::source_location a_loc)
 	{
-		// Basename only -- the full compiler path buries the one token that identifies the
-		// responsible patch (e.g. "actorvaluestorage_clear_race_crash.h").
-		std::string_view file{ a_loc.file_name() };
-		if (const auto sep = file.find_last_of("/\\"); sep != std::string_view::npos) {
-			file.remove_prefix(sep + 1);
-		}
-
+		const auto file = detail::basename(a_loc);
 		const auto hash = HashBytes(a_addr, a_len);
 
 		if (a_expectedHash == 0) {
