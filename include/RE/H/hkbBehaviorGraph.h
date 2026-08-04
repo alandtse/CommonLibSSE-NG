@@ -1,9 +1,11 @@
 #pragma once
 
 #include "RE/H/hkArray.h"
+#include "RE/H/hkRefPtr.h"
 #include "RE/H/hkRefVariant.h"
 #include "RE/H/hkbGenerator.h"
 #include "RE/H/hkbNodeInfo.h"
+#include "RE/H/hkbVariableValueSet.h"
 
 namespace RE
 {
@@ -63,7 +65,7 @@ namespace RE
 		hkRefVariant                             attributeIDMap;                   // 0C0
 		hkRefVariant                             variableIDMap;                    // 0C8
 		hkRefVariant                             characterPropertyIDMap;           // 0D0
-		hkRefVariant                             variableValueSet;                 // 0D8
+		hkRefPtr<hkbVariableValueSet>            variableValueSet;                 // 0D8
 		hkRefVariant                             nodeTemplateToCloneMap;           // 0E0
 		hkRefVariant                             nodeCloneToTemplateMap;           // 0E8
 		hkRefVariant                             stateListenerTemplateToCloneMap;  // 0F0
