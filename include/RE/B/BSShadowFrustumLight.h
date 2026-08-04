@@ -13,13 +13,13 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                    \
-	float semiWidth;     /* 560, VR 5C0 xFOV */ \
-	float semiHeight;    /* 564, VR 5C4 yFOV */ \
-	float falloff;       /* 568, VR 5C8 */      \
-	float nearDistance;  /* 56C, VR 5CC */      \
-	float farDistance;   /* 570, VR 5D0 */
-            RUNTIME_DATA_CONTENT
+#define RUNTIME_DATA_CONTENT                   \
+	float semiWidth;    /* 560, VR 5C0 xFOV */ \
+	float semiHeight;   /* 564, VR 5C4 yFOV */ \
+	float falloff;      /* 568, VR 5C8 */      \
+	float nearDistance; /* 56C, VR 5CC */      \
+	float farDistance;  /* 570, VR 5D0 */
+			RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x14);
 
