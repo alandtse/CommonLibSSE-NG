@@ -6,10 +6,8 @@ namespace RE
 {
 	NiNode* NiNode::Create(std::uint16_t a_arrBufLen)
 	{
-		auto node = malloc<NiNode>();
-		std::memset((void*)node, 0, sizeof(NiNode));
-		node->Ctor(a_arrBufLen);
-		return node;
+		auto node = malloc_runtime<NiNode>(0x128, 0x150);
+		return node ? node->Ctor(a_arrBufLen) : nullptr;
 	}
 
 	void NiNode::DetachChild(NiAVObject* a_child)
