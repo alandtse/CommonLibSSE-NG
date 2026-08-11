@@ -1194,6 +1194,7 @@
 #include "RE/H/hkbRigidBodySetup.h"
 #include "RE/H/hkbShapeSetup.h"
 #include "RE/H/hkbStateMachine.h"
+#include "RE/H/hkbVariableBindingSet.h"
 #include "RE/H/hkbVariableInfo.h"
 #include "RE/H/hkbVariableValueSet.h"
 #include "RE/H/hkp3AxisSweep.h"
