@@ -81,12 +81,14 @@ namespace REL
 
 		[[nodiscard]] static Module& get()
 		{
-			if (_initialized.load(std::memory_order_relaxed)) {
+			if (_initialized.load(std::memory_order_acquire)) {
 				return _instance;
 			}
-			[[maybe_unused]] std::unique_lock lock(_initLock);
-			_instance.init();
-			_initialized = true;
+			std::unique_lock lock(_initLock);
+			if (!_initialized.load(std::memory_order_relaxed)) {
+				_instance.init();
+				_initialized.store(true, std::memory_order_release);
+			}
 			return _instance;
 		}
 
@@ -264,7 +266,7 @@ namespace REL
 		}
 
 	private:
-		Module() noexcept;
+		Module() noexcept = default;
 		Module(const Module&) = delete;
 		Module(Module&&) = delete;
 
@@ -272,6 +274,12 @@ namespace REL
 
 		Module& operator=(const Module&) = delete;
 		Module& operator=(Module&&) = delete;
+
+		// Emitted from load(), the single point both init() overloads funnel through, rather
+		// than the constructor, so Module::_instance can stay constant-initialized (no
+		// user-provided ctor -> no static-initialization-order hazard for any consumer that
+		// resolves a RELOCATION_ID during its own dynamic initialization).
+		static void EmitLicenseNotice() noexcept;
 
 		bool init()
 		{
@@ -321,6 +329,7 @@ namespace REL
 
 		[[nodiscard]] bool load(void* a_handle, bool a_failOnError)
 		{
+			EmitLicenseNotice();
 			_base = reinterpret_cast<std::uintptr_t>(a_handle);
 			if (!load_version(a_failOnError)) {
 				return false;

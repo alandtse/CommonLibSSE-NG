@@ -26,9 +26,14 @@ namespace REL
 			"Source: https://github.com/alandtse/CommonLibSSE-NG";
 	}
 
-	Module::Module() noexcept { REX::W32::OutputDebugStringA(kLicenseNotice); }
+	void Module::EmitLicenseNotice() noexcept { REX::W32::OutputDebugStringA(kLicenseNotice); }
 
-	Module Module::_instance;
+	// constinit enforces at compile time that every Module member stays constexpr-default-
+	// constructible, so _instance is constant-initialized rather than given a dynamic
+	// initializer. A future member that breaks that (e.g. a non-constexpr default) fails the
+	// build instead of silently reintroducing the static-initialization-order hazard this
+	// singleton was rewritten to avoid.
+	constinit Module Module::_instance;
 
 	void Module::load_segments()
 	{
