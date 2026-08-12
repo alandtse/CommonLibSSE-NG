@@ -28,12 +28,14 @@ namespace REL
 
 	void Module::EmitLicenseNotice() noexcept { REX::W32::OutputDebugStringA(kLicenseNotice); }
 
-	// constinit enforces at compile time that every Module member stays constexpr-default-
-	// constructible, so _instance is constant-initialized rather than given a dynamic
-	// initializer. A future member that breaks that (e.g. a non-constexpr default) fails the
-	// build instead of silently reintroducing the static-initialization-order hazard this
-	// singleton was rewritten to avoid.
+	// constinit enforces that _instance is constant-initialized, so a future non-literal
+	// member cannot silently give it a dynamic initializer. The Debug STL's container debug
+	// state makes Module non-literal, so the guard applies only where it's achievable.
+#ifdef NDEBUG
 	constinit Module Module::_instance;
+#else
+	Module Module::_instance;
+#endif
 
 	void Module::load_segments()
 	{
