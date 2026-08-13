@@ -1117,6 +1117,7 @@ set(SOURCES
 	include/RE/H/Hazard.h
 	include/RE/H/HeapBlock.h
 	include/RE/H/HeapBlockFreeHead.h
+	include/RE/H/HeightFieldCInfo.h
 	include/RE/H/HeldStateHandler.h
 	include/RE/H/HighActorCuller.h
 	include/RE/H/HighProcessData.h
@@ -1409,6 +1410,7 @@ set(SOURCES
 	include/RE/K/KinectMenu.h
 	include/RE/K/KinectStateChangeData.h
 	include/RE/K/KinectUserEventData.h
+	include/RE/L/LandCollisionDesc.h
 	include/RE/L/LegendarySkillResetConfirmCallback.h
 	include/RE/L/LevelIncrease.h
 	include/RE/L/LevelUpMenu.h
