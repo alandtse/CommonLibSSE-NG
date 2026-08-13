@@ -24,11 +24,11 @@ namespace RE
 		float         minHeight;  // 28 - heightBias plus the lowest sample
 		float         maxHeight;  // 2C - heightBias plus the highest sample
 
-		std::uint8_t              unk30;  // 30
+		std::uint8_t                 unk30;  // 30
 		std::array<std::uint8_t, 15> pad31;  // 31
 
-		const float* heights;      // 40 - the quadrant's grid, row major
-		float        heightBias;   // 48 - world Z of a stored height of zero
+		const float*  heights;     // 40 - the quadrant's grid, row major
+		float         heightBias;  // 48 - world Z of a stored height of zero
 		std::uint32_t pad4C;       // 4C
 		bool          unk50;       // 50
 
