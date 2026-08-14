@@ -3,7 +3,6 @@
 #include "RE/N/NiRefObject.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/N/NiTArray.h"
-#include "RE/N/NiTCollection.h"
 
 namespace RE
 {
@@ -20,8 +19,8 @@ namespace RE
 		~CellMopp() override;  // 00
 
 		// members
-		std::uint8_t                                                                unk10[0xC8];  // 10 - not yet identified
-		NiTArray<NiPointer<bhkRigidBody>, NiTNewInterface<NiPointer<bhkRigidBody>>> rigidBodies;  // D8
+		std::uint8_t                            unk10[0xC8];  // 10 - not yet identified
+		NiTObjectArray<NiPointer<bhkRigidBody>> rigidBodies;  // D8
 	};
 	static_assert(sizeof(CellMopp) == 0xF0);
 }
