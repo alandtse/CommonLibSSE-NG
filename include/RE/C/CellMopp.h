@@ -22,10 +22,7 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_CellMopp;
 		inline static constexpr auto VTABLE = VTABLE_CellMopp;
 
-		// Async post-process that welds a quadrant's height field seams against its neighbors;
-		// CellMopp owns one per quadrant. Holds a reference to the Havok object it welds (probably
-		// the quadrant's bhkTriSampledHeightFieldBvTreeShape, not independently confirmed),
-		// released in the destructor.
+		// One per quadrant; CellMopp owns an array of four.
 		class HeightFieldWeldingTasklet : public BSTasklet
 		{
 		public:
