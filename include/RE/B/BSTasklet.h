@@ -13,4 +13,5 @@ namespace RE
 
 		virtual ~BSTasklet() = default;  // 00
 	};
+	static_assert(sizeof(BSTasklet) == 0x8);
 }

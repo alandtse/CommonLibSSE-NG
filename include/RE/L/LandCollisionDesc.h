@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 
 namespace RE
@@ -23,5 +24,9 @@ namespace RE
 		std::uint32_t filterInfo;   // 30
 		std::uint32_t pad34;        // 34
 	};
+	static_assert(offsetof(LandCollisionDesc, xSpacing) == 0x08);
+	static_assert(offsetof(LandCollisionDesc, quadShapes) == 0x18);
+	static_assert(offsetof(LandCollisionDesc, quadCount) == 0x20);
+	static_assert(offsetof(LandCollisionDesc, gridDim) == 0x28);
 	static_assert(sizeof(LandCollisionDesc) == 0x38);
 }
