@@ -20,7 +20,7 @@ namespace RE
 		~CellMopp() override;  // 00
 
 		// members
-		std::uint8_t                                     unk10[0xC8];  // 10 - not yet identified
+		std::uint8_t                                                                unk10[0xC8];  // 10 - not yet identified
 		NiTArray<NiPointer<bhkRigidBody>, NiTNewInterface<NiPointer<bhkRigidBody>>> rigidBodies;  // D8
 	};
 	static_assert(sizeof(CellMopp) == 0xF0);
