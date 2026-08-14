@@ -5,9 +5,6 @@
 
 namespace RE
 {
-	// The engine's landscape collision descriptor, built on the stack by the land geometry init
-	// and handed to CellMopp::BuildLandCollision, which walks it into one HeightFieldCInfo per
-	// quadrant. Not a Havok reference-counted type - stack-only, no vtable.
 	class LandCollisionDesc
 	{
 	public:

@@ -14,15 +14,12 @@ namespace RE
 {
 	class bhkRigidBody;
 
-	// Builds and owns one cell's landscape collision: one bhkTriSampledHeightFieldBvTreeShape
-	// per quadrant, each wrapped in a bhkRigidBody and queued into the cell's Havok world.
 	class CellMopp : public NiRefObject
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_CellMopp;
 		inline static constexpr auto VTABLE = VTABLE_CellMopp;
 
-		// One per quadrant; CellMopp owns an array of four.
 		class HeightFieldWeldingTasklet : public BSTasklet
 		{
 		public:

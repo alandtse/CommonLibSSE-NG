@@ -5,11 +5,6 @@
 
 namespace RE
 {
-	// Construction info of one land quadrant's sampled height field, filled on the stack by
-	// CellMopp::BuildLandCollision and consumed by bhkTriSampledHeightFieldBvTreeShape::InitFromCInfo,
-	// its only caller. Scales are in havok units (world units times bhkWorld::GetWorldScale());
-	// heights are in the engine's stored height space and heightBias converts them to world Z.
-	// Not a Havok reference-counted type - stack-only, no vtable.
 	class HeightFieldCInfo
 	{
 	public:
