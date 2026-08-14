@@ -156,6 +156,8 @@ namespace RE
 		using NiAVObjectFlags = REX::EnumSet<Flag, std::uint32_t>;
 		RUNTIME_DATA_ACCESSOR_EX(NiAVObjectFlags, GetFlags, 0x0F4, 0x10C)
 
+		RUNTIME_DATA_ACCESSOR_EX(std::uint8_t, GetFlags02, 0x109, 0x121)  // flags02
+
 		BSLightingShaderProperty* temp_nicast(BSGeometry* a_geometry);
 
 		// members
