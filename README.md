@@ -228,4 +228,4 @@ The Modding Libraries include:
 > forms a combined work with it and must itself be licensed under the GPL-3.0-or-later (or a GPL-compatible
 > license); see [EXCEPTIONS.md](EXCEPTIONS.md) for the exact terms.
 
-Originally based on code under [MIT](LICENSE).
+Originally based on code under [MIT](licenses/LICENSE-MIT).
