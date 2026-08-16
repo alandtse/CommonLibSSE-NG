@@ -180,7 +180,19 @@ namespace RE
 				return nullptr;
 			}
 
-			RUNTIME_MEMBER_ACCESSOR_VERSIONED(RUNTIME_DATA, GetRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x58, 0x60, 0x60);
+#if defined(EXCLUSIVE_SKYRIM_VR)
+			// The exclusive-VR RUNTIME_DATA includes firstCameraStateIndex at State + 0x58.
+			// Cross-runtime RUNTIME_DATA omits that field and therefore begins at State + 0x60.
+			static constexpr std::size_t RUNTIME_DATA_VR_OFFSET = 0x58;
+#else
+			static constexpr std::size_t RUNTIME_DATA_VR_OFFSET = 0x60;
+#endif
+			RUNTIME_MEMBER_ACCESSOR_VERSIONED(RUNTIME_DATA, GetRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x58, RUNTIME_DATA_VR_OFFSET, 0x60);
+
+#if defined(ENABLE_SKYRIM_VR)
+			static_assert(RUNTIME_DATA_VR_OFFSET + offsetof(RUNTIME_DATA, dynamicResolutionWidthRatio) == 0x104);
+			static_assert(RUNTIME_DATA_VR_OFFSET + offsetof(RUNTIME_DATA, dynamicResolutionLock) == 0x118);
+#endif
 
 			[[nodiscard]] inline bool GetDoubleDynamicResolutionAdjustmentFrequency() noexcept
 			{
