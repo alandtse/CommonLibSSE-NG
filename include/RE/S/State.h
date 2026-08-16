@@ -108,7 +108,7 @@ namespace RE
 			{
 #if defined(EXCLUSIVE_SKYRIM_VR)  // VR
 #	define RUNTIME_DATA_CONTENT                                                                                               \
-		uint32_t                   eyeIndex;                             /* 058 VR only -- current render eye (0/1) */         \
+		uint32_t                   eyeIndex;                             /* 058 -- current render eye (0/1) */                 \
 		NiPointer<NiSourceTexture> defaultTextureBlack;                  /* SE 058, AE,VR 060 - "BSShader_DefHeightMap"*/      \
 		NiPointer<NiSourceTexture> defaultTextureWhite;                  /* SE 060, AE,VR 068 */                               \
 		NiPointer<NiSourceTexture> defaultTextureGrey;                   /* SE 068, AE,VR 070 */                               \
