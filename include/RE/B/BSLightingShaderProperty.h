@@ -88,7 +88,7 @@ namespace RE
 		std::uint32_t             unk130;                         // 130
 		std::uint32_t             unk134;                         // 134
 		BSShaderPropertyLightData lightingLightData;              // 138
-#ifndef SKYRIM_CROSS_VR
+#if defined(EXCLUSIVE_SKYRIM_VR)
 		bool  unk160;  // 160 - VR-only; not copied by CreateClone
 		float unk164;  // 164 - VR-only; not copied by CreateClone
 		float unk168;  // 168 - VR-only; not copied by CreateClone
