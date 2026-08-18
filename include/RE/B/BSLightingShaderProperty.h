@@ -88,6 +88,13 @@ namespace RE
 		std::uint32_t             unk130;                         // 130
 		std::uint32_t             unk134;                         // 134
 		BSShaderPropertyLightData lightingLightData;              // 138
+#ifndef SKYRIM_CROSS_VR
+		bool  unk160;  // 160 - VR-only; not copied by CreateClone
+		float unk164;  // 164 - VR-only; not copied by CreateClone
+		float unk168;  // 168 - VR-only; not copied by CreateClone
+		float unk16C;  // 16C - VR-only; not copied by CreateClone
+		bool  unk170;  // 170 - VR-only; copied by CreateClone
+#endif
 	};
-	static_assert(sizeof(BSLightingShaderProperty) == BSLightingShaderProperty::kSizeFlat);
+	STATIC_ASSERT_SIZE(BSLightingShaderProperty, BSLightingShaderProperty::kSizeFlat, BSLightingShaderProperty::kSizeFlat, BSLightingShaderProperty::kSizeVR, BSLightingShaderProperty::kSizeFlat);
 }

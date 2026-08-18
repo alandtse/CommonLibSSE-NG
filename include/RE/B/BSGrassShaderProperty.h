@@ -42,5 +42,5 @@ namespace RE
 		BSShaderPropertyLightData      grassLightData;     // 198
 		RenderPassArray                grassShadowPasses;  // 1C0
 	};
-	static_assert(sizeof(BSGrassShaderProperty) == 0x1D0);
+	STATIC_ASSERT_SIZE(BSGrassShaderProperty, 0x1D0, 0x1D0, 0x1E8, 0x1D0);
 }
