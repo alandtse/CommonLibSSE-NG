@@ -50,13 +50,13 @@ namespace RE
 		void CopyMembers(BSLightingShaderProperty* a_other);
 		void InvalidateTextures(std::uint32_t a_unk1);
 
+		// Engine's own CreateClone allocates kSizeVR on VR, not sizeof(this).
+		inline static constexpr std::size_t kSizeFlat = 0x160;
+		inline static constexpr std::size_t kSizeVR = 0x178;
+
 		static BSLightingShaderProperty* Create()
 		{
-			// sizeof(BSLightingShaderProperty) (0x160) is wrong on VR: the vanilla
-			// engine's own CreateClone allocates 0x178 there (Ghidra-confirmed,
-			// AllocateIMemoryHeap call), but the extra ~0x18 bytes aren't mapped to
-			// named fields here yet. See malloc_runtime.
-			auto prop = malloc_runtime<BSLightingShaderProperty>(0x160, 0x178);
+			auto prop = malloc_runtime<BSLightingShaderProperty>(kSizeFlat, kSizeVR);
 			if (prop) {
 				prop->Ctor();
 			}
@@ -89,5 +89,5 @@ namespace RE
 		std::uint32_t             unk134;                         // 134
 		BSShaderPropertyLightData lightingLightData;              // 138
 	};
-	static_assert(sizeof(BSLightingShaderProperty) == 0x160);
+	static_assert(sizeof(BSLightingShaderProperty) == BSLightingShaderProperty::kSizeFlat);
 }
