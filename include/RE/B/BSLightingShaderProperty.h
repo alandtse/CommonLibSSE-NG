@@ -3,6 +3,7 @@
 #include "RE/B/BSShaderProperty.h"
 #include "RE/B/BSShaderPropertyLightData.h"
 #include "RE/B/BSTArray.h"
+#include "RE/M/MemoryManager.h"
 #include "RE/N/NiColor.h"
 
 namespace RE
@@ -48,6 +49,19 @@ namespace RE
 
 		void CopyMembers(BSLightingShaderProperty* a_other);
 		void InvalidateTextures(std::uint32_t a_unk1);
+
+		static BSLightingShaderProperty* Create()
+		{
+			// sizeof(BSLightingShaderProperty) (0x160) is wrong on VR: the vanilla
+			// engine's own CreateClone allocates 0x178 there (Ghidra-confirmed,
+			// AllocateIMemoryHeap call), but the extra ~0x18 bytes aren't mapped to
+			// named fields here yet. See malloc_runtime.
+			auto prop = malloc_runtime<BSLightingShaderProperty>(0x160, 0x178);
+			if (prop) {
+				prop->Ctor();
+			}
+			return prop;
+		}
 
 		BSLightingShaderProperty* Ctor()
 		{
