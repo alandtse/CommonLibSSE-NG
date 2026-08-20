@@ -283,35 +283,19 @@ namespace REL
 
 		bool init()
 		{
-			const auto getFilename = [&]() {
-				return REX::W32::GetEnvironmentVariableW(
-					ENVIRONMENT.data(),
-					_filename.data(),
-					static_cast<std::uint32_t>(_filename.size()));
-			};
-
-			void* moduleHandle = nullptr;
-			_filename.resize(getFilename());
-			if (const auto result = getFilename();
-				result != _filename.size() - 1 ||
-				result == 0) {
-				for (auto runtime : RUNTIMES) {
-					_filename = runtime;
-					moduleHandle = REX::W32::GetModuleHandleW(_filename.c_str());
-					if (moduleHandle) {
-						break;
-					}
-				}
-			}
-			_filePath = _filename;
+			// nullptr resolves the process's own EXE, not the calling module -- do not swap for
+			// REX::W32::GetCurrentModule(), which returns this DLL's own base instead.
+			const REX::W32::HMODULE moduleHandle = REX::W32::GetModuleHandleW(nullptr);
 			if (!moduleHandle) {
-				stl::report_and_fail(
-					std::format(
-						"Failed to obtain module handle for: \"{0}\".\n"
-						"You have likely renamed the executable to something unexpected. "
-						"Renaming the executable back to \"{0}\" may resolve the issue."sv,
-						stl::utf16_to_utf8(_filename).value_or("<unicode conversion error>"s)));
+				stl::report_and_fail("Failed to obtain the process's own module handle."sv);
 			}
+
+			std::array<wchar_t, 4096> buffer;  // NTFS max path length
+			const auto                length = REX::W32::GetModuleFileNameW(
+                moduleHandle, buffer.data(), static_cast<std::uint32_t>(buffer.size()));
+			_filePath.assign(buffer.data(), length);
+			_filename = std::filesystem::path(_filePath).filename().wstring();
+
 			return load(moduleHandle, true);
 		}
 
@@ -376,11 +360,6 @@ namespace REL
 			std::make_pair(".tls"sv, 0u),
 			std::make_pair(".text"sv, REX::W32::IMAGE_SCN_MEM_WRITE),
 			std::make_pair(".gfids"sv, 0u)
-		};
-
-		static constexpr auto                             ENVIRONMENT = L"SKSE_RUNTIME"sv;
-		static constexpr std::array<std::wstring_view, 2> RUNTIMES{
-			{ L"SkyrimVR.exe", L"SkyrimSE.exe" }
 		};
 
 		static Module                       _instance;
