@@ -283,17 +283,25 @@ namespace REL
 
 		bool init()
 		{
-			// nullptr resolves the process's own EXE, not the calling module -- do not swap for
-			// REX::W32::GetCurrentModule(), which returns this DLL's own base instead.
 			const REX::W32::HMODULE moduleHandle = REX::W32::GetModuleHandleW(nullptr);
 			if (!moduleHandle) {
 				stl::report_and_fail("Failed to obtain the process's own module handle."sv);
 			}
 
-			std::array<wchar_t, 4096> buffer;  // NTFS max path length
-			const auto                length = REX::W32::GetModuleFileNameW(
-                moduleHandle, buffer.data(), static_cast<std::uint32_t>(buffer.size()));
-			_filePath.assign(buffer.data(), length);
+			_filePath.resize(REX::W32::MAX_PATH);
+			std::uint32_t length = 0;
+			for (;;) {
+				length = REX::W32::GetModuleFileNameW(
+					moduleHandle, _filePath.data(), static_cast<std::uint32_t>(_filePath.size()));
+				if (length == 0) {
+					stl::report_and_fail("Failed to obtain the process's own module file path."sv);
+				}
+				if (length < _filePath.size()) {
+					break;
+				}
+				_filePath.resize(_filePath.size() * 2);
+			}
+			_filePath.resize(length);
 			_filename = std::filesystem::path(_filePath).filename().wstring();
 
 			return load(moduleHandle, true);
