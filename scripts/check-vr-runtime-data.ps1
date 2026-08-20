@@ -49,11 +49,14 @@ param(
     [int]$ContextLines = 20
 )
 
-if (-not (Test-Path $CommonLibInclude)) {
+$CommonLibInclude = $CommonLibInclude.TrimEnd('\', '/')
+$ConsumerSrcRoot = $ConsumerSrcRoot.TrimEnd('\', '/')
+
+if (-not (Test-Path $CommonLibInclude -PathType Container)) {
     Write-Error "CommonLibSSE-NG include dir not found at $CommonLibInclude"
     exit 1
 }
-if (-not (Test-Path $ConsumerSrcRoot)) {
+if (-not (Test-Path $ConsumerSrcRoot -PathType Container)) {
     Write-Error "Consumer src dir not found at $ConsumerSrcRoot"
     exit 1
 }
@@ -122,23 +125,26 @@ foreach ($file in $sourceFiles) {
     $lines = $fileLines[$file.FullName]
     for ($i = 0; $i -lt $lines.Count; $i++) {
         $line = $lines[$i]
-        $m = [regex]::Match($line, $callSitePattern)
-        if (-not $m.Success) { continue }
-        $receiver = $m.Groups["receiver"].Value
-        if (-not $receiverType.ContainsKey($receiver)) { continue }
+        $lineMatches = [regex]::Matches($line, $callSitePattern)
+        if ($lineMatches.Count -eq 0) { continue }
 
         $lo = [Math]::Max(0, $i - $ContextLines)
         $hi = [Math]::Min($lines.Count - 1, $i + $ContextLines)
         $context = ($lines[$lo..$hi] -join "`n")
+        $gated = [regex]::IsMatch($context, $vrGatePattern)
 
-        if ([regex]::IsMatch($context, $vrGatePattern)) { continue }
+        foreach ($m in $lineMatches) {
+            $receiver = $m.Groups["receiver"].Value
+            if (-not $receiverType.ContainsKey($receiver)) { continue }
+            if ($gated) { continue }
 
-        $flagged += [PSCustomObject]@{
-            File     = $file.FullName.Substring($ConsumerSrcRoot.Length + 1)
-            Line     = $i + 1
-            Receiver = $receiver
-            Class    = $receiverType[$receiver]
-            Text     = $line.Trim()
+            $flagged += [PSCustomObject]@{
+                File     = $file.FullName.Substring($ConsumerSrcRoot.Length + 1)
+                Line     = $i + 1
+                Receiver = $receiver
+                Class    = $receiverType[$receiver]
+                Text     = $line.Trim()
+            }
         }
     }
 }
