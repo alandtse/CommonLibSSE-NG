@@ -52,6 +52,7 @@ How many lines before/after a call site to search for an IsVR()/isVR gate (defau
 param(
     [string]$CommonLibInclude = (Join-Path (Split-Path -Parent $PSScriptRoot) "include"),
     [string]$ConsumerSrcRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) "src"),
+    [ValidateRange(0, [int]::MaxValue)]
     [int]$ContextLines = 20
 )
 
@@ -93,7 +94,7 @@ $sourceFiles = Get-ChildItem -Path $ConsumerSrcRoot -Recurse -Include "*.cpp", "
 # instead of re-reading from disk 3x per file.
 $fileLines = @{}
 foreach ($file in $sourceFiles) {
-    $fileLines[$file.FullName] = Get-Content -Path $file.FullName
+    $fileLines[$file.FullName] = @(Get-Content -Path $file.FullName)
 }
 
 # --- Step 2: resolve receiver names -> dangerous class ---
