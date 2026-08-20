@@ -26,7 +26,11 @@ declaration anywhere, only ever behind `auto` with no traceable alias) and produ
 false positives (a name reused for a different global across files, resolved only through the
 cross-file `auto` alias table, with no explicit local `RE::Class*` declaration in the consuming
 file to disambiguate it), so a clean run is not a proof and a flagged line still needs a human
-read before concluding it's a real bug.
+read before concluding it's a real bug. The gate check itself is also control-flow-blind: it
+treats any IsVR()/isVR appearing within +/-ContextLines lines as guarding EVERY call in that
+window, so a guard on one branch of an if/else can suppress a genuinely unguarded call on
+another branch (or a different receiver) sharing the same line or nearby lines -- a missed
+call this script stays silent about is still possible even on a clean run.
 
 Any CommonLibSSE-NG/CommonLibVR consumer can run this against their own source tree via
 -ConsumerSrcRoot; it needs nothing project-specific beyond that path.
@@ -51,17 +55,20 @@ param(
     [int]$ContextLines = 20
 )
 
-$CommonLibInclude = $CommonLibInclude.TrimEnd('\', '/')
-$ConsumerSrcRoot = $ConsumerSrcRoot.TrimEnd('\', '/')
-
-if (-not (Test-Path $CommonLibInclude -PathType Container)) {
+if (-not (Test-Path -LiteralPath $CommonLibInclude -PathType Container)) {
     Write-Error "CommonLibSSE-NG include dir not found at $CommonLibInclude"
     exit 1
 }
-if (-not (Test-Path $ConsumerSrcRoot -PathType Container)) {
+if (-not (Test-Path -LiteralPath $ConsumerSrcRoot -PathType Container)) {
     Write-Error "Consumer src dir not found at $ConsumerSrcRoot"
     exit 1
 }
+
+# Resolve to a canonical absolute path: a relative -ConsumerSrcRoot would otherwise be shorter
+# than $file.FullName (always absolute), corrupting the length-based substring below, and a
+# manual TrimEnd on a drive root like "C:\" produces "C:" (a different, drive-relative path).
+$CommonLibInclude = (Resolve-Path -LiteralPath $CommonLibInclude).ProviderPath
+$ConsumerSrcRoot = (Resolve-Path -LiteralPath $ConsumerSrcRoot).ProviderPath
 
 # --- Step 1: derive the dangerous class list from CommonLibSSE-NG headers ---
 # Heuristic: CommonLibSSE-NG is one-primary-class-per-file; a header declaring
@@ -167,7 +174,7 @@ foreach ($file in $sourceFiles) {
             if ($gated) { continue }
 
             $flagged += [PSCustomObject]@{
-                File     = $file.FullName.Substring($ConsumerSrcRoot.Length + 1)
+                File     = $file.FullName.Substring($ConsumerSrcRoot.Length).TrimStart('\', '/')
                 Line     = $i + 1
                 Receiver = $receiver
                 Class    = $class
