@@ -288,18 +288,12 @@ namespace REL
 				stl::report_and_fail("Failed to obtain the process's own module handle."sv);
 			}
 
-			_filePath.resize(REX::W32::MAX_PATH);
-			std::uint32_t length = 0;
-			for (;;) {
-				length = REX::W32::GetModuleFileNameW(
-					moduleHandle, _filePath.data(), static_cast<std::uint32_t>(_filePath.size()));
-				if (length == 0) {
-					stl::report_and_fail("Failed to obtain the process's own module file path."sv);
-				}
-				if (length < _filePath.size()) {
-					break;
-				}
-				_filePath.resize(_filePath.size() * 2);
+			constexpr std::size_t bufferSize = 32767;  // Windows extended-length path limit (\\?\ prefix)
+			_filePath.resize(bufferSize);
+			const auto length = REX::W32::GetModuleFileNameW(
+				moduleHandle, _filePath.data(), static_cast<std::uint32_t>(_filePath.size()));
+			if (length == 0 || length >= bufferSize) {
+				stl::report_and_fail("Failed to obtain the process's own module file path."sv);
 			}
 			_filePath.resize(length);
 			_filename = std::filesystem::path(_filePath).filename().wstring();
