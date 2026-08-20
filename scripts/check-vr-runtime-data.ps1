@@ -23,8 +23,10 @@ list in the TARGET project via explicit `RE::ClassName* name` declarations plus 
 with no IsVR()/isVR nearby. It is a lint, not a prover: name-based receiver resolution can
 both miss real cases (a receiver whose type never appears as an explicit `RE::Class*`/`&`
 declaration anywhere, only ever behind `auto` with no traceable alias) and produce occasional
-false positives (an unrelated local reusing a name like a dangerous class's), so a clean run
-is not a proof and a flagged line still needs a human read before concluding it's a real bug.
+false positives (a name reused for a different global across files, resolved only through the
+cross-file `auto` alias table, with no explicit local `RE::Class*` declaration in the consuming
+file to disambiguate it), so a clean run is not a proof and a flagged line still needs a human
+read before concluding it's a real bug.
 
 Any CommonLibSSE-NG/CommonLibVR consumer can run this against their own source tree via
 -ConsumerSrcRoot; it needs nothing project-specific beyond that path.
@@ -79,7 +81,6 @@ $dangerousClasses | ForEach-Object { Write-Host "  - $_" }
 Write-Host ""
 
 $sourceFiles = Get-ChildItem -Path $ConsumerSrcRoot -Recurse -Include "*.cpp", "*.h", "*.hpp"
-$dangerousPattern = ($dangerousClasses | ForEach-Object { [regex]::Escape($_) }) -join "|"
 
 # Read each source file once; the declaration, alias, and scan passes below all reuse this
 # instead of re-reading from disk 3x per file.
@@ -88,18 +89,34 @@ foreach ($file in $sourceFiles) {
     $fileLines[$file.FullName] = Get-Content -Path $file.FullName
 }
 
-# --- Step 2: resolve receiver names -> dangerous class, project-wide ---
-# Pass A: explicit `RE::(...::)*ClassName [*&] name` declarations (globals, locals, params).
+# --- Step 2: resolve receiver names -> dangerous class ---
+# Pass A: explicit `RE::(...::)*ClassName [*&] name` declarations (globals, locals, params),
+#   matched against ANY RE:: class, not just dangerous ones, and recorded per source file:
+#   - a receiver explicitly declared as a DANGEROUS class in a file is dangerous in that file.
+#   - a receiver explicitly declared as a DIFFERENT, non-dangerous class in a file locally
+#     shadows that name in that file, overriding Pass B below -- this is what stops an
+#     unrelated same-named receiver in another file (e.g. a hand-rolled hook's `a_this`) from
+#     leaking a false positive into every file that happens to reuse the same identifier.
 # Pass B: `auto name = <knownGlobalOrLocal>;` aliasing (a common idiom, e.g.
-#   `auto shadowState = globals::game::shadowState;`) -- propagated by name, not scope, since
-#   this is a lint (flag for review), not a real type resolution: a same-named local shadowing
-#   an unrelated type would cause a false positive, which is an acceptable cost here.
-$declPattern = "RE::(?:\w+::)*(?<cls>$dangerousPattern)\s*[*&]\s*(?<name>[A-Za-z_][A-Za-z0-9_]*)"
+#   `auto shadowState = globals::game::shadowState;`), propagated project-wide by name since
+#   the alias itself carries no local `RE::Class*` declaration to scope it to a file.
+$anyDeclPattern = "RE::(?:\w+::)*(?<cls>[A-Za-z_][A-Za-z0-9_]*)\s*[*&]\s*(?<name>[A-Za-z_][A-Za-z0-9_]*)"
 $receiverType = @{}
+$fileDangerousType = @{}
+$fileSafeShadow = @{}
 foreach ($file in $sourceFiles) {
+    $fileDangerousType[$file.FullName] = @{}
+    $fileSafeShadow[$file.FullName] = @{}
     foreach ($line in $fileLines[$file.FullName]) {
-        foreach ($dm in [regex]::Matches($line, $declPattern)) {
-            $receiverType[$dm.Groups["name"].Value] = $dm.Groups["cls"].Value
+        foreach ($dm in [regex]::Matches($line, $anyDeclPattern)) {
+            $cls = $dm.Groups["cls"].Value
+            $name = $dm.Groups["name"].Value
+            if ($dangerousClasses -contains $cls) {
+                $receiverType[$name] = $cls
+                $fileDangerousType[$file.FullName][$name] = $cls
+            } else {
+                $fileSafeShadow[$file.FullName][$name] = $true
+            }
         }
     }
 }
@@ -123,6 +140,8 @@ $vrGatePattern = 'IsVR\s*\(|(?<![A-Za-z0-9_])isVR(?![A-Za-z0-9_])'
 $flagged = @()
 foreach ($file in $sourceFiles) {
     $lines = $fileLines[$file.FullName]
+    $localDangerous = $fileDangerousType[$file.FullName]
+    $localSafe = $fileSafeShadow[$file.FullName]
     for ($i = 0; $i -lt $lines.Count; $i++) {
         $line = $lines[$i]
         $lineMatches = [regex]::Matches($line, $callSitePattern)
@@ -135,14 +154,23 @@ foreach ($file in $sourceFiles) {
 
         foreach ($m in $lineMatches) {
             $receiver = $m.Groups["receiver"].Value
-            if (-not $receiverType.ContainsKey($receiver)) { continue }
+
+            if ($localDangerous.ContainsKey($receiver)) {
+                $class = $localDangerous[$receiver]
+            } elseif ($localSafe.ContainsKey($receiver)) {
+                continue
+            } elseif ($receiverType.ContainsKey($receiver)) {
+                $class = $receiverType[$receiver]
+            } else {
+                continue
+            }
             if ($gated) { continue }
 
             $flagged += [PSCustomObject]@{
                 File     = $file.FullName.Substring($ConsumerSrcRoot.Length + 1)
                 Line     = $i + 1
                 Receiver = $receiver
-                Class    = $receiverType[$receiver]
+                Class    = $class
                 Text     = $line.Trim()
             }
         }
