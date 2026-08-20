@@ -12,25 +12,25 @@ using namespace REL::literals;
 
 namespace
 {
-#if defined(ENABLE_SKYRIM_SE) && defined(ENABLE_SKYRIM_AE) && defined(ENABLE_SKYRIM_VR)
+#if defined(SKYRIM_CROSS_VR)
 	struct FakeRuntimeData
 	{
 		std::uint32_t sentinel;
 	};
 
-	struct FakeAccessorHost
+	struct alignas(alignof(FakeRuntimeData)) FakeAccessorHost
 	{
 		std::uint8_t pad[0x40]{};
 		RUNTIME_DATA_ACCESSOR(FakeRuntimeData, 0x10, 0x20)
 	};
 
-	struct FakeCastHost
+	struct alignas(alignof(FakeRuntimeData)) FakeCastHost
 	{
 		std::uint8_t pad[0x40]{};
 		RUNTIME_CAST_ACCESSOR(FakeRuntimeData, AsRuntimeData, 0x10, 0x20)
 	};
 
-	struct FakePointerHost
+	struct alignas(alignof(FakeRuntimeData)) FakePointerHost
 	{
 		std::uint8_t pad[0x40]{};
 		SE_ONLY_POINTER_ACCESSOR(FakeRuntimeData, GetSEData, 0x10)
@@ -71,7 +71,7 @@ namespace
 
 	TEST_CASE("RelocateMember/SelectsCorrectOffset", "[unit]")
 	{
-		std::array<std::uint8_t, 0x30> buffer{};
+		alignas(alignof(std::uint32_t)) std::array<std::uint8_t, 0x30> buffer{};
 		std::memcpy(buffer.data() + 0x10, &kSEAndAESentinel, sizeof(kSEAndAESentinel));
 		std::memcpy(buffer.data() + 0x20, &kVROffsetSentinel, sizeof(kVROffsetSentinel));
 
@@ -98,9 +98,9 @@ namespace
 
 	TEST_CASE("RelocateMemberIfNewer/VersionGate", "[unit]")
 	{
-		std::array<std::uint8_t, 0x30> buffer{};
-		constexpr std::ptrdiff_t       kOlderOffset = 0x08;
-		constexpr std::ptrdiff_t       kNewerOffset = 0x18;
+		alignas(alignof(std::uint32_t)) std::array<std::uint8_t, 0x30> buffer{};
+		constexpr std::ptrdiff_t                                       kOlderOffset = 0x08;
+		constexpr std::ptrdiff_t                                       kNewerOffset = 0x18;
 		std::memcpy(buffer.data() + kOlderOffset, &kOlderSentinel, sizeof(kOlderSentinel));
 		std::memcpy(buffer.data() + kNewerOffset, &kNewerSentinel, sizeof(kNewerSentinel));
 
@@ -279,4 +279,4 @@ namespace
 		REL::Module::reset();
 	}
 #endif
-}  // namespace
+}
