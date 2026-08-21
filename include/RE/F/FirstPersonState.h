@@ -38,8 +38,10 @@ namespace RE
 		void Revert(BGSLoadFormBuffer* a_buf) override;                      // 08/09
 
 		// override (PlayerInputHandler)
-		bool CanProcess(InputEvent* a_event) override;                                          // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_movementData) override;  // 04
+#endif
 
 		// members
 		NiPoint3      lastPosition;             // 30

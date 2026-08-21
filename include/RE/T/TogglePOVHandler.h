@@ -13,8 +13,10 @@ namespace RE
 		~TogglePOVHandler() override;  // 00
 
 		// override (PlayerInputHandler)
-		bool CanProcess(InputEvent* a_event) override;                                  // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04
+#endif
 
 		// members
 		bool          pressRegistered;  // 18

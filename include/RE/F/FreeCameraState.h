@@ -27,8 +27,10 @@ namespace RE
 		void GetTranslation(NiPoint3& a_translation) override;               // 05
 
 		// override (PlayerInputHandler)
-		bool CanProcess(InputEvent* a_event) override;                                          // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_movementData) override;  // 04
+#endif
 
 		// members
 		NiPoint3         translation;        // 30

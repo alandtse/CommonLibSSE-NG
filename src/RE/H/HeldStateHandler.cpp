@@ -4,6 +4,7 @@
 
 namespace RE
 {
+#ifndef SKYRIM_CROSS_VR
 	void HeldStateHandler::UpdateHeldStateActive(const ButtonEvent* a_event)
 	{
 		heldStateActive = a_event->GetRuntimeData().value != 0.0f || a_event->GetRuntimeData().heldDownSecs < 0.0f;
@@ -13,4 +14,5 @@ namespace RE
 	{
 		heldStateActive = a_flag;
 	}
+#endif
 }

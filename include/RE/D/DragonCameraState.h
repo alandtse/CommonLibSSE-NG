@@ -40,8 +40,10 @@ namespace RE
 		void HandleLookInput(const NiPoint2& a_input) override;    // 0F/10
 
 		// override (PlayerInputHandler)
-		bool CanProcess(InputEvent* a_event) override;                                          // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_movementData) override;  // 04
+#endif
 
 		ObjectRefHandle dragonHandle;      // 0E8
 		std::uint32_t   unkEC;             // 0EC - bool?

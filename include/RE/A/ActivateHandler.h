@@ -13,10 +13,15 @@ namespace RE
 		~ActivateHandler() override;  // 00
 
 		// override (PlayerInputHandler)
-		bool CanProcess(InputEvent* a_event) override;                                  // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04
+#endif
 
-		constexpr inline void SetHeldButtonActionSuccess(bool a_success) noexcept { heldButtonActionSuccess = a_success; }
+		constexpr inline void SetHeldButtonActionSuccess(bool a_success) noexcept
+		{
+			heldButtonActionSuccess = a_success;
+		}
 
 		// members
 		std::uint8_t  unk18;                    // 18

@@ -25,10 +25,12 @@ namespace RE
 		~AttackBlockHandler() override;  // 00
 
 		// override (PlayerInputHandler)
-		bool CanProcess(InputEvent* a_event) override;                                  // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#ifndef SKYRIM_CROSS_VR
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04, 06 (AE 1.7.99)
 		void UpdateHeldStateActive(const ButtonEvent* a_event) override;                // 05, 07 (AE 1.7.99)
 		void SetHeldStateActive(bool a_flag) override;                                  // 06, 08 (AE 1.7.99)
+#endif
 
 #ifdef ENABLE_SKYRIM_AE
 		// AE 1.7.99 inserted 8 BSFixedString motion-gesture control-id fields
