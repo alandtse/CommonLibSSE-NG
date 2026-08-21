@@ -185,6 +185,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang lld ninja-build wine
 
+      # A brand-new runner has no ~/.wine prefix yet. Its very first
+      # creation races against whatever command actually gets invoked
+      # through wine first (in this case, DirectXTK's shader-compile
+      # step, several steps later), which fails partway through the
+      # prefix's own first-run initialization (e.g. failing to load
+      # rundll32.exe, since the prefix isn't fully populated yet).
+      # Force that one-time setup here, in isolation, before it matters.
+      - name: Initialize Wine prefix
+        run: wineboot --init
+
       - name: Cache xwin sysroot
         id: cache-xwin
         uses: actions/cache@v4
