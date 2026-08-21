@@ -120,19 +120,24 @@ if(CMAKE_HOST_UNIX)
     # fxc2 builds interleaved within the same second). A shared, cached
     # ${FXC2_EXE} path with an "if NOT EXISTS, build" check is fragile
     # against that: file(LOCK) still didn't hold up on a real CI run
-    # (the second invocation rebuilt from scratch regardless). Tried
-    # making the path unique per invocation next, via string(RANDOM):
-    # also failed on a real CI run. Both concurrent
-    # invocations produced the IDENTICAL "random" suffix, because
-    # CMake's string(RANDOM) without an explicit seed is time-seeded at
-    # whole-second granularity, and both invocations landed in the same
-    # second. The fix that's actually correct regardless of timing:
-    # derive uniqueness from the real OS process ID of a freshly
-    # spawned child (guaranteed different between two genuinely
-    # concurrent processes, unlike a time-based seed), not from
-    # anything that could coincide.
-    execute_process(COMMAND sh -c "echo $$" OUTPUT_VARIABLE FXC2_UNIQUE_SUFFIX OUTPUT_STRIP_TRAILING_WHITESPACE)
-    set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2-${FXC2_UNIQUE_SUFFIX}.exe")
+    # (the second invocation rebuilt from scratch regardless). Two
+    # single-source uniqueness attempts after that ALSO both failed on
+    # real CI runs, each for a different reason: string(RANDOM) without
+    # an explicit seed is time-seeded at whole-second granularity, so
+    # both concurrent invocations produced the identical suffix; a
+    # freshly-spawned child's OS PID also repeated across both
+    # invocations on the actual runner (a real, if unusual, PID-reuse
+    # scenario in a low-process-churn environment, confirmed there too,
+    # not just theorized). Neither source alone is safe here.
+    # Combining three independent, differently-failure-prone sources
+    # (nanosecond-resolution wall clock, the PID that already once
+    # collided, and a CMake-level pseudo-random string) makes a
+    # simultaneous collision across all three vanishingly unlikely,
+    # even in this apparently unusual environment.
+    execute_process(COMMAND sh -c "echo $$" OUTPUT_VARIABLE FXC2_PID OUTPUT_STRIP_TRAILING_WHITESPACE)
+    execute_process(COMMAND sh -c "date +%s%N" OUTPUT_VARIABLE FXC2_NANOTIME OUTPUT_STRIP_TRAILING_WHITESPACE)
+    string(RANDOM LENGTH 12 ALPHABET "0123456789abcdef" FXC2_RAND)
+    set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2-${FXC2_NANOTIME}-${FXC2_PID}-${FXC2_RAND}.exe")
     execute_process(
         COMMAND "${FXC2_MINGW_CLANGXX}" -static "${FXC2_SOURCE_PATH}/fxc2.cpp" -o "${FXC2_EXE}"
         RESULT_VARIABLE FXC2_BUILD_RESULT
