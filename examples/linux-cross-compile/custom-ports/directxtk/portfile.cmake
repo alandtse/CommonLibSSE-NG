@@ -24,31 +24,12 @@ vcpkg_from_github(
     ${DIRECTXTK_PATCHES}
 )
 
-# wine-shader-compile.patch invokes this script rather than inlining its
-# logic directly in a CMake COMMAND line: nesting a real shell script
-# (needing its own quoting, `;`, `if`) inside a CMake-syntax string that
-# a patch file also has to represent as a unified diff is exactly the
-# kind of double-escaping that's easy to get subtly wrong. A real file
-# just takes plain, unescaped shell.
-#
-# This derives success/failure from the log content rather than the
-# raw exit code of `wine cmd /c CompileShaders.cmd`, for two reasons:
-# - `wine cmd`'s own %ERRORLEVEL%/`||` handling is unreliable on at
-#   least some Wine versions (confirmed: even Wine's own built-in `ver`
-#   command trips a `||` check under `wine cmd /c` on Ubuntu 24.04's
-#   packaged Wine 9.0, unrelated to anything this port or fxc2 does),
-#   so trusting the exit code would treat every compile as failed even
-#   when every shader genuinely compiled correctly. Checking fxc2's own
-#   documented error text (see fxc2.cpp's `Got an error (%i) while
-#   compiling` printf) is what's actually reliable here.
-# - The exit code alone also can't tell "cmd ran fxc2 and it failed"
-#   apart from "cmd couldn't invoke fxc2 at all" (e.g. a corrupt/
-#   truncated fxc2.exe, confirmed to happen on a real CI run from a
-#   race between this port's concurrent debug/release configure
-#   invocations racing to build the same fxc2.exe path (see the
-#   file(LOCK) above). The second grep catches that failure mode too,
-#   which the log otherwise reports identically to a genuine success
-#   (no "Got an error" text, since fxc2 never even ran).
+# CompileShaders.cmd's exit status and its own success/failure messages
+# are both unreliable under `wine cmd`: its per-shader `%fxc% ||
+# set error=1` check misfires, so it reports "There were shader
+# compilation errors!" even when all 187 .inc files compiled correctly.
+# Success must therefore be determined by whether the .inc files were
+# actually produced.
 if(CMAKE_HOST_UNIX)
     file(WRITE "${SOURCE_PATH}/Src/Shaders/wine-compile-shaders.sh" "#!/bin/sh
 set -u
@@ -57,11 +38,18 @@ FxcTool=\"$2\"
 shift 2
 \"${CMAKE_COMMAND}\" -E env CompileShadersOutput=\"$CompileShadersOutput\" WINEDEBUG=-all LegacyShaderCompiler=\"$FxcTool\" wine cmd /c CompileShaders.cmd \"$@\" > \"$CompileShadersOutput/compileshaders.log\" 2>&1
 if grep -q \"Got an error\" \"$CompileShadersOutput/compileshaders.log\"; then
-    echo \"Real shader compilation error(s) detected; see $CompileShadersOutput/compileshaders.log\" >&2
+    echo \"fxc2 reported shader compilation error(s); see $CompileShadersOutput/compileshaders.log\" >&2
     exit 1
 fi
-if grep -Eqi \"is not recognized|Can't recognize|cannot find the file\" \"$CompileShadersOutput/compileshaders.log\"; then
-    echo \"cmd.exe could not invoke fxc2 at all (a corrupt/truncated fxc2.exe is one known cause); see $CompileShadersOutput/compileshaders.log\" >&2
+inc_count=\$(find \"$CompileShadersOutput\" -name '*.inc' 2>/dev/null | wc -l)
+if [ \"\$inc_count\" -eq 0 ]; then
+    echo \"Shader compilation produced no .inc output; see $CompileShadersOutput/compileshaders.log\" >&2
+    echo \"--- diagnostics ---\" >&2
+    ls -la \"$FxcTool\" >&2 2>&1 || echo \"(no fxc2 binary at that path)\" >&2
+    command -v file >/dev/null 2>&1 && file \"$FxcTool\" >&2 2>&1 || true
+    wine --version >&2 2>&1 || true
+    echo \"--- direct wine invocation, bypassing cmd.exe ---\" >&2
+    WINEDEBUG=-all wine \"$FxcTool\" >&2 2>&1 || echo \"(direct wine invocation also failed)\" >&2
     exit 1
 fi
 exit 0
@@ -115,29 +103,10 @@ if(CMAKE_HOST_UNIX)
         HEAD_REF master
     )
 
-    # portfile.cmake genuinely runs more than once per port build,
-    # concurrently (confirmed directly via CI logs: two invocations'
-    # fxc2 builds interleaved within the same second). A shared, cached
-    # ${FXC2_EXE} path with an "if NOT EXISTS, build" check is fragile
-    # against that: file(LOCK) still didn't hold up on a real CI run
-    # (the second invocation rebuilt from scratch regardless). Two
-    # single-source uniqueness attempts after that ALSO both failed on
-    # real CI runs, each for a different reason: string(RANDOM) without
-    # an explicit seed is time-seeded at whole-second granularity, so
-    # both concurrent invocations produced the identical suffix; a
-    # freshly-spawned child's OS PID also repeated across both
-    # invocations on the actual runner (a real, if unusual, PID-reuse
-    # scenario in a low-process-churn environment, confirmed there too,
-    # not just theorized). Neither source alone is safe here.
-    # Combining three independent, differently-failure-prone sources
-    # (nanosecond-resolution wall clock, the PID that already once
-    # collided, and a CMake-level pseudo-random string) makes a
-    # simultaneous collision across all three vanishingly unlikely,
-    # even in this apparently unusual environment.
-    execute_process(COMMAND sh -c "echo $$" OUTPUT_VARIABLE FXC2_PID OUTPUT_STRIP_TRAILING_WHITESPACE)
-    execute_process(COMMAND sh -c "date +%s%N" OUTPUT_VARIABLE FXC2_NANOTIME OUTPUT_STRIP_TRAILING_WHITESPACE)
-    string(RANDOM LENGTH 12 ALPHABET "0123456789abcdef" FXC2_RAND)
-    set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2-${FXC2_NANOTIME}-${FXC2_PID}-${FXC2_RAND}.exe")
+    # Rebuilt unconditionally so a stale binary from an earlier run is
+    # never reused; compiling this single file costs a fraction of a
+    # second.
+    set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2.exe")
     execute_process(
         COMMAND "${FXC2_MINGW_CLANGXX}" -static "${FXC2_SOURCE_PATH}/fxc2.cpp" -o "${FXC2_EXE}"
         RESULT_VARIABLE FXC2_BUILD_RESULT

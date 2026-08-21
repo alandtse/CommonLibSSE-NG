@@ -166,6 +166,14 @@ jobs:
     env:
       VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
       XWIN_SYSROOT: ${{ github.workspace }}/xwin-out
+      # xwin defaults to the newest SDK/CRT in the manifest, which would
+      # drift over time while the cache key stayed the same, so the
+      # cached sysroot could stop matching what the key claims. Pinned
+      # explicitly, and the cache key is built from these same values so
+      # the two can't disagree.
+      XWIN_VERSION: "0.10.0"
+      XWIN_SDK_VERSION: "10.0.26100"
+      XWIN_CRT_VERSION: "14.44.17.14"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -221,7 +229,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.XWIN_SYSROOT }}
-          key: xwin-sysroot-0.10.0-10.0.26100
+          key: xwin-sysroot-${{ env.XWIN_VERSION }}-sdk${{ env.XWIN_SDK_VERSION }}-crt${{ env.XWIN_CRT_VERSION }}
 
       # Downloaded to a file and checksummed before extracting, rather
       # than piping curl straight into tar, for both archives below:
@@ -242,7 +250,8 @@ jobs:
           echo "$expected  xwin.tar.gz" | sha256sum -c -
           tar xzf xwin.tar.gz
           install -Dm755 xwin-0.10.0-x86_64-unknown-linux-musl/xwin "$RUNNER_TEMP_DIR/bin/xwin"
-          "$RUNNER_TEMP_DIR/bin/xwin" --accept-license --cache-dir "$RUNNER_TEMP_DIR/xwin-cache" splat \
+          "$RUNNER_TEMP_DIR/bin/xwin" --accept-license --cache-dir "$RUNNER_TEMP_DIR/xwin-cache" \
+            --sdk-version "$XWIN_SDK_VERSION" --crt-version "$XWIN_CRT_VERSION" splat \
             --output "$XWIN_SYSROOT_DIR" --include-debug-libs \
             --use-winsysroot-style --preserve-ms-arch-notation
 
