@@ -2,6 +2,7 @@
 
 #include "RE/B/BSIntrusiveRefCounted.h"
 #include "REL/Relocation.h"
+#include "SKSE/Version.h"
 
 namespace RE
 {
@@ -9,6 +10,10 @@ namespace RE
 	class InputEvent;
 	class KinectEvent;
 	class MouseMoveEvent;
+#ifdef ENABLE_SKYRIM_AE
+	class MotionGestureEvent;
+	class SixaxisEvent;
+#endif
 	class ThumbstickEvent;
 	class VrWandTouchpadPositionEvent;
 	class VrWandTouchpadSwipeEvent;
@@ -45,7 +50,12 @@ namespace RE
 		virtual bool ProcessMouseMove(MouseMoveEvent* a_event);                            // VR 07 - { return false; }
 		virtual bool ProcessButton(ButtonEvent* a_event);                                  // VR 08 - { return false; }
 #elif !defined(SKYRIM_CROSS_VR)
-		// EXCLUSIVE_SKYRIM_FLAT (SE/AE)
+		// EXCLUSIVE_SKYRIM_FLAT (SE/AE). AE-only/SE+AE-flat builds share this branch's
+		// real virtuals with SE, same as before 1.7.99 existed -- derived classes across
+		// this codebase declare their own `override` unconditionally here (only
+		// SKYRIM_CROSS_VR is guarded off), so converting these to non-virtual wrappers
+		// would require updating every one of them too. Deferred as a follow-up; only
+		// SKYRIM_CROSS_VR (the dominant real-world build target) is fixed below.
 		virtual bool ProcessKinect(KinectEvent* a_event);          // 02 - { return false; }
 		virtual bool ProcessThumbstick(ThumbstickEvent* a_event);  // 03 - { return false; }
 		virtual bool ProcessMouseMove(MouseMoveEvent* a_event);    // 04 - { return false; }
@@ -53,22 +63,54 @@ namespace RE
 #else
 		// SKYRIM_CROSS_VR (multi-runtime): non-virtual wrappers dispatch to the correct
 		// per-runtime vtable slot, so a single binary works on both flat and VR.
+		//
+		// AE 1.7.99 inserts ProcessMotionGesture/ProcessSixaxis after CanProcess (its own
+		// slots 02/03), shifting these four by +2 on that version only -- verified via
+		// PR #232's claim plus this class's own established RelocateVirtual pattern for
+		// VR's identical "inserted before, not appended" problem. seAndAeIdx is computed
+		// per-call since it depends on runtime version, not just the SE/AE/VR macro split.
+#	ifdef ENABLE_SKYRIM_AE
+#		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 2 : (idx))
+#	else
+#		define AE1799_SLOT_SHIFT(idx) (idx)
+#	endif
 		bool ProcessKinect(KinectEvent* a_event)
 		{
-			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessKinect)>(0x02, 0x05, this, a_event);
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessKinect)>(AE1799_SLOT_SHIFT(0x02), 0x05, this, a_event);
 		}
 		bool ProcessThumbstick(ThumbstickEvent* a_event)
 		{
-			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessThumbstick)>(0x03, 0x06, this, a_event);
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessThumbstick)>(AE1799_SLOT_SHIFT(0x03), 0x06, this, a_event);
 		}
 		bool ProcessMouseMove(MouseMoveEvent* a_event)
 		{
-			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessMouseMove)>(0x04, 0x07, this, a_event);
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessMouseMove)>(AE1799_SLOT_SHIFT(0x04), 0x07, this, a_event);
 		}
 		bool ProcessButton(ButtonEvent* a_event)
 		{
-			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessButton)>(0x05, 0x08, this, a_event);
+			return REL::RelocateVirtual<decltype(&MenuEventHandler::ProcessButton)>(AE1799_SLOT_SHIFT(0x05), 0x08, this, a_event);
 		}
+
+#	ifdef ENABLE_SKYRIM_AE
+		// New in AE 1.7.99; no flat counterpart pre-1.7.99, so no-op unless actually running
+		// that version (same "no-op unless the specific runtime applies" idiom as the VR-only
+		// slots below).
+		bool ProcessMotionGesture(MotionGestureEvent* a_event)
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return false;
+			}
+			return REL::RelocateVirtual<bool(MenuEventHandler*, MotionGestureEvent*)>(0x02, 0x02, this, a_event);
+		}
+		bool ProcessSixaxis(SixaxisEvent* a_event)
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return false;
+			}
+			return REL::RelocateVirtual<bool(MenuEventHandler*, SixaxisEvent*)>(0x03, 0x03, this, a_event);
+		}
+#	endif
+#	undef AE1799_SLOT_SHIFT
 
 		// VR-only slots (no flat counterpart to relocate to): no-op on flat, dispatch to the real
 		// VR vtable slot only when actually running as VR. The repeated index passed as the SE/AE
