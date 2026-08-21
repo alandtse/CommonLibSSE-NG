@@ -28,15 +28,6 @@ namespace RE
 
 		virtual ~BSWin32SystemUtility();  // 00
 
-		// override (BSSystemUtility)
-		void GetAuthenticationInfo(char*& a_userAuthID, std::uint64_t& a_size) override;  // 02
-		void DoInitialize() override;                                                     // 04
-		void DoUpdate() override;                                                         // 06
-		void DoGetUserName(char* a_buffer, std::uint64_t a_size) override;                // 08
-		void DoGetComputerName(char* a_buffer, std::uint64_t a_size) override;            // 0D
-		void DoAuthenticateUser() override;                                               // 10
-		bool Unk_12() override;                                                           // 12
-
 		[[nodiscard]] static BSWin32SystemUtility* GetSingleton()
 		{
 			using func_t = decltype(&BSWin32SystemUtility::GetSingleton);
