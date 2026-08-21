@@ -41,6 +41,10 @@ namespace RE
 	struct TESActivateEvent;
 	struct TESActiveEffectApplyRemoveEvent;
 	struct TESActorLocationChangeEvent;
+#ifdef ENABLE_SKYRIM_AE
+	struct TESAmiiboTouchEvent;
+	struct TESAmiiboForcedStopDetectionEvent;
+#endif
 	struct TESBookReadEvent;
 	struct TESCellAttachDetachEvent;
 	struct TESCellFullyLoadedEvent;
@@ -280,11 +284,74 @@ namespace RE
             RUNTIME_DATA2_CONTENT
 		};
 
-		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x754, 0);
+		// AE 1.7.99 inserts BSTEventSink<TESAmiiboTouchEvent> and
+		// BSTEventSink<TESAmiiboForcedStopDetectionEvent> after
+		// TESSwitchRaceCompleteEvent (0x178), shifting TESPlayerBowShotEvent
+		// and everything declared after it by +0x10 on that version only --
+		// verified via live RTTI walk against the real binary. Own data
+		// members (RUNTIME_DATA/RUNTIME_DATA2 below) shift accordingly.
+		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
+		{
+			assert(!REL::Module::IsVR());
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					return REL::RelocateMember<RUNTIME_DATA>(this, 0x764);
+				}
+			}
+			return REL::RelocateMember<RUNTIME_DATA>(this, 0x754);
+		}
 
 		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x754);
 
-		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x760, 0x780);
+		[[nodiscard]] inline RUNTIME_DATA2& GetRuntimeData2() noexcept
+		{
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsVR()) {
+				return REL::RelocateMember<RUNTIME_DATA2>(this, 0x780);
+			}
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					return REL::RelocateMember<RUNTIME_DATA2>(this, 0x770);
+				}
+			}
+			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x760);
+		}
+
+		// New in AE 1.7.99; not declared as real C++ bases (would corrupt
+		// SE/VR/pre-1.7.99-AE's vtable shape in a SKYRIM_CROSS_VR build, same
+		// reasoning as PlayerCharacter::AsBSSystemEventSink). Returns nullptr
+		// on every other runtime/version.
+		[[nodiscard]] BSTEventSink<TESAmiiboTouchEvent>* AsTESAmiiboTouchEventSink() noexcept
+		{
+#ifdef ENABLE_SKYRIM_AE
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					return reinterpret_cast<BSTEventSink<TESAmiiboTouchEvent>*>(reinterpret_cast<std::uintptr_t>(this) + 0x180);
+				}
+			}
+#endif
+			return nullptr;
+		}
+
+		[[nodiscard]] BSTEventSink<TESAmiiboForcedStopDetectionEvent>* AsTESAmiiboForcedStopDetectionEventSink() noexcept
+		{
+#ifdef ENABLE_SKYRIM_AE
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					return reinterpret_cast<BSTEventSink<TESAmiiboForcedStopDetectionEvent>*>(reinterpret_cast<std::uintptr_t>(this) + 0x188);
+				}
+			}
+#endif
+			return nullptr;
+		}
+
+		// KNOWN GAP: TESPlayerBowShotEvent/TESFastTravelEndEvent/
+		// PositionPlayerEvent/BSTEventSink<BSScript::StatsEvent> remain real
+		// C++ base classes accessed via implicit upcast, so any such upcast
+		// resolves to the WRONG address on AE 1.7.99+ (their real offsets
+		// shifted +0x10, verified above) -- fixing this safely requires
+		// removing them from the inheritance list and adding versioned
+		// accessors, deferred as a follow-up (same class of fix as
+		// BGSDefaultObjectManager's pending array-safety redesign).
 		static SkyrimVM* GetSingleton();
 
 		bool QueuePostRenderCall(const BSTSmartPointer<SkyrimScript::DelayFunctor>& a_functor);
