@@ -58,11 +58,16 @@ namespace RE
 
 	bool BGSDefaultObjectManager::IsObjectInitialized(DefaultObjectID a_object) const noexcept
 	{
-		return IsObjectInitialized(MapIndex(std::to_underlying(a_object)));
+		const auto idx = MapIndex(std::to_underlying(a_object));
+		return idx != kInvalid && IsObjectInitialized(idx);
 	}
 
 	bool BGSDefaultObjectManager::IsObjectInitialized(std::size_t a_idx) const noexcept
 	{
+		const auto count = static_cast<std::size_t>(IsAe1799() ? 372 : Relocate(364, 364, 369));
+		if (a_idx >= count) {
+			return false;
+		}
 		const std::uintptr_t objectInitOffset = IsAe1799() ? 0xBC0 : 0xB80;
 		return (&RelocateMember<bool>(this, objectInitOffset, 0xBA8))[a_idx];
 	}
