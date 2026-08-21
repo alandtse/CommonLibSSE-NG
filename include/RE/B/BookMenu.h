@@ -13,6 +13,10 @@
 #include "RE/T/TESObjectREFR.h"
 #include "REL/RuntimeDataAccessors.h"
 
+#ifdef ENABLE_SKYRIM_AE
+#	include "SKSE/Version.h"
+#endif
+
 namespace RE
 {
 	struct BSAnimationGraphEvent;
@@ -57,20 +61,33 @@ namespace RE
 	bool                                 isNote;           /* 95 */             \
 	bool                                 bookInitialized;  /* 96 */             \
 	std::uint8_t                         pad97;            /* 97 */
-#ifdef ENABLE_SKYRIM_AE
-			// New field in AE; exact version threshold not independently verified.
-#	define RUNTIME_DATA_CONTENT_AE \
-		RUNTIME_DATA_CONTENT        \
-		NiRect<float> unk98; /* 98 */
-			RUNTIME_DATA_CONTENT_AE
-#else
+
 			RUNTIME_DATA_CONTENT
-#endif
 		};
-#ifdef ENABLE_SKYRIM_AE
-		static_assert(sizeof(RUNTIME_DATA) == 0x58);
-#else
 		static_assert(sizeof(RUNTIME_DATA) == 0x48);
+
+#ifdef ENABLE_SKYRIM_AE
+		// New only in AE 1.7.99 (absolute offset 0x98, right after RUNTIME_DATA
+		// ends); nullptr unless actually running that version, matching this
+		// codebase's GetAe1799EventData()/GetVRTouchpadData() idiom.
+		struct AE1799_RUNTIME_DATA
+		{
+			NiRect<float> unk98;  // 98
+		};
+		static_assert(sizeof(AE1799_RUNTIME_DATA) == 0x10);
+
+		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return nullptr;
+			}
+			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0x98);
+		}
+
+		[[nodiscard]] inline const AE1799_RUNTIME_DATA* GetAe1799RuntimeData() const noexcept
+		{
+			return const_cast<BookMenu*>(this)->GetAe1799RuntimeData();
+		}
 #endif
 
 		~BookMenu() override;  // 00
@@ -110,24 +127,13 @@ namespace RE
 
 		// members
 #ifndef SKYRIM_CROSS_VR
-#	ifdef ENABLE_SKYRIM_AE
-		RUNTIME_DATA_CONTENT_AE  // 50, 60
-#	else
-		RUNTIME_DATA_CONTENT  // 50, 60
-#	endif
+		RUNTIME_DATA_CONTENT;  // 50, 60
 #endif
 
-			private :
-			static void
+	private:
+		static void
 			OpenMenu_Impl(const BSString& a_description, const ExtraDataList* a_extraList, TESObjectREFR* a_targetReference, TESObjectBOOK* a_targetBook, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
 	};
-#ifdef ENABLE_SKYRIM_AE
-	STATIC_ASSERT_SIZE(BookMenu, 0x98, 0xA8, 0xA8, 0x30);
-#else
 	STATIC_ASSERT_SIZE(BookMenu, 0x98, 0x98, 0xA8, 0x30);
-#endif
 }
 #undef RUNTIME_DATA_CONTENT
-#ifdef ENABLE_SKYRIM_AE
-#	undef RUNTIME_DATA_CONTENT_AE
-#endif
