@@ -23,10 +23,23 @@ set(CMAKE_SYSTEM_PROCESSOR AMD64)
 # LLVM build, etc.) still matches first.
 set(_clangcl_names clang-cl clang-cl-19 clang-cl-18 clang-cl-17 clang-cl-16 clang-cl-15)
 set(_lldlink_names lld-link lld-link-19 lld-link-18 lld-link-17 lld-link-16 lld-link-15)
+set(_llvmrc_names  llvm-rc llvm-rc-19 llvm-rc-18 llvm-rc-17 llvm-rc-16 llvm-rc-15)
 
 find_program(CMAKE_C_COMPILER NAMES ${_clangcl_names} REQUIRED)
 find_program(CMAKE_CXX_COMPILER NAMES ${_clangcl_names} REQUIRED)
 find_program(CMAKE_LINKER NAMES ${_lldlink_names} REQUIRED)
+
+# CMake's Ninja generator invokes a resource compiler (via `cmake -E
+# vs_link_exe --rc=...`) to embed manifests for every linked
+# exe/shared-lib target on this toolset, including CMake's own internal
+# compiler-ABI-detection try-compile step, whether or not the project
+# itself uses any .rc files. Left unset, it defaults to the literal
+# command name "rc", which doesn't exist outside a real MSVC install;
+# llvm-rc is the clang-cl-toolchain equivalent. Not REQUIRED: harmless
+# to leave unresolved on a host that genuinely has no llvm-rc, since
+# CMake only fails on this if a link step's manifest generation is
+# actually reached.
+find_program(CMAKE_RC_COMPILER NAMES ${_llvmrc_names})
 
 # Override with -DXWIN_SYSROOT=<path> or the XWIN_SYSROOT environment
 # variable if your sysroot lives somewhere other than the default.
