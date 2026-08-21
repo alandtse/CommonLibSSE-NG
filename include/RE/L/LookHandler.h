@@ -36,18 +36,7 @@ namespace RE
 		};
 		static_assert(sizeof(AE1799_RUNTIME_DATA) == 0xA8);
 
-		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
-		{
-			if (!REL::Module::IsAe1799()) {
-				return nullptr;
-			}
-			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0x10);
-		}
-
-		[[nodiscard]] inline const AE1799_RUNTIME_DATA* GetAe1799RuntimeData() const noexcept
-		{
-			return const_cast<LookHandler*>(this)->GetAe1799RuntimeData();
-		}
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(AE1799_RUNTIME_DATA, GetAe1799RuntimeData, SKSE::RUNTIME_SSE_1_7_99, 0x10);
 #endif
 	};
 	STATIC_ASSERT_SIZE(LookHandler, 0x10, 0x10, 0x28, 0x10);

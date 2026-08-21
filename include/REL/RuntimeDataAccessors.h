@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <type_traits>
 
 #include "REL/Relocation.h"
 #include "SKSE/Version.h"
@@ -68,6 +69,26 @@
 // Params: StructType, Version, OldOffset, NewOffset
 #define RUNTIME_DATA_ACCESSOR_VERSIONED(StructType, Version, OldOffset, NewOffset) \
 	RUNTIME_DATA_ACCESSOR_VERSIONED_EX(StructType, GetRuntimeData, Version, OldOffset, NewOffset)
+
+// Generates a GetXXX() accessor for a field/struct that does not exist at all
+// before Version -- nullptr on older runtimes, matching AttackBlockHandler's
+// GetRuntimeData()-style struct but for content with no pre-Version offset to
+// fall back to. No plain (non-_EX) variant: a class with more than one such
+// appendix needs a distinct name per one, and a shared default name would
+// silently collide across them.
+// Params: StructType, FuncName, Version, Offset (absolute, from `this`)
+#define RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(StructType, FuncName, Version, Offset) \
+	[[nodiscard]] inline StructType* FuncName() noexcept                                   \
+	{                                                                                      \
+		if (!REL::Module::IsAtLeast(Version)) {                                            \
+			return nullptr;                                                                \
+		}                                                                                  \
+		return &REL::RelocateMember<StructType>(this, Offset);                             \
+	}                                                                                      \
+	[[nodiscard]] inline const StructType* FuncName() const noexcept                       \
+	{                                                                                      \
+		return const_cast<std::remove_cvref_t<decltype(*this)>*>(this)->FuncName();        \
+	}
 
 // ========================================
 // Runtime-Exclusive Accessors

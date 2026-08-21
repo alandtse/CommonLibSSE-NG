@@ -69,18 +69,7 @@ namespace RE
 		};
 		static_assert(sizeof(AE1799_RUNTIME_DATA) == 0x10);
 
-		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
-		{
-			if (!REL::Module::IsAe1799()) {
-				return nullptr;
-			}
-			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0x98);
-		}
-
-		[[nodiscard]] inline const AE1799_RUNTIME_DATA* GetAe1799RuntimeData() const noexcept
-		{
-			return const_cast<BookMenu*>(this)->GetAe1799RuntimeData();
-		}
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(AE1799_RUNTIME_DATA, GetAe1799RuntimeData, SKSE::RUNTIME_SSE_1_7_99, 0x98);
 #endif
 
 		~BookMenu() override;  // 00

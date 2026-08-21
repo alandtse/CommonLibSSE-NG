@@ -4,6 +4,7 @@
 #include "RE/B/BSString.h"
 #include "RE/B/BSTEvent.h"
 #include "REL/Relocation.h"
+#include "SKSE/Version.h"
 
 namespace RE
 {
@@ -70,44 +71,44 @@ namespace RE
 		virtual void    Unk_04(void);                                                                                    // 04 - { return; }
 
 #ifdef ENABLE_SKYRIM_AE
-#	define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAe1799() ? (idx) + 6 : (idx))
+#	define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? (idx) + 6 : (idx))
 
 		void Unk_05AE(void)
 		{
-			if (REL::Module::IsAe1799()) {
+			if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x05, 0x05, this);
 			}
 		}
 		void Unk_06AE(void)
 		{
-			if (REL::Module::IsAe1799()) {
+			if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x06, 0x06, this);
 			}
 		}
 		bool Unk_07AE(void)
 		{
-			if (!REL::Module::IsAe1799()) {
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				return true;
 			}
 			return REL::RelocateVirtual<bool(BSSaveDataSystemUtility*)>(0x07, 0x07, this);
 		}
 		bool Unk_08AE(void)
 		{
-			if (!REL::Module::IsAe1799()) {
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				return true;
 			}
 			return REL::RelocateVirtual<bool(BSSaveDataSystemUtility*)>(0x08, 0x08, this);
 		}
 		bool Unk_09AE(void)
 		{
-			if (!REL::Module::IsAe1799()) {
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				return true;
 			}
 			return REL::RelocateVirtual<bool(BSSaveDataSystemUtility*)>(0x09, 0x09, this);
 		}
 		void Unk_0AAE(void)
 		{
-			if (REL::Module::IsAe1799()) {
+			if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x0A, 0x0A, this);
 			}
 		}

@@ -18,7 +18,7 @@ namespace RE
 		virtual void SetHeldStateActive(bool a_flag);                    // 06
 #else
 #	ifdef ENABLE_SKYRIM_AE
-#		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAe1799() ? (idx) + 2 : (idx))
+#		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? (idx) + 2 : (idx))
 #	else
 #		define AE1799_SLOT_SHIFT(idx) (idx)
 #	endif

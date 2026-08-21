@@ -160,7 +160,7 @@ namespace RE
 		{
 #ifdef ENABLE_SKYRIM_AE
 			const std::ptrdiff_t seAndAe =
-				REL::Module::IsAe1799() ?
+				REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ?
 					0x28 :
 					0x20;
 #else
@@ -175,18 +175,7 @@ namespace RE
 		}
 
 #ifdef ENABLE_SKYRIM_AE
-		[[nodiscard]] inline AE1799_EVENT_DATA* GetAe1799EventData() noexcept
-		{
-			if (!REL::Module::IsAe1799()) {
-				return nullptr;
-			}
-			return &REL::RelocateMember<AE1799_EVENT_DATA>(this, 0x388);
-		}
-
-		[[nodiscard]] inline const AE1799_EVENT_DATA* GetAe1799EventData() const noexcept
-		{
-			return const_cast<BSInputEventQueue*>(this)->GetAe1799EventData();
-		}
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(AE1799_EVENT_DATA, GetAe1799EventData, SKSE::RUNTIME_SSE_1_7_99, 0x388);
 #endif
 
 #if defined(EXCLUSIVE_SKYRIM_VR)

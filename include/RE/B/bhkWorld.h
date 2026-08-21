@@ -4,7 +4,7 @@
 #include "RE/B/bhkSerializable.h"
 #include "RE/B/bhkWorldCinfo.h"
 #include "RE/H/hkVector4.h"
-#include "REL/Relocation.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -108,18 +108,7 @@ namespace RE
 			std::uint8_t  _pad700[0x10];  // C700 - unverified trailing fields
 		};
 
-		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
-		{
-			if (!REL::Module::IsAe1799()) {
-				return nullptr;
-			}
-			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0xC5D8);
-		}
-
-		[[nodiscard]] inline const AE1799_RUNTIME_DATA* GetAe1799RuntimeData() const noexcept
-		{
-			return const_cast<bhkWorld*>(this)->GetAe1799RuntimeData();
-		}
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(AE1799_RUNTIME_DATA, GetAe1799RuntimeData, SKSE::RUNTIME_SSE_1_7_99, 0xC5D8);
 #endif
 	};
 	static_assert(sizeof(bhkWorld) == 0xC600);

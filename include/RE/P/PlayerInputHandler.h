@@ -1,6 +1,7 @@
 #pragma once
 #include "RE/B/BSFixedString.h"
 #include "REL/Relocation.h"
+#include "SKSE/Version.h"
 
 namespace RE
 {
@@ -33,7 +34,7 @@ namespace RE
 		virtual void Unk_06(void);                                                                                               // 06
 #else
 #	ifdef ENABLE_SKYRIM_AE
-#		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAe1799() ? (idx) + 2 : (idx))
+#		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? (idx) + 2 : (idx))
 #	else
 #		define AE1799_SLOT_SHIFT(idx) (idx)
 #	endif
@@ -53,14 +54,14 @@ namespace RE
 #	ifdef ENABLE_SKYRIM_AE
 		bool ProcessMotionGesture(MotionGestureEvent* a_event)
 		{
-			if (!REL::Module::IsAe1799()) {
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				return false;
 			}
 			return REL::RelocateVirtual<bool(PlayerInputHandler*, MotionGestureEvent*)>(0x02, 0x02, this, a_event);
 		}
 		bool ProcessSixaxis(SixaxisEvent* a_event)
 		{
-			if (!REL::Module::IsAe1799()) {
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 				return false;
 			}
 			return REL::RelocateVirtual<bool(PlayerInputHandler*, SixaxisEvent*)>(0x03, 0x03, this, a_event);
