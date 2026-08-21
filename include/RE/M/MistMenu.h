@@ -121,9 +121,15 @@ namespace RE
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               PostDisplay() override;                                                // 06
 
-		// override (MenuEventHandler)
+		// override (MenuEventHandler) -- only inherited outside SKYRIM_CROSS_VR (see
+		// the class declaration above); ProcessThumbstick/MouseMove/Button are
+		// further restricted to EXCLUSIVE_SKYRIM_VR since the base only keeps
+		// those as real (overridable) virtuals there -- everywhere else they're
+		// non-virtual RelocateVirtual wrappers (AE 1.7.99 shifts their vtable slot).
 #ifndef SKYRIM_CROSS_VR
-		bool CanProcess(InputEvent* a_event) override;              // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#endif
+#ifdef EXCLUSIVE_SKYRIM_VR
 		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
 		bool ProcessMouseMove(MouseMoveEvent* a_event) override;    // 04
 		bool ProcessButton(ButtonEvent* a_event) override;          // 05

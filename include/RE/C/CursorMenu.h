@@ -27,9 +27,15 @@ namespace RE
 		// override (IMenu)
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 04
 
-		// override (MenuEventHandler)
+		// override (MenuEventHandler) -- only inherited outside SKYRIM_CROSS_VR (see
+		// the class declaration above); ProcessThumbstick/MouseMove are further
+		// restricted to EXCLUSIVE_SKYRIM_VR since the base only keeps those as
+		// real (overridable) virtuals there -- everywhere else they're
+		// non-virtual RelocateVirtual wrappers (AE 1.7.99 shifts their vtable slot).
 #ifndef SKYRIM_CROSS_VR
-		bool CanProcess(InputEvent* a_event) override;              // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#endif
+#ifdef EXCLUSIVE_SKYRIM_VR
 		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
 		bool ProcessMouseMove(MouseMoveEvent* a_event) override;    // 04
 #endif

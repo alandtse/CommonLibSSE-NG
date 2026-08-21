@@ -14,7 +14,7 @@ namespace RE
 
 		// override (PlayerInputHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01
-#ifndef SKYRIM_CROSS_VR
+#ifdef EXCLUSIVE_SKYRIM_VR
 		void ProcessThumbstick(ThumbstickEvent* a_event, PlayerControlsData* a_data) override;  // 02
 		void ProcessMouseMove(MouseMoveEvent* a_event, PlayerControlsData* a_data) override;    // 03
 #endif

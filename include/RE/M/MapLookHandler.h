@@ -13,7 +13,7 @@ namespace RE
 		~MapLookHandler() override;  // 00
 
 		// override (MapInputHandler)
-#ifndef SKYRIM_CROSS_VR
+#ifdef EXCLUSIVE_SKYRIM_VR
 		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03 (VR 06)
 		bool ProcessMouseMove(MouseMoveEvent* a_event) override;    // 04 (VR 07)
 		bool ProcessButton(ButtonEvent* a_event) override;          // 05 (VR 08)

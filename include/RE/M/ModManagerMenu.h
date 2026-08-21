@@ -42,11 +42,19 @@ namespace RE
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                         // 04
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 
+		// override (MenuEventHandler) -- only inherited outside SKYRIM_CROSS_VR (see
+		// the class declaration above); ProcessThumbstick is further restricted to
+		// EXCLUSIVE_SKYRIM_VR since the base only keeps it a real (overridable)
+		// virtual there -- everywhere else it's a non-virtual RelocateVirtual
+		// wrapper (AE 1.7.99 shifts its vtable slot).
 #ifndef SKYRIM_CROSS_VR
-		// override (MenuEventHandler)
-		bool CanProcess(InputEvent* a_event) override;              // 01
+		bool CanProcess(InputEvent* a_event) override;  // 01
+#endif
+#ifdef EXCLUSIVE_SKYRIM_VR
 		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
+#endif
 
+#ifndef SKYRIM_CROSS_VR
 		// override (GFxFunctionHandler)
 		void Call(Params& a_params) override;  // 01
 #endif

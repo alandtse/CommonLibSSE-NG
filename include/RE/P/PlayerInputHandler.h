@@ -32,17 +32,15 @@ namespace RE
 		virtual void ProcessButton([[maybe_unused]] ButtonEvent* a_event, [[maybe_unused]] PlayerControlsData* a_data) {}        // 04
 		virtual void Unk_05(void);                                                                                               // 05
 		virtual void Unk_06(void);                                                                                               // 06
-#elif !defined(SKYRIM_CROSS_VR)
-		// EXCLUSIVE_SKYRIM_FLAT (SE/AE). AE 1.7.99's slot shift is not applied here yet;
-		// derived classes declare unconditional overrides in this branch. Follow-up.
-		virtual void ProcessThumbstick([[maybe_unused]] ThumbstickEvent* a_event, [[maybe_unused]] PlayerControlsData* a_data) {}  // 02
-		virtual void ProcessMouseMove([[maybe_unused]] MouseMoveEvent* a_event, [[maybe_unused]] PlayerControlsData* a_data) {}    // 03
-		virtual void ProcessButton([[maybe_unused]] ButtonEvent* a_event, [[maybe_unused]] PlayerControlsData* a_data) {}          // 04
 #else
-		// SKYRIM_CROSS_VR (multi-runtime): non-virtual wrappers dispatch to the
-		// correct per-runtime vtable slot, mirroring MenuEventHandler. AE 1.7.99
-		// inserts ProcessMotionGesture/ProcessSixaxis after CanProcess, shifting
-		// these three by +2 on that version only.
+		// Non-virtual wrappers dispatch to the correct per-runtime vtable slot via
+		// RelocateVirtual, instead of a single fixed C++ virtual slot -- needed by
+		// every non-VR-exclusive build (SE-only, AE-only, flat, and SKYRIM_CROSS_VR
+		// alike), not just cross-VR: a pure AE-only build already spans every AE
+		// point release as one binary (Runtime::AE is a single umbrella, see
+		// REL::Module), so AE 1.7.99's ProcessMotionGesture/ProcessSixaxis slot
+		// insertion (shifting these three by +2 on that version only) has to be
+		// handled at runtime here too, not just when VR is also possible.
 #	ifdef ENABLE_SKYRIM_AE
 #		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 2 : (idx))
 #	else

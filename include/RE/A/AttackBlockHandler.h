@@ -26,7 +26,7 @@ namespace RE
 
 		// override (PlayerInputHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01
-#ifndef SKYRIM_CROSS_VR
+#ifdef EXCLUSIVE_SKYRIM_VR
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04, 06 (AE 1.7.99)
 		void UpdateHeldStateActive(const ButtonEvent* a_event) override;                // 05, 07 (AE 1.7.99)
 		void SetHeldStateActive(bool a_flag) override;                                  // 06, 08 (AE 1.7.99)
