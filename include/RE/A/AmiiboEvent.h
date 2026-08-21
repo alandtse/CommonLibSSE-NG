@@ -5,8 +5,6 @@
 namespace RE
 {
 #ifdef ENABLE_SKYRIM_AE
-	// Semantic field names not RE'd.
-	// packed 4: unk2C is an 8-byte slot at a non-8-aligned real offset.
 #	pragma pack(push, 4)
 	class AmiiboEvent : public IDEvent
 	{

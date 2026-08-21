@@ -5,7 +5,6 @@
 namespace RE
 {
 #ifdef ENABLE_SKYRIM_AE
-	// Semantic field names not RE'd.
 	class MotionGestureEvent : public IDEvent
 	{
 	public:

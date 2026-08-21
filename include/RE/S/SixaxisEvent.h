@@ -6,8 +6,6 @@
 namespace RE
 {
 #ifdef ENABLE_SKYRIM_AE
-	// Semantic field names not RE'd, except orientation (confirmed via NiQuaternion ctor).
-	// packed 4: several 8-byte slots sit at non-8-aligned real offsets.
 #	pragma pack(push, 4)
 	class SixaxisEvent : public IDEvent
 	{
