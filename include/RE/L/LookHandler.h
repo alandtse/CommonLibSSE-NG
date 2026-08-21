@@ -19,10 +19,8 @@ namespace RE
 		void ProcessMouseMove(MouseMoveEvent* a_event, PlayerControlsData* a_data) override;    // 03
 #endif
 
-		// AE 1.7.99's LookHandler has a real gyro-based ProcessSixaxis override and
-		// grows past 0x10 (real fields up to +0xB4); field layout not yet RE'd.
-		// PlayerInputHandler::ProcessSixaxis still dispatches correctly without a
-		// declared override here. Follow-up.
+		// AE 1.7.99 gives this a real gyro ProcessSixaxis override and grows it
+		// past 0x10; field layout not yet RE'd (dispatch works without one here).
 	};
 	STATIC_ASSERT_SIZE(LookHandler, 0x10, 0x10, 0x28, 0x10);
 }
