@@ -281,11 +281,8 @@ namespace REL
 #endif
 		}
 
-		// a_expectedFormat is only supplied by test-injection, which asserts
-		// the fixture is the format the test claims it is. Real (non-test)
-		// loads pass nullopt and dispatch on whatever format byte the file
-		// actually contains, so a single build keeps loading every format
-		// it has ever supported.
+		// a_expectedFormat is test-injection only; real loads pass nullopt
+		// and dispatch on whatever format byte the file actually contains.
 		bool load_file(stl::zwstring a_filename, Version a_version, std::optional<std::uint8_t> a_expectedFormat, bool a_failOnError);
 
 		bool load_v2(istream_t& a_in, header_v2_t a_header, Version a_version, bool a_failOnError);

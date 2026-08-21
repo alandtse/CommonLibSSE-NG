@@ -303,10 +303,8 @@ namespace RE
 		BSScript::CompiledScriptLoader             scriptLoader;       // 0240
 		SkyrimScript::Logger                       logger;             // 0278
 	private:
-		// AE 1.7.99 adds 2 vtable pointer slots above, shifting handlePolicy
-		// and everything after it by +0x10. handlePolicy is the only field
-		// in this shifted region known to be read by an external consumer
-		// (CrashLoggerSSE), so only it gets a version-aware accessor.
+		// AE 1.7.99 shifts this and every later member by +0x10. Only this
+		// field has a known direct consumer, so only it gets an accessor.
 		std::uint8_t _padHandlePolicy[sizeof(SkyrimScript::HandlePolicy)];  // 0328
 
 	public:
