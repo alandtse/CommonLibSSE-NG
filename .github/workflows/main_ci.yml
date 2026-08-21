@@ -201,7 +201,8 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt-get install -y ninja-build wine wine32:i386 g++ lsb-release wget gnupg software-properties-common
-          curl -fsSL --retry 3 --retry-all-errors https://apt.llvm.org/llvm.sh -o /tmp/llvm.sh
+          curl -fsSL --retry 3 --retry-all-errors -o /tmp/llvm.sh https://raw.githubusercontent.com/opencollab/llvm-jenkins.debian.net/cf853fefa308484749df8a87004c580a6c0fe830/llvm.sh
+          echo "03878e08f47b66cc95bc4b544b0db3c6d9ce8d60e6cf2492ae357984330a9eae  /tmp/llvm.sh" | sha256sum -c -
           chmod +x /tmp/llvm.sh
           sudo /tmp/llvm.sh 19
 

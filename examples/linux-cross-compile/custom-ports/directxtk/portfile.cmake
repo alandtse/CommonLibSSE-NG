@@ -31,15 +31,24 @@ vcpkg_from_github(
 # kind of double-escaping that's easy to get subtly wrong. A real file
 # just takes plain, unescaped shell.
 #
-# The `!  grep -q "Got an error" ...` check exists because `wine cmd`'s
-# own %ERRORLEVEL%/`||` handling is unreliable on at least some Wine
-# versions (confirmed: even Wine's own built-in `ver` command trips a
-# `||` check under `wine cmd /c` on Ubuntu 24.04's packaged Wine 9.0,
-# unrelated to anything this port or fxc2 does): trusting the raw exit
-# code of `wine cmd /c CompileShaders.cmd` would treat every compile as
-# failed even when every shader genuinely compiled correctly. Checking
-# fxc2's own documented error text (see fxc2.cpp's `Got an error (%i)
-# while compiling` printf) instead is what's actually reliable here.
+# This derives success/failure from the log content rather than the
+# raw exit code of `wine cmd /c CompileShaders.cmd`, for two reasons:
+# - `wine cmd`'s own %ERRORLEVEL%/`||` handling is unreliable on at
+#   least some Wine versions (confirmed: even Wine's own built-in `ver`
+#   command trips a `||` check under `wine cmd /c` on Ubuntu 24.04's
+#   packaged Wine 9.0, unrelated to anything this port or fxc2 does),
+#   so trusting the exit code would treat every compile as failed even
+#   when every shader genuinely compiled correctly. Checking fxc2's own
+#   documented error text (see fxc2.cpp's `Got an error (%i) while
+#   compiling` printf) is what's actually reliable here.
+# - The exit code alone also can't tell "cmd ran fxc2 and it failed"
+#   apart from "cmd couldn't invoke fxc2 at all" (e.g. a corrupt/
+#   truncated fxc2.exe, confirmed to happen on a real CI run from a
+#   race between this port's concurrent debug/release configure
+#   invocations racing to build the same fxc2.exe path (see the
+#   file(LOCK) above). The second grep catches that failure mode too,
+#   which the log otherwise reports identically to a genuine success
+#   (no "Got an error" text, since fxc2 never even ran).
 if(CMAKE_HOST_UNIX)
     file(WRITE "${SOURCE_PATH}/Src/Shaders/wine-compile-shaders.sh" "#!/bin/sh
 set -u
@@ -49,6 +58,10 @@ shift 2
 \"${CMAKE_COMMAND}\" -E env CompileShadersOutput=\"$CompileShadersOutput\" WINEDEBUG=-all LegacyShaderCompiler=\"$FxcTool\" wine cmd /c CompileShaders.cmd \"$@\" > \"$CompileShadersOutput/compileshaders.log\" 2>&1
 if grep -q \"Got an error\" \"$CompileShadersOutput/compileshaders.log\"; then
     echo \"Real shader compilation error(s) detected; see $CompileShadersOutput/compileshaders.log\" >&2
+    exit 1
+fi
+if grep -Eqi \"is not recognized|Can't recognize|cannot find the file\" \"$CompileShadersOutput/compileshaders.log\"; then
+    echo \"cmd.exe could not invoke fxc2 at all (a corrupt/truncated fxc2.exe is one known cause); see $CompileShadersOutput/compileshaders.log\" >&2
     exit 1
 fi
 exit 0
@@ -103,6 +116,21 @@ if(CMAKE_HOST_UNIX)
     )
 
     set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2.exe")
+    # vcpkg_cmake_configure() configures this port's debug and release
+    # variants CONCURRENTLY ("vcpkg-parallel-configure"), and this whole
+    # portfile.cmake (including this fxc2 build step) runs once per
+    # variant. Without a lock, both processes' `NOT EXISTS` check can
+    # pass at the same time and both start compiling to the same shared
+    # ${FXC2_EXE} path at once, corrupting it. Confirmed on a real CI
+    # run: this produced a genuinely invalid PE binary, which Wine's
+    # cmd.exe then reported as "Can't recognize ... as an internal or
+    # external command" for every single shader invocation, silently
+    # (nothing in the log said "corrupted binary"; it just looked
+    # like cmd couldn't find the file at all). file(LOCK) serializes
+    # the check-and-build across both concurrent processes; whichever
+    # one loses the race for the lock sees the file already built and
+    # correctly skips rebuilding it.
+    file(LOCK "${FXC2_EXE}.lock" GUARD PROCESS)
     if(NOT EXISTS "${FXC2_EXE}")
         execute_process(
             COMMAND "${FXC2_MINGW_CLANGXX}" -static "${FXC2_SOURCE_PATH}/fxc2.cpp" -o "${FXC2_EXE}"
@@ -112,6 +140,7 @@ if(CMAKE_HOST_UNIX)
             message(FATAL_ERROR "${PORT}: failed to build fxc2.exe from ${FXC2_SOURCE_PATH}")
         endif()
     endif()
+    file(LOCK "${FXC2_EXE}.lock" RELEASE)
     file(COPY "${FXC2_SOURCE_PATH}/d3dcompiler_47.dll" DESTINATION "${CURRENT_BUILDTREES_DIR}")
 
     set(DIRECTXTK_FXC2_OPTIONS "-DDIRECTX_FXC_TOOL=${FXC2_EXE}")
