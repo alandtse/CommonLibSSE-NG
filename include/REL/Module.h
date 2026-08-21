@@ -242,6 +242,14 @@ namespace REL
 		}
 
 		/**
+		 * Returns whether the current Skyrim runtime is Anniversary Edition 1.7.99 or newer.
+		 */
+		[[nodiscard]] static SKYRIM_REL bool IsAe1799() noexcept
+		{
+			return IsAE() && get().version().compare(Version(1, 7, 99, 0)) != std::strong_ordering::less;
+		}
+
+		/**
 		 * Returns whether the current Skyrim runtime is a pre-Anniversary Edition Skyrim SE release.
 		 */
 		[[nodiscard]] static SKYRIM_REL bool IsSE() noexcept

@@ -6,10 +6,6 @@
 #include "RE/H/hkVector4.h"
 #include "REL/Relocation.h"
 
-#ifdef ENABLE_SKYRIM_AE
-#	include "SKSE/Version.h"
-#endif
-
 namespace RE
 {
 	struct bhkPickData;
@@ -114,7 +110,7 @@ namespace RE
 
 		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
 		{
-			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+			if (!REL::Module::IsAe1799()) {
 				return nullptr;
 			}
 			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0xC5D8);

@@ -10,10 +10,6 @@
 #include "RE/T/TESObjectREFR.h"
 #include "REL/RuntimeDataAccessors.h"
 
-#ifdef ENABLE_SKYRIM_AE
-#	include "SKSE/Version.h"
-#endif
-
 namespace RE
 {
 	class MenuOpenCloseEvent;
@@ -80,10 +76,6 @@ namespace RE
 		static_assert(sizeof(RUNTIME_DATA) == 0xC8);
 
 #ifdef ENABLE_SKYRIM_AE
-		// New only in AE 1.7.99 (absolute offset 0x110, right after
-		// RUNTIME_DATA ends); nullptr unless actually running that version,
-		// matching this codebase's GetAe1799EventData()/GetVRTouchpadData()
-		// idiom.
 		struct AE1799_RUNTIME_DATA
 		{
 			float         unk110;     // 110
@@ -102,7 +94,7 @@ namespace RE
 
 		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
 		{
-			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+			if (!REL::Module::IsAe1799()) {
 				return nullptr;
 			}
 			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0x110);

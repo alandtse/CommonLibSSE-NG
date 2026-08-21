@@ -13,10 +13,6 @@
 #include "RE/T/TESObjectREFR.h"
 #include "REL/RuntimeDataAccessors.h"
 
-#ifdef ENABLE_SKYRIM_AE
-#	include "SKSE/Version.h"
-#endif
-
 namespace RE
 {
 	struct BSAnimationGraphEvent;
@@ -67,9 +63,6 @@ namespace RE
 		static_assert(sizeof(RUNTIME_DATA) == 0x48);
 
 #ifdef ENABLE_SKYRIM_AE
-		// New only in AE 1.7.99 (absolute offset 0x98, right after RUNTIME_DATA
-		// ends); nullptr unless actually running that version, matching this
-		// codebase's GetAe1799EventData()/GetVRTouchpadData() idiom.
 		struct AE1799_RUNTIME_DATA
 		{
 			NiRect<float> unk98;  // 98
@@ -78,7 +71,7 @@ namespace RE
 
 		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
 		{
-			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+			if (!REL::Module::IsAe1799()) {
 				return nullptr;
 			}
 			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0x98);

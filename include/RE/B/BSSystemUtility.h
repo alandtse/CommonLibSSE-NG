@@ -3,10 +3,6 @@
 #include "RE/B/BSTEvent.h"
 #include "REL/Relocation.h"
 
-#ifdef ENABLE_SKYRIM_AE
-#	include "SKSE/Version.h"
-#endif
-
 namespace RE
 {
 	class BSSystemEvent;
@@ -23,11 +19,11 @@ namespace RE
 		BSEventNotifyControl ProcessEvent(const BSGamepadEvent* a_event, BSTEventSource<BSGamepadEvent>* a_eventSource) override;  // 01
 
 #ifdef ENABLE_SKYRIM_AE
-#	define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 1 : (idx))
+#	define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAe1799() ? (idx) + 1 : (idx))
 
 		void Unk_02AE(void* a_result)
 		{
-			if (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+			if (REL::Module::IsAe1799()) {
 				REL::RelocateVirtual<void(BSSystemUtility*, void*)>(0x02, 0x02, this, a_result);
 			}
 		}
