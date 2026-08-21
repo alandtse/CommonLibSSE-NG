@@ -191,6 +191,15 @@ Dependencies are managed via vcpkg. See `vcpkg.json` for the complete list.
 - [CMake](https://cmake.org/) 3.19+
 - [Vcpkg](https://github.com/microsoft/vcpkg)
 
+### Cross-compiling from Linux
+
+The `build-*-linux-clangcl-vcpkg-*` presets target the same Windows
+PE/MSVC ABI output as the presets above, using `clang-cl`+`lld-link`
+against an `xwin`-generated sysroot instead of a real MSVC install, and
+run from an ordinary Linux shell. See
+[`examples/linux-cross-compile/README.md`](examples/linux-cross-compile/README.md)
+for setup and usage.
+
 ## End User Dependencies
 
 - [Address Library for SKSE Plugins](https://www.nexusmods.com/skyrimspecialedition/mods/32444) or

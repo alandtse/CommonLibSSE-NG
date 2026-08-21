@@ -73,6 +73,18 @@
       }
     },
     {
+      "name": "packaging-vcpkg-linux-clangcl",
+      "hidden": true,
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {
+        "USE_VCPKG": "ON",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-clangcl",
+        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/examples/linux-cross-compile/custom-triplets",
+        "VCPKG_OVERLAY_PORTS": "${sourceDir}/examples/linux-cross-compile/custom-ports",
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/cmake/toolchain-linux-clangcl.cmake"
+      }
+    },
+    {
       "name": "platform-win32",
       "hidden": true,
       "cacheVariables": {
@@ -142,6 +154,14 @@
           "enableMicrosoftCodeAnalysis": true,
           "enableClangTidyCodeAnalysis": true
         }
+      }
+    },
+    {
+      "name": "compiler-linux-clangcl",
+      "hidden": true,
+      "environment": {
+        "PROJECT_COMPILER": "clang-cl",
+        "PROJECT_COMPILER_FLAGS": "/permissive- /EHsc /W4 /WX /bigobj -Wno-overloaded-virtual -Wno-delete-non-abstract-non-virtual-dtor -Wno-inconsistent-missing-override -Wno-reinterpret-base-class -Wno-nonportable-include-path -Wno-deprecated-copy-with-user-provided-copy -Wno-invalid-offsetof -Wno-switch -Wno-unused-command-line-argument -Wno-deprecated-volatile -Wno-unused-private-field"
       }
     },
     {
@@ -346,6 +366,20 @@
       "binaryDir": "${sourceDir}/build/release-clang-cl-vcpkg-all"
     },
     {
+      "name": "build-release-linux-clangcl-vcpkg-all",
+      "inherits": [
+        "buildtype-release",
+        "architecture-x64",
+        "platform-win32-unicode",
+        "generator-ninja",
+        "compiler-linux-clangcl",
+        "packaging-vcpkg-linux-clangcl",
+        "runtimes-all",
+        "common"
+      ],
+      "binaryDir": "${sourceDir}/build/release-linux-clangcl-vcpkg-all"
+    },
+    {
       "name": "build-release-msvc-vcpkg-flatrim",
       "inherits": [
         "build-release-msvc-vcpkg-all",
@@ -502,6 +536,11 @@
       "name": "release-clang-cl-vcpkg-all",
       "displayName": "Release (All, Clang-CL, Vcpkg)",
       "configurePreset": "build-release-clang-cl-vcpkg-all"
+    },
+    {
+      "name": "release-linux-clangcl-vcpkg-all",
+      "displayName": "Release (All, Clang-CL, Vcpkg, Linux host cross-compile)",
+      "configurePreset": "build-release-linux-clangcl-vcpkg-all"
     },
     {
       "name": "release-msvc-vcpkg-vr",

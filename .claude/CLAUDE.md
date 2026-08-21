@@ -36,9 +36,9 @@ This script:
 
 ### Building from WSL (Claude Code, Linux Environments)
 
-**IMPORTANT**: This project requires Windows-specific tooling (Visual Studio 2022, MSVC compiler). Claude Code runs in WSL and must use PowerShell to invoke the Windows build tools.
+**IMPORTANT**: The `msvc`-compiler presets need Windows-specific tooling (Visual Studio 2022, MSVC compiler). Claude Code running in WSL must use PowerShell to invoke the Windows build tools for those. If you're on a genuine Linux host (not WSL) and want to avoid Windows tooling entirely, see "Building via Linux-host cross-compile" below instead.
 
-**CRITICAL**: CMake must run from a Visual Studio Developer Shell to properly detect the MSVC compiler. If run from a regular shell, CMake may incorrectly detect clang++ and fail with compiler errors.
+**CRITICAL**: CMake must run from a Visual Studio Developer Shell to properly detect the MSVC compiler. If run from a regular shell, CMake may incorrectly detect clang++ and fail with compiler errors. This does NOT apply to the `linux-clangcl` presets described below, which are specifically designed to run from a regular Linux shell with no VS environment at all.
 
 ```bash
 # WSL/Linux: Use powershell.exe to launch VS Developer Shell and build
@@ -74,6 +74,24 @@ cmake --build build/release-msvc-vcpkg-all
 cmake --preset build-release-msvc-vcpkg-vr
 cmake --build build/release-msvc-vcpkg-vr
 ```
+
+### Building via Linux-host cross-compile
+
+Targets the same Windows PE/MSVC ABI output as the presets above, using
+`clang-cl`+`lld-link` against an `xwin`-generated Windows SDK/CRT
+sysroot instead of a real MSVC install. Runs from an ordinary Linux
+shell, no VS Developer Shell or Windows tooling involved at all.
+
+```bash
+cmake --preset build-release-linux-clangcl-vcpkg-all
+cmake --build --preset release-linux-clangcl-vcpkg-all
+```
+
+One-time host setup (xwin, Wine, llvm-mingw, vcpkg) and the reasoning
+behind each piece are documented in `examples/linux-cross-compile/README.md`.
+A clean build proves the toolchain, not runtime correctness: struct
+layout or vtable mismatches between clang-cl output and the real MSVC
+game binary compile fine and only surface as an in-game crash.
 
 ### Package Manager
 The project uses Vcpkg for dependency management:
@@ -390,8 +408,8 @@ CommonLibSSE NG uses different abstraction patterns based on the type and comple
 **Common Mistakes to Avoid:**
 
 1. **Incorrect Override Declarations**
-   - ? WRONG: Adding `override` when function doesn't actually override
-   - ? CORRECT: Only use `override` when signature exactly matches base class
+   - **WRONG:** Adding `override` when function doesn't actually override
+   - **CORRECT:** Only use `override` when signature exactly matches base class
 
    ```cpp
    // Base class: void OnVisible(NiCullingProcess&, std::int32_t)
@@ -430,8 +448,8 @@ CommonLibSSE NG uses different abstraction patterns based on the type and comple
 ### Resource Management
 
 1. **REL::Relocation Must Be Static**
-   - ? WRONG: `REL::Relocation<Type*> singleton{ REL::ID(12345) };`
-   - ? CORRECT: `static REL::Relocation<Type*> singleton{ REL::ID(12345) };`
+   - **WRONG:** `REL::Relocation<Type*> singleton{ REL::ID(12345) };`
+   - **CORRECT:** `static REL::Relocation<Type*> singleton{ REL::ID(12345) };`
 
    Static ensures singleton is initialized once and persists across calls.
 
@@ -462,9 +480,9 @@ CommonLibSSE NG uses different abstraction patterns based on the type and comple
 ### Comments and Documentation
 
 1. **No Version Difference Comments**
-   - ? WRONG: `// Moved to OtherFile.h`
-   - ? WRONG: `float member; // 0x158 in SE/AE, 0x110 in VR`
-   - ? CORRECT: `float member; // 158 / 110` (standard offset format)
+   - **WRONG:** `// Moved to OtherFile.h`
+   - **WRONG:** `float member; // 0x158 in SE/AE, 0x110 in VR`
+   - **CORRECT:** `float member; // 158 / 110` (standard offset format)
 
 2. **Keep Comments Minimal**
    - Only add comments explaining *why*, not *what*

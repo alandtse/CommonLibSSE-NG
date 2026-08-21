@@ -152,3 +152,77 @@ jobs:
         timeout-minutes: 5
         working-directory: ${{ github.workspace }}/main/build/${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.runtime }}
         run: .\CommonLibSSETests.exe
+
+  # Proves the Linux-host cross-compile toolchain (examples/linux-cross-compile/)
+  # keeps working, targeting the same Windows PE/MSVC ABI output as the
+  # windows-latest jobs above. Deliberately a single build (clang-cl, all
+  # runtimes) rather than a full matrix, and build-only (the output is a
+  # Windows PE test exe a Linux runner can't execute natively) to keep this
+  # cheap on runner minutes.
+  build-linux-cross-compile:
+    runs-on: ubuntu-latest
+    env:
+      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+      XWIN_SYSROOT: ${{ github.workspace }}/xwin-out
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          path: main
+          submodules: recursive
+
+      - name: Extract vcpkg baseline from vcpkg.json
+        id: get_vcpkg_baseline
+        run: |
+          baseline=$(python3 -c "import json; print(json.load(open('main/vcpkg.json'))['builtin-baseline'])")
+          echo "baseline=$baseline" >> "$GITHUB_OUTPUT"
+
+      - name: Install cross-compile toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang lld ninja-build wine
+
+      - name: Cache xwin sysroot
+        id: cache-xwin
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.XWIN_SYSROOT }}
+          key: xwin-sysroot-0.6.5-10.0.26100
+
+      - name: Generate xwin sysroot
+        if: steps.cache-xwin.outputs.cache-hit != 'true'
+        run: |
+          curl -L https://github.com/Jake-Shadle/xwin/releases/download/0.6.5/xwin-0.6.5-x86_64-unknown-linux-musl.tar.gz | tar xz
+          mv xwin-0.6.5-x86_64-unknown-linux-musl/xwin /usr/local/bin/xwin
+          xwin --accept-license --cache-dir "${{ runner.temp }}/xwin-cache" splat \
+            --output "${{ env.XWIN_SYSROOT }}" --include-debug-libs \
+            --use-winsysroot-style --preserve-ms-arch-notation
+
+      - name: Install llvm-mingw (for the fxc2 shader-compiler stand-in, see examples/linux-cross-compile)
+        run: |
+          curl -L https://github.com/mstorsjo/llvm-mingw/releases/download/20250910/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64.tar.xz | tar xJ
+          echo "$PWD/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64/bin" >> "$GITHUB_PATH"
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: ${{ steps.get_vcpkg_baseline.outputs.baseline }}
+          runVcpkgInstall: false
+
+      - name: Enable vcpkg GitHub Actions binary cache
+        uses: actions/github-script@v7
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+      - name: Configure
+        run: cmake -S main -B main/build/release-linux-clangcl-vcpkg-all --preset build-release-linux-clangcl-vcpkg-all -DCOMMONLIB_ENABLE_IPO=OFF -DBUILD_TESTS=OFF
+        working-directory: ${{ github.workspace }}
+
+      - name: Build
+        run: cmake --build main/build/release-linux-clangcl-vcpkg-all
+        working-directory: ${{ github.workspace }}
+
+      - name: Verify output exists
+        run: test -f main/build/release-linux-clangcl-vcpkg-all/CommonLibSSE.lib
