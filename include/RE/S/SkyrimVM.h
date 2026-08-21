@@ -344,14 +344,62 @@ namespace RE
 			return nullptr;
 		}
 
-		// KNOWN GAP: TESPlayerBowShotEvent/TESFastTravelEndEvent/
-		// PositionPlayerEvent/BSTEventSink<BSScript::StatsEvent> remain real
-		// C++ base classes accessed via implicit upcast, so any such upcast
-		// resolves to the WRONG address on AE 1.7.99+ (their real offsets
-		// shifted +0x10, verified above) -- fixing this safely requires
-		// removing them from the inheritance list and adding versioned
-		// accessors, deferred as a follow-up (same class of fix as
-		// BGSDefaultObjectManager's pending array-safety redesign).
+		// TESPlayerBowShotEvent/TESFastTravelEndEvent/PositionPlayerEvent/
+		// BSTEventSink<StatsEvent> stay real base classes above (removing
+		// them would shift the still-unconditional BSTEventSource<StatsEvent>
+		// base that follows, breaking it for every version, not just
+		// 1.7.99). Their implicit upcasts are still correct pre-1.7.99 but
+		// resolve to the wrong address on AE 1.7.99+ (real offsets shift
+		// +0x10, verified above), so these accessors are provided alongside
+		// the existing inheritance for callers needing 1.7.99 correctness.
+		// VR-inclusive builds are unaffected (see the inheritance list
+		// above) and have no equivalent accessor here.
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
+		[[nodiscard]] BSTEventSink<TESPlayerBowShotEvent>* AsTESPlayerBowShotEventSink() noexcept
+		{
+			std::uintptr_t offset = 0x180;
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					offset = 0x190;
+				}
+			}
+			return reinterpret_cast<BSTEventSink<TESPlayerBowShotEvent>*>(reinterpret_cast<std::uintptr_t>(this) + offset);
+		}
+
+		[[nodiscard]] BSTEventSink<TESFastTravelEndEvent>* AsTESFastTravelEndEventSink() noexcept
+		{
+			std::uintptr_t offset = 0x188;
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					offset = 0x198;
+				}
+			}
+			return reinterpret_cast<BSTEventSink<TESFastTravelEndEvent>*>(reinterpret_cast<std::uintptr_t>(this) + offset);
+		}
+
+		[[nodiscard]] BSTEventSink<PositionPlayerEvent>* AsPositionPlayerEventSink() noexcept
+		{
+			std::uintptr_t offset = 0x190;
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					offset = 0x1A0;
+				}
+			}
+			return reinterpret_cast<BSTEventSink<PositionPlayerEvent>*>(reinterpret_cast<std::uintptr_t>(this) + offset);
+		}
+
+		[[nodiscard]] BSTEventSink<BSScript::StatsEvent>* AsStatsEventSink() noexcept
+		{
+			std::uintptr_t offset = 0x198;
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					offset = 0x1A8;
+				}
+			}
+			return reinterpret_cast<BSTEventSink<BSScript::StatsEvent>*>(reinterpret_cast<std::uintptr_t>(this) + offset);
+		}
+#endif
+
 		static SkyrimVM* GetSingleton();
 
 		bool QueuePostRenderCall(const BSTSmartPointer<SkyrimScript::DelayFunctor>& a_functor);
@@ -412,11 +460,7 @@ namespace RE
 #endif
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-#	ifdef ENABLE_SKYRIM_AE
 	static_assert(sizeof(SkyrimVM) == 0x760);
-#	else
-	static_assert(sizeof(SkyrimVM) == 0x760);
-#	endif
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(SkyrimVM) == 0x780);
 #else
