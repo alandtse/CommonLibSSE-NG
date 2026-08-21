@@ -44,7 +44,7 @@ namespace REL
             [](auto&& a_lhs, auto&& a_rhs) {
                 return a_lhs.offset < a_rhs.offset;
             });
-		if (it == _offset2id.end()) {
+		if (it == _offset2id.end() || it->offset != a_offset) {
 			stl::report_and_fail(
 				std::format(
 					"Failed to find the offset within the database: 0x{:08X}"sv,

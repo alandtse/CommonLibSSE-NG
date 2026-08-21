@@ -168,15 +168,7 @@ namespace REL
 				return a_lhs.id < a_rhs.id;
 			});
 
-		bool failed = false;
-		if (it == _id2offset.end()) {
-			failed = true;
-		} else if SKYRIM_REL_VR_CONSTEXPR (Module::IsVR()) {
-			if (it->id != a_id) {
-				failed = true;
-			}
-		}
-		if (failed) {
+		if (it == _id2offset.end() || it->id != a_id) {
 			report_id_lookup_failure(a_id);
 		}
 
@@ -241,7 +233,11 @@ namespace REL
 			_id2offset = { static_cast<mapping_t*>(_mmap.data()), a_header.address_count() };
 		} else if (_mmap.create(mapname, byteSize)) {
 			_id2offset = { static_cast<mapping_t*>(_mmap.data()), a_header.address_count() };
-			unpack_file(a_in, a_header, a_failOnError);
+			if (!unpack_file(a_in, a_header, a_failOnError)) {
+				_id2offset = {};
+				_mmap.close();
+				return false;
+			}
 			std::sort(_id2offset.begin(), _id2offset.end(), [](auto&& a_lhs, auto&& a_rhs) {
 				return a_lhs.id < a_rhs.id;
 			});
