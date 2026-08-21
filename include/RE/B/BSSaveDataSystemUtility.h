@@ -3,6 +3,11 @@
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSString.h"
 #include "RE/B/BSTEvent.h"
+#include "REL/Relocation.h"
+
+#ifdef ENABLE_SKYRIM_AE
+#	include "SKSE/Version.h"
+#endif
 
 namespace RE
 {
@@ -67,19 +72,70 @@ namespace RE
 		virtual errno_t PrepareFileSavePath(const char* a_fileName, char* a_dst, bool a_tmpSave, bool a_ignoreINI) = 0;  // 02 - a_dst must be 0x104 in length
 		virtual void    Unk_03(void);                                                                                    // 03 - { return Unk_04(); }
 		virtual void    Unk_04(void);                                                                                    // 04 - { return; }
-		virtual void    Unk_05(void);                                                                                    // 05
-		virtual void    Unk_06(void) = 0;                                                                                // 06
-		virtual void    Unk_07(void);                                                                                    // 07
-		virtual void    Unk_08(void);                                                                                    // 08 - { return; }
-		virtual void    Unk_09(void);                                                                                    // 09 - { return; }
-		virtual void    Unk_0A(void);                                                                                    // 0A
-		virtual void    Unk_0B(void);                                                                                    // 0B - { return; }
-		virtual void    Unk_0C(void);                                                                                    // 0C
-		virtual void    Unk_0D(void);                                                                                    // 0D - { return; }
-		virtual void    Unk_0E(void);                                                                                    // 0E - { return 1; }
-		virtual void    Unk_0F(void);                                                                                    // 0F - { return 1; }
-		virtual void    Unk_10(void);                                                                                    // 10 - { return 0; }
-		virtual void    Unk_11(void);                                                                                    // 11 - { return; }
+
+#ifdef ENABLE_SKYRIM_AE
+#	define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 6 : (idx))
+
+		void Unk_05AE(void)
+		{
+			if (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x05, 0x05, this);
+			}
+		}
+		void Unk_06AE(void)
+		{
+			if (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x06, 0x06, this);
+			}
+		}
+		bool Unk_07AE(void)
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return true;
+			}
+			return REL::RelocateVirtual<bool(BSSaveDataSystemUtility*)>(0x07, 0x07, this);
+		}
+		bool Unk_08AE(void)
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return true;
+			}
+			return REL::RelocateVirtual<bool(BSSaveDataSystemUtility*)>(0x08, 0x08, this);
+		}
+		bool Unk_09AE(void)
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return true;
+			}
+			return REL::RelocateVirtual<bool(BSSaveDataSystemUtility*)>(0x09, 0x09, this);
+		}
+		void Unk_0AAE(void)
+		{
+			if (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x0A, 0x0A, this);
+			}
+		}
+#else
+#	define AE1799_SLOT_SHIFT(idx) (idx)
+#endif
+
+		void Unk_05(void)
+		{
+			REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x05), AE1799_SLOT_SHIFT(0x05), this);
+		}
+		void Unk_06(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x06), AE1799_SLOT_SHIFT(0x06), this); }
+		void Unk_07(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x07), AE1799_SLOT_SHIFT(0x07), this); }
+		void Unk_08(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x08), AE1799_SLOT_SHIFT(0x08), this); }
+		void Unk_09(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x09), AE1799_SLOT_SHIFT(0x09), this); }
+		void Unk_0A(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x0A), AE1799_SLOT_SHIFT(0x0A), this); }
+		void Unk_0B(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x0B), AE1799_SLOT_SHIFT(0x0B), this); }
+		void Unk_0C(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x0C), AE1799_SLOT_SHIFT(0x0C), this); }
+		void Unk_0D(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x0D), AE1799_SLOT_SHIFT(0x0D), this); }
+		void Unk_0E(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x0E), AE1799_SLOT_SHIFT(0x0E), this); }
+		void Unk_0F(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x0F), AE1799_SLOT_SHIFT(0x0F), this); }
+		void Unk_10(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x10), AE1799_SLOT_SHIFT(0x10), this); }
+		void Unk_11(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x11), AE1799_SLOT_SHIFT(0x11), this); }
+#undef AE1799_SLOT_SHIFT
 
 		// members
 		std::uint8_t  unk060;              // 060
