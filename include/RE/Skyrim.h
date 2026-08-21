@@ -419,6 +419,7 @@
 #include "RE/B/BSStripParticleSystem.h"
 #include "RE/B/BSSubIndexTriShape.h"
 #include "RE/B/BSSynchronizedClipGenerator.h"
+#include "RE/B/BSSystemEvent.h"
 #include "RE/B/BSSystemFile.h"
 #include "RE/B/BSSystemFileStorage.h"
 #include "RE/B/BSSystemUtility.h"

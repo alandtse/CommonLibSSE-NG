@@ -1,0 +1,14 @@
+#pragma once
+
+namespace RE
+{
+	// New in AE 1.7.99; fields not yet reverse-engineered.
+	class BSSystemEvent
+	{
+	public:
+		std::uint64_t unk00;
+		std::uint64_t unk08;
+		std::uint32_t unk10;
+	};
+	static_assert(sizeof(BSSystemEvent) == 0x18);
+}

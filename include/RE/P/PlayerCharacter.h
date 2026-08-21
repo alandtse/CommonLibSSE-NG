@@ -51,6 +51,9 @@ namespace RE
 	class UserEventEnabledEvent;
 	struct BGSActorCellEvent;
 	struct BGSActorDeathEvent;
+#ifdef ENABLE_SKYRIM_AE
+	class BSSystemEvent;
+#endif
 	struct PerkRankData;
 	struct PositionPlayerEvent;
 	struct TESQuestStageItem;
@@ -764,6 +767,28 @@ namespace RE
 
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<TESTrackedStatsEvent>, AsTESTrackedStatsEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2C8, 0x2D0)
 
+		// AE 1.7.99 appends a new BSTEventSink<BSSystemEvent> base after every
+		// previously-known one (verified via live RTTI/vtable walk against the
+		// real binary: a 6th event-sink vtable slot at 0x2D8, one past
+		// AsTESTrackedStatsEventSink's AE offset -- not the "0x2D0" position
+		// upstream's own comments use, since those predate this fork's
+		// existing 1.6.629 versioning split). Not declared as a real C++ base
+		// class -- doing so would add a vtable slot the compiler bakes in for
+		// every runtime a build targets, corrupting SE/VR's real (unshifted)
+		// vtable shape in a SKYRIM_CROSS_VR build. Mirrors the VR-only
+		// "no flat vtable slot" accessor pattern, just gated the other way.
+		[[nodiscard]] BSTEventSink<BSSystemEvent>* AsBSSystemEventSink() noexcept
+		{
+#ifdef ENABLE_SKYRIM_AE
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					return reinterpret_cast<BSTEventSink<BSSystemEvent>*>(reinterpret_cast<std::uintptr_t>(this) + 0x2D8);
+				}
+			}
+#endif
+			return nullptr;
+		}
+
 		struct PLAYER_RUNTIME_DATA
 		{
 #define PLAYER_RUNTIME_DATA_CONTENT                                                                                         \
@@ -978,17 +1003,23 @@ namespace RE
             VR_PLAYER_RUNTIME_DATA_CONTENT
 		};
 
+		// AE 1.7.99's new BSSystemEvent sink (see AsBSSystemEventSink above)
+		// appends one vtable slot after every previously-known base, shifting
+		// every one of PlayerCharacter's own data members below by +8 bytes
+		// on that version only (SE/VR/pre-1.7.99-AE offsets are unaffected).
+#define AE1799_SHIFT(offset) (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) == std::strong_ordering::less ? (offset) : (offset) + 8)
+
 		// Runtime data accessors
-		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(PLAYER_RUNTIME_DATA, GetPlayerRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x3E0);
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(PLAYER_RUNTIME_DATA, GetPlayerRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, AE1799_SHIFT(0x3E0));
 		// VR's block starts 0x18 later than SE's 0x3D8 anchor (3 extra VR-only BSTEventSink members);
 		// matches GetVRNodeData's own 0x3F0 anchor below.
 		VR_ONLY_POINTER_ACCESSOR(VR_PLAYER_RUNTIME_DATA, GetVRPlayerRuntimeData, 0x3F0);
 
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(CrimeValue, GetCrimeValue, SKSE::RUNTIME_SSE_1_6_629, 0x3E0, 0x9D0, 0x3E8);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(CrimeValue, GetCrimeValue, SKSE::RUNTIME_SSE_1_6_629, 0x3E0, 0x9D0, AE1799_SHIFT(0x3E8));
 
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(RaceData, GetRaceData, SKSE::RUNTIME_SSE_1_6_629, 0xB30, 0x1228, 0xB38);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(RaceData, GetRaceData, SKSE::RUNTIME_SSE_1_6_629, 0xB30, 0x1228, AE1799_SHIFT(0xB38));
 
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(GameStateData, GetGameStatsData, SKSE::RUNTIME_SSE_1_6_629, 0xAF8, 0x11F4, 0xB00);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(GameStateData, GetGameStatsData, SKSE::RUNTIME_SSE_1_6_629, 0xAF8, 0x11F4, AE1799_SHIFT(0xB00));
 
 		// #207: cross-VR plugins had no safe way to reach these three (SE/AE-only direct member
 		// access silently reads garbage under EXCLUSIVE_SKYRIM_VR since VR's layout differs
@@ -996,13 +1027,15 @@ namespace RE
 		// ConsoleFunc::handler::ShowQuestTargets (questTargetsLock), and PlayerCharacter::Revert
 		// plus WriteToSaveGame/FinishLoadGame (questLog, questTargets) in all three binaries.
 		using QuestTargetsMap = BSTHashMap<TESQuest*, BSTArray<TESQuestTarget*>*>;
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSpinLock, GetQuestTargetsLock, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x9C8, 0x3E0);
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSimpleList<TESQuestStageItem*>, GetQuestLog, SKSE::RUNTIME_SSE_1_6_629, 0x570, 0xB60, 0x578);
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(QuestTargetsMap, GetQuestTargets, SKSE::RUNTIME_SSE_1_6_629, 0x598, 0xB88, 0x5A0);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSpinLock, GetQuestTargetsLock, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x9C8, AE1799_SHIFT(0x3E0));
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSimpleList<TESQuestStageItem*>, GetQuestLog, SKSE::RUNTIME_SSE_1_6_629, 0x570, 0xB60, AE1799_SHIFT(0x578));
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(QuestTargetsMap, GetQuestTargets, SKSE::RUNTIME_SSE_1_6_629, 0x598, 0xB88, AE1799_SHIFT(0x5A0));
 
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(INFO_RUNTIME_DATA, GetInfoRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x8E4, 0x8E4, 0x8EC);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(INFO_RUNTIME_DATA, GetInfoRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x8E4, 0x8E4, AE1799_SHIFT(0x8EC));
 
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(PlayerFlags, GetPlayerFlags, SKSE::RUNTIME_SSE_1_6_629, 0xBD8, 0x12D0, 0xBE0);
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(PlayerFlags, GetPlayerFlags, SKSE::RUNTIME_SSE_1_6_629, 0xBD8, 0x12D0, AE1799_SHIFT(0xBE0));
+
+#undef AE1799_SHIFT
 
 		VR_ONLY_POINTER_ACCESSOR(VR_INFO_RUNTIME_DATA, GetVRInfoRuntimeData, 0xFE0);
 		VR_ONLY_POINTER_ACCESSOR(VR_NODE_DATA, GetVRNodeData, 0x3F0);
