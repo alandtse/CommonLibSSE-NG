@@ -27,6 +27,8 @@ namespace REL
 			memory_map& operator=(memory_map&& a_rhs) noexcept
 			{
 				if (this != std::addressof(a_rhs)) {
+					close();
+
 					_mapping = a_rhs._mapping;
 					a_rhs._mapping = nullptr;
 

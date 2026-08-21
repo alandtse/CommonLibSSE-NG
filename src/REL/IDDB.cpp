@@ -12,7 +12,10 @@ namespace REL
 	{
 		bool report_unsupported_format(std::int32_t a_format, bool a_failOnError)
 		{
-			return stl::report_and_error(
+			// stl::report_and_error() always returns true (it's a log-and-optionally-
+			// terminate helper, not a success signal) -- don't propagate that as if it
+			// meant the format loaded fine.
+			stl::report_and_error(
 				std::format(
 					"Unsupported address library format: {}\n"
 					"This means this script extender plugin is incompatible with the address "
@@ -20,6 +23,7 @@ namespace REL
 					"support it."sv,
 					a_format),
 				a_failOnError);
+			return false;
 		}
 
 		[[noreturn]] void report_id_lookup_failure(std::uint64_t a_id)
@@ -208,7 +212,7 @@ namespace REL
 				return report_unsupported_format(format, a_failOnError);
 			}
 		} catch (const std::system_error&) {
-			return stl::report_and_error(
+			stl::report_and_error(
 				std::format(
 					"Failed to locate an appropriate address library with the path: {}\n"
 					"This means you are missing the address library for this specific version of "
@@ -217,13 +221,15 @@ namespace REL
 					"address library has not yet added support for this version of the game."sv,
 					stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)),
 				a_failOnError);
+			return false;
 		}
 	}
 
 	bool IDDB::load_v2(istream_t& a_in, header_v2_t a_header, Version a_version, bool a_failOnError)
 	{
 		if (a_header.version() != a_version) {
-			return stl::report_and_error("version mismatch"sv, a_failOnError);
+			stl::report_and_error("version mismatch"sv, a_failOnError);
+			return false;
 		}
 
 		auto mapname = L"CommonLibSSEOffsets-v2-"s;
@@ -242,7 +248,8 @@ namespace REL
 				return a_lhs.id < a_rhs.id;
 			});
 		} else {
-			return stl::report_and_error("failed to create shared mapping"sv, a_failOnError);
+			stl::report_and_error("failed to create shared mapping"sv, a_failOnError);
+			return false;
 		}
 
 		return true;
@@ -251,15 +258,17 @@ namespace REL
 	bool IDDB::load_v5(stl::zwstring a_filename, header_v5_t a_header, Version a_version, bool a_failOnError)
 	{
 		if (a_header.version() != a_version) {
-			return stl::report_and_error("version mismatch"sv, a_failOnError);
+			stl::report_and_error("version mismatch"sv, a_failOnError);
+			return false;
 		}
 
 		if (!_mmap.create_from_file(a_filename)) {
-			return stl::report_and_error(
+			stl::report_and_error(
 				std::format(
 					"Failed to memory-map the address library file: {}"sv,
 					stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)),
 				a_failOnError);
+			return false;
 		}
 
 		constexpr std::size_t headerBytes =
@@ -269,6 +278,21 @@ namespace REL
 			sizeof(std::int32_t) +       // pointerSize
 			sizeof(std::int32_t) +       // dataFormat
 			sizeof(std::int32_t);        // offsetCount
+
+		// offset_count() comes straight from the file; a truncated/corrupt file
+		// could otherwise make the dense span extend past the mapped view.
+		std::error_code ec;
+		const auto      fileBytes = std::filesystem::file_size(a_filename.data(), ec);
+		const auto      neededBytes = headerBytes + static_cast<std::uint64_t>(a_header.offset_count()) * sizeof(std::uint32_t);
+		if (ec || fileBytes < neededBytes) {
+			_mmap.close();
+			stl::report_and_error(
+				std::format(
+					"Address library file is truncated or its offset count is invalid: {}"sv,
+					stl::utf16_to_utf8(a_filename).value_or("<unknown filename>"s)),
+				a_failOnError);
+			return false;
+		}
 
 		const auto* base = static_cast<const std::uint8_t*>(_mmap.data());
 		_id2offsetDense = {
@@ -285,9 +309,10 @@ namespace REL
 	{
 		auto nstring = SKSE::stl::utf16_to_utf8(a_filename).value_or(""s);
 		if (!std::filesystem::exists(nstring)) {
-			return stl::report_and_error(
+			stl::report_and_error(
 				std::format("Required VR Address Library file {} does not exist"sv, nstring),
 				a_failOnError);
+			return false;
 		}
 
 		rapidcsv::Document in(nstring);
@@ -304,15 +329,17 @@ namespace REL
 		} else if (_mmap.create(mapname, byteSize)) {
 			_id2offset = { static_cast<mapping_t*>(_mmap.data()), static_cast<std::size_t>(address_count) };
 			if (in.GetRowCount() > address_count + 1) {
-				return stl::report_and_error(
+				stl::report_and_error(
 					std::format("VR Address Library {} tried to exceed {} allocated entries."sv,
 						version, address_count),
 					a_failOnError);
+				return false;
 			} else if (in.GetRowCount() < address_count + 1) {
-				return stl::report_and_error(
+				stl::report_and_error(
 					std::format("VR Address Library {} loaded only {} entries but expected {}. Please redownload."sv,
 						version, in.GetRowCount() - 1, address_count),
 					a_failOnError);
+				return false;
 			}
 
 			std::size_t index = 1;
@@ -327,7 +354,8 @@ namespace REL
 				return a_lhs.id < a_rhs.id;
 			});
 		} else {
-			return stl::report_and_error("failed to create shared mapping"sv, a_failOnError);
+			stl::report_and_error("failed to create shared mapping"sv, a_failOnError);
+			return false;
 		}
 
 		_loadedFormat = Format::VR;
@@ -390,7 +418,8 @@ namespace REL
 				id = a_in.readout<std::uint32_t>();
 				break;
 			default:
-				return stl::report_and_error("unhandled type"sv, a_failOnError);
+				stl::report_and_error("unhandled type"sv, a_failOnError);
+				return false;
 			}
 
 			const std::uint64_t tmp = (hi & 8) != 0 ? (prevOffset / a_header.pointer_size()) : prevOffset;
@@ -421,7 +450,8 @@ namespace REL
 				offset = a_in.readout<std::uint32_t>();
 				break;
 			default:
-				return stl::report_and_error("unhandled type"sv, a_failOnError);
+				stl::report_and_error("unhandled type"sv, a_failOnError);
+				return false;
 			}
 
 			if ((hi & 8) != 0) {

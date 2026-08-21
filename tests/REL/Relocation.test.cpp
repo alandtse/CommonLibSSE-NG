@@ -433,7 +433,7 @@ TEST_CASE("IDDB/BackwardCompatAutoDetect")
 TEST_CASE("IDDB/UnsupportedFormatFailsLoudly")
 {
 	REQUIRE(REL::Module::mock(SKSE::RUNTIME_SSE_1_6_1170, REL::Module::Runtime::AE, L"SkyrimSE.exe", 0x1000));
-	(void)REL::IDDB::inject(L"Data\\SKSE\\Plugins\\version-invalid-format.bin", SKSE::RUNTIME_SSE_1_6_1170);
+	CHECK_FALSE(REL::IDDB::inject(L"Data\\SKSE\\Plugins\\version-invalid-format.bin", SKSE::RUNTIME_SSE_1_6_1170));
 	// An unrecognized format never populates a usable mapping, so every lookup still fails.
 	CHECK_THROWS(REL::IDDB::get().id2offset(1));
 	REL::Module::reset();
