@@ -27,23 +27,33 @@ vcpkg_from_github(
 # CompileShaders.cmd's exit status and its own success/failure messages
 # are both unreliable under `wine cmd`: its per-shader `%fxc% ||
 # set error=1` check misfires, so it reports "There were shader
-# compilation errors!" even when all 187 .inc files compiled correctly.
-# Success must therefore be determined by whether the .inc files were
-# actually produced.
+# compilation errors!" even when every shader compiled correctly.
+# Success is therefore determined by comparing the .inc files produced
+# against the fxc2 invocations the script echoed, which also catches
+# partial output. Any pre-existing .inc files are removed first so a
+# failed run cannot be masked by leftovers from an earlier build.
 if(CMAKE_HOST_UNIX)
     file(WRITE "${SOURCE_PATH}/Src/Shaders/wine-compile-shaders.sh" "#!/bin/sh
 set -u
 CompileShadersOutput=\"$1\"
 FxcTool=\"$2\"
 shift 2
+find \"$CompileShadersOutput\" -type f -name '*.inc' -delete 2>/dev/null || true
 \"${CMAKE_COMMAND}\" -E env CompileShadersOutput=\"$CompileShadersOutput\" WINEDEBUG=-all LegacyShaderCompiler=\"$FxcTool\" wine cmd /c CompileShaders.cmd \"$@\" > \"$CompileShadersOutput/compileshaders.log\" 2>&1
 if grep -q \"Got an error\" \"$CompileShadersOutput/compileshaders.log\"; then
     echo \"fxc2 reported shader compilation error(s); see $CompileShadersOutput/compileshaders.log\" >&2
     exit 1
 fi
-inc_count=\$(find \"$CompileShadersOutput\" -name '*.inc' 2>/dev/null | wc -l)
-if [ \"\$inc_count\" -eq 0 ]; then
-    echo \"Shader compilation produced no .inc output; see $CompileShadersOutput/compileshaders.log\" >&2
+# CompileShaders.cmd echoes each fxc2 command it runs, one per line
+# starting with the quoted tool path, so this expected count tracks
+# whatever set of shaders the current DirectXTK release defines.
+# grep -c prints 0 and exits 1 when nothing matches, so `|| true` keeps
+# that 0 without appending a second line to the substitution.
+expected_count=\$(grep -c '^\"' \"$CompileShadersOutput/compileshaders.log\" 2>/dev/null || true)
+[ -n \"\$expected_count\" ] || expected_count=0
+inc_count=\$(find \"$CompileShadersOutput\" -type f -name '*.inc' 2>/dev/null | wc -l)
+if [ \"\$expected_count\" -eq 0 ] || [ \"\$inc_count\" -ne \"\$expected_count\" ]; then
+    echo \"Shader compilation produced \$inc_count .inc file(s), expected \$expected_count; see $CompileShadersOutput/compileshaders.log\" >&2
     echo \"--- diagnostics ---\" >&2
     ls -la \"$FxcTool\" >&2 2>&1 || echo \"(no fxc2 binary at that path)\" >&2
     command -v file >/dev/null 2>&1 && file \"$FxcTool\" >&2 2>&1 || true
