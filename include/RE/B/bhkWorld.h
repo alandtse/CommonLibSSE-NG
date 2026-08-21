@@ -4,6 +4,11 @@
 #include "RE/B/bhkSerializable.h"
 #include "RE/B/bhkWorldCinfo.h"
 #include "RE/H/hkVector4.h"
+#include "REL/Relocation.h"
+
+#ifdef ENABLE_SKYRIM_AE
+#	include "SKSE/Version.h"
+#endif
 
 namespace RE
 {
@@ -77,38 +82,49 @@ namespace RE
 		std::uint64_t                 unkC5C0;                    // C5C0
 		BGSAcousticSpaceListener*     acousticSpaceListener;      // C5C8
 		hkpSuspendInactiveAgentsUtil* suspendInactiveAgentsUtil;  // C5D0
-#ifndef ENABLE_SKYRIM_AE
-		std::uint32_t unkC5D8;          // C5D8 - incremented per frame
-		std::uint32_t unkC5DC;          // C5DC
-		std::uint32_t unkC5E0;          // C5E0
-		std::uint32_t unkC5E4;          // C5E4
-		std::uint32_t unkC5E8;          // C5E8
-		std::uint32_t unkC5EC;          // C5EC
-		float         tau;              // C5F0
-		float         damping;          // C5F4
-		std::uint8_t  unkC5F8;          // C5F8
-		bool          toggleCollision;  // C5F9
-		std::uint16_t unkC5FA;          // C5FA
-		std::uint16_t unkC5FC;          // C5FC
-		std::uint16_t unkC5FE;          // C5FE
-#else
-		// Bytes past damping are unverified padding.
-		std::uint64_t unkC5D8;        // C5D8 - unlabeled gap before worldCinfo
-		bhkWorldCinfo worldCinfo;     // C5E0
-		std::uint32_t unkC6E0;        // C6E0 - incremented per frame
-		std::uint32_t unkC6E4;        // C6E4
-		std::uint32_t unkC6E8;        // C6E8
-		std::uint32_t unkC6EC;        // C6EC
-		std::uint32_t unkC6F0;        // C6F0
-		std::uint32_t unkC6F4;        // C6F4
-		float         tau;            // C6F8
-		float         damping;        // C6FC
-		std::uint8_t  _pad700[0x10];  // C700 - unverified trailing fields, sized to reach the confirmed 0xC710 total
+		std::uint32_t                 unkC5D8;                    // C5D8 - incremented per frame
+		std::uint32_t                 unkC5DC;                    // C5DC
+		std::uint32_t                 unkC5E0;                    // C5E0
+		std::uint32_t                 unkC5E4;                    // C5E4
+		std::uint32_t                 unkC5E8;                    // C5E8
+		std::uint32_t                 unkC5EC;                    // C5EC
+		float                         tau;                        // C5F0
+		float                         damping;                    // C5F4
+		std::uint8_t                  unkC5F8;                    // C5F8
+		bool                          toggleCollision;            // C5F9
+		std::uint16_t                 unkC5FA;                    // C5FA
+		std::uint16_t                 unkC5FC;                    // C5FC
+		std::uint16_t                 unkC5FE;                    // C5FE
+
+#ifdef ENABLE_SKYRIM_AE
+		struct AE1799_RUNTIME_DATA
+		{
+			std::uint64_t unkC5D8;        // C5D8 - unlabeled gap before worldCinfo
+			bhkWorldCinfo worldCinfo;     // C5E0
+			std::uint32_t unkC6E0;        // C6E0 - incremented per frame
+			std::uint32_t unkC6E4;        // C6E4
+			std::uint32_t unkC6E8;        // C6E8
+			std::uint32_t unkC6EC;        // C6EC
+			std::uint32_t unkC6F0;        // C6F0
+			std::uint32_t unkC6F4;        // C6F4
+			float         tau;            // C6F8
+			float         damping;        // C6FC
+			std::uint8_t  _pad700[0x10];  // C700 - unverified trailing fields
+		};
+
+		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return nullptr;
+			}
+			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0xC5D8);
+		}
+
+		[[nodiscard]] inline const AE1799_RUNTIME_DATA* GetAe1799RuntimeData() const noexcept
+		{
+			return const_cast<bhkWorld*>(this)->GetAe1799RuntimeData();
+		}
 #endif
 	};
-#ifndef ENABLE_SKYRIM_AE
 	static_assert(sizeof(bhkWorld) == 0xC600);
-#else
-	static_assert(sizeof(bhkWorld) == 0xC710);
-#endif
 }
