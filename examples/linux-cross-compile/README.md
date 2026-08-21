@@ -16,7 +16,7 @@ sudo pacman -S clang lld llvm cmake ninja rust git   # adjust for your distro
 sudo pacman -S wine llvm-mingw
 
 # xwin, pinned for reproducibility
-cargo install xwin --version 0.6.5 --locked
+cargo install xwin --version 0.10.0 --locked
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # Windows SDK + MSVC CRT sysroot. Both flags are required: without
