@@ -115,32 +115,33 @@ if(CMAKE_HOST_UNIX)
         HEAD_REF master
     )
 
-    set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2.exe")
-    # vcpkg_cmake_configure() configures this port's debug and release
-    # variants CONCURRENTLY ("vcpkg-parallel-configure"), and this whole
-    # portfile.cmake (including this fxc2 build step) runs once per
-    # variant. Without a lock, both processes' `NOT EXISTS` check can
-    # pass at the same time and both start compiling to the same shared
-    # ${FXC2_EXE} path at once, corrupting it. Confirmed on a real CI
-    # run: this produced a genuinely invalid PE binary, which Wine's
-    # cmd.exe then reported as "Can't recognize ... as an internal or
-    # external command" for every single shader invocation, silently
-    # (nothing in the log said "corrupted binary"; it just looked
-    # like cmd couldn't find the file at all). file(LOCK) serializes
-    # the check-and-build across both concurrent processes; whichever
-    # one loses the race for the lock sees the file already built and
-    # correctly skips rebuilding it.
-    file(LOCK "${FXC2_EXE}.lock" GUARD PROCESS)
-    if(NOT EXISTS "${FXC2_EXE}")
-        execute_process(
-            COMMAND "${FXC2_MINGW_CLANGXX}" -static "${FXC2_SOURCE_PATH}/fxc2.cpp" -o "${FXC2_EXE}"
-            RESULT_VARIABLE FXC2_BUILD_RESULT
-        )
-        if(NOT FXC2_BUILD_RESULT EQUAL 0)
-            message(FATAL_ERROR "${PORT}: failed to build fxc2.exe from ${FXC2_SOURCE_PATH}")
-        endif()
+    # portfile.cmake genuinely runs more than once per port build
+    # (confirmed directly via CI logs: the full vcpkg_from_github
+    # fetch/extract/patch sequence, for both DirectXTK and this fxc2
+    # source, repeats, each time re-triggering this build step too,
+    # whatever vcpkg's exact internal reason for that repeat is; not
+    # worth chasing further since it doesn't actually matter here). A
+    # shared, cached ${FXC2_EXE} path with an "if NOT EXISTS, build"
+    # check is fragile against that: an earlier attempt at making it
+    # safe with file(LOCK) still didn't hold up on a real CI run (the
+    # second invocation rebuilt from scratch regardless, so the
+    # assumption that it would find an already-completed file from the
+    # first invocation was simply wrong). The fix that's correct
+    # regardless of the exact mechanics: don't share a file at all.
+    # Build straight to a fresh, uniquely-named path every single time
+    # this runs, so there's no shared mutable state to ever corrupt or
+    # disagree about. Compiling this one small file takes a fraction of
+    # a second, so losing the "skip rebuild if it already exists"
+    # optimization costs nothing real.
+    string(RANDOM LENGTH 12 ALPHABET "0123456789abcdef" FXC2_UNIQUE_SUFFIX)
+    set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2-${FXC2_UNIQUE_SUFFIX}.exe")
+    execute_process(
+        COMMAND "${FXC2_MINGW_CLANGXX}" -static "${FXC2_SOURCE_PATH}/fxc2.cpp" -o "${FXC2_EXE}"
+        RESULT_VARIABLE FXC2_BUILD_RESULT
+    )
+    if(NOT FXC2_BUILD_RESULT EQUAL 0)
+        message(FATAL_ERROR "${PORT}: failed to build fxc2.exe from ${FXC2_SOURCE_PATH}")
     endif()
-    file(LOCK "${FXC2_EXE}.lock" RELEASE)
     file(COPY "${FXC2_SOURCE_PATH}/d3dcompiler_47.dll" DESTINATION "${CURRENT_BUILDTREES_DIR}")
 
     set(DIRECTXTK_FXC2_OPTIONS "-DDIRECTX_FXC_TOOL=${FXC2_EXE}")
