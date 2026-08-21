@@ -100,14 +100,14 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 		"${PROJECT_NAME}" INTERFACE
 		spdlog::spdlog
 		Microsoft::DirectXTK
-		Advapi32.lib
+		advapi32.lib
 		bcrypt.lib
 		D3D11.lib
 		d3dcompiler.lib
-		Dbghelp.lib
+		dbghelp.lib
 		DXGI.lib
-		Ole32.lib
-		Version.lib
+		ole32.lib
+		version.lib
 		"${COMMONLIB_PREBUILT_RESOLVED}/lib/openvr_api.lib"
 	)
 	include(cmake/CommonLibSSE.cmake)  # add_commonlibsse_plugin() helper for consumers
@@ -278,14 +278,14 @@ target_link_libraries(
 	PUBLIC
 	spdlog::spdlog
 	Microsoft::DirectXTK
-	Advapi32.lib
+	advapi32.lib
 	bcrypt.lib
 	D3D11.lib
 	d3dcompiler.lib
-	Dbghelp.lib
+	dbghelp.lib
 	DXGI.lib
-	Ole32.lib
-	Version.lib
+	ole32.lib
+	version.lib
 	"$<$<BOOL:${ENABLE_SKYRIM_VR}>:${OPENVR_LIB_DIR}/openvr_api.lib>"
 )
 
