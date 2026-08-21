@@ -47,11 +47,11 @@ namespace RE
 			float         initialPowerAttackDelay;     // 30, 70
 			std::uint32_t pad34;                       // 34, 74
 			float         subsequentPowerAttackDelay;  // 38, 78
-			bool          ignore;                      // 3C, B8
-			bool          unk41;                       // 3D, B9
-			bool          heldLeft;                    // 3E, BA
-			bool          heldRight;                   // 3F, BB
-			std::uint32_t unk44;                       // 40, BC
+			bool          ignore;                      // 3C, 7C
+			bool          unk41;                       // 3D, 7D
+			bool          heldLeft;                    // 3E, 7E
+			bool          heldRight;                   // 3F, 7F
+			std::uint32_t unk44;                       // 40, 80
 		};
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_7_99, 0x18, 0x58);
