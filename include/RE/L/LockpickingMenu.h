@@ -10,6 +10,10 @@
 #include "RE/T/TESObjectREFR.h"
 #include "REL/RuntimeDataAccessors.h"
 
+#ifdef ENABLE_SKYRIM_AE
+#	include "SKSE/Version.h"
+#endif
+
 namespace RE
 {
 	class MenuOpenCloseEvent;
@@ -74,6 +78,41 @@ namespace RE
 			RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0xC8);
+
+#ifdef ENABLE_SKYRIM_AE
+		// New only in AE 1.7.99 (absolute offset 0x110, right after
+		// RUNTIME_DATA ends); nullptr unless actually running that version,
+		// matching this codebase's GetAe1799EventData()/GetVRTouchpadData()
+		// idiom.
+		struct AE1799_RUNTIME_DATA
+		{
+			float         unk110;     // 110
+			float         unk114;     // 114
+			std::uint32_t unk118;     // 118
+			bool          unk11C;     // 11C
+			bool          unk11D;     // 11D
+			bool          unk11E;     // 11E
+			bool          unk11F;     // 11F
+			bool          unk120;     // 120
+			bool          unk121;     // 121
+			bool          unk122;     // 122
+			std::uint8_t  pad123[5];  // 123
+		};
+		static_assert(sizeof(AE1799_RUNTIME_DATA) == 0x18);
+
+		[[nodiscard]] inline AE1799_RUNTIME_DATA* GetAe1799RuntimeData() noexcept
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return nullptr;
+			}
+			return &REL::RelocateMember<AE1799_RUNTIME_DATA>(this, 0x110);
+		}
+
+		[[nodiscard]] inline const AE1799_RUNTIME_DATA* GetAe1799RuntimeData() const noexcept
+		{
+			return const_cast<LockpickingMenu*>(this)->GetAe1799RuntimeData();
+		}
+#endif
 
 		~LockpickingMenu() override;  // 00
 
