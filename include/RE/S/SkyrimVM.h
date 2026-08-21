@@ -320,29 +320,27 @@ namespace RE
 		// SE/VR/pre-1.7.99-AE's vtable shape in a SKYRIM_CROSS_VR build, same
 		// reasoning as PlayerCharacter::AsBSSystemEventSink). Returns nullptr
 		// on every other runtime/version.
+#ifdef ENABLE_SKYRIM_AE
 		[[nodiscard]] BSTEventSink<TESAmiiboTouchEvent>* AsTESAmiiboTouchEventSink() noexcept
 		{
-#ifdef ENABLE_SKYRIM_AE
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
 				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
 					return reinterpret_cast<BSTEventSink<TESAmiiboTouchEvent>*>(reinterpret_cast<std::uintptr_t>(this) + 0x180);
 				}
 			}
-#endif
 			return nullptr;
 		}
 
 		[[nodiscard]] BSTEventSink<TESAmiiboForcedStopDetectionEvent>* AsTESAmiiboForcedStopDetectionEventSink() noexcept
 		{
-#ifdef ENABLE_SKYRIM_AE
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
 				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
 					return reinterpret_cast<BSTEventSink<TESAmiiboForcedStopDetectionEvent>*>(reinterpret_cast<std::uintptr_t>(this) + 0x188);
 				}
 			}
-#endif
 			return nullptr;
 		}
+#endif
 
 		// TESPlayerBowShotEvent/TESFastTravelEndEvent/PositionPlayerEvent/
 		// BSTEventSink<StatsEvent> stay real base classes above (removing

@@ -29,18 +29,6 @@ namespace RE
 			return false;
 		}
 
-		inline std::size_t Ae1799IndexShift(std::size_t a_idx) noexcept
-		{
-			if (IsAe1799()) {
-				if (a_idx >= 263) {
-					return a_idx + 6;
-				} else if (a_idx >= 188) {
-					return a_idx + 1;
-				}
-			}
-			return a_idx;
-		}
-
 		inline std::size_t MapIndex(std::underlying_type_t<DefaultObjectID> a_idx) noexcept
 		{
 			if (a_idx <= std::to_underlying(DefaultObjectID::kKeywordActivatorFurnitureNoPlayer)) {
@@ -50,7 +38,14 @@ namespace RE
 			if SKYRIM_REL_CONSTEXPR (Module::IsVR()) {
 				result = (0xFFFF0000 & a_idx) >> 16;
 			} else {
-				result = Ae1799IndexShift(0x0000FFFF & a_idx);
+				result = 0x0000FFFF & a_idx;
+				if (IsAe1799()) {
+					if (result >= 263) {
+						result += 6;
+					} else if (result >= 188) {
+						result += 1;
+					}
+				}
 			}
 			return result ? result : kInvalid;
 		}

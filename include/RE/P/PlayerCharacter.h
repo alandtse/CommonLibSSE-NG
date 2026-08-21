@@ -777,17 +777,17 @@ namespace RE
 		// every runtime a build targets, corrupting SE/VR's real (unshifted)
 		// vtable shape in a SKYRIM_CROSS_VR build. Mirrors the VR-only
 		// "no flat vtable slot" accessor pattern, just gated the other way.
+#ifdef ENABLE_SKYRIM_AE
 		[[nodiscard]] BSTEventSink<BSSystemEvent>* AsBSSystemEventSink() noexcept
 		{
-#ifdef ENABLE_SKYRIM_AE
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
 				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
 					return reinterpret_cast<BSTEventSink<BSSystemEvent>*>(reinterpret_cast<std::uintptr_t>(this) + 0x2D8);
 				}
 			}
-#endif
 			return nullptr;
 		}
+#endif
 
 		struct PLAYER_RUNTIME_DATA
 		{
