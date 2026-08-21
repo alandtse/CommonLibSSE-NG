@@ -5,7 +5,10 @@
 namespace RE
 {
 #ifdef ENABLE_SKYRIM_AE
-	// New in AE 1.7.99; fields not yet reverse-engineered.
+	// New in AE 1.7.99. Field boundaries verified against the ctor's per-byte
+	// writes; semantic names for the amiibo/NFC payload are not RE'd.
+	// packed 4: unk2C is an 8-byte slot at a non-8-aligned real offset.
+#	pragma pack(push, 4)
 	class AmiiboEvent : public IDEvent
 	{
 	public:
@@ -15,8 +18,14 @@ namespace RE
 		~AmiiboEvent() override;  // 00
 
 		// members
-		std::uint8_t data[0x18];  // 28
+		std::uint32_t unk28;  // 28 - not zero-initialized by the ctor
+		std::uint64_t unk2C;  // 2C
+		std::uint16_t unk34;  // 34
+		std::uint16_t unk36;  // 36 - not zero-initialized by the ctor
+		std::uint32_t unk38;  // 38
+		std::uint32_t unk3C;  // 3C - not zero-initialized by the ctor
 	};
+#	pragma pack(pop)
 	static_assert(sizeof(AmiiboEvent) == 0x40);
 #endif
 }
