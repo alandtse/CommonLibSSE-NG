@@ -7,6 +7,7 @@
 #include "RE/I/IMenu.h"
 #include "RE/N/NiMatrix3.h"
 #include "RE/N/NiPoint3.h"
+#include "RE/N/NiRect.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/S/SimpleAnimationGraphManagerHolder.h"
 #include "RE/T/TESObjectREFR.h"
@@ -56,9 +57,24 @@ namespace RE
 	bool                                 isNote;           /* 95 */             \
 	bool                                 bookInitialized;  /* 96 */             \
 	std::uint8_t                         pad97;            /* 97 */
-            RUNTIME_DATA_CONTENT
+#ifdef ENABLE_SKYRIM_AE
+			// AE only; not independently verified against a specific version
+			// threshold (ported from an unreviewed PR's plain ENABLE_SKYRIM_AE
+			// gating). Verified via live decompile of the AE 1.7.99 constructor
+			// writing 2 floats at 0x9c/0xa0/0xa4, matching a NiRect<float>.
+#	define RUNTIME_DATA_CONTENT_AE \
+		RUNTIME_DATA_CONTENT        \
+		NiRect<float> unk98; /* 98 */
+			RUNTIME_DATA_CONTENT_AE
+#else
+			RUNTIME_DATA_CONTENT
+#endif
 		};
+#ifdef ENABLE_SKYRIM_AE
+		static_assert(sizeof(RUNTIME_DATA) == 0x58);
+#else
 		static_assert(sizeof(RUNTIME_DATA) == 0x48);
+#endif
 
 		~BookMenu() override;  // 00
 
@@ -97,13 +113,24 @@ namespace RE
 
 		// members
 #ifndef SKYRIM_CROSS_VR
+#	ifdef ENABLE_SKYRIM_AE
+		RUNTIME_DATA_CONTENT_AE  // 50, 60
+#	else
 		RUNTIME_DATA_CONTENT  // 50, 60
+#	endif
 #endif
 
 			private :
 			static void
 			OpenMenu_Impl(const BSString& a_description, const ExtraDataList* a_extraList, TESObjectREFR* a_targetReference, TESObjectBOOK* a_targetBook, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);
 	};
+#ifdef ENABLE_SKYRIM_AE
+	STATIC_ASSERT_SIZE(BookMenu, 0x98, 0xA8, 0xA8, 0x30);
+#else
 	STATIC_ASSERT_SIZE(BookMenu, 0x98, 0x98, 0xA8, 0x30);
+#endif
 }
 #undef RUNTIME_DATA_CONTENT
+#ifdef ENABLE_SKYRIM_AE
+#	undef RUNTIME_DATA_CONTENT_AE
+#endif

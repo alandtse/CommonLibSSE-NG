@@ -149,7 +149,23 @@ namespace RE
 		REX::EnumSet<FavorLevel, std::uint8_t> favorLevel;     // 3B - CNAM
 		TOPIC_INFO_DATA                        data;           // 3C - ENAM
 		std::uint32_t                          fileOffset;     // 40
-		std::uint32_t                          pad44;          // 44
+#ifdef ENABLE_SKYRIM_AE
+	private:
+		// AE 1.7.99 grows this trailing pad by 8 bytes (0x44 -> 0x50 total
+		// -- verified via live decompile: the AE 1.7.99 allocator sizes
+		// TESTopicInfo objects at 0x50, vs 0x48 for SE/VR/pre-1.7.99 AE).
+		// These are unlabeled unknowns with no consumer to gate by
+		// version, so sized to the larger AE 1.7.99 layout directly.
+		std::uint8_t _pad44[0xC];  // 44
+
+	public:
+#else
+		std::uint32_t pad44;  // 44
+#endif
 	};
+#ifdef ENABLE_SKYRIM_AE
+	static_assert(sizeof(TESTopicInfo) == 0x50);
+#else
 	static_assert(sizeof(TESTopicInfo) == 0x48);
+#endif
 }

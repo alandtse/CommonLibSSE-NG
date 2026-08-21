@@ -15,13 +15,28 @@ namespace RE
 		kKinect,
 		// VR only (SkyrimVR): the VR runtime emits two extra wand-touchpad event types.
 		kVrTouchpadPosition,  // 6 - VrWandTouchpadPositionEvent
-		kVrTouchpadSwipe      // 7 - VrWandTouchpadSwipeEvent
+		kVrTouchpadSwipe,     // 7 - VrWandTouchpadSwipeEvent
+#ifdef ENABLE_SKYRIM_AE
+		// AE 1.7.99 only. Verified via live decompile of each event's real
+		// constructor writing this field directly (SixaxisEvent=6,
+		// MotionGestureEvent=7, AmiiboEvent=8) -- duplicate C++ enumerator
+		// values are legal and intentional here, since a VR build never
+		// constructs these and an AE build never constructs the VR-only pair.
+		kSixaxis = 6,        // 6 - SixaxisEvent
+		kMotionGesture = 7,  // 7 - MotionGestureEvent
+		kAmiibo = 8          // 8 - AmiiboEvent
+#endif
 	};
 
 	class ButtonEvent;
 	class CharEvent;
 	class IDEvent;
 	class MouseMoveEvent;
+#ifdef ENABLE_SKYRIM_AE
+	class AmiiboEvent;
+	class MotionGestureEvent;
+	class SixaxisEvent;
+#endif
 	class ThumbstickEvent;
 
 	class InputEvent
@@ -49,6 +64,17 @@ namespace RE
 
 		[[nodiscard]] MouseMoveEvent*       AsMouseMoveEvent();
 		[[nodiscard]] const MouseMoveEvent* AsMouseMoveEvent() const;
+
+#ifdef ENABLE_SKYRIM_AE
+		[[nodiscard]] AmiiboEvent*       AsAmiiboEvent();
+		[[nodiscard]] const AmiiboEvent* AsAmiiboEvent() const;
+
+		[[nodiscard]] MotionGestureEvent*       AsMotionGestureEvent();
+		[[nodiscard]] const MotionGestureEvent* AsMotionGestureEvent() const;
+
+		[[nodiscard]] SixaxisEvent*       AsSixaxisEvent();
+		[[nodiscard]] const SixaxisEvent* AsSixaxisEvent() const;
+#endif
 
 		[[nodiscard]] ThumbstickEvent*       AsThumbstickEvent();
 		[[nodiscard]] const ThumbstickEvent* AsThumbstickEvent() const;

@@ -544,6 +544,7 @@ set(SOURCES
 	include/RE/B/bhkThreadMemorySource.h
 	include/RE/B/bhkUnaryAction.h
 	include/RE/B/bhkWorld.h
+	include/RE/B/bhkWorldCinfo.h
 	include/RE/B/bhkWorldObject.h
 	include/RE/C/CCallback.h
 	include/RE/C/CFilter.h
