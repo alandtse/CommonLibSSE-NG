@@ -197,18 +197,18 @@ jobs:
       # the same version; mixing (e.g. clang-cl-19 with the Ubuntu
       # default lld-link, which is still 18) crashed lld outright.
       #
-      # wine32:i386 is required alongside wine64 (Ubuntu's `wine`
-      # metapackage pulls in both, but needs multiarch enabled first) --
-      # without it, wine can't load 32-bit-subsystem components
-      # (syswow64\rundll32.exe) that its OWN session bootstrap needs,
-      # which breaks cmd.exe in ways that looked unrelated to wine32 at
-      # first (e.g. cmd's %ERRORLEVEL%/`||` handling misbehaving for
-      # every child process, not just ones needing 32-bit support).
+      # wine64 and wine32:i386 are both named explicitly. With i386
+      # multiarch enabled, apt can satisfy the `wine` metapackage with
+      # wine32:i386 alone and never install a 64-bit loader, leaving
+      # wine unable to run x86-64 PEs at all ("Bad EXE format", even
+      # though fxc2.exe is a valid PE32+ binary). wine32 is still needed
+      # for the 32-bit-subsystem components (syswow64\rundll32.exe)
+      # wine's own session bootstrap loads.
       - name: Install cross-compile toolchain
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y ninja-build wine wine32:i386 g++ lsb-release wget gnupg software-properties-common
+          sudo apt-get install -y ninja-build wine wine64 wine32:i386 g++ lsb-release wget gnupg software-properties-common
           curl -fsSL --retry 3 --retry-all-errors -o /tmp/llvm.sh https://raw.githubusercontent.com/opencollab/llvm-jenkins.debian.net/cf853fefa308484749df8a87004c580a6c0fe830/llvm.sh
           echo "03878e08f47b66cc95bc4b544b0db3c6d9ce8d60e6cf2492ae357984330a9eae  /tmp/llvm.sh" | sha256sum -c -
           chmod +x /tmp/llvm.sh
