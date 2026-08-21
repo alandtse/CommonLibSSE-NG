@@ -180,10 +180,30 @@ jobs:
           baseline=$(python3 -c "import json; print(json.load(open('main/vcpkg.json'))['builtin-baseline'])")
           echo "baseline=$baseline" >> "$GITHUB_OUTPUT"
 
+      # Ubuntu's plain `clang`/`lld` apt packages are version 18, but the
+      # Windows SDK/MSVC STL headers (via xwin) require Clang 19+
+      # (a real static_assert in yvals_core.h: "Unexpected compiler
+      # version, expected Clang 19.0.0 or newer."). Installing a
+      # consistent LLVM 19 suite via apt.llvm.org instead of the plain
+      # Ubuntu package keeps clang-cl/lld-link/llvm-rc/llvm-mt all from
+      # the same version; mixing (e.g. clang-cl-19 with the Ubuntu
+      # default lld-link, which is still 18) crashed lld outright.
+      #
+      # wine32:i386 is required alongside wine64 (Ubuntu's `wine`
+      # metapackage pulls in both, but needs multiarch enabled first) --
+      # without it, wine can't load 32-bit-subsystem components
+      # (syswow64\rundll32.exe) that its OWN session bootstrap needs,
+      # which breaks cmd.exe in ways that looked unrelated to wine32 at
+      # first (e.g. cmd's %ERRORLEVEL%/`||` handling misbehaving for
+      # every child process, not just ones needing 32-bit support).
       - name: Install cross-compile toolchain
         run: |
+          sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y clang lld ninja-build wine
+          sudo apt-get install -y ninja-build wine wine32:i386 g++ lsb-release wget gnupg software-properties-common
+          curl -fsSL https://apt.llvm.org/llvm.sh -o /tmp/llvm.sh
+          chmod +x /tmp/llvm.sh
+          sudo /tmp/llvm.sh 19
 
       # A brand-new runner has no ~/.wine prefix yet. Its very first
       # creation races against whatever command actually gets invoked

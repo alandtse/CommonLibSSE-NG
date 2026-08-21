@@ -24,6 +24,37 @@ vcpkg_from_github(
     ${DIRECTXTK_PATCHES}
 )
 
+# wine-shader-compile.patch invokes this script rather than inlining its
+# logic directly in a CMake COMMAND line: nesting a real shell script
+# (needing its own quoting, `;`, `if`) inside a CMake-syntax string that
+# a patch file also has to represent as a unified diff is exactly the
+# kind of double-escaping that's easy to get subtly wrong. A real file
+# just takes plain, unescaped shell.
+#
+# The `!  grep -q "Got an error" ...` check exists because `wine cmd`'s
+# own %ERRORLEVEL%/`||` handling is unreliable on at least some Wine
+# versions (confirmed: even Wine's own built-in `ver` command trips a
+# `||` check under `wine cmd /c` on Ubuntu 24.04's packaged Wine 9.0,
+# unrelated to anything this port or fxc2 does): trusting the raw exit
+# code of `wine cmd /c CompileShaders.cmd` would treat every compile as
+# failed even when every shader genuinely compiled correctly. Checking
+# fxc2's own documented error text (see fxc2.cpp's `Got an error (%i)
+# while compiling` printf) instead is what's actually reliable here.
+if(CMAKE_HOST_UNIX)
+    file(WRITE "${SOURCE_PATH}/Src/Shaders/wine-compile-shaders.sh" "#!/bin/sh
+set -u
+CompileShadersOutput=\"$1\"
+FxcTool=\"$2\"
+shift 2
+\"${CMAKE_COMMAND}\" -E env CompileShadersOutput=\"$CompileShadersOutput\" WINEDEBUG=-all LegacyShaderCompiler=\"$FxcTool\" wine cmd /c CompileShaders.cmd \"$@\" > \"$CompileShadersOutput/compileshaders.log\" 2>&1
+if grep -q \"Got an error\" \"$CompileShadersOutput/compileshaders.log\"; then
+    echo \"Real shader compilation error(s) detected; see $CompileShadersOutput/compileshaders.log\" >&2
+    exit 1
+fi
+exit 0
+")
+endif()
+
 vcpkg_check_features(
     OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     FEATURES
