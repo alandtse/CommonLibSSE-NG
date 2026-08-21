@@ -2,7 +2,9 @@
 
 namespace RE
 {
-	// New in AE 1.7.99; fields not yet reverse-engineered.
+	// Pre-existing class (predates AE 1.7.99); fields not yet reverse-engineered.
+	// 1.7.99 is new only in that PlayerCharacter/SkyrimVM gain new
+	// BSTEventSink<BSSystemEvent> bases -- this class itself is unchanged.
 	class BSSystemEvent
 	{
 	public:
