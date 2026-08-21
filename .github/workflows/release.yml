@@ -62,7 +62,7 @@ jobs:
             @google/semantic-release-replace-plugin
             @semantic-release/changelog
             @semantic-release/git
-            conventional-changelog-conventionalcommits
+            conventional-changelog-conventionalcommits@^9.3.1
 
   # On a published release, build the prebuilt CommonLib bundle and attach it to the
   # GitHub release. The same build + consumer self-test also run on every PR to ng
