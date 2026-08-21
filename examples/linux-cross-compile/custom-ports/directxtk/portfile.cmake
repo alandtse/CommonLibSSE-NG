@@ -115,25 +115,23 @@ if(CMAKE_HOST_UNIX)
         HEAD_REF master
     )
 
-    # portfile.cmake genuinely runs more than once per port build
-    # (confirmed directly via CI logs: the full vcpkg_from_github
-    # fetch/extract/patch sequence, for both DirectXTK and this fxc2
-    # source, repeats, each time re-triggering this build step too,
-    # whatever vcpkg's exact internal reason for that repeat is; not
-    # worth chasing further since it doesn't actually matter here). A
-    # shared, cached ${FXC2_EXE} path with an "if NOT EXISTS, build"
-    # check is fragile against that: an earlier attempt at making it
-    # safe with file(LOCK) still didn't hold up on a real CI run (the
-    # second invocation rebuilt from scratch regardless, so the
-    # assumption that it would find an already-completed file from the
-    # first invocation was simply wrong). The fix that's correct
-    # regardless of the exact mechanics: don't share a file at all.
-    # Build straight to a fresh, uniquely-named path every single time
-    # this runs, so there's no shared mutable state to ever corrupt or
-    # disagree about. Compiling this one small file takes a fraction of
-    # a second, so losing the "skip rebuild if it already exists"
-    # optimization costs nothing real.
-    string(RANDOM LENGTH 12 ALPHABET "0123456789abcdef" FXC2_UNIQUE_SUFFIX)
+    # portfile.cmake genuinely runs more than once per port build,
+    # concurrently (confirmed directly via CI logs: two invocations'
+    # fxc2 builds interleaved within the same second). A shared, cached
+    # ${FXC2_EXE} path with an "if NOT EXISTS, build" check is fragile
+    # against that: file(LOCK) still didn't hold up on a real CI run
+    # (the second invocation rebuilt from scratch regardless). Tried
+    # making the path unique per invocation next, via string(RANDOM):
+    # also failed on a real CI run. Both concurrent
+    # invocations produced the IDENTICAL "random" suffix, because
+    # CMake's string(RANDOM) without an explicit seed is time-seeded at
+    # whole-second granularity, and both invocations landed in the same
+    # second. The fix that's actually correct regardless of timing:
+    # derive uniqueness from the real OS process ID of a freshly
+    # spawned child (guaranteed different between two genuinely
+    # concurrent processes, unlike a time-based seed), not from
+    # anything that could coincide.
+    execute_process(COMMAND sh -c "echo $$" OUTPUT_VARIABLE FXC2_UNIQUE_SUFFIX OUTPUT_STRIP_TRAILING_WHITESPACE)
     set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2-${FXC2_UNIQUE_SUFFIX}.exe")
     execute_process(
         COMMAND "${FXC2_MINGW_CLANGXX}" -static "${FXC2_SOURCE_PATH}/fxc2.cpp" -o "${FXC2_EXE}"
