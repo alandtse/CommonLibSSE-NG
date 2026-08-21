@@ -1060,8 +1060,6 @@ namespace RE
 			return obj && *obj && (*obj)->As<T>() ? reinterpret_cast<T**>(obj) : nullptr;
 		}
 
-		// AE 1.7.99 adds 6 AE-only entries with no SE/VR counterpart, so they
-		// don't fit DefaultObjectID's packed scheme. Returns nullptr pre-1.7.99.
 		enum class Ae1799Object : std::size_t
 		{
 			kHelpManualNX = 188,

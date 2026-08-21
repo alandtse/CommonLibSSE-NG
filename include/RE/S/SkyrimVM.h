@@ -284,8 +284,6 @@ namespace RE
             RUNTIME_DATA2_CONTENT
 		};
 
-		// AE 1.7.99 inserts two Amiibo event-sink bases after
-		// TESSwitchRaceCompleteEvent, shifting everything after by +0x10.
 		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
 		{
 			assert(!REL::Module::IsVR());
@@ -312,8 +310,6 @@ namespace RE
 			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x760);
 		}
 
-		// New in AE 1.7.99. Not a real C++ base -- that would corrupt other
-		// runtimes' vtable shape in a SKYRIM_CROSS_VR build.
 #ifdef ENABLE_SKYRIM_AE
 		[[nodiscard]] BSTEventSink<TESAmiiboTouchEvent>* AsTESAmiiboTouchEventSink() noexcept
 		{
@@ -336,9 +332,6 @@ namespace RE
 		}
 #endif
 
-		// These 4 stay real base classes above (removing them would shift the
-		// still-unconditional BSTEventSource<StatsEvent> base for every version).
-		// Accessors below correct their AE 1.7.99 offset without touching that.
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		[[nodiscard]] BSTEventSink<TESPlayerBowShotEvent>* AsTESPlayerBowShotEventSink() noexcept
 		{
@@ -403,20 +396,11 @@ namespace RE
 		BSScript::CompiledScriptLoader             scriptLoader;       // 0240
 		SkyrimScript::Logger                       logger;             // 0278
 	private:
-		// AE 1.7.99 shifts this and every later member by +0x10. Only this
-		// field has a known direct consumer, so only it gets an accessor.
 		std::uint8_t _padHandlePolicy[sizeof(SkyrimScript::HandlePolicy)];  // 0328
 
 	public:
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(SkyrimScript::HandlePolicy, GetHandlePolicy, SKSE::RUNTIME_SSE_1_7_99, 0x328, 0x328, 0x338);
 
-		// AE 1.7.99's +0x10 shift (see GetHandlePolicy above) carries through
-		// every member from objectBindPolicy to unk0750 -- same single shift,
-		// not a second one. Modeled as a versioned overlay (mirroring
-		// GetRuntimeData/GetRuntimeData2 below) instead of fixed offsets, since
-		// no in-tree consumer used these fields directly before this fix and a
-		// fixed-offset public member here would silently read AE 1.7.99 memory
-		// 0x10 bytes off.
 		struct TAIL_RUNTIME_DATA
 		{
 			SkyrimScript::ObjectBindPolicy             objectBindPolicy;           // 0398
@@ -457,9 +441,6 @@ namespace RE
 		}
 
 	private:
-		// Reserves TAIL_RUNTIME_DATA's SE/pre-1.7.99-AE footprint so every
-		// member below (declared directly, not through an accessor) keeps its
-		// existing compile-time offset unchanged.
 		std::uint8_t _padTailRuntimeData[0x3BC];  // 0398
 
 	public:

@@ -33,8 +33,6 @@ namespace RE
 #endif
 
 #ifdef ENABLE_SKYRIM_AE
-		// AE 1.7.99 inserts 8 gesture control-id fields ahead of these members,
-		// shifting them all by +0x40 on that version only.
 		struct RUNTIME_DATA
 		{
 			std::uint32_t heldTimeMs;                  // 18, 58
@@ -57,8 +55,6 @@ namespace RE
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_7_99, 0x18, 0x58);
 
 	private:
-		// Sized to the largest known layout (AE 1.7.99, 0xC0 total) so a
-		// single struct definition safely overlays every real variant.
 		std::uint8_t _pad18[0xA8];  // 18
 #else
 	public:

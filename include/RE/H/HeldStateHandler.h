@@ -17,9 +17,6 @@ namespace RE
 		virtual void UpdateHeldStateActive(const ButtonEvent* a_event);  // 05
 		virtual void SetHeldStateActive(bool a_flag);                    // 06
 #else
-		// Non-virtual wrappers, same as PlayerInputHandler (needed by every
-		// non-VR-exclusive build, not just cross-VR -- see its comment): these
-		// slots come right after Button, so they need the same AE 1.7.99 +2 shift.
 #	ifdef ENABLE_SKYRIM_AE
 #		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 2 : (idx))
 #	else

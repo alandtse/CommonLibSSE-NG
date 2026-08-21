@@ -767,9 +767,6 @@ namespace RE
 
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<TESTrackedStatsEvent>, AsTESTrackedStatsEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2C8, 0x2D0)
 
-		// AE 1.7.99 appends a 6th event-sink vtable slot at 0x2D8. Not a real C++
-		// base class: that would bake an extra vtable slot into every runtime,
-		// corrupting SE/VR's unshifted shape in a SKYRIM_CROSS_VR build.
 #ifdef ENABLE_SKYRIM_AE
 		[[nodiscard]] BSTEventSink<BSSystemEvent>* AsBSSystemEventSink() noexcept
 		{
@@ -996,8 +993,6 @@ namespace RE
             VR_PLAYER_RUNTIME_DATA_CONTENT
 		};
 
-		// AE 1.7.99's new vtable slot shifts every data member below by +8 bytes
-		// on that version only.
 #define AE1799_SHIFT(offset) (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) == std::strong_ordering::less ? (offset) : (offset) + 8)
 
 		// Runtime data accessors

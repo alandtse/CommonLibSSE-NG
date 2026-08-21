@@ -17,8 +17,7 @@ namespace RE
 		kVrTouchpadPosition,  // 6 - VrWandTouchpadPositionEvent
 		kVrTouchpadSwipe,     // 7 - VrWandTouchpadSwipeEvent
 #ifdef ENABLE_SKYRIM_AE
-		// AE 1.7.99 only. Duplicate values vs. the VR pair above are intentional:
-		// no build constructs both kinds.
+		// Duplicate values vs. the VR pair above are intentional: no build constructs both kinds.
 		kSixaxis = 6,        // 6 - SixaxisEvent
 		kMotionGesture = 7,  // 7 - MotionGestureEvent
 		kAmiibo = 8          // 8 - AmiiboEvent

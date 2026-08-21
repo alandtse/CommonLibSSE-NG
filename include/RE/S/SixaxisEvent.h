@@ -6,11 +6,7 @@
 namespace RE
 {
 #ifdef ENABLE_SKYRIM_AE
-	// New in AE 1.7.99 (motion-controller "sixaxis" input, e.g. lockpicking/
-	// aiming tilt). Field boundaries verified against the ctor's per-byte
-	// writes; orientation is confirmed real (the ctor builds it via
-	// NiQuaternion's exact (w,x,y,z) constructor signature). The rest are
-	// unnamed POD slots -- semantic names aren't RE'd.
+	// Semantic field names not RE'd, except orientation (confirmed via NiQuaternion ctor).
 	// packed 4: several 8-byte slots sit at non-8-aligned real offsets.
 #	pragma pack(push, 4)
 	class SixaxisEvent : public IDEvent

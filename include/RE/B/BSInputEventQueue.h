@@ -103,18 +103,7 @@ namespace RE
 		};
 		static_assert(sizeof(VRTOUCHPADEVENT_DATA) == 0x198);
 
-		// AE 1.7.99 inserts SixaxisEvent/MotionGestureEvent/AmiiboEvent pools right
-		// after kinectEvents (see AE1799_EVENT_DATA + GetAe1799EventData() below),
-		// and an extra 8-byte field (not zero-initialized by the ctor's own
-		// writes, so not a plain always-zero pad -- purpose not RE'd) appears
-		// right before buttonEvents. Both push queueHead/queueTail +8 to +0x1D8
-		// later than this struct's own layout assumes (verified against the real
-		// 1.7.99 ctor: buttonEvents.."kinectEvents" keep the same relative
-		// order/sizes here, just based at a different offset -- see
-		// GetRuntimeData() below). On AE, DO NOT read queueHead/queueTail via
-		// this struct -- they're only correctly positioned here for SE/VR;
-		// use GetQueueHead()/GetQueueTail() instead, which resolve correctly on
-		// every runtime including AE 1.7.99.
+		// On AE, use GetQueueHead()/GetQueueTail(), not this struct's queueHead/queueTail.
 		struct RUNTIME_DATA
 		{
 #if !defined(ENABLE_SKYRIM_VR)  // Non-VR
@@ -144,10 +133,6 @@ namespace RE
 		};
 
 #ifdef ENABLE_SKYRIM_AE
-		// New in AE 1.7.99, immediately after kinectEvents (real offset 0x388 on
-		// that version; doesn't exist before it). Only meaningful when actually
-		// running 1.7.99 -- GetAe1799EventData() below no-ops otherwise, matching
-		// this file's own GetVRTouchpadData()/GetVRTouchpadEventData() idiom.
 		struct AE1799_EVENT_DATA
 		{
 			SixaxisEvent       sixaxisEvents[MAX_SIXAXIS_EVENTS];               // 000
@@ -171,8 +156,6 @@ namespace RE
 		RUNTIME_DATA_CONTENT
 #endif
 
-		// AE 1.7.99 shifts this by +8 (see RUNTIME_DATA's own comment above); SE
-		// and pre-1.7.99 AE keep the original offset, VR is unaffected/unrelated.
 		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
 		{
 #ifdef ENABLE_SKYRIM_AE
@@ -191,9 +174,6 @@ namespace RE
 			return const_cast<BSInputEventQueue*>(this)->GetRuntimeData();
 		}
 
-		// New in AE 1.7.99 (real offset 0x388 -- right after kinectEvents, before
-		// the also-shifted queueHead/queueTail); nullptr unless actually running
-		// that version, matching this file's own GetVRTouchpadData() idiom.
 #ifdef ENABLE_SKYRIM_AE
 		[[nodiscard]] inline AE1799_EVENT_DATA* GetAe1799EventData() noexcept
 		{
@@ -209,9 +189,6 @@ namespace RE
 		}
 #endif
 
-		// queueHead/queueTail: fixed direct members for SE and VR (see
-		// RUNTIME_DATA's own VR content above); AE moves them out here since AE
-		// 1.7.99 pushes them +0x1D8 later than pre-1.7.99 AE/SE.
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		[[nodiscard]] inline InputEvent*& GetQueueHead() noexcept
 		{

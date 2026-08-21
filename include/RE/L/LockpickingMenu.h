@@ -80,11 +80,7 @@ namespace RE
 		// override (IMenu)
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 04
 
-		// override (MenuEventHandler) -- always inherited (see the class
-		// declaration above). ProcessThumbstick/MouseMove/Button are restricted to
-		// EXCLUSIVE_SKYRIM_VR since the base only keeps those as real
-		// (overridable) virtuals there -- everywhere else they're non-virtual
-		// RelocateVirtual wrappers (AE 1.7.99 shifts their vtable slot).
+		// override (MenuEventHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01
 #ifdef EXCLUSIVE_SKYRIM_VR
 		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03

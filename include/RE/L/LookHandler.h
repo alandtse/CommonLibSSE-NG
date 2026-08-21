@@ -26,13 +26,6 @@ namespace RE
 #endif
 
 #ifdef ENABLE_SKYRIM_AE
-		// New in AE 1.7.99 only -- doesn't exist at any earlier version (this
-		// class has no fields at all pre-1.7.99), so unlike
-		// AttackBlockHandler's shifted-existing-fields case this is a
-		// nullptr-gated appendix, matching GetAe1799EventData()/
-		// GetVRTouchpadData()'s idiom elsewhere in this codebase. Backs a new
-		// real gyro ProcessSixaxis override; dispatch works without this data,
-		// only needed if a consumer wants the raw gesture state.
 		struct AE1799_RUNTIME_DATA
 		{
 			std::uint32_t unk10;         // 10 - ctor default 5; consumer unknown

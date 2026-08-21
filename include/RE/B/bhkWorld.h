@@ -92,8 +92,7 @@ namespace RE
 		std::uint16_t unkC5FC;          // C5FC
 		std::uint16_t unkC5FE;          // C5FE
 #else
-		// AE 1.7.99 inserts a real bhkWorldCinfo sub-object at C5E0, pushing the
-		// tail fields to C6E0+. Bytes past damping are unverified padding.
+		// Bytes past damping are unverified padding.
 		std::uint64_t unkC5D8;        // C5D8 - unlabeled gap before worldCinfo
 		bhkWorldCinfo worldCinfo;     // C5E0
 		std::uint32_t unkC6E0;        // C6E0 - incremented per frame

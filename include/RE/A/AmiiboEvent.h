@@ -5,8 +5,7 @@
 namespace RE
 {
 #ifdef ENABLE_SKYRIM_AE
-	// New in AE 1.7.99. Field boundaries verified against the ctor's per-byte
-	// writes; semantic names for the amiibo/NFC payload are not RE'd.
+	// Semantic field names not RE'd.
 	// packed 4: unk2C is an 8-byte slot at a non-8-aligned real offset.
 #	pragma pack(push, 4)
 	class AmiiboEvent : public IDEvent

@@ -5,9 +5,7 @@
 namespace RE
 {
 #ifdef ENABLE_SKYRIM_AE
-	// New in AE 1.7.99 (accelerometer-based combat gestures, e.g. dual-wield
-	// engage/punch/shield). Field boundaries independently verified against
-	// the real ctor's per-byte writes; semantic names aren't RE'd.
+	// Semantic field names not RE'd.
 	class MotionGestureEvent : public IDEvent
 	{
 	public:
