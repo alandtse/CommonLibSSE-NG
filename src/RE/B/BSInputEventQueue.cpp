@@ -112,16 +112,16 @@ namespace RE
 
 	void BSInputEventQueue::PushOntoInputQueue(InputEvent* a_event)
 	{
-		if (!GetRuntimeData().queueHead) {
-			GetRuntimeData().queueHead = a_event;
+		if (!GetQueueHead()) {
+			GetQueueHead() = a_event;
 		}
 
-		if (GetRuntimeData().queueTail) {
-			GetRuntimeData().queueTail->next = a_event;
+		if (GetQueueTail()) {
+			GetQueueTail()->next = a_event;
 		}
 
-		GetRuntimeData().queueTail = a_event;
-		GetRuntimeData().queueTail->next = nullptr;
+		GetQueueTail() = a_event;
+		GetQueueTail()->next = nullptr;
 	}
 
 	void BSInputEventQueue::ClearInputQueue()
@@ -132,7 +132,7 @@ namespace RE
 		mouseEventCount = 0;
 		charEventCount = 0;
 		buttonEventCount = 0;
-		GetRuntimeData().queueTail = nullptr;
-		GetRuntimeData().queueHead = nullptr;
+		GetQueueTail() = nullptr;
+		GetQueueHead() = nullptr;
 	}
 }

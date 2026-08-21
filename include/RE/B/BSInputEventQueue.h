@@ -10,6 +10,13 @@
 #include "RE/V/VrWandTouchpadPositionEvent.h"
 #include "RE/V/VrWandTouchpadSwipeEvent.h"
 #include "REL/RuntimeDataAccessors.h"
+#include "SKSE/Version.h"
+
+#ifdef ENABLE_SKYRIM_AE
+#	include "RE/A/AmiiboEvent.h"
+#	include "RE/M/MotionGestureEvent.h"
+#	include "RE/S/SixaxisEvent.h"
+#endif
 
 namespace RE
 {
@@ -24,6 +31,12 @@ namespace RE
 		inline static constexpr std::uint8_t MAX_KINECT_EVENTS = 1;
 		inline static constexpr std::uint8_t MAX_VR_TOUCHPAD_POSITION_EVENTS = 3;
 		inline static constexpr std::uint8_t MAX_VR_TOUCHPAD_SWIPE_EVENTS = 3;
+#ifdef ENABLE_SKYRIM_AE
+		// New in AE 1.7.99.
+		inline static constexpr std::uint8_t MAX_SIXAXIS_EVENTS = 2;
+		inline static constexpr std::uint8_t MAX_MOTION_GESTURE_EVENTS = 2;
+		inline static constexpr std::uint8_t MAX_AMIIBO_EVENTS = 1;
+#endif
 
 		static BSInputEventQueue* GetSingleton();
 
@@ -90,6 +103,18 @@ namespace RE
 		};
 		static_assert(sizeof(VRTOUCHPADEVENT_DATA) == 0x198);
 
+		// AE 1.7.99 inserts SixaxisEvent/MotionGestureEvent/AmiiboEvent pools right
+		// after kinectEvents (see AE1799_EVENT_DATA + GetAe1799EventData() below),
+		// and an extra 8-byte field (not zero-initialized by the ctor's own
+		// writes, so not a plain always-zero pad -- purpose not RE'd) appears
+		// right before buttonEvents. Both push queueHead/queueTail +8 to +0x1D8
+		// later than this struct's own layout assumes (verified against the real
+		// 1.7.99 ctor: buttonEvents.."kinectEvents" keep the same relative
+		// order/sizes here, just based at a different offset -- see
+		// GetRuntimeData() below). On AE, DO NOT read queueHead/queueTail via
+		// this struct -- they're only correctly positioned here for SE/VR;
+		// use GetQueueHead()/GetQueueTail() instead, which resolve correctly on
+		// every runtime including AE 1.7.99.
 		struct RUNTIME_DATA
 		{
 #if !defined(ENABLE_SKYRIM_VR)  // Non-VR
@@ -118,6 +143,20 @@ namespace RE
 			RUNTIME_DATA_CONTENT
 		};
 
+#ifdef ENABLE_SKYRIM_AE
+		// New in AE 1.7.99, immediately after kinectEvents (real offset 0x388 on
+		// that version; doesn't exist before it). Only meaningful when actually
+		// running 1.7.99 -- GetAe1799EventData() below no-ops otherwise, matching
+		// this file's own GetVRTouchpadData()/GetVRTouchpadEventData() idiom.
+		struct AE1799_EVENT_DATA
+		{
+			SixaxisEvent       sixaxisEvents[MAX_SIXAXIS_EVENTS];               // 000
+			MotionGestureEvent motionGestureEvents[MAX_MOTION_GESTURE_EVENTS];  // 120
+			AmiiboEvent        amiiboEvents[MAX_AMIIBO_EVENTS];                 // 190
+		};
+		static_assert(sizeof(AE1799_EVENT_DATA) == 0x1D0);
+#endif
+
 		// members
 		std::uint8_t  pad001;                // 001
 		std::uint16_t pad002;                // 002
@@ -132,7 +171,81 @@ namespace RE
 		RUNTIME_DATA_CONTENT
 #endif
 
-		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x20, 0x20);
+		// AE 1.7.99 shifts this by +8 (see RUNTIME_DATA's own comment above); SE
+		// and pre-1.7.99 AE keep the original offset, VR is unaffected/unrelated.
+		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
+		{
+#ifdef ENABLE_SKYRIM_AE
+			const std::ptrdiff_t seAndAe =
+				(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) ?
+					0x28 :
+					0x20;
+#else
+			const std::ptrdiff_t seAndAe = 0x20;
+#endif
+			return REL::RelocateMember<RUNTIME_DATA>(this, seAndAe, 0x20);
+		}
+
+		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
+		{
+			return const_cast<BSInputEventQueue*>(this)->GetRuntimeData();
+		}
+
+		// New in AE 1.7.99 (real offset 0x388 -- right after kinectEvents, before
+		// the also-shifted queueHead/queueTail); nullptr unless actually running
+		// that version, matching this file's own GetVRTouchpadData() idiom.
+#ifdef ENABLE_SKYRIM_AE
+		[[nodiscard]] inline AE1799_EVENT_DATA* GetAe1799EventData() noexcept
+		{
+			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
+				return nullptr;
+			}
+			return &REL::RelocateMember<AE1799_EVENT_DATA>(this, 0x388);
+		}
+
+		[[nodiscard]] inline const AE1799_EVENT_DATA* GetAe1799EventData() const noexcept
+		{
+			return const_cast<BSInputEventQueue*>(this)->GetAe1799EventData();
+		}
+#endif
+
+		// queueHead/queueTail: fixed direct members for SE and VR (see
+		// RUNTIME_DATA's own VR content above); AE moves them out here since AE
+		// 1.7.99 pushes them +0x1D8 later than pre-1.7.99 AE/SE.
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		[[nodiscard]] inline InputEvent*& GetQueueHead() noexcept
+		{
+			return GetRuntimeData().queueHead;
+		}
+		[[nodiscard]] inline InputEvent*& GetQueueTail() noexcept { return GetRuntimeData().queueTail; }
+#elif defined(ENABLE_SKYRIM_VR)  // SKYRIM_CROSS_VR: either runtime is possible
+		[[nodiscard]] inline InputEvent*& GetQueueHead() noexcept
+		{
+			if (REL::Module::IsVR()) {
+				return GetRuntimeData().queueHead;
+			}
+			return REL::RelocateMemberIfNewer<InputEvent*>(SKSE::RUNTIME_SSE_1_7_99, this, 0x380, 0x558);
+		}
+
+		[[nodiscard]] inline InputEvent*& GetQueueTail() noexcept
+		{
+			if (REL::Module::IsVR()) {
+				return GetRuntimeData().queueTail;
+			}
+			return REL::RelocateMemberIfNewer<InputEvent*>(SKSE::RUNTIME_SSE_1_7_99, this, 0x388, 0x560);
+		}
+#else                            // SE-only, AE-only, or flat -- no VR possible
+		[[nodiscard]] inline InputEvent*& GetQueueHead() noexcept
+		{
+			return REL::RelocateMemberIfNewer<InputEvent*>(SKSE::RUNTIME_SSE_1_7_99, this, 0x380, 0x558);
+		}
+
+		[[nodiscard]] inline InputEvent*& GetQueueTail() noexcept
+		{
+			return REL::RelocateMemberIfNewer<InputEvent*>(SKSE::RUNTIME_SSE_1_7_99, this, 0x388, 0x560);
+		}
+#endif
+
 		[[nodiscard]] VRTOUCHPAD_DATA* GetVRTouchpadData() noexcept
 		{
 			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
