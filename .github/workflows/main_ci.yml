@@ -201,10 +201,19 @@ jobs:
             --output "${{ env.XWIN_SYSROOT }}" --include-debug-libs \
             --use-winsysroot-style --preserve-ms-arch-notation
 
+      # Deliberately NOT added to PATH: llvm-mingw bundles its own generic
+      # clang-cl/lld-link, and if its bin/ ends up ahead of the system
+      # toolchain on PATH, find_program() calls in
+      # cmake/toolchain-linux-clangcl.cmake can silently resolve to
+      # llvm-mingw's copies instead (this actually happened and broke the
+      # link step with a confusing "could not open kernel32.lib" error).
+      # LLVM_MINGW_BIN is read directly by
+      # examples/linux-cross-compile/custom-ports/directxtk/portfile.cmake
+      # instead.
       - name: Install llvm-mingw (for the fxc2 shader-compiler stand-in, see examples/linux-cross-compile)
         run: |
           curl -L https://github.com/mstorsjo/llvm-mingw/releases/download/20250910/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64.tar.xz | tar xJ
-          echo "$PWD/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64/bin" >> "$GITHUB_PATH"
+          echo "LLVM_MINGW_BIN=$PWD/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64/bin" >> "$GITHUB_ENV"
 
       - name: Setup vcpkg
         uses: lukka/run-vcpkg@v11

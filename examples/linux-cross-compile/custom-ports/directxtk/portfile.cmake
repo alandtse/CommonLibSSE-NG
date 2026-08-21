@@ -48,9 +48,19 @@ vcpkg_check_features(
 # (that redirection to `wine cmd /c` is what wine-shader-compile.patch
 # above does).
 if(CMAKE_HOST_UNIX)
-    find_program(FXC2_MINGW_CLANGXX NAMES x86_64-w64-mingw32-clang++)
+    # HINTS on $ENV{LLVM_MINGW_BIN} lets a consumer point at an
+    # llvm-mingw install without putting its bin/ on PATH. Deliberately
+    # NOT relying on PATH alone here: llvm-mingw bundles its own
+    # generic clang-cl/lld-link (for other targets it supports), and if
+    # its bin/ is ever on PATH ahead of the real toolchain, find_program
+    # calls elsewhere in this same configure (see
+    # cmake/toolchain-linux-clangcl.cmake) can silently resolve to
+    # llvm-mingw's copies instead of the intended ones, which then fail
+    # in confusing ways (e.g. llvm-mingw's lld-link not resolving
+    # /winsysroot the same way).
+    find_program(FXC2_MINGW_CLANGXX NAMES x86_64-w64-mingw32-clang++ HINTS "$ENV{LLVM_MINGW_BIN}")
     if(NOT FXC2_MINGW_CLANGXX)
-        message(FATAL_ERROR "${PORT}: cross-compiling from a Linux host needs an llvm-mingw toolchain (x86_64-w64-mingw32-clang++) on PATH to build the fxc2 shader-compiler stand-in. See https://github.com/WasabiIceCream/fxc2.")
+        message(FATAL_ERROR "${PORT}: cross-compiling from a Linux host needs an llvm-mingw toolchain (x86_64-w64-mingw32-clang++) on PATH, or pointed at via the LLVM_MINGW_BIN environment variable, to build the fxc2 shader-compiler stand-in. See https://github.com/WasabiIceCream/fxc2.")
     endif()
 
     vcpkg_from_github(
