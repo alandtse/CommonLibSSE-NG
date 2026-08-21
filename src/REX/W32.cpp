@@ -380,7 +380,7 @@ namespace REX::W32
 		return ::W32_IMPL_CreateFileA(a_fileName, a_desiredAccess, a_shareMode, a_attributes, a_creationDisposition, a_flags, a_templateFile);
 	}
 
-	HANDLE CreateFileW(const wchar_t* a_fileName, std::uint32_t a_desiredAccess, std::uint32_t a_shareMode, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_creationDisposition, std::uint32_t a_flags, HANDLE a_templateFile)
+	HANDLE CreateFileW(const wchar_t* a_fileName, std::uint32_t a_desiredAccess, std::uint32_t a_shareMode, SECURITY_ATTRIBUTES* a_attributes, std::uint32_t a_creationDisposition, std::uint32_t a_flags, HANDLE a_templateFile) noexcept
 	{
 		return ::W32_IMPL_CreateFileW(a_fileName, a_desiredAccess, a_shareMode, a_attributes, a_creationDisposition, a_flags, a_templateFile);
 	}

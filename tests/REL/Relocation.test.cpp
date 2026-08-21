@@ -182,12 +182,12 @@ TEST_CASE("Module/SupportsSkyrimSE")
 	}
 	SECTION("Address Library format can be loaded")
 	{
-		CHECK(REL::IDDatabase::inject(
-			L"Data\\SKSE\\Plugins\\version-1-5-97-0.bin", REL::IDDatabase::Format::SSEv1, SKSE::RUNTIME_SSE_1_5_97));
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\version-1-5-97-0.bin", REL::IDDB::Format::SSEv1, SKSE::RUNTIME_SSE_1_5_97));
 	}
 	SECTION("Lookup by ID returns the correct offset")
 	{
-		CHECK(REL::IDDatabase::get().id2offset(11483) == 0x10f5c0);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x10f5c0);
 	}
 	SECTION("REL::ID gets correct address and offset")
 	{
@@ -229,12 +229,12 @@ TEST_CASE("Module/SupportsSkyrimAE_1_6_353")
 	}
 	SECTION("Address Library format can be loaded")
 	{
-		CHECK(REL::IDDatabase::inject(
-			L"Data\\SKSE\\Plugins\\versionlib-1-6-353-0.bin", REL::IDDatabase::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_353));
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\versionlib-1-6-353-0.bin", REL::IDDB::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_353));
 	}
 	SECTION("Lookup by ID returns the correct offset")
 	{
-		CHECK(REL::IDDatabase::get().id2offset(11483) == 0x10f7a0);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x10f7a0);
 	}
 	SECTION("REL::ID gets correct address and offset")
 	{
@@ -256,12 +256,12 @@ TEST_CASE("Module/SupportsSkyrimAE_1_6_629")
 	}
 	SECTION("Address Library format can be loaded")
 	{
-		CHECK(REL::IDDatabase::inject(
-			L"Data\\SKSE\\Plugins\\versionlib-1-6-629-0.bin", REL::IDDatabase::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_629));
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\versionlib-1-6-629-0.bin", REL::IDDB::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_629));
 	}
 	SECTION("Lookup by ID returns the correct offset")
 	{
-		CHECK(REL::IDDatabase::get().id2offset(11483) == 0x1113f0);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x1113f0);
 	}
 	SECTION("ID database and module can be reset")
 	{
@@ -277,12 +277,12 @@ TEST_CASE("Module/SupportsSkyrimAE_1_6_1130")
 	}
 	SECTION("Address Library format can be loaded")
 	{
-		CHECK(REL::IDDatabase::inject(
-			L"Data\\SKSE\\Plugins\\versionlib-1-6-1130-0.bin", REL::IDDatabase::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_1130));
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\versionlib-1-6-1130-0.bin", REL::IDDB::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_1130));
 	}
 	SECTION("Lookup by ID returns the correct offset")
 	{
-		CHECK(REL::IDDatabase::get().id2offset(11483) == 0x14fbe0);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x14fbe0);
 	}
 	SECTION("ID database and module can be reset")
 	{
@@ -298,12 +298,12 @@ TEST_CASE("Module/SupportsSkyrimAE_1_6_1170")
 	}
 	SECTION("Address Library format can be loaded")
 	{
-		CHECK(REL::IDDatabase::inject(
-			L"Data\\SKSE\\Plugins\\versionlib-1-6-1170-0.bin", REL::IDDatabase::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_1170));
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\versionlib-1-6-1170-0.bin", REL::IDDB::Format::SSEv2, SKSE::RUNTIME_SSE_1_6_1170));
 	}
 	SECTION("Lookup by ID returns the correct offset")
 	{
-		CHECK(REL::IDDatabase::get().id2offset(11483) == 0x14fcd0);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x14fcd0);
 	}
 	SECTION("ID database and module can be reset")
 	{
@@ -319,12 +319,12 @@ TEST_CASE("Module/SupportsSkyrimAE_1_6_1179_GOG")
 	}
 	SECTION("Address Library format can be loaded")
 	{
-		CHECK(REL::IDDatabase::inject(
-			L"Data\\SKSE\\Plugins\\versionlib-1-6-1179-0.bin", REL::IDDatabase::Format::SSEv2, SKSE::RUNTIME_1_6_1179));
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\versionlib-1-6-1179-0.bin", REL::IDDB::Format::SSEv2, SKSE::RUNTIME_1_6_1179));
 	}
 	SECTION("Lookup by ID returns the correct offset")
 	{
-		CHECK(REL::IDDatabase::get().id2offset(11483) == 0x14fb00);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x14fb00);
 	}
 	SECTION("ID database and module can be reset")
 	{
@@ -342,12 +342,12 @@ TEST_CASE("Module/SupportsSkyrimVR")
 	}
 	SECTION("Address Library format can be loaded")
 	{
-		CHECK(REL::IDDatabase::inject(
-			L"Data\\SKSE\\Plugins\\version-1-4-15-0.csv", REL::IDDatabase::Format::VR, SKSE::RUNTIME_VR_1_4_15));
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\version-1-4-15-0.csv", REL::IDDB::Format::VR, SKSE::RUNTIME_VR_1_4_15));
 	}
 	SECTION("Lookup by ID returns the correct offset")
 	{
-		CHECK(REL::IDDatabase::get().id2offset(11483) == 0x11fba0);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x11fba0);
 	}
 	SECTION("REL::ID gets correct address and offset")
 	{
@@ -384,11 +384,61 @@ TEST_CASE("Module/SupportsSkyrimVR")
 }
 #endif
 
-TEST_CASE("IDDatabase/FailedIDLookup")
+TEST_CASE("IDDB/FailedIDLookup")
 {
 	REQUIRE(REL::Module::mock(SKSE::RUNTIME_SSE_1_6_353, REL::Module::Runtime::AE, L"SkyrimSE.exe", 0x1000));
-	REQUIRE_THROWS(REL::IDDatabase::get().id2offset(0xFFFFFFFF));
+	REQUIRE_THROWS(REL::IDDB::get().id2offset(0xFFFFFFFF));
 }
+
+#ifdef ENABLE_SKYRIM_AE
+TEST_CASE("Module/SupportsSkyrimAE_1_7_99")
+{
+	SECTION("Runtime is mockable")
+	{
+		REQUIRE(REL::Module::mock(SKSE::RUNTIME_SSE_1_7_99, REL::Module::Runtime::AE, L"SkyrimSE.exe", 0x1000));
+	}
+	SECTION("Address Library format 5 can be loaded")
+	{
+		CHECK(REL::IDDB::inject(
+			L"Data\\SKSE\\Plugins\\versionlib-1-7-99-0.bin", REL::IDDB::Format::SSEv5, SKSE::RUNTIME_SSE_1_7_99));
+	}
+	SECTION("Lookup by ID returns the correct offset")
+	{
+		CHECK(REL::IDDB::get().id2offset(1) == 0x1022);
+		CHECK(REL::IDDB::get().id2offset(11483) == 0x155260);
+	}
+	SECTION("REL::ID gets correct address and offset")
+	{
+		REL::ID id(11483);
+		CHECK(id.offset() == 0x155260);
+		CHECK(id.address() == 0x156260);
+	}
+	SECTION("ID database and module can be reset")
+	{
+		REL::Module::reset();
+	}
+}
+
+TEST_CASE("IDDB/BackwardCompatAutoDetect")
+{
+	// A single build must keep loading every format it has ever supported;
+	// prove format 2 still auto-detects and loads without an explicit
+	// expected-format assertion, the same way real (non-test) loads work.
+	REQUIRE(REL::Module::mock(SKSE::RUNTIME_SSE_1_6_1170, REL::Module::Runtime::AE, L"SkyrimSE.exe", 0x1000));
+	REQUIRE(REL::IDDB::inject(L"Data\\SKSE\\Plugins\\versionlib-1-6-1170-0.bin", SKSE::RUNTIME_SSE_1_6_1170));
+	CHECK(REL::IDDB::get().id2offset(11483) == 0x14fcd0);
+	REL::Module::reset();
+}
+
+TEST_CASE("IDDB/UnsupportedFormatFailsLoudly")
+{
+	REQUIRE(REL::Module::mock(SKSE::RUNTIME_SSE_1_6_1170, REL::Module::Runtime::AE, L"SkyrimSE.exe", 0x1000));
+	(void)REL::IDDB::inject(L"Data\\SKSE\\Plugins\\version-invalid-format.bin", SKSE::RUNTIME_SSE_1_6_1170);
+	// An unrecognized format never populates a usable mapping, so every lookup still fails.
+	CHECK_THROWS(REL::IDDB::get().id2offset(1));
+	REL::Module::reset();
+}
+#endif
 
 TEST_CASE("CodeVerification/VerifyCode", "[unit]")
 {
