@@ -45,8 +45,9 @@ cmake --preset build-release-linux-clangcl-vcpkg-all
 cmake --build --preset release-linux-clangcl-vcpkg-all
 ```
 
-`CommonLibSSETests.exe`/`CommonLibSSE.lib` will be real Windows PE
-binaries in `build/release-linux-clangcl-vcpkg-all/`. Verify with:
+`CommonLibSSETests.exe` will be a Windows PE executable, and
+`CommonLibSSE.lib` will be a Windows COFF library archive, both in
+`build/release-linux-clangcl-vcpkg-all/`. Verify the executable with:
 
 ```bash
 file build/release-linux-clangcl-vcpkg-all/CommonLibSSETests.exe

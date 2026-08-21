@@ -4,14 +4,24 @@ if(VCPKG_TARGET_IS_MINGW)
     message(NOTICE "Building ${PORT} for MinGW requires the HLSL Compiler fxc.exe also be in the PATH. See https://aka.ms/windowssdk.")
 endif()
 
+# wine-shader-compile.patch reroutes DirectXTK's shader-compile step
+# through `wine cmd /c`, which only makes sense when actually
+# cross-compiling from a Linux host. A native Windows build already has
+# a real fxc.exe and must not have this patch applied, or its
+# shader-compile step would try (and fail) to invoke Wine.
+if(CMAKE_HOST_UNIX)
+    set(DIRECTXTK_PATCHES PATCHES wine-shader-compile.patch)
+else()
+    set(DIRECTXTK_PATCHES "")
+endif()
+
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO Microsoft/DirectXTK
     REF ${DIRECTXTK_TAG}
     SHA512 9306774b06f52b4c37938fe4b3a10df8c7a85652188a25dc25e60ae9ff6fbf9d2cf920b114de3fc3945c564054cbb166cc45fca073021129e75ce282a51636e7
     HEAD_REF main
-    PATCHES
-        wine-shader-compile.patch
+    ${DIRECTXTK_PATCHES}
 )
 
 vcpkg_check_features(

@@ -15,9 +15,18 @@
 set(CMAKE_SYSTEM_NAME Windows)
 set(CMAKE_SYSTEM_PROCESSOR AMD64)
 
-find_program(CMAKE_C_COMPILER NAMES clang-cl REQUIRED)
-find_program(CMAKE_CXX_COMPILER NAMES clang-cl REQUIRED)
-find_program(CMAKE_LINKER NAMES lld-link REQUIRED)
+# Distro-packaged LLVM (e.g. Ubuntu/Debian's `clang` apt package) often
+# doesn't register a plain "clang-cl"/"lld-link" alias, only versioned
+# ones (clang-cl-18, lld-link-18, ...). Listing recent versions as
+# fallbacks avoids needing a manual symlink/update-alternatives step on
+# those distros; a real install with the plain name (Arch, a manual
+# LLVM build, etc.) still matches first.
+set(_clangcl_names clang-cl clang-cl-19 clang-cl-18 clang-cl-17 clang-cl-16 clang-cl-15)
+set(_lldlink_names lld-link lld-link-19 lld-link-18 lld-link-17 lld-link-16 lld-link-15)
+
+find_program(CMAKE_C_COMPILER NAMES ${_clangcl_names} REQUIRED)
+find_program(CMAKE_CXX_COMPILER NAMES ${_clangcl_names} REQUIRED)
+find_program(CMAKE_LINKER NAMES ${_lldlink_names} REQUIRED)
 
 # Override with -DXWIN_SYSROOT=<path> or the XWIN_SYSROOT environment
 # variable if your sysroot lives somewhere other than the default.

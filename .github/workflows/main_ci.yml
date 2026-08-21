@@ -161,6 +161,8 @@ jobs:
   # cheap on runner minutes.
   build-linux-cross-compile:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
       XWIN_SYSROOT: ${{ github.workspace }}/xwin-out
@@ -170,6 +172,7 @@ jobs:
         with:
           path: main
           submodules: recursive
+          persist-credentials: false
 
       - name: Extract vcpkg baseline from vcpkg.json
         id: get_vcpkg_baseline
@@ -193,8 +196,8 @@ jobs:
         if: steps.cache-xwin.outputs.cache-hit != 'true'
         run: |
           curl -L https://github.com/Jake-Shadle/xwin/releases/download/0.6.5/xwin-0.6.5-x86_64-unknown-linux-musl.tar.gz | tar xz
-          mv xwin-0.6.5-x86_64-unknown-linux-musl/xwin /usr/local/bin/xwin
-          xwin --accept-license --cache-dir "${{ runner.temp }}/xwin-cache" splat \
+          install -Dm755 xwin-0.6.5-x86_64-unknown-linux-musl/xwin "${{ runner.temp }}/bin/xwin"
+          "${{ runner.temp }}/bin/xwin" --accept-license --cache-dir "${{ runner.temp }}/xwin-cache" splat \
             --output "${{ env.XWIN_SYSROOT }}" --include-debug-libs \
             --use-winsysroot-style --preserve-ms-arch-notation
 
