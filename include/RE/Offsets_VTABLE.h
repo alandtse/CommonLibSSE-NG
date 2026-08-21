@@ -2353,6 +2353,10 @@ namespace RE
 	constexpr std::array<REL::VariantID, 1>  VTABLE_MovementHandler{ REL::VariantID(263056, 208715, 0x16f21c8) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_SprintHandler{ REL::VariantID(263057, 208717, 0x16f2208) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_AttackBlockHandler{ REL::VariantID(263058, 208719, 0x16f2258) };
+	// AE 1.7.99-only classes -- no SE/VR counterpart exists, so those slots are unused (0).
+	constexpr std::array<REL::VariantID, 1>  VTABLE_AmiiboEvent{ REL::VariantID(0, 536708, 0) };
+	constexpr std::array<REL::VariantID, 1>  VTABLE_MotionGestureEvent{ REL::VariantID(0, 536706, 0) };
+	constexpr std::array<REL::VariantID, 1>  VTABLE_SixaxisEvent{ REL::VariantID(0, 536598, 0) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_ReadyWeaponHandler{ REL::VariantID(263059, 208721, 0x16f22a8) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_ActivateHandler{ REL::VariantID(263060, 208723, 0x16f22e8) };
 	constexpr std::array<REL::VariantID, 1>  VTABLE_AutoMoveHandler{ REL::VariantID(263061, 208725, 0x16f2338) };
