@@ -50,12 +50,8 @@ namespace RE
 		virtual bool ProcessMouseMove(MouseMoveEvent* a_event);                            // VR 07 - { return false; }
 		virtual bool ProcessButton(ButtonEvent* a_event);                                  // VR 08 - { return false; }
 #elif !defined(SKYRIM_CROSS_VR)
-		// EXCLUSIVE_SKYRIM_FLAT (SE/AE). AE-only/SE+AE-flat builds share this branch's
-		// real virtuals with SE, same as before 1.7.99 existed -- derived classes across
-		// this codebase declare their own `override` unconditionally here (only
-		// SKYRIM_CROSS_VR is guarded off), so converting these to non-virtual wrappers
-		// would require updating every one of them too. Deferred as a follow-up; only
-		// SKYRIM_CROSS_VR (the dominant real-world build target) is fixed below.
+		// EXCLUSIVE_SKYRIM_FLAT (SE/AE). AE 1.7.99's slot shift is not applied here yet;
+		// derived classes declare unconditional overrides in this branch. Follow-up.
 		virtual bool ProcessKinect(KinectEvent* a_event);          // 02 - { return false; }
 		virtual bool ProcessThumbstick(ThumbstickEvent* a_event);  // 03 - { return false; }
 		virtual bool ProcessMouseMove(MouseMoveEvent* a_event);    // 04 - { return false; }
@@ -63,12 +59,8 @@ namespace RE
 #else
 		// SKYRIM_CROSS_VR (multi-runtime): non-virtual wrappers dispatch to the correct
 		// per-runtime vtable slot, so a single binary works on both flat and VR.
-		//
-		// AE 1.7.99 inserts ProcessMotionGesture/ProcessSixaxis after CanProcess (its own
-		// slots 02/03), shifting these four by +2 on that version only -- verified via
-		// PR #232's claim plus this class's own established RelocateVirtual pattern for
-		// VR's identical "inserted before, not appended" problem. seAndAeIdx is computed
-		// per-call since it depends on runtime version, not just the SE/AE/VR macro split.
+		// AE 1.7.99 inserts ProcessMotionGesture/ProcessSixaxis after CanProcess, shifting
+		// these four by +2 on that version only.
 #	ifdef ENABLE_SKYRIM_AE
 #		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 2 : (idx))
 #	else
@@ -92,9 +84,7 @@ namespace RE
 		}
 
 #	ifdef ENABLE_SKYRIM_AE
-		// New in AE 1.7.99; no flat counterpart pre-1.7.99, so no-op unless actually running
-		// that version (same "no-op unless the specific runtime applies" idiom as the VR-only
-		// slots below).
+		// New in AE 1.7.99; no-op unless actually running that version.
 		bool ProcessMotionGesture(MotionGestureEvent* a_event)
 		{
 			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {

@@ -767,16 +767,9 @@ namespace RE
 
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<TESTrackedStatsEvent>, AsTESTrackedStatsEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2C8, 0x2D0)
 
-		// AE 1.7.99 appends a new BSTEventSink<BSSystemEvent> base after every
-		// previously-known one (verified via live RTTI/vtable walk against the
-		// real binary: a 6th event-sink vtable slot at 0x2D8, one past
-		// AsTESTrackedStatsEventSink's AE offset -- not the "0x2D0" position
-		// upstream's own comments use, since those predate this fork's
-		// existing 1.6.629 versioning split). Not declared as a real C++ base
-		// class -- doing so would add a vtable slot the compiler bakes in for
-		// every runtime a build targets, corrupting SE/VR's real (unshifted)
-		// vtable shape in a SKYRIM_CROSS_VR build. Mirrors the VR-only
-		// "no flat vtable slot" accessor pattern, just gated the other way.
+		// AE 1.7.99 appends a 6th event-sink vtable slot at 0x2D8. Not a real C++
+		// base class: that would bake an extra vtable slot into every runtime,
+		// corrupting SE/VR's unshifted shape in a SKYRIM_CROSS_VR build.
 #ifdef ENABLE_SKYRIM_AE
 		[[nodiscard]] BSTEventSink<BSSystemEvent>* AsBSSystemEventSink() noexcept
 		{
@@ -1003,10 +996,8 @@ namespace RE
             VR_PLAYER_RUNTIME_DATA_CONTENT
 		};
 
-		// AE 1.7.99's new BSSystemEvent sink (see AsBSSystemEventSink above)
-		// appends one vtable slot after every previously-known base, shifting
-		// every one of PlayerCharacter's own data members below by +8 bytes
-		// on that version only (SE/VR/pre-1.7.99-AE offsets are unaffected).
+		// AE 1.7.99's new vtable slot shifts every data member below by +8 bytes
+		// on that version only.
 #define AE1799_SHIFT(offset) (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) == std::strong_ordering::less ? (offset) : (offset) + 8)
 
 		// Runtime data accessors

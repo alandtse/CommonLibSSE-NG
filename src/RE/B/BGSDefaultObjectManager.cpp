@@ -10,15 +10,8 @@ namespace RE
 	{
 		constexpr auto kInvalid = (std::numeric_limits<std::size_t>::max)();
 
-		// AE 1.7.99 inserts 6 new AE-only DEFAULT_OBJECT entries at two points
-		// in the real object's objects[]/objectInit[] arrays (1 before what
-		// this shared index space calls 188, 5 more before 263), verified via
-		// live pointer-arithmetic cross-check (objectInit[]'s real start only
-		// divides evenly against index 191 when the array holds 372 total
-		// entries, versus 364 pre-1.7.99). DefaultObjectID's packed SE/AE
-		// value never carried separate slots for AE-only entries (old or
-		// new), so this corrects the shared index against the real,
-		// version-dependent array layout at lookup time instead.
+		// AE 1.7.99 inserts 6 new entries into objects[]/objectInit[] (1 before
+		// index 188, 5 more before 263), growing the array from 364 to 372.
 		inline bool IsAe1799() noexcept
 		{
 #ifdef ENABLE_SKYRIM_AE
@@ -58,8 +51,7 @@ namespace RE
 			return nullptr;
 		}
 		assert(idx < static_cast<std::size_t>(IsAe1799() ? 372 : Relocate(364, 364, 369)));
-		const std::uintptr_t objectInitOffset = IsAe1799() ? 0xBC0 : 0xB80;
-		return (&RelocateMember<bool>(this, objectInitOffset, 0xBA8))[idx] ?
+		return IsObjectInitialized(idx) ?
 		           &(&RelocateMember<TESForm*>(this, 0x20, 0x20))[idx] :
 		           nullptr;
 	}
@@ -69,13 +61,19 @@ namespace RE
 		return IsObjectInitialized(MapIndex(std::to_underlying(a_object)));
 	}
 
+	bool BGSDefaultObjectManager::IsObjectInitialized(std::size_t a_idx) const noexcept
+	{
+		const std::uintptr_t objectInitOffset = IsAe1799() ? 0xBC0 : 0xB80;
+		return (&RelocateMember<bool>(this, objectInitOffset, 0xBA8))[a_idx];
+	}
+
 	TESForm** BGSDefaultObjectManager::GetAe1799Object(Ae1799Object a_object) noexcept
 	{
 		if (!IsAe1799()) {
 			return nullptr;
 		}
 		const auto idx = std::to_underlying(a_object);
-		return (&RelocateMember<bool>(this, 0xBC0, 0xBA8))[idx] ?
+		return IsObjectInitialized(idx) ?
 		           &(&RelocateMember<TESForm*>(this, 0x20, 0x20))[idx] :
 		           nullptr;
 	}

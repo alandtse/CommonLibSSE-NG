@@ -284,12 +284,8 @@ namespace RE
             RUNTIME_DATA2_CONTENT
 		};
 
-		// AE 1.7.99 inserts BSTEventSink<TESAmiiboTouchEvent> and
-		// BSTEventSink<TESAmiiboForcedStopDetectionEvent> after
-		// TESSwitchRaceCompleteEvent (0x178), shifting TESPlayerBowShotEvent
-		// and everything declared after it by +0x10 on that version only --
-		// verified via live RTTI walk against the real binary. Own data
-		// members (RUNTIME_DATA/RUNTIME_DATA2 below) shift accordingly.
+		// AE 1.7.99 inserts two Amiibo event-sink bases after
+		// TESSwitchRaceCompleteEvent, shifting everything after by +0x10.
 		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
 		{
 			assert(!REL::Module::IsVR());
@@ -316,10 +312,8 @@ namespace RE
 			return REL::RelocateMember<RUNTIME_DATA2>(this, 0x760);
 		}
 
-		// New in AE 1.7.99; not declared as real C++ bases (would corrupt
-		// SE/VR/pre-1.7.99-AE's vtable shape in a SKYRIM_CROSS_VR build, same
-		// reasoning as PlayerCharacter::AsBSSystemEventSink). Returns nullptr
-		// on every other runtime/version.
+		// New in AE 1.7.99. Not a real C++ base -- that would corrupt other
+		// runtimes' vtable shape in a SKYRIM_CROSS_VR build.
 #ifdef ENABLE_SKYRIM_AE
 		[[nodiscard]] BSTEventSink<TESAmiiboTouchEvent>* AsTESAmiiboTouchEventSink() noexcept
 		{
@@ -342,16 +336,9 @@ namespace RE
 		}
 #endif
 
-		// TESPlayerBowShotEvent/TESFastTravelEndEvent/PositionPlayerEvent/
-		// BSTEventSink<StatsEvent> stay real base classes above (removing
-		// them would shift the still-unconditional BSTEventSource<StatsEvent>
-		// base that follows, breaking it for every version, not just
-		// 1.7.99). Their implicit upcasts are still correct pre-1.7.99 but
-		// resolve to the wrong address on AE 1.7.99+ (real offsets shift
-		// +0x10, verified above), so these accessors are provided alongside
-		// the existing inheritance for callers needing 1.7.99 correctness.
-		// VR-inclusive builds are unaffected (see the inheritance list
-		// above) and have no equivalent accessor here.
+		// These 4 stay real base classes above (removing them would shift the
+		// still-unconditional BSTEventSource<StatsEvent> base for every version).
+		// Accessors below correct their AE 1.7.99 offset without touching that.
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		[[nodiscard]] BSTEventSink<TESPlayerBowShotEvent>* AsTESPlayerBowShotEventSink() noexcept
 		{

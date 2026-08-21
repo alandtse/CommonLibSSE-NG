@@ -1060,13 +1060,8 @@ namespace RE
 			return obj && *obj && (*obj)->As<T>() ? reinterpret_cast<T**>(obj) : nullptr;
 		}
 
-		// AE 1.7.99 added 6 new AE-only DEFAULT_OBJECT entries (motion-control
-		// help text + Amiibo support) with no SE/VR counterpart, so they
-		// don't fit DefaultObjectID's packed cross-runtime scheme. Real
-		// index verified via live pointer-arithmetic cross-check (same
-		// technique as GetObject/MapIndex's Ae1799IndexShift). Always
-		// returns nullptr pre-1.7.99, so a single AE-only build stays safe
-		// against older installs.
+		// AE 1.7.99 adds 6 AE-only entries with no SE/VR counterpart, so they
+		// don't fit DefaultObjectID's packed scheme. Returns nullptr pre-1.7.99.
 		enum class Ae1799Object : std::size_t
 		{
 			kHelpManualNX = 188,
@@ -1086,10 +1081,7 @@ namespace RE
 
 		[[nodiscard]] bool IsObjectInitialized(DefaultObjectID a_object) const noexcept;
 
-		[[nodiscard]] bool IsObjectInitialized(std::size_t a_idx) const noexcept
-		{
-			return (&REL::RelocateMember<bool>(this, 0xB80, 0xBA8))[a_idx];
-		}
+		[[nodiscard]] bool IsObjectInitialized(std::size_t a_idx) const noexcept;
 
 		[[nodiscard]] static bool SupportsVR(DefaultObjectID a_object) noexcept;
 

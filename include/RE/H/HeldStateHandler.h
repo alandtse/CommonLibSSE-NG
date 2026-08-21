@@ -17,12 +17,8 @@ namespace RE
 		virtual void UpdateHeldStateActive(const ButtonEvent* a_event);  // 05
 		virtual void SetHeldStateActive(bool a_flag);                    // 06
 #else
-		// SKYRIM_CROSS_VR: PlayerInputHandler's ProcessThumbstick/MouseMove/Button
-		// became non-virtual wrappers there, so these two slots (which come right
-		// after Button in the real vtable) would otherwise get compacted to the
-		// wrong compiler-assigned index. Non-virtual wrappers here too, same
-		// AE1799 +2 shift reasoning as PlayerInputHandler (already documented in
-		// AttackBlockHandler.h's // 05, 07 (AE 1.7.99) comment).
+		// Non-virtual wrappers, same as PlayerInputHandler: these slots come right
+		// after Button, so they need the same AE 1.7.99 +2 shift.
 #	ifdef ENABLE_SKYRIM_AE
 #		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 2 : (idx))
 #	else

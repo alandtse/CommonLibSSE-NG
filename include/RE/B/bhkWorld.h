@@ -92,20 +92,8 @@ namespace RE
 		std::uint16_t unkC5FC;          // C5FC
 		std::uint16_t unkC5FE;          // C5FE
 #else
-		// AE 1.7.99 inserts a real bhkWorldCinfo sub-object at C5D8+8=C5E0
-		// (an 8-byte unlabeled gap separates it from suspendInactiveAgentsUtil),
-		// pushing the 6 uint32 fields formerly at C5D8-C5EC out to C6E0-C6F4.
-		// Verified via live decompile: the AE 1.7.99 constructor calls a
-		// sub-constructor at exactly this+0xC5E0 that stamps
-		// VTABLE_bhkWorldCinfo's real address at its offset 0, and separately
-		// copies two values into fields at this+0xC6F8/this+0xC6FC matching
-		// tau/damping's Havok naming exactly. The rest of PR #233's claimed
-		// tail (unkC700/toggleCollision/3 trailing uint16 fields) is NOT
-		// ported as-is -- that PR's own field list for this region doesn't
-		// even sum to its own claimed 0xC710 total, and only the total size
-		// itself was independently confirmed (via allocator sizing), not the
-		// exact trailing field boundaries. Left as a sized-but-unlabeled
-		// padding block pending real per-field verification.
+		// AE 1.7.99 inserts a real bhkWorldCinfo sub-object at C5E0, pushing the
+		// tail fields to C6E0+. Bytes past damping are unverified padding.
 		std::uint64_t unkC5D8;        // C5D8 - unlabeled gap before worldCinfo
 		bhkWorldCinfo worldCinfo;     // C5E0
 		std::uint32_t unkC6E0;        // C6E0 - incremented per frame

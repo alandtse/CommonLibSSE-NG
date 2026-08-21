@@ -33,25 +33,16 @@ namespace RE
 		virtual void Unk_05(void);                                                                                               // 05
 		virtual void Unk_06(void);                                                                                               // 06
 #elif !defined(SKYRIM_CROSS_VR)
-		// EXCLUSIVE_SKYRIM_FLAT (SE/AE). Same reasoning as MenuEventHandler's FLAT
-		// branch: this codebase's ~12 PlayerInputHandler-derived classes declare
-		// their own `override` unconditionally here (only SKYRIM_CROSS_VR is guarded
-		// off below), so applying AE 1.7.99's slot shift to this branch too would
-		// require updating every one of them. Deferred; only SKYRIM_CROSS_VR (the
-		// dominant real-world build target) is fixed below.
+		// EXCLUSIVE_SKYRIM_FLAT (SE/AE). AE 1.7.99's slot shift is not applied here yet;
+		// derived classes declare unconditional overrides in this branch. Follow-up.
 		virtual void ProcessThumbstick([[maybe_unused]] ThumbstickEvent* a_event, [[maybe_unused]] PlayerControlsData* a_data) {}  // 02
 		virtual void ProcessMouseMove([[maybe_unused]] MouseMoveEvent* a_event, [[maybe_unused]] PlayerControlsData* a_data) {}    // 03
 		virtual void ProcessButton([[maybe_unused]] ButtonEvent* a_event, [[maybe_unused]] PlayerControlsData* a_data) {}          // 04
 #else
 		// SKYRIM_CROSS_VR (multi-runtime): non-virtual wrappers dispatch to the
-		// correct per-runtime vtable slot, mirroring MenuEventHandler's established
-		// pattern. AE 1.7.99 inserts ProcessMotionGesture/ProcessSixaxis after
-		// CanProcess (its own slots 02/03), shifting these three by +2 on that
-		// version only -- verified via live decompile of LookHandler's real AE
-		// 1.7.99 vtable: slot 03 (ProcessSixaxis) is a real, non-stub override that
-		// reads a SixaxisEvent's orientation quaternion and calls
-		// Actor::ModifyRotationZ, not a placeholder; ProcessThumbstick/
-		// ProcessMouseMove shift to slots 04/05 with unchanged content.
+		// correct per-runtime vtable slot, mirroring MenuEventHandler. AE 1.7.99
+		// inserts ProcessMotionGesture/ProcessSixaxis after CanProcess, shifting
+		// these three by +2 on that version only.
 #	ifdef ENABLE_SKYRIM_AE
 #		define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less ? (idx) + 2 : (idx))
 #	else
@@ -71,8 +62,7 @@ namespace RE
 		}
 
 #	ifdef ENABLE_SKYRIM_AE
-		// New in AE 1.7.99; no flat counterpart pre-1.7.99, so no-op unless
-		// actually running that version.
+		// New in AE 1.7.99; no-op unless actually running that version.
 		bool ProcessMotionGesture(MotionGestureEvent* a_event)
 		{
 			if (!(REL::Module::IsAE() && REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less)) {
@@ -90,12 +80,8 @@ namespace RE
 #	endif
 #	undef AE1799_SLOT_SHIFT
 
-		// VR-only tail slots (append-only, no shift concern since VR's vtable is
-		// simply longer than flat's, not reordered): no-op on flat, dispatch to
-		// the real VR vtable slot only when actually running as VR. Neither slot
-		// has a known caller in this codebase today; kept only so the compiled
-		// slot count matches the real VR vtable shape if something calls them
-		// through a base pointer.
+		// VR-only tail slots (append-only): no-op on flat, dispatch to the real
+		// VR vtable slot only when actually running as VR.
 		void Unk_05(void)
 		{
 			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {

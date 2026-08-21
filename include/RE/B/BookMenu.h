@@ -58,10 +58,7 @@ namespace RE
 	bool                                 bookInitialized;  /* 96 */             \
 	std::uint8_t                         pad97;            /* 97 */
 #ifdef ENABLE_SKYRIM_AE
-			// AE only; not independently verified against a specific version
-			// threshold (ported from an unreviewed PR's plain ENABLE_SKYRIM_AE
-			// gating). Verified via live decompile of the AE 1.7.99 constructor
-			// writing 2 floats at 0x9c/0xa0/0xa4, matching a NiRect<float>.
+			// New field in AE; exact version threshold not independently verified.
 #	define RUNTIME_DATA_CONTENT_AE \
 		RUNTIME_DATA_CONTENT        \
 		NiRect<float> unk98; /* 98 */

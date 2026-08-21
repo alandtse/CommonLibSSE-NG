@@ -33,11 +33,8 @@ namespace RE
 #endif
 
 #ifdef ENABLE_SKYRIM_AE
-		// AE 1.7.99 inserted 8 BSFixedString motion-gesture control-id fields
-		// ("GestureEngageLL/LR/RL/RR", "GesturePunchLeft/Right",
-		// "GestureRaiseShield", ...) ahead of these members, shifting them all
-		// by +0x40 on that version only -- SE, VR, and pre-1.7.99 AE keep the
-		// original layout.
+		// AE 1.7.99 inserts 8 gesture control-id fields ahead of these members,
+		// shifting them all by +0x40 on that version only.
 		struct RUNTIME_DATA
 		{
 			std::uint32_t heldTimeMs;                  // 18, 58
@@ -83,5 +80,5 @@ namespace RE
 		std::uint32_t unk44;                       // 44
 #endif
 	};
-	STATIC_ASSERT_SIZE(AttackBlockHandler, 0x48, 0xC0, 0x60, SIZE_UNDEFINED, 0x48);
+	STATIC_ASSERT_SIZE(AttackBlockHandler, 0x48, 0xC0, 0x60, SIZE_UNDEFINED, 0xC0);
 }
