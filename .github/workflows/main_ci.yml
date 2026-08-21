@@ -222,13 +222,27 @@ jobs:
           path: ${{ env.XWIN_SYSROOT }}
           key: xwin-sysroot-0.10.0-10.0.26100
 
+      # Downloaded to a file and checksummed before extracting, rather
+      # than piping curl straight into tar, for both archives below:
+      # xwin's hash is theirs (published as a .sha256 release asset,
+      # fetched and compared, not just hardcoded from a single download
+      # here); llvm-mingw doesn't publish one, so this pins the hash
+      # observed from a real download instead, which still catches a
+      # tampered/corrupted download even without an upstream-published
+      # value to compare against.
       - name: Generate xwin sysroot
         if: steps.cache-xwin.outputs.cache-hit != 'true'
+        env:
+          RUNNER_TEMP_DIR: ${{ runner.temp }}
+          XWIN_SYSROOT_DIR: ${{ env.XWIN_SYSROOT }}
         run: |
-          curl -L https://github.com/Jake-Shadle/xwin/releases/download/0.10.0/xwin-0.10.0-x86_64-unknown-linux-musl.tar.gz | tar xz
-          install -Dm755 xwin-0.10.0-x86_64-unknown-linux-musl/xwin "${{ runner.temp }}/bin/xwin"
-          "${{ runner.temp }}/bin/xwin" --accept-license --cache-dir "${{ runner.temp }}/xwin-cache" splat \
-            --output "${{ env.XWIN_SYSROOT }}" --include-debug-libs \
+          curl -fsSLo xwin.tar.gz https://github.com/Jake-Shadle/xwin/releases/download/0.10.0/xwin-0.10.0-x86_64-unknown-linux-musl.tar.gz
+          expected=$(curl -fsSL https://github.com/Jake-Shadle/xwin/releases/download/0.10.0/xwin-0.10.0-x86_64-unknown-linux-musl.tar.gz.sha256)
+          echo "$expected  xwin.tar.gz" | sha256sum -c -
+          tar xzf xwin.tar.gz
+          install -Dm755 xwin-0.10.0-x86_64-unknown-linux-musl/xwin "$RUNNER_TEMP_DIR/bin/xwin"
+          "$RUNNER_TEMP_DIR/bin/xwin" --accept-license --cache-dir "$RUNNER_TEMP_DIR/xwin-cache" splat \
+            --output "$XWIN_SYSROOT_DIR" --include-debug-libs \
             --use-winsysroot-style --preserve-ms-arch-notation
 
       # Deliberately NOT added to PATH: llvm-mingw bundles its own generic
@@ -242,7 +256,9 @@ jobs:
       # instead.
       - name: Install llvm-mingw (for the fxc2 shader-compiler stand-in, see examples/linux-cross-compile)
         run: |
-          curl -L https://github.com/mstorsjo/llvm-mingw/releases/download/20250910/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64.tar.xz | tar xJ
+          curl -fsSLo llvm-mingw.tar.xz https://github.com/mstorsjo/llvm-mingw/releases/download/20250910/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64.tar.xz
+          echo "f83556c9ffa4d4291fadea1a0776c1383332dacdf4d7fbdf974c2928cb32c6f7  llvm-mingw.tar.xz" | sha256sum -c -
+          tar xJf llvm-mingw.tar.xz
           echo "LLVM_MINGW_BIN=$PWD/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64/bin" >> "$GITHUB_ENV"
 
       - name: Setup vcpkg
@@ -276,5 +292,7 @@ jobs:
       # failure. Surface it explicitly.
       - name: Show shader-compile diagnostics on failure
         if: failure()
+        env:
+          WORKSPACE_DIR: ${{ github.workspace }}
         run: |
-          find "${{ github.workspace }}" -iname "compileshaders.log" -exec echo "=== {} ===" \; -exec cat {} \;
+          find "$WORKSPACE_DIR" -iname "compileshaders.log" -exec echo "=== {} ===" \; -exec cat {} \;
