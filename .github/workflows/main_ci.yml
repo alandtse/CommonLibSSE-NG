@@ -248,3 +248,13 @@ jobs:
 
       - name: Verify output exists
         run: test -f main/build/release-linux-clangcl-vcpkg-all/CommonLibSSE.lib
+
+      # compileshaders.log (DirectXTK's own shader-compile output,
+      # redirected by wine-shader-compile.patch) doesn't match
+      # lukka/run-vcpkg's own log-collection patterns (out.log/err.log/
+      # *vcpkg*.log), so it's otherwise invisible in CI output on
+      # failure. Surface it explicitly.
+      - name: Show shader-compile diagnostics on failure
+        if: failure()
+        run: |
+          find "${{ github.workspace }}" -iname "compileshaders.log" -exec echo "=== {} ===" \; -exec cat {} \;
