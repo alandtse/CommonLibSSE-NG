@@ -170,8 +170,12 @@ jobs:
       # drift over time while the cache key stayed the same, so the
       # cached sysroot could stop matching what the key claims. Pinned
       # explicitly, and the cache key is built from these same values so
-      # the two can't disagree.
+      # the two can't disagree. The manifest version is pinned for the
+      # same reason: it selects which manifest the SDK/CRT versions are
+      # even looked up in, so leaving it at xwin's default would leave
+      # the pinned versions resolving against a moving target.
       XWIN_VERSION: "0.10.0"
+      XWIN_MANIFEST_VERSION: "17"
       XWIN_SDK_VERSION: "10.0.26100"
       XWIN_CRT_VERSION: "14.44.17.14"
     steps:
@@ -229,7 +233,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.XWIN_SYSROOT }}
-          key: xwin-sysroot-${{ env.XWIN_VERSION }}-sdk${{ env.XWIN_SDK_VERSION }}-crt${{ env.XWIN_CRT_VERSION }}
+          key: xwin-sysroot-${{ env.XWIN_VERSION }}-manifest${{ env.XWIN_MANIFEST_VERSION }}-sdk${{ env.XWIN_SDK_VERSION }}-crt${{ env.XWIN_CRT_VERSION }}
 
       # Downloaded to a file and checksummed before extracting, rather
       # than piping curl straight into tar, for both archives below:
@@ -251,6 +255,7 @@ jobs:
           tar xzf xwin.tar.gz
           install -Dm755 xwin-0.10.0-x86_64-unknown-linux-musl/xwin "$RUNNER_TEMP_DIR/bin/xwin"
           "$RUNNER_TEMP_DIR/bin/xwin" --accept-license --cache-dir "$RUNNER_TEMP_DIR/xwin-cache" \
+            --manifest-version "$XWIN_MANIFEST_VERSION" \
             --sdk-version "$XWIN_SDK_VERSION" --crt-version "$XWIN_CRT_VERSION" splat \
             --output "$XWIN_SYSROOT_DIR" --include-debug-libs \
             --use-winsysroot-style --preserve-ms-arch-notation
