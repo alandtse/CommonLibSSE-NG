@@ -413,8 +413,7 @@ namespace RE
 		}
 
 	private:
-		std::uint8_t _padHeadRuntimeData[0x128];                            // 0200 -- reserves the pre-1.7.99 footprint
-																			// (impl..logger, ends exactly at 0x328)
+		std::uint8_t _padHeadRuntimeData[0x128];                            // 0200
 		std::uint8_t _padHandlePolicy[sizeof(SkyrimScript::HandlePolicy)];  // 0328
 
 	public:
