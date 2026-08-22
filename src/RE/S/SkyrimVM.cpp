@@ -27,7 +27,7 @@ namespace RE
 	// Sends event to handle directly, then relays event to all reference aliases and magic effects attached to reference
 	void SkyrimVM::SendAndRelayEvent(VMHandle a_handle, BSFixedString* a_event, BSScript::IFunctionArguments* a_args, SkyrimVM::ISendEventFilter* a_optionalFilter)
 	{
-		GetHeadRuntimeData().impl.get()->SendEvent(a_handle, *a_event, a_args);
+		GetImpl().get()->SendEvent(a_handle, *a_event, a_args);
 		RelayEvent(a_handle, a_event, a_args, a_optionalFilter);
 	}
 

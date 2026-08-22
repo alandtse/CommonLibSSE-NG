@@ -390,30 +390,21 @@ namespace RE
 		// (see BSScript::IFreezeQuery) or a timeout.
 		void Freeze();
 
-		// AE 1.7.99's Amiibo base-class insertion (see above) shifts every own-member
-		// from here on by +0x10.
-		struct HEAD_RUNTIME_DATA
-		{
-			BSTSmartPointer<BSScript::IVirtualMachine> impl;               // 0200
-			BSScript::IVMSaveLoadInterface*            saveLoadInterface;  // 0208
-			BSScript::IVMDebugInterface*               debugInterface;     // 0210
-			BSScript::SimpleAllocMemoryPagePolicy      memoryPagePolicy;   // 0218
-			BSScript::CompiledScriptLoader             scriptLoader;       // 0240
-			SkyrimScript::Logger                       logger;             // 0278
-		};
+	private:
+		std::uint8_t _padImpl[sizeof(BSTSmartPointer<BSScript::IVirtualMachine>)];  // 0200
 
-		[[nodiscard]] inline HEAD_RUNTIME_DATA& GetHeadRuntimeData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
-					return REL::RelocateMember<HEAD_RUNTIME_DATA>(this, 0x210);
-				}
-			}
-			return REL::RelocateMember<HEAD_RUNTIME_DATA>(this, 0x200);
-		}
+	public:
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSTSmartPointer<BSScript::IVirtualMachine>, GetImpl, SKSE::RUNTIME_SSE_1_7_99, 0x200, 0x200, 0x210);
+
+		// AE 1.7.99's Amiibo base-class insertion (see above) shifts these too, with no
+		// corrected accessor; no in-tree consumer accesses them directly.
+		BSScript::IVMSaveLoadInterface*       saveLoadInterface;  // 0208
+		BSScript::IVMDebugInterface*          debugInterface;     // 0210
+		BSScript::SimpleAllocMemoryPagePolicy memoryPagePolicy;   // 0218
+		BSScript::CompiledScriptLoader        scriptLoader;       // 0240
+		SkyrimScript::Logger                  logger;             // 0278
 
 	private:
-		std::uint8_t _padHeadRuntimeData[0x128];                            // 0200
 		std::uint8_t _padHandlePolicy[sizeof(SkyrimScript::HandlePolicy)];  // 0328
 
 	public:
