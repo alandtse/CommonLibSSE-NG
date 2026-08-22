@@ -71,7 +71,7 @@ namespace RE
 
 			RUNTIME_DATA_CONTENT
 		};
-		STATIC_ASSERT_SIZE(RUNTIME_DATA, 0x30430, 0x30430, 0x304B0, 0x30320);
+		STATIC_ASSERT_SIZE(RUNTIME_DATA, 0x30420, 0x30420, 0x304A0, 0x30320);
 
 		struct VR_RUNTIME_DATA
 		{
@@ -82,7 +82,7 @@ namespace RE
 
 			VR_RUNTIME_DATA_CONTENT;
 		};
-		STATIC_ASSERT_SIZE(VR_RUNTIME_DATA, 0x30460, 0x30460, 0x304E0, 0x30350);
+		STATIC_ASSERT_SIZE(VR_RUNTIME_DATA, 0x30450, 0x30450, 0x304D0, 0x30350);
 
 		// Common map data 2 shared by SE/AE and VR
 #define COMMON_MAP_DATA2_CONTENT                                                     \
@@ -254,7 +254,7 @@ namespace RE
 		VR_RUNTIME_DATA2_CONTENT;  // 30460, 30530
 #endif
 	};
-	STATIC_ASSERT_SIZE(MapMenu, 0x30560, 0x30560, 0x30650, 0x30);
+	STATIC_ASSERT_SIZE(MapMenu, 0x30598, 0x30598, 0x305f8, 0x30);
 }
 
 // Clean up sub-macros
