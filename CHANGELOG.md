@@ -1,3 +1,9 @@
+## [6.4.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v6.3.5...v6.4.0) (2026-08-21)
+
+### Features
+
+* **rel:** support AE 1.7.99 address library format 5 ([#299](https://github.com/alandtse/CommonLibSSE-NG/issues/299)) ([7b47c5a](https://github.com/alandtse/CommonLibSSE-NG/commit/7b47c5a8f1772ed2331aebdb7035fac48d3c19ca))
+
 ## [6.3.5](https://github.com/alandtse/CommonLibSSE-NG/compare/v6.3.4...v6.3.5) (2026-08-21)
 
 ### Bug Fixes

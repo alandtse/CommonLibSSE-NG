@@ -1979,8 +1979,10 @@ set(SOURCES
 	include/RE/Z/ZeroOverheadHeap.h
 	include/REL/Common.h
 	include/REL/ID.h
+	include/REL/IDDB.h
 	include/REL/Module.h
 	include/REL/Offset.h
+	include/REL/Offset2ID.h
 	include/REL/Pattern.h
 	include/REL/REL.h
 	include/REL/Relocation.h
@@ -2519,8 +2521,9 @@ set(SOURCES
 	src/RE/W/WeightedRandomChildSelector.cpp
 	src/RE/W/WorldSpaceMenu.cpp
 	src/RE/Z/ZeroFunctionArguments.cpp
-	src/REL/ID.cpp
+	src/REL/IDDB.cpp
 	src/REL/Module.cpp
+	src/REL/Offset2ID.cpp
 	src/REL/Relocation.cpp
 	src/REL/Verify.cpp
 	src/REL/Version.cpp

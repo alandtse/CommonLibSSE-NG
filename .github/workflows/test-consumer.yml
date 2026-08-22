@@ -16,7 +16,12 @@ jobs:
   test-as-dependency:
     name: Test CommonLib as Dependency
     runs-on: windows-latest
-    
+    # vcpkg `files` binary cache; separate key namespace from main_ci/prebuilt since this
+    # job installs the dynamic x64-windows triplet (FORCE_SYSTEM_BINARIES: see main_ci.yml).
+    env:
+      VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}/vcpkg_binary_cache,readwrite"
+      VCPKG_FORCE_SYSTEM_BINARIES: "1"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -53,7 +58,7 @@ jobs:
       # the compiler — the set of fetched assets only changes when deps or
       # the baseline change, so this survives VS toolset drift.
       - name: Cache vcpkg downloads (trusted, restore + save)
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
@@ -61,14 +66,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
-      - name: Restore vcpkg downloads (untrusted PR, restore-only)
-        if: github.event_name == 'pull_request'
+      - name: Restore vcpkg downloads (fork PR, restore-only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
           key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
+
+      # Same trusted-write / untrusted-restore split as the downloads cache above: only a
+      # fork PR is restore-only.
+      - name: Cache vcpkg binary packages (trusted, restore + save)
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg_binary_cache
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-
+
+      - name: Restore vcpkg binary packages (fork PR, restore-only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg_binary_cache
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-
 
       # Wrap the vcpkg install in retry so a transient network error
       # (e.g. GitHub-releases 504 when fetching the PowerShell-core zip)

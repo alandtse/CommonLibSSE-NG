@@ -140,8 +140,11 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: write # only used when attach_tag is set
+    # vcpkg `files` binary cache; shares main_ci.yml's msvc key namespace since this
+    # job resolves the identical port set (see main_ci.yml for FORCE_SYSTEM_BINARIES).
     env:
-      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+      VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}/vcpkg_binary_cache,readwrite"
+      VCPKG_FORCE_SYSTEM_BINARIES: "1"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -186,7 +189,7 @@ jobs:
       # the compiler — the set of fetched assets only changes when deps or
       # the baseline change, so this survives VS toolset drift.
       - name: Cache vcpkg downloads (trusted, restore + save)
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
@@ -194,8 +197,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
-      - name: Restore vcpkg downloads (untrusted PR, restore-only)
-        if: github.event_name == 'pull_request'
+      - name: Restore vcpkg downloads (fork PR, restore-only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
@@ -203,14 +206,27 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
-      # x-gha reads the Actions cache endpoint from these two variables, which GitHub only
-      # exposes to the github-script runtime — re-export them so vcpkg sees them.
-      - name: Enable vcpkg GitHub Actions binary cache
-        uses: actions/github-script@v7
+      # vcpkg binary (built-package) cache. Same trusted-write / untrusted-restore split
+      # as the downloads cache above — only a fork PR is restore-only.
+      - name: Cache vcpkg binary packages (trusted, restore + save)
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/cache@v4
         with:
-          script: |
-            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+          path: ${{ github.workspace }}/vcpkg_binary_cache
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
+
+      - name: Restore vcpkg binary packages (fork PR, restore-only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg_binary_cache
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
 
       # Pre-install vcpkg deps via a CMake configure, wrapped in retry. This
       # is the only step that hits the network for vcpkg ports/tools, so a

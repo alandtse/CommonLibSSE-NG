@@ -23,6 +23,7 @@
 #include "RE/S/SkyrimScriptObjectBindPolicy.h"
 #include "RE/S/SkyrimScriptStore.h"
 #include "REL/RuntimeDataAccessors.h"
+#include "SKSE/Version.h"
 
 namespace RE
 {
@@ -295,13 +296,20 @@ namespace RE
 		void Freeze();
 
 		// members
-		BSTSmartPointer<BSScript::IVirtualMachine> impl;                       // 0200
-		BSScript::IVMSaveLoadInterface*            saveLoadInterface;          // 0208
-		BSScript::IVMDebugInterface*               debugInterface;             // 0210
-		BSScript::SimpleAllocMemoryPagePolicy      memoryPagePolicy;           // 0218
-		BSScript::CompiledScriptLoader             scriptLoader;               // 0240
-		SkyrimScript::Logger                       logger;                     // 0278
-		SkyrimScript::HandlePolicy                 handlePolicy;               // 0328
+		BSTSmartPointer<BSScript::IVirtualMachine> impl;               // 0200
+		BSScript::IVMSaveLoadInterface*            saveLoadInterface;  // 0208
+		BSScript::IVMDebugInterface*               debugInterface;     // 0210
+		BSScript::SimpleAllocMemoryPagePolicy      memoryPagePolicy;   // 0218
+		BSScript::CompiledScriptLoader             scriptLoader;       // 0240
+		SkyrimScript::Logger                       logger;             // 0278
+	private:
+		// AE 1.7.99 shifts this and every later member by +0x10. Only this
+		// field has a known direct consumer, so only it gets an accessor.
+		std::uint8_t _padHandlePolicy[sizeof(SkyrimScript::HandlePolicy)];  // 0328
+
+	public:
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(SkyrimScript::HandlePolicy, GetHandlePolicy, SKSE::RUNTIME_SSE_1_7_99, 0x328, 0x328, 0x338);
+
 		SkyrimScript::ObjectBindPolicy             objectBindPolicy;           // 0398
 		BSTSmartPointer<SkyrimScript::Store>       scriptStore;                // 0470
 		SkyrimScript::FragmentSystem               fragmentSystem;             // 0478

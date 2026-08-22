@@ -72,7 +72,7 @@ namespace REL
 		for (auto& segment : _segments) {
 			segment = {};
 		}
-		IDDatabase::_instance.clear();
-		IDDatabase::_initialized = false;
+		IDDB::_instance.clear();
+		IDDB::_initialized = false;
 	}
 }

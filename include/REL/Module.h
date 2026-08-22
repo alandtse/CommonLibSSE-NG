@@ -166,14 +166,12 @@ namespace REL
 			_instance._filename = _instance._filePath = a_filename.data();
 			_instance._version = a_version;
 			if (a_runtime == Runtime::Unknown) {
-				switch (a_version[1]) {
-				case 4:
+				// Minor version 4 = VR, 5 = SE, 6+ = AE (see load_version()).
+				if (a_version[1] == 4) {
 					_instance._runtime = Runtime::VR;
-					break;
-				case 6:
+				} else if (a_version[1] >= 6) {
 					_instance._runtime = Runtime::AE;
-					break;
-				default:
+				} else {
 					_instance._runtime = Runtime::SE;
 				}
 			} else {
@@ -331,14 +329,15 @@ namespace REL
 			const auto version = GetFileVersion(_filePath);
 			if (version) {
 				_version = *version;
-				switch (_version[1]) {
-				case 4:
+				// Minor version 4 = VR, 5 = SE, 6+ = AE. AE 1.7.99 bumped the
+				// minor version itself (not just patch/build), so this must
+				// be a floor, not an exact match, or newer AE releases
+				// silently misclassify as SE.
+				if (_version[1] == 4) {
 					_runtime = Runtime::VR;
-					break;
-				case 6:
+				} else if (_version[1] >= 6) {
 					_runtime = Runtime::AE;
-					break;
-				default:
+				} else {
 					_runtime = Runtime::SE;
 				}
 				return true;
