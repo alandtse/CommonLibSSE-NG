@@ -753,11 +753,44 @@ namespace RE
 		void UpdateVRComfortCheck();
 		void UsePoisonFromInventory(AlchemyItem* a_poison);
 
-		RUNTIME_CAST_ACCESSOR_VERSIONED_VR(BSTEventSource<BGSActorCellEvent>, AsBGSActorCellEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x2D0, 0x2E8, 0x2D8)
+		// AE 1.7.99's new BSTEventSink<BSSystemEvent> base (see AsBSSystemEventSink below)
+		// shifts these three bases by +8; RUNTIME_CAST_ACCESSOR_VERSIONED_VR has no 1.7.99
+		// sub-branch, so they need a manual accessor instead of the usual macro.
+		[[nodiscard]] inline BSTEventSource<BGSActorCellEvent>* AsBGSActorCellEventSource() noexcept
+		{
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				return &REL::RelocateMemberIfNewer<BSTEventSource<BGSActorCellEvent>>(SKSE::RUNTIME_SSE_1_7_99, this, 0x2D8, 0x2E0);
+			}
+			return &REL::RelocateMember<BSTEventSource<BGSActorCellEvent>>(this, 0x2D0, 0x2E8);
+		}
+		[[nodiscard]] inline const BSTEventSource<BGSActorCellEvent>* AsBGSActorCellEventSource() const noexcept
+		{
+			return const_cast<PlayerCharacter*>(this)->AsBGSActorCellEventSource();
+		}
 
-		RUNTIME_CAST_ACCESSOR_VERSIONED_VR(BSTEventSource<BGSActorDeathEvent>, AsBGSActorDeathEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x328, 0x340, 0x330)
+		[[nodiscard]] inline BSTEventSource<BGSActorDeathEvent>* AsBGSActorDeathEventSource() noexcept
+		{
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				return &REL::RelocateMemberIfNewer<BSTEventSource<BGSActorDeathEvent>>(SKSE::RUNTIME_SSE_1_7_99, this, 0x330, 0x338);
+			}
+			return &REL::RelocateMember<BSTEventSource<BGSActorDeathEvent>>(this, 0x328, 0x340);
+		}
+		[[nodiscard]] inline const BSTEventSource<BGSActorDeathEvent>* AsBGSActorDeathEventSource() const noexcept
+		{
+			return const_cast<PlayerCharacter*>(this)->AsBGSActorDeathEventSource();
+		}
 
-		RUNTIME_CAST_ACCESSOR_VERSIONED_VR(BSTEventSource<PositionPlayerEvent>, AsPositionPlayerEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x380, 0x398, 0x388)
+		[[nodiscard]] inline BSTEventSource<PositionPlayerEvent>* AsPositionPlayerEventSource() noexcept
+		{
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				return &REL::RelocateMemberIfNewer<BSTEventSource<PositionPlayerEvent>>(SKSE::RUNTIME_SSE_1_7_99, this, 0x388, 0x390);
+			}
+			return &REL::RelocateMember<BSTEventSource<PositionPlayerEvent>>(this, 0x380, 0x398);
+		}
+		[[nodiscard]] inline const BSTEventSource<PositionPlayerEvent>* AsPositionPlayerEventSource() const noexcept
+		{
+			return const_cast<PlayerCharacter*>(this)->AsPositionPlayerEventSource();
+		}
 
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2B0, 0x2B8)
 
