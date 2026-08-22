@@ -390,28 +390,17 @@ namespace RE
 		// (see BSScript::IFreezeQuery) or a timeout.
 		void Freeze();
 
-	private:
-		std::uint8_t _padImpl[sizeof(BSTSmartPointer<BSScript::IVirtualMachine>)];  // 0200
-
-	public:
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSTSmartPointer<BSScript::IVirtualMachine>, GetImpl, SKSE::RUNTIME_SSE_1_7_99, 0x200, 0x200, 0x210);
-
-		// AE 1.7.99's Amiibo base-class insertion (see above) shifts these too, with no
-		// corrected accessor; no in-tree consumer accesses them directly.
-		BSScript::IVMSaveLoadInterface*       saveLoadInterface;  // 0208
-		BSScript::IVMDebugInterface*          debugInterface;     // 0210
-		BSScript::SimpleAllocMemoryPagePolicy memoryPagePolicy;   // 0218
-		BSScript::CompiledScriptLoader        scriptLoader;       // 0240
-		SkyrimScript::Logger                  logger;             // 0278
-
-	private:
-		std::uint8_t _padHandlePolicy[sizeof(SkyrimScript::HandlePolicy)];  // 0328
-
-	public:
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(SkyrimScript::HandlePolicy, GetHandlePolicy, SKSE::RUNTIME_SSE_1_7_99, 0x328, 0x328, 0x338);
-
-		struct TAIL_RUNTIME_DATA
+		// AE 1.7.99's Amiibo base-class insertion (see above) shifts every field in
+		// this struct by the same +0x10, at the same version boundary.
+		struct VM_RUNTIME_DATA
 		{
+			BSTSmartPointer<BSScript::IVirtualMachine> impl;                       // 0200
+			BSScript::IVMSaveLoadInterface*            saveLoadInterface;          // 0208
+			BSScript::IVMDebugInterface*               debugInterface;             // 0210
+			BSScript::SimpleAllocMemoryPagePolicy      memoryPagePolicy;           // 0218
+			BSScript::CompiledScriptLoader             scriptLoader;               // 0240
+			SkyrimScript::Logger                       logger;                     // 0278
+			SkyrimScript::HandlePolicy                 handlePolicy;               // 0328
 			SkyrimScript::ObjectBindPolicy             objectBindPolicy;           // 0398
 			BSTSmartPointer<SkyrimScript::Store>       scriptStore;                // 0470
 			SkyrimScript::FragmentSystem               fragmentSystem;             // 0478
@@ -438,19 +427,31 @@ namespace RE
 			BSTArray<BSTSmartPointer<UpdateDataEvent>> queuedOnUpdateGameEvents;   // 0738
 			std::uint32_t                              unk0750;                    // 0750
 		};
+		static_assert(offsetof(VM_RUNTIME_DATA, impl) == 0x0);
+		static_assert(offsetof(VM_RUNTIME_DATA, saveLoadInterface) == 0x8);
+		static_assert(offsetof(VM_RUNTIME_DATA, debugInterface) == 0x10);
+		static_assert(offsetof(VM_RUNTIME_DATA, memoryPagePolicy) == 0x18);
+		static_assert(offsetof(VM_RUNTIME_DATA, scriptLoader) == 0x40);
+		static_assert(offsetof(VM_RUNTIME_DATA, logger) == 0x78);
+		static_assert(offsetof(VM_RUNTIME_DATA, handlePolicy) == 0x128);
+		static_assert(offsetof(VM_RUNTIME_DATA, objectBindPolicy) == 0x198);
+		static_assert(offsetof(VM_RUNTIME_DATA, scriptStore) == 0x270);
+		static_assert(offsetof(VM_RUNTIME_DATA, fragmentSystem) == 0x278);
+		static_assert(offsetof(VM_RUNTIME_DATA, profiler) == 0x390);
+		static_assert(offsetof(VM_RUNTIME_DATA, savePatcher) == 0x470);
+		static_assert(offsetof(VM_RUNTIME_DATA, frozenLock) == 0x478);
+		static_assert(offsetof(VM_RUNTIME_DATA, isFrozen) == 0x480);
+		static_assert(offsetof(VM_RUNTIME_DATA, unk0750) == 0x550);
+		// sizeof(VM_RUNTIME_DATA) is 0x558 due to trailing alignment padding the
+		// compiler adds after unk0750 (not present in the real binary layout, where
+		// RUNTIME_DATA/RUNTIME_DATA2/VR_RUNTIME_DATA start immediately at +0x554);
+		// _padVMRuntimeData below reserves the real 0x554-byte span, not sizeof().
+		static_assert(sizeof(VM_RUNTIME_DATA) == 0x558);
 
-		[[nodiscard]] inline TAIL_RUNTIME_DATA& GetTailRuntimeData() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
-					return REL::RelocateMember<TAIL_RUNTIME_DATA>(this, 0x3A8);
-				}
-			}
-			return REL::RelocateMember<TAIL_RUNTIME_DATA>(this, 0x398);
-		}
+		RUNTIME_MEMBER_ACCESSOR_VERSIONED(VM_RUNTIME_DATA, GetVMRuntimeData, SKSE::RUNTIME_SSE_1_7_99, 0x200, 0x200, 0x210);
 
 	private:
-		std::uint8_t _padTailRuntimeData[0x3BC];  // 0398
+		std::uint8_t _padVMRuntimeData[0x554];  // 0200
 
 	public:
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
