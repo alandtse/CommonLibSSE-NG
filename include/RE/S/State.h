@@ -187,7 +187,10 @@ namespace RE
 #else
 			static constexpr std::size_t RUNTIME_DATA_VR_OFFSET = 0x60;
 #endif
-			RUNTIME_MEMBER_ACCESSOR_VERSIONED(RUNTIME_DATA, GetRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x58, RUNTIME_DATA_VR_OFFSET, 0x60);
+			// AE1799 shifted RUNTIME_DATA's start by an additional +0x10 vs every earlier AE
+			// release (Ghidra-verified via SetCameraData's cameraDataCacheA offset and the
+			// default-texture initializer's 9-field table, both +0x10 on 1.7.99 vs 1.6.1170).
+			RUNTIME_MEMBER_ACCESSOR_VERSIONED(RUNTIME_DATA, GetRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x58, RUNTIME_DATA_VR_OFFSET, REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? 0x70 : 0x60);
 
 #if defined(ENABLE_SKYRIM_VR)
 			static_assert(RUNTIME_DATA_VR_OFFSET + offsetof(RUNTIME_DATA, dynamicResolutionWidthRatio) == 0x104);
