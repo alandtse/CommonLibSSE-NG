@@ -151,6 +151,9 @@ namespace RE
 		public BSTEventSink<BSScript::StatsEvent>,  // 0190
 		public BSTEventSink<MenuOpenCloseEvent>,    // 0198
 #endif
+		// AE 1.7.99's Amiibo bases (real bases, see above) shift this base's real data
+		// (sinks/locks/pending lists) by +0x10 with no corrected accessor. No in-tree
+		// consumer calls AddEventSink/etc. on SkyrimVM yet; add one if that changes.
 		public BSTEventSource<BSScript::StatsEvent>  // 01A8
 	{
 	public:
@@ -388,14 +391,32 @@ namespace RE
 		// (see BSScript::IFreezeQuery) or a timeout.
 		void Freeze();
 
-		// members
-		BSTSmartPointer<BSScript::IVirtualMachine> impl;               // 0200
-		BSScript::IVMSaveLoadInterface*            saveLoadInterface;  // 0208
-		BSScript::IVMDebugInterface*               debugInterface;     // 0210
-		BSScript::SimpleAllocMemoryPagePolicy      memoryPagePolicy;   // 0218
-		BSScript::CompiledScriptLoader             scriptLoader;       // 0240
-		SkyrimScript::Logger                       logger;             // 0278
+		// AE 1.7.99's Amiibo base-class insertion (see above) shifts every own-member from
+		// here on by +0x10, not just HandlePolicy/TAIL_RUNTIME_DATA as previously modeled.
+		// Same pattern as TAIL_RUNTIME_DATA: private pad + versioned overlay struct.
+		struct HEAD_RUNTIME_DATA
+		{
+			BSTSmartPointer<BSScript::IVirtualMachine> impl;               // 0200
+			BSScript::IVMSaveLoadInterface*            saveLoadInterface;  // 0208
+			BSScript::IVMDebugInterface*               debugInterface;     // 0210
+			BSScript::SimpleAllocMemoryPagePolicy      memoryPagePolicy;   // 0218
+			BSScript::CompiledScriptLoader             scriptLoader;       // 0240
+			SkyrimScript::Logger                       logger;             // 0278
+		};
+
+		[[nodiscard]] inline HEAD_RUNTIME_DATA& GetHeadRuntimeData() noexcept
+		{
+			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
+					return REL::RelocateMember<HEAD_RUNTIME_DATA>(this, 0x210);
+				}
+			}
+			return REL::RelocateMember<HEAD_RUNTIME_DATA>(this, 0x200);
+		}
+
 	private:
+		std::uint8_t _padHeadRuntimeData[0x128];                            // 0200 -- reserves the pre-1.7.99 footprint
+																			// (impl..logger, ends exactly at 0x328)
 		std::uint8_t _padHandlePolicy[sizeof(SkyrimScript::HandlePolicy)];  // 0328
 
 	public:
