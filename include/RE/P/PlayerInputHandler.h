@@ -69,8 +69,6 @@ namespace RE
 #	endif
 #	undef AE1799_SLOT_SHIFT
 
-		// VR-only tail slots (append-only): no-op on flat, dispatch to the real
-		// VR vtable slot only when actually running as VR.
 		void Unk_05(void)
 		{
 			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {

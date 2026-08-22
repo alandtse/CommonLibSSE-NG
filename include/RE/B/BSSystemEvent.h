@@ -2,7 +2,6 @@
 
 namespace RE
 {
-	// Predates AE 1.7.99; fields not yet reverse-engineered.
 	class BSSystemEvent
 	{
 	public:

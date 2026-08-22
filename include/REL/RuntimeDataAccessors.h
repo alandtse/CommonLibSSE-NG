@@ -70,13 +70,9 @@
 #define RUNTIME_DATA_ACCESSOR_VERSIONED(StructType, Version, OldOffset, NewOffset) \
 	RUNTIME_DATA_ACCESSOR_VERSIONED_EX(StructType, GetRuntimeData, Version, OldOffset, NewOffset)
 
-// Generates a GetXXX() accessor for a field/struct that does not exist at all
-// before Version -- nullptr on older runtimes, matching AttackBlockHandler's
-// GetRuntimeData()-style struct but for content with no pre-Version offset to
-// fall back to. No plain (non-_EX) variant: a class with more than one such
-// appendix needs a distinct name per one, and a shared default name would
-// silently collide across them.
+// Generates a GetXXX() accessor for a field/struct with no pre-Version offset -- nullptr on older runtimes.
 // Params: StructType, FuncName, Version, Offset (absolute, from `this`)
+// No plain (non-_EX) variant: a name shared across multiple appendices on one class would collide.
 #define RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(StructType, FuncName, Version, Offset) \
 	[[nodiscard]] inline StructType* FuncName() noexcept                                   \
 	{                                                                                      \

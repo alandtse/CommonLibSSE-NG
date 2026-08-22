@@ -95,9 +95,9 @@ namespace RE
 #ifdef ENABLE_SKYRIM_AE
 		struct AE1799_RUNTIME_DATA
 		{
-			std::uint64_t unkC5D8;        // C5D8 - unlabeled gap before worldCinfo
+			std::uint64_t unkC5D8;        // C5D8
 			bhkWorldCinfo worldCinfo;     // C5E0
-			std::uint32_t unkC6E0;        // C6E0 - incremented per frame
+			std::uint32_t unkC6E0;        // C6E0
 			std::uint32_t unkC6E4;        // C6E4
 			std::uint32_t unkC6E8;        // C6E8
 			std::uint32_t unkC6EC;        // C6EC
@@ -105,7 +105,7 @@ namespace RE
 			std::uint32_t unkC6F4;        // C6F4
 			float         tau;            // C6F8
 			float         damping;        // C6FC
-			std::uint8_t  _pad700[0x10];  // C700 - unverified trailing fields
+			std::uint8_t  _pad700[0x10];  // C700
 		};
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(AE1799_RUNTIME_DATA, GetAe1799RuntimeData, SKSE::RUNTIME_SSE_1_7_99, 0xC5D8);
