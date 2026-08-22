@@ -768,15 +768,7 @@ namespace RE
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<TESTrackedStatsEvent>, AsTESTrackedStatsEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x2C8, 0x2D0)
 
 #ifdef ENABLE_SKYRIM_AE
-		[[nodiscard]] BSTEventSink<BSSystemEvent>* AsBSSystemEventSink() noexcept
-		{
-			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
-				if (REL::Module::get().version().compare(SKSE::RUNTIME_SSE_1_7_99) != std::strong_ordering::less) {
-					return reinterpret_cast<BSTEventSink<BSSystemEvent>*>(reinterpret_cast<std::uintptr_t>(this) + 0x2D8);
-				}
-			}
-			return nullptr;
-		}
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(BSTEventSink<BSSystemEvent>, AsBSSystemEventSink, SKSE::RUNTIME_SSE_1_7_99, 0x2D8);
 #endif
 
 		struct PLAYER_RUNTIME_DATA
@@ -1007,11 +999,6 @@ namespace RE
 
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(GameStateData, GetGameStatsData, SKSE::RUNTIME_SSE_1_6_629, 0xAF8, 0x11F4, AE1799_SHIFT(0xB00));
 
-		// #207: cross-VR plugins had no safe way to reach these three (SE/AE-only direct member
-		// access silently reads garbage under EXCLUSIVE_SKYRIM_VR since VR's layout differs
-		// entirely). SE/AE/VR offsets independently confirmed via disassembly of
-		// ConsoleFunc::handler::ShowQuestTargets (questTargetsLock), and PlayerCharacter::Revert
-		// plus WriteToSaveGame/FinishLoadGame (questLog, questTargets) in all three binaries.
 		using QuestTargetsMap = BSTHashMap<TESQuest*, BSTArray<TESQuestTarget*>*>;
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSpinLock, GetQuestTargetsLock, SKSE::RUNTIME_SSE_1_6_629, 0x3D8, 0x9C8, AE1799_SHIFT(0x3E0));
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSimpleList<TESQuestStageItem*>, GetQuestLog, SKSE::RUNTIME_SSE_1_6_629, 0x570, 0xB60, AE1799_SHIFT(0x578));
@@ -1027,8 +1014,13 @@ namespace RE
 		VR_ONLY_POINTER_ACCESSOR(VR_NODE_DATA, GetVRNodeData, 0x3F0);
 
 		// members
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
+#if defined(EXCLUSIVE_SKYRIM_FLAT) && !defined(ENABLE_SKYRIM_AE)
 		PLAYER_RUNTIME_DATA_CONTENT
+#elif defined(EXCLUSIVE_SKYRIM_FLAT)
+	private:
+		std::uint8_t _padPlayerRuntimeData[sizeof(PLAYER_RUNTIME_DATA)];  // use GetPlayerRuntimeData() -- base shifts across AE point releases
+
+	public:
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 		VR_PLAYER_RUNTIME_DATA_CONTENT
 #endif
