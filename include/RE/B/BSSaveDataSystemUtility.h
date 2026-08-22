@@ -122,6 +122,21 @@ namespace RE
 #	define AE1799_SLOT_SHIFT(idx) (idx)
 #endif
 
+#ifndef ENABLE_SKYRIM_AE
+		virtual void Unk_05(void);  // 05
+		virtual void Unk_06(void);  // 06
+		virtual void Unk_07(void);  // 07
+		virtual void Unk_08(void);  // 08 - { return; }
+		virtual void Unk_09(void);  // 09 - { return; }
+		virtual void Unk_0A(void);  // 0A
+		virtual void Unk_0B(void);  // 0B - { return; }
+		virtual void Unk_0C(void);  // 0C
+		virtual void Unk_0D(void);  // 0D - { return; }
+		virtual void Unk_0E(void);  // 0E - { return 1; }
+		virtual void Unk_0F(void);  // 0F - { return 1; }
+		virtual void Unk_10(void);  // 10 - { return 0; }
+		virtual void Unk_11(void);  // 11 - { return; }
+#else
 		void Unk_05(void)
 		{
 			REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x05), AE1799_SLOT_SHIFT(0x05), this);
@@ -138,6 +153,7 @@ namespace RE
 		void Unk_0F(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x0F), AE1799_SLOT_SHIFT(0x0F), this); }
 		void Unk_10(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x10), AE1799_SLOT_SHIFT(0x10), this); }
 		void Unk_11(void) { REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(AE1799_SLOT_SHIFT(0x11), AE1799_SLOT_SHIFT(0x11), this); }
+#endif
 #undef AE1799_SLOT_SHIFT
 
 		// members

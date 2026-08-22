@@ -34,6 +34,25 @@ namespace RE
 #	define AE1799_SLOT_SHIFT(idx) (idx)
 #endif
 
+#ifndef ENABLE_SKYRIM_AE
+		virtual void GetAuthenticationInfo(char*& a_userAuthID, std::uint64_t& a_size);  // 02
+		virtual void Unk_03(void);                                                       // 03
+		virtual void DoInitialize();                                                     // 04
+		virtual void Unk_05(void);                                                       // 05
+		virtual void DoUpdate();                                                         // 06
+		virtual void Unk_07(void);                                                       // 07
+		virtual void DoGetUserName(char* a_buffer, std::uint64_t a_size);                // 08
+		virtual void Unk_09(void);                                                       // 09
+		virtual void Unk_0A(void);                                                       // 0A
+		virtual void Unk_0B(void);                                                       // 0B
+		virtual void Unk_0C(void);                                                       // 0C
+		virtual void DoGetComputerName(char* a_buffer, std::uint64_t a_size);            // 0D
+		virtual void Unk_0E(void);                                                       // 0E
+		virtual void Unk_0F(void);                                                       // 0F
+		virtual void DoAuthenticateUser();                                               // 10
+		virtual void Unk_11(void);                                                       // 11
+		virtual bool Unk_12();                                                           // 12 - added in 1.6.1130
+#else
 		void GetAuthenticationInfo(char*& a_userAuthID, std::uint64_t& a_size)
 		{
 			REL::RelocateVirtual<void(BSSystemUtility*, char*&, std::uint64_t&)>(AE1799_SLOT_SHIFT(0x02), AE1799_SLOT_SHIFT(0x02), this, a_userAuthID, a_size);
@@ -60,6 +79,7 @@ namespace RE
 		void DoAuthenticateUser() { REL::RelocateVirtual<void(BSSystemUtility*)>(AE1799_SLOT_SHIFT(0x10), AE1799_SLOT_SHIFT(0x10), this); }
 		void Unk_11(void) { REL::RelocateVirtual<void(BSSystemUtility*)>(AE1799_SLOT_SHIFT(0x11), AE1799_SLOT_SHIFT(0x11), this); }
 		bool Unk_12() { return REL::RelocateVirtual<bool(BSSystemUtility*)>(AE1799_SLOT_SHIFT(0x12), AE1799_SLOT_SHIFT(0x12), this); }  // added in 1.6.1130
+#endif
 #undef AE1799_SLOT_SHIFT
 
 		// members
