@@ -22,11 +22,13 @@ namespace RE
 #ifdef ENABLE_SKYRIM_AE
 #	define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? (idx) + 1 : (idx))
 
-		void Unk_02AE(void* a_result)
+		bool Unk_02AE(void* a_result)
 		{
-			if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
-				REL::RelocateVirtual<void(BSSystemUtility*, void*)>(0x02, 0x02, this, a_result);
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+				return false;
 			}
+			REL::RelocateVirtual<void(BSSystemUtility*, void*)>(0x02, 0x02, this, a_result);
+			return true;
 		}
 #else
 #	define AE1799_SLOT_SHIFT(idx) (idx)

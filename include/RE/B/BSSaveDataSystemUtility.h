@@ -73,17 +73,21 @@ namespace RE
 #ifdef ENABLE_SKYRIM_AE
 #	define AE1799_SLOT_SHIFT(idx) (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? (idx) + 6 : (idx))
 
-		void Unk_05AE(void)
+		bool Unk_05AE(void)
 		{
-			if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
-				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x05, 0x05, this);
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+				return false;
 			}
+			REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x05, 0x05, this);
+			return true;
 		}
-		void Unk_06AE(void)
+		bool Unk_06AE(void)
 		{
-			if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
-				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x06, 0x06, this);
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+				return false;
 			}
+			REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x06, 0x06, this);
+			return true;
 		}
 		bool Unk_07AE(void)
 		{
@@ -106,11 +110,13 @@ namespace RE
 			}
 			return REL::RelocateVirtual<bool(BSSaveDataSystemUtility*)>(0x09, 0x09, this);
 		}
-		void Unk_0AAE(void)
+		bool Unk_0AAE(void)
 		{
-			if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
-				REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x0A, 0x0A, this);
+			if (!REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+				return false;
 			}
+			REL::RelocateVirtual<void(BSSaveDataSystemUtility*)>(0x0A, 0x0A, this);
+			return true;
 		}
 #else
 #	define AE1799_SLOT_SHIFT(idx) (idx)
