@@ -6,6 +6,7 @@
 #include "RE/M/MemoryManager.h"
 #include "RE/T/TESCondition.h"
 #include "RE/T/TESForm.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -149,18 +150,16 @@ namespace RE
 		REX::EnumSet<FavorLevel, std::uint8_t> favorLevel;     // 3B - CNAM
 		TOPIC_INFO_DATA                        data;           // 3C - ENAM
 		std::uint32_t                          fileOffset;     // 40
-#ifdef ENABLE_SKYRIM_AE
-	private:
-		std::uint8_t _pad44[0xC];  // 44
+		std::uint32_t                          pad44;          // 44
 
-	public:
-#else
-		std::uint32_t pad44;  // 44
+#ifdef ENABLE_SKYRIM_AE
+		struct AE1799_RUNTIME_DATA
+		{
+			std::uint8_t unk48[0x8];  // 48
+		};
+
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(AE1799_RUNTIME_DATA, GetAe1799RuntimeData, SKSE::RUNTIME_SSE_1_7_99, 0x48);
 #endif
 	};
-#ifdef ENABLE_SKYRIM_AE
-	static_assert(sizeof(TESTopicInfo) == 0x50);
-#else
 	static_assert(sizeof(TESTopicInfo) == 0x48);
-#endif
 }
