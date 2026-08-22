@@ -9,6 +9,8 @@
 #	include "RE/A/AmiiboEvent.h"
 #	include "RE/M/MotionGestureEvent.h"
 #	include "RE/S/SixaxisEvent.h"
+#	include "REL/Module.h"
+#	include "SKSE/Version.h"
 #endif
 
 namespace RE
@@ -56,32 +58,32 @@ namespace RE
 #ifdef ENABLE_SKYRIM_AE
 	AmiiboEvent* InputEvent::AsAmiiboEvent()
 	{
-		return GetEventType() == INPUT_EVENT_TYPE::kAmiibo ? static_cast<AmiiboEvent*>(this) : nullptr;
+		return REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) && GetEventType() == INPUT_EVENT_TYPE::kAmiibo ? static_cast<AmiiboEvent*>(this) : nullptr;
 	}
 
 	const AmiiboEvent* InputEvent::AsAmiiboEvent() const
 	{
-		return GetEventType() == INPUT_EVENT_TYPE::kAmiibo ? static_cast<const AmiiboEvent*>(this) : nullptr;
+		return const_cast<InputEvent*>(this)->AsAmiiboEvent();
 	}
 
 	MotionGestureEvent* InputEvent::AsMotionGestureEvent()
 	{
-		return GetEventType() == INPUT_EVENT_TYPE::kMotionGesture ? static_cast<MotionGestureEvent*>(this) : nullptr;
+		return REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) && GetEventType() == INPUT_EVENT_TYPE::kMotionGesture ? static_cast<MotionGestureEvent*>(this) : nullptr;
 	}
 
 	const MotionGestureEvent* InputEvent::AsMotionGestureEvent() const
 	{
-		return GetEventType() == INPUT_EVENT_TYPE::kMotionGesture ? static_cast<const MotionGestureEvent*>(this) : nullptr;
+		return const_cast<InputEvent*>(this)->AsMotionGestureEvent();
 	}
 
 	SixaxisEvent* InputEvent::AsSixaxisEvent()
 	{
-		return GetEventType() == INPUT_EVENT_TYPE::kSixaxis ? static_cast<SixaxisEvent*>(this) : nullptr;
+		return REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) && GetEventType() == INPUT_EVENT_TYPE::kSixaxis ? static_cast<SixaxisEvent*>(this) : nullptr;
 	}
 
 	const SixaxisEvent* InputEvent::AsSixaxisEvent() const
 	{
-		return GetEventType() == INPUT_EVENT_TYPE::kSixaxis ? static_cast<const SixaxisEvent*>(this) : nullptr;
+		return const_cast<InputEvent*>(this)->AsSixaxisEvent();
 	}
 #endif
 
