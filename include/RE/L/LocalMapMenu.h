@@ -107,12 +107,8 @@ namespace RE
 			BSCullingJob     cullingJob;      // 301F8
 #if !defined(SKYRIM_CROSS_VR)
 #	if defined(EXCLUSIVE_SKYRIM_FLAT)
-			std::uint64_t unk30250;  // 30250
-			std::uint64_t unk30258;  // 30258
 			RENDERER_DATA_CONTENT
 #	elif defined(EXCLUSIVE_SKYRIM_VR)
-			std::uint64_t unk30250;  // 30250
-			std::uint64_t unk30258;  // 30258
 			std::uint64_t unk30260;  // 30260
 			std::uint64_t unk30268;  // 30268
 			RENDERER_DATA_CONTENT
@@ -121,9 +117,9 @@ namespace RE
 #endif
 		};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-		static_assert(sizeof(LocalMapCullingProcess) == 0x30370);
+		static_assert(sizeof(LocalMapCullingProcess) == 0x30360);
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		static_assert(sizeof(LocalMapCullingProcess) == 0x303E8);
+		static_assert(sizeof(LocalMapCullingProcess) == 0x303D8);
 #else
 		static_assert(sizeof(LocalMapCullingProcess) == 0x30260);  // Cross-VR: only base members (cullingProcess + cullingJob), use accessors for runtime data
 #endif
@@ -180,7 +176,7 @@ namespace RE
 		std::uint32_t pad3047C;  // 3047C
 #endif
 	};
-	STATIC_ASSERT_SIZE(LocalMapMenu, 0x30410, 0x30410, 0x30490, 0x30300);
+	STATIC_ASSERT_SIZE(LocalMapMenu, 0x30400, 0x30400, 0x30480, 0x30300);
 }
 
 #undef RENDERER_DATA_CONTENT
