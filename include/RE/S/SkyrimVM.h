@@ -151,9 +151,8 @@ namespace RE
 		public BSTEventSink<BSScript::StatsEvent>,  // 0190
 		public BSTEventSink<MenuOpenCloseEvent>,    // 0198
 #endif
-		// AE 1.7.99's Amiibo bases (real bases, see above) shift this base's real data
-		// (sinks/locks/pending lists) by +0x10 with no corrected accessor. No in-tree
-		// consumer calls AddEventSink/etc. on SkyrimVM yet; add one if that changes.
+		// AE 1.7.99's Amiibo bases (real bases, see above) shift this base's data by
+		// +0x10 with no corrected accessor -- do not access it directly on that version.
 		public BSTEventSource<BSScript::StatsEvent>  // 01A8
 	{
 	public:
@@ -391,9 +390,8 @@ namespace RE
 		// (see BSScript::IFreezeQuery) or a timeout.
 		void Freeze();
 
-		// AE 1.7.99's Amiibo base-class insertion (see above) shifts every own-member from
-		// here on by +0x10, not just HandlePolicy/TAIL_RUNTIME_DATA as previously modeled.
-		// Same pattern as TAIL_RUNTIME_DATA: private pad + versioned overlay struct.
+		// AE 1.7.99's Amiibo base-class insertion (see above) shifts every own-member
+		// from here on by +0x10.
 		struct HEAD_RUNTIME_DATA
 		{
 			BSTSmartPointer<BSScript::IVirtualMachine> impl;               // 0200

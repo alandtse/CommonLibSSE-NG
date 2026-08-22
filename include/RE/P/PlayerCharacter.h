@@ -754,8 +754,7 @@ namespace RE
 		void UsePoisonFromInventory(AlchemyItem* a_poison);
 
 		// AE 1.7.99's new BSTEventSink<BSSystemEvent> base (see AsBSSystemEventSink below)
-		// shifts these three bases by +8; RUNTIME_CAST_ACCESSOR_VERSIONED_VR has no 1.7.99
-		// sub-branch, so they need a manual accessor instead of the usual macro.
+		// shifts these three bases by +8.
 		[[nodiscard]] inline BSTEventSource<BGSActorCellEvent>* AsBGSActorCellEventSource() noexcept
 		{
 			if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
