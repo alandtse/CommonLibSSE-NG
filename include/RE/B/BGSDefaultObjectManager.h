@@ -1029,13 +1029,15 @@ namespace RE
 
 		[[nodiscard]] TESForm* GetObject(DefaultObject a_object) const noexcept
 		{
-			return GetObject(std::to_underlying(a_object));
+			auto obj = const_cast<BGSDefaultObjectManager*>(this)->GetObject(static_cast<DefaultObjectID>(std::to_underlying(a_object)));
+			return obj ? *obj : nullptr;
 		}
 
 		template <class T>
 		[[nodiscard]] T* GetObject(DefaultObject a_object) const noexcept
 		{
-			return GetObject<T>(std::to_underlying(a_object));
+			auto obj = const_cast<BGSDefaultObjectManager*>(this)->GetObject<T>(static_cast<DefaultObjectID>(std::to_underlying(a_object)));
+			return obj ? *obj : nullptr;
 		}
 
 		[[nodiscard]] TESForm* GetObject(std::size_t a_idx) const noexcept
@@ -1074,7 +1076,7 @@ namespace RE
 
 		[[nodiscard]] bool IsObjectInitialized(DEFAULT_OBJECT a_object) const noexcept
 		{
-			return IsObjectInitialized(std::to_underlying(a_object));
+			return IsObjectInitialized(static_cast<DefaultObjectID>(std::to_underlying(a_object)));
 		}
 
 		[[nodiscard]] bool IsObjectInitialized(DefaultObjectID a_object) const noexcept;
