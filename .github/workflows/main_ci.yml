@@ -165,27 +165,21 @@ jobs:
         working-directory: ${{ github.workspace }}/main/build/${{ matrix.build-type }}-${{ matrix.compiler }}-vcpkg-${{ matrix.runtime }}
         run: .\CommonLibSSETests.exe
 
-  # Proves the Linux-host cross-compile toolchain (examples/linux-cross-compile/)
-  # keeps working, targeting the same Windows PE/MSVC ABI output as the
-  # windows-latest jobs above. Deliberately a single build (clang-cl, all
-  # runtimes) rather than a full matrix, and build-only (the output is a
-  # Windows PE test exe a Linux runner can't execute natively) to keep this
-  # cheap on runner minutes.
+  # Guards the Linux-host cross-compile toolchain (examples/linux-cross-compile/).
+  # Build-only and unmatrixed on purpose: the output is a Windows PE a Linux
+  # runner can't execute.
   build-linux-cross-compile:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     env:
-      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+      # Do not drop FORCE_SYSTEM_BINARIES: the ABI hash this cache keys off
+      # depends on it staying stable.
+      VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}/vcpkg_binary_cache,readwrite"
+      VCPKG_FORCE_SYSTEM_BINARIES: "1"
       XWIN_SYSROOT: ${{ github.workspace }}/xwin-out
-      # xwin defaults to the newest SDK/CRT in the manifest, which would
-      # drift over time while the cache key stayed the same, so the
-      # cached sysroot could stop matching what the key claims. Pinned
-      # explicitly, and the cache key is built from these same values so
-      # the two can't disagree. The manifest version is pinned for the
-      # same reason: it selects which manifest the SDK/CRT versions are
-      # even looked up in, so leaving it at xwin's default would leave
-      # the pinned versions resolving against a moving target.
+      # Unpinned, xwin takes the newest manifest/SDK/CRT, and the cached
+      # sysroot silently stops matching the cache key built from these.
       XWIN_VERSION: "0.10.0"
       XWIN_MANIFEST_VERSION: "17"
       XWIN_SDK_VERSION: "10.0.26100"
@@ -204,22 +198,13 @@ jobs:
           baseline=$(python3 -c "import json; print(json.load(open('main/vcpkg.json'))['builtin-baseline'])")
           echo "baseline=$baseline" >> "$GITHUB_OUTPUT"
 
-      # Ubuntu's plain `clang`/`lld` apt packages are version 18, but the
-      # Windows SDK/MSVC STL headers (via xwin) require Clang 19+
-      # (a real static_assert in yvals_core.h: "Unexpected compiler
-      # version, expected Clang 19.0.0 or newer."). Installing a
-      # consistent LLVM 19 suite via apt.llvm.org instead of the plain
-      # Ubuntu package keeps clang-cl/lld-link/llvm-rc/llvm-mt all from
-      # the same version; mixing (e.g. clang-cl-19 with the Ubuntu
-      # default lld-link, which is still 18) crashed lld outright.
+      # MSVC STL headers require Clang 19+, and mixing versions across
+      # clang-cl/lld-link/llvm-rc/llvm-mt crashes lld, so take the whole
+      # suite from apt.llvm.org rather than Ubuntu's 18.
       #
-      # wine64 and wine32:i386 are both named explicitly. With i386
-      # multiarch enabled, apt can satisfy the `wine` metapackage with
-      # wine32:i386 alone and never install a 64-bit loader, leaving
-      # wine unable to run x86-64 PEs at all ("Bad EXE format", even
-      # though fxc2.exe is a valid PE32+ binary). wine32 is still needed
-      # for the 32-bit-subsystem components (syswow64\rundll32.exe)
-      # wine's own session bootstrap loads.
+      # Keep wine64 named explicitly: with i386 multiarch on, apt otherwise
+      # satisfies `wine` with wine32:i386 alone and leaves no 64-bit loader,
+      # so every x86-64 PE fails with "Bad EXE format".
       - name: Install cross-compile toolchain
         run: |
           sudo dpkg --add-architecture i386
@@ -230,13 +215,8 @@ jobs:
           chmod +x /tmp/llvm.sh
           sudo /tmp/llvm.sh 19
 
-      # A brand-new runner has no ~/.wine prefix yet. Its very first
-      # creation races against whatever command actually gets invoked
-      # through wine first (in this case, DirectXTK's shader-compile
-      # step, several steps later), which fails partway through the
-      # prefix's own first-run initialization (e.g. failing to load
-      # rundll32.exe, since the prefix isn't fully populated yet).
-      # Force that one-time setup here, in isolation, before it matters.
+      # Create the prefix here: left implicit, its first-run setup races the
+      # shader-compile step that triggers it and fails half-initialized.
       - name: Initialize Wine prefix
         run: wineboot --init
 
@@ -247,14 +227,9 @@ jobs:
           path: ${{ env.XWIN_SYSROOT }}
           key: xwin-sysroot-${{ env.XWIN_VERSION }}-manifest${{ env.XWIN_MANIFEST_VERSION }}-sdk${{ env.XWIN_SDK_VERSION }}-crt${{ env.XWIN_CRT_VERSION }}
 
-      # Downloaded to a file and checksummed before extracting, rather
-      # than piping curl straight into tar, for both archives below:
-      # xwin's hash is theirs (published as a .sha256 release asset,
-      # fetched and compared, not just hardcoded from a single download
-      # here); llvm-mingw doesn't publish one, so this pins the hash
-      # observed from a real download instead, which still catches a
-      # tampered/corrupted download even without an upstream-published
-      # value to compare against.
+      # Both archives below are checksummed before extraction. xwin publishes
+      # its hash; llvm-mingw doesn't, so that one is pinned from a real
+      # download.
       - name: Generate xwin sysroot
         if: steps.cache-xwin.outputs.cache-hit != 'true'
         env:
@@ -272,15 +247,9 @@ jobs:
             --output "$XWIN_SYSROOT_DIR" --include-debug-libs \
             --use-winsysroot-style --preserve-ms-arch-notation
 
-      # Deliberately NOT added to PATH: llvm-mingw bundles its own generic
-      # clang-cl/lld-link, and if its bin/ ends up ahead of the system
-      # toolchain on PATH, find_program() calls in
-      # cmake/toolchain-linux-clangcl.cmake can silently resolve to
-      # llvm-mingw's copies instead (this actually happened and broke the
-      # link step with a confusing "could not open kernel32.lib" error).
-      # LLVM_MINGW_BIN is read directly by
-      # examples/linux-cross-compile/custom-ports/directxtk/portfile.cmake
-      # instead.
+      # Do not put this on PATH: its bundled clang-cl/lld-link shadow the
+      # real toolchain's and break the link step. The portfile reads
+      # LLVM_MINGW_BIN directly.
       - name: Install llvm-mingw (for the fxc2 shader-compiler stand-in, see examples/linux-cross-compile)
         run: |
           curl -fsSL --retry 3 --retry-all-errors -o llvm-mingw.tar.xz https://github.com/mstorsjo/llvm-mingw/releases/download/20250910/llvm-mingw-20250910-ucrt-ubuntu-22.04-x86_64.tar.xz
@@ -294,12 +263,23 @@ jobs:
           vcpkgGitCommitId: ${{ steps.get_vcpkg_baseline.outputs.baseline }}
           runVcpkgInstall: false
 
-      - name: Enable vcpkg GitHub Actions binary cache
-        uses: actions/github-script@v7
+      - name: Cache vcpkg binary packages (trusted, restore + save)
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/cache@v4
         with:
-          script: |
-            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+          path: ${{ github.workspace }}/vcpkg_binary_cache
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-clangcl-${{ hashFiles('main/vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-clangcl-
+
+      - name: Restore vcpkg binary packages (fork PR, restore-only)
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ github.workspace }}/vcpkg_binary_cache
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-clangcl-${{ hashFiles('main/vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-binpkgs-x64-windows-clangcl-
 
       - name: Configure
         run: cmake -S main -B main/build/release-linux-clangcl-vcpkg-all --preset build-release-linux-clangcl-vcpkg-all -DCOMMONLIB_ENABLE_IPO=OFF -DBUILD_TESTS=OFF
@@ -312,11 +292,8 @@ jobs:
       - name: Verify output exists
         run: test -f main/build/release-linux-clangcl-vcpkg-all/CommonLibSSE.lib
 
-      # compileshaders.log (DirectXTK's own shader-compile output,
-      # redirected by wine-shader-compile.patch) doesn't match
-      # lukka/run-vcpkg's own log-collection patterns (out.log/err.log/
-      # *vcpkg*.log), so it's otherwise invisible in CI output on
-      # failure. Surface it explicitly.
+      # This log doesn't match run-vcpkg's collection patterns, so it is
+      # invisible on failure unless surfaced here.
       - name: Show shader-compile diagnostics on failure
         if: failure()
         env:

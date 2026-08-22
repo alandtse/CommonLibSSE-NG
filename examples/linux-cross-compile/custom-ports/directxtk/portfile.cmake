@@ -4,11 +4,8 @@ if(VCPKG_TARGET_IS_MINGW)
     message(NOTICE "Building ${PORT} for MinGW requires the HLSL Compiler fxc.exe also be in the PATH. See https://aka.ms/windowssdk.")
 endif()
 
-# wine-shader-compile.patch reroutes DirectXTK's shader-compile step
-# through `wine cmd /c`, which only makes sense when actually
-# cross-compiling from a Linux host. A native Windows build already has
-# a real fxc.exe and must not have this patch applied, or its
-# shader-compile step would try (and fail) to invoke Wine.
+# The patch reroutes shader compilation through `wine cmd /c`, so a native
+# Windows build must not get it.
 if(CMAKE_HOST_UNIX)
     set(DIRECTXTK_PATCHES PATCHES wine-shader-compile.patch)
 else()
@@ -24,14 +21,11 @@ vcpkg_from_github(
     ${DIRECTXTK_PATCHES}
 )
 
-# CompileShaders.cmd's exit status and its own success/failure messages
-# are both unreliable under `wine cmd`: its per-shader `%fxc% ||
-# set error=1` check misfires, so it reports "There were shader
-# compilation errors!" even when every shader compiled correctly.
-# Success is therefore determined by comparing the .inc files produced
-# against the fxc2 invocations the script echoed, which also catches
-# partial output. Any pre-existing .inc files are removed first so a
-# failed run cannot be masked by leftovers from an earlier build.
+# Do not switch this back to trusting CompileShaders.cmd: under `wine cmd`
+# both its exit status and its own messages report failure on fully
+# successful runs, so success is decided by counting .inc files against the
+# invocations it echoed, and stale .inc files are deleted first so they
+# cannot mask a failure.
 if(CMAKE_HOST_UNIX)
     file(WRITE "${SOURCE_PATH}/Src/Shaders/wine-compile-shaders.sh" "#!/bin/sh
 set -u
@@ -44,11 +38,8 @@ if grep -q \"Got an error\" \"$CompileShadersOutput/compileshaders.log\"; then
     echo \"fxc2 reported shader compilation error(s); see $CompileShadersOutput/compileshaders.log\" >&2
     exit 1
 fi
-# CompileShaders.cmd echoes each fxc2 command it runs, one per line
-# starting with the quoted tool path, so this expected count tracks
-# whatever set of shaders the current DirectXTK release defines.
-# grep -c prints 0 and exits 1 when nothing matches, so `|| true` keeps
-# that 0 without appending a second line to the substitution.
+# Derived, not hardcoded, so a DirectXTK version bump can't silently
+# invalidate it. grep -c exits 1 on no match, hence `|| true`.
 expected_count=\$(grep -c '^\"' \"$CompileShadersOutput/compileshaders.log\" 2>/dev/null || true)
 [ -n \"\$expected_count\" ] || expected_count=0
 inc_count=\$(find \"$CompileShadersOutput\" -type f -name '*.inc' 2>/dev/null | wc -l)
@@ -78,28 +69,14 @@ vcpkg_check_features(
         xaudio2redist BUILD_XAUDIO_REDIST
 )
 
-# Overlay-port-specific: on a real Windows build, DirectXTK's own
-# find_program(DIRECTX_FXC_TOOL FXC.EXE ...) locates the Windows SDK's
-# fxc.exe and everything works unmodified. Cross-compiling from a Linux
-# host, there is no such fxc.exe to find, so fetch and build a stand-in
-# from https://github.com/WasabiIceCream/fxc2 (a patched fxc2, MPL-2.0,
-# run under Wine against a real d3dcompiler_47.dll) and pre-set
-# DIRECTX_FXC_TOOL to it. find_program() never overrides an
-# already-set cache variable, so this makes DirectXTK's own
-# LegacyShaderCompiler wiring pick it up with no further changes needed
-# (that redirection to `wine cmd /c` is what wine-shader-compile.patch
-# above does).
+# A Linux host has no Windows SDK fxc.exe for DirectXTK to find, so build
+# the fxc2 stand-in (MPL-2.0, runs under Wine) and pre-set
+# DIRECTX_FXC_TOOL; find_program() leaves an already-set cache variable
+# alone, so DirectXTK's own wiring then picks it up.
 if(CMAKE_HOST_UNIX)
-    # HINTS on $ENV{LLVM_MINGW_BIN} lets a consumer point at an
-    # llvm-mingw install without putting its bin/ on PATH. Deliberately
-    # NOT relying on PATH alone here: llvm-mingw bundles its own
-    # generic clang-cl/lld-link (for other targets it supports), and if
-    # its bin/ is ever on PATH ahead of the real toolchain, find_program
-    # calls elsewhere in this same configure (see
-    # cmake/toolchain-linux-clangcl.cmake) can silently resolve to
-    # llvm-mingw's copies instead of the intended ones, which then fail
-    # in confusing ways (e.g. llvm-mingw's lld-link not resolving
-    # /winsysroot the same way).
+    # Keep this on HINTS rather than PATH: llvm-mingw ships its own
+    # clang-cl/lld-link, and on PATH they shadow the real toolchain's and
+    # break the link step with unrelated-looking errors.
     find_program(FXC2_MINGW_CLANGXX NAMES x86_64-w64-mingw32-clang++ HINTS "$ENV{LLVM_MINGW_BIN}")
     if(NOT FXC2_MINGW_CLANGXX)
         message(FATAL_ERROR "${PORT}: cross-compiling from a Linux host needs an llvm-mingw toolchain (x86_64-w64-mingw32-clang++) on PATH, or pointed at via the LLVM_MINGW_BIN environment variable, to build the fxc2 shader-compiler stand-in. See https://github.com/WasabiIceCream/fxc2.")
@@ -113,9 +90,6 @@ if(CMAKE_HOST_UNIX)
         HEAD_REF master
     )
 
-    # Rebuilt unconditionally so a stale binary from an earlier run is
-    # never reused; compiling this single file costs a fraction of a
-    # second.
     set(FXC2_EXE "${CURRENT_BUILDTREES_DIR}/fxc2.exe")
     execute_process(
         COMMAND "${FXC2_MINGW_CLANGXX}" -static "${FXC2_SOURCE_PATH}/fxc2.cpp" -o "${FXC2_EXE}"
