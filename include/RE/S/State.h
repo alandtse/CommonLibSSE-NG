@@ -229,8 +229,8 @@ namespace RE
 			bool                       letterbox;                          // 051
 			bool                       unk052;                             // 052
 			bool                       compiledShaderThisFrame;            // 053
-			bool                       insideFrame;                        // 054 - previously misnamed useEarlyZ
-			bool                       unk055;                             // 055
+			bool                       insideFrame;                        // 054
+			bool                       useEarlyZ;                          // 055
 #ifndef ENABLE_SKYRIM_AE
 			RUNTIME_DATA_CONTENT;  // 058, AE,VR 060
 #endif
