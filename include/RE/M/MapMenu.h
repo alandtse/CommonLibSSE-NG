@@ -247,11 +247,11 @@ namespace RE
 		}
 		// members
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-		RUNTIME_DATA_CONTENT;                     // 40, 60
-		RUNTIME_DATA2_CONTENT;                    // 30460, 30530
+		RUNTIME_DATA_CONTENT;   // 40, 60
+		RUNTIME_DATA2_CONTENT;  // 30460, 30530
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		VR_RUNTIME_DATA_CONTENT;   // 40, 60
-		VR_RUNTIME_DATA2_CONTENT;  // 30460, 30530
+		VR_RUNTIME_DATA_CONTENT;                  // 40, 60
+		VR_RUNTIME_DATA2_CONTENT;                 // 30460, 30530
 #endif
 	};
 	STATIC_ASSERT_SIZE(MapMenu, 0x30598, 0x30598, 0x305f8, 0x30);
