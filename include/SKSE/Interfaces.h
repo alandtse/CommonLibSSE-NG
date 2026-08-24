@@ -375,6 +375,7 @@ namespace SKSE
 		enum
 		{
 			kVersionIndependentEx_NoStructUse = 1 << 0,
+			kVersionIndependentEx_AddressLibraryV5 = 1 << 1,
 		};
 
 		constexpr void PluginVersion(REL::Version a_version) noexcept { pluginVersion = a_version.pack(); }
@@ -418,7 +419,7 @@ namespace SKSE
 		char                pluginName[256] = {};
 		char                author[256] = {};
 		char                supportEmail[252] = {};
-		std::uint32_t       versionIndependenceEx = 0;
+		std::uint32_t       versionIndependenceEx = kVersionIndependentEx_AddressLibraryV5;
 		std::uint32_t       versionIndependence = 0;
 		std::uint32_t       compatibleVersions[16] = {};
 		std::uint32_t       xseMinimum = 0;
