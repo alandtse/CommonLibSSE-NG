@@ -352,8 +352,8 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void                   SetActionComplete(bool a_set);                                                        // SE/AE 0x87, VR 0x88
 		SKYRIM_REL_VR_VIRTUAL void                   Disable();                                                                            // SE/AE 0x89, VR 0x8A
 		SKYRIM_REL_VR_VIRTUAL void                   ResetInventory(bool a_leveledOnly);                                                   // SE/AE 0x8A, VR 0x8B
-		SKYRIM_REL_VR_VIRTUAL NiNode*                GetFireNode();                                                                        // SE/AE 0x8C, VR 0x8D
-		SKYRIM_REL_VR_VIRTUAL void                   SetFireNode(NiNode* a_fireNode);                                                      // SE/AE 0x8D, VR 0x8E
+		SKYRIM_REL_VR_VIRTUAL NiNode*                GetFireNode();                                                                        // SE/AE 0x8B, VR 0x8D
+		SKYRIM_REL_VR_VIRTUAL void                   SetFireNode(NiNode* a_fireNode);                                                      // SE/AE 0x8C, VR 0x8E
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool     OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const;                          // SE/AE 0x90, VR 0x91
 		SKYRIM_REL_VR_VIRTUAL void                   DoMoveToHigh();                                                                       // SE/AE 0x91, VR 0x92
 		SKYRIM_REL_VR_VIRTUAL void                   TryMoveToMiddleLow();                                                                 // SE/AE 0x92, VR 0x93
