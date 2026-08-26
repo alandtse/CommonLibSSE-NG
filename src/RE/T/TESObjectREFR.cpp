@@ -1171,12 +1171,12 @@ namespace RE
 
 	NiNode* TESObjectREFR::GetFireNode()
 	{
-		return REL::RelocateVirtual<decltype(&TESObjectREFR::GetFireNode)>(0x8B, 0x8D, this);
+		return REL::RelocateVirtual<decltype(&TESObjectREFR::GetFireNode)>(0x8B, 0x8C, this);
 	}
 
 	void TESObjectREFR::SetFireNode(NiNode* a_fireNode)
 	{
-		REL::RelocateVirtual<decltype(&TESObjectREFR::SetFireNode)>(0x8C, 0x8E, this, a_fireNode);
+		REL::RelocateVirtual<decltype(&TESObjectREFR::SetFireNode)>(0x8C, 0x8D, this, a_fireNode);
 	}
 
 	NiAVObject* TESObjectREFR::GetCurrent3D() const

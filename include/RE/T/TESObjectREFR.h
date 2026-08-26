@@ -331,9 +331,9 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void ResetInventory(bool a_leveledOnly);             // 8B
 		// Getter/setter pair over AIProcess::middleHigh->weaponBone (MiddleHighProcessData+0x150):
 		// GetFireNode lazily computes and caches it, SetFireNode stores directly.
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL NiNode*     GetFireNode();                    // SE/AE 0x8B, VR 0x8D - { return 0; }
-		SKYRIM_REL_VR_VIRTUAL void                      SetFireNode(NiNode* a_fireNode);  // SE/AE 0x8C, VR 0x8E - { return; }
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL NiAVObject* GetCurrent3D() const;             // SE/AE 0x8D, VR 0x8F - { return Get3D2(); }
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL NiNode*     GetFireNode();                    // SE/AE 0x8B, VR 0x8C - { return 0; }
+		SKYRIM_REL_VR_VIRTUAL void                      SetFireNode(NiNode* a_fireNode);  // SE/AE 0x8C, VR 0x8D - { return; }
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL NiAVObject* GetCurrent3D() const;             // SE/AE 0x8D, VR 0x8E - { return Get3D2(); }
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL Explosion*  AsExplosion();                    // 90 - { return 0; }
 		// UNVERIFIED - unverified past this point (2026-07); slots need re-confirming against SkyrimVR.exe
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL Projectile*    AsProjectile();                                                                       // UNVERIFIED - { return 0; }

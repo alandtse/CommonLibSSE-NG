@@ -1625,12 +1625,12 @@ namespace RE
 
 	NiNode* Actor::GetFireNode()
 	{
-		return RelocateVirtual<decltype(&Actor::GetFireNode)>(0x8B, 0x8D, this);
+		return RelocateVirtual<decltype(&Actor::GetFireNode)>(0x8B, 0x8C, this);
 	}
 
 	void Actor::SetFireNode(NiNode* a_fireNode)
 	{
-		RelocateVirtual<decltype(&Actor::SetFireNode)>(0x8C, 0x8E, this, a_fireNode);
+		RelocateVirtual<decltype(&Actor::SetFireNode)>(0x8C, 0x8D, this, a_fireNode);
 	}
 
 	bool Actor::OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const
