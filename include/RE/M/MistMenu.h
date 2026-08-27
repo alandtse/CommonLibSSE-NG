@@ -114,12 +114,31 @@ namespace RE
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x58);
 
+		// VR-only: 3 live BSOpenVR HMD/hand node pointers, refreshed by UpdateVRControllerTransforms.
+		// Overlaps IMenu's generic VR tail (inputContext/pad24, unk30/unk34/menuName), which
+		// MistMenu specifically repurposes here instead. None is null-checked before the write.
+		struct VR_CONTROLLER_NODE_DATA
+		{
+			NiPointer<NiNode> hmdNode;       /* 20 */
+			std::byte         pad28[0x8];    /* 28 - IMenu::fxDelegate, untouched */
+			NiPointer<NiNode> leftHandNode;  /* 30 */
+			NiPointer<NiNode> rightHandNode; /* 38 */
+		};
+		static_assert(sizeof(VR_CONTROLLER_NODE_DATA) == 0x20);
+
+		VR_ONLY_POINTER_ACCESSOR(VR_CONTROLLER_NODE_DATA, GetVRControllerNodeData, 0x20);
+
 		~MistMenu() override;  // 00
 
 		// override (IMenu)
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                         // 04
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               PostDisplay() override;                                                // 06
+
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		// VR-only, called from PostDisplay; not bound (engine-invoked-only, no known consumer call site).
+		void UpdateVRControllerTransforms();
+#endif
 
 		// override (MenuEventHandler)
 #ifndef SKYRIM_CROSS_VR
