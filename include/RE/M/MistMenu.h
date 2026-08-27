@@ -114,19 +114,19 @@ namespace RE
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x58);
 
-		// VR-only: 3 live BSOpenVR HMD/hand node pointers, refreshed by UpdateVRControllerTransforms.
-		// Overlaps IMenu's generic VR tail (inputContext/pad24, unk30/unk34/menuName), which
-		// MistMenu specifically repurposes here instead. None is null-checked before the write.
+		// VR-only: 3 live BSOpenVR HMD/hand node pointers, refreshed by UpdateVRControllerTransforms,
+		// which receives &GetRuntimeData() (this+0x68 on VR) as `this`, not MistMenu itself -- so
+		// these overlap RUNTIME_DATA::ambientColors[2]/[3], not MistMenu's own byte range directly.
 		struct VR_CONTROLLER_NODE_DATA
 		{
-			NiPointer<NiNode> hmdNode;       /* 20 */
-			std::byte         pad28[0x8];    /* 28 - IMenu::fxDelegate, untouched */
-			NiPointer<NiNode> leftHandNode;  /* 30 */
-			NiPointer<NiNode> rightHandNode; /* 38 */
+			NiPointer<NiNode> hmdNode;       /* RUNTIME_DATA+20 = 88 */
+			std::byte         pad28[0x8];    /* RUNTIME_DATA+28 = 90 - ambientColors tail, untouched */
+			NiPointer<NiNode> leftHandNode;  /* RUNTIME_DATA+30 = 98 */
+			NiPointer<NiNode> rightHandNode; /* RUNTIME_DATA+38 = A0 */
 		};
 		static_assert(sizeof(VR_CONTROLLER_NODE_DATA) == 0x20);
 
-		VR_ONLY_POINTER_ACCESSOR(VR_CONTROLLER_NODE_DATA, GetVRControllerNodeData, 0x20);
+		VR_ONLY_POINTER_ACCESSOR(VR_CONTROLLER_NODE_DATA, GetVRControllerNodeData, 0x88);
 
 		~MistMenu() override;  // 00
 
