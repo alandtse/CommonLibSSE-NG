@@ -114,13 +114,11 @@ namespace RE
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x58);
 
-		// VR-only: 3 live BSOpenVR HMD/hand node pointers, refreshed by UpdateVRControllerTransforms,
-		// which receives &GetRuntimeData() (this+0x68 on VR) as `this`, not MistMenu itself -- so
-		// these overlap RUNTIME_DATA::ambientColors[2]/[3], not MistMenu's own byte range directly.
+		// VR-only: overlaps RUNTIME_DATA::ambientColors[2]-[5], not free storage on VR.
 		struct VR_CONTROLLER_NODE_DATA
 		{
 			NiPointer<NiNode> hmdNode;       /* RUNTIME_DATA+20 = 88 */
-			std::byte         pad28[0x8];    /* RUNTIME_DATA+28 = 90 - ambientColors tail, untouched */
+			std::byte         pad28[0x8];    /* RUNTIME_DATA+28 = 90 */
 			NiPointer<NiNode> leftHandNode;  /* RUNTIME_DATA+30 = 98 */
 			NiPointer<NiNode> rightHandNode; /* RUNTIME_DATA+38 = A0 */
 		};
@@ -135,10 +133,8 @@ namespace RE
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               PostDisplay() override;                                                // 06
 
-#if defined(EXCLUSIVE_SKYRIM_VR)
-		// VR-only, called from PostDisplay; not bound (engine-invoked-only, no known consumer call site).
+		// VR-only, engine-called from PostDisplay; non-virtual, so unconditional declaration is ABI-safe.
 		void UpdateVRControllerTransforms();
-#endif
 
 		// override (MenuEventHandler)
 #ifndef SKYRIM_CROSS_VR
