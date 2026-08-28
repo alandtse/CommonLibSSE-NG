@@ -124,7 +124,7 @@ function(target_commonlibsse_properties TARGET)
             set(commonlibsse_plugin_compatibility "SKSE::VersionIndependence::AddressLibrary")
         endif()
     else()
-        list(LENGTH ${ADD_COMMONLIBSSE_PLUGIN_COMPATIBLE_RUNTIMES} commonlibsse_plugin_compatibility_count)
+        list(LENGTH ADD_COMMONLIBSSE_PLUGIN_COMPATIBLE_RUNTIMES commonlibsse_plugin_compatibility_count)
 
         if(commonlibsse_plugin_compatibility_count GREATER 16)
             message(FATAL_ERROR "No more than 16 version numbers can be provided for COMPATIBLE_RUNTIMES.")
