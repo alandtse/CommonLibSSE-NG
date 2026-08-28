@@ -42,3 +42,8 @@ if(NOT CMAKE_CXX_FLAGS MATCHES "winsysroot")
     set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} /winsysroot:${_xwin_sysroot}" CACHE STRING "" FORCE)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /winsysroot:${_xwin_sysroot}" CACHE STRING "" FORCE)
 endif()
+
+# CMAKE_RC_FLAGS is separate from CMAKE_C_FLAGS/CMAKE_CXX_FLAGS; needs its own sysroot guard or winres.h etc. fail to resolve.
+if(NOT CMAKE_RC_FLAGS MATCHES "winsysroot")
+    set(CMAKE_RC_FLAGS "${CMAKE_RC_FLAGS} --target=x86_64-pc-windows-msvc /winsysroot${_xwin_sysroot}" CACHE STRING "" FORCE)
+endif()
