@@ -8,29 +8,45 @@ sysroot obtained with [`xwin`](https://github.com/Jake-Shadle/xwin).
 ## One-time setup
 
 ```bash
-# Toolchain
-sudo pacman -S clang lld llvm cmake ninja rust git   # adjust for your distro
+# Toolchain adjust for your distro
+# Arch
+sudo pacman -S clang lld llvm cmake ninja rust git
+
+# Debian
+sudo apt-get install clang lld llvm cmake ninja-build rustup git
+rustup default stable
 
 # Wine + llvm-mingw: needed only to build/run the fxc2 shader-compile
 # stand-in (see below), not for the main build itself.
+# Arch
 sudo pacman -S wine llvm-mingw
+
+# Debian; Use manual install of llvm-mingw.
+sudo apt-get install wine
+
+# Manual llvm-mingw install.
+cd /tmp
+wget https://github.com/mstorsjo/llvm-mingw/releases/download/20260826/llvm-mingw-20260826-ucrt-ubuntu-22.04-x86_64.tar.xz
+tar -xf llvm-mingw-*.tar.xz
+sudo mkdir /opt/llvm-mingw/
+sudo mv llvm-mingw-*/* /opt/llvm-mingw/
+export LLVM_MINGW_BIN=/opt/llvm-mingw/bin
 
 # xwin, pinned for reproducibility
 cargo install xwin --version 0.10.0 --locked
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# Windows SDK + MSVC CRT sysroot. Both flags are required: without
-# --use-winsysroot-style, /winsysroot finds nothing; without
-# --preserve-ms-arch-notation, folders are named x86_64 instead of x64
-# and lld-link's auto-search fails.
+# Windows SDK + MSVC CRT sysroot. Both flags are required:
+# without --use-winsysroot-style, /winsysroot finds nothing;
+# without --preserve-ms-arch-notation, folders are named x86_64 instead of x64 and lld-link's auto-search fails.
 mkdir -p ~/xwin-cache ~/xwin-out
-xwin --accept-license --cache-dir ~/xwin-cache splat \
+xwin --accept-license --http-retry 10 --cache-dir ~/xwin-cache splat \
   --output ~/xwin-out --include-debug-libs \
   --use-winsysroot-style --preserve-ms-arch-notation
 
 # vcpkg
 git clone https://github.com/microsoft/vcpkg ~/.local/share/vcpkg
-~/.local/share/vcpkg/bootstrap-vcpkg.sh
+~/.local/share/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 export VCPKG_ROOT=~/.local/share/vcpkg
 ```
 
