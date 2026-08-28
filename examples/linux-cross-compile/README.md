@@ -12,7 +12,7 @@ sysroot obtained with [`xwin`](https://github.com/Jake-Shadle/xwin).
 # Arch
 sudo pacman -S clang lld llvm cmake ninja rust git
 
-# Debian
+# Debian 13 "Trixie"
 sudo apt-get install clang lld llvm cmake ninja-build rustup git
 rustup default stable
 
@@ -22,14 +22,14 @@ rustup default stable
 sudo pacman -S wine llvm-mingw
 
 # Debian; Use manual install of llvm-mingw.
-sudo apt-get install wine
+sudo apt-get install wine wget
 
-# Manual llvm-mingw install.
+# Manual llvm-mingw install for Distros that don't have a native package.
 cd /tmp
 wget https://github.com/mstorsjo/llvm-mingw/releases/download/20260826/llvm-mingw-20260826-ucrt-ubuntu-22.04-x86_64.tar.xz
-tar -xf llvm-mingw-*.tar.xz
+tar -xf llvm-mingw-20260826-ucrt-ubuntu-22.04-x86_64.tar.xz
 sudo mkdir /opt/llvm-mingw/
-sudo mv llvm-mingw-*/* /opt/llvm-mingw/
+sudo mv llvm-mingw-20260826-ucrt-ubuntu-22.04-x86_64/* /opt/llvm-mingw/
 export LLVM_MINGW_BIN=/opt/llvm-mingw/bin
 
 # xwin, pinned for reproducibility
