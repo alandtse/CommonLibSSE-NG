@@ -3,9 +3,7 @@
 #include "RE/B/BSFixedString.h"
 #include "RE/N/NiObject.h"
 #include "RE/N/NiSmartPointer.h"
-
-struct ID3D11Texture2D;
-struct ID3D11ShaderResourceView;
+#include <REX/W32/D3D11.h>
 
 namespace RE
 {
@@ -71,16 +69,16 @@ namespace RE
 			RendererData(std::uint16_t width, std::uint16_t height) noexcept :
 				width(width), height(height) {}
 
-			ID3D11Texture2D*          texture{ nullptr };       // 00
-			std::uint64_t             unk08{ 0 };               // 08
-			ID3D11ShaderResourceView* resourceView{ nullptr };  // 10
-			std::uint16_t             width;                    // 18
-			std::uint16_t             height;                   // 1A
-			std::uint8_t              unk1C{ 1 };               // 1C
-			std::uint8_t              unk1D{ 0x1C };            // 1D
-			std::uint16_t             unk1E{ 0 };               // 1E
-			std::uint32_t             unk20{ 1 };               // 20
-			std::uint32_t             unk24{ 0x130012 };        // 24
+			REX::W32::ID3D11Texture2D*          texture{ nullptr };       // 00
+			std::uint64_t                       unk08{ 0 };               // 08
+			REX::W32::ID3D11ShaderResourceView* resourceView{ nullptr };  // 10
+			std::uint16_t                       width;                    // 18
+			std::uint16_t                       height;                   // 1A
+			std::uint8_t                        unk1C{ 1 };               // 1C
+			std::uint8_t                        unk1D{ 0x1C };            // 1D
+			std::uint16_t                       unk1E{ 0 };               // 1E
+			std::uint32_t                       unk20{ 1 };               // 20
+			std::uint32_t                       unk24{ 0x130012 };        // 24
 
 			TES_HEAP_REDEFINE_NEW();
 		};

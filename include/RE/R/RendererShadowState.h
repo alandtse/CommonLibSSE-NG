@@ -5,7 +5,7 @@
 #include "RE\T\TextureAddressModes.h"
 #include "RE\T\TextureFilterModes.h"
 
-#include <d3d11.h>
+#include <REX/W32/D3D11.h>
 
 // see https://github.com/Nukem9/SkyrimSETest/blob/master/skyrim64_test/src/patches/TES/BSGraphics/BSGraphicsRenderer.h
 namespace RE
@@ -93,54 +93,54 @@ namespace RE
 #pragma warning(disable: 4324)  // ignore warning about padded due to alignment from DirectX datatypes (e.g., XMVECTOR, XMMATRIX).
 			struct FLAT_RUNTIME_DATA
 			{
-#define FLAT_RUNTIME_DATA_CONTENT                                                                                                                                 \
-	REX::EnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                            /* 00 Flags +0x0  0xFFFFFFFF; global state updates */ \
-	uint32_t                                   PSResourceModifiedBits;                                      /* 04 Flags +0x4  0xFFFF */                           \
-	uint32_t                                   PSSamplerModifiedBits;                                       /* 08 Flags +0x8  0xFFFF */                           \
-	uint32_t                                   CSResourceModifiedBits;                                      /* 0c Flags +0xC  0xFFFF */                           \
-	uint32_t                                   CSSamplerModifiedBits;                                       /* 10 Flags +0x10 0xFFFF */                           \
-	uint32_t                                   CSUAVModifiedBits;                                           /* 14 Flags +0x14 0xFF */                             \
-	RENDER_TARGET                              renderTargets[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];       /* 18, VR 20 */                                       \
-	uint32_t                                   depthStencil;                                                /* 38, VR 40 - Index */                               \
-	uint32_t                                   depthStencilSlice;                                           /* 3c, VR 44 Index */                                 \
-	uint32_t                                   cubeMapRenderTarget;                                         /* 40, VR 48 = Index */                               \
-	uint32_t                                   cubeMapRenderTargetView;                                     /* 44, VR 4c Index */                                 \
-	SetRenderTargetMode                        setRenderTargetMode[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]; /* 48, VR 50 */                                       \
-	SetRenderTargetMode                        setDepthStencilMode;                                         /* 68, VR 70 */                                       \
-	SetRenderTargetMode                        setCubeMapRenderTargetMode;                                  /* 6c, VR 74 */                                       \
-	D3D11_VIEWPORT                             viewPort;                                                    /* 70, VR 78 */                                       \
-	DepthStencilDepthMode                      depthStencilDepthMode;                                       /* 88, VR 90 */                                       \
-	DepthStencilDepthMode                      depthStencilDepthModePrevious;                               /* 8c, VR 94 - also some kind of mode */              \
-	uint32_t                                   depthStencilStencilMode;                                     /* 90, VR 98 */                                       \
-	uint32_t                                   stencilRef;                                                  /* 94, VR 9c */                                       \
-	uint32_t                                   rasterStateFillMode;                                         /* 98, VR a0 */                                       \
-	uint32_t                                   rasterStateCullMode;                                         /* 9c, VR a4 */                                       \
-	uint32_t                                   rasterStateDepthBiasMode;                                    /* a0, VR a8 */                                       \
-	uint32_t                                   rasterStateScissorMode;                                      /* a4, VR ac */                                       \
-	uint32_t                                   alphaBlendMode;                                              /* a8, VR b0 */                                       \
-	uint32_t                                   alphaBlendAlphaToCoverage;                                   /* ac, VR b4 */                                       \
-	uint32_t                                   alphaBlendWriteMode;                                         /* b0, VR b8 */                                       \
-	bool                                       alphaTestEnabled;                                            /* b4, VR BC */                                       \
-	float                                      alphaTestRef;                                                /* b8, VR C0 */                                       \
-	REX::EnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                    /* bc, VR c4 */                                       \
-	REX::EnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                     /* fc, VR 104 */                                      \
-	ID3D11ShaderResourceView*                  PSTexture[16];                                               /* 140, VR 148 */                                     \
-	REX::EnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                    /* 1c0, VR 1c8 */                                     \
-	REX::EnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                     /* 200, VR 208 */                                     \
-	ID3D11ShaderResourceView*                  CSTexture[16];                                               /* 240, VR 248 */                                     \
-	uint32_t                                   CSTextureMinLodMode[16];                                     /* 2c0, VR 2C8 */                                     \
-	ID3D11UnorderedAccessView*                 CSUAV[8];                                                    /* 300, VR 308 */                                     \
-	uint64_t                                   vertexDesc;                                                  /* 340, VR 388 only? */                               \
-	VertexShader*                              currentVertexShader;                                         /* 348, VR 390 */                                     \
-	PixelShader*                               currentPixelShader;                                          /* 350, VR 398 */                                     \
-	D3D11_PRIMITIVE_TOPOLOGY                   topology;                                                    /* 358, VR 3A0 */                                     \
-	EYE_POSITION<NiPoint3>                     posAdjust;                                                   /* 35c, VR 3A4 */                                     \
-	EYE_POSITION<NiPoint3>                     previousPosAdjust;                                           /* 368, VR 3BC */                                     \
-	EYE_POSITION<ViewData>                     cameraData;                                                  /* 380, VR 3E0 - size of each is 250 */               \
-	uint32_t                                   alphaBlendModeExtra;                                         /* 5d0, VR 88c */                                     \
-	float                                      viewNear;                                                    /* 5d4, VR 884 */                                     \
-	float                                      viewFar;                                                     /* 5d8, VR 888 */                                     \
-	uint32_t                                   unk5dc;                                                      /* 5dc */
+#define FLAT_RUNTIME_DATA_CONTENT                                                                                                                                           \
+	REX::EnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                                      /* 00 Flags +0x0  0xFFFFFFFF; global state updates */ \
+	uint32_t                                   PSResourceModifiedBits;                                                /* 04 Flags +0x4  0xFFFF */                           \
+	uint32_t                                   PSSamplerModifiedBits;                                                 /* 08 Flags +0x8  0xFFFF */                           \
+	uint32_t                                   CSResourceModifiedBits;                                                /* 0c Flags +0xC  0xFFFF */                           \
+	uint32_t                                   CSSamplerModifiedBits;                                                 /* 10 Flags +0x10 0xFFFF */                           \
+	uint32_t                                   CSUAVModifiedBits;                                                     /* 14 Flags +0x14 0xFF */                             \
+	RENDER_TARGET                              renderTargets[REX::W32::D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];       /* 18, VR 20 */                                       \
+	uint32_t                                   depthStencil;                                                          /* 38, VR 40 - Index */                               \
+	uint32_t                                   depthStencilSlice;                                                     /* 3c, VR 44 Index */                                 \
+	uint32_t                                   cubeMapRenderTarget;                                                   /* 40, VR 48 = Index */                               \
+	uint32_t                                   cubeMapRenderTargetView;                                               /* 44, VR 4c Index */                                 \
+	SetRenderTargetMode                        setRenderTargetMode[REX::W32::D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]; /* 48, VR 50 */                                       \
+	SetRenderTargetMode                        setDepthStencilMode;                                                   /* 68, VR 70 */                                       \
+	SetRenderTargetMode                        setCubeMapRenderTargetMode;                                            /* 6c, VR 74 */                                       \
+	REX::W32::D3D11_VIEWPORT                   viewPort;                                                              /* 70, VR 78 */                                       \
+	DepthStencilDepthMode                      depthStencilDepthMode;                                                 /* 88, VR 90 */                                       \
+	DepthStencilDepthMode                      depthStencilDepthModePrevious;                                         /* 8c, VR 94 - also some kind of mode */              \
+	uint32_t                                   depthStencilStencilMode;                                               /* 90, VR 98 */                                       \
+	uint32_t                                   stencilRef;                                                            /* 94, VR 9c */                                       \
+	uint32_t                                   rasterStateFillMode;                                                   /* 98, VR a0 */                                       \
+	uint32_t                                   rasterStateCullMode;                                                   /* 9c, VR a4 */                                       \
+	uint32_t                                   rasterStateDepthBiasMode;                                              /* a0, VR a8 */                                       \
+	uint32_t                                   rasterStateScissorMode;                                                /* a4, VR ac */                                       \
+	uint32_t                                   alphaBlendMode;                                                        /* a8, VR b0 */                                       \
+	uint32_t                                   alphaBlendAlphaToCoverage;                                             /* ac, VR b4 */                                       \
+	uint32_t                                   alphaBlendWriteMode;                                                   /* b0, VR b8 */                                       \
+	bool                                       alphaTestEnabled;                                                      /* b4, VR BC */                                       \
+	float                                      alphaTestRef;                                                          /* b8, VR C0 */                                       \
+	REX::EnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                              /* bc, VR c4 */                                       \
+	REX::EnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                               /* fc, VR 104 */                                      \
+	REX::W32::ID3D11ShaderResourceView*        PSTexture[16];                                                         /* 140, VR 148 */                                     \
+	REX::EnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                              /* 1c0, VR 1c8 */                                     \
+	REX::EnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                               /* 200, VR 208 */                                     \
+	REX::W32::ID3D11ShaderResourceView*        CSTexture[16];                                                         /* 240, VR 248 */                                     \
+	uint32_t                                   CSTextureMinLodMode[16];                                               /* 2c0, VR 2C8 */                                     \
+	REX::W32::ID3D11UnorderedAccessView*       CSUAV[8];                                                              /* 300, VR 308 */                                     \
+	uint64_t                                   vertexDesc;                                                            /* 340, VR 388 only? */                               \
+	VertexShader*                              currentVertexShader;                                                   /* 348, VR 390 */                                     \
+	PixelShader*                               currentPixelShader;                                                    /* 350, VR 398 */                                     \
+	REX::W32::D3D11_PRIMITIVE_TOPOLOGY         topology;                                                              /* 358, VR 3A0 */                                     \
+	EYE_POSITION<NiPoint3>                     posAdjust;                                                             /* 35c, VR 3A4 */                                     \
+	EYE_POSITION<NiPoint3>                     previousPosAdjust;                                                     /* 368, VR 3BC */                                     \
+	EYE_POSITION<ViewData>                     cameraData;                                                            /* 380, VR 3E0 - size of each is 250 */               \
+	uint32_t                                   alphaBlendModeExtra;                                                   /* 5d0, VR 88c */                                     \
+	float                                      viewNear;                                                              /* 5d4, VR 884 */                                     \
+	float                                      viewFar;                                                               /* 5d8, VR 888 */                                     \
+	uint32_t                                   unk5dc;                                                                /* 5dc */
                 FLAT_RUNTIME_DATA_CONTENT;
 			};
 			static_assert(sizeof(FLAT_RUNTIME_DATA) == 0x5e0);
@@ -176,60 +176,60 @@ namespace RE
 
 			struct VR_RUNTIME_DATA
 			{
-#define VR_RUNTIME_DATA_CONTENT                                                                                                                                                                        \
-	REX::EnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                            /* 00 Flags +0x0  0xFFFFFFFF; global state updates */                                      \
-	uint32_t                                   PSResourceModifiedBits;                                      /* 04 Flags +0x4  0xFFFF */                                                                \
-	uint32_t                                   PSSamplerModifiedBits;                                       /* 08 Flags +0x8  0xFFFF */                                                                \
-	uint32_t                                   CSResourceModifiedBits;                                      /* 0c Flags +0xC  0xFFFF */                                                                \
-	uint32_t                                   CSSamplerModifiedBits;                                       /* 10 Flags +0x10 0xFFFF */                                                                \
-	uint32_t                                   CSUAVModifiedBits;                                           /* 14 Flags +0x14 0xFF */                                                                  \
-	uint32_t                                   OMUAVModifiedBits;                                           /* 18 Flags +0x18 0xFF VR Only  */                                                         \
-	uint32_t                                   SRVModifiedBits;                                             /* 1c Flags +0x1C 0xFF VR Only  */                                                         \
-	RENDER_TARGET                              renderTargets[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];       /* 18, VR 20 */                                                                            \
-	uint32_t                                   depthStencil;                                                /* 38, VR 40 - Index */                                                                    \
-	uint32_t                                   depthStencilSlice;                                           /* 3c, VR 44 Index */                                                                      \
-	uint32_t                                   cubeMapRenderTarget;                                         /* 40, VR 48 = Index */                                                                    \
-	uint32_t                                   cubeMapRenderTargetView;                                     /* 44, VR 4c Index */                                                                      \
-	SetRenderTargetMode                        setRenderTargetMode[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]; /* 48, VR 50 */                                                                            \
-	SetRenderTargetMode                        setDepthStencilMode;                                         /* 68, VR 70 */                                                                            \
-	SetRenderTargetMode                        setCubeMapRenderTargetMode;                                  /* 6c, VR 74 */                                                                            \
-	D3D11_VIEWPORT                             viewPort;                                                    /* 70, VR 78 */                                                                            \
-	DepthStencilDepthMode                      depthStencilDepthMode;                                       /* 88, VR 90 */                                                                            \
-	DepthStencilDepthMode                      depthStencilDepthModePrevious;                               /* 8c, VR 94 - also some kind of mode */                                                   \
-	uint32_t                                   depthStencilStencilMode;                                     /* 90, VR 98 */                                                                            \
-	uint32_t                                   stencilRef;                                                  /* 94, VR 9c */                                                                            \
-	uint32_t                                   rasterStateFillMode;                                         /* 98, VR a0 */                                                                            \
-	uint32_t                                   rasterStateCullMode;                                         /* 9c, VR a4 */                                                                            \
-	uint32_t                                   rasterStateDepthBiasMode;                                    /* a0, VR a8 */                                                                            \
-	uint32_t                                   rasterStateScissorMode;                                      /* a4, VR ac */                                                                            \
-	uint32_t                                   alphaBlendMode;                                              /* a8, VR b0 */                                                                            \
-	uint32_t                                   alphaBlendAlphaToCoverage;                                   /* ac, VR b4 */                                                                            \
-	uint32_t                                   alphaBlendWriteMode;                                         /* b0, VR b8 */                                                                            \
-	bool                                       alphaTestEnabled;                                            /* b4, VR BC */                                                                            \
-	float                                      alphaTestRef;                                                /* b8, VR C0 */                                                                            \
-	REX::EnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                    /* bc, VR c4 */                                                                            \
-	REX::EnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                     /* fc, VR 104 */                                                                           \
-	ID3D11ShaderResourceView*                  PSTexture[16];                                               /* 140, VR 148 */                                                                          \
-	REX::EnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                    /* 1c0, VR 1c8 */                                                                          \
-	REX::EnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                     /* 200, VR 208 */                                                                          \
-	ID3D11ShaderResourceView*                  CSTexture[16];                                               /* 240, VR 248 */                                                                          \
-	uint32_t                                   CSTextureMinLodMode[16];                                     /* 2c0, VR 2C8 */                                                                          \
-	ID3D11UnorderedAccessView*                 CSUAV[8];                                                    /* 300, VR 308 */                                                                          \
-	ID3D11UnorderedAccessView*                 OMUAV[8];                                                    /* VR 348 only - Output Merger UAVs; accessed as CSUAV[8..15] in SetRenderTargets */       \
-	uint64_t                                   vertexDesc;                                                  /* 340, VR 388 only? */                                                                    \
-	VertexShader*                              currentVertexShader;                                         /* 348, VR 390 */                                                                          \
-	PixelShader*                               currentPixelShader;                                          /* 350, VR 398 */                                                                          \
-	D3D11_PRIMITIVE_TOPOLOGY                   topology;                                                    /* 358, VR 3A0 */                                                                          \
-	EYE_POSITION<NiPoint3, 2>                  posAdjust;                                                   /* 35c, VR 3A4 */                                                                          \
-	EYE_POSITION<NiPoint3, 2>                  previousPosAdjust;                                           /* 368, VR 3BC */                                                                          \
-	uint8_t                                    unk3d4[0x3e0 - 0x3d4];                                       /* VR 3d4 - pad between previousPosAdjust and cameraData (also exists in flat at 0x374) */ \
-	EYE_POSITION<ViewData, 2>                  cameraData;                                                  /* 380, VR 3E0 - size of each is 250 */                                                    \
-	float                                      drawStereo;                                                  /* VR 880 only - stereo rendering mode */                                                  \
-	float                                      viewNear;                                                    /* VR 884 only */                                                                          \
-	float                                      viewFar;                                                     /* VR 888 only */                                                                          \
-	uint32_t                                   alphaBlendModeExtra;                                         /* 5d0, VR 88c */                                                                          \
-	ID3D11Buffer*                              VSConstantBuffers[12];                                       /* VR 890 only */                                                                          \
-	ID3D11Buffer*                              PSConstantBuffers[12];                                       /* VR 8F0 only */
+#define VR_RUNTIME_DATA_CONTENT                                                                                                                                                                                  \
+	REX::EnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                                      /* 00 Flags +0x0  0xFFFFFFFF; global state updates */                                      \
+	uint32_t                                   PSResourceModifiedBits;                                                /* 04 Flags +0x4  0xFFFF */                                                                \
+	uint32_t                                   PSSamplerModifiedBits;                                                 /* 08 Flags +0x8  0xFFFF */                                                                \
+	uint32_t                                   CSResourceModifiedBits;                                                /* 0c Flags +0xC  0xFFFF */                                                                \
+	uint32_t                                   CSSamplerModifiedBits;                                                 /* 10 Flags +0x10 0xFFFF */                                                                \
+	uint32_t                                   CSUAVModifiedBits;                                                     /* 14 Flags +0x14 0xFF */                                                                  \
+	uint32_t                                   OMUAVModifiedBits;                                                     /* 18 Flags +0x18 0xFF VR Only  */                                                         \
+	uint32_t                                   SRVModifiedBits;                                                       /* 1c Flags +0x1C 0xFF VR Only  */                                                         \
+	RENDER_TARGET                              renderTargets[REX::W32::D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];       /* 18, VR 20 */                                                                            \
+	uint32_t                                   depthStencil;                                                          /* 38, VR 40 - Index */                                                                    \
+	uint32_t                                   depthStencilSlice;                                                     /* 3c, VR 44 Index */                                                                      \
+	uint32_t                                   cubeMapRenderTarget;                                                   /* 40, VR 48 = Index */                                                                    \
+	uint32_t                                   cubeMapRenderTargetView;                                               /* 44, VR 4c Index */                                                                      \
+	SetRenderTargetMode                        setRenderTargetMode[REX::W32::D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT]; /* 48, VR 50 */                                                                            \
+	SetRenderTargetMode                        setDepthStencilMode;                                                   /* 68, VR 70 */                                                                            \
+	SetRenderTargetMode                        setCubeMapRenderTargetMode;                                            /* 6c, VR 74 */                                                                            \
+	REX::W32::D3D11_VIEWPORT                   viewPort;                                                              /* 70, VR 78 */                                                                            \
+	DepthStencilDepthMode                      depthStencilDepthMode;                                                 /* 88, VR 90 */                                                                            \
+	DepthStencilDepthMode                      depthStencilDepthModePrevious;                                         /* 8c, VR 94 - also some kind of mode */                                                   \
+	uint32_t                                   depthStencilStencilMode;                                               /* 90, VR 98 */                                                                            \
+	uint32_t                                   stencilRef;                                                            /* 94, VR 9c */                                                                            \
+	uint32_t                                   rasterStateFillMode;                                                   /* 98, VR a0 */                                                                            \
+	uint32_t                                   rasterStateCullMode;                                                   /* 9c, VR a4 */                                                                            \
+	uint32_t                                   rasterStateDepthBiasMode;                                              /* a0, VR a8 */                                                                            \
+	uint32_t                                   rasterStateScissorMode;                                                /* a4, VR ac */                                                                            \
+	uint32_t                                   alphaBlendMode;                                                        /* a8, VR b0 */                                                                            \
+	uint32_t                                   alphaBlendAlphaToCoverage;                                             /* ac, VR b4 */                                                                            \
+	uint32_t                                   alphaBlendWriteMode;                                                   /* b0, VR b8 */                                                                            \
+	bool                                       alphaTestEnabled;                                                      /* b4, VR BC */                                                                            \
+	float                                      alphaTestRef;                                                          /* b8, VR C0 */                                                                            \
+	REX::EnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                              /* bc, VR c4 */                                                                            \
+	REX::EnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                               /* fc, VR 104 */                                                                           \
+	REX::W32::ID3D11ShaderResourceView*        PSTexture[16];                                                         /* 140, VR 148 */                                                                          \
+	REX::EnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                              /* 1c0, VR 1c8 */                                                                          \
+	REX::EnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                               /* 200, VR 208 */                                                                          \
+	REX::W32::ID3D11ShaderResourceView*        CSTexture[16];                                                         /* 240, VR 248 */                                                                          \
+	uint32_t                                   CSTextureMinLodMode[16];                                               /* 2c0, VR 2C8 */                                                                          \
+	REX::W32::ID3D11UnorderedAccessView*       CSUAV[8];                                                              /* 300, VR 308 */                                                                          \
+	REX::W32::ID3D11UnorderedAccessView*       OMUAV[8];                                                              /* VR 348 only - Output Merger UAVs; accessed as CSUAV[8..15] in SetRenderTargets */       \
+	uint64_t                                   vertexDesc;                                                            /* 340, VR 388 only? */                                                                    \
+	VertexShader*                              currentVertexShader;                                                   /* 348, VR 390 */                                                                          \
+	PixelShader*                               currentPixelShader;                                                    /* 350, VR 398 */                                                                          \
+	REX::W32::D3D11_PRIMITIVE_TOPOLOGY         topology;                                                              /* 358, VR 3A0 */                                                                          \
+	EYE_POSITION<NiPoint3, 2>                  posAdjust;                                                             /* 35c, VR 3A4 */                                                                          \
+	EYE_POSITION<NiPoint3, 2>                  previousPosAdjust;                                                     /* 368, VR 3BC */                                                                          \
+	uint8_t                                    unk3d4[0x3e0 - 0x3d4];                                                 /* VR 3d4 - pad between previousPosAdjust and cameraData (also exists in flat at 0x374) */ \
+	EYE_POSITION<ViewData, 2>                  cameraData;                                                            /* 380, VR 3E0 - size of each is 250 */                                                    \
+	float                                      drawStereo;                                                            /* VR 880 only - stereo rendering mode */                                                  \
+	float                                      viewNear;                                                              /* VR 884 only */                                                                          \
+	float                                      viewFar;                                                               /* VR 888 only */                                                                          \
+	uint32_t                                   alphaBlendModeExtra;                                                   /* 5d0, VR 88c */                                                                          \
+	REX::W32::ID3D11Buffer*                    VSConstantBuffers[12];                                                 /* VR 890 only */                                                                          \
+	REX::W32::ID3D11Buffer*                    PSConstantBuffers[12];                                                 /* VR 8F0 only */
                 VR_RUNTIME_DATA_CONTENT;
 			};
 
@@ -270,7 +270,7 @@ namespace RE
 			{
 				GET_CROSSVR_RUNTIME_MEMBER(PSTexture)
 				GET_CROSSVR_RUNTIME_MEMBER(PSResourceModifiedBits)
-				ID3D11ShaderResourceView* resourceView = newTexture ? newTexture->resourceView : nullptr;
+				REX::W32::ID3D11ShaderResourceView* resourceView = newTexture ? newTexture->resourceView : nullptr;
 				if (PSTexture[textureIndex] != resourceView) {
 					PSTexture[textureIndex] = resourceView;
 					PSResourceModifiedBits |= (1 << textureIndex);
@@ -281,7 +281,7 @@ namespace RE
 			{
 				GET_CROSSVR_RUNTIME_MEMBER(PSTexture)
 				GET_CROSSVR_RUNTIME_MEMBER(PSResourceModifiedBits)
-				ID3D11ShaderResourceView* resourceView = newTexture.SRV;
+				REX::W32::ID3D11ShaderResourceView* resourceView = newTexture.SRV;
 				if (PSTexture[textureIndex] != resourceView) {
 					PSTexture[textureIndex] = resourceView;
 					PSResourceModifiedBits |= (1 << textureIndex);
