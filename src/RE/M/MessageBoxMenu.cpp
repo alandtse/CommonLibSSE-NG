@@ -15,7 +15,7 @@ namespace RE
 	bool MessageBoxMenu::Create(RE::BSString& a_message, const BSTSmartPointer<IMessageBoxCallback>& a_callback, std::uint8_t a_buttonPressOffset, std::int32_t a_warningType, std::int32_t a_menuDepth, const BSTArray<BSString>& a_buttons)
 	{
 		using func_t = bool(RE::BSString&, const BSTSmartPointer<IMessageBoxCallback>&, std::uint8_t, std::int32_t, std::int32_t, const BSTArray<BSString>&);
-		// AE id split at 1.6.1130: 52270 pre, 442726 post. See #315.
+		// AE recompiled at 1.6.1130, shifting this relocation's id (not a behavior change).
 		static REL::Relocation<func_t> func{ RELOCATION_ID(51421, AE_CHECK(SKSE::RUNTIME_SSE_1_6_1130, 52270, 442726)) };
 		return func(a_message, a_callback, a_buttonPressOffset, a_warningType, a_menuDepth, a_buttons);
 	}
