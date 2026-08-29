@@ -253,6 +253,7 @@ set(SOURCES
 	include/RE/B/BSEffectShaderProperty.h
 	include/RE/B/BSExtraData.h
 	include/RE/B/BSFaceGenAnimationData.h
+	include/RE/B/BSFaceGenBaseMorphExtraData.h
 	include/RE/B/BSFaceGenKeyframe.h
 	include/RE/B/BSFaceGenKeyframeMultiple.h
 	include/RE/B/BSFaceGenManager.h
@@ -1519,6 +1520,7 @@ set(SOURCES
 	include/RE/N/NiAnimationKey.h
 	include/RE/N/NiBackToFrontAccumulator.h
 	include/RE/N/NiBillboardNode.h
+	include/RE/N/NiBinaryExtraData.h
 	include/RE/N/NiBinaryStream.h
 	include/RE/N/NiBoneMatrixSetterI.h
 	include/RE/N/NiBooleanExtraData.h
@@ -1605,8 +1607,12 @@ set(SOURCES
 	include/RE/N/NiTexture.h
 	include/RE/N/NiTimeController.h
 	include/RE/N/NiTransform.h
+	include/RE/N/NiTriBasedGeomData.h
 	include/RE/N/NiTriBasedGeometry.h
 	include/RE/N/NiTriShape.h
+	include/RE/N/NiTriShapeData.h
+	include/RE/N/NiTriStrips.h
+	include/RE/N/NiTriStripsData.h
 	include/RE/N/NiVisibleArray.h
 	include/RE/N/NightEyeEffect.h
 	include/RE/N/NonActorMagicCaster.h
@@ -2398,6 +2404,7 @@ set(SOURCES
 	src/RE/N/NiAVObject.cpp
 	src/RE/N/NiAlphaProperty.cpp
 	src/RE/N/NiAnimationKey.cpp
+	src/RE/N/NiBinaryExtraData.cpp
 	src/RE/N/NiBinaryStream.cpp
 	src/RE/N/NiBooleanExtraData.cpp
 	src/RE/N/NiCamera.cpp
