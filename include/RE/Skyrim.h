@@ -1659,6 +1659,7 @@
 #include "RE/Q/QueuedFile.h"
 #include "RE/Q/QuickSaveLoadHandler.h"
 #include "RE/R/REFREventCallbacks.h"
+#include "RE/R/RaceMenuSlider.h"
 #include "RE/R/RaceSexCamera.h"
 #include "RE/R/RaceSexMenu.h"
 #include "RE/R/RaceSexMenuEvent.h"
