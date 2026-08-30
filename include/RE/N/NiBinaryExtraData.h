@@ -4,7 +4,6 @@
 
 namespace RE
 {
-	// CommonLib only provides RTTI/VTABLE for this class.
 	class NiBinaryExtraData : public NiExtraData
 	{
 	public:
