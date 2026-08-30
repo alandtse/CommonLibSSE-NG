@@ -176,13 +176,15 @@ namespace RE
 				std::uint32_t gUpdateCounter;         // 0C (0x58)
 				std::uint8_t  unk05C[4];              // 10 (0x5C) unresolved
 				bool          insideFrame;            // 14 (0x60)
-				std::uint8_t  unk061[4];              // 15 (0x61) unresolved
+				bool          letterbox;              // 15 (0x61)
+				std::uint8_t  unk062[3];              // 16 (0x62) unresolved
 				bool          useEarlyZ;              // 19 (0x65)
 				std::uint8_t  unk066[10];             // 1A (0x66) unresolved
 			};
 			static_assert(sizeof(FRAME_STATE_1799) == 0x24);  // pins to RUNTIME_DATA start: 0x4C + 0x24 == 0x70
 			static_assert(offsetof(FRAME_STATE_1799, frameCount) == 0x08);
 			static_assert(offsetof(FRAME_STATE_1799, insideFrame) == 0x14);
+			static_assert(offsetof(FRAME_STATE_1799, letterbox) == 0x15);
 			static_assert(offsetof(FRAME_STATE_1799, useEarlyZ) == 0x19);
 
 			RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(FRAME_STATE_1799, GetFrameState1799, SKSE::RUNTIME_SSE_1_7_99, 0x4C);
@@ -209,6 +211,14 @@ namespace RE
 					return fs->useEarlyZ;
 				}
 				return REL::RelocateMember<bool>(this, 0x55);
+			}
+
+			[[nodiscard]] inline bool& GetLetterbox() noexcept
+			{
+				if (auto* fs = GetFrameState1799()) {
+					return fs->letterbox;
+				}
+				return REL::RelocateMember<bool>(this, 0x51);
 			}
 #endif
 
