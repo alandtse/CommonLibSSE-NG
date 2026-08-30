@@ -4,8 +4,6 @@
 
 namespace RE
 {
-	// Verified against SkyrimSE.exe: numTriangles/activeTriangles read/written directly
-	// at +0x68/+0x6A by NiTriShapeData/NiTriStripsData's triangle-count accessors.
 	class NiTriBasedGeomData : public NiGeometryData
 	{
 	public:
