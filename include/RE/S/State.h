@@ -170,21 +170,23 @@ namespace RE
 			// Main::Update()/idle-spin, not just on rendered frames like frameCount.
 			struct FRAME_STATE_1799
 			{
-				float         projectionPosScaleXUI;  // 00 (0x4C)
-				float         projectionPosScaleYUI;  // 04 (0x50)
-				std::uint32_t frameCount;             // 08 (0x54)
-				std::uint32_t gUpdateCounter;         // 0C (0x58)
-				std::uint8_t  unk05C[4];              // 10 (0x5C) unresolved
-				bool          insideFrame;            // 14 (0x60)
-				bool          letterbox;              // 15 (0x61)
-				std::uint8_t  unk062[3];              // 16 (0x62) unresolved
-				bool          useEarlyZ;              // 19 (0x65)
-				std::uint8_t  unk066[10];             // 1A (0x66) unresolved
+				float         projectionPosScaleXUI;    // 00 (0x4C)
+				float         projectionPosScaleYUI;    // 04 (0x50)
+				std::uint32_t frameCount;               // 08 (0x54)
+				std::uint32_t gUpdateCounter;           // 0C (0x58)
+				std::uint8_t  unk05C[4];                // 10 (0x5C) unresolved
+				bool          insideFrame;              // 14 (0x60)
+				bool          letterbox;                // 15 (0x61)
+				std::uint8_t  unk062[2];                // 16 (0x62) unresolved
+				bool          compiledShaderThisFrame;  // 18 (0x64)
+				bool          useEarlyZ;                // 19 (0x65)
+				std::uint8_t  unk066[10];               // 1A (0x66) unresolved
 			};
 			static_assert(sizeof(FRAME_STATE_1799) == 0x24);  // pins to RUNTIME_DATA start: 0x4C + 0x24 == 0x70
 			static_assert(offsetof(FRAME_STATE_1799, frameCount) == 0x08);
 			static_assert(offsetof(FRAME_STATE_1799, insideFrame) == 0x14);
 			static_assert(offsetof(FRAME_STATE_1799, letterbox) == 0x15);
+			static_assert(offsetof(FRAME_STATE_1799, compiledShaderThisFrame) == 0x18);
 			static_assert(offsetof(FRAME_STATE_1799, useEarlyZ) == 0x19);
 
 			RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(FRAME_STATE_1799, GetFrameState1799, SKSE::RUNTIME_SSE_1_7_99, 0x4C);
@@ -228,6 +230,19 @@ namespace RE
 					return REL::RelocateMember<bool>(this, 0x55);
 				}
 				return REL::RelocateMember<bool>(this, 0x51);
+			}
+
+			// Confirmed via an identical "Hitched from shader compile" diagnostic-string check on
+			// every runtime (SE 0x54, legacy AE 0x58, AE>=1.7.99 inside FRAME_STATE_1799 at 0x64).
+			[[nodiscard]] inline bool& GetCompiledShaderThisFrame() noexcept
+			{
+				if (auto* fs = GetFrameState1799()) {
+					return fs->compiledShaderThisFrame;
+				}
+				if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+					return REL::RelocateMember<bool>(this, 0x58);
+				}
+				return REL::RelocateMember<bool>(this, 0x54);
 			}
 #endif
 
@@ -300,11 +315,11 @@ namespace RE
 			// AE >= 1.7.99 relocates these into FRAME_STATE_1799 above; use GetFrameCount() /
 			// GetInsideFrame() / GetUseEarlyZ() on ENABLE_SKYRIM_AE builds instead.
 			std::uint32_t frameCount;               // 04C
-			bool          unk50;                    // 050 - previously misnamed insideFrame
+			bool          insideFrame;              // 050 -- Renderer::Begin sets true / End sets false
 			bool          letterbox;                // 051
 			bool          unk052;                   // 052
-			bool          compiledShaderThisFrame;  // 053
-			bool          insideFrame;              // 054
+			bool          unk053;                   // 053
+			bool          compiledShaderThisFrame;  // 054 -- "Hitched from shader compile" diagnostic
 			bool          useEarlyZ;                // 055
 			RUNTIME_DATA_CONTENT;                   // 058, AE,VR 060
 #endif
@@ -313,8 +328,9 @@ namespace RE
 		static_assert(sizeof(State) == 0x118);
 		static_assert(offsetof(State, screenWidth) == 0x24);
 		static_assert(offsetof(State, frameBufferViewport) == 0x2C);
+		static_assert(offsetof(State, insideFrame) == 0x50);
 		static_assert(offsetof(State, letterbox) == 0x51);
-		static_assert(offsetof(State, insideFrame) == 0x54);
+		static_assert(offsetof(State, compiledShaderThisFrame) == 0x54);
 		static_assert(offsetof(State, defaultTextureBlack) == 0x58);
 		static_assert(offsetof(State, defaultTextureWhite) == 0x60);
 		static_assert(offsetof(State, cameraDataCacheA) == 0xa0);
@@ -323,15 +339,17 @@ namespace RE
 		static_assert(sizeof(State) == 0x120);
 		static_assert(offsetof(State, screenWidth) == 0x24);
 		static_assert(offsetof(State, frameBufferViewport) == 0x2C);
+		static_assert(offsetof(State, insideFrame) == 0x50);
 		static_assert(offsetof(State, letterbox) == 0x51);
-		static_assert(offsetof(State, insideFrame) == 0x54);
+		static_assert(offsetof(State, compiledShaderThisFrame) == 0x54);
 		static_assert(offsetof(State, defaultTextureBlack) == 0x60);
 		static_assert(offsetof(State, defaultTextureWhite) == 0x68);
 		static_assert(offsetof(State, cameraDataCacheA) == 0xa8);
 		static_assert(offsetof(State, dynamicResolutionWidthRatio) == 0x104);
 #else
-		// frameCount/letterbox/unk052/compiledShaderThisFrame/insideFrame/useEarlyZ: not flat
-		// members here -- see FRAME_STATE_1799 and GetFrameCount()/GetInsideFrame()/GetUseEarlyZ().
+		// frameCount/insideFrame/letterbox/compiledShaderThisFrame/useEarlyZ: not flat members
+		// here -- see FRAME_STATE_1799 and GetFrameCount()/GetInsideFrame()/GetLetterbox()/
+		// GetCompiledShaderThisFrame()/GetUseEarlyZ().
 		static_assert(sizeof(State) == 0x50);
 		static_assert(offsetof(State, screenWidth) == 0x24);
 		static_assert(offsetof(State, frameBufferViewport) == 0x2C);
