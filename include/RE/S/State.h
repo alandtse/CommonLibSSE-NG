@@ -205,10 +205,16 @@ namespace RE
 				return REL::RelocateMember<bool>(this, 0x54);
 			}
 
+			// Legacy AE (<1.7.99) already reordered this region relative to SE/VR before the
+			// 1.7.99 layout shift: letterbox/useEarlyZ sit 4 bytes later there (0x55/0x59 vs
+			// SE/VR's 0x51/0x55), even though frameCount/insideFrame did not move.
 			[[nodiscard]] inline bool& GetUseEarlyZ() noexcept
 			{
 				if (auto* fs = GetFrameState1799()) {
 					return fs->useEarlyZ;
+				}
+				if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+					return REL::RelocateMember<bool>(this, 0x59);
 				}
 				return REL::RelocateMember<bool>(this, 0x55);
 			}
@@ -217,6 +223,9 @@ namespace RE
 			{
 				if (auto* fs = GetFrameState1799()) {
 					return fs->letterbox;
+				}
+				if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
+					return REL::RelocateMember<bool>(this, 0x55);
 				}
 				return REL::RelocateMember<bool>(this, 0x51);
 			}
