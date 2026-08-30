@@ -165,9 +165,9 @@ namespace RE
 			static_assert(offsetof(RUNTIME_DATA, dynamicResolutionWidthRatio) == 0xA4);
 #endif
 #ifdef ENABLE_SKYRIM_AE
-			// projectionPosScaleXUI/YUI: the UI/menu TAA pass's own projection scale (independent
-			// of the main scene's, unlike on legacy AE). gUpdateCounter: increments in
-			// Main::Update()/idle-spin, not just on rendered frames like frameCount.
+			// projectionPosScaleXUI/YUI: the UI/menu TAA pass's own projection scale (main scene
+			// and UI share projectionPosScaleX/Y on legacy AE). gUpdateCounter increments in
+			// Main::Update(), unlike frameCount which only increments on rendered frames.
 			struct FRAME_STATE_1799
 			{
 				float         projectionPosScaleXUI;    // 00 (0x4C)
@@ -207,9 +207,7 @@ namespace RE
 				return REL::RelocateMember<bool>(this, 0x54);
 			}
 
-			// Legacy AE (<1.7.99) already reordered this region relative to SE/VR before the
-			// 1.7.99 layout shift: letterbox/useEarlyZ sit 4 bytes later there (0x55/0x59 vs
-			// SE/VR's 0x51/0x55), even though frameCount/insideFrame did not move.
+			// Legacy AE's letterbox/useEarlyZ sit 4 bytes later (0x55/0x59) than SE/VR's (0x51/0x55).
 			[[nodiscard]] inline bool& GetUseEarlyZ() noexcept
 			{
 				if (auto* fs = GetFrameState1799()) {
@@ -232,8 +230,6 @@ namespace RE
 				return REL::RelocateMember<bool>(this, 0x51);
 			}
 
-			// Confirmed via an identical "Hitched from shader compile" diagnostic-string check on
-			// every runtime (SE 0x54, legacy AE 0x58, AE>=1.7.99 inside FRAME_STATE_1799 at 0x64).
 			[[nodiscard]] inline bool& GetCompiledShaderThisFrame() noexcept
 			{
 				if (auto* fs = GetFrameState1799()) {
@@ -312,8 +308,8 @@ namespace RE
 			float                      projectionPosScaleX;                // 044
 			float                      projectionPosScaleY;                // 048
 #ifndef ENABLE_SKYRIM_AE
-			// AE >= 1.7.99 relocates these into FRAME_STATE_1799 above; use GetFrameCount() /
-			// GetInsideFrame() / GetUseEarlyZ() on ENABLE_SKYRIM_AE builds instead.
+			// AE >= 1.7.99 relocates these into FRAME_STATE_1799 above -- use the GetXxx()
+			// accessors on ENABLE_SKYRIM_AE builds instead.
 			std::uint32_t frameCount;               // 04C
 			bool          insideFrame;              // 050 -- Renderer::Begin sets true / End sets false
 			bool          letterbox;                // 051
