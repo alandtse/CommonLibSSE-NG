@@ -5,10 +5,7 @@
 
 namespace RE
 {
-	// CommonLib only provides RTTI/VTABLE for this class. Verified against SkyrimSE.exe:
-	// the resize helper reads count from +0x20, allocates count * sizeof(NiPoint3) and
-	// stores the result at +0x18; a separate consumer reads +0x24 alongside +0x18 as a
-	// (data, count) pair.
+	// CommonLib only provides RTTI/VTABLE for this class.
 	class BSFaceGenBaseMorphExtraData : public NiExtraData
 	{
 	public:
@@ -16,9 +13,9 @@ namespace RE
 		inline static constexpr auto Ni_RTTI = NiRTTI_BSFaceGenBaseMorphExtraData;
 		inline static constexpr auto VTABLE = VTABLE_BSFaceGenBaseMorphExtraData;
 
-		NiPoint3*     vertexData;        // 18
+		NiPoint3*     vertexData;        // 18 - allocated using modelVertexCount, not vertexCount
 		std::uint32_t modelVertexCount;  // 20
-		std::uint32_t vertexCount;       // 24
+		std::uint32_t vertexCount;       // 24 - a distinct count used by other consumers
 	};
 	static_assert(sizeof(BSFaceGenBaseMorphExtraData) == 0x28);
 }

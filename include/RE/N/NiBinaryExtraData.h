@@ -4,10 +4,7 @@
 
 namespace RE
 {
-	// CommonLib only provides RTTI/VTABLE for this class. Verified against SkyrimSE.exe:
-	// LoadBinary reads size into +0x20 first, then allocates and stores the buffer
-	// pointer at +0x18 and fills it with exactly that many bytes; SaveBinary and the
-	// destructor's free both target the same two offsets.
+	// CommonLib only provides RTTI/VTABLE for this class.
 	class NiBinaryExtraData : public NiExtraData
 	{
 	public:
