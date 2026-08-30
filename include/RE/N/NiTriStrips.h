@@ -4,9 +4,8 @@
 
 namespace RE
 {
-	// CommonLib only forward-declares NiTriStrips (RTTI/VTABLE only, no members). It adds
-	// nothing over NiTriBasedGeometry, so this exists to allocate it, set the real vtable,
-	// and reach the inherited base fields.
+	// Adds nothing over NiTriBasedGeometry; exists to allocate this type, set the real
+	// vtable, and reach the inherited base fields.
 	class NiTriStrips : public NiTriBasedGeometry
 	{
 	public:
