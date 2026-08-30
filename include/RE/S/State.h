@@ -164,6 +164,65 @@ namespace RE
 #else
 			static_assert(offsetof(RUNTIME_DATA, dynamicResolutionWidthRatio) == 0xA4);
 #endif
+#ifdef ENABLE_SKYRIM_AE
+			// AE >= 1.7.99 inserts this 0x24-byte block between projectionPosScaleY and the
+			// RUNTIME_DATA boundary that RUNTIME_DATA_AE_OFFSET() already accounts for (PR #307).
+			// frameCount/insideFrame/useEarlyZ are the same fields SE/legacy-AE/VR have, just
+			// relocated; projectionPosScaleXUI/YUI and gUpdateCounter are new (confirmed via
+			// decompile: XUI/YUI are the UI/menu-TAA pass's own, independent projection scale --
+			// legacy AE reads the shared projectionPosScaleX/Y global instead; gUpdateCounter
+			// increments in Main::Update() and an idle-spin loop, unlike frameCount which only
+			// increments on rendered frames). ~18 bytes remain unidentified -- no live write site
+			// found across two prior RE sessions; padded as unk rather than guessed.
+			struct FRAME_STATE_1799
+			{
+				float         projectionPosScaleXUI;  // 00 (0x4C)
+				float         projectionPosScaleYUI;  // 04 (0x50)
+				std::uint32_t frameCount;             // 08 (0x54)
+				std::uint32_t gUpdateCounter;         // 0C (0x58)
+				std::uint8_t  unk05C[4];              // 10 (0x5C) unresolved
+				bool          insideFrame;            // 14 (0x60)
+				std::uint8_t  unk061[4];              // 15 (0x61) unresolved
+				bool          useEarlyZ;              // 19 (0x65)
+				std::uint8_t  unk066[10];             // 1A (0x66) unresolved
+			};
+			static_assert(sizeof(FRAME_STATE_1799) == 0x24);  // 0x4C + 0x24 == 0x70 == RUNTIME_DATA start (PR #307)
+			static_assert(offsetof(FRAME_STATE_1799, frameCount) == 0x08);
+			static_assert(offsetof(FRAME_STATE_1799, insideFrame) == 0x14);
+			static_assert(offsetof(FRAME_STATE_1799, useEarlyZ) == 0x19);
+
+			RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(FRAME_STATE_1799, GetFrameState1799, SKSE::RUNTIME_SSE_1_7_99, 0x4C);
+
+			// Version-portable reads for the 3 fields confirmed on both legacy AE (flat offset,
+			// same as SE) and AE >= 1.7.99 (inside FRAME_STATE_1799). Direct flat-member access
+			// to these was removed on ENABLE_SKYRIM_AE builds deliberately: it silently read the
+			// wrong bytes on 1.7.99+ (frameCount would alias projectionPosScaleXUI). This forces
+			// old call sites to fail to compile instead of reading garbage.
+			[[nodiscard]] inline std::uint32_t& GetFrameCount() noexcept
+			{
+				if (auto* fs = GetFrameState1799()) {
+					return fs->frameCount;
+				}
+				return REL::RelocateMember<std::uint32_t>(this, 0x4C);
+			}
+
+			[[nodiscard]] inline bool& GetInsideFrame() noexcept
+			{
+				if (auto* fs = GetFrameState1799()) {
+					return fs->insideFrame;
+				}
+				return REL::RelocateMember<bool>(this, 0x54);
+			}
+
+			[[nodiscard]] inline bool& GetUseEarlyZ() noexcept
+			{
+				if (auto* fs = GetFrameState1799()) {
+					return fs->useEarlyZ;
+				}
+				return REL::RelocateMember<bool>(this, 0x55);
+			}
+#endif
+
 			[[nodiscard]] static State* GetSingleton()
 			{
 				static REL::Relocation<State*> singleton{ RELOCATION_ID(524998, 411479) };
@@ -229,15 +288,18 @@ namespace RE
 			std::uint32_t              unk040;                             // 040
 			float                      projectionPosScaleX;                // 044
 			float                      projectionPosScaleY;                // 048
-			std::uint32_t              frameCount;                         // 04C
-			bool                       unk50;                              // 050 - previously misnamed insideFrame
-			bool                       letterbox;                          // 051
-			bool                       unk052;                             // 052
-			bool                       compiledShaderThisFrame;            // 053
-			bool                       insideFrame;                        // 054
-			bool                       useEarlyZ;                          // 055
 #ifndef ENABLE_SKYRIM_AE
-			RUNTIME_DATA_CONTENT;  // 058, AE,VR 060
+			// SE/legacy-AE(<1.7.99)/VR only. AE >= 1.7.99 relocates these into FRAME_STATE_1799
+			// above (with 3 new fields inserted ahead of frameCount) -- use GetFrameCount() /
+			// GetInsideFrame() / GetUseEarlyZ() on ENABLE_SKYRIM_AE builds instead. See PR #307/#308.
+			std::uint32_t frameCount;               // 04C
+			bool          unk50;                    // 050 - previously misnamed insideFrame
+			bool          letterbox;                // 051
+			bool          unk052;                   // 052
+			bool          compiledShaderThisFrame;  // 053
+			bool          insideFrame;              // 054
+			bool          useEarlyZ;                // 055
+			RUNTIME_DATA_CONTENT;                   // 058, AE,VR 060
 #endif
 		};
 #if defined(EXCLUSIVE_SKYRIM_SE)  // SE
@@ -261,11 +323,13 @@ namespace RE
 		static_assert(offsetof(State, cameraDataCacheA) == 0xa8);
 		static_assert(offsetof(State, dynamicResolutionWidthRatio) == 0x104);
 #else
-		static_assert(sizeof(State) == 0x58);
+		// AE / cross-VR(ALL): frameCount/letterbox/unk052/compiledShaderThisFrame/insideFrame/
+		// useEarlyZ are gone as flat members here -- see FRAME_STATE_1799 and GetFrameCount() /
+		// GetInsideFrame() / GetUseEarlyZ() above. Deliberate: AE >= 1.7.99 relocates these, so a
+		// single flat offset was silently wrong there.
+		static_assert(sizeof(State) == 0x50);
 		static_assert(offsetof(State, screenWidth) == 0x24);
 		static_assert(offsetof(State, frameBufferViewport) == 0x2C);
-		static_assert(offsetof(State, letterbox) == 0x51);
-		static_assert(offsetof(State, insideFrame) == 0x54);
 #endif
 	}
 }
