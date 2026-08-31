@@ -362,29 +362,29 @@ namespace RE
 		struct VRPlayerHandData
 		{
 			// members
-			std::uint64_t         unk00;                    // 00
-			std::uint32_t         unk08;                    // 08
-			std::uint32_t         pad0C;                    // 0C
-			NiPointer<NiAVObject> unk10;                    // 10 - NiPointer (likely controller scene node)
-			NiPointer<NiAVObject> unk18;                    // 18 - NiPointer
-			NiPointer<NiAVObject> unk20;                    // 20 - NiPointer
-			std::uint32_t         unk28;                    // 28
-			std::uint32_t         ringSampleIndex;          // 2C - write index into handSpeedSamples/handVelocitySamples/handPositionSamples, wrapped modulo Capacity; PlayerCharacter::StoreVRHandPositionSample
-			NiPoint3              lastSampledHandPosition;  // 30 - previous frame's raw position, used to compute handVelocitySamples' delta
-			std::uint32_t         pad3C;                    // 3C
-			BSTArray<float>       handSpeedSamples;         // 40 - ring buffer of delta magnitudes (sqrt of per-sample velocity)
-			BSTArray<NiPoint3>    handVelocitySamples;      // 58 - ring buffer of delta-from-previous-position samples
-			BSTArray<NiPoint3>    handPositionSamples;      // 70 - ring buffer of raw position samples
-			BSTArray<NiPoint3>    historyD;                 // 88 - not written by StoreVRHandPositionSample; still unconfirmed
-			std::uint64_t         unkA0;                    // A0
-			std::uint64_t         unkA8;                    // A8
-			std::uint64_t         unkB0;                    // B0
-			std::uint32_t         unkB8;                    // B8
-			std::uint16_t         unkBC;                    // BC
-			std::uint16_t         padBE;                    // BE
-			std::uint64_t         unkC0;                    // C0
-			std::uint32_t         unkC8;                    // C8
-			std::uint32_t         padCC;                    // CC
+			std::uint64_t         unk00;                        // 00
+			std::uint32_t         unk08;                        // 08
+			std::uint32_t         pad0C;                        // 0C
+			NiPointer<NiAVObject> unk10;                        // 10 - NiPointer (likely controller scene node)
+			NiPointer<NiAVObject> unk18;                        // 18 - hand collision-proxy node; its bhkRigidBody's Havok collision filter bit 14 is synced from collisionFilterBit14Desired in UpdateVRHandCollisionFilter
+			NiPointer<NiAVObject> unk20;                        // 20 - gates PlayerCharacter::StoreVRHandPositionSample: sampling only runs when non-null
+			std::uint32_t         deviceIndex;                  // 28 - 0=left/1=right VR_DEVICE hand index for this slot; gates LeftWandNode/RightWandNode selection in UpdateVRHandNodeTransforms
+			std::uint32_t         ringSampleIndex;              // 2C - write index into handSpeedSamples/handVelocitySamples/handPositionSamples, wrapped modulo Capacity; PlayerCharacter::StoreVRHandPositionSample
+			NiPoint3              lastSampledHandPosition;      // 30 - previous frame's raw position, used to compute handVelocitySamples' delta
+			std::uint32_t         pad3C;                        // 3C
+			BSTArray<float>       handSpeedSamples;             // 40 - ring buffer of delta magnitudes (sqrt of per-sample velocity)
+			BSTArray<NiPoint3>    handVelocitySamples;          // 58 - ring buffer of delta-from-previous-position samples
+			BSTArray<NiPoint3>    handPositionSamples;          // 70 - ring buffer of raw position samples
+			BSTArray<NiPoint3>    historyD;                     // 88 - not written by StoreVRHandPositionSample; still unconfirmed
+			std::uint64_t         unkA0;                        // A0
+			std::uint64_t         unkA8;                        // A8
+			std::uint64_t         unkB0;                        // B0
+			std::uint32_t         unkB8;                        // B8
+			std::uint16_t         collisionFilterBit14Desired;  // BC - low byte compared against unk18's collision object's live Havok filter bit 14 (0x4000); PlayerCharacter::UpdateVRHandCollisionFilter syncs the live bit to match when they differ
+			std::uint16_t         padBE;                        // BE
+			std::uint64_t         unkC0;                        // C0
+			std::uint32_t         unkC8;                        // C8
+			std::uint32_t         padCC;                        // CC
 		};
 		static_assert(sizeof(VRPlayerHandData) == 0xD0);
 
