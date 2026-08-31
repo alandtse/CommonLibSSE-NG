@@ -325,17 +325,17 @@ namespace RE
 		{
 		public:
 			// members
-			BSTSmallArray<hkRefPtr<bhkMouseSpringAction>, 4> grabSpring;        // 00
-			ObjectRefHandle                                  grabbedObject;     // 30
-			float                                            grabObjectWeight;  // 34
-			GrabbingType                                     grabType;          // 38
-			float                                            grabDistance;      // 3C
-			std::double_t                                    unk40;             // 40 - 0x40 and below for havok stuff
-			std::uint64_t                                    unk48;             // 48
-			std::double_t                                    unk50;             // 50
-			std::uint64_t                                    unk58;             // 58
-			std::uint32_t                                    unk60;             // 60
-			std::uint32_t                                    unk64Flags;        // 64
+			BSTSmallArray<hkRefPtr<bhkMouseSpringAction>, 4> grabSpring;                // 00
+			ObjectRefHandle                                  grabbedObject;             // 30
+			float                                            grabObjectWeight;          // 34
+			GrabbingType                                     grabType;                  // 38
+			float                                            grabDistance;              // 3C
+			std::double_t                                    unk40;                     // 40 - 0x40 and below for havok stuff
+			std::uint64_t                                    unk48;                     // 48
+			std::double_t                                    unk50;                     // 50
+			std::uint64_t                                    unk58;                     // 58
+			std::uint32_t                                    unk60;                     // 60
+			std::uint32_t                                    savedCollisionFilterInfo;  // 64 - low 7 bits = the grabbed body's original Havok collision layer, saved on grab and restored into its collision-filter-info field (+0x2C) in PlayerCharacter::DestroyMouseSprings on release
 		};
 		static_assert(sizeof(VRGrabData) == 0x68);
 
