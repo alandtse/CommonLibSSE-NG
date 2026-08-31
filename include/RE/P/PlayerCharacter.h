@@ -362,28 +362,29 @@ namespace RE
 		struct VRPlayerHandData
 		{
 			// members
-			std::uint64_t           unk00;     // 00
-			std::uint32_t           unk08;     // 08
-			std::uint32_t           pad0C;     // 0C
-			NiPointer<NiAVObject>   unk10;     // 10 - NiPointer (likely controller scene node)
-			NiPointer<NiAVObject>   unk18;     // 18 - NiPointer
-			NiPointer<NiAVObject>   unk20;     // 20 - NiPointer
-			std::uint64_t           unk28;     // 28 - init = 3 (state/mode flag)
-			NiPoint3                unkPos30;  // 30 - init = (0,0,0)
-			std::uint32_t           pad3C;     // 3C
-			BSTArray<std::uint32_t> historyA;  // 40 - cap=10, uint32 history (frame index / timestamps?)
-			BSTArray<NiPoint3>      historyB;  // 58 - cap=10, NiPoint3 history (position?)
-			BSTArray<NiPoint3>      historyC;  // 70 - cap=10, NiPoint3 history (velocity?)
-			BSTArray<NiPoint3>      historyD;  // 88 - cap=10, NiPoint3 history (angular?)
-			std::uint64_t           unkA0;     // A0
-			std::uint64_t           unkA8;     // A8
-			std::uint64_t           unkB0;     // B0
-			std::uint32_t           unkB8;     // B8
-			std::uint16_t           unkBC;     // BC
-			std::uint16_t           padBE;     // BE
-			std::uint64_t           unkC0;     // C0
-			std::uint32_t           unkC8;     // C8
-			std::uint32_t           padCC;     // CC
+			std::uint64_t         unk00;                    // 00
+			std::uint32_t         unk08;                    // 08
+			std::uint32_t         pad0C;                    // 0C
+			NiPointer<NiAVObject> unk10;                    // 10 - NiPointer (likely controller scene node)
+			NiPointer<NiAVObject> unk18;                    // 18 - NiPointer
+			NiPointer<NiAVObject> unk20;                    // 20 - NiPointer
+			std::uint32_t         unk28;                    // 28
+			std::uint32_t         ringSampleIndex;          // 2C - write index into handSpeedSamples/handVelocitySamples/handPositionSamples, wrapped modulo Capacity; PlayerCharacter::StoreVRHandPositionSample
+			NiPoint3              lastSampledHandPosition;  // 30 - previous frame's raw position, used to compute handVelocitySamples' delta
+			std::uint32_t         pad3C;                    // 3C
+			BSTArray<float>       handSpeedSamples;         // 40 - ring buffer of delta magnitudes (sqrt of per-sample velocity)
+			BSTArray<NiPoint3>    handVelocitySamples;      // 58 - ring buffer of delta-from-previous-position samples
+			BSTArray<NiPoint3>    handPositionSamples;      // 70 - ring buffer of raw position samples
+			BSTArray<NiPoint3>    historyD;                 // 88 - not written by StoreVRHandPositionSample; still unconfirmed
+			std::uint64_t         unkA0;                    // A0
+			std::uint64_t         unkA8;                    // A8
+			std::uint64_t         unkB0;                    // B0
+			std::uint32_t         unkB8;                    // B8
+			std::uint16_t         unkBC;                    // BC
+			std::uint16_t         padBE;                    // BE
+			std::uint64_t         unkC0;                    // C0
+			std::uint32_t         unkC8;                    // C8
+			std::uint32_t         padCC;                    // CC
 		};
 		static_assert(sizeof(VRPlayerHandData) == 0xD0);
 
