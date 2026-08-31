@@ -376,8 +376,8 @@ namespace RE
 			BSTArray<NiPoint3>    handVelocitySamples;          // 58 - ring buffer of delta-from-previous-position samples
 			BSTArray<NiPoint3>    handPositionSamples;          // 70 - ring buffer of raw position samples
 			BSTArray<NiPoint3>    historyD;                     // 88 - not written by StoreVRHandPositionSample; still unconfirmed
-			std::uint64_t         unkA0;                        // A0
-			std::uint64_t         unkA8;                        // A8
+			NiPoint3              cachedHandPosition;           // A0 - compared against Character's live UpdateNonRenderSafe_588+0xA0 position in PlayerCharacter::ComputeVRHandMovementDelta to derive arm-swing direction; distinct from lastSampledHandPosition
+			std::uint32_t         padAC;                        // AC
 			std::uint64_t         unkB0;                        // B0
 			std::uint32_t         unkB8;                        // B8
 			std::uint16_t         collisionFilterBit14Desired;  // BC - low byte compared against unk18's collision object's live Havok filter bit 14 (0x4000); PlayerCharacter::UpdateVRHandCollisionFilter syncs the live bit to match when they differ
