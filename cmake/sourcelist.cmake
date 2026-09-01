@@ -529,17 +529,23 @@ set(SOURCES
 	include/RE/B/bhkCollisionObject.h
 	include/RE/B/bhkCompressedMeshShape.h
 	include/RE/B/bhkCompressedMeshShapeData.h
+	include/RE/B/bhkConstraint.h
 	include/RE/B/bhkContactListener.h
 	include/RE/B/bhkEntity.h
+	include/RE/B/bhkGroupConstraint.h
 	include/RE/B/bhkListShape.h
+	include/RE/B/bhkListShapeCinfo.h
+	include/RE/B/bhkMalleableConstraint.h
 	include/RE/B/bhkMeshMaterial.h
 	include/RE/B/bhkMouseSpringAction.h
 	include/RE/B/bhkNiCollisionObject.h
 	include/RE/B/bhkPCollisionObject.h
 	include/RE/B/bhkPhantom.h
 	include/RE/B/bhkPickData.h
+	include/RE/B/bhkRagdollConstraint.h
 	include/RE/B/bhkRefObject.h
 	include/RE/B/bhkRigidBody.h
+	include/RE/B/bhkRigidBodyCinfo.h
 	include/RE/B/bhkRigidBodyT.h
 	include/RE/B/bhkSPCollisionObject.h
 	include/RE/B/bhkSerializable.h
@@ -1138,18 +1144,22 @@ set(SOURCES
 	include/RE/H/HudModeChangeEvent.h
 	include/RE/H/hkAabb.h
 	include/RE/H/hkArray.h
+	include/RE/H/hkBallAndSocketConstraintCinfo.h
 	include/RE/H/hkBaseObject.h
 	include/RE/H/hkBaseTypes.h
 	include/RE/H/hkClass.h
 	include/RE/H/hkClassEnum.h
 	include/RE/H/hkClassMember.h
+	include/RE/H/hkConstraintCinfo.h
 	include/RE/H/hkContactPoint.h
 	include/RE/H/hkContactPointMaterial.h
 	include/RE/H/hkContainerAllocators.h
 	include/RE/H/hkFinishLoadedObjectFlag.h
+	include/RE/H/hkFixedConstraintCinfo.h
 	include/RE/H/hkLifoAllocator.h
 	include/RE/H/hkLocalFrame.h
 	include/RE/H/hkLocalFrameGroup.h
+	include/RE/H/hkMalleableConstraintCinfo.h
 	include/RE/H/hkMatrix3.h
 	include/RE/H/hkMemoryAllocator.h
 	include/RE/H/hkMemoryRouter.h
@@ -1159,6 +1169,7 @@ set(SOURCES
 	include/RE/H/hkMultiThreadCheck.h
 	include/RE/H/hkQsTransform.h
 	include/RE/H/hkQuaternion.h
+	include/RE/H/hkRagdollConstraintCinfo.h
 	include/RE/H/hkRefPtr.h
 	include/RE/H/hkRefVariant.h
 	include/RE/H/hkReferencedObject.h
