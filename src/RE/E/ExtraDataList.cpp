@@ -31,6 +31,13 @@ namespace RE
 #endif
 	// AE-exclusive dtor is `= default` virtual in header; game vtable handles real cleanup.
 
+	ExtraDataList::ExtraDataList()
+	{
+		using func_t = void(ExtraDataList*);
+		REL::Relocation<func_t> func{ RELOCATION_ID(11437, 11583) };
+		func(this);
+	}
+
 	bool BaseExtraList::PresenceBitfield::HasType(std::uint32_t a_type) const
 	{
 		const std::uint32_t index = (a_type >> 3);
