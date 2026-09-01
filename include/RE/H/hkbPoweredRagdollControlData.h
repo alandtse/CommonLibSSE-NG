@@ -3,7 +3,7 @@
 namespace RE
 {
 	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0)
-	class alignas(0x10) hkbPoweredRagdollControlData
+	class hkbPoweredRagdollControlData
 	{
 	public:
 		// members
