@@ -32,7 +32,7 @@ namespace RE
 			inline static constexpr auto RTTI = RTTI_InventoryChanges__IItemChangeVisitor;
 			inline static constexpr auto VTABLE = VTABLE_InventoryChanges__IItemChangeVisitor;
 
-			virtual ~IItemChangeVisitor();  // 00
+			virtual ~IItemChangeVisitor() = default;  // 00 - was declared-but-undefined, breaking link for any derived visitor
 
 			// add
 			virtual BSContainer::ForEachResult Visit(InventoryEntryData* a_entryData) = 0;                                                                                // 01

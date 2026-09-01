@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BGSBipedObjectForm.h"
 #include "RE/I/InventoryChanges.h"
 
 namespace RE
@@ -10,7 +11,7 @@ namespace RE
 		using BipedObjectSlot = BIPED_MODEL::BipedObjectSlot;
 		inline static constexpr auto RTTI = RTTI___GetArmorInSlotFunctor;
 
-		virtual ~GetArmorInSlotFunctor();  // 00
+		virtual ~GetArmorInSlotFunctor() = default;  // 00 - was declared-but-undefined; only POD members, matches the confirmed-trivial base dtor
 
 		// override (InventoryChanges::IItemChangeVisitor)
 		BSContainer::ForEachResult Visit(InventoryEntryData* a_entryData) override;  // 01

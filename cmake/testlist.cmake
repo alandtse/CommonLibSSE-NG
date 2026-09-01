@@ -2,6 +2,7 @@ set(TESTS
     tests/Main.cpp
     tests/RE/A/ActorValues.test.cpp
     tests/RE/F/FormTypes.test.cpp
+    tests/RE/I/InventoryChanges.test.cpp
     tests/REL/Relocation.test.cpp
     tests/REL/RuntimeDataAccessors.test.cpp
     tests/REL/StaticAssertSize.test.cpp

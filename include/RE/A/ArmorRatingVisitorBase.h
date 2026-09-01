@@ -10,7 +10,7 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI___ArmorRatingVisitorBase;
 		inline static constexpr auto VTABLE = VTABLE___ArmorRatingVisitorBase;
 
-		virtual ~ArmorRatingVisitorBase();  // 00
+		virtual ~ArmorRatingVisitorBase() = default;  // 00 - was declared-but-undefined; confirmed trivial via VR disasm (vtable reset + optional sized free, no member cleanup)
 
 		// override (InventoryChanges::IItemChangeVisitor)
 		BSContainer::ForEachResult Visit(InventoryEntryData* a_entryData) override;  // 01
