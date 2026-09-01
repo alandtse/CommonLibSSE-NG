@@ -244,6 +244,7 @@ set(SOURCES
 	include/RE/B/BSCubeMapCamera.h
 	include/RE/B/BSCullingJob.h
 	include/RE/B/BSCullingProcess.h
+	include/RE/B/BSCyclicBlendTransitionGenerator.h
 	include/RE/B/BSDirectInputManager.h
 	include/RE/B/BSDismemberSkinInstance.h
 	include/RE/B/BSDistantTreeShaderProperty.h
@@ -1183,6 +1184,7 @@ set(SOURCES
 	include/RE/H/hkbBehaviorGraphData.h
 	include/RE/H/hkbBehaviorGraphStringData.h
 	include/RE/H/hkbBindable.h
+	include/RE/H/hkbBlendingTransitionEffect.h
 	include/RE/H/hkbCharacter.h
 	include/RE/H/hkbCharacterControllerSetup.h
 	include/RE/H/hkbCharacterData.h
@@ -1204,6 +1206,7 @@ set(SOURCES
 	include/RE/H/hkbShapeSetup.h
 	include/RE/H/hkbStateMachine.h
 	include/RE/H/hkbSymbolIdMap.h
+	include/RE/H/hkbTransitionEffect.h
 	include/RE/H/hkbVariableBindingSet.h
 	include/RE/H/hkbVariableInfo.h
 	include/RE/H/hkbVariableValueSet.h
