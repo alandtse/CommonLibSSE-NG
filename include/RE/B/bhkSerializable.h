@@ -39,7 +39,7 @@ namespace RE
 		virtual void       Unk_31(void);                    // 31
 
 		// members
-		bhkSerializable* serializable;  // 18
+		void* cinfo;  // 18 - concrete type is per-subclass (e.g. bhkConstraint's hkConstraintCinfo*, bhkRigidBody's bhkRigidBodyCinfo*)
 	};
 	static_assert(sizeof(bhkSerializable) == 0x20);
 }
