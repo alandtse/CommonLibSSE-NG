@@ -7,10 +7,10 @@ namespace RE
 	class hkpConstraintInstance;
 	class hkpRigidBody;
 
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found).
-	// activeragdoll redeclares a constraint/cinfo pointer pair here, but those are
-	// already covered by the inherited bhkRefObject::referencedObject (0x10) and
-	// bhkSerializable::cinfo (0x18) -- this class adds no new fields of its own.
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0), which
+	// redeclares a constraint/cinfo pointer pair here -- already covered by the
+	// inherited bhkRefObject::referencedObject (0x10) and bhkSerializable::cinfo
+	// (0x18), so this class adds no new fields of its own.
 	class bhkConstraint : public bhkSerializable
 	{
 	public:

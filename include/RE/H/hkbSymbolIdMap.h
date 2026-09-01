@@ -5,7 +5,7 @@
 
 namespace RE
 {
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found)
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0)
 	class hkbSymbolIdMap : public hkReferencedObject
 	{
 	public:

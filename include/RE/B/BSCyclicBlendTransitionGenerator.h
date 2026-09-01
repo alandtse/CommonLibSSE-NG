@@ -5,10 +5,9 @@
 
 namespace RE
 {
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found).
-	// Sequential layout re-derived from the confirmed offsetof(state)==0xA8 anchor --
-	// activeragdoll's own inline comment for crossBlendEventId (0x64) is stale/wrong,
-	// it does not reproduce that anchor; 0x68 (computed here) does.
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0). Its own
+	// inline comment for crossBlendEventId (0x64) doesn't reproduce its own
+	// confirmed offsetof(state)==0xA8 anchor; 0x68 (computed here) does.
 	class BSCyclicBlendTransitionGenerator : public hkbGenerator
 	{
 	public:

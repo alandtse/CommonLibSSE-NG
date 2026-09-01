@@ -6,7 +6,7 @@ namespace RE
 {
 	class hkpShape;
 
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found)
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0)
 	class bhkListShapeCinfo
 	{
 	public:

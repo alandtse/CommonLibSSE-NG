@@ -6,7 +6,7 @@ namespace RE
 {
 	class bhkWorld;
 
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found)
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0)
 	class bhkBlendCollisionObject : public bhkCollisionObject
 	{
 	public:

@@ -16,6 +16,8 @@ namespace RE
 	class hkbRagdollDriver;
 	class hkQsTransform;
 
+	// footIkDriver/handIkDriver/animationBindingSet/worldFromModel/poseLocal's concrete
+	// types cross-referenced against https://github.com/adamhynek/activeragdoll (GPL-3.0)
 	class hkbCharacter : public hkReferencedObject
 	{
 	public:
@@ -46,7 +48,7 @@ namespace RE
 		hkRefVariant                     world;                      // 78
 		hkRefVariant                     eventQueue;                 // 80
 		hkRefPtr<hkQsTransform>          worldFromModel;             // 88
-		const hkQsTransform*             poseLocal;                  // 90 - hkSimpleArray<hkRefVariant>; source: activeragdoll
+		const hkQsTransform*             poseLocal;                  // 90 - hkSimpleArray<hkRefVariant>
 		std::int32_t                     numPoseLocal;               // 98
 		bool                             deleteWorldFromModel;       // 9C
 		bool                             deletePoseLocal;            // 9D

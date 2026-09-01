@@ -4,8 +4,8 @@
 
 namespace RE
 {
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found).
-	// Total size (0x50) is not directly asserted by activeragdoll but is forced by
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0). Total size
+	// (0x50) isn't directly asserted there, but is forced by
 	// hkbBlendingTransitionEffect's confirmed offsetof(fromGenerator)==0x60 combined
 	// with its preceding field list.
 	class hkbTransitionEffect : public hkbGenerator
@@ -18,7 +18,7 @@ namespace RE
 		std::uint8_t selfTransitionMode;  // 48
 		std::uint8_t eventMode;           // 49
 		std::uint8_t defaultEventMode;    // 4A
-		std::uint8_t unk4B[5];            // 4B - gap, content unconfirmed
+		std::uint8_t unk4B[5];            // 4B - gap between defaultEventMode and hkbBlendingTransitionEffect's own fields
 	};
 	static_assert(offsetof(hkbTransitionEffect, eventMode) == 0x49);
 	static_assert(sizeof(hkbTransitionEffect) == 0x50);

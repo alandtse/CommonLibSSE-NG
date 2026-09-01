@@ -10,7 +10,7 @@ namespace RE
 	class hkaRagdollRigidBodyController;
 	class hkbCharacter;
 
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found)
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0)
 	struct hkbWorldFromModelModeData
 	{
 	public:
@@ -39,9 +39,9 @@ namespace RE
 
 		~hkbRagdollDriver() override;  // 00
 
-		// members - beyond total size (0xD0, ground-truth-confirmed via the dtor's own
-		// fallback free-size) and character/ragdoll's offsets, this layout is sourced
-		// from activeragdoll and not independently Ghidra-verified (no consumer found)
+		// members - total size (0xD0) and character/ragdoll's offsets are ground-truth
+		// confirmed via the dtor's own fallback free-size; the rest is ported from
+		// https://github.com/adamhynek/activeragdoll (GPL-3.0)
 		float                          ragdollBlendOutTime;                     // 10
 		hkbWorldFromModelModeData      worldFromModelModeData;                  // 14
 		bool                           autoAddRemoveRagdollToWorld;             // 1C

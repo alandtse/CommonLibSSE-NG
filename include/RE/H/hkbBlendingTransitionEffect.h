@@ -6,9 +6,8 @@
 
 namespace RE
 {
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found).
-	// Total size is not asserted by activeragdoll (no downstream class anchors it) --
-	// left to natural compiler alignment rather than an unconfirmed guess.
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0). Total size
+	// isn't asserted there either; left to natural compiler alignment.
 	class hkbBlendingTransitionEffect : public hkbTransitionEffect
 	{
 	public:

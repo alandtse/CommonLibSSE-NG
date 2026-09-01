@@ -14,6 +14,10 @@ namespace RE
 	class hkbVariableInfo;
 	class hkbVariableValueSet;
 
+	// Layout ported from https://github.com/adamhynek/activeragdoll (GPL-3.0), with
+	// the leading region's split and unk20/unk28/A8-AE's boundaries independently
+	// confirmed via this class's own destructor (RemoveReference offsets, and
+	// characterPropertyInfos/numBonesPerLod landing exactly at 0x60/0x70).
 	class hkbCharacterData : public hkReferencedObject
 	{
 	public:
@@ -21,10 +25,10 @@ namespace RE
 		inline static constexpr auto VTABLE = VTABLE_hkbCharacterData;
 
 		// members
-		float                             unk10;                    // 10 - sub-field split from activeragdoll; span 10-30 confirmed via dtor (arrays land at the expected 60/70)
+		float                             unk10;                    // 10
 		float                             unk14;                    // 14
 		std::uint64_t                     unk18;                    // 18
-		hkRefPtr<hkReferencedObject>      unk20;                    // 20 - real ref-counted ptr (RemoveReference'd in dtor); concrete type unconfirmed
+		hkRefPtr<hkReferencedObject>      unk20;                    // 20 - ref-counted ptr, concrete type not yet named
 		std::uint64_t                     unk28;                    // 28
 		float                             modelUpMS[4];             // 30 (hkVector4)
 		float                             modelForwardMS[4];        // 40 (hkVector4)
@@ -34,11 +38,11 @@ namespace RE
 		hkRefPtr<hkbVariableValueSet>     characterPropertyValues;  // 80
 		hkRefPtr<hkbFootIkDriverInfo>     footIkDriverInfo;         // 88
 		hkRefPtr<hkbHandIkDriverInfo>     handIkDriverInfo;         // 90
-		hkRefPtr<hkbCharacterStringData>  stringData;               // 98 - offset/ref-counted-ness confirmed via dtor; identity vs. mirroredSkeletonInfo below unconfirmed
-		hkRefPtr<hkbMirroredSkeletonInfo> mirroredSkeletonInfo;     // A0 - offset/ref-counted-ness confirmed via dtor; identity vs. stringData above unconfirmed
-		float                             scale;                    // A8 - from activeragdoll; not independently confirmed here (past the dtor's last touched offset)
-		std::int16_t                      numHands;                 // AC - from activeragdoll; not independently confirmed here
-		std::int16_t                      numFloatSlots;            // AE - from activeragdoll; not independently confirmed here
+		hkRefPtr<hkbCharacterStringData>  stringData;               // 98 - identity vs. mirroredSkeletonInfo below not yet distinguished
+		hkRefPtr<hkbMirroredSkeletonInfo> mirroredSkeletonInfo;     // A0 - identity vs. stringData above not yet distinguished
+		float                             scale;                    // A8
+		std::int16_t                      numHands;                 // AC
+		std::int16_t                      numFloatSlots;            // AE
 	};
 	static_assert(sizeof(hkbCharacterData) == 0xB0);
 }

@@ -7,7 +7,7 @@ namespace RE
 {
 	class hkpSimpleShapePhantom;
 
-	// source: activeragdoll; not independently Ghidra-verified (no consumer found)
+	// Ported from https://github.com/adamhynek/activeragdoll (GPL-3.0)
 	class bhkSimpleShapePhantom : public NiRefObject
 	{
 	public:
