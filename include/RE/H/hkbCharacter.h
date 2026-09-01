@@ -16,12 +16,10 @@ namespace RE
 	class hkbRagdollDriver;
 	class hkQsTransform;
 
-	// footIkDriver/handIkDriver/animationBindingSet/poseLocal's concrete types
-	// cross-referenced against https://github.com/adamhynek/activeragdoll (GPL-3.0),
-	// which also has worldFromModel as hkRefPtr<hkQsTransform> -- but hkQsTransform
-	// isn't reference-counted (no AddReference/RemoveReference), and the adjacent
-	// deleteWorldFromModel/deletePoseLocal manual-ownership flags would be redundant
-	// with automatic ref-counting, so it's typed as a raw pointer here instead.
+	// Fields cross-referenced against https://github.com/adamhynek/activeragdoll
+	// (GPL-3.0). worldFromModel is a raw hkQsTransform* here, not activeragdoll's
+	// hkRefPtr<hkQsTransform>: RE::hkRefPtr<T> here requires T::AddReference(),
+	// which hkQsTransform lacks -- the wrapper type can't transplant verbatim.
 	class hkbCharacter : public hkReferencedObject
 	{
 	public:
