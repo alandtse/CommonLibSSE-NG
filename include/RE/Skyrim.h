@@ -1192,6 +1192,7 @@
 #include "RE/H/hkbContext.h"
 #include "RE/H/hkbEvent.h"
 #include "RE/H/hkbEventBase.h"
+#include "RE/H/hkbFootIkDriver.h"
 #include "RE/H/hkbGenerator.h"
 #include "RE/H/hkbNode.h"
 #include "RE/H/hkbNodeInfo.h"
