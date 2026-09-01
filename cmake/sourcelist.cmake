@@ -314,6 +314,8 @@ set(SOURCES
 	include/RE/B/BSLightingShaderMaterialParallaxOcc.h
 	include/RE/B/BSLightingShaderMaterialSnow.h
 	include/RE/B/BSLightingShaderProperty.h
+	include/RE/B/BSLookAtModifier.h
+	include/RE/B/BSLookAtModifierBoneData.h
 	include/RE/B/BSMasterParticleSystem.h
 	include/RE/B/BSMaterialObject.h
 	include/RE/B/BSMemStorage.h
@@ -1192,6 +1194,7 @@ set(SOURCES
 	include/RE/H/hkbEventBase.h
 	include/RE/H/hkbFootIkDriver.h
 	include/RE/H/hkbGenerator.h
+	include/RE/H/hkbModifier.h
 	include/RE/H/hkbNode.h
 	include/RE/H/hkbNodeInfo.h
 	include/RE/H/hkbProjectData.h
