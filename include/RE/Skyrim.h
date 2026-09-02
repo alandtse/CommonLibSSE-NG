@@ -1503,6 +1503,7 @@
 #include "RE/M/MenuControls.h"
 #include "RE/M/MenuCursor.h"
 #include "RE/M/MenuEventHandler.h"
+#include "RE/M/MenuEventHandlerEx.h"
 #include "RE/M/MenuModeChangeEvent.h"
 #include "RE/M/MenuOpenCloseEvent.h"
 #include "RE/M/MenuOpenHandler.h"
