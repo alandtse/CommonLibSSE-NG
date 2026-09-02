@@ -11,7 +11,7 @@ namespace RE
 		using BipedObjectSlot = BIPED_MODEL::BipedObjectSlot;
 		inline static constexpr auto RTTI = RTTI___GetArmorInSlotFunctor;
 
-		virtual ~GetArmorInSlotFunctor() = default;  // 00 - was declared-but-undefined; only POD members, matches the confirmed-trivial base dtor
+		virtual ~GetArmorInSlotFunctor() = default;  // 00
 
 		// override (InventoryChanges::IItemChangeVisitor)
 		BSContainer::ForEachResult Visit(InventoryEntryData* a_entryData) override;  // 01
