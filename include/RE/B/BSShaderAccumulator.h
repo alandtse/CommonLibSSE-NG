@@ -24,11 +24,11 @@ namespace RE
 			kLodLandscapePass = 0x14,
 			kWaterReflectionPass = 0x15,
 			kBloodDecalPass = 0x16,
-			kAlphaTransparencyShadowPass = 0x17,
-			kSunGlintRefractionPass = 0x18,
-			kVolumetricLightingPass = 0x19,
-			kOcclusion = 0x1A,
-			kPrecipitationOcclusionMap = 0x1C
+			kAlphaTransparencyShadowPass = 0x17,  // no-op on SE/AE/VR (verified: bare `return`)
+			kFinishAccumulatingMode24 = 0x18,     // dispatch index only -- SE/AE/VR each run unrelated code here
+			kVolumetricLightingPass = 0x19,       // VR: unrelated (ends first-person view instead); SE/AE only
+			kOcclusion = 0x1A,                    // VR: shared with 0x1B, different handler; SE/AE only
+			kPrecipitationOcclusionMap = 0x1C     // VR has no handler at this slot
 		};
 
 		class SunOcclusionTest
