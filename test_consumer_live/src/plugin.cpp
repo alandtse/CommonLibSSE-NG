@@ -221,6 +221,47 @@ namespace
 		SKSE::log::info("=== MenuEventHandlerEx live self-test {} ===", pass ? "PASSED" : "FAILED");
 	}
 
+	// Genuinely end-to-end: registers with the real MenuControls, then injects a
+	// real RE::ButtonEvent through RE::BSInputDeviceManager::SendEvent -- the
+	// same public entry point real hardware input goes through (MenuControls
+	// is itself a registered BSTEventSink<InputEvent*> of that source). Every
+	// other test in this file calls through a manually-held pointer; this is
+	// the one that proves the real dispatcher, not just our own simulation of
+	// it, reaches the handler. A nonsense user-event name keeps this inert to
+	// every other real handler also on MenuControls's list.
+	void RunEndToEndTest()
+	{
+		SKSE::log::info("=== MenuEventHandlerEx end-to-end (real MenuControls + real InputEvent) starting ===");
+
+		auto* mc = RE::MenuControls::GetSingleton();
+		auto* idm = RE::BSInputDeviceManager::GetSingleton();
+		if (!mc || !idm) {
+			SKSE::log::info("=== end-to-end SKIPPED: MenuControls/BSInputDeviceManager not ready ({}/{}) ===",
+				reinterpret_cast<std::uintptr_t>(mc), reinterpret_cast<std::uintptr_t>(idm));
+			return;
+		}
+
+		TestHandler handler;
+		mc->RegisterHandler(handler.Handler());
+
+		auto* buttonEvent = RE::ButtonEvent::Create(
+			RE::INPUT_DEVICE::kKeyboard, "zzCommonLibSSELiveVerify_unbound", 0, 1.0F, 0.0F);
+		if (!buttonEvent) {
+			SKSE::log::info("=== end-to-end FAILED: ButtonEvent::Create returned null ===");
+			mc->RemoveHandler(handler.Handler());
+			return;
+		}
+
+		RE::InputEvent* events = buttonEvent;
+		idm->SendEvent(&events);
+
+		mc->RemoveHandler(handler.Handler());
+
+		SKSE::log::info("=== MenuEventHandlerEx end-to-end {} === (sawCanProcess={}, sawProcessButton={})",
+			(handler.sawCanProcess && handler.sawProcessButton) ? "PASSED" : "FAILED",
+			handler.sawCanProcess, handler.sawProcessButton);
+	}
+
 #if RUN_BROKEN_COMPARISON
 	// Reproduces #324's actual failure for a controlled before/after: the
 	// real engine's fixed-slot dispatch (simulated exactly as above) against
@@ -265,6 +306,7 @@ namespace
 		if (a_msg->type == SKSE::MessagingInterface::kDataLoaded) {
 			SKSE::log::info("kDataLoaded received");
 			RunSelfTest();
+			RunEndToEndTest();
 #if RUN_BROKEN_COMPARISON
 			RunBrokenComparison();
 #endif

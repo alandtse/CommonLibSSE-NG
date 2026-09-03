@@ -32,6 +32,14 @@ At `kDataLoaded`, `RunSelfTest()`:
 4. Checks `typeid(*h).name()` resolves to the real interface's name, confirming the
    Complete Object Locator reuse is valid.
 
+`RunEndToEndTest()` goes one step further: rather than calling through a manually-held
+pointer at all, it registers the handler with the real `RE::MenuControls`, constructs a
+real `RE::ButtonEvent` via `RE::ButtonEvent::Create`, and injects it through
+`RE::BSInputDeviceManager::SendEvent` -- the same public entry point real hardware input
+uses (`MenuControls` is itself a registered `BSTEventSink<InputEvent*>` of that source).
+This is the one test that proves the *real* dispatcher reaches the handler, not just that
+our own simulation of it does.
+
 `RunBrokenComparison()` (off by default -- see below) reproduces the *original* bug for
 a controlled before/after: a class deriving directly from the real interface (the
 pre-adapter pattern) has a genuinely too-short compiler vtable, so the same raw indexed
