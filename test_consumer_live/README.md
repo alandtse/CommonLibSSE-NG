@@ -47,10 +47,15 @@ launch against.
 ```powershell
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=<vcpkg>/scripts/buildsystems/vcpkg.cmake
 cmake --build build --config Release
-# copy build/CommonLibSSELiveVerify.dll to <Skyrim>/Data/SKSE/Plugins/
+# copy build/CommonLibSSELiveVerify.dll to <Skyrim SE/AE>/Data/SKSE/Plugins/
 # launch skse64_loader.exe, load into a save (kDataLoaded fires once per process)
 # read <Documents>/My Games/Skyrim Special Edition/SKSE/CommonLibSSELiveVerify.log
 ```
+
+Builds flat (SE+AE) by default. For the VR variant, add `-DLIVE_VERIFY_VR=ON` to the
+`cmake -B` line (use a separate build directory), deploy to `<SkyrimVR>/Data/SKSE/Plugins/`,
+launch `sksevr_loader.exe` instead, and read the log under
+`.../My Games/Skyrim VR/SKSE/`.
 
 To also run the deliberate-crash comparison: configure with
 `-DCMAKE_CXX_FLAGS=-DRUN_BROKEN_COMPARISON=1` (or edit the `#define` at the top of

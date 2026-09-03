@@ -97,9 +97,14 @@ namespace
 	// the way the real, external caller expects.
 	int RealProcessButtonSlot()
 	{
+		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+			return 8;
+		}
+#ifdef ENABLE_SKYRIM_AE
 		if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 			return 7;
 		}
+#endif
 		return 5;
 	}
 
@@ -111,10 +116,17 @@ namespace
 	// through it actually reaches a working default instead of crashing.
 	std::vector<std::pair<const char*, int>> RealNonButtonSlots()
 	{
+		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+			// slot 4 (Unk_04) intentionally excluded -- not exposed as an override point.
+			return { { "ProcessVrWandTouchpadSwipe", 2 }, { "ProcessVrWandTouchpadPosition", 3 },
+				{ "ProcessKinect", 5 }, { "ProcessThumbstick", 6 }, { "ProcessMouseMove", 7 } };
+		}
+#ifdef ENABLE_SKYRIM_AE
 		if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
 			return { { "ProcessMotionGesture", 2 }, { "ProcessSixaxis", 3 }, { "ProcessKinect", 4 },
 				{ "ProcessThumbstick", 5 }, { "ProcessMouseMove", 6 } };
 		}
+#endif
 		return { { "ProcessKinect", 2 }, { "ProcessThumbstick", 3 }, { "ProcessMouseMove", 4 } };
 	}
 
@@ -134,7 +146,18 @@ namespace
 		SKSE::log::info("game module = {:x}, plugin module = {:x}",
 			reinterpret_cast<std::uintptr_t>(gameModule), reinterpret_cast<std::uintptr_t>(pluginModule));
 
-		int realSlotCount = REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? 8 : 6;
+		int realSlotCount;
+		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+			realSlotCount = 9;
+		}
+#ifdef ENABLE_SKYRIM_AE
+		else if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+			realSlotCount = 8;
+		}
+#endif
+		else {
+			realSlotCount = 6;
+		}
 		for (int i = 0; i < realSlotCount; ++i) {
 			void*       slot = vtbl[i];
 			HMODULE     owner = ModuleOf(slot);
@@ -183,6 +206,13 @@ namespace
 			nonButtonOk = nonButtonOk && !typedMotionGesture && !typedSixaxis;
 		}
 #endif
+		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+			bool typedSwipe = h->ProcessVrWandTouchpadSwipe(nullptr);
+			bool typedPosition = h->ProcessVrWandTouchpadPosition(nullptr);
+			SKSE::log::info("typed h->ProcessVrWandTouchpadSwipe/Position(nullptr) = {}/{}",
+				typedSwipe, typedPosition);
+			nonButtonOk = nonButtonOk && !typedSwipe && !typedPosition;
+		}
 
 		const auto& ti = typeid(*h);
 		SKSE::log::info("typeid(*h).name() = {}", ti.name());
