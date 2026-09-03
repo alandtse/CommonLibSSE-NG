@@ -25,10 +25,16 @@ namespace RE
 			kWaterReflectionPass = 0x15,
 			kBloodDecalPass = 0x16,
 			kAlphaTransparencyShadowPass = 0x17,  // no-op on SE/AE/VR (verified: bare `return`)
-			kFinishAccumulatingMode24 = 0x18,     // dispatch index only -- SE/AE/VR each run unrelated code here
-			kVolumetricLightingPass = 0x19,       // VR: unrelated (ends first-person view instead); SE/AE only
-			kOcclusion = 0x1A,                    // VR: shared with 0x1B, different handler; SE/AE only
-			kPrecipitationOcclusionMap = 0x1C     // VR has no handler at this slot
+			// Dispatch slot 0x18: all three runtimes run unrelated code, so it's aliased per-runtime
+			// below rather than under one name (was kSunGlintRefractionPass, unrelated to any of
+			// them and unrelated to the real FinishAccumulatingSunGlint() virtual above).
+			kSEEndFirstPersonView = 0x18,
+			kAEResetQueuedShadowPassList = 0x18,
+			kVRWorldSpaceUIPass = 0x18,
+			kVolumetricLightingPass = 0x19,  // SE/AE; shared with kOcclusion's handler
+			kVREndFirstPersonView = 0x19,    // VR: kSEEndFirstPersonView's behavior sits here instead
+			kOcclusion = 0x1A,               // SE/AE; VR shares this slot with 0x1B under a different handler
+			kPrecipitationOcclusionMap = 0x1C  // SE/AE only -- VR has no handler at this slot
 		};
 
 		class SunOcclusionTest
