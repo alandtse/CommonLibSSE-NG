@@ -25,9 +25,8 @@ namespace RE
 			kWaterReflectionPass = 0x15,
 			kBloodDecalPass = 0x16,
 			kAlphaTransparencyShadowPass = 0x17,  // no-op on SE/AE/VR (verified: bare `return`)
-			// Dispatch slot 0x18: all three runtimes run unrelated code, so it's aliased per-runtime
-			// below rather than under one name (was kSunGlintRefractionPass, unrelated to any of
-			// them and unrelated to the real FinishAccumulatingSunGlint() virtual above).
+			// Slot 0x18 dispatches unrelated code per runtime, so it's aliased below rather than
+			// given one shared name.
 			kSEEndFirstPersonView = 0x18,
 			kAEResetQueuedShadowPassList = 0x18,
 			kVRWorldSpaceUIPass = 0x18,
