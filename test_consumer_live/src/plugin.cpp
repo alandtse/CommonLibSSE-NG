@@ -168,9 +168,6 @@ namespace
 		SKSE::log::info("typed h->ProcessButton(nullptr) = {}, sawProcessButton = {}",
 			typedButtonResult, sawTypedProcessButton);
 
-		// Slots TestHandler does NOT override: must fall through to
-		// MenuEventHandlerEx's own default `{ return false; }` bodies rather
-		// than crash or return garbage.
 		bool nonButtonOk = true;
 		using RawFn2 = bool (*)(void*, void*);
 		for (auto [name, slot] : RealNonButtonSlots()) {
@@ -211,10 +208,9 @@ namespace
 	}
 
 	// Registers with the real MenuControls and injects a real RE::ButtonEvent
-	// through RE::BSInputDeviceManager::SendEvent -- the same entry point real
-	// hardware input uses, proving the real dispatcher (not a simulation of
-	// it) reaches the handler. The nonsense user-event name keeps this inert
-	// to every other real handler on MenuControls's list.
+	// through RE::BSInputDeviceManager::SendEvent, the same entry point real
+	// hardware input uses. The nonsense user-event name keeps this inert to
+	// every other real handler on MenuControls's list.
 	void RunEndToEndTest()
 	{
 		SKSE::log::info("=== MenuEventHandlerEx end-to-end (real MenuControls + real InputEvent) starting ===");
