@@ -37,11 +37,9 @@ namespace RE::detail
 		VtableShimBase() = default;
 		~VtableShimBase() = default;
 
-		// Real per-runtime slot count + patch table are supplied by the concrete adapter
-		// via RealInterface (an RE:: type exposing ::VTABLE) and a_patch (writes thunk
-		// pointers into a_realSlotCount-sized table starting at slot 0, i.e. NOT counting
-		// the destructor/COL). Shared across all instances of the same concrete adapter
-		// type -- built exactly once, thread-safe (function-local static).
+		// a_patch writes thunk pointers into an a_realSlotCount-sized table starting at
+		// slot 0 (not counting the destructor/COL). Built once per concrete adapter type
+		// and shared across its instances (function-local static, thread-safe).
 		template <class RealInterface>
 		static const void* const* SharedTable(std::size_t a_realSlotCount, void (*a_patch)(const void**))
 		{
@@ -96,7 +94,7 @@ namespace RE
 
 		virtual ~MenuEventHandlerEx() = default;
 
-		// add (plugin overrides these; defaults match the real engine's own default bodies)
+		// Plugin overrides these; defaults match the real engine's own default bodies.
 		virtual bool CanProcess(InputEvent* a_event) = 0;
 		virtual bool ProcessButton([[maybe_unused]] ButtonEvent* a_event) { return false; }
 		virtual bool ProcessMouseMove([[maybe_unused]] MouseMoveEvent* a_event) { return false; }

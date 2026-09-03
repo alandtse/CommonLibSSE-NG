@@ -4,12 +4,7 @@
 #include <vector>
 
 // Live-verification harness for RE::detail::VtableShimBase-style adapters
-// (currently: RE::MenuEventHandlerEx). See README.md for what this is and
-// why it exists outside the normal `tests/` Catch2 suite.
-//
-// To exercise a different adapter (e.g. a future PlayerInputHandlerEx),
-// swap TestHandler/BrokenHandler's base classes and RealProcessButtonSlot()'s
-// return values for the new adapter's real per-runtime slot layout.
+// (currently: RE::MenuEventHandlerEx). See README.md.
 
 #ifndef RUN_BROKEN_COMPARISON
 // Off by default: reproducing the broken path deliberately crashes the
@@ -56,13 +51,10 @@ namespace
 	};
 
 #if RUN_BROKEN_COMPARISON
-	// The broken path this harness exists to catch: deriving directly from
-	// the real interface. CanProcess is still a genuine pure virtual (not
-	// converted by the RelocateVirtual migration), so it overrides normally;
-	// ProcessButton is no longer virtual, so this can only ever be a
-	// same-named NON-virtual method -- exactly what a plugin author forced
-	// to drop `override` ends up writing, and exactly what produced
-	// CommonLibSSE-NG#324.
+	// The broken path this harness exists to catch: CanProcess is still a real
+	// pure virtual and overrides normally, but ProcessButton is not, so this
+	// can only be a same-named non-virtual method -- what a plugin author
+	// forced to drop `override` ends up writing.
 	class BrokenHandler : public RE::MenuEventHandler
 	{
 	public:
@@ -88,13 +80,8 @@ namespace
 		return hm;
 	}
 
-	// The real engine's fixed vtable slot for ProcessButton on the
-	// currently-running exe, mirroring MenuEventHandlerEx's own runtime
-	// detection. This is what the game's dispatcher actually indexes by --
-	// simulating it here (rather than only calling through our own typed
-	// pointer) is what makes this check meaningful: it doesn't just prove
-	// our own code calls itself correctly, it proves the vtable is shaped
-	// the way the real, external caller expects.
+	// The real engine's fixed vtable slot for ProcessButton on the current
+	// runtime, mirroring MenuEventHandlerEx's own runtime detection.
 	int RealProcessButtonSlot()
 	{
 		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
@@ -109,11 +96,8 @@ namespace
 	}
 
 	// Every other real slot patched by MenuEventHandlerEx on this runtime,
-	// none of which TestHandler overrides -- these fall through to
-	// MenuEventHandlerEx's own default `{ return false; }` bodies. Not
-	// exercising these leaves a real gap: logging that a slot's owning
-	// module is "PLUGIN" only proves it was patched, not that calling
-	// through it actually reaches a working default instead of crashing.
+	// none of which TestHandler overrides -- must fall through to its
+	// default `{ return false; }` bodies rather than crash or return garbage.
 	std::vector<std::pair<const char*, int>> RealNonButtonSlots()
 	{
 		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
@@ -226,14 +210,11 @@ namespace
 		SKSE::log::info("=== MenuEventHandlerEx live self-test {} ===", pass ? "PASSED" : "FAILED");
 	}
 
-	// Genuinely end-to-end: registers with the real MenuControls, then injects a
-	// real RE::ButtonEvent through RE::BSInputDeviceManager::SendEvent -- the
-	// same public entry point real hardware input goes through (MenuControls
-	// is itself a registered BSTEventSink<InputEvent*> of that source). Every
-	// other test in this file calls through a manually-held pointer; this is
-	// the one that proves the real dispatcher, not just our own simulation of
-	// it, reaches the handler. A nonsense user-event name keeps this inert to
-	// every other real handler also on MenuControls's list.
+	// Registers with the real MenuControls and injects a real RE::ButtonEvent
+	// through RE::BSInputDeviceManager::SendEvent -- the same entry point real
+	// hardware input uses, proving the real dispatcher (not a simulation of
+	// it) reaches the handler. The nonsense user-event name keeps this inert
+	// to every other real handler on MenuControls's list.
 	void RunEndToEndTest()
 	{
 		SKSE::log::info("=== MenuEventHandlerEx end-to-end (real MenuControls + real InputEvent) starting ===");
@@ -268,10 +249,10 @@ namespace
 	}
 
 #if RUN_BROKEN_COMPARISON
-	// Reproduces #324's actual failure for a controlled before/after: the
-	// real engine's fixed-slot dispatch (simulated exactly as above) against
-	// a plugin's shortened, compiler-generated vtable instead of a
-	// synthesized one. This WILL crash the game -- that's the point.
+	// Reproduces the original crash for a controlled before/after: the real
+	// engine's fixed-slot dispatch (simulated exactly as above) against a
+	// plugin's shortened, compiler-generated vtable. This WILL crash the
+	// game -- that's the point.
 	void RunBrokenComparison()
 	{
 		SKSE::log::info("=== broken (pre-MenuEventHandlerEx) comparison starting ===");
