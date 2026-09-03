@@ -678,25 +678,27 @@ namespace RE
 		void                                    SetLooking(float a_angle);  // SetRotationX
 		bool                                    SetSleepOutfit(BGSOutfit* a_outfit, bool a_update3D);
 		bool                                    StartCombat(Actor* a_target, CombatGroup* a_combatGroup = nullptr);
-		void                                    StealAlarm(TESObjectREFR* a_ref, TESForm* a_object, std::int32_t a_num, std::int32_t a_total, TESForm* a_owner, bool a_allowWarning);
-		void                                    StopAlarmOnActor();
-		void                                    StopInteractingQuick(bool a_unk02);
-		void                                    StopMoving(float a_delta);
-		void                                    SwitchRace(TESRace* a_race, bool a_player);
-		void                                    TrespassAlarm(TESObjectREFR* a_ref, TESForm* a_ownership, std::int32_t a_crime);
-		void                                    UpdateArmorAbility(TESForm* a_armor, ExtraDataList* a_extraData);
-		void                                    UpdateAwakeSound(NiAVObject* a_obj3D);
-		void                                    Update3DModel();
-		void                                    UpdateHairColor();
-		[[nodiscard]] bool                      UpdateNavPos(const NiPoint3& a_pos, const NiPoint3& a_new_pos, float a_speed, float a_distance) const;
-		void                                    UpdateRegenDelay(ActorValue a_actorValue, float a_regenDelay);
-		void                                    UpdateSkinColor();
-		void                                    UpdateWeaponAbility(TESForm* a_weapon, ExtraDataList* a_extraData, bool a_leftHand);
-		void                                    VisitArmorAddon(TESObjectARMO* a_armor, TESObjectARMA* a_arma, std::function<void(bool a_firstPerson, NiAVObject& a_obj)> a_visitor);
-		bool                                    VisitFactions(std::function<bool(TESFaction* a_faction, std::int8_t a_rank)> a_visitor);
-		void                                    VisitSpells(ForEachSpellVisitor& a_visitor);
-		[[nodiscard]] std::uint8_t              WhoIsCasting();
-		bool                                    WouldBeStealing(const TESObjectREFR* a_target) const;
+		// Does not check whether resting is currently allowed -- callers must gate that themselves.
+		void                       StartSleeping(std::int32_t a_hours);
+		void                       StealAlarm(TESObjectREFR* a_ref, TESForm* a_object, std::int32_t a_num, std::int32_t a_total, TESForm* a_owner, bool a_allowWarning);
+		void                       StopAlarmOnActor();
+		void                       StopInteractingQuick(bool a_unk02);
+		void                       StopMoving(float a_delta);
+		void                       SwitchRace(TESRace* a_race, bool a_player);
+		void                       TrespassAlarm(TESObjectREFR* a_ref, TESForm* a_ownership, std::int32_t a_crime);
+		void                       UpdateArmorAbility(TESForm* a_armor, ExtraDataList* a_extraData);
+		void                       UpdateAwakeSound(NiAVObject* a_obj3D);
+		void                       Update3DModel();
+		void                       UpdateHairColor();
+		[[nodiscard]] bool         UpdateNavPos(const NiPoint3& a_pos, const NiPoint3& a_new_pos, float a_speed, float a_distance) const;
+		void                       UpdateRegenDelay(ActorValue a_actorValue, float a_regenDelay);
+		void                       UpdateSkinColor();
+		void                       UpdateWeaponAbility(TESForm* a_weapon, ExtraDataList* a_extraData, bool a_leftHand);
+		void                       VisitArmorAddon(TESObjectARMO* a_armor, TESObjectARMA* a_arma, std::function<void(bool a_firstPerson, NiAVObject& a_obj)> a_visitor);
+		bool                       VisitFactions(std::function<bool(TESFaction* a_faction, std::int8_t a_rank)> a_visitor);
+		void                       VisitSpells(ForEachSpellVisitor& a_visitor);
+		[[nodiscard]] std::uint8_t WhoIsCasting();
+		bool                       WouldBeStealing(const TESObjectREFR* a_target) const;
 
 		struct ACTOR_RUNTIME_DATA
 		{

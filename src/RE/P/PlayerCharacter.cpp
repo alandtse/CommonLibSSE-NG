@@ -253,6 +253,13 @@ namespace RE
 		return func(this, a_device);
 	}
 
+	void PlayerCharacter::StartWaiting(std::int32_t a_hours)
+	{
+		using func_t = decltype(&PlayerCharacter::StartWaiting);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39344, 40415) };
+		return func(this, a_hours);
+	}
+
 	void PlayerCharacter::UpdateCrosshairs()
 	{
 		using func_t = decltype(&PlayerCharacter::UpdateCrosshairs);

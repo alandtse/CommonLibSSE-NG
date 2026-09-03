@@ -753,7 +753,9 @@ namespace RE
 		void                                   SetEscaping(bool a_flag, bool a_escaped);
 		void                                   SetGodMode(bool a_enable);
 		void                                   StartGrabObject(VR_DEVICE a_device = VR_DEVICE::kLeftController);
-		void                                   UpdateCrosshairs();
+		// Does not check whether waiting is currently allowed (combat, etc.) -- callers must gate that themselves.
+		void StartWaiting(std::int32_t a_hours);
+		void UpdateCrosshairs();
 		// Per-frame VR comfort-radius Havok collision check; sets/clears playerFlags.vrComfortFadeActive.
 		// Normally casts around the player's head (radius fPlayerComfortRadiusMeters:VRTeleport);
 		// retargets at DialogueMenu::occlusionCheckNode's world position (radius

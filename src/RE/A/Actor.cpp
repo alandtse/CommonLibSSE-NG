@@ -1340,6 +1340,13 @@ namespace RE
 		return func(this, a_target, a_combatGroup);
 	}
 
+	void Actor::StartSleeping(std::int32_t a_hours)
+	{
+		using func_t = decltype(&Actor::StartSleeping);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39343, 40414) };
+		return func(this, a_hours);
+	}
+
 	void Actor::StealAlarm(TESObjectREFR* a_ref, TESForm* a_object, std::int32_t a_num, std::int32_t a_total, TESForm* a_owner, bool a_allowWarning)
 	{
 		using func_t = decltype(&Actor::StealAlarm);
