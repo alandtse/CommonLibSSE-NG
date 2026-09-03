@@ -102,6 +102,13 @@ namespace RE
 		return func(this, a_faction, a_rank);
 	}
 
+	void Actor::AdvanceSleepWaitTick()
+	{
+		using func_t = decltype(&Actor::AdvanceSleepWaitTick);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39410, 40485) };
+		return func(this);
+	}
+
 	void Actor::AllowBleedoutDialogue(bool a_canTalk)
 	{
 		if (a_canTalk) {

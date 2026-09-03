@@ -512,12 +512,15 @@ namespace RE
 		static NiPointer<Actor> LookupByHandle(RefHandle a_refHandle);
 		static bool             LookupByHandle(RefHandle a_refHandle, NiPointer<Actor>& a_refrOut);
 
-		bool                             AddAnimationGraphEventSink(BSTEventSink<BSAnimationGraphEvent>* a_sink) const;
-		void                             AddCastPower(SpellItem* a_power);
-		void                             AddDeathItems();
-		bool                             AddSpell(SpellItem* a_spell);
-		void                             AddToFaction(TESFaction* a_faction, std::int8_t a_rank);
-		void                             AddWornOutfit(BGSOutfit* a_outfit, bool a_forceUpdate);
+		bool AddAnimationGraphEventSink(BSTEventSink<BSAnimationGraphEvent>* a_sink) const;
+		void AddCastPower(SpellItem* a_power);
+		void AddDeathItems();
+		bool AddSpell(SpellItem* a_spell);
+		void AddToFaction(TESFaction* a_faction, std::int8_t a_rank);
+		void AddWornOutfit(BGSOutfit* a_outfit, bool a_forceUpdate);
+		// Decrements sleepSeconds by the iSecondsToSleepPerUpdate GMST, finishing the wait/sleep once
+		// exhausted; call it in a loop to fast-forward one without going through SleepWaitMenu at all.
+		void                             AdvanceSleepWaitTick();
 		void                             AllowBleedoutDialogue(bool a_canTalk);
 		void                             AllowPCDialogue(bool a_talk);
 		void                             CastPermanentMagic(bool a_wornItemEnchantments, bool a_baseSpells, bool a_raceSpells, bool a_everyActorAbility);
