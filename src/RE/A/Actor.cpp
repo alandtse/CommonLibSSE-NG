@@ -189,6 +189,13 @@ namespace RE
 		return _race->AllowsPickpocket() && !IsPlayerTeammate();
 	}
 
+	bool Actor::CanSleepWait(TESObjectREFR* a_bed) const
+	{
+		using func_t = decltype(&Actor::CanSleepWait);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39371, 40443) };
+		return func(this, a_bed);
+	}
+
 	bool Actor::CanTalkToPlayer() const
 	{
 		auto xTalk = extraList.GetByType<ExtraCanTalkToPlayer>();
