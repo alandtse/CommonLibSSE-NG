@@ -1,5 +1,8 @@
 #include <spdlog/sinks/basic_file_sink.h>
 
+#include <utility>
+#include <vector>
+
 // Live-verification harness for RE::detail::VtableShimBase-style adapters
 // (currently: RE::MenuEventHandlerEx). See README.md for what this is and
 // why it exists outside the normal `tests/` Catch2 suite.
@@ -100,6 +103,21 @@ namespace
 		return 5;
 	}
 
+	// Every other real slot patched by MenuEventHandlerEx on this runtime,
+	// none of which TestHandler overrides -- these fall through to
+	// MenuEventHandlerEx's own default `{ return false; }` bodies. Not
+	// exercising these leaves a real gap: logging that a slot's owning
+	// module is "PLUGIN" only proves it was patched, not that calling
+	// through it actually reaches a working default instead of crashing.
+	std::vector<std::pair<const char*, int>> RealNonButtonSlots()
+	{
+		if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+			return { { "ProcessMotionGesture", 2 }, { "ProcessSixaxis", 3 }, { "ProcessKinect", 4 },
+				{ "ProcessThumbstick", 5 }, { "ProcessMouseMove", 6 } };
+		}
+		return { { "ProcessKinect", 2 }, { "ProcessThumbstick", 3 }, { "ProcessMouseMove", 4 } };
+	}
+
 	void RunSelfTest()
 	{
 		SKSE::log::info("=== MenuEventHandlerEx live self-test starting ===");
@@ -116,7 +134,8 @@ namespace
 		SKSE::log::info("game module = {:x}, plugin module = {:x}",
 			reinterpret_cast<std::uintptr_t>(gameModule), reinterpret_cast<std::uintptr_t>(pluginModule));
 
-		for (int i = 0; i < 6; ++i) {
+		int realSlotCount = REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99) ? 8 : 6;
+		for (int i = 0; i < realSlotCount; ++i) {
 			void*       slot = vtbl[i];
 			HMODULE     owner = ModuleOf(slot);
 			const char* which = owner == gameModule ? "GAME" : (owner == pluginModule ? "PLUGIN" : "UNKNOWN");
@@ -138,10 +157,37 @@ namespace
 		bool typedButtonResult = h->ProcessButton(nullptr);
 		SKSE::log::info("typed h->ProcessButton(nullptr) = {}", typedButtonResult);
 
+		// Slots TestHandler does NOT override: must fall through to
+		// MenuEventHandlerEx's own default `{ return false; }` bodies rather
+		// than crash or return garbage.
+		bool nonButtonOk = true;
+		using RawFn2 = bool (*)(void*, void*);
+		for (auto [name, slot] : RealNonButtonSlots()) {
+			auto rawFn = reinterpret_cast<RawFn2>(vtbl[slot]);
+			bool result = rawFn(h, nullptr);
+			SKSE::log::info("raw vtbl[{}] ({}, unoverridden) = {}", slot, name, result);
+			nonButtonOk = nonButtonOk && !result;
+		}
+		bool typedKinect = h->ProcessKinect(nullptr);
+		bool typedThumbstick = h->ProcessThumbstick(nullptr);
+		bool typedMouseMove = h->ProcessMouseMove(nullptr);
+		SKSE::log::info("typed h->ProcessKinect/Thumbstick/MouseMove(nullptr) = {}/{}/{}",
+			typedKinect, typedThumbstick, typedMouseMove);
+		nonButtonOk = nonButtonOk && !typedKinect && !typedThumbstick && !typedMouseMove;
+#ifdef ENABLE_SKYRIM_AE
+		if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+			bool typedMotionGesture = h->ProcessMotionGesture(nullptr);
+			bool typedSixaxis = h->ProcessSixaxis(nullptr);
+			SKSE::log::info("typed h->ProcessMotionGesture/ProcessSixaxis(nullptr) = {}/{}",
+				typedMotionGesture, typedSixaxis);
+			nonButtonOk = nonButtonOk && !typedMotionGesture && !typedSixaxis;
+		}
+#endif
+
 		const auto& ti = typeid(*h);
 		SKSE::log::info("typeid(*h).name() = {}", ti.name());
 
-		bool pass = handler.sawCanProcess && handler.sawProcessButton && typedCanProcess && rawResult;
+		bool pass = handler.sawCanProcess && handler.sawProcessButton && typedCanProcess && rawResult && nonButtonOk;
 		SKSE::log::info("=== MenuEventHandlerEx live self-test {} ===", pass ? "PASSED" : "FAILED");
 	}
 
