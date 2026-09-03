@@ -17,12 +17,10 @@
 
 namespace RE::detail
 {
-	// Builds a real interface's vtable itself, at runtime, instead of asking the compiler
-	// to emit one -- needed when a plugin derives from an RE:: interface whose real slot
-	// layout genuinely differs by runtime, so no single compile-time C++ vtable can be
-	// correct for every runtime a build targets. The Complete Object Locator is copied
-	// verbatim from the real interface (safe here: offset-to-top == 0, verified per
-	// runtime), so dynamic_cast/typeid still behave like a genuine engine object.
+	// Synthesizes a real interface's vtable at runtime rather than relying on a
+	// compiler-generated one, since no single compile-time layout is valid across every
+	// runtime a build targets here. The Complete Object Locator is copied verbatim from the
+	// real interface: safe only because its offset-to-top is 0 on every runtime checked.
 	//
 	// ShimLayout must be a POD struct byte-identical to the real interface's own object
 	// layout up to sizeof(ShimLayout), with the vtable pointer as its first member.
@@ -82,15 +80,6 @@ namespace RE::detail
 
 namespace RE
 {
-	// Plugin-facing replacement for deriving directly from RE::MenuEventHandler. See
-	// RE::detail::VtableShimBase for why direct derivation is no longer safe on a build
-	// that spans AE 1.7.99 or VR.
-	//
-	// Migration from `class MyHandler : public RE::MenuEventHandler`:
-	//   - base class -> `class MyHandler : public RE::MenuEventHandlerEx`
-	//   - every `override` stays exactly as written
-	//   - `MenuControls::GetSingleton()->RegisterHandler(this)` ->
-	//     `RegisterHandler(Handler())`  (same for RemoveHandler)
 	class MenuEventHandlerEx : public detail::VtableShimBase<detail::MenuEventHandlerShim, 9>
 	{
 	private:
