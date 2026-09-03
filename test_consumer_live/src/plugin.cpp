@@ -173,12 +173,16 @@ namespace
 		using RawFn = bool (*)(void*, RE::ButtonEvent*);
 		auto rawSlotFn = reinterpret_cast<RawFn>(vtbl[buttonSlot]);
 		bool rawResult = rawSlotFn(h, nullptr);
+		bool sawRawProcessButton = handler.sawProcessButton;
 		SKSE::log::info(
 			"raw vtbl[{}](h, nullptr) [simulating real engine dispatch] = {}, sawProcessButton = {}",
-			buttonSlot, rawResult, handler.sawProcessButton);
+			buttonSlot, rawResult, sawRawProcessButton);
 
+		handler.sawProcessButton = false;
 		bool typedButtonResult = h->ProcessButton(nullptr);
-		SKSE::log::info("typed h->ProcessButton(nullptr) = {}", typedButtonResult);
+		bool sawTypedProcessButton = handler.sawProcessButton;
+		SKSE::log::info("typed h->ProcessButton(nullptr) = {}, sawProcessButton = {}",
+			typedButtonResult, sawTypedProcessButton);
 
 		// Slots TestHandler does NOT override: must fall through to
 		// MenuEventHandlerEx's own default `{ return false; }` bodies rather
@@ -217,7 +221,8 @@ namespace
 		const auto& ti = typeid(*h);
 		SKSE::log::info("typeid(*h).name() = {}", ti.name());
 
-		bool pass = handler.sawCanProcess && handler.sawProcessButton && typedCanProcess && rawResult && nonButtonOk;
+		bool pass = handler.sawCanProcess && typedCanProcess && rawResult && sawRawProcessButton &&
+		            typedButtonResult && sawTypedProcessButton && nonButtonOk;
 		SKSE::log::info("=== MenuEventHandlerEx live self-test {} ===", pass ? "PASSED" : "FAILED");
 	}
 
