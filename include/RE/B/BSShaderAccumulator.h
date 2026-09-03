@@ -31,9 +31,9 @@ namespace RE
 			kSEEndFirstPersonView = 0x18,
 			kAEResetQueuedShadowPassList = 0x18,
 			kVRWorldSpaceUIPass = 0x18,
-			kVolumetricLightingPass = 0x19,  // SE/AE; shared with kOcclusion's handler
-			kVREndFirstPersonView = 0x19,    // VR: kSEEndFirstPersonView's behavior sits here instead
-			kOcclusion = 0x1A,               // SE/AE; VR shares this slot with 0x1B under a different handler
+			kVolumetricLightingPass = 0x19,    // SE/AE; shared with kOcclusion's handler
+			kVREndFirstPersonView = 0x19,      // VR: kSEEndFirstPersonView's behavior sits here instead
+			kOcclusion = 0x1A,                 // SE/AE; VR shares this slot with 0x1B under a different handler
 			kPrecipitationOcclusionMap = 0x1C  // SE/AE only -- VR has no handler at this slot
 		};
 
