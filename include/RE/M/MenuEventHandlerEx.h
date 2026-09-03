@@ -157,35 +157,37 @@ namespace RE
 		}
 		static bool T_ProcessVrWandTouchpadPosition(detail::MenuEventHandlerShim* a_self, VrWandTouchpadPositionEvent* a_event) { return Owner(a_self)->ProcessVrWandTouchpadPosition(a_event); }
 
-		// Per-runtime slot layout, matching RE/M/MenuEventHandler.h's own three-way split.
+		// Real per-runtime slot layout, matching RE/M/MenuEventHandler.h's own numbering
+		// exactly (a_table[k] is real vtable slot k -- slot 0 is the destructor, left as
+		// the copied real default; slot 1 is always CanProcess, pure in the real class).
 		static void Patch(const void** a_table)
 		{
-			a_table[0] = reinterpret_cast<const void*>(&T_CanProcess);
+			a_table[1] = reinterpret_cast<const void*>(&T_CanProcess);
 			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
-				a_table[1] = reinterpret_cast<const void*>(&T_ProcessVrWandTouchpadSwipe);
-				a_table[2] = reinterpret_cast<const void*>(&T_ProcessVrWandTouchpadPosition);
-				// slot 3 (Unk_04) intentionally left as the real default -- not routed by
+				a_table[2] = reinterpret_cast<const void*>(&T_ProcessVrWandTouchpadSwipe);
+				a_table[3] = reinterpret_cast<const void*>(&T_ProcessVrWandTouchpadPosition);
+				// slot 4 (Unk_04) intentionally left as the real default -- not routed by
 				// MenuControls, not exposed as an override point.
+				a_table[5] = reinterpret_cast<const void*>(&T_ProcessKinect);
+				a_table[6] = reinterpret_cast<const void*>(&T_ProcessThumbstick);
+				a_table[7] = reinterpret_cast<const void*>(&T_ProcessMouseMove);
+				a_table[8] = reinterpret_cast<const void*>(&T_ProcessButton);
+			}
+#ifdef ENABLE_SKYRIM_AE
+			else if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
+				a_table[2] = reinterpret_cast<const void*>(&T_ProcessMotionGesture);
+				a_table[3] = reinterpret_cast<const void*>(&T_ProcessSixaxis);
 				a_table[4] = reinterpret_cast<const void*>(&T_ProcessKinect);
 				a_table[5] = reinterpret_cast<const void*>(&T_ProcessThumbstick);
 				a_table[6] = reinterpret_cast<const void*>(&T_ProcessMouseMove);
 				a_table[7] = reinterpret_cast<const void*>(&T_ProcessButton);
 			}
-#ifdef ENABLE_SKYRIM_AE
-			else if (REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_7_99)) {
-				a_table[1] = reinterpret_cast<const void*>(&T_ProcessMotionGesture);
-				a_table[2] = reinterpret_cast<const void*>(&T_ProcessSixaxis);
-				a_table[3] = reinterpret_cast<const void*>(&T_ProcessKinect);
-				a_table[4] = reinterpret_cast<const void*>(&T_ProcessThumbstick);
-				a_table[5] = reinterpret_cast<const void*>(&T_ProcessMouseMove);
-				a_table[6] = reinterpret_cast<const void*>(&T_ProcessButton);
-			}
 #endif
 			else {
-				a_table[1] = reinterpret_cast<const void*>(&T_ProcessKinect);
-				a_table[2] = reinterpret_cast<const void*>(&T_ProcessThumbstick);
-				a_table[3] = reinterpret_cast<const void*>(&T_ProcessMouseMove);
-				a_table[4] = reinterpret_cast<const void*>(&T_ProcessButton);
+				a_table[2] = reinterpret_cast<const void*>(&T_ProcessKinect);
+				a_table[3] = reinterpret_cast<const void*>(&T_ProcessThumbstick);
+				a_table[4] = reinterpret_cast<const void*>(&T_ProcessMouseMove);
+				a_table[5] = reinterpret_cast<const void*>(&T_ProcessButton);
 			}
 		}
 
