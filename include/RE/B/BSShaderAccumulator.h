@@ -168,11 +168,13 @@ namespace RE
 	void*            unk188;                   /* 188 */          \
 	std::uint32_t    unk190;                   /* 190 */          \
 	NiPoint3         eyePosition;              /* 194 */          \
-	std::uint8_t     unk1A0[0x8];              /* 1A0 */
+	std::uint8_t     unk1A0[0x10];             /* 1A0 */
 
 			VR_RUNTIME_DATA_CONTENT
 		};
-		static_assert(sizeof(VR_RUNTIME_DATA) == 0x150);
+		// 0x158, matching the previously-established total object size (0x1B0 below) --
+		// not re-derived from this session's field mapping alone.
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x158);
 		static_assert(offsetof(VR_RUNTIME_DATA, sunOcclusionTests) == 0x70 - 0x58);
 		static_assert(offsetof(VR_RUNTIME_DATA, silhouetteColor) == 0x118 - 0x58);
 		static_assert(offsetof(VR_RUNTIME_DATA, firstPerson) == 0x128 - 0x58);
