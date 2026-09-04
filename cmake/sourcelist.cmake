@@ -1749,7 +1749,6 @@ set(SOURCES
 	include/RE/S/SettingCollectionMap.h
 	include/RE/S/SettingT.h
 	include/RE/S/Sexes.h
-	include/RE/S/ShaderAccumulator.h
 	include/RE/S/ShaderReferenceEffect.h
 	include/RE/S/ShadowSceneNode.h
 	include/RE/S/ShoutAttack.h

@@ -2,6 +2,7 @@
 
 #include "RE/N/NiAlphaAccumulator.h"
 #include "RE/N/NiColor.h"
+#include "REL/RuntimeDataAccessors.h"
 #include "REX/REX/EnumSet.h"
 
 namespace RE
@@ -51,6 +52,13 @@ namespace RE
 		inline static constexpr auto Ni_RTTI = NiRTTI_BSShaderAccumulator;
 		inline static constexpr auto VTABLE = VTABLE_BSShaderAccumulator;
 
+		[[nodiscard]] static BSShaderAccumulator* GetCurrentAccumulator()
+		{
+			using func_t = decltype(&GetCurrentAccumulator);
+			static REL::Relocation<func_t> func{ REL::RelocationID(98997, 105651) };
+			return func();
+		}
+
 		~BSShaderAccumulator() override = default;  // 00
 
 		// override (NiObject)
@@ -63,9 +71,13 @@ namespace RE
 		void                            StopGroupingAlphas(BSBatchRenderer::GeometryGroup* a_group) override;  // 29
 
 		// add
-		virtual void FinishAccumulatingPreResolveDepth(std::uint32_t flags);   // 2A
+		// Dispatches to one of ~30 renderMode-indexed handlers via the finishModeTable --
+		// see BSShaderAccumulator::InitFinishModeTable and RENDER_MODE above.
+		virtual void FinishAccumulatingDispatch(std::uint32_t RenderFlags);    // 2A
 		virtual void FinishAccumulatingPostResolveDepth(std::uint32_t flags);  // 2B
-		virtual void FinishAccumulatingSunGlint() = 0;                         // 2C
+		// No-op on SE/AE/VR (verified: bare `return`) -- not pure virtual, the class is
+		// instantiated directly (real objects, not a base for further derivation).
+		virtual void FinishAccumulatingSunGlint();  // 2C
 
 		struct RUNTIME_DATA
 		{
@@ -114,14 +126,64 @@ namespace RE
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x128);
 
+		// Fields through unk12E match RUNTIME_DATA exactly (unshifted on VR); the
+		// insertion below is VR-only and still-unidentified, not verified content.
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT \
-	std::uint64_t unk58[0x2B];  // 58
+#define VR_RUNTIME_DATA_CONTENT                                   \
+	std::uint8_t     unk58[0x4];               /* 58 */           \
+	bool             unk5C;                    /* 5C */           \
+	std::uint32_t    sunPixelCount;            /* 60 */           \
+	bool             waitingForSunQuery;       /* 64 */           \
+	float            percentSunOccludedStored; /* 68 */           \
+	std::uint8_t     pad6C[0x4];               /* 6C */           \
+	SunOcclusionTest sunOcclusionTests[3];     /* 70 */           \
+	bool             unkB8;                    /* B8 */           \
+	bool             unkB9;                    /* B9 */           \
+	bool             unkBA;                    /* BA */           \
+	std::uint8_t     padBB[0x5];               /* BB */           \
+	std::uint8_t     unkC0[0x10];              /* C0 */           \
+	std::uint8_t     fadeNodeMap[0x20];        /* D0 */           \
+	std::uint8_t     unkF0[0x10];              /* F0 */           \
+	void*            unk100;                   /* 100 */          \
+	void*            unk108;                   /* 108 */          \
+	std::uint32_t    unk110;                   /* 110 */          \
+	bool             unk114;                   /* 114 */          \
+	NiColorA         silhouetteColor;          /* 118 */          \
+	bool             firstPerson;              /* 128 */          \
+	bool             unk129;                   /* 129 */          \
+	bool             unk12A;                   /* 12A */          \
+	bool             unk12B;                   /* 12B */          \
+	bool             drawDecals;               /* 12C */          \
+	bool             unk12D;                   /* 12D */          \
+	bool             unk12E;                   /* 12E */          \
+	std::uint8_t     unk12F[0x158 - 0x12F];    /* 12F, VR only */ \
+	BSBatchRenderer* batchRenderer;            /* 158 */          \
+	std::uint32_t    currentPass;              /* 160 */          \
+	std::uint32_t    currentBucket;            /* 164 */          \
+	bool             currentActive;            /* 168 */          \
+	std::uint8_t     pad169[0x7];              /* 169 */          \
+	ShadowSceneNode* activeShadowSceneNode;    /* 170 */          \
+	RENDER_MODE      renderMode;               /* 178 */          \
+	std::uint8_t     pad17c[0x4];              /* 17C */          \
+	void*            unk180;                   /* 180 */          \
+	void*            unk188;                   /* 188 */          \
+	std::uint32_t    unk190;                   /* 190 */          \
+	NiPoint3         eyePosition;              /* 194 */          \
+	std::uint8_t     unk1A0[0x10];             /* 1A0 */
 
 			VR_RUNTIME_DATA_CONTENT
 		};
+		// 0x158, matching the previously-established total object size (0x1B0 below) --
+		// not re-derived from this session's field mapping alone.
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x158);
+		static_assert(offsetof(VR_RUNTIME_DATA, sunOcclusionTests) == 0x70 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, silhouetteColor) == 0x118 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, firstPerson) == 0x128 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, drawDecals) == 0x12C - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, batchRenderer) == 0x158 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, renderMode) == 0x178 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, eyePosition) == 0x194 - 0x58);
 
 		[[nodiscard]] inline RUNTIME_DATA* GetRuntimeData() noexcept
 		{
@@ -173,7 +235,45 @@ namespace RE
 #else
 	static_assert(sizeof(BSShaderAccumulator) == 0x58);
 #endif
+#undef RUNTIME_DATA_CONTENT
+
+	namespace BSGraphics
+	{
+		// Same native class as RE::BSShaderAccumulator; kept only for its
+		// runtime-agnostic GetRuntimeData() (no IsVR() branch needed at the call site).
+		// see https://github.com/Nukem9/SkyrimSETest/blob/master/skyrim64_test/src/patches/TES/BSShader/BSShaderAccumulator.h
+		class BSShaderAccumulator : public RE::BSShaderAccumulator
+		{
+		public:
+			struct RUNTIME_DATA
+			{
+#define RUNTIME_DATA_CONTENT                                    \
+	BSBatchRenderer*                     batchRenderer;         \
+	std::uint32_t                        currentPass;           \
+	std::uint32_t                        currentBucket;         \
+	bool                                 currentActive;         \
+	std::uint8_t                         pad0[0x7];             \
+	ShadowSceneNode*                     activeShadowSceneNode; \
+	RE::BSShaderAccumulator::RENDER_MODE renderMode;            \
+	std::uint8_t                         pad1[0x18];            \
+	NiPoint3                             eyePosition;           \
+	std::uint8_t                         pad2[0x8];
+
+				RUNTIME_DATA_CONTENT
+			};
+			static_assert(sizeof(RUNTIME_DATA) == 0x50);
+			static_assert(offsetof(RUNTIME_DATA, batchRenderer) == 0);
+			static_assert(offsetof(RUNTIME_DATA, activeShadowSceneNode) == 0x18);
+
+			RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x130, 0x158);
+
+			// firstPerson/drawDecals/batchRenderer/etc. need no redeclaration here in a
+			// single-runtime build: RE::BSShaderAccumulator's own RUNTIME_DATA_CONTENT
+			// splice already gives real, correctly-offset raw members via inheritance
+			// (a duplicate declaration on top of that base previously broke the offsets).
+		};
+#undef RUNTIME_DATA_CONTENT
+	}
 }
 
-#undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT
