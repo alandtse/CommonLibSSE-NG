@@ -267,42 +267,11 @@ namespace RE
 
 			RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x130, 0x158);
 
-			// members -- only declarable as raw fields in a single-runtime build (a
-			// cross-VR binary can't statically pick one offset for the tail, hence
-			// RUNTIME_DATA_ACCESSOR above); use that accessor in cross-VR code instead.
-			std::uint8_t pad1[0xD0];
-			bool         firstPerson;  // 128
-			std::uint8_t pad0[0x3];
-			bool         drawDecals;  // 12C
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-			RUNTIME_DATA_CONTENT;  // 130
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-			std::uint64_t unk000[(0x158 - 0x130) >> 3];  // 130
-			RUNTIME_DATA_CONTENT;                        // 158
-#endif
+			// firstPerson/drawDecals/batchRenderer/etc. need no redeclaration here in a
+			// single-runtime build: RE::BSShaderAccumulator's own RUNTIME_DATA_CONTENT
+			// splice already gives real, correctly-offset raw members via inheritance
+			// (a duplicate declaration on top of that base previously broke the offsets).
 		};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-		static_assert(sizeof(BSShaderAccumulator) == 0x180);
-		static_assert(offsetof(BSShaderAccumulator, batchRenderer) == 0x130);
-		static_assert(offsetof(BSShaderAccumulator, currentPass) == 0x138);
-		static_assert(offsetof(BSShaderAccumulator, currentBucket) == 0x13C);
-		static_assert(offsetof(BSShaderAccumulator, currentActive) == 0x140);
-		static_assert(offsetof(BSShaderAccumulator, activeShadowSceneNode) == 0x148);
-		static_assert(offsetof(BSShaderAccumulator, renderMode) == 0x150);
-		static_assert(offsetof(BSShaderAccumulator, eyePosition) == 0x16C);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-		static_assert(offsetof(BSShaderAccumulator, batchRenderer) == 0x158);
-		static_assert(offsetof(BSShaderAccumulator, currentPass) == 0x160);
-		static_assert(offsetof(BSShaderAccumulator, currentBucket) == 0x164);
-		static_assert(offsetof(BSShaderAccumulator, currentActive) == 0x168);
-		static_assert(offsetof(BSShaderAccumulator, activeShadowSceneNode) == 0x170);
-		static_assert(offsetof(BSShaderAccumulator, renderMode) == 0x178);
-		static_assert(offsetof(BSShaderAccumulator, eyePosition) == 0x194);
-#else
-		static_assert(sizeof(BSShaderAccumulator) == 0x130);
-		static_assert(offsetof(BSShaderAccumulator, firstPerson) == 0x128);
-		static_assert(offsetof(BSShaderAccumulator, drawDecals) == 0x12C);
-#endif
 #undef RUNTIME_DATA_CONTENT
 	}
 }
