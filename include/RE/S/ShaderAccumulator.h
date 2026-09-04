@@ -20,17 +20,17 @@ namespace RE
 		public:
 			struct RUNTIME_DATA
 			{
-#define RUNTIME_DATA_CONTENT                                        \
-	BSBatchRenderer*                        batchRenderer;          \
-	std::uint32_t                           currentPass;            \
-	std::uint32_t                           currentBucket;          \
-	bool                                    currentActive;          \
-	std::uint8_t                            pad0[0x7];              \
-	ShadowSceneNode*                        activeShadowSceneNode;  \
-	RE::BSShaderAccumulator::RENDER_MODE    renderMode;             \
-	std::uint8_t                            pad1[0x18];             \
-	NiPoint3                                eyePosition;            \
-	std::uint8_t                            pad2[0x8];
+#define RUNTIME_DATA_CONTENT                                    \
+	BSBatchRenderer*                     batchRenderer;         \
+	std::uint32_t                        currentPass;           \
+	std::uint32_t                        currentBucket;         \
+	bool                                 currentActive;         \
+	std::uint8_t                         pad0[0x7];             \
+	ShadowSceneNode*                     activeShadowSceneNode; \
+	RE::BSShaderAccumulator::RENDER_MODE renderMode;            \
+	std::uint8_t                         pad1[0x18];            \
+	NiPoint3                             eyePosition;           \
+	std::uint8_t                         pad2[0x8];
 
 				RUNTIME_DATA_CONTENT
 			};

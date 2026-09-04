@@ -72,7 +72,7 @@ namespace RE
 		// add
 		// Dispatches to one of ~30 renderMode-indexed handlers via the finishModeTable --
 		// see BSShaderAccumulator::InitFinishModeTable and RENDER_MODE above.
-		virtual void FinishAccumulatingDispatch(std::uint32_t RenderFlags);     // 2A
+		virtual void FinishAccumulatingDispatch(std::uint32_t RenderFlags);    // 2A
 		virtual void FinishAccumulatingPostResolveDepth(std::uint32_t flags);  // 2B
 		virtual void FinishAccumulatingSunGlint() = 0;                         // 2C
 
@@ -130,46 +130,46 @@ namespace RE
 		// would otherwise sit.
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                  \
-	std::uint8_t     unk58[0x4];               /* 58 */          \
-	bool             unk5C;                    /* 5C */          \
-	std::uint32_t    sunPixelCount;            /* 60 */          \
-	bool             waitingForSunQuery;       /* 64 */          \
-	float            percentSunOccludedStored; /* 68 */          \
-	std::uint8_t     pad6C[0x4];               /* 6C */          \
-	SunOcclusionTest sunOcclusionTests[3];     /* 70 */          \
-	bool             unkB8;                    /* B8 */          \
-	bool             unkB9;                    /* B9 */          \
-	bool             unkBA;                    /* BA */          \
-	std::uint8_t     padBB[0x5];               /* BB */          \
-	std::uint8_t     unkC0[0x10];              /* C0 */          \
-	std::uint8_t     fadeNodeMap[0x20];        /* D0 */          \
-	std::uint8_t     unkF0[0x10];              /* F0 */          \
-	void*            unk100;                   /* 100 */         \
-	void*            unk108;                   /* 108 */         \
-	std::uint32_t    unk110;                   /* 110 */         \
-	bool             unk114;                   /* 114 */         \
-	NiColorA         silhouetteColor;          /* 118 */         \
-	bool             firstPerson;              /* 128 */         \
-	bool             unk129;                   /* 129 */         \
-	bool             unk12A;                   /* 12A */         \
-	bool             unk12B;                   /* 12B */         \
-	bool             drawDecals;               /* 12C */         \
-	bool             unk12D;                   /* 12D */         \
-	bool             unk12E;                   /* 12E */         \
+#define VR_RUNTIME_DATA_CONTENT                                   \
+	std::uint8_t     unk58[0x4];               /* 58 */           \
+	bool             unk5C;                    /* 5C */           \
+	std::uint32_t    sunPixelCount;            /* 60 */           \
+	bool             waitingForSunQuery;       /* 64 */           \
+	float            percentSunOccludedStored; /* 68 */           \
+	std::uint8_t     pad6C[0x4];               /* 6C */           \
+	SunOcclusionTest sunOcclusionTests[3];     /* 70 */           \
+	bool             unkB8;                    /* B8 */           \
+	bool             unkB9;                    /* B9 */           \
+	bool             unkBA;                    /* BA */           \
+	std::uint8_t     padBB[0x5];               /* BB */           \
+	std::uint8_t     unkC0[0x10];              /* C0 */           \
+	std::uint8_t     fadeNodeMap[0x20];        /* D0 */           \
+	std::uint8_t     unkF0[0x10];              /* F0 */           \
+	void*            unk100;                   /* 100 */          \
+	void*            unk108;                   /* 108 */          \
+	std::uint32_t    unk110;                   /* 110 */          \
+	bool             unk114;                   /* 114 */          \
+	NiColorA         silhouetteColor;          /* 118 */          \
+	bool             firstPerson;              /* 128 */          \
+	bool             unk129;                   /* 129 */          \
+	bool             unk12A;                   /* 12A */          \
+	bool             unk12B;                   /* 12B */          \
+	bool             drawDecals;               /* 12C */          \
+	bool             unk12D;                   /* 12D */          \
+	bool             unk12E;                   /* 12E */          \
 	std::uint8_t     unk12F[0x158 - 0x12F];    /* 12F, VR only */ \
-	BSBatchRenderer* batchRenderer;            /* 158 */         \
-	std::uint32_t    currentPass;              /* 160 */         \
-	std::uint32_t    currentBucket;            /* 164 */         \
-	bool             currentActive;            /* 168 */         \
-	std::uint8_t     pad169[0x7];              /* 169 */         \
-	ShadowSceneNode* activeShadowSceneNode;    /* 170 */         \
-	RENDER_MODE      renderMode;               /* 178 */         \
-	std::uint8_t     pad17c[0x4];              /* 17C */         \
-	void*            unk180;                   /* 180 */         \
-	void*            unk188;                   /* 188 */         \
-	std::uint32_t    unk190;                   /* 190 */         \
-	NiPoint3         eyePosition;              /* 194 */         \
+	BSBatchRenderer* batchRenderer;            /* 158 */          \
+	std::uint32_t    currentPass;              /* 160 */          \
+	std::uint32_t    currentBucket;            /* 164 */          \
+	bool             currentActive;            /* 168 */          \
+	std::uint8_t     pad169[0x7];              /* 169 */          \
+	ShadowSceneNode* activeShadowSceneNode;    /* 170 */          \
+	RENDER_MODE      renderMode;               /* 178 */          \
+	std::uint8_t     pad17c[0x4];              /* 17C */          \
+	void*            unk180;                   /* 180 */          \
+	void*            unk188;                   /* 188 */          \
+	std::uint32_t    unk190;                   /* 190 */          \
+	NiPoint3         eyePosition;              /* 194 */          \
 	std::uint8_t     unk1A0[0x8];              /* 1A0 */
 
 			VR_RUNTIME_DATA_CONTENT
