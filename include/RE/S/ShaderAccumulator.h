@@ -3,18 +3,13 @@
 #include "RE/B/BSShaderAccumulator.h"
 #include "REL/RuntimeDataAccessors.h"
 
+// see https://github.com/Nukem9/SkyrimSETest/blob/master/skyrim64_test/src/patches/TES/BSShader/BSShaderAccumulator.h
 namespace RE
 {
 	namespace BSGraphics
 	{
-		// Same native class as RE::BSShaderAccumulator (identical RTTI and full field
-		// layout, confirmed via Ghidra RE cross-checking SE against VR) -- this was an
-		// independent, incompletely-RE'd duplicate declaration. Kept as a thin, layout-
-		// compatible subclass (no added members/virtuals) purely to preserve its one
-		// piece of RE that canonical doesn't otherwise expose as ergonomically: a single
-		// GetRuntimeData() usable on any runtime without an IsVR() branch at the call
-		// site, unlike canonical's split GetRuntimeData()/GetVRRuntimeData() pair.
-		// RE::BSShaderAccumulator is the canonical declaration to extend going forward.
+		// Same native class as RE::BSShaderAccumulator; kept only for its
+		// runtime-agnostic GetRuntimeData() (no IsVR() branch needed at the call site).
 		class BSShaderAccumulator : public RE::BSShaderAccumulator
 		{
 		public:

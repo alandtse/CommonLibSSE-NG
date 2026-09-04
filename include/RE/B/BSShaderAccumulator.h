@@ -123,11 +123,8 @@ namespace RE
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x128);
 
-		// Identical to RUNTIME_DATA up through unk12E -- confirmed via Ghidra RE cross-checking
-		// SkyrimSE.exe against SkyrimVR.exe's BSShaderAccumulator::ClearSunOcclusionTests: none
-		// of those fields shift on VR. Only batchRenderer onward is offset, by a VR-only 0x28-byte
-		// insertion (content unidentified) right where flat's alignment padding to batchRenderer
-		// would otherwise sit.
+		// Fields through unk12E match RUNTIME_DATA exactly (unshifted on VR); the
+		// insertion below is VR-only and still-unidentified, not verified content.
 		struct VR_RUNTIME_DATA
 		{
 #define VR_RUNTIME_DATA_CONTENT                                   \
