@@ -75,7 +75,9 @@ namespace RE
 		// see BSShaderAccumulator::InitFinishModeTable and RENDER_MODE above.
 		virtual void FinishAccumulatingDispatch(std::uint32_t RenderFlags);    // 2A
 		virtual void FinishAccumulatingPostResolveDepth(std::uint32_t flags);  // 2B
-		virtual void FinishAccumulatingSunGlint() = 0;                         // 2C
+		// No-op on SE/AE/VR (verified: bare `return`) -- not pure virtual, the class is
+		// instantiated directly (real objects, not a base for further derivation).
+		virtual void FinishAccumulatingSunGlint();  // 2C
 
 		struct RUNTIME_DATA
 		{
