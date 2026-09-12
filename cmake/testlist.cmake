@@ -1,6 +1,7 @@
 set(TESTS
     tests/Main.cpp
     tests/RE/A/ActorValues.test.cpp
+    tests/RE/B/BSShaderAccumulator.test.cpp
     tests/RE/B/BSInputEventQueue.test.cpp
     tests/RE/F/FormTypes.test.cpp
     tests/RE/I/InventoryChanges.test.cpp

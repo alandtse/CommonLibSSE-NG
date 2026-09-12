@@ -2,6 +2,7 @@
 
 #include "RE/N/NiAlphaAccumulator.h"
 #include "RE/N/NiColor.h"
+#include "REL/RuntimeDataAccessors.h"
 #include "REX/REX/EnumSet.h"
 
 namespace RE
@@ -68,13 +69,17 @@ namespace RE
 		void                            StopGroupingAlphas(BSBatchRenderer::GeometryGroup* a_group) override;  // 29
 
 		// add
-		virtual void FinishAccumulatingPreResolveDepth(std::uint32_t flags);   // 2A
+		virtual void FinishAccumulatingDispatch(std::uint32_t flags);          // 2A -- table dispatch on renderMode, not a fixed body
 		virtual void FinishAccumulatingPostResolveDepth(std::uint32_t flags);  // 2B
-		virtual void FinishAccumulatingSunGlint() = 0;                         // 2C
+		virtual void FinishAccumulatingSunGlint();                             // 2C -- no-op on SE/AE/VR (verified: bare `return`)
 
-		struct RUNTIME_DATA
+		static constexpr std::ptrdiff_t kFlagsOffset = 0x128;
+		static constexpr std::ptrdiff_t kRuntimeDataSE = 0x130;
+		static constexpr std::ptrdiff_t kRuntimeDataVR = 0x158;
+
+		struct FLAT_RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                                                                                                   \
+#define FLAT_RUNTIME_DATA_CONTENT                                                                                                              \
 	std::uint8_t     unk58[0x4];               /* 58 */                                                                                        \
 	bool             unk5C;                    /* 5C */                                                                                        \
 	std::uint32_t    sunPixelCount;            /* 60 */                                                                                        \
@@ -119,73 +124,136 @@ namespace RE
 	NiPoint3      eyePosition; /* 16C */                                                                                                       \
 	std::uint8_t  unk178[0x8]; /* 178 */
 
-			RUNTIME_DATA_CONTENT
+			FLAT_RUNTIME_DATA_CONTENT
 		};
-		static_assert(sizeof(RUNTIME_DATA) == 0x128);
+		static_assert(sizeof(FLAT_RUNTIME_DATA) == 0x128);
+		static_assert(offsetof(FLAT_RUNTIME_DATA, firstPerson) == kFlagsOffset - 0x58);
+		static_assert(offsetof(FLAT_RUNTIME_DATA, drawDecals) == kFlagsOffset - 0x58 + 0x4);
+		static_assert(offsetof(FLAT_RUNTIME_DATA, batchRenderer) == kRuntimeDataSE - 0x58);
+		static_assert(offsetof(FLAT_RUNTIME_DATA, renderMode) == 0x150 - 0x58);
+		static_assert(offsetof(FLAT_RUNTIME_DATA, eyePosition) == 0x16C - 0x58);
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT \
-	std::uint64_t unk58[0x2B];  // 58
+#define VR_RUNTIME_DATA_CONTENT                                   \
+	std::uint8_t     unk58[0x4];               /* 58 */           \
+	bool             unk5C;                    /* 5C */           \
+	std::uint32_t    sunPixelCount;            /* 60 */           \
+	bool             waitingForSunQuery;       /* 64 */           \
+	float            percentSunOccludedStored; /* 68 */           \
+	std::uint8_t     pad6C[0x4];               /* 6C */           \
+	SunOcclusionTest sunOcclusionTests[3];     /* 70 */           \
+	bool             unkB8;                    /* B8 */           \
+	bool             unkB9;                    /* B9 */           \
+	bool             unkBA;                    /* BA */           \
+	std::uint8_t     padBB[0x5];               /* BB */           \
+	std::uint8_t     unkC0[0x10];              /* C0 */           \
+	std::uint8_t     fadeNodeMap[0x20];        /* D0 */           \
+	std::uint8_t     unkF0[0x10];              /* F0 */           \
+	void*            unk100;                   /* 100 */          \
+	void*            unk108;                   /* 108 */          \
+	std::uint32_t    unk110;                   /* 110 */          \
+	bool             unk114;                   /* 114 */          \
+	NiColorA         silhouetteColor;          /* 118 */          \
+	bool             firstPerson;              /* 128 */          \
+	bool             unk129;                   /* 129 */          \
+	bool             unk12A;                   /* 12A */          \
+	bool             unk12B;                   /* 12B */          \
+	bool             drawDecals;               /* 12C */          \
+	bool             unk12D;                   /* 12D */          \
+	bool             unk12E;                   /* 12E */          \
+	std::uint8_t     unk12F[0x158 - 0x12F];    /* 12F, VR only */ \
+	BSBatchRenderer* batchRenderer;            /* 158 */          \
+	std::uint32_t    currentPass;              /* 160 */          \
+	std::uint32_t    currentBucket;            /* 164 */          \
+	bool             currentActive;            /* 168 */          \
+	std::uint8_t     pad169[0x7];              /* 169 */          \
+	ShadowSceneNode* activeShadowSceneNode;    /* 170 */          \
+	RENDER_MODE      renderMode;               /* 178 */          \
+	std::uint8_t     pad17c[0x4];              /* 17C */          \
+	void*            unk180;                   /* 180 */          \
+	void*            unk188;                   /* 188 */          \
+	std::uint32_t    unk190;                   /* 190 */          \
+	NiPoint3         eyePosition;              /* 194 */          \
+	std::uint8_t     unk1A0[0x10];             /* 1A0 */
 
 			VR_RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x158);
+		static_assert(offsetof(VR_RUNTIME_DATA, unk12E) == offsetof(FLAT_RUNTIME_DATA, unk12E));
+		static_assert(offsetof(VR_RUNTIME_DATA, sunOcclusionTests) == 0x70 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, silhouetteColor) == 0x118 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, firstPerson) == kFlagsOffset - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, drawDecals) == kFlagsOffset - 0x58 + 0x4);
+		static_assert(offsetof(VR_RUNTIME_DATA, batchRenderer) == kRuntimeDataVR - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, renderMode) == 0x178 - 0x58);
+		static_assert(offsetof(VR_RUNTIME_DATA, eyePosition) == 0x194 - 0x58);
 
-		[[nodiscard]] inline RUNTIME_DATA* GetRuntimeData() noexcept
+		struct RUNTIME_FLAGS
 		{
-			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
-				return &REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0);
-			}
-			return nullptr;
-		}
+			bool         firstPerson;  // 128
+			bool         unk129;       // 129
+			bool         unk12A;       // 12A
+			bool         unk12B;       // 12B
+			bool         drawDecals;   // 12C
+			bool         unk12D;       // 12D
+			bool         unk12E;       // 12E
+			std::uint8_t unk12F;       // 12F
+		};
+		static_assert(offsetof(RUNTIME_FLAGS, firstPerson) == 0);
+		static_assert(offsetof(RUNTIME_FLAGS, drawDecals) == 0x4);
+		static_assert(sizeof(RUNTIME_FLAGS) == 0x8);
 
-		[[nodiscard]] inline const RUNTIME_DATA* GetRuntimeData() const noexcept
+		struct RUNTIME_DATA
 		{
-			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
-				return &REL::RelocateMember<RUNTIME_DATA>(this, 0x58, 0);
-			}
-			return nullptr;
-		}
+#define RUNTIME_DATA_CONTENT                                    \
+	BSBatchRenderer*                     batchRenderer;         \
+	std::uint32_t                        currentPass;           \
+	std::uint32_t                        currentBucket;         \
+	bool                                 currentActive;         \
+	std::uint8_t                         pad0[0x7];             \
+	ShadowSceneNode*                     activeShadowSceneNode; \
+	RE::BSShaderAccumulator::RENDER_MODE renderMode;            \
+	std::uint8_t                         pad1[0x18];            \
+	NiPoint3                             eyePosition;           \
+	std::uint8_t                         pad2[0x8];
 
-		[[nodiscard]] inline VR_RUNTIME_DATA* GetVRRuntimeData() noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
-				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x58);
-			}
-			return nullptr;
-		}
+			RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(RUNTIME_DATA) == 0x50);
+		static_assert(offsetof(RUNTIME_DATA, batchRenderer) == 0);
+		static_assert(offsetof(RUNTIME_DATA, currentPass) == 0x8);
+		static_assert(offsetof(RUNTIME_DATA, currentBucket) == 0xC);
+		static_assert(offsetof(RUNTIME_DATA, currentActive) == 0x10);
+		static_assert(offsetof(RUNTIME_DATA, activeShadowSceneNode) == 0x18);
+		static_assert(offsetof(RUNTIME_DATA, renderMode) == 0x20);
+		static_assert(offsetof(RUNTIME_DATA, eyePosition) == 0x3C);
 
-		[[nodiscard]] inline const VR_RUNTIME_DATA* GetVRRuntimeData() const noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
-				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0, 0x58);
-			}
-			return nullptr;
-		}
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, kRuntimeDataSE, kRuntimeDataVR);
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_FLAGS, GetRuntimeFlags, kFlagsOffset, kFlagsOffset);
+		SE_ONLY_POINTER_ACCESSOR(FLAT_RUNTIME_DATA, GetFlatRuntimeData, 0x58);
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
 
 		// members
-#ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT;  // 58
-#elif !defined(ENABLE_SKYRIM_VR)
-		RUNTIME_DATA_CONTENT;  // 58
-#elif !defined(ENABLE_SKYRIM_AE) && !defined(ENABLE_SKYRIM_SE)
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
+		FLAT_RUNTIME_DATA_CONTENT;  // 58
+#elif defined(EXCLUSIVE_SKYRIM_VR)
 		VR_RUNTIME_DATA_CONTENT;  // 58
 #endif
 
 	protected:
 		BSShaderAccumulator* Ctor(std::uint32_t a_unk);
 	};
-#if !defined(SKYRIM_CROSS_VR)
-	static_assert(sizeof(BSShaderAccumulator) == 0x180);
-#elif !defined(ENABLE_SKYRIM_VR)
-	static_assert(sizeof(BSShaderAccumulator) == 0x180);
-#elif !defined(ENABLE_SKYRIM_AE) && !defined(ENABLE_SKYRIM_SE)
-	static_assert(sizeof(BSShaderAccumulator) == 0x1B0);
-#else
-	static_assert(sizeof(BSShaderAccumulator) == 0x58);
-#endif
+	STATIC_ASSERT_SIZE(BSShaderAccumulator, 0x180, 0x180, 0x1B0, 0x58, 0x180);
+
+	namespace BSGraphics
+	{
+		// Same native class; kept as an alias for the name's existing callers.
+		// see https://github.com/Nukem9/SkyrimSETest/blob/master/skyrim64_test/src/patches/TES/BSShader/BSShaderAccumulator.h
+		using BSShaderAccumulator = RE::BSShaderAccumulator;
+	}
 }
 
+#undef FLAT_RUNTIME_DATA_CONTENT
 #undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT
