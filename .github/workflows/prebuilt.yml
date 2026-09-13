@@ -26,10 +26,19 @@ on:
       - src/**
       - res/**
       - vcpkg.json
+      - vcpkg-configuration.json
       - .github/workflows/prebuilt.yml
       - tests/prebuilt-consumer/**
       - tests/prebuilt-consumer-cmake/**
   workflow_dispatch:
+    inputs:
+      ref:
+        type: string
+        default: ""
+      attach_tag:
+        description: "If set, create/attach the bundles to this release tag (e.g. to refresh a stale published bundle)."
+        type: string
+        default: ""
   workflow_call:
     inputs:
       ref:
