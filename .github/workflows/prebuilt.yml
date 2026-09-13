@@ -193,7 +193,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -202,7 +202,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -213,7 +213,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
@@ -223,7 +223,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
