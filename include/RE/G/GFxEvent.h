@@ -123,6 +123,33 @@ namespace RE
 	};
 	static_assert(sizeof(GFxKeyEvent) == 0x14);
 
+	class GFxCharEvent : public GFxEvent
+	{
+	public:
+		inline GFxCharEvent() :
+			GFxEvent(),
+			wCharCode(0),
+			keyboardIndex(0),
+			pad09(0),
+			pad0A(0)
+		{}
+
+		inline GFxCharEvent(EventType a_eventType, std::uint32_t a_wchar, std::uint8_t a_keyboardIndex = 0) :
+			GFxEvent(a_eventType),
+			wCharCode(a_wchar),
+			keyboardIndex(a_keyboardIndex),
+			pad09(0),
+			pad0A(0)
+		{}
+
+		// members
+		std::uint32_t wCharCode;      // 04
+		std::uint8_t  keyboardIndex;  // 08
+		std::uint8_t  pad09;          // 09
+		std::uint16_t pad0A;          // 0A
+	};
+	static_assert(sizeof(GFxCharEvent) == 0x0C);
+
 #ifdef ENABLE_SKYRIM_VR
 	// Scaleform event dispatching functions from SKSEVR (VR only)
 	namespace ScaleformEvent
