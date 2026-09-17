@@ -28,7 +28,7 @@ namespace RE
 			NativeLatentFunction(std::string_view a_fnName, std::string_view a_className, function_type a_callback) :
 				NativeFunction<IS_LONG, F, std::underlying_type_t<callbackR>, Base, Args...>(a_fnName, a_className, a_callback)
 			{
-				this->_retType = GetRawType<latentR>();
+				this->_retType = GetRawType<latentR>{}();
 				this->_isLatent = true;
 			}
 
