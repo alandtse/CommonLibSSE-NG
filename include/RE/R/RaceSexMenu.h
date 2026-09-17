@@ -48,6 +48,30 @@ namespace RE
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x168);
 
+		// Skyrim VR omits the embedded RaceSexCamera. The runtime data still
+		// begins at +0x50, but fields after headParts are 0x58 bytes earlier.
+		struct VR_RUNTIME_DATA
+		{
+			BSTArray<BGSHeadPart*>           headParts[7];   // 000
+			BSTArray<RaceComponent>          sliderData[2];  // 0A8
+			BSTArray<void*>                  unk170;         // 0D8
+			std::uint64_t                    unk188;         // 0F0
+			std::uint32_t                    unk190;         // 0F8
+			std::uint32_t                    unk194;         // 0FC
+			REX::EnumSet<SEX, std::uint32_t> sex;            // 100
+			std::uint16_t                    unk19C;         // 104
+			std::uint8_t                     unk19E;         // 106
+			std::uint8_t                     pad19F;         // 107
+			std::uint8_t                     unk1A0;         // 108
+			std::uint8_t                     unk1A1;         // 109
+			std::uint16_t                    unk1A2;         // 10A
+			std::uint32_t                    unk1A4;         // 10C
+		};
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x110);
+		static_assert(offsetof(VR_RUNTIME_DATA, sliderData) == 0xA8);
+		static_assert(offsetof(VR_RUNTIME_DATA, unk188) == 0xF0);
+		static_assert(offsetof(VR_RUNTIME_DATA, sex) == 0x100);
+
 		~RaceSexMenu() override;  // 00
 
 		// override (IMenu)
@@ -71,6 +95,7 @@ namespace RE
 #endif
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0x50);
+		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x50);
 		void ChangeName(const char* a_name);
 
 		// members
