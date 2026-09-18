@@ -8,6 +8,7 @@
 #include "RE/M/MenuEventHandler.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
+#include "RE/N/NiMatrix3.h"
 #include "REL/RuntimeDataAccessors.h"
 #include "SKSE/Version.h"
 
@@ -30,6 +31,24 @@ namespace RE
 		float                  boundRadius;  // 1C
 	};
 	static_assert(sizeof(LoadedInventoryModel) == 0x20);
+
+	// VR retains each preview's rotation as well as its radius.
+	// Confirmed in SkyrimVR 1.4.15: 0x8B60A0 indexes entries with i * 0x48,
+	// reads spModel at +0x10, rotation at +0x20 and radius at +0x44.
+	struct LoadedInventoryModelVR
+	{
+		TESForm*               itemBase;     // 00
+		TESBoundObject*        modelObj;     // 08
+		NiPointer<NiAVObject>  spModel;      // 10
+		INTERFACE_LIGHT_SCHEME lightScheme;  // 18
+		float                  unk1C;        // 1C
+		NiMatrix3              rotation;     // 20
+		float                  boundRadius;  // 44
+	};
+	static_assert(sizeof(LoadedInventoryModelVR) == 0x48);
+	static_assert(offsetof(LoadedInventoryModelVR, spModel) == 0x10);
+	static_assert(offsetof(LoadedInventoryModelVR, rotation) == 0x20);
+	static_assert(offsetof(LoadedInventoryModelVR, boundRadius) == 0x44);
 
 	class Inventory3DManager :
 		public BSTSingletonSDM<Inventory3DManager>,  // 10
@@ -70,6 +89,15 @@ namespace RE
 		static_assert(sizeof(RUNTIME_DATA) == 0x108);
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_629, 0x58, 0x60);
+		// Only the independently confirmed array prefix is modeled here. The
+		// flat RUNTIME_DATA is not a valid view of VR's preview models: its size
+		// field lands inside a VR entry instead of at manager +0x258.
+		struct VR_RUNTIME_DATA
+		{
+			BSTSmallArray<LoadedInventoryModelVR, 7> loadedModels;  // 058
+		};
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x208);
+		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
 		// members
 		std::uint8_t           unk011;              // 011
 		std::uint16_t          unk012;              // 012
