@@ -14,6 +14,9 @@ namespace RE
 	class CombatAimController : public CombatObject
 	{
 	public:
+		inline static constexpr auto RTTI = RTTI_CombatAimController;
+		inline static constexpr auto VTABLE = VTABLE_CombatAimController;
+
 		enum class PRIORITY : uint32_t
 		{
 			kUnk0,
@@ -35,6 +38,19 @@ namespace RE
 			kUnk6 = 1 << 6
 		};
 		using FLAGS = stl::enumeration<Flags, uint32_t>;
+
+		~CombatAimController() override;  // 00
+
+		// override (CombatObject)
+		std::uint32_t GetObjectType() override;  // 02
+
+		// add
+		virtual bool                               CanFireAtTarget(const NiPoint3* a_arg2, const NiPoint3* a_arg3);  // 05 - { return true; }
+		virtual bool                               CanFireNow();                                                     // 06 - { return true; }
+		virtual bool                               IsFacingTarget(float a_tolerance);                                // 07
+		virtual void                               Update();                                                         // 08
+		[[nodiscard]] virtual CombatAimController* Clone();                                                          // 09
+		virtual void                               OnWeaponTypeChanged();                                            // 0A - { return; }
 
 		// members
 		MagicCaster*      mcaster;         // 10 -- or weap?
