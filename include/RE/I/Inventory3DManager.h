@@ -6,9 +6,9 @@
 #include "RE/E/ExtraDataList.h"
 #include "RE/I/InterfaceLightSchemes.h"
 #include "RE/M/MenuEventHandler.h"
+#include "RE/N/NiMatrix3.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
-#include "RE/N/NiMatrix3.h"
 #include "REL/RuntimeDataAccessors.h"
 #include "SKSE/Version.h"
 
