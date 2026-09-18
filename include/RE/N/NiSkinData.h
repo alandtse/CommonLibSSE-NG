@@ -138,6 +138,9 @@ namespace RE
 			return reinterpret_cast<const std::byte*>(GetBoneData()) + (static_cast<std::size_t>(a_idx) * GetBoneDataStride());
 		}
 
+	private:
+		// Keep private: BoneData's stride differs by runtime, so indexing
+		// this pointer with sizeof(BoneData) is wrong on SKYRIM_CROSS_VR builds.
 		[[nodiscard]] BoneData* GetBoneData() noexcept
 		{
 			return REL::RelocateMember<BoneData*>(this, 0x50, 0x50);
@@ -148,6 +151,7 @@ namespace RE
 			return REL::RelocateMember<BoneData*>(this, 0x50, 0x50);
 		}
 
+	public:
 		// members
 		NiPointer<NiSkinPartition> skinPartition;     // 10
 		NiTransform                rootParentToSkin;  // 18
