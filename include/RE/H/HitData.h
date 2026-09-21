@@ -82,9 +82,9 @@ namespace RE
 		float                                 stagger;                 // 68
 		float                                 sneakAttackBonus;        // 6C
 		float                                 bonusHealthDamageMult;   // 70
-		float                                 pushBack;                // 74
-		float                                 reflectedDamage;         // 78
-		float                                 criticalDamageMult;      // 7C
+		float                                 unk74;                   // 74
+		float                                 pushBack;                // 78
+		float                                 reflectedDamage;         // 7C
 		REX::EnumSet<Flag, std::uint32_t>     flags;                   // 80
 		std::uint32_t                         equipIndex;              // 84
 		ActorValue                            skill;                   // 88
