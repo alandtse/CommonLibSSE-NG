@@ -228,6 +228,13 @@ namespace RE
 		return func(this, a_wornItemEnchantments, a_baseSpells, a_raceSpells, a_everyActorAbility);
 	}
 
+	void Actor::ChangeHeadPart(BGSHeadPart* a_oldPart, BGSHeadPart* a_newPart)
+	{
+		using func_t = decltype(&Actor::ChangeHeadPart);
+		static REL::Relocation<func_t> func{ REL::RelocationID(26468, 27063) };
+		return func(this, a_oldPart, a_newPart);
+	}
+
 	void Actor::ClearArrested()
 	{
 		auto* _currentProcess = GetActorRuntimeData().currentProcess;

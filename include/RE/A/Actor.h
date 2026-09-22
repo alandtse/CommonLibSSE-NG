@@ -537,6 +537,7 @@ namespace RE
 		[[nodiscard]] bool                      CanSleepWait(TESObjectREFR* a_bed = nullptr) const;
 		[[nodiscard]] bool                      CanTalkToPlayer() const;
 		[[nodiscard]] bool                      CanUseIdle(TESIdleForm* a_idle) const;
+		void                                    ChangeHeadPart(BGSHeadPart* a_oldPart, BGSHeadPart* a_newPart);
 		void                                    ClearArrested();
 		void                                    ClearDeathState();
 		void                                    ClearExpressionOverride();
