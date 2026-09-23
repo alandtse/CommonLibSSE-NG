@@ -1708,7 +1708,7 @@ namespace RE
 
 	TESAmmo* Actor::GetCurrentAmmo() const
 	{
-		return RelocateVirtual<decltype(&Actor::GetCurrentAmmo)>(0x9F, 0xA0, this);
+		return RelocateVirtual<decltype(&Actor::GetCurrentAmmo)>(0x9E, 0x9F, this);
 	}
 
 	void Actor::UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object)
