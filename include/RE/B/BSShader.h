@@ -49,7 +49,7 @@ namespace RE
 			std::uint32_t                id;                  // 00
 			REX::W32::ID3D11PixelShader* shader;              // 08
 			ConstantGroup                constantBuffers[3];  // 10 - [0]=PerTechnique, [1]=PerMaterial, [2]=PerGeometry
-			std::array<std::int8_t, 64>  constantTable;       // 40
+			std::array<std::uint8_t, 64> constantTable;       // 40 - float offsets into constantBuffers; the engine reads them unsigned (0-255)
 		};
 		static_assert(sizeof(PixelShader) == 0x80);
 
@@ -62,7 +62,7 @@ namespace RE
 			std::uint32_t                 byteCodeSize;        // 10
 			ConstantGroup                 constantBuffers[3];  // 18 - [0]=PerTechnique, [1]=PerMaterial, [2]=PerGeometry
 			std::uint64_t                 vertexDesc;          // 48 - vertex input layout descriptor mask
-			std::array<std::int8_t, 20>   constantTable;       // 50
+			std::array<std::uint8_t, 20>  constantTable;       // 50 - float offsets into constantBuffers; the engine reads them unsigned (0-255)
 			std::uint32_t                 pad64;               // 64
 			std::uint8_t                  rawBytecode[0];      // 68
 		};
@@ -87,7 +87,7 @@ namespace RE
 			REX::W32::ID3D11ComputeShader* shader;          // 60
 			uint32_t                       id;              // 68
 			uint32_t                       byteCodeSize;    // 6C
-			std::array<std::int8_t, 32>    constantTable;   // 70
+			std::array<std::uint8_t, 32>   constantTable;   // 70
 			uint8_t                        rawBytecode[0];  // 90
 		};
 		static_assert(sizeof(ComputeShader) == 0x90);

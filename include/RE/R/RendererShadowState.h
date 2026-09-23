@@ -353,7 +353,7 @@ namespace RE
 			void SetVSConstant(const ValueType& value, ConstantGroupLevel level, size_t index)
 			{
 				GET_CROSSVR_RUNTIME_MEMBER(currentVertexShader)
-				const int8_t offset = currentVertexShader->constantTable[index];
+				const std::uint8_t offset = currentVertexShader->constantTable[index];
 				*reinterpret_cast<ValueType*>((reinterpret_cast<float*>(currentVertexShader->constantBuffers[static_cast<size_t>(level)].data) + offset)) = value;
 			}
 
@@ -361,7 +361,7 @@ namespace RE
 			void SetPSConstant(const ValueType& value, ConstantGroupLevel level, size_t index)
 			{
 				GET_CROSSVR_RUNTIME_MEMBER(currentPixelShader)
-				const int8_t offset = currentPixelShader->constantTable[index];
+				const std::uint8_t offset = currentPixelShader->constantTable[index];
 				*reinterpret_cast<ValueType*>((reinterpret_cast<float*>(currentPixelShader->constantBuffers[static_cast<size_t>(level)].data) + offset)) = value;
 			}
 		};
