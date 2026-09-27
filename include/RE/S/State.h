@@ -285,6 +285,13 @@ namespace RE
 				return false;
 			}
 
+			void BuildCameraStateData(CameraStateData* a_entry, const NiCamera* a_camera, bool a_useJitter)
+			{
+				using func_t = decltype(&State::BuildCameraStateData);
+				static REL::Relocation<func_t> func{ RELOCATION_ID(75711, 77520) };
+				return func(this, a_entry, a_camera, a_useJitter);
+			}
+
 			void SetCameraData(const NiCamera* a_camera, std::uint32_t a_flags)
 			{
 				using func_t = decltype(&State::SetCameraData);
