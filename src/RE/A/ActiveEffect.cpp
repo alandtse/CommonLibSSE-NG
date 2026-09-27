@@ -2,6 +2,7 @@
 
 #include "RE/A/Actor.h"
 #include "RE/E/Effect.h"
+#include "RE/F/FormTraits.h"
 
 namespace RE
 {
@@ -27,22 +28,18 @@ namespace RE
 		return caster.get();
 	}
 
+	// target points at the MagicTarget base, whose offset in Actor depends on the
+	// runtime version, so no cast recovers the actor; the object's own override does.
 	Actor* ActiveEffect::GetTargetActor()
 	{
-		if (target && target->MagicTargetIsActor()) {
-			return reinterpret_cast<Actor*>(target);
-		} else {
-			return nullptr;
-		}
+		const auto ref = target ? target->GetTargetStatsObject() : nullptr;
+		return ref ? ref->As<Actor>() : nullptr;
 	}
 
 	const Actor* ActiveEffect::GetTargetActor() const
 	{
-		if (target && target->MagicTargetIsActor()) {
-			return reinterpret_cast<const Actor*>(target);
-		} else {
-			return nullptr;
-		}
+		const auto ref = target ? target->GetTargetStatsObject() : nullptr;
+		return ref ? ref->As<Actor>() : nullptr;
 	}
 
 	float ActiveEffect::GetMagnitude() const

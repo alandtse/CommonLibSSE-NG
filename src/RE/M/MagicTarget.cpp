@@ -5,6 +5,7 @@
 #include "RE/B/BSSimpleList.h"
 #include "RE/B/BSTList.h"
 #include "RE/E/EffectSetting.h"
+#include "RE/F/FormTraits.h"
 
 namespace RE
 {
@@ -106,13 +107,12 @@ namespace RE
 	}
 #endif
 
+	// this is a base subobject at a runtime-dependent offset in Actor; a cast cannot
+	// recover the actor, the object's own override does.
 	Actor* MagicTarget::GetTargetAsActor()
 	{
-		if (MagicTargetIsActor()) {
-			return reinterpret_cast<Actor*>(this);
-		}
-
-		return nullptr;
+		const auto ref = GetTargetStatsObject();
+		return ref ? ref->As<Actor>() : nullptr;
 	}
 
 	bool MagicTarget::HasEffectWithArchetype(Archetype a_type)
