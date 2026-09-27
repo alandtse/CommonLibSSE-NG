@@ -351,14 +351,14 @@ namespace RE
 		[[nodiscard]] virtual bool IsTargetAtLocation(Actor* a_actor, std::int32_t a_arg2);                                        // 3E
 		[[nodiscard]] virtual bool IsPackageOwner(Actor* a_actor);                                                                 // 3F - { return true; }
 
-		static TESPackage* CreatePackage(PACKAGE_PROCEDURE_TYPE a_type)
+		static TESPackage* CreatePackage(PACKAGE_TYPE a_type)
 		{
 			using func_t = decltype(&TESPackage::CreatePackage);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(28732, 29496) };
 			return func(a_type);
 		}
 
-		void SetPackType(PACKAGE_PROCEDURE_TYPE a_type)
+		void SetPackType(PACKAGE_TYPE a_type)
 		{
 			using func_t = decltype(&TESPackage::SetPackType);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(28751, 29525) };
