@@ -35,6 +35,7 @@ namespace RE
 		virtual void Unk_25(void);  // 25
 
 		static NiSkinInstance* Create();
+		NiSkinInstance*        Ctor();
 
 		// members
 		NiPointer<NiSkinData>      skinData;                      // 10
