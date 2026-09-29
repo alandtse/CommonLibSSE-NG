@@ -38,7 +38,7 @@ namespace RE
 	std::int16_t InventoryChanges::GetItemCount(RE::TESBoundObject* a_obj)
 	{
 		using func_t = decltype(&InventoryChanges::GetItemCount);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(15868, 16047) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(15868, 16108) };
 		return func(this, a_obj);
 	}
 
