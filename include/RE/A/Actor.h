@@ -374,28 +374,39 @@ namespace RE
 #endif
 
 		// add
-		SKYRIM_REL_VR_VIRTUAL void                Unk_A2(void);                                                                                                                                                                           // 0A2
-		SKYRIM_REL_VR_VIRTUAL void                PlayPickUpSound(TESBoundObject* a_object, bool a_pickup, bool a_use);                                                                                                                   // 0A3
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float GetHeading(bool a_ignoreRaceSettings) const;                                                                                                                                            // 0A4
-		SKYRIM_REL_VR_VIRTUAL void                SetAvoidanceDisabled(bool a_set);                                                                                                                                                       // 0A5 - { return; }
-		SKYRIM_REL_VR_VIRTUAL void                DrawWeaponMagicHands(bool a_draw);                                                                                                                                                      // 0A6
-		SKYRIM_REL_VR_VIRTUAL void                DetachCharController();                                                                                                                                                                 // 0A7
-		SKYRIM_REL_VR_VIRTUAL void                RemoveCharController();                                                                                                                                                                 // 0A8
-		SKYRIM_REL_VR_VIRTUAL void                SetPosition(const NiPoint3& a_pos, bool a_updateCharController);                                                                                                                        // 0A9
-		SKYRIM_REL_VR_VIRTUAL void                KillDying();                                                                                                                                                                            // 0AA
-		SKYRIM_REL_VR_VIRTUAL void                Resurrect(bool a_resetInventory, bool a_attach3D);                                                                                                                                      // 0AB
-		SKYRIM_REL_VR_VIRTUAL bool                PutActorOnMountQuick();                                                                                                                                                                 // 0AC
-		SKYRIM_REL_VR_VIRTUAL void                Update(float a_delta);                                                                                                                                                                  // 0AD
-		SKYRIM_REL_VR_VIRTUAL void                UpdateNoAI(float a_delta);                                                                                                                                                              // 0AE - { return UpdateActor3DPosition(); }
-		SKYRIM_REL_VR_VIRTUAL void                UpdateCharacterControllerSimulationSettings(bhkCharacterController& a_controller);                                                                                                      // 0AF
-		SKYRIM_REL_VR_VIRTUAL void                PotentiallyFixRagdollState();                                                                                                                                                           // 0B0
-		SKYRIM_REL_VR_VIRTUAL void                UpdateNonRenderSafe(float a_delta);                                                                                                                                                     // 0B1
-		SKYRIM_REL_VR_VIRTUAL void                OnItemEquipped(bool a_playAnim);                                                                                                                                                        // 0B2
-		SKYRIM_REL_VR_VIRTUAL void                Unk_B3(void);                                                                                                                                                                           // 0B3 - { return 1; }
-		SKYRIM_REL_VR_VIRTUAL void                Unk_B4(void);                                                                                                                                                                           // 0B4
-		SKYRIM_REL_VR_VIRTUAL void                SetCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::uint32_t a_amount);                                                                                                       // 0B5
-		SKYRIM_REL_VR_VIRTUAL void                ModCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount);                                                                                                        // 0B6
-		SKYRIM_REL_VR_VIRTUAL void                RemoveCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount);                                                                                                     // 0B7
+		SKYRIM_REL_VR_VIRTUAL void                Unk_A2(void);                                                          // 0A2
+		SKYRIM_REL_VR_VIRTUAL void                PlayPickUpSound(TESBoundObject* a_object, bool a_pickup, bool a_use);  // 0A3
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float GetHeading(bool a_ignoreRaceSettings) const;                           // 0A4
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		virtual void ModifyRotationZ(float a_delta);  // 0A6 - VR only
+#elif defined(SKYRIM_CROSS_VR)
+		// Virtual on VR only (real slot 0xA6); a no-op elsewhere.
+		void ModifyRotationZ(float a_delta)
+		{
+			if (REL::Module::IsVR()) {
+				REL::RelocateVirtual<decltype(&Actor::ModifyRotationZ)>(0, 0xA6, this, a_delta);
+			}
+		}
+#endif
+		SKYRIM_REL_VR_VIRTUAL void          SetAvoidanceDisabled(bool a_set);                                                                                                                                                             // 0A5 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void          DrawWeaponMagicHands(bool a_draw);                                                                                                                                                            // 0A6
+		SKYRIM_REL_VR_VIRTUAL void          DetachCharController();                                                                                                                                                                       // 0A7
+		SKYRIM_REL_VR_VIRTUAL void          RemoveCharController();                                                                                                                                                                       // 0A8
+		SKYRIM_REL_VR_VIRTUAL void          SetPosition(const NiPoint3& a_pos, bool a_updateCharController);                                                                                                                              // 0A9
+		SKYRIM_REL_VR_VIRTUAL void          KillDying();                                                                                                                                                                                  // 0AA
+		SKYRIM_REL_VR_VIRTUAL void          Resurrect(bool a_resetInventory, bool a_attach3D);                                                                                                                                            // 0AB
+		SKYRIM_REL_VR_VIRTUAL bool          PutActorOnMountQuick();                                                                                                                                                                       // 0AC
+		SKYRIM_REL_VR_VIRTUAL void          Update(float a_delta);                                                                                                                                                                        // 0AD
+		SKYRIM_REL_VR_VIRTUAL void          UpdateNoAI(float a_delta);                                                                                                                                                                    // 0AE - { return UpdateActor3DPosition(); }
+		SKYRIM_REL_VR_VIRTUAL void          UpdateCharacterControllerSimulationSettings(bhkCharacterController& a_controller);                                                                                                            // 0AF
+		SKYRIM_REL_VR_VIRTUAL void          PotentiallyFixRagdollState();                                                                                                                                                                 // 0B0
+		SKYRIM_REL_VR_VIRTUAL void          UpdateNonRenderSafe(float a_delta);                                                                                                                                                           // 0B1
+		SKYRIM_REL_VR_VIRTUAL void          OnItemEquipped(bool a_playAnim);                                                                                                                                                              // 0B2
+		SKYRIM_REL_VR_VIRTUAL void          Unk_B3(void);                                                                                                                                                                                 // 0B3 - { return 1; }
+		SKYRIM_REL_VR_VIRTUAL void          Unk_B4(void);                                                                                                                                                                                 // 0B4
+		SKYRIM_REL_VR_VIRTUAL void          SetCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::uint32_t a_amount);                                                                                                             // 0B5
+		SKYRIM_REL_VR_VIRTUAL void          ModCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount);                                                                                                              // 0B6
+		SKYRIM_REL_VR_VIRTUAL void          RemoveCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount);                                                                                                           // 0B7
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL std::uint32_t GetCrimeGoldValue(const TESFaction* a_faction) const;                                                                                                                           // 0B8
 		SKYRIM_REL_VR_VIRTUAL void                        GoToPrison(TESFaction* a_faction, bool a_removeInventory, bool a_realJail);                                                                                                     // 0B9 - { return; }
 		SKYRIM_REL_VR_VIRTUAL void                        ServePrisonTime();                                                                                                                                                              // 0BA - { return; }
