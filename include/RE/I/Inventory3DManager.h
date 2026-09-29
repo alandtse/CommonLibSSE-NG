@@ -3,6 +3,7 @@
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTSingleton.h"
 #include "RE/B/BSTSmartPointer.h"
+#include "RE/C/CrosshairPickData.h"
 #include "RE/E/ExtraDataList.h"
 #include "RE/I/InterfaceLightSchemes.h"
 #include "RE/M/MenuEventHandler.h"
@@ -68,7 +69,7 @@ namespace RE
 		void LoadInventoryItem(InventoryEntryData* a_objDesc);
 		void LoadInventoryItem(TESBoundObject* a_object, ExtraDataList* a_extraDataList);
 		void Render();
-		bool ToggleItemZoom();
+		bool ToggleItemZoom(VR_DEVICE a_device = VR_DEVICE::kTotal);
 		void UnloadInventoryItem();
 
 		struct RUNTIME_DATA

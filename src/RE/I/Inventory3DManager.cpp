@@ -43,11 +43,11 @@ namespace RE
 		return func(this);
 	}
 
-	bool Inventory3DManager::ToggleItemZoom()
+	bool Inventory3DManager::ToggleItemZoom(VR_DEVICE a_device)
 	{
 		using func_t = decltype(&Inventory3DManager::ToggleItemZoom);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(50887, 51760) };
-		return func(this);
+		return func(this, a_device);
 	}
 
 	void Inventory3DManager::UnloadInventoryItem()
