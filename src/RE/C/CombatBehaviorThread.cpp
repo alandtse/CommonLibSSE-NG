@@ -25,8 +25,14 @@ namespace RE
 
 	void CombatBehaviorThread::AddChildThread(CombatBehaviorThread* a_thread)
 	{
+		// AE inlines this into the constructor; a relocation there calls an unrelated function.
+		if (REL::Module::IsAE()) {
+			children.push_back(a_thread);
+			return;
+		}
+
 		using func_t = decltype(&CombatBehaviorThread::AddChildThread);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46251, 47506) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46251, 0) };
 		return func(this, a_thread);
 	}
 
