@@ -1740,7 +1740,7 @@ namespace RE
 
 	void Actor::SetAvoidanceDisabled(bool a_set)
 	{
-		RelocateVirtual<decltype(&Actor::SetAvoidanceDisabled)>(0x0A5, 0x0A6, this, a_set);
+		RelocateVirtual<decltype(&Actor::SetAvoidanceDisabled)>(0x0A5, 0x0A7, this, a_set);
 	}
 
 	void Actor::DrawWeaponMagicHands(bool a_draw)
