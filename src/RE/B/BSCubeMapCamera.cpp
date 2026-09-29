@@ -37,8 +37,10 @@ namespace RE
 
 	void BSCubeMapCamera::Dtor()
 	{
-		using func_t = decltype(&BSCubeMapCamera::Dtor);
+		constexpr std::uint32_t kDestroyWithoutFree = 0;
+
+		using func_t = void (*)(BSCubeMapCamera*, std::uint32_t);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(100781, 107565) };
-		return func(this);
+		func(this, kDestroyWithoutFree);
 	}
 }

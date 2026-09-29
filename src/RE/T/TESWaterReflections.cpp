@@ -11,8 +11,10 @@ namespace RE
 
 	void TESWaterReflections::Dtor()
 	{
-		using func_t = decltype(&TESWaterReflections::Dtor);
+		constexpr std::uint32_t kDestroyWithoutFree = 0;
+
+		using func_t = void (*)(TESWaterReflections*, std::uint32_t);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(31451, 32256) };
-		func(this);
+		func(this, kDestroyWithoutFree);
 	}
 }
