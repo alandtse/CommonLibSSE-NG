@@ -233,7 +233,7 @@ namespace RE
 		void ForEachActiveEffect(MagicTarget::ForEachActiveEffectVisitor& visitor)
 		{
 			using func_t = decltype(&MagicTarget::ForEachActiveEffect);
-			static REL::Relocation<func_t> func{ REL::ID(33756) };
+			static REL::Relocation<func_t> func{ RELOCATION_ID(33756, 34540) };
 			func(this, visitor);
 		}
 #endif
