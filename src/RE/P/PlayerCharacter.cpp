@@ -297,11 +297,11 @@ namespace RE
 		return func(this, a_cellName, a_cell);
 	}
 
-	void PlayerCharacter::AddSkillExperience(ActorValue a_skill, float a_experience)
+	void PlayerCharacter::AddSkillExperience(ActorValue a_skill, float a_experience, TESForm* a_advanceObject, std::uint32_t a_advanceAction)
 	{
-		using func_t = decltype(&PlayerCharacter::AddSkillExperience);
+		using func_t = void (*)(PlayerCharacter*, ActorValue, float, TESForm*, std::uint32_t);
 		static REL::Relocation<func_t> func(RELOCATION_ID(39413, 40488));
-		func(this, a_skill, a_experience);
+		func(this, a_skill, a_experience, a_advanceObject, a_advanceAction);
 	}
 
 	void PlayerCharacter::Unk_12A()

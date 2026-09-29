@@ -728,7 +728,7 @@ namespace RE
 		void                                   ActivatePickRef();
 		void                                   ActivatePickRefVR(VR_DEVICE a_device = VR_DEVICE::kHeadset);
 		void                                   AddPlayerAddItemEvent(TESObject* a_object, TESForm* a_owner, TESObjectREFR* a_container, AQUIRE_TYPE a_type);
-		void                                   AddSkillExperience(ActorValue a_skill, float a_experience);
+		void                                   AddSkillExperience(ActorValue a_skill, float a_experience, TESForm* a_advanceObject = nullptr, std::uint32_t a_advanceAction = 0);
 		bool                                   AttemptPickpocket(TESObjectREFR* a_containerRef, InventoryEntryData* a_entry, std::int32_t a_number, bool a_fromContainer = true);
 		bool                                   CenterOnCell(const char* a_cellName);
 		bool                                   CenterOnCell(TESObjectCELL* a_cell);
