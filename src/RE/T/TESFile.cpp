@@ -64,9 +64,11 @@ namespace RE
 
 	bool TESFile::SeekNextForm(bool a_skipIgnored)
 	{
-		using func_t = decltype(&TESFile::SeekNextForm);
+		constexpr bool kSkipFirstSubrecordRead = false;
+
+		using func_t = bool (*)(TESFile*, bool, bool);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(13894, 13979) };
-		return func(this, a_skipIgnored);
+		return func(this, a_skipIgnored, kSkipFirstSubrecordRead);
 	}
 
 	bool TESFile::SeekNextSubrecord()

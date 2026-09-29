@@ -50,9 +50,12 @@ namespace RE
 
 		void Renderer::End()
 		{
-			using func_t = decltype(&Renderer::End);
+			constexpr bool          kSkipHMDSubmit = false;
+			constexpr std::uint32_t kDefaultSubmitFlags = 0;
+
+			using func_t = void (*)(Renderer*, bool, std::uint32_t);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(75461, 77246) };
-			return func(this);
+			return func(this, kSkipHMDSubmit, kDefaultSubmitFlags);
 		}
 
 		void Renderer::KillWindow(std::uint32_t a_windowID)

@@ -89,6 +89,13 @@ namespace RE
 		func(this);
 	}
 
+	void PlayerCharacter::DestroyMouseSpringsVR(VR_DEVICE a_device)
+	{
+		using func_t = decltype(&PlayerCharacter::DestroyMouseSpringsVR);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(39480, 40557) };
+		return func(this, a_device);
+	}
+
 	void PlayerCharacter::EndGrabObject()
 	{
 		if (GetPlayerRuntimeData().grabType == GrabbingType::kNormal) {
