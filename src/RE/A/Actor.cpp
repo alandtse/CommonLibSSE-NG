@@ -1232,7 +1232,7 @@ namespace RE
 	void Actor::RefreshEquippedActorValueCharge(const RE::TESForm* a_object, const RE::ExtraDataList* a_extraList, bool a_isLeft)
 	{
 		using func_t = decltype(&Actor::RefreshEquippedActorValueCharge);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(38752, 37803) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(37803, 38752) };
 		return func(this, a_object, a_extraList, a_isLeft);
 	}
 
