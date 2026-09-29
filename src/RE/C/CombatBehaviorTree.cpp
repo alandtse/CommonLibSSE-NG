@@ -33,7 +33,7 @@ namespace RE
 	CombatBehaviorTree::CombatBehaviorTree(const char* a_name)
 	{
 		using func_t = CombatBehaviorTree*(CombatBehaviorTree*, const char*);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46262, 47517) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46258, 47513) };
 		func(this, a_name);
 	}
 
