@@ -139,7 +139,7 @@ namespace RE
 
 		void                    AddToProcedureIndexRunning(Actor* a_actor, std::uint32_t a_num);
 		void                    ClearActionHeadtrackTarget(bool a_defaultHold);
-		void                    ClearFurniture();
+		void                    ClearFurniture(Actor* a_actor);
 		void                    ClearMuzzleFlashes();
 		void                    ComputeLastTimeProcessed();
 		float                   GetCachedHeight() const;
@@ -183,6 +183,8 @@ namespace RE
 		void                    StopCurrentIdle(Actor* a_actor, bool a_forceIdleStop);
 		void                    Update3DModel(Actor* a_actor);
 		void                    UpdateRegenDelay(ActorValue a_actorValue, float a_regenDelay);
+
+		[[deprecated("Pass the owning actor")]] void ClearFurniture();
 
 		// members
 		MiddleLowProcessData*                       middleLow;                      // 000

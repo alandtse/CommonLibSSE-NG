@@ -168,9 +168,11 @@ namespace RE
 
 		void ObjectTypeInfo::ReleaseData()
 		{
-			using func_t = decltype(&ObjectTypeInfo::ReleaseData);
+			constexpr bool kKeepReferencedObjects = false;
+
+			using func_t = void (*)(ObjectTypeInfo*, bool);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(97538, 104323) };
-			return func(this);
+			return func(this, kKeepReferencedObjects);
 		}
 	}
 }

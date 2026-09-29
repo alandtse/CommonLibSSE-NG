@@ -39,6 +39,7 @@ namespace RE
 		[[nodiscard]] bool IsPlaying() const;
 		[[nodiscard]] bool IsValid() const;
 		bool               SetFrequency(float a_frequency);
+		bool               SetPosition(float a_x, float a_y, float a_z);
 		bool               SetPosition(NiPoint3 a_pos);
 		void               SetObjectToFollow(NiAVObject* a_node);
 		void               SetOutputModel(const BSISoundOutputModel* a_outputModel);

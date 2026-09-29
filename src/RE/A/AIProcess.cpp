@@ -26,11 +26,16 @@ namespace RE
 		}
 	}
 
+	void AIProcess::ClearFurniture(Actor* a_actor)
+	{
+		using func_t = void (*)(AIProcess*, Actor*);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(38773, 39798) };
+		return func(this, a_actor);
+	}
+
 	void AIProcess::ClearFurniture()
 	{
-		using func_t = decltype(&AIProcess::ClearFurniture);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(38773, 39798) };
-		return func(this);
+		ClearFurniture(nullptr);
 	}
 
 	void AIProcess::ClearMuzzleFlashes()

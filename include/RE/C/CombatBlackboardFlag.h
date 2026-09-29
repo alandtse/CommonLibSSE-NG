@@ -7,7 +7,7 @@ namespace RE
 	class CombatBlackboardFlag
 	{
 	public:
-		CombatBlackboardFlag();
+		CombatBlackboardFlag(const char* a_name, std::uint8_t a_bit);
 
 		static CombatBlackboardFlag* GetHiding();
 		static CombatBlackboardFlag* GetUsingCover();

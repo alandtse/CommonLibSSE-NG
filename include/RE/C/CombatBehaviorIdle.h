@@ -10,7 +10,7 @@ namespace RE
 	public:
 		CombatBehaviorIdle(float interval);
 
-		void Update();
+		void Update(CombatBehaviorThread* a_thread);
 
 		// members
 		AITimer timer;  // 00

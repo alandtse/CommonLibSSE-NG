@@ -9,10 +9,10 @@ namespace RE
 		func(this, interval);
 	}
 
-	void CombatBehaviorIdle::Update()
+	void CombatBehaviorIdle::Update(CombatBehaviorThread* a_thread)
 	{
 		using func_t = decltype(&CombatBehaviorIdle::Update);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(32436, 0) };
-		return func(this);
+		return func(this, a_thread);
 	}
 }

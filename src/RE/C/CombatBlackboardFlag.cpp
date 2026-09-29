@@ -2,11 +2,11 @@
 
 namespace RE
 {
-	CombatBlackboardFlag::CombatBlackboardFlag()
+	CombatBlackboardFlag::CombatBlackboardFlag(const char* a_name, std::uint8_t a_bit)
 	{
-		using func_t = CombatBlackboardFlag*(CombatBlackboardFlag*);
+		using func_t = CombatBlackboardFlag*(CombatBlackboardFlag*, const char*, std::uint8_t);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(43311, 0) };
-		func(this);
+		func(this, a_name, a_bit);
 	}
 
 	CombatBlackboardFlag* CombatBlackboardFlag::GetHiding()

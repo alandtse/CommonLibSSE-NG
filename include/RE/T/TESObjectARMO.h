@@ -21,6 +21,8 @@
 
 namespace RE
 {
+	class InventoryEntryData;
+
 	class TESObjectARMO :
 		public TESBoundObject,             // 000
 		public TESFullName,                // 030
@@ -68,7 +70,7 @@ namespace RE
 		[[nodiscard]] float          GetArmorRating();
 		[[nodiscard]] TESObjectARMA* GetArmorAddon(TESRace* a_race);
 		[[nodiscard]] TESObjectARMA* GetArmorAddonByMask(TESRace* a_race, BipedObjectSlot a_slot);
-		void                         InitWornArmor(Actor* a_actor, BSTSmartPointer<BipedAnim>* a_biped);
+		static void                  InitWornArmor(TESNPC* a_npc, Actor* a_actor, BSTSmartPointer<BipedAnim>* a_biped, InventoryEntryData* a_entry);
 
 		// members
 		std::uint32_t            armorRating;    // 200 - DNAM - CK value * 100 as a std::uint32_t
