@@ -2500,6 +2500,7 @@ set(SOURCES
 	src/RE/N/NiTexture.cpp
 	src/RE/N/NiTimeController.cpp
 	src/RE/N/NiTransform.cpp
+	src/RE/N/NiTriShape.cpp
 	src/RE/O/Object.cpp
 	src/RE/O/ObjectTypeInfo.cpp
 	src/RE/O/ObjectTypes.cpp

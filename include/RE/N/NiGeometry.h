@@ -50,7 +50,6 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void* Unk_38(void);                           // 38, 39 - ret call m_spModelData vtbl+0x9C
 		SKYRIM_REL_VR_VIRTUAL void  SetGeometryData(NiGeometryData* unk1);  // 39, 3A - set and AddRef geometry data
 		SKYRIM_REL_VR_VIRTUAL void* Unk_3A(void);                           // 3A, 3B - ret call m_spModelData vtbl+0x94
-		SKYRIM_REL_VR_VIRTUAL std::uint16_t Unk_3B(bool unk1);              // 3B, 3C ??
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x110, 0x138);
 
