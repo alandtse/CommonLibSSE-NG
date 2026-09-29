@@ -29,9 +29,7 @@ namespace RE
 
 	bool MagicItem::IsValid() const
 	{
-		using func_t = decltype(&MagicItem::IsValid);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(11183, 11290) };
-		return func(this);
+		return IsPermanent();
 	}
 
 	Effect* MagicItem::GetCostliestEffectItem(MagicSystem::Delivery a_delivery, bool a_positiveArea) const

@@ -51,7 +51,6 @@ namespace RE
 
 		void                              AddEntryData(InventoryEntryData* a_entry);
 		RE::ExtraDataList*                EnchantObject(RE::TESBoundObject* a_obj, RE::ExtraDataList* a_extraList, RE::EnchantmentItem* a_enchantment, uint16_t a_charge);
-		void                              GenerateLeveledListChanges();
 		TESObjectARMO*                    GetArmorInSlot(std::int32_t a_slot);
 		[[nodiscard]] InventoryEntryData* GetInventoryItemAt(std::int32_t a_index);
 		float                             GetInventoryWeight();
@@ -70,6 +69,8 @@ namespace RE
 		void                              SetUniqueID(ExtraDataList* a_itemList, TESForm* a_oldForm, TESForm* a_newForm);
 		void                              VisitInventory(IItemChangeVisitor& visitor);
 		void                              VisitWornItems(IItemChangeVisitor& visitor);
+
+		[[deprecated("Use InitScripts()")]] void GenerateLeveledListChanges();
 
 		[[nodiscard]] std::int32_t GetCount(const TESBoundObject* a_object, std::predicate<const InventoryEntryData*> auto a_itemFilter) const
 		{

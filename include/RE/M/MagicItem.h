@@ -116,7 +116,6 @@ namespace RE
 		[[nodiscard]] Effect*                GetCostliestEffectItem(MagicSystem::Delivery a_delivery = MagicSystem::Delivery::kNone, bool a_positiveArea = false) const;
 		[[nodiscard]] Data*                  GetData();
 		[[nodiscard]] const Data*            GetData() const;
-		[[nodiscard]] bool                   IsValid() const;
 		[[nodiscard]] std::int32_t           GetLargestArea() const;
 		[[nodiscard]] std::uint32_t          GetLongestDuration() const;
 		[[nodiscard]] bool                   HasEffect(EffectArchetype a_archetype);
@@ -124,6 +123,8 @@ namespace RE
 		[[nodiscard]] bool                   IsPermanent() const;
 		[[nodiscard]] Effect*                GetEffectIsMatch(EffectSetting* a_base, float a_mag, ::uint32_t a_area, ::uint32_t a_dur, float a_cost);
 		void                                 Traverse(MagicItemTraversalFunctor& a_visitor) const;
+
+		[[deprecated("Returns IsPermanent(); use IsPermanent()")]] [[nodiscard]] bool IsValid() const;
 
 		// members
 		BSTArray<Effect*>           effects;          // 58
