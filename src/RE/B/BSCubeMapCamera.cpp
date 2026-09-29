@@ -41,4 +41,11 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(100781, 107565) };
 		return func(this);
 	}
+
+#ifdef SKYRIM_CROSS_VR
+	void BSCubeMapCamera::RenderCubemap(FaceEnableFlags a_faceMask, bool a_arg2, bool a_clearScenes, bool a_arg4)
+	{
+		REL::RelocateVirtual<decltype(&BSCubeMapCamera::RenderCubemap)>(0x35, 0x36, this, a_faceMask, a_arg2, a_clearScenes, a_arg4);
+	}
+#endif
 }

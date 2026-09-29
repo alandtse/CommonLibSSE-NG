@@ -25,8 +25,10 @@ namespace RE
 			~DefaultState() override;  // 00
 
 			// add
-			void Begin() override;                                               // 01
+			void Begin() override;  // 01
+#ifndef SKYRIM_CROSS_VR
 			void Update(BSTSmartPointer<TESCameraState>& a_nextState) override;  // 03
+#endif
 
 			// members
 			NiPoint3      initialPosition;       // 20

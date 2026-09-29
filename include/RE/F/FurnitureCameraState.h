@@ -24,12 +24,12 @@ namespace RE
 #else
 		void Unk_03();  // 03 - Multi-runtime
 #endif
-		void Update(BSTSmartPointer<TESCameraState>& a_nextState) override;  // 03/04
-		void GetRotation(NiQuaternion& a_rotation) override;                 // 04/05
-		void GetTranslation(NiPoint3& a_translation) override;               // 05/06
-		void SaveGame(BGSSaveFormBuffer* a_buf) override;                    // 06/07
-		void LoadGame(BGSLoadFormBuffer* a_buf) override;                    // 07/08
-		void Revert(BGSLoadFormBuffer* a_buf) override;                      // 08/09
+		void Update(BSTSmartPointer<TESCameraState>& a_nextState) SKYRIM_REL_VR_OVERRIDE;  // 03/04
+		void GetRotation(NiQuaternion& a_rotation) SKYRIM_REL_VR_OVERRIDE;                 // 04/05
+		void GetTranslation(NiPoint3& a_translation) SKYRIM_REL_VR_OVERRIDE;               // 05/06
+		void SaveGame(BGSSaveFormBuffer* a_buf) SKYRIM_REL_VR_OVERRIDE;                    // 06/07
+		void LoadGame(BGSLoadFormBuffer* a_buf) SKYRIM_REL_VR_OVERRIDE;                    // 07/08
+		void Revert(BGSLoadFormBuffer* a_buf) SKYRIM_REL_VR_OVERRIDE;                      // 08/09
 
 		std::uint32_t unk20;  // 20
 		NiPoint3      unk24;  // 24

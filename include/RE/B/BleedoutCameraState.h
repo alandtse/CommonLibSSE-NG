@@ -29,7 +29,9 @@ namespace RE
 #else
 		void Unk_03();  // 03 - Multi-runtime
 #endif
+#ifndef SKYRIM_CROSS_VR
 		void Update(BSTSmartPointer<TESCameraState>& a_nextState) override;  // 03/04
+#endif
 
 		// members
 		NiMatrix3             rotationMtx;        // 0E8

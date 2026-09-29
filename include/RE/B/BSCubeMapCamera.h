@@ -48,8 +48,8 @@ namespace RE
 		const NiRTTI* GetRTTI() const override;  // 02
 
 		// add
-		void         SetFace(Face a_face);
-		virtual void RenderCubemap(FaceEnableFlags a_faceMask, bool a_arg2, bool a_clearScenes, bool a_arg4);  // 35
+		void                       SetFace(Face a_face);
+		SKYRIM_REL_VR_VIRTUAL void RenderCubemap(FaceEnableFlags a_faceMask, bool a_arg2, bool a_clearScenes, bool a_arg4);  // 35
 
 		// members
 		BSTArray<NiPointer<NiAVObject>> scenes;             // 188

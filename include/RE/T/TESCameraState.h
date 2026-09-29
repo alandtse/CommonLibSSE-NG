@@ -32,12 +32,12 @@ namespace RE
 #else
 		void Unk_03();  // 03 - Multi-runtime
 #endif
-		virtual void Update(BSTSmartPointer<TESCameraState>& a_nextState);  // 03/04
-		virtual void GetRotation(NiQuaternion& a_rotation);                 // 04/05
-		virtual void GetTranslation(NiPoint3& a_translation);               // 05/06
-		virtual void SaveGame(BGSSaveFormBuffer* a_buf);                    // 06/07 - { return; }
-		virtual void LoadGame(BGSLoadFormBuffer* a_buf);                    // 07/08 - { return; }
-		virtual void Revert(BGSLoadFormBuffer* a_buf);                      // 08/09 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void Update(BSTSmartPointer<TESCameraState>& a_nextState);  // 03/04
+		SKYRIM_REL_VR_VIRTUAL void GetRotation(NiQuaternion& a_rotation);                 // 04/05
+		SKYRIM_REL_VR_VIRTUAL void GetTranslation(NiPoint3& a_translation);               // 05/06
+		SKYRIM_REL_VR_VIRTUAL void SaveGame(BGSSaveFormBuffer* a_buf);                    // 06/07 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void LoadGame(BGSLoadFormBuffer* a_buf);                    // 07/08 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void Revert(BGSLoadFormBuffer* a_buf);                      // 08/09 - { return; }
 
 		// members
 		std::uint32_t pad0C;   // 0C

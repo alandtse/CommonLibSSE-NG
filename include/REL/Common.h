@@ -157,6 +157,15 @@
  * </p>
  */
 #	define SKYRIM_REL_VR_VIRTUAL virtual
+
+/**
+ * A macro which defines a modifier for overrides of functions declared with SKYRIM_REL_VR_VIRTUAL.
+ *
+ * <p>
+ * Currently defined as <code>override</code> since this build is only for VR or non-VR.
+ * </p>
+ */
+#	define SKYRIM_REL_VR_OVERRIDE override
 #else
 /**
  * A macro which defines a modifier for expressions that vary between Skyrim SE/AE and Skyrim VR.
@@ -184,6 +193,15 @@
  * </p>
  */
 #	define SKYRIM_REL_VR_VIRTUAL
+
+/**
+ * A macro which defines a modifier for overrides of functions declared with SKYRIM_REL_VR_VIRTUAL.
+ *
+ * <p>
+ * Currently defined as empty since this build is for both VR and non-VR.
+ * </p>
+ */
+#	define SKYRIM_REL_VR_OVERRIDE
 #endif
 
 /**

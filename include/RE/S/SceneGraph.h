@@ -15,9 +15,11 @@ namespace RE
 		~SceneGraph() override;  // 00
 
 		// override (BSSceneGraph)
-		const NiRTTI* GetRTTI() const override;    // 02
-		float         GetFarDistance() override;   // 3E
-		float         GetNearDistance() override;  // 3F
+		const NiRTTI* GetRTTI() const override;  // 02
+#ifndef SKYRIM_CROSS_VR
+		float GetFarDistance() override;   // 3E
+		float GetNearDistance() override;  // 3F
+#endif
 
 		struct SCENE_GRAPH_RUNTIME_DATA
 		{

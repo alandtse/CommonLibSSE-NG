@@ -2204,6 +2204,7 @@ set(SOURCES
 	src/RE/B/BSResponse.cpp
 	src/RE/B/BSScaleformManager.cpp
 	src/RE/B/BSScaleformTranslator.cpp
+	src/RE/B/BSSceneGraph.cpp
 	src/RE/B/BSScriptObjectBindPolicy.cpp
 	src/RE/B/BSShaderAccumulator.cpp
 	src/RE/B/BSShaderProperty.cpp
@@ -2216,6 +2217,7 @@ set(SOURCES
 	src/RE/B/BSTempNodeManager.cpp
 	src/RE/B/BSTreeNode.cpp
 	src/RE/B/BSUIMessageData.cpp
+	src/RE/B/BSValueNode.cpp
 	src/RE/B/BSVirtualKeyboardDevice.cpp
 	src/RE/B/BSVisit.cpp
 	src/RE/B/BSWin32GamepadDevice.cpp
@@ -2237,6 +2239,7 @@ set(SOURCES
 	src/RE/C/CFilter.cpp
 	src/RE/C/Calendar.cpp
 	src/RE/C/ChainExplosion.cpp
+	src/RE/C/Character.cpp
 	src/RE/C/ChestsLooted.cpp
 	src/RE/C/ChildSelectorBase.cpp
 	src/RE/C/CollisionLayers.cpp
@@ -2457,6 +2460,7 @@ set(SOURCES
 	src/RE/M/MessageBoxMenu.cpp
 	src/RE/M/Misc.cpp
 	src/RE/M/MissileProjectile.cpp
+	src/RE/M/MovementControllerNPC.cpp
 	src/RE/N/NativeFunctionBase.cpp
 	src/RE/N/NextChildSelector.cpp
 	src/RE/N/NiAVObject.cpp
@@ -2488,6 +2492,7 @@ set(SOURCES
 	src/RE/N/NiNode.cpp
 	src/RE/N/NiObject.cpp
 	src/RE/N/NiObjectNET.cpp
+	src/RE/N/NiParticleSystem.cpp
 	src/RE/N/NiPick.cpp
 	src/RE/N/NiPoint2.cpp
 	src/RE/N/NiPoint3.cpp

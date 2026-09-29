@@ -33,12 +33,14 @@ namespace RE
 #else
 		void Unk_03();  // 03 - Multi-runtime
 #endif
+#ifndef SKYRIM_CROSS_VR
 		void Update(BSTSmartPointer<TESCameraState>& a_nextState) override;  // 03/04
 		void GetRotation(NiQuaternion& a_rotation) override;                 // 04/05
 		void GetTranslation(NiPoint3& a_translation) override;               // 05/06
 		void SaveGame(BGSSaveFormBuffer* a_buf) override;                    // 06/07
 		void LoadGame(BGSLoadFormBuffer* a_buf) override;                    // 07/08
 		void Revert(BGSLoadFormBuffer* a_buf) override;                      // 08/09
+#endif
 
 		// override (PlayerInputHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01
@@ -47,16 +49,16 @@ namespace RE
 #endif
 
 		// add
-		virtual void SetCameraHandle(RefHandle& a_handle);        // 09/0A - { return; }
-		virtual void Unk_0A(void);                                // 0A/0B - { return; }
-		virtual void ProcessWeaponDrawnChange(bool a_drawn);      // 0B/0C
-		virtual bool GetFreeRotationMode() const;                 // 0C/0D
-		virtual void SetFreeRotationMode(bool a_weaponSheathed);  // 0D/0E
-		virtual void UpdateRotation();                            // 0E/0F
-		virtual void HandleLookInput(const NiPoint2& a_input);    // 0F/10
-		void         ResetFreeRotation();
-		virtual void UpdateTranslation(float* a_rotationInput);  // 10/11
-		void         UpdateCameraCollision();
+		SKYRIM_REL_VR_VIRTUAL void SetCameraHandle(RefHandle& a_handle);        // 09/0A - { return; }
+		SKYRIM_REL_VR_VIRTUAL void Unk_0A(void);                                // 0A/0B - { return; }
+		SKYRIM_REL_VR_VIRTUAL void ProcessWeaponDrawnChange(bool a_drawn);      // 0B/0C
+		SKYRIM_REL_VR_VIRTUAL bool GetFreeRotationMode() const;                 // 0C/0D
+		SKYRIM_REL_VR_VIRTUAL void SetFreeRotationMode(bool a_weaponSheathed);  // 0D/0E
+		SKYRIM_REL_VR_VIRTUAL void UpdateRotation();                            // 0E/0F
+		SKYRIM_REL_VR_VIRTUAL void HandleLookInput(const NiPoint2& a_input);    // 0F/10
+		void                       ResetFreeRotation();
+		SKYRIM_REL_VR_VIRTUAL void UpdateTranslation(float* a_rotationInput);  // 10/11
+		void                       UpdateCameraCollision();
 
 		// members
 		NiAVObject*   thirdPersonCameraObj;   // 30

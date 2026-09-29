@@ -29,7 +29,7 @@ namespace RE
 #endif
 
 		// add
-		virtual bool ParseNameForValue();  // 35
+		SKYRIM_REL_VR_VIRTUAL bool ParseNameForValue();  // 35
 
 		struct VALUE_NODE_RUNTIME_DATA
 		{

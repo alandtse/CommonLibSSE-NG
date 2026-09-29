@@ -114,10 +114,10 @@ namespace RE
 		void AppendVirtual(BSGeometry& a_visible, std::int32_t a_alphaGroupIndex) override;                   // 18
 
 		// add
-		virtual void               AppendNonAccum(NiAVObject& a_object, std::int32_t a_alphaGroupIndex);  // 19
-		virtual bool               TestBaseVisibility1(BSMultiBound& a_bound);                            // 1A
-		virtual bool               TestBaseVisibility2(BSOcclusionPlane& a_bound);                        // 1B
-		[[nodiscard]] virtual bool TestBaseVisibility3(const NiBound& a_bound);                           // 1C
+		virtual void                             AppendNonAccum(NiAVObject& a_object, std::int32_t a_alphaGroupIndex);  // 19
+		virtual bool                             TestBaseVisibility1(BSMultiBound& a_bound);                            // 1A
+		SKYRIM_REL_VR_VIRTUAL bool               TestBaseVisibility2(BSOcclusionPlane& a_bound);                        // 1B
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool TestBaseVisibility3(const NiBound& a_bound);                           // 1C
 
 		bool        AddShared(NiAVObject* a_object);
 		static void Process(CullingContext& a_context);

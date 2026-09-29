@@ -49,8 +49,8 @@ namespace RE
 		void          UpdateWorldData(NiUpdateData* a_data);                                                              // 30
 
 		// add
-		virtual void UpdateSystem(float a_time);     // 38 - { return NiParticleSystem::Do_UpdateSystem(a_time); }
-		virtual void Do_UpdateSystem(float a_time);  // 39
+		SKYRIM_REL_VR_VIRTUAL void UpdateSystem(float a_time);     // 38 - { return NiParticleSystem::Do_UpdateSystem(a_time); }
+		SKYRIM_REL_VR_VIRTUAL void Do_UpdateSystem(float a_time);  // 39
 
 		void AddModifier(NiPSysModifier* a_modifier)
 		{

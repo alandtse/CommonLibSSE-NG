@@ -22,4 +22,16 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(100213, 106921) };
 		return func(&a_context, 0, 0);
 	}
+
+#ifdef SKYRIM_CROSS_VR
+	bool BSCullingProcess::TestBaseVisibility2(BSOcclusionPlane& a_bound)
+	{
+		return REL::RelocateVirtual<decltype(&BSCullingProcess::TestBaseVisibility2)>(0x1B, 0x1C, this, a_bound);
+	}
+
+	bool BSCullingProcess::TestBaseVisibility3(const NiBound& a_bound)
+	{
+		return REL::RelocateVirtual<decltype(&BSCullingProcess::TestBaseVisibility3)>(0x1C, 0x1D, this, a_bound);
+	}
+#endif
 }

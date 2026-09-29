@@ -30,9 +30,9 @@ namespace RE
 #else
 		void Unk_03();  // 03 - Multi-runtime
 #endif
-		void Update(BSTSmartPointer<TESCameraState>& a_nextState) override;  // 03/04
-		void GetRotation(NiQuaternion& a_rotation) override;                 // 04/05
-		void GetTranslation(NiPoint3& a_translation) override;               // 05/06
+		void Update(BSTSmartPointer<TESCameraState>& a_nextState) SKYRIM_REL_VR_OVERRIDE;  // 03/04
+		void GetRotation(NiQuaternion& a_rotation) SKYRIM_REL_VR_OVERRIDE;                 // 04/05
+		void GetTranslation(NiPoint3& a_translation) SKYRIM_REL_VR_OVERRIDE;               // 05/06
 
 		// members
 		std::uint64_t   unk20;           // 20

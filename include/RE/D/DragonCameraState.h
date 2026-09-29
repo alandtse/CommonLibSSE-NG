@@ -24,20 +24,22 @@ namespace RE
 #else
 		void Unk_03();  // 03 - Multi-runtime
 #endif
+#ifndef SKYRIM_CROSS_VR
 		void Update(BSTSmartPointer<TESCameraState>& a_nextState) override;  // 03/04
 		void GetRotation(NiQuaternion& a_rotation) override;                 // 04/05
 		void GetTranslation(NiPoint3& a_translation) override;               // 05/06
 		void SaveGame(BGSSaveFormBuffer* a_buf) override;                    // 06/07
 		void LoadGame(BGSLoadFormBuffer* a_buf) override;                    // 07/08
 		void Revert(BGSLoadFormBuffer* a_buf) override;                      // 08/09
+#endif
 
-		void SetCameraHandle(RefHandle& a_handle) override;        // 09/0A - { return; }
-		void Unk_0A(void) override;                                // 0A/0B - { return; }
-		void ProcessWeaponDrawnChange(bool a_drawn) override;      // 0B/0C
-		bool GetFreeRotationMode() const override;                 // 0C/0D
-		void SetFreeRotationMode(bool a_weaponSheathed) override;  // 0D/0E
-		void UpdateRotation();                                     // 0E/0F
-		void HandleLookInput(const NiPoint2& a_input) override;    // 0F/10
+		void SetCameraHandle(RefHandle& a_handle) SKYRIM_REL_VR_OVERRIDE;        // 09/0A - { return; }
+		void Unk_0A(void) SKYRIM_REL_VR_OVERRIDE;                                // 0A/0B - { return; }
+		void ProcessWeaponDrawnChange(bool a_drawn) SKYRIM_REL_VR_OVERRIDE;      // 0B/0C
+		bool GetFreeRotationMode() const SKYRIM_REL_VR_OVERRIDE;                 // 0C/0D
+		void SetFreeRotationMode(bool a_weaponSheathed) SKYRIM_REL_VR_OVERRIDE;  // 0D/0E
+		void UpdateRotation();                                                   // 0E/0F
+		void HandleLookInput(const NiPoint2& a_input) SKYRIM_REL_VR_OVERRIDE;    // 0F/10
 
 		// override (PlayerInputHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01

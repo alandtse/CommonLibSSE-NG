@@ -21,9 +21,9 @@ namespace RE
 		const NiRTTI* GetRTTI() const override;  // 02
 
 		// add
-		virtual float GetFarDistance();                                    // 3E
-		virtual float GetNearDistance();                                   // 3F - { return fNearDistance:Display; }
-		virtual void  SetViewDistanceBasedOnFrameRate(float a_frameRate);  // 40
+		SKYRIM_REL_VR_VIRTUAL float GetFarDistance();                                    // 3E
+		SKYRIM_REL_VR_VIRTUAL float GetNearDistance();                                   // 3F - { return fNearDistance:Display; }
+		SKYRIM_REL_VR_VIRTUAL void  SetViewDistanceBasedOnFrameRate(float a_frameRate);  // 40
 
 		struct BS_SCENE_GRAPH_RUNTIME_DATA
 		{

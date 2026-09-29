@@ -20,11 +20,13 @@ namespace RE
 		~FreeCameraState() override;  // 00
 
 		// override (TESCameraState)
-		void Begin() override;                                               // 01
-		void End() override;                                                 // 02
+		void Begin() override;  // 01
+		void End() override;    // 02
+#ifndef SKYRIM_CROSS_VR
 		void Update(BSTSmartPointer<TESCameraState>& a_nextState) override;  // 03
 		void GetRotation(NiQuaternion& a_rotation) override;                 // 04
 		void GetTranslation(NiPoint3& a_translation) override;               // 05
+#endif
 
 		// override (PlayerInputHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01

@@ -1,7 +1,11 @@
 #pragma once
 
+#include "RE/B/BSFixedString.h"
 #include "RE/B/BSIntrusiveRefCounted.h"
+#include "RE/B/BSTArray.h"
+#include "RE/B/BSTSmartPointer.h"
 #include "RE/I/IMovementControllerRegisterInterface.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
