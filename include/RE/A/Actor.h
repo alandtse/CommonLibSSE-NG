@@ -671,7 +671,6 @@ namespace RE
 		void                                    ProcessVATSAttack(MagicCaster* a_caster, bool a_hasTargetAnim, TESObjectREFR* a_target, bool a_leftHand);
 		void                                    RemoveAnimationGraphEventSink(BSTEventSink<BSAnimationGraphEvent>* a_sink) const;
 		void                                    RemoveCastScroll(SpellItem* a_spell, MagicSystem::CastingSource a_source);
-		void                                    RefreshEquippedActorValueCharge(const RE::TESForm* a_object, const RE::ExtraDataList* a_extraList, bool a_isLeft);
 		void                                    RemoveExtraArrows3D();
 		void                                    RemoveFromFaction(TESFaction* a_faction);
 		void                                    RemoveOutfitItems(BGSOutfit* a_outfit);
@@ -706,6 +705,8 @@ namespace RE
 		void                       VisitSpells(ForEachSpellVisitor& a_visitor);
 		[[nodiscard]] std::uint8_t WhoIsCasting();
 		bool                       WouldBeStealing(const TESObjectREFR* a_target) const;
+
+		[[deprecated("Bound to unrelated engine functions on SE and AE; the real routine is not identified")]] void RefreshEquippedActorValueCharge(const RE::TESForm* a_object, const RE::ExtraDataList* a_extraList, bool a_isLeft);
 
 		struct ACTOR_RUNTIME_DATA
 		{
