@@ -4,8 +4,14 @@ namespace RE
 {
 	CombatBehaviorTree::TreeBuilder::TreeBuilder(CombatBehaviorTreeNode* a_node)
 	{
+		// AE inlines this into its callers, and the id there is the destructor.
+		if (REL::Module::IsAE()) {
+			nodeArray.push_back(a_node);
+			return;
+		}
+
 		using func_t = CombatBehaviorTree::TreeBuilder*(CombatBehaviorTree::TreeBuilder*, CombatBehaviorTreeNode*);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46266, 47521) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46266, 0) };
 		func(this, a_node);
 	}
 
