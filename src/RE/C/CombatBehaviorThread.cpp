@@ -89,7 +89,7 @@ namespace RE
 	bool CombatBehaviorThread::GetInitialUpdate() const
 	{
 		using func_t = decltype(&CombatBehaviorThread::GetInitialUpdate);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46232, 47487) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46232, 47488) };
 		return func(this);
 	}
 
