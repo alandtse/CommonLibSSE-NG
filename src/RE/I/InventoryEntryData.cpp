@@ -300,7 +300,7 @@ namespace RE
 	void InventoryEntryData::SetWorn(bool a_worn, bool a_left, bool a_deleteExtraList)
 	{
 		using func_t = decltype(&InventoryEntryData::SetWorn);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(16027, 15789) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(15789, 16027) };
 		return func(this, a_worn, a_left, a_deleteExtraList);
 	}
 
