@@ -52,7 +52,7 @@ namespace RE
 		NiPointer<BSPortalSharedNode>         portalSharedNode;            // 70
 		BSTArray<NiPointer<NiAVObject>>       pendingAlwaysRenderAdds;     // 78
 		BSTArray<NiPointer<NiAVObject>>       pendingAlwaysRenderRemoves;  // 90
-		BSTArray<NiNode*>                     unkA8;                       // A8 - raw pointers, no refcounting
+		BSTArray<NiPointer<NiNode>>           cellNodes;                   // A8
 		FormID                                cellID;                      // C0
 		std::uint32_t                         padC4;                       // C4
 	};
