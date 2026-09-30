@@ -1,11 +1,13 @@
 #pragma once
 
-#include "RE/B/BSCompoundFrustum.h"
 #include "RE/B/BSOcclusionShape.h"
+#include "RE/N/NiFrustumPlanes.h"
 #include "RE/N/NiPoint2.h"
 
 namespace RE
 {
+	class BSMultiBoundShape;
+
 	class BSOcclusionBox : public BSOcclusionShape
 	{
 	public:
@@ -22,21 +24,16 @@ namespace RE
 		bool          IsOcclusionBox() const override;                    // 25
 
 		// members
-		NiPoint3          size;              // 048
-		NiFrustumPlanes   frustumPlanes[2];  // 054
-		NiPlane           faces[6];          // 134
-		float             unk194;            // 194
-		BSMultiBoundAABB* boundShape;        // 198
-		uint64_t          unk1A0;            // 1A0
-		uint32_t          unk1A8;            // 1A8
-		uint32_t          unk1AC;            // 1AC
-		uint64_t          unk1B4;            // 1B4
-		uint64_t          unk1BC;            // 1BC
-		uint64_t          unk1C0;            // 1C0
-		uint64_t          unk1C8;            // 1C8
-		uint64_t          unk1D0;            // 1D0
-		uint64_t          unk1D8;            // 1D8
-		uint32_t          unk1E4;            // 1E4
+		NiPoint3           size;                  // 048
+		NiFrustumPlanes    frustumPlanes[2];      // 054
+		NiPoint3           corners[8];            // 134
+		float              unk194;                // 194
+		BSMultiBoundShape* boundShape;            // 198 - AABB when the rotation is identity, else OBB
+		std::uint64_t      unk1A0;                // 1A0
+		std::uint32_t      unk1A8;                // 1A8
+		std::int32_t       facePlaneSlots[6];     // 1AC - -1 when unused
+		std::uint32_t      silhouetteIndices[8];  // 1C4
+		std::uint32_t      silhouetteCount;       // 1E4
 	};
 	static_assert(sizeof(BSOcclusionBox) == 0x1E8);
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RE/B/BSCompoundFrustum.h"
 #include "RE/B/BSOcclusionShape.h"
+#include "RE/N/NiFrustumPlanes.h"
 #include "RE/N/NiPoint2.h"
 
 namespace RE
@@ -24,8 +24,12 @@ namespace RE
 		bool WithinFrustumDistFirst(const NiFrustumPlanes* a_planes, const NiPoint3* a_point);
 
 		// members
-		NiPoint2          size;     // 48
-		BSCompoundFrustum frustum;  // 50
+		NiPoint2        size;           // 48
+		NiFrustumPlanes frustumPlanes;  // 50
+		NiPoint3        corners[4];     // C0
+		std::uint8_t    edgeFlags[4];   // F0
+		std::uint8_t    unkF4;          // F4
+		std::uint64_t   unkF8[4];       // F8
 	};
 	static_assert(sizeof(BSOcclusionPlane) == 0x118);
 }
