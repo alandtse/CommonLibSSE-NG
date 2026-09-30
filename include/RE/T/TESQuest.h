@@ -257,6 +257,7 @@ namespace RE
 		bool                                     Start();
 		[[nodiscard]] bool                       StartsEnabled() const;
 		void                                     Stop();
+		bool                                     UpdateCurrentInstanceGlobal(TESGlobal* a_global);
 
 		// members
 		BSTArray<BGSQuestInstanceText*>                      instanceData;                             // 038
