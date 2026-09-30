@@ -149,4 +149,11 @@ namespace RE
 			SetEnabled(false);
 		}
 	}
+
+	bool TESQuest::UpdateCurrentInstanceGlobal(TESGlobal* a_global)
+	{
+		using func_t = decltype(&TESQuest::UpdateCurrentInstanceGlobal);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(24509, 25037) };
+		return func(this, a_global);
+	}
 }
