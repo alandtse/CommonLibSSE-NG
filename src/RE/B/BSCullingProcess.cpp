@@ -24,6 +24,19 @@ namespace RE
 	}
 
 #ifdef SKYRIM_CROSS_VR
+	void BSCullingProcess::ClearCollectedGeometry()
+	{
+		if (REL::Module::IsVR()) {
+			REL::RelocateVirtual<decltype(&BSCullingProcess::ClearCollectedGeometry)>(0x1A, 0x1A, this);
+		}
+		// SE/AE: no such function
+	}
+
+	bool BSCullingProcess::TestBaseVisibility1(BSMultiBound& a_bound)
+	{
+		return REL::RelocateVirtual<decltype(&BSCullingProcess::TestBaseVisibility1)>(0x1A, 0x1B, this, a_bound);
+	}
+
 	bool BSCullingProcess::TestBaseVisibility2(BSOcclusionPlane& a_bound)
 	{
 		return REL::RelocateVirtual<decltype(&BSCullingProcess::TestBaseVisibility2)>(0x1B, 0x1C, this, a_bound);
