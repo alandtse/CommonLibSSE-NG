@@ -28,7 +28,7 @@ namespace RE
 		NiFrustumPlanes frustumPlanes;  // 50
 		NiPoint3        corners[4];     // C0
 		std::uint8_t    edgeFlags[4];   // F0
-		std::uint8_t    unkF4;          // F4
+		bool            twoSided;       // F4 - set at construction
 		std::uint64_t   unkF8[4];       // F8
 	};
 	static_assert(sizeof(BSOcclusionPlane) == 0x118);
