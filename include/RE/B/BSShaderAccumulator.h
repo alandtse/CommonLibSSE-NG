@@ -81,7 +81,7 @@ namespace RE
 		{
 #define FLAT_RUNTIME_DATA_CONTENT                                                                                                              \
 	std::uint8_t     unk58[0x4];               /* 58 */                                                                                        \
-	bool             unk5C;                    /* 5C */                                                                                        \
+	bool             useEqualDepthTest;        /* 5C */                                                                                        \
 	std::uint32_t    sunPixelCount;            /* 60 */                                                                                        \
 	bool             waitingForSunQuery;       /* 64 */                                                                                        \
 	float            percentSunOccludedStored; /* 68 */                                                                                        \
@@ -116,13 +116,14 @@ namespace RE
 		void*            shaderManagerState;    /* 148 -- BSShaderManager::State*, void* to avoid a circular include with BSShaderManager.h */ \
 		ShadowSceneNode* activeShadowSceneNode; /* 148 */                                                                                      \
 	};                                                                                                                                         \
-	RENDER_MODE   renderMode;  /* 150 */                                                                                                       \
-	std::uint8_t  pad154[0x4]; /* 154 */                                                                                                       \
-	void*         unk158;      /* 158 */                                                                                                       \
-	void*         unk160;      /* 160 */                                                                                                       \
-	std::uint32_t unk168;      /* 168 */                                                                                                       \
-	NiPoint3      eyePosition; /* 16C */                                                                                                       \
-	std::uint8_t  unk178[0x8]; /* 178 */
+	RENDER_MODE   renderMode;       /* 150 */                                                                                                  \
+	std::uint8_t  pad154[0x4];      /* 154 */                                                                                                  \
+	void*         unk158;           /* 158 */                                                                                                  \
+	std::uint32_t flagOverrideMode; /* 160 */                                                                                                  \
+	std::uint32_t flagOverrideMask; /* 164 */                                                                                                  \
+	std::uint32_t unk168;           /* 168 */                                                                                                  \
+	NiPoint3      eyePosition;      /* 16C */                                                                                                  \
+	std::uint8_t  unk178[0x8];      /* 178 */
 
 			FLAT_RUNTIME_DATA_CONTENT
 		};
