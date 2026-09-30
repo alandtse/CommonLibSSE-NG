@@ -45,16 +45,16 @@ namespace RE
 		bool IsCompatibleEntry(const BSPortalGraphEntry* a_entry) const;
 
 		// members
-		NiTPointerList<BSOcclusionShape>      occlusionShapes;       // 10
-		NiTPointerList<BSPortal>              portals;               // 28
-		BSTArray<NiPointer<BSMultiBoundRoom>> rooms;                 // 40
-		BSTArray<NiPointer<NiAVObject>>       alwaysRenderChildren;  // 58
-		NiPointer<BSPortalSharedNode>         portalSharedNode;      // 70
-		BSTArray<NiPointer<NiAVObject>>       unk78;                 // 78
-		BSTArray<NiPointer<NiAVObject>>       unk90;                 // 90
-		BSTArray<NiPointer<NiNode>>           unkA8;                 // A8
-		FormID                                cellID;                // C0
-		std::uint32_t                         padC4;                 // C4
+		NiTPointerList<BSOcclusionShape>      occlusionShapes;             // 10
+		NiTPointerList<BSPortal>              portals;                     // 28
+		BSTArray<NiPointer<BSMultiBoundRoom>> rooms;                       // 40
+		BSTArray<NiPointer<NiAVObject>>       alwaysRenderChildren;        // 58
+		NiPointer<BSPortalSharedNode>         portalSharedNode;            // 70
+		BSTArray<NiPointer<NiAVObject>>       pendingAlwaysRenderAdds;     // 78
+		BSTArray<NiPointer<NiAVObject>>       pendingAlwaysRenderRemoves;  // 90
+		BSTArray<NiNode*>                     unkA8;                       // A8 - raw pointers, no refcounting
+		FormID                                cellID;                      // C0
+		std::uint32_t                         padC4;                       // C4
 	};
 	static_assert(sizeof(BSPortalGraph) == 0xC8);
 }
