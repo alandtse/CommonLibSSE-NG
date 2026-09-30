@@ -122,20 +122,21 @@ namespace RE
 		bool        AddShared(NiAVObject* a_object);
 		static void Process(CullingContext& a_context);
 
-		BSTArray<NiPointer<NiAVObject>>                                          objectArray;          // 00128
-		BSTLocklessQueue::ObjMultiProdCons<Data, 4096, 0>                        cullQueue;            // 00140
-		BSTHashMap<NiAVObject*, bool>                                            roomSharedMap;        // 30160
-		BSPortalGraphEntry*                                                      portalGraphEntry;     // 30190
-		REX::Enum<BSCPCullingType>                                               cullMode;             // 30198
-		BSCompoundFrustum*                                                       compoundFrustum;      // 301A0
-		REX::Enum<BSCPCullingType>                                               cullModeStack[10];    // 301A8
-		std::uint32_t                                                            cullModeStackIndex;   // 301D0
-		bool                                                                     recurseToGeometry;    // 301D4
-		bool                                                                     isGroupingAlphas;     // 301D5
-		std::uint16_t                                                            unk301D6;             // 301D6
-		BSTArray<BSTObjectArena<RE::BSGeometry*, BSTObjectArenaScrapAlloc, 32>*> alphaGroups;          // 301D8
-		std::int32_t                                                             alphaGroupIndex;      // 301F0
-		std::uint32_t                                                            alphaGroupStopIndex;  // 301F4
+		BSTArray<NiPointer<NiAVObject>>                                          objectArray;           // 00128
+		BSTLocklessQueue::ObjMultiProdCons<Data, 4096, 0>                        cullQueue;             // 00140
+		BSTHashMap<NiAVObject*, bool>                                            roomSharedMap;         // 30160
+		BSPortalGraphEntry*                                                      portalGraphEntry;      // 30190
+		REX::Enum<BSCPCullingType>                                               cullMode;              // 30198
+		BSCompoundFrustum*                                                       compoundFrustum;       // 301A0
+		REX::Enum<BSCPCullingType>                                               cullModeStack[10];     // 301A8
+		std::uint32_t                                                            cullModeStackIndex;    // 301D0
+		bool                                                                     recurseToGeometry;     // 301D4
+		bool                                                                     isGroupingAlphas;      // 301D5
+		bool                                                                     skipOcclusionCulling;  // 301D6 - VR only meaning
+		std::uint8_t                                                             pad301D7;              // 301D7
+		BSTArray<BSTObjectArena<RE::BSGeometry*, BSTObjectArenaScrapAlloc, 32>*> alphaGroups;           // 301D8
+		std::int32_t                                                             alphaGroupIndex;       // 301F0
+		std::uint32_t                                                            alphaGroupStopIndex;   // 301F4
 	};
 	static_assert(sizeof(BSCullingProcess) == 0x301F8);
 }
