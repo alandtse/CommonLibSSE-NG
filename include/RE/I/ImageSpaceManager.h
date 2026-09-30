@@ -338,6 +338,39 @@ namespace RE
 		};
 		static_assert(sizeof(VR_FULL_SCREEN_HELPER) == 0x38);
 
+		struct VR_EXP_HELPER
+		{
+			ImageSpaceEffect* exp;         // 00
+			bool              enabled;     // 08
+			std::uint8_t      pad09[0xF];  // 09
+		};
+		static_assert(sizeof(VR_EXP_HELPER) == 0x18);
+
+		struct VR_LIGHTING_COMPOSITE_HELPER
+		{
+			ImageSpaceEffect* effects[3];  // 00
+			std::uint32_t     unk18;       // 18
+			std::uint32_t     pad1C;       // 1C
+		};
+		static_assert(sizeof(VR_LIGHTING_COMPOSITE_HELPER) == 0x20);  // size inferred from the allocation
+
+		struct VR_PERLIN_NOISE_HELPER
+		{
+			ImageSpaceEffect* effects[2];  // 00
+			bool              enabled;     // 10
+			std::uint8_t      pad11[7];    // 11
+		};
+		static_assert(sizeof(VR_PERLIN_NOISE_HELPER) == 0x18);
+
+		struct VR_REFLECTIONS_RAY_TRACING_HELPER
+		{
+			ImageSpaceEffect* effects[2];   // 00
+			bool              enabled;      // 10
+			std::uint8_t      pad11[7];     // 11
+			std::uint8_t      unk18[0x20];  // 18 - includes a BSTArray
+		};
+		static_assert(sizeof(VR_REFLECTIONS_RAY_TRACING_HELPER) == 0x38);
+
 		struct VR_PRE_TEST_HELPER
 		{
 			ImageSpaceEffect* effects[9];    // 00
@@ -444,12 +477,12 @@ namespace RE
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISCopySubRegionCS;             /* 198, VR 1A8 */                                                                                       \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISDebugSnow;                   /* 1A0, VR 1B0 */                                                                                       \
 	VR_HIERARCHICAL_DEPTH_HELPER*       hierarchicalDepthHelper;                         /* VR, 1B8 */                                                                                           \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISExp;                         /* 1A8, VR 1C0 */                                                                                       \
+	VR_EXP_HELPER*                      expHelper;                                       /* VR 1C0 */                                                                                            \
 	VR_FULL_SCREEN_HELPER*              fullScreenVRHelper;                              /* VR 1C8 */                                                                                            \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISLightingComposite;           /* 1B0, VR 1D0 */                                                                                       \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderISPerlinNoiseCS;               /* 1B8, VR 1D8 */                                                                                       \
+	VR_LIGHTING_COMPOSITE_HELPER*       lightingCompositeHelper;                         /* VR 1D0 */                                                                                            \
+	VR_PERLIN_NOISE_HELPER*             perlinNoiseHelper;                               /* VR 1D8 */                                                                                            \
 	VR_PRE_TEST_HELPER*                 preTestHelper;                                   /* VR 1E0 */                                                                                            \
-	NiPointer<BSImagespaceShader>       BSImagespaceShaderReflectionsRayTracing;         /* 1C0, VR 1E8 */                                                                                       \
+	VR_REFLECTIONS_RAY_TRACING_HELPER*  reflectionsRayTracingHelper;                     /* VR 1E8 */                                                                                            \
 	SAOEffectParams*                    BSImagespaceShaderISSAOBlurH;                    /* 1C8, VR 1F0 -- see SAOEffectParams doc comment above */                                              \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSAOBlurHCS;                  /* 1D0, VR 1F8 */                                                                                       \
 	NiPointer<BSImagespaceShader>       BSImagespaceShaderISSILComposite;                /* 1D8, VR 200 */                                                                                       \
