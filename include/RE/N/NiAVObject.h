@@ -159,6 +159,23 @@ namespace RE
 
 		RUNTIME_DATA_ACCESSOR_EX(std::uint8_t, GetFlags02, 0x109, 0x121)  // flags02
 
+		RUNTIME_DATA_ACCESSOR_EX(float, GetFadeAmount, 0x100, 0x118)
+		RUNTIME_DATA_ACCESSOR_EX(std::uint32_t, GetLastUpdatedFrameCounter, 0x104, 0x11C)
+
+		// VR-only depth-buffer occlusion data; the accessors return nullptr on SE/AE
+		struct VR_OCCLUSION_BOX
+		{
+			NiPoint3 center;       // 00
+			NiPoint3 halfExtents;  // 0C
+		};
+		static_assert(sizeof(VR_OCCLUSION_BOX) == 0x18);
+
+		using OcclusionResultSlot = std::uint8_t*;
+
+		VR_ONLY_POINTER_ACCESSOR(VR_OCCLUSION_BOX, GetVROcclusionBox, 0x0F4)
+		VR_ONLY_POINTER_ACCESSOR(OcclusionResultSlot, GetVROcclusionResultSlot, 0x128)
+		VR_ONLY_POINTER_ACCESSOR(std::uint32_t, GetVRLastRegisteredFrame, 0x130)
+
 		BSLightingShaderProperty* temp_nicast(BSGeometry* a_geometry);
 
 		// members
@@ -182,27 +199,20 @@ namespace RE
 	};
 	static_assert(sizeof(NiAVObject) == 0x110);
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		float                             unkF4;                    // 0F4
-		float                             unkF8;                    // 0F8
-		float                             unkFC;                    // 0FC
-		float                             fadeAmount;               // 100
-		std::uint32_t                     lastUpdatedFrameCounter;  // 104
-		float                             unk108;                   // 108
+		NiPoint3                          occlusionBoxCenter;       // 0F4
+		NiPoint3                          occlusionBoxHalfExtents;  // 100
 		REX::EnumSet<Flag, std::uint32_t> flags;                    // 10C
 		TESObjectREFR*                    userData;                 // 110
-		std::uint32_t                     unk11C;                   // 11C
+		float                             fadeAmount;               // 118
+		std::uint32_t                     lastUpdatedFrameCounter;  // 11C
 		std::uint8_t                      unk120[8];                // 120 - bitfield
-		std::uint64_t                     unk128;                   // 128
-		std::uint32_t                     unk130;                   // 130
+		std::uint8_t*                     occlusionResultSlot;      // 128
+		std::uint32_t                     lastRegisteredFrame;      // 130
 		std::uint32_t                     unk134;                   // 134
 	};
 	static_assert(sizeof(NiAVObject) == 0x138);
 #else
-		uint32_t      unkF4;                    // 0F4
-		uint64_t*     unkF8;                    // 0F8
-		float         fadeAmount;               // 100
-		std::uint32_t lastUpdatedFrameCounter;  // 104
-		uint64_t      unk104;                   // 108
+		std::uint8_t unkF4[0x1C];  // 0F4 - layout differs per runtime, see accessors
 	};
 #endif
 }
