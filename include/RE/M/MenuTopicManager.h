@@ -91,8 +91,8 @@ namespace RE
 		bool                                          waitingToAdvance;      // B5
 		bool                                          advanceRequested;      // B6
 		bool                                          skipHeadResponse;      // B7
-		bool                                          unkB8;                 // B8
-		bool                                          unkB9;                 // B9
+		bool                                          advanceInProgress;     // B8 - re-entrancy guard: set while AdvanceToNextLine/SkipText run
+		bool                                          lineSkipped;           // B9 - set by SkipText; consumed by the sound/pause callbacks
 		bool                                          canSkip;               // BA
 		bool                                          closeInProgress;       // BB
 		std::uint16_t                                 padBC;                 // BC
