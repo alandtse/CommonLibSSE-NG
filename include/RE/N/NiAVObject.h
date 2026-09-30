@@ -175,6 +175,7 @@ namespace RE
 		VR_ONLY_POINTER_ACCESSOR(VR_OCCLUSION_BOX, GetVROcclusionBox, 0x0F4)
 		VR_ONLY_POINTER_ACCESSOR(OcclusionResultSlot, GetVROcclusionResultSlot, 0x128)
 		VR_ONLY_POINTER_ACCESSOR(std::uint32_t, GetVRLastRegisteredFrame, 0x130)
+		VR_ONLY_POINTER_ACCESSOR(bool, GetVRSkipOcclusionCulling, 0x122)
 
 		BSLightingShaderProperty* temp_nicast(BSGeometry* a_geometry);
 
@@ -205,7 +206,9 @@ namespace RE
 		TESObjectREFR*                    userData;                 // 110
 		float                             fadeAmount;               // 118
 		std::uint32_t                     lastUpdatedFrameCounter;  // 11C
-		std::uint8_t                      unk120[8];                // 120 - bitfield
+		std::uint8_t                      unk120[2];                // 120 - bitfield
+		bool                              skipOcclusionCulling;     // 122
+		std::uint8_t                      unk123[5];                // 123
 		std::uint8_t*                     occlusionResultSlot;      // 128
 		std::uint32_t                     lastRegisteredFrame;      // 130
 		std::uint32_t                     unk134;                   // 134
