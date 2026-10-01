@@ -76,5 +76,5 @@ namespace RE
 		std::uint32_t unk44;                       // 44
 #endif
 	};
-	STATIC_ASSERT_SIZE(AttackBlockHandler, 0x48, 0xC0, SIZE_UNDEFINED, SIZE_UNDEFINED, 0xC0);
+	STATIC_ASSERT_SIZE(AttackBlockHandler, 0x48, 0xC0, 0x90, SIZE_UNDEFINED, 0xC0);
 }
