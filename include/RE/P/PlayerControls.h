@@ -27,6 +27,11 @@ namespace RE
 	struct TESFurnitureEvent;
 	struct TogglePOVHandler;
 	struct ToggleRunHandler;
+#ifdef ENABLE_SKYRIM_VR
+	struct DragonRidingHandler;
+	struct TeleportHandler;
+	struct VrSwimHandler;
+#endif
 
 	class PlayerControls :
 		public BSTEventSink<InputEvent*>,          // 000
@@ -78,13 +83,22 @@ namespace RE
 		RunHandler*                   runHandler;             // 1C0
 		SneakHandler*                 sneakHandler;           // 1C8
 		TogglePOVHandler*             togglePOVHandler;       // 1D0
-		bool                          notifyingHandlers;      // 1D8
-		bool                          blockPlayerInput;       // 1D9
-		std::uint16_t                 unk1DA;                 // 1DA
-		std::uint32_t                 unk1DC;                 // 1DC
+#ifdef EXCLUSIVE_SKYRIM_VR
+		// VR continues the handler pointers where flat has flags. The flags below
+		// are not reachable at these offsets on VR; where VR keeps them is
+		// unresolved, so only the pointers are described here.
+		TeleportHandler*     teleportHandler;      // 1D8
+		VrSwimHandler*       vrSwimHandler;        // 1E0
+		DragonRidingHandler* dragonRidingHandler;  // 1E8
+#else
+		bool          notifyingHandlers;  // 1D8
+		bool          blockPlayerInput;   // 1D9
+		std::uint16_t unk1DA;             // 1DA
+		std::uint32_t unk1DC;             // 1DC
+#endif
 
 	private:
 		PlayerControls* Ctor();
 	};
-	static_assert(sizeof(PlayerControls) == 0x1E0);
+	STATIC_ASSERT_SIZE(PlayerControls, 0x1E0, 0x1E0, 0x1F0);
 }
