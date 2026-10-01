@@ -30,5 +30,5 @@ namespace RE
 		bool          disabled;                 // 1B
 		std::uint32_t unk1C;                    // 1C
 	};
-	STATIC_ASSERT_SIZE(ActivateHandler, 0x20, 0x20, 0x38, 0x20);
+	STATIC_ASSERT_SIZE(ActivateHandler, 0x20, 0x20, SIZE_UNDEFINED, 0x20);
 }

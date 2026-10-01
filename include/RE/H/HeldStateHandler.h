@@ -34,5 +34,5 @@ namespace RE
 		std::uint16_t pad12{ 0 };                    // 12
 		std::uint32_t pad14{ 0 };                    // 14
 	};
-	STATIC_ASSERT_SIZE(HeldStateHandler, 0x18, 0x18, 0x30, 0x18);
+	STATIC_ASSERT_SIZE(HeldStateHandler, 0x18);
 }

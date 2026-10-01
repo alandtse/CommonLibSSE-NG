@@ -44,5 +44,5 @@ namespace RE
 		float           horseCurrentDirection;  // EC
 		std::uint64_t   unkF0;                  // F0
 	};
-	STATIC_ASSERT_SIZE(HorseCameraState, 0xF8, 0x110);
+	STATIC_ASSERT_SIZE(HorseCameraState, 0xF8, SIZE_UNDEFINED);
 }

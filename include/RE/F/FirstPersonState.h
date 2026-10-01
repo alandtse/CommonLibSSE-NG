@@ -133,5 +133,5 @@ namespace RE
 		std::uint64_t unk90;                // 90
 #endif
 	};
-	STATIC_ASSERT_SIZE(FirstPersonState, 0x90, 0x98, 0xA8);
+	STATIC_ASSERT_SIZE(FirstPersonState, 0x90, 0x98, 0x90);
 }

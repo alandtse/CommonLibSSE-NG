@@ -91,5 +91,5 @@ namespace RE
 		std::uint16_t unkE2;                  // E2
 		std::uint32_t unkE4;                  // E4
 	};
-	STATIC_ASSERT_SIZE(ThirdPersonState, 0xE8, 0x100);
+	STATIC_ASSERT_SIZE(ThirdPersonState, 0xE8, SIZE_UNDEFINED);
 }

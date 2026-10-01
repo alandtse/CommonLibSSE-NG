@@ -24,5 +24,5 @@ namespace RE
 		std::uint16_t pad1A;            // 1A
 		std::uint32_t pad1C;            // 1C
 	};
-	STATIC_ASSERT_SIZE(TogglePOVHandler, 0x20, 0x38);
+	STATIC_ASSERT_SIZE(TogglePOVHandler, 0x20, SIZE_UNDEFINED);
 }

@@ -19,6 +19,9 @@ namespace RE
 #	endif
 
 		// members
+		std::uint64_t unk_18;  // 18
+		std::uint64_t unk_20;  // 20
+		std::uint64_t unk_28;  // 28
 		std::uint64_t unk_30;  // 30
 		std::uint64_t unk_38;  // 38
 		std::uint64_t unk_40;  // 40
@@ -28,13 +31,7 @@ namespace RE
 		std::uint64_t unk_60;  // 60
 		std::uint64_t unk_68;  // 68
 	};
-#	if !defined(ENABLE_SKYRIM_VR)
-	static_assert(sizeof(TeleportHandler) == 0x58);
-#	elif defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(TeleportHandler) == 0x70);
-#	else
-	static_assert(sizeof(TeleportHandler) == 0x58);
-#	endif
 
 }
 #endif
