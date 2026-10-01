@@ -367,11 +367,9 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void                   UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object);                          // SE/AE 0xA1, VR 0xA2
 
 		// override (MagicTarget)
-#ifndef ENABLE_SKYRIM_VR
 		[[nodiscard]] Actor*                       GetTargetStatsObject() override;      // 002 - { return this; }
 		[[nodiscard]] bool                         MagicTargetIsActor() const override;  // 003 - { return true; }
 		[[nodiscard]] BSSimpleList<ActiveEffect*>* GetActiveEffectList() override;       // 007
-#endif
 
 		// add
 		SKYRIM_REL_VR_VIRTUAL void                Unk_A2(void);                                                          // 0A2
