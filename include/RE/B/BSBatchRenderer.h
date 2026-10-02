@@ -75,6 +75,9 @@ namespace RE
 		GeometryGroup*                      alphaGroup;           // 0F0
 		void*                               unk0F8;               // 0F8
 		void*                               unk100;               // 100
+#ifdef EXCLUSIVE_SKYRIM_VR
+		std::uint8_t unkVr108[0x18];
+#endif
 	};
-	static_assert(sizeof(BSBatchRenderer) == 0x108);
+	STATIC_ASSERT_SIZE(BSBatchRenderer, 0x108, 0x120);
 }

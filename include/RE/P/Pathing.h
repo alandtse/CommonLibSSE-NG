@@ -97,6 +97,9 @@ namespace RE
 		BSSpinLock                                                      cellCacheLock;  // 68
 		BSTHashMap<PathingCellInfo, BSTSmartPointer<PathingCell>>       loadedCells;    // 70
 		BSTArray<BSTTuple<std::uint64_t, BSTSmartPointer<PathingCell>>> recentCells;    // A0
+#ifdef EXCLUSIVE_SKYRIM_VR
+		std::uint8_t unkVrB8[0x20];
+#endif
 	};
-	static_assert(sizeof(Pathing) == 0xB8);
+	STATIC_ASSERT_SIZE(Pathing, 0xB8, 0xD8);
 }

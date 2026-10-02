@@ -119,7 +119,10 @@ namespace RE
 		std::uint32_t                unk1DC;                       // 1DC
 		BSSaveDataSystemUtilityImage saveDataBackgroundImages[3];  // 1E0
 		BSSaveDataSystemUtilityImage saveDataIconImages[3];        // 228
+#ifdef EXCLUSIVE_SKYRIM_VR
+		std::uint8_t unkVr268[0x10];
+#endif
 	};
-	STATIC_ASSERT_SIZE(Main, 0x270, 0x270, 0x268, 0x260);
+	STATIC_ASSERT_SIZE(Main, 0x270, 0x270, 0x278, 0x260);
 }
 #undef RUNTIME_DATA_CONTENT
