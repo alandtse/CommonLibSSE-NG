@@ -23,6 +23,17 @@ namespace RE
 		struct LocalMapCullingProcess  // actually: LocalMapRenderer
 		{
 		public:
+			// ImageSpaceShaderParam is 0x88 on VR, but only 0x80 in a cross-runtime
+			// build, where its VR-only tail is not declared. The VR renderer layout
+			// below must still reserve 0x88 in every build.
+			struct VR_IMAGESPACE_SHADER_PARAM
+			{
+				ImageSpaceShaderParam param;  // 00
+#if !defined(EXCLUSIVE_SKYRIM_VR)
+				std::uint64_t padVrExtension;  // 80
+#endif
+			};
+
 			// SE/AE renderer data.
 #define RENDERER_DATA_CONTENT                                                             \
 	LocalMapCamera                 camera;                /* 30260 (SE/AE) */             \
@@ -34,10 +45,10 @@ namespace RE
 
 			// VR renderer data. ImageSpaceShaderParam is 0x88 here, so the flat
 			// renderTarget/renderMode pair has no room and does not exist on VR.
-#define VR_RENDERER_DATA_CONTENT                                                       \
-	LocalMapCamera                 camera;                /* 30270 (VR) */             \
-	NiPointer<BSShaderAccumulator> accumulator;           /* 302D8 (VR) */             \
-	ImageSpaceShaderParam          imageSpaceShaderParam; /* 302E0 (VR) - 0x88 here */ \
+#define VR_RENDERER_DATA_CONTENT                                                                 \
+	LocalMapCamera                 camera;                /* 30270 (VR) */                       \
+	NiPointer<BSShaderAccumulator> accumulator;           /* 302D8 (VR) */                       \
+	VR_IMAGESPACE_SHADER_PARAM     imageSpaceShaderParam; /* 302E0 (VR) - 0x88 in every build */ \
 	NiPointer<NiNode>              unk30368;              /* 30368 (VR) */
 
 			// VR-specific additional renderer data
@@ -63,6 +74,11 @@ namespace RE
 				VR_RENDERER_DATA_CONTENT
 				VR_EXTRA_RENDERER_DATA_CONTENT
 			};
+
+			// These must hold in every preset, including cross-runtime builds.
+			static_assert(offsetof(VR_RENDERER_DATA, imageSpaceShaderParam) == 0x70);
+			static_assert(offsetof(VR_RENDERER_DATA, unk30368) == 0xF8);
+			static_assert(sizeof(VR_RENDERER_DATA) == 0x168);
 
 			[[nodiscard]] inline RENDERER_DATA* GetRendererData() noexcept
 			{
