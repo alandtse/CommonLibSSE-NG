@@ -84,7 +84,6 @@ namespace RE
 		SneakHandler*                 sneakHandler;           // 1C8
 		TogglePOVHandler*             togglePOVHandler;       // 1D0
 #ifdef EXCLUSIVE_SKYRIM_VR
-		// VR continues the handler pointers where flat has flags.
 		TeleportHandler*     teleportHandler;      // 1D8
 		VrSwimHandler*       vrSwimHandler;        // 1E0
 		DragonRidingHandler* dragonRidingHandler;  // 1E8

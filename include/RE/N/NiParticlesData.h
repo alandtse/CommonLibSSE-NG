@@ -65,10 +65,8 @@ namespace RE
 
 #ifndef SKYRIM_CROSS_VR
 #	ifdef EXCLUSIVE_SKYRIM_VR
-		// The VR layout has this gap: the runtime data sits at 0x28, not 0x10,
-		// which is what the accessor below already assumes. Contents unverified,
-		// so it stays an opaque block rather than invented members.
-		std::uint8_t unkVr18[0x18];  // 18
+		// VR inserts its runtime data at 0x28, which is what the accessor above assumes.
+		std::uint8_t unkVr10[0x18];  // 10
 #	endif
 		RUNTIME_DATA_CONTENT;
 #endif
