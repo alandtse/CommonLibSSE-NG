@@ -104,7 +104,11 @@ namespace RE
 		bool                                     hasGeoData;          // 66
 		std::uint8_t                             unk67;               // 67
 #if defined(EXCLUSIVE_SKYRIM_VR)
-		std::uint8_t unk68_vrOnly[0x18];  // 68 - VR-only, content not yet identified
+		std::uint32_t unkVr68;  // 68 - dword written by the VR constructor
+		std::uint32_t padVr6C;  // 6C
+		void*         unkVr70;  // 70 - pointer written by the VR constructor
+		std::uint32_t unkVr78;  // 78 - the VR constructor writes 0x10000
+		std::uint32_t padVr7C;  // 7C
 #endif
 	};
 	STATIC_ASSERT_SIZE(NiGeometryData, 0x68, 0x68, 0x80);

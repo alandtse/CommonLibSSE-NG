@@ -39,7 +39,8 @@ namespace RE
 		NiTObjectArray<NiPointer<NiTexture>>             textures;                 // 50
 		NiTPrimitiveArray<BSGraphics::TextureFilterMode> textureFilterModes;       // 68 - NiTPrimitiveArray<enum BSGraphics::TextureFilterMode>
 #if defined(EXCLUSIVE_SKYRIM_VR)
-		std::uint64_t unkVr80;  // 80
+		bool         unkVr80;     // 80 - the VR constructor writes 1
+		std::uint8_t padVr81[7];  // 81
 #endif
 	};
 	STATIC_ASSERT_SIZE(ImageSpaceShaderParam, 0x80, 0x88);
