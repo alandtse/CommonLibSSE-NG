@@ -24,5 +24,5 @@ namespace RE
 		std::byte     pad62[2];    // 62
 		std::uint32_t sleepTime;   // 64
 	};
-	static_assert(sizeof(BSAudioManagerThread) == 0x68);
+	STATIC_ASSERT_SIZE(BSAudioManagerThread, 0x68, 0x70);
 }

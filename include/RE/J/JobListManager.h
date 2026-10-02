@@ -55,6 +55,6 @@ namespace RE
 			volatile bool bProcessing;  // 71
 			volatile bool bRunning;     // 72
 		};
-		static_assert(sizeof(ServingThread) == 0x78);
+		STATIC_ASSERT_SIZE(ServingThread, 0x78, 0x80);
 	};
 }
