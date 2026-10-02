@@ -90,14 +90,24 @@ namespace RE
 		static_assert(sizeof(RUNTIME_DATA) == 0x108);
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_629, 0x58, 0x60);
-		// Only the independently confirmed array prefix is modeled here. The
-		// flat RUNTIME_DATA is not a valid view of VR's preview models: its size
-		// field lands inside a VR entry instead of at manager +0x258.
+		// VR adds its own state after the array; the flat view cannot describe it.
 		struct VR_RUNTIME_DATA
 		{
-			BSTSmallArray<LoadedInventoryModelVR, 7> loadedModels;  // 058
+			BSTSmallArray<LoadedInventoryModelVR, 7>      loadedModels;     // 058
+			float                                         zoomDistance;     // 260
+			float                                         zoomProgress;     // 264
+			BSTSmartPointer<NewInventoryMenuItemLoadTask> loadTask;         // 268
+			bool                                          enableUserInput;  // 270
+			std::uint8_t                                  unk271;           // 271
+			bool                                          startedZoom;      // 272
+			std::uint8_t                                  pad273;           // 273
+			std::uint32_t                                 pad274;           // 274
+			void*                                         unk278;           // 278 - refcounted; released by the destructor
+			std::uint32_t                                 unk280;           // 280
+			float                                         unk284[2];        // 284
+			std::uint32_t                                 pad28C;           // 28C
 		};
-		static_assert(sizeof(VR_RUNTIME_DATA) == 0x208);
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x238);
 		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x58);
 		// members
 		std::uint8_t           unk011;              // 011
@@ -110,11 +120,15 @@ namespace RE
 		TESObjectREFR*         tempRef;             // 038
 		ExtraDataList          originalExtra;       // 040
 
-#ifndef ENABLE_SKYRIM_AE
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		VR_RUNTIME_DATA vrRuntimeData;  // 058
+#elif !defined(ENABLE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT;
 #endif
 	};
-#ifndef ENABLE_SKYRIM_AE
+#if defined(EXCLUSIVE_SKYRIM_VR)
+	static_assert(sizeof(Inventory3DManager) == 0x290);
+#elif !defined(ENABLE_SKYRIM_AE)
 	static_assert(sizeof(Inventory3DManager) == 0x160);
 #endif
 }
