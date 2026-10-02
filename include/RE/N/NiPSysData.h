@@ -59,6 +59,6 @@ namespace RE
 		RUNTIME_DATA_CONTENT;
 #endif
 	};
-	STATIC_ASSERT_SIZE(NiPSysData, 0xA8, 0xA8, 0xA8, 0x10);
+	STATIC_ASSERT_SIZE(NiPSysData, 0xA8, 0xA8, 0xC0, 0x10);
 }
 #undef RUNTIME_DATA_CONTENT

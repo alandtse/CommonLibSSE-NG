@@ -64,9 +64,15 @@ namespace RE
 		RUNTIME_DATA_ACCESSOR_EX(PARTICLES_RUNTIME_DATA, GetParticlesRuntimeData, 0x10, 0x28);
 
 #ifndef SKYRIM_CROSS_VR
+#	ifdef EXCLUSIVE_SKYRIM_VR
+		// The VR layout has this gap: the runtime data sits at 0x28, not 0x10,
+		// which is what the accessor below already assumes. Contents unverified,
+		// so it stays an opaque block rather than invented members.
+		std::uint8_t unkVr18[0x18];  // 18
+#	endif
 		RUNTIME_DATA_CONTENT;
 #endif
 	};
-	STATIC_ASSERT_SIZE(NiParticlesData, 0x90, 0x90, 0x90, 0x10);
+	STATIC_ASSERT_SIZE(NiParticlesData, 0x90, 0x90, 0xA8, 0x10);
 }
 #undef RUNTIME_DATA_CONTENT

@@ -64,5 +64,5 @@ namespace RE
 		short      maxPointCount;  // BC
 		bool       doZPrepass;     // BE
 	};
-	STATIC_ASSERT_SIZE(BSStripPSysData, 0xC0, 0xC0, 0xC0, 0x28);
+	STATIC_ASSERT_SIZE(BSStripPSysData, 0xC0, 0xC0, 0xD8, 0x28);
 }
