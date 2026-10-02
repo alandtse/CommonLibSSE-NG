@@ -5,6 +5,7 @@
 #include "RE/N/NiTArray.h"
 #include "RE/N/NiTexture.h"
 #include "RE/T/TextureFilterModes.h"
+#include "REL/Common.h"
 
 namespace RE
 {
@@ -37,6 +38,9 @@ namespace RE
 		std::uint32_t                                    unk4C;                    // 4C
 		NiTObjectArray<NiPointer<NiTexture>>             textures;                 // 50
 		NiTPrimitiveArray<BSGraphics::TextureFilterMode> textureFilterModes;       // 68 - NiTPrimitiveArray<enum BSGraphics::TextureFilterMode>
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		std::uint64_t unkVr80;  // 80
+#endif
 	};
-	static_assert(sizeof(ImageSpaceShaderParam) == 0x80);
+	STATIC_ASSERT_SIZE(ImageSpaceShaderParam, 0x80, 0x88);
 }

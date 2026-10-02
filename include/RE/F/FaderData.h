@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/I/IUIMessageData.h"
+#include "REL/Common.h"
 
 namespace RE
 {
@@ -24,6 +25,9 @@ namespace RE
 		bool          isBlack;       // 25 - otherwise white
 		bool          unk26;         // 26
 		bool          pausesGame;    // 27
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		std::uint64_t unkVr28;  // 28
+#endif
 	};
-	static_assert(sizeof(FaderData) == 0x28);
+	STATIC_ASSERT_SIZE(FaderData, 0x28, 0x30);
 }
