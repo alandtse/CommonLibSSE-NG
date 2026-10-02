@@ -84,12 +84,11 @@ namespace RE
 		SneakHandler*                 sneakHandler;           // 1C8
 		TogglePOVHandler*             togglePOVHandler;       // 1D0
 #ifdef EXCLUSIVE_SKYRIM_VR
-		// VR continues the handler pointers where flat has flags. The flags below
-		// are not reachable at these offsets on VR; where VR keeps them is
-		// unresolved, so only the pointers are described here.
+		// VR continues the handler pointers where flat has flags.
 		TeleportHandler*     teleportHandler;      // 1D8
 		VrSwimHandler*       vrSwimHandler;        // 1E0
 		DragonRidingHandler* dragonRidingHandler;  // 1E8
+		std::uint8_t         unkVr1F0[0x8];        // 1F0
 #else
 		bool          notifyingHandlers;  // 1D8
 		bool          blockPlayerInput;   // 1D9
@@ -100,5 +99,5 @@ namespace RE
 	private:
 		PlayerControls* Ctor();
 	};
-	STATIC_ASSERT_SIZE(PlayerControls, 0x1E0, 0x1E0, 0x1F0);
+	STATIC_ASSERT_SIZE(PlayerControls, 0x1E0, 0x1E0, 0x1F8);
 }
