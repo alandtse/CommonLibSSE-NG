@@ -25,9 +25,6 @@ namespace RE
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x68, 0x80);
 
 #ifndef SKYRIM_CROSS_VR
-#	ifdef EXCLUSIVE_SKYRIM_VR
-		std::uint8_t unk68_vrOnly[0x18];  // 68 - VR-only, content not yet identified
-#	endif
 		RUNTIME_DATA_CONTENT;  // 68, 80
 #endif
 	};

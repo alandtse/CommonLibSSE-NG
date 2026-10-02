@@ -2,6 +2,7 @@
 
 #include "RE/N/NiBound.h"
 #include "RE/N/NiObject.h"
+#include "REL/Common.h"
 
 namespace RE
 {
@@ -102,6 +103,9 @@ namespace RE
 		std::uint8_t                             unk65;               // 65
 		bool                                     hasGeoData;          // 66
 		std::uint8_t                             unk67;               // 67
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		std::uint8_t unk68_vrOnly[0x18];  // 68 - VR-only, content not yet identified
+#endif
 	};
-	static_assert(sizeof(NiGeometryData) == 0x68);
+	STATIC_ASSERT_SIZE(NiGeometryData, 0x68, 0x68, 0x80);
 }
