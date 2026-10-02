@@ -22,14 +22,14 @@ namespace RE
 		return func(this);
 	}
 
-	void Inventory3DManager::LoadInventoryItem(InventoryEntryData* a_objDesc)
+	void Inventory3DManager::UpdateItem3D(InventoryEntryData* a_objDesc)
 	{
 		using func_t = void (*)(Inventory3DManager*, InventoryEntryData*);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(50884, 51757) };
 		return func(this, a_objDesc);
 	}
 
-	void Inventory3DManager::LoadInventoryItem(TESBoundObject* a_object, ExtraDataList* a_extraDataList)
+	void Inventory3DManager::UpdateMagic3D(TESBoundObject* a_object, ExtraDataList* a_extraDataList)
 	{
 		using func_t = void (*)(Inventory3DManager*, TESBoundObject*, ExtraDataList*);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(50885, 51758) };
@@ -50,9 +50,9 @@ namespace RE
 		return func(this, a_device);
 	}
 
-	void Inventory3DManager::UnloadInventoryItem()
+	void Inventory3DManager::Clear3D()
 	{
-		using func_t = decltype(&Inventory3DManager::UnloadInventoryItem);
+		using func_t = decltype(&Inventory3DManager::Clear3D);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(50886, 51759) };
 		return func(this);
 	}

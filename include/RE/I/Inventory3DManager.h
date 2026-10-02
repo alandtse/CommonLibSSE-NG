@@ -66,11 +66,11 @@ namespace RE
 
 		void Begin3D(INTERFACE_LIGHT_SCHEME a_scheme);
 		void End3D();
-		void LoadInventoryItem(InventoryEntryData* a_objDesc);
-		void LoadInventoryItem(TESBoundObject* a_object, ExtraDataList* a_extraDataList);
+		void UpdateItem3D(InventoryEntryData* a_objDesc);
+		void UpdateMagic3D(TESBoundObject* a_object, ExtraDataList* a_extraDataList);
 		void Render();
 		bool ToggleItemZoom(VR_DEVICE a_device = VR_DEVICE::kTotal);
-		void UnloadInventoryItem();
+		void Clear3D();
 
 		struct RUNTIME_DATA
 		{
@@ -122,12 +122,14 @@ namespace RE
 
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		VR_RUNTIME_DATA vrRuntimeData;  // 058
-#elif !defined(ENABLE_SKYRIM_AE)
-		RUNTIME_DATA_CONTENT;
+#else
+		RUNTIME_DATA_CONTENT;  // 058, or 060 on AE where ExtraDataList is 0x20
 #endif
 	};
 #if defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(Inventory3DManager) == 0x290);
+#elif defined(EXCLUSIVE_SKYRIM_AE)
+	static_assert(sizeof(Inventory3DManager) == 0x168);
 #elif !defined(ENABLE_SKYRIM_AE)
 	static_assert(sizeof(Inventory3DManager) == 0x160);
 #endif
