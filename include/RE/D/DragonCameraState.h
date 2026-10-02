@@ -59,7 +59,5 @@ namespace RE
 		std::uint32_t   unk108;            // 108
 		ObjectRefHandle targetLockHandle;  // 10C
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(DragonCameraState) == 0x110);
-#endif
+	STATIC_ASSERT_SIZE(DragonCameraState, 0x110, 0x110);
 }

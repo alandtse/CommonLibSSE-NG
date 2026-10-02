@@ -42,14 +42,5 @@ namespace RE
 		bool             useRunSpeed;        // 4E
 		bool             lockToZPlane;       // 4F
 	};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
-#	if defined(ENABLE_SKYRIM_AE) || defined(ENABLE_SKYRIM_SE)
 	static_assert(sizeof(FreeCameraState) == 0x50);
-#	else
-	static_assert(sizeof(FreeCameraState) == 0x48);
-#	endif
-#elif !defined(ENABLE_SKYRIM_AE) && !defined(ENABLE_SKYRIM_AE)
-#else
-	static_assert(sizeof(FreeCameraState) == 0x50);
-#endif
 }

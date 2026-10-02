@@ -59,7 +59,10 @@ namespace RE
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 160, 1A0
 #endif
+#ifdef EXCLUSIVE_SKYRIM_VR
+			std::uint8_t unkVr1D8[0x40];
+#endif
 	};
-	STATIC_ASSERT_SIZE(BSMultiIndexTriShape, 0x1D8, 0x1D8, 0x218, 0x110);
+	STATIC_ASSERT_SIZE(BSMultiIndexTriShape, 0x1D8, 0x258);
 }
 #undef RUNTIME_DATA_CONTENT

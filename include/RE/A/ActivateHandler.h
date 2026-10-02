@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/H/HeldStateHandler.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -29,6 +30,17 @@ namespace RE
 		bool          heldButtonActionSuccess;  // 1A
 		bool          disabled;                 // 1B
 		std::uint32_t unk1C;                    // 1C
+
+		// VR-only members; nullptr from the accessor on SE/AE
+		struct VR_RUNTIME_DATA
+		{
+			float         unk68;  // 68
+			std::uint32_t unk6C;  // 6C
+		};
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x68);
+#ifdef EXCLUSIVE_SKYRIM_VR
+		VR_RUNTIME_DATA vrRuntimeData;  // 68
+#endif
 	};
-	STATIC_ASSERT_SIZE(ActivateHandler, 0x20, 0x20, 0x38, 0x20);
+	STATIC_ASSERT_SIZE(ActivateHandler, 0x20, 0x20, 0x70, 0x20);
 }

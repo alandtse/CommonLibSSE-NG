@@ -33,6 +33,9 @@ namespace RE
 		bool          triggerReleaseEvent{ false };  // 11
 		std::uint16_t pad12{ 0 };                    // 12
 		std::uint32_t pad14{ 0 };                    // 14
+#ifdef EXCLUSIVE_SKYRIM_VR
+		std::uint8_t unkVr18[0x48];  // 18 - VR only, not touched by handler code
+#endif
 	};
-	STATIC_ASSERT_SIZE(HeldStateHandler, 0x18, 0x18, 0x30, 0x18);
+	STATIC_ASSERT_SIZE(HeldStateHandler, 0x18, 0x18, 0x60, 0x18);
 }

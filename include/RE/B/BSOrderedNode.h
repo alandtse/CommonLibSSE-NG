@@ -45,7 +45,10 @@ namespace RE
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 128, 150
 #endif
+#ifdef EXCLUSIVE_SKYRIM_VR
+			std::uint8_t unkVr140[0x18];
+#endif
 	};
-	STATIC_ASSERT_SIZE(BSOrderedNode, 0x140, 0x140, 0x168, 0x110);
+	STATIC_ASSERT_SIZE(BSOrderedNode, 0x140, 0x180);
 }
 #undef RUNTIME_DATA_CONTENT

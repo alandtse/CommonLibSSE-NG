@@ -88,11 +88,6 @@ namespace RE
 		std::uint8_t  pad09{ 0 };                 // 09
 		std::uint16_t pad0A{ 0 };                 // 0A
 		std::uint32_t pad0C{ 0 };                 // 0C
-#if defined(EXCLUSIVE_SKYRIM_VR)
-		std::uint64_t unk10;  // 10
-		BSFixedString unk18;  // 18
-		std::uint64_t unk20;
-#endif
 	};
-	STATIC_ASSERT_SIZE(PlayerInputHandler, 0x10, 0x10, 0x28, 0x10);
+	STATIC_ASSERT_SIZE(PlayerInputHandler, 0x10);
 }

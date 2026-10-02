@@ -46,5 +46,5 @@ namespace RE
 		std::uint8_t          pad135;             // 135
 		std::uint16_t         pad136;             // 136
 	};
-	STATIC_ASSERT_SIZE(BleedoutCameraState, 0x138, 0x138, 0x150);
+	STATIC_ASSERT_SIZE(BleedoutCameraState, 0x138);
 }

@@ -18,5 +18,5 @@ namespace RE
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04
 #endif
 	};
-	STATIC_ASSERT_SIZE(AutoMoveHandler, 0x10, 0x10, 0x28, 0x10);
+	STATIC_ASSERT_SIZE(AutoMoveHandler, 0x10);
 }

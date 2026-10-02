@@ -757,6 +757,7 @@ set(SOURCES
 	include/RE/D/DispelEffect.h
 	include/RE/D/DoNothingUnhandledPolicy.h
 	include/RE/D/DragonCameraState.h
+	include/RE/D/DragonRidingHandler.h
 	include/RE/D/DragonSoulsGained.h
 	include/RE/D/DrawWorld.h
 	include/RE/D/DropObjectFunctor.h
@@ -2019,6 +2020,7 @@ set(SOURCES
 	include/RE/V/VertexDesc.h
 	include/RE/V/VirtualMachine.h
 	include/RE/V/VoiceSpellFireHandler.h
+	include/RE/V/VrSwimHandler.h
 	include/RE/V/VrWandTouchpadPositionEvent.h
 	include/RE/V/VrWandTouchpadSwipeEvent.h
 	include/RE/W/WSActivateRollover.h

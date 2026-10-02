@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/H/HeldStateHandler.h"
+#include "REL/RuntimeDataAccessors.h"
 
 #ifdef ENABLE_SKYRIM_VR
 namespace RE
@@ -18,23 +19,18 @@ namespace RE
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04
 #	endif
 
-		// members
-		std::uint64_t unk_30;  // 30
-		std::uint64_t unk_38;  // 38
-		std::uint64_t unk_40;  // 40
-		std::uint64_t unk_48;  // 48
-		std::uint64_t unk_50;  // 50
-		std::uint64_t unk_58;  // 58
-		std::uint64_t unk_60;  // 60
-		std::uint64_t unk_68;  // 68
-	};
-#	if !defined(ENABLE_SKYRIM_VR)
-	static_assert(sizeof(TeleportHandler) == 0x58);
-#	elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(TeleportHandler) == 0x70);
-#	else
-	static_assert(sizeof(TeleportHandler) == 0x58);
+		// VR members; the accessor is always valid because the class only exists on VR
+		struct VR_RUNTIME_DATA
+		{
+			std::uint64_t unk_60;  // 60
+			std::uint64_t unk_68;  // 68
+		};
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x60);
+#	ifdef EXCLUSIVE_SKYRIM_VR
+		VR_RUNTIME_DATA vrRuntimeData;  // 60
 #	endif
+	};
+	STATIC_ASSERT_SIZE(TeleportHandler, SIZE_UNDEFINED, SIZE_UNDEFINED, 0x70, 0x18);
 
 }
 #endif

@@ -18,5 +18,5 @@ namespace RE
 		void ProcessButton(ButtonEvent* a_event, PlayerControlsData* a_data) override;  // 04
 #endif
 	};
-	STATIC_ASSERT_SIZE(RunHandler, 0x18, 0x30);
+	STATIC_ASSERT_SIZE(RunHandler, 0x18, 0x60);
 }

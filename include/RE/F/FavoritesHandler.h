@@ -23,6 +23,9 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event) override;  // VR 03
 #endif
+#ifdef EXCLUSIVE_SKYRIM_VR
+		std::uint8_t unkVr10[0x8];
+#endif
 	};
-	static_assert(sizeof(FavoritesHandler) == 0x10);
+	STATIC_ASSERT_SIZE(FavoritesHandler, 0x10, 0x18);
 }
