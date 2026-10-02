@@ -44,10 +44,10 @@ namespace RE
 		struct MODEL_DATA
 		{
 #if defined(EXCLUSIVE_SKYRIM_VR)
-#	define MODEL_DATA_CONTENT        \
-		NiBound  modelBound; /* 0 */  \
-		NiPoint3 unk148;     /* 10 */ \
-		NiPoint3 unk154;     /* 2C */
+#	define MODEL_DATA_CONTENT                   \
+		NiBound  modelBound;            /* 0 */  \
+		NiPoint3 modelBoundCenter;      /* 10 */ \
+		NiPoint3 modelBoundHalfExtents; /* 1C */
 #else
 #	define MODEL_DATA_CONTENT NiBound modelBound; /* 0 */
 #endif
@@ -98,6 +98,16 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL std::uint32_t GetVisibleGroupsTriangleCount();     // 37 - { return 0; }
 
 		RUNTIME_DATA_ACCESSOR_EX(MODEL_DATA, GetModelData, 0x110, 0x138);
+
+		// VR-only oriented bound following modelBound; returns nullptr on SE/AE
+		struct VR_MODEL_BOUND_BOX
+		{
+			NiPoint3 center;       // 00
+			NiPoint3 halfExtents;  // 0C
+		};
+		static_assert(sizeof(VR_MODEL_BOUND_BOX) == 0x18);
+
+		VR_ONLY_POINTER_ACCESSOR(VR_MODEL_BOUND_BOX, GetVRModelBoundBox, 0x148);
 		RUNTIME_DATA_ACCESSOR_EX(GEOMETRY_RUNTIME_DATA, GetGeometryRuntimeData, 0x120, 0x160);
 		using BSGeometryTypeSet = REX::EnumSet<Type, std::uint8_t>;
 		RUNTIME_DATA_ACCESSOR_EX(BSGeometryTypeSet, GetType, 0x150, 0x190);
