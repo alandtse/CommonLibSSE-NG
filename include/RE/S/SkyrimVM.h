@@ -434,13 +434,17 @@ namespace RE
 #else
 		RUNTIME_DATA2_CONTENT;
 #endif
+
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
+		std::uint8_t unk0760[0x8218];  // 760 - unmodelled tail; the engine object is 0x8978
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+		std::uint8_t unk0780[0x8218];  // 780 - unmodelled tail; the engine object is 0x8998
+#endif
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-	static_assert(sizeof(SkyrimVM) == 0x760);
+	static_assert(sizeof(SkyrimVM) == 0x8978);
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(SkyrimVM) == 0x780);
-#else
-	static_assert(sizeof(SkyrimVM) == 0x758);
+	static_assert(sizeof(SkyrimVM) == 0x8998);
 #endif
 }
 #undef RUNTIME_DATA_CONTENT
