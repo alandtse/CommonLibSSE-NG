@@ -21,6 +21,9 @@ namespace RE
 
 		// members
 		std::uint64_t unk18;  // 18
+#ifdef EXCLUSIVE_SKYRIM_VR
+		std::uint8_t unkVr20[0x8];
+#endif
 	};
-	static_assert(sizeof(MapLookHandler) == 0x20);
+	STATIC_ASSERT_SIZE(MapLookHandler, 0x20, 0x28);
 }
