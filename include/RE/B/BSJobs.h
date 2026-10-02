@@ -130,6 +130,6 @@ namespace RE
 			std::uint32_t      threadNumber;             // A70
 			volatile bool      shutDown;                 // A74
 		};
-		static_assert(sizeof(JobThread) == 0xA78);
+		STATIC_ASSERT_SIZE(JobThread, 0xA78, 0xA80);
 	};
 }

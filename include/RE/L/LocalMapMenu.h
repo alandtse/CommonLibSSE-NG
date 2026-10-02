@@ -23,14 +23,33 @@ namespace RE
 		struct LocalMapCullingProcess  // actually: LocalMapRenderer
 		{
 		public:
-			// Common renderer data shared by SE/AE and VR (at different offsets)
-#define RENDERER_DATA_CONTENT                                                              \
-	LocalMapCamera                 camera;                /* 30260 (SE/AE) / 30270 (VR) */ \
-	NiPointer<BSShaderAccumulator> accumulator;           /* 302C8 (SE/AE) / 302D8 (VR) */ \
-	ImageSpaceShaderParam          imageSpaceShaderParam; /* 302D0 (SE/AE) / 302E0 (VR) */ \
-	std::uint32_t                  renderTarget;          /* 30350 (SE/AE) / 30360 (VR) */ \
-	std::uint32_t                  renderMode;            /* 30354 (SE/AE) / 30364 (VR) */ \
-	NiPointer<NiNode>              unk30358;              /* 30358 (SE/AE) / 30368 (VR) */
+			// ImageSpaceShaderParam is 0x88 on VR, but only 0x80 in a cross-runtime
+			// build, where its VR-only tail is not declared. The VR renderer layout
+			// below must still reserve 0x88 in every build.
+			struct VR_IMAGESPACE_SHADER_PARAM
+			{
+				ImageSpaceShaderParam param;  // 00
+#if !defined(EXCLUSIVE_SKYRIM_VR)
+				std::uint64_t padVrExtension;  // 80
+#endif
+			};
+
+			// SE/AE renderer data.
+#define RENDERER_DATA_CONTENT                                                             \
+	LocalMapCamera                 camera;                /* 30260 (SE/AE) */             \
+	NiPointer<BSShaderAccumulator> accumulator;           /* 302C8 (SE/AE) */             \
+	ImageSpaceShaderParam          imageSpaceShaderParam; /* 302D0 (SE/AE) - 0x80 here */ \
+	std::uint32_t                  renderTarget;          /* 30350 (SE/AE) */             \
+	std::uint32_t                  renderMode;            /* 30354 (SE/AE) */             \
+	NiPointer<NiNode>              unk30358;              /* 30358 (SE/AE) */
+
+			// VR renderer data. ImageSpaceShaderParam is 0x88 here, so the flat
+			// renderTarget/renderMode pair has no room and does not exist on VR.
+#define VR_RENDERER_DATA_CONTENT                                                                 \
+	LocalMapCamera                 camera;                /* 30270 (VR) */                       \
+	NiPointer<BSShaderAccumulator> accumulator;           /* 302D8 (VR) */                       \
+	VR_IMAGESPACE_SHADER_PARAM     imageSpaceShaderParam; /* 302E0 (VR) - 0x88 in every build */ \
+	NiPointer<NiNode>              unk30368;              /* 30368 (VR) */
 
 			// VR-specific additional renderer data
 #define VR_EXTRA_RENDERER_DATA_CONTENT    \
@@ -52,9 +71,14 @@ namespace RE
 			// VR renderer data with extra arrays
 			struct VR_RENDERER_DATA
 			{
-				RENDERER_DATA_CONTENT
+				VR_RENDERER_DATA_CONTENT
 				VR_EXTRA_RENDERER_DATA_CONTENT
 			};
+
+			// These must hold in every preset, including cross-runtime builds.
+			static_assert(offsetof(VR_RENDERER_DATA, imageSpaceShaderParam) == 0x70);
+			static_assert(offsetof(VR_RENDERER_DATA, unk30368) == 0xF8);
+			static_assert(sizeof(VR_RENDERER_DATA) == 0x168);
 
 			[[nodiscard]] inline RENDERER_DATA* GetRendererData() noexcept
 			{
@@ -111,7 +135,7 @@ namespace RE
 #	elif defined(EXCLUSIVE_SKYRIM_VR)
 			std::uint64_t unk30260;  // 30260
 			std::uint64_t unk30268;  // 30268
-			RENDERER_DATA_CONTENT
+			VR_RENDERER_DATA_CONTENT
 			VR_EXTRA_RENDERER_DATA_CONTENT
 #	endif
 #endif
@@ -180,4 +204,5 @@ namespace RE
 }
 
 #undef RENDERER_DATA_CONTENT
+#undef VR_RENDERER_DATA_CONTENT
 #undef VR_EXTRA_RENDERER_DATA_CONTENT

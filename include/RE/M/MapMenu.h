@@ -28,9 +28,9 @@ namespace RE
 	// context = kMap
 	class MapMenu :
 #if defined(EXCLUSIVE_SKYRIM_VR)
-		public WorldSpaceMenu,                    // 00000
-		public BSTEventSink<MenuOpenCloseEvent>,  // 00058
-		public IMapCameraCallbacks                // 00060
+		// VR has no IMapCameraCallbacks base; its members start at 0x60.
+		public WorldSpaceMenu,                   // 00000
+		public BSTEventSink<MenuOpenCloseEvent>  // 00058
 #elif !defined(ENABLE_SKYRIM_VR)
 		public IMenu,                             // 00000
 		public BSTEventSink<MenuOpenCloseEvent>,  // 00030
@@ -171,7 +171,21 @@ namespace RE
 
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_CAST_ACCESSOR(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, 0x30, 0x58);
-		RUNTIME_CAST_ACCESSOR(IMapCameraCallbacks, AsIMapCameraCallbacks, 0x38, 0x60);
+
+		// VR has no IMapCameraCallbacks subobject, so this is flat-only.
+		[[nodiscard]] inline IMapCameraCallbacks* AsIMapCameraCallbacks() noexcept
+		{
+			if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
+				return &REL::RelocateMember<IMapCameraCallbacks>(this, 0x38, 0);
+			} else {
+				return nullptr;
+			}
+		}
+
+		[[nodiscard]] inline const IMapCameraCallbacks* AsIMapCameraCallbacks() const noexcept
+		{
+			return const_cast<MapMenu*>(this)->AsIMapCameraCallbacks();
+		}
 #endif
 
 		[[nodiscard]] inline RUNTIME_DATA* GetRuntimeData() noexcept
@@ -254,7 +268,7 @@ namespace RE
 		VR_RUNTIME_DATA2_CONTENT;                 // 30460, 30530
 #endif
 	};
-	STATIC_ASSERT_SIZE(MapMenu, 0x30598, 0x30598, 0x305f8, 0x30);
+	STATIC_ASSERT_SIZE(MapMenu, 0x30598, 0x30598, 0x305f0, 0x30);
 }
 
 // Clean up sub-macros

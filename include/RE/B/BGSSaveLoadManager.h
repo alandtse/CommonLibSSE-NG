@@ -92,7 +92,7 @@ namespace RE
 			BSEventFlag                                                             haveTask;                     // 58
 			BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> asyncSaveLoadOperationQueue;  // 60
 		};
-		static_assert(sizeof(Thread) == 0xC0);
+		STATIC_ASSERT_SIZE(Thread, 0xC0, 0xC8);
 
 		struct SaveEntry
 		{
@@ -130,8 +130,8 @@ namespace RE
 #define RUNTIME_DATA_CONTENT                                                                  \
 	Thread                                                                  thread; /* 2B0 */ \
 	BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> unk370; /* 370 */ \
-	uint64_t                                                                unk3D0; /* 3D0 */
-            RUNTIME_DATA_CONTENT
+																					/* nothing follows the queue; adding a member here changes the AE/VR totals */
+			RUNTIME_DATA_CONTENT
 		};
 
 		// 1130 and later
@@ -145,9 +145,8 @@ namespace RE
 	BSTArray<BSFixedString>                                                 unk2D8;           /* 2D8 */                                                           \
 	std::uint8_t                                                            unk2F0;           /* 2F0 */                                                           \
 	Thread                                                                  thread;           /* 2F8 */                                                           \
-	BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> unk370;           /* 370 */                                                           \
-	uint64_t                                                                unk3D0;           /* 3D0 */
-            AE_RUNTIME_DATA_CONTENT
+	BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> unk370;           /* 370, 3B8 */
+			AE_RUNTIME_DATA_CONTENT
 		};
 		static_assert(offsetof(AE_RUNTIME_DATA, thread) == 0x48);
 
@@ -227,9 +226,9 @@ namespace RE
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 #	if defined(EXCLUSIVE_SKYRIM_AE)
-	static_assert(sizeof(BGSSaveLoadManager) == 0x420);
+	static_assert(sizeof(BGSSaveLoadManager) == 0x418);
 #	else
-	static_assert(sizeof(BGSSaveLoadManager) == 0x3D8);
+	static_assert(sizeof(BGSSaveLoadManager) == 0x3D0);
 #	endif
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(BGSSaveLoadManager) == 0x3D8);
