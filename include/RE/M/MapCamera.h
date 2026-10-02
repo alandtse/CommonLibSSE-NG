@@ -72,6 +72,8 @@ namespace RE
 	class TESWorldSpace;
 	struct IMapCameraCallbacks;
 
+	// SE/AE only: Skyrim VR has no MapCamera, so IMapCameraCallbacks* unk58 is a
+	// flat-only member (VR uses LocalMapCamera).
 	class MapCamera : public TESCamera
 	{
 	public:
