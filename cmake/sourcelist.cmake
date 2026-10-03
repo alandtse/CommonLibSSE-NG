@@ -322,6 +322,7 @@ set(SOURCES
 	include/RE/B/BSLightingShaderMaterialParallaxOcc.h
 	include/RE/B/BSLightingShaderMaterialSnow.h
 	include/RE/B/BSLightingShaderProperty.h
+	include/RE/B/BSLocklessSimpleList.h
 	include/RE/B/BSLookAtModifier.h
 	include/RE/B/BSLookAtModifierBoneData.h
 	include/RE/B/BSMasterParticleSystem.h

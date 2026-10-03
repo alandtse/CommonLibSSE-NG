@@ -3,6 +3,7 @@
 #include "RE/A/ActorPackage.h"
 #include "RE/B/BGSPerkEntry.h"
 #include "RE/B/BSAtomic.h"
+#include "RE/B/BSLocklessSimpleList.h"
 #include "RE/B/BSPointerHandle.h"
 #include "RE/B/BSResponse.h"
 #include "RE/B/BSSimpleList.h"
@@ -132,33 +133,37 @@ namespace RE
 	struct MiddleHighProcessData
 	{
 	public:
-		BSTEventSource<void*>                      unk000;                      // 000
-		ActorPackage                               runOncePackage;              // 058
-		BSTArray<ActorHandle>                      deadDetectList;              // 088
-		BSSimpleList<TESObjectREFR*>               refListChairBed;             // 0A0
-		NiPoint3                                   rotation;                    // 0B0
-		NiPoint3                                   rotationSpeed;               // 0BC
-		NiPoint3                                   actorMountPosition;          // 0C8
-		NiPoint3                                   furniturePathPoint;          // 0D4
-		NiPoint3                                   lastSeenPosition;            // 0E0
-		std::uint32_t                              bleedoutAttacker;            // 0EC
-		MagicSystem::WardState                     wardState;                   // 0F0
-		std::uint32_t                              pad0F4;                      // 0F4
-		BSTSmartPointer<AnimResponse>              animResponse;                // 0F8
-		BSTArray<CommandedActorData>               commandedActors;             // 100
-		NiNode*                                    damageRootNode[6];           // 118
-		NiAVObject*                                unk148;                      // 148
-		NiNode*                                    weaponBone;                  // 150
-		NiAVObject*                                headNode;                    // 158
-		NiAVObject*                                torsoNode;                   // 160
-		NiAVObject*                                faceTargetSourceNode;        // 168
-		BSFaceGenNiNode*                           faceNodeSkinned;             // 170
-		NiPointer<BSLightingShaderProperty>        lightingProperty;            // 178
-		std::uint64_t                              unk180;                      // 180
-		QueuedItem*                                itemstoEquipUnequip;         // 188
-		HitData*                                   lastHitData;                 // 190
-		DeferredHideLimb*                          headDeferredHideLimb;        // 198
-		BSSimpleList<ActiveEffect*>*               activeEffects;               // 1A0
+		BSTEventSource<void*>               unk000;                // 000
+		ActorPackage                        runOncePackage;        // 058
+		BSTArray<ActorHandle>               deadDetectList;        // 088
+		BSSimpleList<TESObjectREFR*>        refListChairBed;       // 0A0
+		NiPoint3                            rotation;              // 0B0
+		NiPoint3                            rotationSpeed;         // 0BC
+		NiPoint3                            actorMountPosition;    // 0C8
+		NiPoint3                            furniturePathPoint;    // 0D4
+		NiPoint3                            lastSeenPosition;      // 0E0
+		std::uint32_t                       bleedoutAttacker;      // 0EC
+		MagicSystem::WardState              wardState;             // 0F0
+		std::uint32_t                       pad0F4;                // 0F4
+		BSTSmartPointer<AnimResponse>       animResponse;          // 0F8
+		BSTArray<CommandedActorData>        commandedActors;       // 100
+		NiNode*                             damageRootNode[6];     // 118
+		NiAVObject*                         unk148;                // 148
+		NiNode*                             weaponBone;            // 150
+		NiAVObject*                         headNode;              // 158
+		NiAVObject*                         torsoNode;             // 160
+		NiAVObject*                         faceTargetSourceNode;  // 168
+		BSFaceGenNiNode*                    faceNodeSkinned;       // 170
+		NiPointer<BSLightingShaderProperty> lightingProperty;      // 178
+		std::uint64_t                       unk180;                // 180
+		QueuedItem*                         itemstoEquipUnequip;   // 188
+		HitData*                            lastHitData;           // 190
+		DeferredHideLimb*                   headDeferredHideLimb;  // 198
+		union                                                      // 1A0 - VR uses its own shared_ptr list
+		{
+			BSSimpleList<ActiveEffect*>*         activeEffects;
+			BSLocklessSimpleList<ActiveEffect*>* activeEffectsVR;
+		};
 		BSTSmartPointer<BSAnimationGraphManager>   animationGraphManager;       // 1A8
 		BSAnimationGraphVariableCache*             animationVariableCache;      // 1B0
 		BSTArray<void*>                            unk1B8;                      // 1B8

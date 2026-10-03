@@ -16,6 +16,49 @@ namespace RE
 		return func(this, a_spell, a_caster, a_effect);
 	}
 
+#if !defined(EXCLUSIVE_SKYRIM_FLAT)
+	BSSimpleList<ActiveEffect*>* MagicTarget::GetActiveEffectList()
+	{
+#	if defined(ENABLE_SKYRIM_VR)
+		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+			// VR's slot 07 is a BSLocklessSimpleList<ActiveEffect*>: build a thread-local BSSimpleList snapshot from it
+			static thread_local std::vector<ActiveEffect*>  effectsVec{};
+			static thread_local BSSimpleList<ActiveEffect*> activeEffects{};
+
+			effectsVec.clear();
+			activeEffects.clear();
+
+			if (auto list = GetVRActiveEffectList()) {
+				list->ForEach([&](ActiveEffect* ae) {
+					if (ae) {
+						effectsVec.push_back(ae);
+					}
+					return BSContainer::ForEachResult::kContinue;
+				});
+			}
+
+			for (auto it = effectsVec.rbegin(); it != effectsVec.rend(); ++it) {
+				activeEffects.push_front(*it);
+			}
+
+			return &activeEffects;
+		}
+#	endif
+		return static_cast<BSSimpleList<ActiveEffect*>*>(GetActiveEffectListNative());
+	}
+#endif
+
+#if defined(ENABLE_SKYRIM_VR)
+	BSLocklessSimpleList<ActiveEffect*>* MagicTarget::GetVRActiveEffectList()
+	{
+		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+			return static_cast<BSLocklessSimpleList<ActiveEffect*>*>(GetActiveEffectListNative());
+		} else {
+			return nullptr;
+		}
+	}
+#endif
+
 #if defined(ENABLE_SKYRIM_VR)
 	void MagicTarget::DispelEffectsWithArchetype(Archetype a_type, bool a_force)
 	{
