@@ -134,7 +134,7 @@ namespace RE
 		void   VisitEffects(ForEachActiveEffectVisitor& visitor);
 
 #ifdef ENABLE_SKYRIM_VR
-		//VR requires a visitor to access all items
+		// visitor helpers over the active effect list
 		class GetEffectCount : public MagicTarget::ForEachActiveEffectVisitor
 		{
 		public:
