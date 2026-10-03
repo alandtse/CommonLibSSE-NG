@@ -130,23 +130,13 @@ namespace RE
 		virtual float CheckResistance(MagicItem* a_magicItem, Effect* a_effect, TESBoundObject* a_object);  // 0A - { return 1.0; }
 		virtual bool  CheckAbsorb(Actor* a_actor, MagicItem* a_magicItem, const Effect* a_effect);          // 0B - { return false; }
 		bool          DispelEffect(MagicItem* a_spell, BSPointerHandle<Actor>& a_caster, ActiveEffect* a_effect = nullptr);
-#if !defined(EXCLUSIVE_SKYRIM_FLAT)
-		/**
-		 * @brief Get the list of active effects on this magic target
-		 * @return Pointer to list of active effects
-		 *
-		 * @note On Skyrim SE/AE: returns the engine's persistent list (virtual slot 07), valid for the
-		 *       lifetime of the target.
-		 *
-		 * @note On Skyrim VR: the engine's list is a BSLocklessSimpleList<ActiveEffect*>, not a BSSimpleList, so this
-		 *       returns a thread-local snapshot built from it. The pointer is ONLY valid until the
-		 *       next call on the same thread; do not store it or call it recursively. Prefer
-		 *       GetVRActiveEffectList() or VisitActiveEffects() to read the live list.
-		 */
+#if defined(SKYRIM_CROSS_VR)
+		// SE/AE's persistent list; nullptr on VR, whose list is a BSLocklessSimpleList (see GetVRActiveEffectList).
+		// Exclusive VR builds only have GetVRActiveEffectList().
 		[[nodiscard]] BSSimpleList<ActiveEffect*>* GetActiveEffectList();
 #endif
 #if defined(ENABLE_SKYRIM_VR)
-		// The engine's own list; nullptr when not running on VR.
+		// VR's persistent list; nullptr when not running on VR.
 		[[nodiscard]] BSLocklessSimpleList<ActiveEffect*>* GetVRActiveEffectList();
 		void                                               DispelEffectsWithArchetype(Archetype a_type, bool a_force);
 #endif

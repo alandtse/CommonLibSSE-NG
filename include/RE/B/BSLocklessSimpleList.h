@@ -27,7 +27,9 @@ namespace RE
 			if (!head) {
 				return;
 			}
-			for (auto node = head->next.get(); node; node = node->next.get()) {
+			// Copy each link, as the engine's own walk does, so a node another thread unlinks stays
+			// alive while we read it.
+			for (auto node = head->next; node; node = node->next) {
 				if (!node->removed && a_func(node->item) == BSContainer::ForEachResult::kStop) {
 					return;
 				}

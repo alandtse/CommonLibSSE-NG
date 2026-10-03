@@ -16,34 +16,13 @@ namespace RE
 		return func(this, a_spell, a_caster, a_effect);
 	}
 
-#if !defined(EXCLUSIVE_SKYRIM_FLAT)
+#if defined(SKYRIM_CROSS_VR)
 	BSSimpleList<ActiveEffect*>* MagicTarget::GetActiveEffectList()
 	{
-#	if defined(ENABLE_SKYRIM_VR)
-		if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
-			// VR's slot 07 is a BSLocklessSimpleList<ActiveEffect*>: build a thread-local BSSimpleList snapshot from it
-			static thread_local std::vector<ActiveEffect*>  effectsVec{};
-			static thread_local BSSimpleList<ActiveEffect*> activeEffects{};
-
-			effectsVec.clear();
-			activeEffects.clear();
-
-			if (auto list = GetVRActiveEffectList()) {
-				list->ForEach([&](ActiveEffect* ae) {
-					if (ae) {
-						effectsVec.push_back(ae);
-					}
-					return BSContainer::ForEachResult::kContinue;
-				});
-			}
-
-			for (auto it = effectsVec.rbegin(); it != effectsVec.rend(); ++it) {
-				activeEffects.push_front(*it);
-			}
-
-			return &activeEffects;
+		// VR's list is a BSLocklessSimpleList: there is no BSSimpleList to hand out
+		if (REL::Module::IsVR()) {
+			return nullptr;
 		}
-#	endif
 		return static_cast<BSSimpleList<ActiveEffect*>*>(GetActiveEffectListNative());
 	}
 #endif
@@ -87,18 +66,36 @@ namespace RE
 
 	bool MagicTarget::HasEffectWithArchetype(Archetype a_type)
 	{
+		const auto matches = [a_type](ActiveEffect* a_effect) {
+			const auto setting = a_effect ? a_effect->GetBaseObject() : nullptr;
+			return setting && setting->HasArchetype(a_type);
+		};
+
+#if defined(ENABLE_SKYRIM_VR)
+		if (REL::Module::IsVR()) {
+			bool found = false;
+			if (const auto list = GetVRActiveEffectList()) {
+				list->ForEach([&](ActiveEffect* a_effect) {
+					found = matches(a_effect);
+					return found ? BSContainer::ForEachResult::kStop : BSContainer::ForEachResult::kContinue;
+				});
+			}
+			return found;
+		}
+#endif
+
+#if !defined(EXCLUSIVE_SKYRIM_VR)
 		auto effects = GetActiveEffectList();
 		if (!effects) {
 			return false;
 		}
 
-		EffectSetting* setting = nullptr;
 		for (auto& effect : *effects) {
-			setting = effect ? effect->GetBaseObject() : nullptr;
-			if (setting && setting->HasArchetype(a_type)) {
+			if (matches(effect)) {
 				return true;
 			}
 		}
+#endif
 		return false;
 	}
 
