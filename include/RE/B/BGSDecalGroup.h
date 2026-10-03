@@ -16,12 +16,7 @@ namespace RE
 	struct DECAL_CREATION_DATA
 	{
 	public:
-		// Defaults match the engine's own constructor, so a default-constructed
-		// instance is a valid starting point (all-zero is not: size, matrix and
-		// the angle/shininess defaults would be wrong).
-		DECAL_CREATION_DATA() = default;
-
-		// members
+		// members (defaults match the engine constructor; the struct stays an aggregate)
 		NiPoint3              origin{};                 // 00
 		NiPoint3              direction{};              // 0C - the hit surface normal when placed by an impact
 		NiPoint3              surfaceNormal{};          // 18
