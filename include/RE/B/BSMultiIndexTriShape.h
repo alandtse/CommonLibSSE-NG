@@ -60,7 +60,7 @@ namespace RE
 		RUNTIME_DATA_CONTENT  // 160, 1A0
 #endif
 #ifdef EXCLUSIVE_SKYRIM_VR
-			std::uint8_t unkVr1D8[0x40];
+			std::uint8_t unkVr218[0x40];  // 218
 #endif
 	};
 	STATIC_ASSERT_SIZE(BSMultiIndexTriShape, 0x1D8, 0x258);

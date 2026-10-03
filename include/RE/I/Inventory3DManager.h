@@ -122,7 +122,7 @@ namespace RE
 
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		VR_RUNTIME_DATA vrRuntimeData;  // 058
-#else
+#elif defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT;  // 058, or 060 on AE where ExtraDataList is 0x20
 #endif
 	};
@@ -130,7 +130,7 @@ namespace RE
 	static_assert(sizeof(Inventory3DManager) == 0x290);
 #elif defined(EXCLUSIVE_SKYRIM_AE)
 	static_assert(sizeof(Inventory3DManager) == 0x168);
-#elif !defined(ENABLE_SKYRIM_AE)
+#elif defined(EXCLUSIVE_SKYRIM_SE)
 	static_assert(sizeof(Inventory3DManager) == 0x160);
 #endif
 }

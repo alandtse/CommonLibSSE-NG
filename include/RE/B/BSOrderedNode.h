@@ -46,7 +46,7 @@ namespace RE
 		RUNTIME_DATA_CONTENT  // 128, 150
 #endif
 #ifdef EXCLUSIVE_SKYRIM_VR
-			std::uint8_t unkVr140[0x18];
+			std::uint8_t unkVr168[0x18];  // 168
 #endif
 	};
 	STATIC_ASSERT_SIZE(BSOrderedNode, 0x140, 0x180);

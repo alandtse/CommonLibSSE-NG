@@ -436,7 +436,7 @@ namespace RE
 #endif
 
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-		std::uint8_t unk0760[0x8218];  // 760 - unmodelled tail; the engine object is 0x8978
+		std::uint8_t unk0760[0x8218];  // 760 - unmodelled tail; the engine object is 0x8978 (AE 1.7.99+ adds kAE1799AmiiboShift)
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 		std::uint8_t unk0780[0x8218];  // 780 - unmodelled tail; the engine object is 0x8998
 #endif
@@ -445,6 +445,8 @@ namespace RE
 	static_assert(sizeof(SkyrimVM) == 0x8978);
 #elif defined(EXCLUSIVE_SKYRIM_VR)
 	static_assert(sizeof(SkyrimVM) == 0x8998);
+#else
+	static_assert(sizeof(SkyrimVM) == 0x758);
 #endif
 }
 #undef RUNTIME_DATA_CONTENT
