@@ -118,7 +118,7 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		virtual void ClearCollectedGeometry();  // 1A - VR only
 #elif !defined(EXCLUSIVE_SKYRIM_FLAT)
-		void ClearCollectedGeometry();  // 1A - VR only
+		void ClearCollectedGeometry();  // 1A
 #endif
 		SKYRIM_REL_VR_VIRTUAL bool               TestBaseVisibility1(BSMultiBound& a_bound);      // 1A
 		SKYRIM_REL_VR_VIRTUAL bool               TestBaseVisibility2(BSOcclusionPlane& a_bound);  // 1B

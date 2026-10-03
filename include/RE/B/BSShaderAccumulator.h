@@ -138,7 +138,7 @@ namespace RE
 		{
 #define VR_RUNTIME_DATA_CONTENT                                   \
 	std::uint8_t     unk58[0x4];               /* 58 */           \
-	bool             unk5C;                    /* 5C */           \
+	bool             useEqualDepthTest;        /* 5C */           \
 	std::uint32_t    sunPixelCount;            /* 60 */           \
 	bool             waitingForSunQuery;       /* 64 */           \
 	float            percentSunOccludedStored; /* 68 */           \
@@ -173,7 +173,8 @@ namespace RE
 	RENDER_MODE      renderMode;               /* 178 */          \
 	std::uint8_t     pad17c[0x4];              /* 17C */          \
 	void*            unk180;                   /* 180 */          \
-	void*            unk188;                   /* 188 */          \
+	std::uint32_t    flagOverrideMode;         /* 188 */          \
+	std::uint32_t    flagOverrideMask;         /* 18C */          \
 	std::uint32_t    unk190;                   /* 190 */          \
 	NiPoint3         eyePosition;              /* 194 */          \
 	std::uint8_t     unk1A0[0x10];             /* 1A0 */

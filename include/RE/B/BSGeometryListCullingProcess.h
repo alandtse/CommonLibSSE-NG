@@ -18,8 +18,8 @@ namespace RE
 
 		// members
 		std::uint32_t unk301F8;                // 301F8
-		bool          occlusionCullingActive;  // 301FC - VR only
-		bool          forceDrawAll;            // 301FD - VR only
+		bool          occlusionCullingActive;  // 301FC - only the VR binary touches this; padding on SE/AE
+		bool          forceDrawAll;            // 301FD - only the VR binary touches this; padding on SE/AE
 		std::uint8_t  pad301FE[2];             // 301FE
 	};
 	static_assert(sizeof(BSGeometryListCullingProcess) == 0x30200);

@@ -314,10 +314,6 @@ namespace RE
 			bool                            taaEnabled;                            // 18
 		};
 
-		// Real type of the field misnamed BSImagespaceShaderISSAOBlurH below (all three
-		// runtimes; the feeding allocation is 0x70 bytes, not sizeof(BSImagespaceShader)
-		// == 0x1A8). Holds pointers to the rest of the SAO effect chain plus SAO/DOF
-		// Display-menu ini defaults, incl. bSAOEnable:Display into enableSAO.
 		// VR-only non-virtual helpers owned through pointers at VR 1B8, 1C8 and 1E0; the depth and pre-test passes they hold are built at boot but never dispatched
 		struct VR_HIERARCHICAL_DEPTH_HELPER
 		{
@@ -379,6 +375,10 @@ namespace RE
 		};
 		static_assert(sizeof(VR_PRE_TEST_HELPER) == 0x198);
 
+		// Real type of the field misnamed BSImagespaceShaderISSAOBlurH below (all three
+		// runtimes; the feeding allocation is 0x70 bytes, not sizeof(BSImagespaceShader)
+		// == 0x1A8). Holds pointers to the rest of the SAO effect chain plus SAO/DOF
+		// Display-menu ini defaults, incl. bSAOEnable:Display into enableSAO.
 		struct SAOEffectParams
 		{
 			ImageSpaceEffect* blurH;            // 00 - ISSAOBlurH (self)
