@@ -85,12 +85,12 @@ namespace RE
 			void          Unk_02(void) override;  // 02
 
 			// members
-			bool                                                                    isRunnning;                   // 50
-			bool                                                                    isBusy;                       // 51
-			std::uint16_t                                                           pad52;                        // 52
-			std::uint32_t                                                           pad54;                        // 54
-			BSEventFlag                                                             haveTask;                     // 58
-			BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> asyncSaveLoadOperationQueue;  // 60
+			bool                                                                    isRunnning;                   // 50, 58
+			bool                                                                    isBusy;                       // 51, 59
+			std::uint16_t                                                           pad52;                        // 52, 5A
+			std::uint32_t                                                           pad54;                        // 54, 5C
+			BSEventFlag                                                             haveTask;                     // 58, 60
+			BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> asyncSaveLoadOperationQueue;  // 60, 68
 		};
 		STATIC_ASSERT_SIZE(Thread, 0xC0, 0xC8);
 
@@ -129,8 +129,8 @@ namespace RE
 		{
 #define RUNTIME_DATA_CONTENT                                                                  \
 	Thread                                                                  thread; /* 2B0 */ \
-	BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> unk370; /* 370 */ \
-																					/* nothing follows the queue; adding a member here changes the AE/VR totals */
+	BSTCommonStaticMessageQueue<BSTSmartPointer<bgs::saveload::Request>, 8> unk370; /* 370 */
+			// nothing follows the queue; adding a member here changes the AE/VR totals
 			RUNTIME_DATA_CONTENT
 		};
 

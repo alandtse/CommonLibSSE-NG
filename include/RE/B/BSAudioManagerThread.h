@@ -17,12 +17,12 @@ namespace RE
 
 		// members
 
-		void*         semaphore1;  // 50
-		void*         semaphore2;  // 58
-		bool          unk60;       // 60
-		bool          unk61;       // 61
-		std::byte     pad62[2];    // 62
-		std::uint32_t sleepTime;   // 64
+		void*         semaphore1;  // 50, 58
+		void*         semaphore2;  // 58, 60
+		bool          unk60;       // 60, 68
+		bool          unk61;       // 61, 69
+		std::byte     pad62[2];    // 62, 6A
+		std::uint32_t sleepTime;   // 64, 6C
 	};
 	STATIC_ASSERT_SIZE(BSAudioManagerThread, 0x68, 0x70);
 }

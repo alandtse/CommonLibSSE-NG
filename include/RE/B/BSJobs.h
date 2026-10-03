@@ -120,15 +120,15 @@ namespace RE
 			void          Unk_02(void) override;      // 02
 
 			// members
-			ThreadJobListState stateArray[64];           // 50
-			std::uint32_t      linkArray[64][2];         // 850
-			BSSemaphore*       semaphore;                // A50;
-			SubmitRingBuffer*  ringBuffer;               // A58
-			std::uint64_t      nextRingFetch;            // A60
-			std::uint32_t      nextAvailableStateIndex;  // A68
-			std::uint32_t      activeStateList;          // A6C
-			std::uint32_t      threadNumber;             // A70
-			volatile bool      shutDown;                 // A74
+			ThreadJobListState stateArray[64];           // 50, 58
+			std::uint32_t      linkArray[64][2];         // 850, 858
+			BSSemaphore*       semaphore;                // A50, A58
+			SubmitRingBuffer*  ringBuffer;               // A58, A60
+			std::uint64_t      nextRingFetch;            // A60, A68
+			std::uint32_t      nextAvailableStateIndex;  // A68, A70
+			std::uint32_t      activeStateList;          // A6C, A74
+			std::uint32_t      threadNumber;             // A70, A78
+			volatile bool      shutDown;                 // A74, A7C
 		};
 		STATIC_ASSERT_SIZE(JobThread, 0xA78, 0xA80);
 	};
