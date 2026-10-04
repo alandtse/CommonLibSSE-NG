@@ -146,8 +146,9 @@ namespace RE
 		bool   HasMagicEffectWithKeyword(BGSKeyword* a_keyword, MagicItem** a_spellOut);
 		void   VisitEffects(ForEachActiveEffectVisitor& visitor);
 
-#ifdef ENABLE_SKYRIM_VR
-		// visitor helpers over the active effect list
+		// Visitor helpers over the active effect list. They run the engine's own walk (VisitEffects), which is
+		// the same function on every runtime and is the only walk that is correct on VR: VR's list uses the
+		// engine's shared_ptr spin lock, which a plugin cannot reliably take itself.
 		class GetEffectCount : public MagicTarget::ForEachActiveEffectVisitor
 		{
 		public:
@@ -176,10 +177,10 @@ namespace RE
 			{
 				if (m_count == m_n) {
 					m_result = effect;
-					return BSContainer::ForEachResult::kContinue;
+					return BSContainer::ForEachResult::kStop;
 				}
 				m_count++;
-				return BSContainer::ForEachResult::kStop;
+				return BSContainer::ForEachResult::kContinue;
 			}
 
 			ActiveEffect* GetResult() { return m_result; }
@@ -205,19 +206,25 @@ namespace RE
 			std::function<BSContainer::ForEachResult(ActiveEffect*)> m_functor;
 		};
 
+		/**
+		 * @brief Call a_func for each active effect, on every runtime (return kStop to end early).
+		 *
+		 * Unlike the engine's own list, the walk is not locked on SE/AE, and on VR the ActiveEffect objects are
+		 * not refcounted: another thread can unlink or delete an effect while it runs. Finish with the effect
+		 * inside the callback and copy out plain data (base effect, flags); do not keep the ActiveEffect*,
+		 * call into script, or nest a walk on the same target. ActiveEffect::Dispel only flags the effect, so
+		 * it is safe to call from the callback.
+		 */
 		void VisitActiveEffects(std::function<BSContainer::ForEachResult(ActiveEffect*)> func)
 		{
 			EffectVisitor visitor(func);
-			ForEachActiveEffect(visitor);
+			VisitEffects(visitor);
 		}
 
 		void ForEachActiveEffect(MagicTarget::ForEachActiveEffectVisitor& visitor)
 		{
-			using func_t = decltype(&MagicTarget::ForEachActiveEffect);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(33756, 34540) };
-			func(this, visitor);
+			VisitEffects(visitor);
 		}
-#endif
 
 		// members
 		SpellDispelData* postUpdateDispelList;  // 08

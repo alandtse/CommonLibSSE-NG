@@ -66,37 +66,13 @@ namespace RE
 
 	bool MagicTarget::HasEffectWithArchetype(Archetype a_type)
 	{
-		const auto matches = [a_type](ActiveEffect* a_effect) {
+		bool found = false;
+		VisitActiveEffects([&](ActiveEffect* a_effect) {
 			const auto setting = a_effect ? a_effect->GetBaseObject() : nullptr;
-			return setting && setting->HasArchetype(a_type);
-		};
-
-#if defined(ENABLE_SKYRIM_VR)
-		if (REL::Module::IsVR()) {
-			bool found = false;
-			if (const auto list = GetVRActiveEffectList()) {
-				list->ForEach([&](ActiveEffect* a_effect) {
-					found = matches(a_effect);
-					return found ? BSContainer::ForEachResult::kStop : BSContainer::ForEachResult::kContinue;
-				});
-			}
-			return found;
-		}
-#endif
-
-#if !defined(EXCLUSIVE_SKYRIM_VR)
-		auto effects = GetActiveEffectList();
-		if (!effects) {
-			return false;
-		}
-
-		for (auto& effect : *effects) {
-			if (matches(effect)) {
-				return true;
-			}
-		}
-#endif
-		return false;
+			found = setting && setting->HasArchetype(a_type);
+			return found ? BSContainer::ForEachResult::kStop : BSContainer::ForEachResult::kContinue;
+		});
+		return found;
 	}
 
 	bool MagicTarget::HasMagicEffect(EffectSetting* a_effect)
