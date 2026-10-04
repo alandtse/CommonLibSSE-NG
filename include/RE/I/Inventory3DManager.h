@@ -66,11 +66,11 @@ namespace RE
 
 		void Begin3D(INTERFACE_LIGHT_SCHEME a_scheme);
 		void End3D();
-		void UpdateItem3D(InventoryEntryData* a_objDesc);
-		void UpdateMagic3D(TESBoundObject* a_object, ExtraDataList* a_extraDataList);
+		void LoadInventoryItem(InventoryEntryData* a_objDesc);
+		void LoadInventoryItem(TESBoundObject* a_object, ExtraDataList* a_extraDataList);
 		void Render();
 		bool ToggleItemZoom(VR_DEVICE a_device = VR_DEVICE::kTotal);
-		void Clear3D();
+		void UnloadInventoryItem();  // hides the current model and cancels a pending load
 
 		struct RUNTIME_DATA
 		{
