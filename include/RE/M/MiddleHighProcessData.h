@@ -159,11 +159,17 @@ namespace RE
 		QueuedItem*                         itemstoEquipUnequip;   // 188
 		HitData*                            lastHitData;           // 190
 		DeferredHideLimb*                   headDeferredHideLimb;  // 198
-		union                                                      // 1A0 - VR uses its own shared_ptr list
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		BSLocklessSimpleList<ActiveEffect*>* activeEffects;  // 1A0 - walk it with MagicTarget::VisitActiveEffects()
+#elif defined(SKYRIM_CROSS_VR)
+		union  // 1A0 - VR uses its own shared_ptr list
 		{
 			BSSimpleList<ActiveEffect*>*         activeEffects;
 			BSLocklessSimpleList<ActiveEffect*>* activeEffectsVR;
 		};
+#else
+		BSSimpleList<ActiveEffect*>* activeEffects;  // 1A0
+#endif
 		BSTSmartPointer<BSAnimationGraphManager>   animationGraphManager;       // 1A8
 		BSAnimationGraphVariableCache*             animationVariableCache;      // 1B0
 		BSTArray<void*>                            unk1B8;                      // 1B8

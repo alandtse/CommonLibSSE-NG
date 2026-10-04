@@ -31,17 +31,19 @@ namespace RE
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		BSSimpleList<ActiveEffect*>* GetActiveEffectList() override;  // 07
 #else
-		void*                       GetActiveEffectListNative() override;  // 07
+		void* GetActiveEffectListNative() override;  // 07
 #endif
 
 		// members
 		TESObjectREFR* targetObject;  // 28
-#if defined(ENABLE_SKYRIM_VR)
-		// BSSimpleList on SE/AE, BSLocklessSimpleList on VR: read it through GetActiveEffectList()
-		// (SE/AE), GetVRActiveEffectList() or VisitActiveEffects()
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		BSLocklessSimpleList<ActiveEffect*> activeEffects;  // 30 - walk it with VisitActiveEffects()
+#elif defined(SKYRIM_CROSS_VR)
+		// BSSimpleList on SE/AE, BSLocklessSimpleList on VR: read it through GetActiveEffectList() (SE/AE),
+		// GetVRActiveEffectList() or VisitActiveEffects()
 		std::uint8_t activeEffectsStorage[0x10];  // 30
 #else
-		BSSimpleList<ActiveEffect*> activeEffects;                         // 30
+		BSSimpleList<ActiveEffect*> activeEffects;  // 30
 #endif
 	};
 	static_assert(sizeof(NonActorMagicTarget) == 0x40);
