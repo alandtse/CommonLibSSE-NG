@@ -67,14 +67,16 @@ namespace RE
 		void                Unk_4B(void) override;                                                                    // 4B
 		void                Unk_4C(void) override;                                                                    // 4C
 		void                Unk_4D(void) override;                                                                    // 4D
-		bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact) override;  // 4E
-		void                SetFrame(std::int32_t a_frame) override;                                                  // 4F
-		void                SetPlayState(bool a_playing) override;                                                    // 50
-		void                Unk_51(void) override;                                                                    // 51
-		void                Unk_52(void) override;                                                                    // 52
+		bool                ReplaceChildCharacter(GFxCharacter* a_oldChar, GFxCharacter* a_newChar) override;         // 4E
+		std::uint32_t       GetCurrentFrame() override;                                                               // 4F
+		bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact) override;  // 50
+		void                SetFrame(std::int32_t a_frame) override;                                                  // 51
+		void                SetPlayState(bool a_playing) override;                                                    // 52
 		void                Unk_53(void) override;                                                                    // 53
 		void                Unk_54(void) override;                                                                    // 54
-		void                Unk_57(void) override;                                                                    // 57
+		void                Unk_55(void) override;                                                                    // 55
+		void                Unk_56(void) override;                                                                    // 56
+		void                Unk_59(void) override;                                                                    // 59
 
 		// override (GASObjectInterface)
 		void GASObjectInterface_02(void) override;  // 02
@@ -85,13 +87,13 @@ namespace RE
 		void GASObjectInterface_0B(void) override;  // 0B
 
 		// add
-		virtual void Unk_58(void);  // 58
-		virtual void Unk_59(void);  // 59
 		virtual void Unk_5A(void);  // 5A
 		virtual void Unk_5B(void);  // 5B
 		virtual void Unk_5C(void);  // 5C
 		virtual void Unk_5D(void);  // 5D
 		virtual void Unk_5E(void);  // 5E
+		virtual void Unk_5F(void);  // 5F
+		virtual void Unk_60(void);  // 60
 
 		// members
 		GFxSpriteDef*       spriteDef;     // 110

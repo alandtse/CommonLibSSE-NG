@@ -80,16 +80,18 @@ namespace RE
 		virtual void                Unk_4B(void);                                                                    // 4B
 		virtual void                Unk_4C(void);                                                                    // 4C
 		virtual void                Unk_4D(void);                                                                    // 4D
-		virtual bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact);  // 4E - only used by the label-overload of GotoAndPlay/GotoAndStop
-		virtual void                SetFrame(std::int32_t a_frame);                                                  // 4F
-		virtual void                SetPlayState(bool a_playing);                                                    // 50 - GotoAndPlay always passes true here
-		virtual void                Unk_51(void);                                                                    // 51
-		virtual void                Unk_52(void);                                                                    // 52
+		virtual bool                ReplaceChildCharacter(GFxCharacter* a_oldChar, GFxCharacter* a_newChar);         // 4E
+		virtual std::uint32_t       GetCurrentFrame();                                                               // 4F
+		virtual bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact);  // 50 - only used by the label-overload of GotoAndPlay/GotoAndStop
+		virtual void                SetFrame(std::int32_t a_frame);                                                  // 51
+		virtual void                SetPlayState(bool a_playing);                                                    // 52 - GotoAndPlay always passes true here
 		virtual void                Unk_53(void);                                                                    // 53
 		virtual void                Unk_54(void);                                                                    // 54
 		virtual void                Unk_55(void);                                                                    // 55
 		virtual void                Unk_56(void);                                                                    // 56
 		virtual void                Unk_57(void);                                                                    // 57
+		virtual void                Unk_58(void);                                                                    // 58
+		virtual void                Unk_59(void);                                                                    // 59
 
 		// members
 		std::uint64_t unk0B0;    // 0B0
