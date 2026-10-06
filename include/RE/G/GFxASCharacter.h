@@ -82,9 +82,9 @@ namespace RE
 		virtual void                Unk_4D(void);                                                                    // 4D
 		virtual bool                ReplaceChildCharacter(GFxCharacter* a_oldChar, GFxCharacter* a_newChar);         // 4E
 		virtual std::uint32_t       GetCurrentFrame();                                                               // 4F
-		virtual bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact);  // 50 - only used by the label-overload of GotoAndPlay/GotoAndStop
+		virtual bool                FindFrameForLabel(const char* a_label, std::int32_t* a_frameOut, bool a_exact);  // 50
 		virtual void                SetFrame(std::int32_t a_frame);                                                  // 51
-		virtual void                SetPlayState(bool a_playing);                                                    // 52 - GotoAndPlay always passes true here
+		virtual void                SetPlayState(bool a_playing);                                                    // 52
 		virtual void                Unk_53(void);                                                                    // 53
 		virtual void                Unk_54(void);                                                                    // 54
 		virtual void                Unk_55(void);                                                                    // 55
