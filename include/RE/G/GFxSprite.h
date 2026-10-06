@@ -92,8 +92,6 @@ namespace RE
 		virtual void Unk_5C(void);  // 5C
 		virtual void Unk_5D(void);  // 5D
 		virtual void Unk_5E(void);  // 5E
-		virtual void Unk_5F(void);  // 5F
-		virtual void Unk_60(void);  // 60
 
 		// members
 		GFxSpriteDef*       spriteDef;     // 110
