@@ -123,8 +123,8 @@ namespace RE
 		ScaleModeType                     viewScaleMode;                    // 00C0
 		AlignType                         viewAlignment;                    // 00C4
 		GRectF                            visibleFrameRect;                 // 00C8
-		std::uint64_t                     unk00D8;                          // 00D8
-		GRectF                            safeRect;                         // 00E0
+		GRectF                            safeRect;                         // 00D8
+		std::uint64_t                     unk00E8;                          // 00E8
 		std::uint64_t                     unk00F0;                          // 00F0
 		std::uint64_t                     unk00F8;                          // 00F8
 		GMatrix3D*                        perspective3D;                    // 0100
