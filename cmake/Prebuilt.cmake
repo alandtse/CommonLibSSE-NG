@@ -23,6 +23,19 @@ function(_commonlib_prebuilt_complete dir out_var)
     endif()
 endfunction()
 
+# Which compiler family a bundle was built with, and which one this consumer is using. clang-cl
+# is its own family: its objects and MSVC's are not interchangeable even though both link
+# against the MSVC STL.
+function(_commonlib_toolchain_id out_var)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        set(${out_var} "msvc" PARENT_SCOPE)
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
+        set(${out_var} "clangcl" PARENT_SCOPE)
+    else()
+        set(${out_var} "other" PARENT_SCOPE)
+    endif()
+endfunction()
+
 # A CRT/config match doesn't guarantee the bundle links: MSVC STL internal dispatch helpers
 # (e.g. __std_replace_copy_2) aren't part of the stable ABI, so a toolset mismatch in either
 # direction can LNK2001 at final link. Requires matching major.minor against TOOLSET_VERSION.txt
@@ -30,6 +43,20 @@ endfunction()
 # MSVC, since MSVC is also TRUE for clang-cl, whose version isn't the cl.exe one being compared.
 function(_commonlib_prebuilt_toolset_compatible dir out_var)
     set(${out_var} TRUE PARENT_SCOPE)
+    _commonlib_toolchain_id(_consumer_id)
+    set(_bundle_id "msvc")  # bundles predating TOOLCHAIN_ID.txt were all MSVC-built
+    if(EXISTS "${dir}/TOOLCHAIN_ID.txt")
+        file(READ "${dir}/TOOLCHAIN_ID.txt" _bundle_id)
+        string(STRIP "${_bundle_id}" _bundle_id)
+    endif()
+    if(NOT _consumer_id STREQUAL _bundle_id)
+        set(${out_var} FALSE PARENT_SCOPE)
+        message(STATUS "CommonLibSSE prebuilt bundle was built by ${_bundle_id} but this build uses "
+                        "${_consumer_id} - building from source: objects from different compilers "
+                        "disagree on the return convention of inline STL functions "
+                        "(e.g. std::strong_ordering), which corrupts memory at runtime.")
+        return()
+    endif()
     if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR NOT CMAKE_CXX_COMPILER_VERSION)
         return()
     endif()
@@ -140,6 +167,12 @@ function(commonlib_resolve_prebuilt out_dir)
         return()
     endif()
     if(EXISTS "${_cache}/.failed")
+        return()
+    endif()
+
+    # Only MSVC bundles are published; a bundle from another compiler family is never linkable.
+    _commonlib_toolchain_id(_toolchain)
+    if(NOT _toolchain STREQUAL "msvc")
         return()
     endif()
 

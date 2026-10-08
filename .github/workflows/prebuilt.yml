@@ -30,6 +30,7 @@ on:
       - .github/workflows/prebuilt.yml
       - tests/prebuilt-consumer/**
       - tests/prebuilt-consumer-cmake/**
+      - tests/prebuilt-toolchain-gate.cmake
   workflow_dispatch:
     inputs:
       ref:
@@ -162,6 +163,10 @@ jobs:
           ref: ${{ inputs.ref }}
           persist-credentials: false # don't leave the repo token in the workspace; we run PR code
           submodules: recursive # extern/openvr (headers + win64/openvr_api.lib) ship in the bundle
+
+      - name: Toolchain gate unit test
+        shell: pwsh
+        run: cmake -P tests/prebuilt-toolchain-gate.cmake
 
       - name: Extract vcpkg baseline from vcpkg.json
         id: baseline
