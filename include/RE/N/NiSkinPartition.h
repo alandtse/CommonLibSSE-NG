@@ -8,6 +8,8 @@
 
 namespace RE
 {
+	class BSGeometry;
+	class NiBoneMatrixSetterI;
 
 	namespace BSGraphics
 	{
@@ -46,11 +48,25 @@ namespace RE
 			std::uint16_t          numBones;        // 3C
 			std::uint16_t          strips;          // 3E
 			std::uint16_t          bonesPerVertex;  // 40
-			std::uint16_t          pad42;           // 42
+			std::uint8_t           lodCategory;     // 42
+			std::uint8_t           pad43;           // 43
 			float                  unk44;           // 44
 			BSGraphics::TriShape*  buffData;        // 48
 		};
+		static_assert(offsetof(Partition, lodCategory) == 0x42);
 		static_assert(sizeof(Partition) == 0x50);
+
+		struct DrawContext
+		{
+			NiBoneMatrixSetterI* setter;               // 00
+			BSGeometry*          geometry;             // 08
+			std::uint64_t        unk10;                // 10
+			std::uint32_t        singleLevel;          // 18
+			std::uint32_t        lodIndex;             // 1C
+			float                unk20;                // 20
+			std::int32_t         dynamicBufferOffset;  // 24
+		};
+		static_assert(sizeof(DrawContext) == 0x28);
 
 		~NiSkinPartition() override;  // 00
 
@@ -63,7 +79,7 @@ namespace RE
 		bool          IsEqual(NiObject* a_object) override;              // 1C
 
 		// add
-		virtual void Unk_25(void);  // 25
+		virtual bool DrawPartition(DrawContext* a_context, std::uint32_t a_index);  // 25
 
 		// members
 		std::uint32_t          numPartitions;  // 10
