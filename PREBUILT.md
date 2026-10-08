@@ -51,9 +51,12 @@ consumer **must** build with a compatible setup:
   `--skse_patch_safety=n`, build CommonLib from source.
 - Same compiler family (**MSVC**) and a compatible MSVC toolset version. Toolset drift
   between this bundle and the consumer is the most common cause of link/ABI errors.
-  A clang-cl consumer is refused the MSVC bundle and compiles CommonLib from source: objects
-  from the two compilers disagree on how inline STL functions return small structs
-  (`std::strong_ordering`), which links fine and then corrupts memory at runtime.
+  A bundle is only linked by a consumer of the same compiler family: objects from MSVC and from
+  clang-cl disagree on how inline STL functions return small structs (`std::strong_ordering`),
+  which links fine and then corrupts memory at runtime. The cmake release publishes both
+  `...-all-msvc-cmake.zip` and `...-all-clangcl-cmake.zip` (built without IPO, so it holds plain
+  object code; it must match the consumer's clang major.minor). Each bundle names its family in
+  `TOOLCHAIN_ID.txt`; an unstamped bundle is MSVC. Any other compiler builds CommonLib from source.
 
 ## How to consume (xmake)
 
