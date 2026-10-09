@@ -17,7 +17,7 @@ sections), so in the common case you change nothing in your repo.
 ```
 xmake.lua            # the same build script, which auto-detects lib/commonlibsse-ng.lib
                      #   and links it instead of compiling src/ ("prebuilt mode")
-include/             # public headers (RE/ REL/ REX/ SKSE/)
+include/             # public headers (RE/ REL/ SKSE/)
 res/                 # commonlibsse-ng.plugin rule templates
 extern/openvr/headers/   # VR headers (the "all" config enables VR)
 lib/commonlibsse-ng.lib  # the prebuilt static library

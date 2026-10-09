@@ -163,11 +163,11 @@ jobs:
           persist-credentials: false # don't leave the repo token in the workspace; we run PR code
           submodules: recursive # extern/openvr (headers + win64/openvr_api.lib) ship in the bundle
 
-      - name: Extract vcpkg baseline from vcpkg.json
+      - name: Extract vcpkg baseline from vcpkg-configuration.json
         id: baseline
         shell: pwsh
         run: |
-          $baseline = (Get-Content vcpkg.json | ConvertFrom-Json).'builtin-baseline'
+          $baseline = (Get-Content vcpkg-configuration.json | ConvertFrom-Json).'default-registry'.'baseline'
           "baseline=$baseline" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
       - name: Setup MSVC Environment

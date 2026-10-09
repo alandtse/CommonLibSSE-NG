@@ -35,8 +35,8 @@ namespace RE
 			kDisableCollision = 1 << 13
 		};
 
-		float                             time;   // 0
-		REX::EnumSet<Flag, std::uint32_t> flags;  // 4
+		float                              time;   // 0
+		REX::TEnumSet<Flag, std::uint32_t> flags;  // 4
 	};
 	static_assert(sizeof(NiUpdateData) == 0x8);
 
@@ -154,7 +154,7 @@ namespace RE
 		int                               IsVisualObjectI();
 		void                              Cull(NiCullingProcess* a_culler, std::int32_t a_alphaGroupIndex);
 
-		using NiAVObjectFlags = REX::EnumSet<Flag, std::uint32_t>;
+		using NiAVObjectFlags = REX::TEnumSet<Flag, std::uint32_t>;
 		RUNTIME_DATA_ACCESSOR_EX(NiAVObjectFlags, GetFlags, 0x0F4, 0x10C)
 
 		RUNTIME_DATA_ACCESSOR_EX(std::uint8_t, GetFlags02, 0x109, 0x121)  // flags02
@@ -189,29 +189,29 @@ namespace RE
 		NiTransform                  previousWorld;    // 0B0
 		NiBound                      worldBound;       // 0E4
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-		REX::EnumSet<Flag, std::uint32_t> flags;                    // 0F4
-		TESObjectREFR*                    userData;                 // 0F8
-		float                             fadeAmount;               // 100
-		std::uint32_t                     lastUpdatedFrameCounter;  // 104
-		std::uint8_t                      unk108;                   // 108
-		std::uint8_t                      flags02;                  // 109
-		std::uint16_t                     unk10A;                   // 10A
-		std::uint32_t                     pad10C;                   // 10C
+		REX::TEnumSet<Flag, std::uint32_t> flags;                    // 0F4
+		TESObjectREFR*                     userData;                 // 0F8
+		float                              fadeAmount;               // 100
+		std::uint32_t                      lastUpdatedFrameCounter;  // 104
+		std::uint8_t                       unk108;                   // 108
+		std::uint8_t                       flags02;                  // 109
+		std::uint16_t                      unk10A;                   // 10A
+		std::uint32_t                      pad10C;                   // 10C
 	};
 	static_assert(sizeof(NiAVObject) == 0x110);
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		NiPoint3                          occlusionBoxCenter;       // 0F4
-		NiPoint3                          occlusionBoxHalfExtents;  // 100
-		REX::EnumSet<Flag, std::uint32_t> flags;                    // 10C
-		TESObjectREFR*                    userData;                 // 110
-		float                             fadeAmount;               // 118
-		std::uint32_t                     lastUpdatedFrameCounter;  // 11C
-		std::uint8_t                      unk120[2];                // 120 - bitfield
-		bool                              skipOcclusionCulling;     // 122
-		std::uint8_t                      unk123[5];                // 123
-		std::uint8_t*                     occlusionResultSlot;      // 128
-		std::uint32_t                     lastRegisteredFrame;      // 130
-		std::uint32_t                     unk134;                   // 134
+		NiPoint3                           occlusionBoxCenter;       // 0F4
+		NiPoint3                           occlusionBoxHalfExtents;  // 100
+		REX::TEnumSet<Flag, std::uint32_t> flags;                    // 10C
+		TESObjectREFR*                     userData;                 // 110
+		float                              fadeAmount;               // 118
+		std::uint32_t                      lastUpdatedFrameCounter;  // 11C
+		std::uint8_t                       unk120[2];                // 120 - bitfield
+		bool                               skipOcclusionCulling;     // 122
+		std::uint8_t                       unk123[5];                // 123
+		std::uint8_t*                      occlusionResultSlot;      // 128
+		std::uint32_t                      lastRegisteredFrame;      // 130
+		std::uint32_t                      unk134;                   // 134
 	};
 	static_assert(sizeof(NiAVObject) == 0x138);
 #else

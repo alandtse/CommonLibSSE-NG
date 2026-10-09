@@ -2049,45 +2049,6 @@ set(SOURCES
 	include/REL/RuntimeDataAccessors.h
 	include/REL/Verify.h
 	include/REL/Version.h
-	include/REX/PS4.h
-	include/REX/PS4/SCEPAD.h
-	include/REX/REX.h
-	include/REX/REX/Enum.h
-	include/REX/REX/EnumSet.h
-	include/REX/REX/INI.h
-	include/REX/REX/JSON.h
-	include/REX/REX/Setting.h
-	include/REX/REX/Singleton.h
-	include/REX/REX/TOML.h
-	include/REX/W32.h
-	include/REX/W32/ADVAPI32.h
-	include/REX/W32/BASE.h
-	include/REX/W32/BCRYPT.h
-	include/REX/W32/Bridge.h
-	include/REX/W32/COM.h
-	include/REX/W32/COMPTR.h
-	include/REX/W32/D3D.h
-	include/REX/W32/D3D11.h
-	include/REX/W32/D3D11_1.h
-	include/REX/W32/D3D11_2.h
-	include/REX/W32/D3D11_3.h
-	include/REX/W32/D3D11_4.h
-	include/REX/W32/D3DCOMPILER.h
-	include/REX/W32/DBGHELP.h
-	include/REX/W32/DINPUT.h
-	include/REX/W32/DXGI.h
-	include/REX/W32/DXGI_2.h
-	include/REX/W32/DXGI_3.h
-	include/REX/W32/DXGI_4.h
-	include/REX/W32/DXGI_5.h
-	include/REX/W32/DXGI_6.h
-	include/REX/W32/KERNEL32.h
-	include/REX/W32/NT.h
-	include/REX/W32/OLE32.h
-	include/REX/W32/SHELL32.h
-	include/REX/W32/USER32.h
-	include/REX/W32/VERSION.h
-	include/REX/W32/XINPUT.h
 	include/SKSE/API.h
 	include/SKSE/ContextHook.h
 	include/SKSE/Events.h
@@ -2610,8 +2571,6 @@ set(SOURCES
 	src/REL/Relocation.cpp
 	src/REL/Verify.cpp
 	src/REL/Version.cpp
-	src/REX/REX.cpp
-	src/REX/W32.cpp
 	src/SKSE/API.cpp
 	src/SKSE/IAT.cpp
 	src/SKSE/Impl/PCH.cpp

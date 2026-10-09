@@ -52,12 +52,12 @@ jobs:
           path: main
           submodules: recursive
 
-      - name: Extract vcpkg baseline from vcpkg.json
+      - name: Extract vcpkg baseline from vcpkg-configuration.json
         id: get_vcpkg_baseline
         shell: pwsh
         run: |
-          $vcpkgJson = Get-Content main/vcpkg.json | ConvertFrom-Json
-          $baseline = $vcpkgJson.'builtin-baseline'
+          $vcpkgJson = Get-Content main/vcpkg-configuration.json | ConvertFrom-Json
+          $baseline = $vcpkgJson.'default-registry'.'baseline'
           echo "baseline=$baseline" >> $env:GITHUB_OUTPUT
           echo "✓ Using vcpkg baseline from vcpkg.json: $baseline"
 
@@ -192,10 +192,10 @@ jobs:
           submodules: recursive
           persist-credentials: false
 
-      - name: Extract vcpkg baseline from vcpkg.json
+      - name: Extract vcpkg baseline from vcpkg-configuration.json
         id: get_vcpkg_baseline
         run: |
-          baseline=$(python3 -c "import json; print(json.load(open('main/vcpkg.json'))['builtin-baseline'])")
+          baseline=$(python3 -c "import json; print(json.load(open('main/vcpkg-configuration.json'))['default-registry']['baseline'])")
           echo "baseline=$baseline" >> "$GITHUB_OUTPUT"
 
       # MSVC STL headers require Clang 19+, and mixing versions across

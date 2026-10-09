@@ -22,8 +22,8 @@ namespace RE
 		virtual void CreateConstraintData();  // 01
 
 		// members
-		hkRefPtr<hkpConstraintData>                                           constraintData = nullptr;  // 08
-		REX::EnumSet<hkpConstraintInstance::ConstraintPriority, std::uint8_t> priority =
+		hkRefPtr<hkpConstraintData>                                            constraintData = nullptr;  // 08
+		REX::TEnumSet<hkpConstraintInstance::ConstraintPriority, std::uint8_t> priority =
 			hkpConstraintInstance::ConstraintPriority::kInvalid;  // 10
 		std::uint8_t  pad11[3] = { 0 };                           // 11
 		std::uint32_t pad14 = 0;                                  // 14

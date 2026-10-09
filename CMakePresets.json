@@ -67,7 +67,6 @@
       "hidden": true,
       "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
-        "USE_VCPKG": "ON",
         "VCPKG_HOST_TRIPLET": "$env{PROJECT_ARCHITECTURE}-$env{PROJECT_PLATFORM}-static-md",
         "VCPKG_TARGET_TRIPLET": "$env{PROJECT_ARCHITECTURE}-$env{PROJECT_PLATFORM}-static-md"
       }
@@ -77,7 +76,6 @@
       "hidden": true,
       "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
-        "USE_VCPKG": "ON",
         "VCPKG_TARGET_TRIPLET": "x64-windows-clangcl",
         "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/examples/linux-cross-compile/custom-triplets",
         "VCPKG_OVERLAY_PORTS": "${sourceDir}/examples/linux-cross-compile/custom-ports",

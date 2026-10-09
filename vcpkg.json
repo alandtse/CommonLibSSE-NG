@@ -1,14 +1,20 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
   "name": "commonlibsse-ng",
-  "version-semver": "11.0.0",
+  "version-semver": "1.0.0",
   "port-version": 0,
   "description": "A fork of CommonLibSSE with advanced features for modern SKSE development.",
   "homepage": "https://github.com/CharmedBaryon/CommonLibSSE",
   "license": "GPL-3.0-or-later",
   "supports": "windows & x64",
-  "builtin-baseline": "ee12231b20c95013c6638d845d04c91559a1d1ff",
   "dependencies": [
+    "commonlib-shared",
+    {
+      "name": "spdlog",
+      "version>=": "1.16.0",
+      "default-features": false,
+      "features": ["wchar"]
+    },
     {
       "name": "vcpkg-cmake-config",
       "host": true
@@ -20,30 +26,6 @@
     {
       "name": "directxtk",
       "version>=": "2025-10-27"
-    },
-    {
-      "name": "fmt",
-      "version>=": "12.1.0"
-    },
-    {
-      "name": "nlohmann-json",
-      "version>=": "3.12.0"
-    },
-    {
-      "name": "rapidcsv",
-      "version>=": "8.90"
-    },
-    {
-      "name": "simpleini",
-      "version>=": "4.25"
-    },
-    {
-      "name": "spdlog",
-      "version>=": "1.16.0"
-    },
-    {
-      "name": "toml11",
-      "version>=": "4.4.0"
     },
     {
       "name": "xbyak",
@@ -59,7 +41,43 @@
           "version>=": "3.11.0"
         }
       ]
+    },
+    "vr": {
+      "description": "Build tests for CommonLibSSE.",
+      "dependencies": [
+        {
+          "name": "rapidcsv",
+          "version>=": "8.90"
+        }
+      ]
+    },
+    "ini": {
+      "description": "enable REX::INI settings support",
+      "dependencies": [
+        {
+          "name": "commonlib-shared",
+          "features": ["ini"]
+        }
+      ]
+    },
+    "json": {
+      "description": "enable REX::JSON settings support",
+      "dependencies": [
+        {
+          "name": "commonlib-shared",
+          "features": ["json"]
+        }
+      ]
+    },
+    "toml": {
+      "description": "enable REX::TOML settings support",
+      "dependencies": [
+        {
+          "name": "commonlib-shared",
+          "features": ["toml"]
+        }
+      ]
     }
   },
-  "default-features": ["tests"]
+  "default-features": ["tests", "vr"]
 }

@@ -3,7 +3,6 @@
 #include "RE/N/NiAlphaAccumulator.h"
 #include "RE/N/NiColor.h"
 #include "REL/RuntimeDataAccessors.h"
-#include "REX/REX/EnumSet.h"
 
 namespace RE
 {

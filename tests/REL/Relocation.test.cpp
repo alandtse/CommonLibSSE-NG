@@ -48,8 +48,8 @@ TEST_CASE("Version/Stringify")
 {
 	SECTION("With default separator")
 	{
-		CHECK(SKSE::RUNTIME_SSE_1_5_97.string() == "1-5-97-0");
-		CHECK(SKSE::RUNTIME_SSE_1_5_97.wstring() == L"1-5-97-0");
+		CHECK(SKSE::RUNTIME_SSE_1_5_97.string() == "1.5.97.0");
+		CHECK(SKSE::RUNTIME_SSE_1_5_97.wstring() == L"1.5.97.0");
 	}
 	SECTION("With char separator")
 	{
@@ -72,7 +72,7 @@ TEST_CASE("Version/std::to_string")
 // NOTE: fmt has been deprecated in favor of std::format
 TEST_CASE("Version/fmt::format")
 {
-	CHECK(fmt::format("Hello {}", SKSE::RUNTIME_SSE_1_5_97) == "Hello 1-5-97-0");
+	CHECK(fmt::format("Hello {}", SKSE::RUNTIME_SSE_1_5_97) == "Hello 1.5.97.0");
 }
 #endif
 
@@ -80,7 +80,7 @@ TEST_CASE("Version/std::format")
 {
 	CHECK(std::format("Hello {}", std::to_string(SKSE::RUNTIME_SSE_1_5_97)) == "Hello 1.5.97.0");
 	// Test wide-character formatting to verify formatter<std::string, CharT> handles conversion
-	CHECK(std::format(L"Hello {}", SKSE::RUNTIME_SSE_1_5_97) == L"Hello 1-5-97-0");
+	CHECK(std::format(L"Hello {}", SKSE::RUNTIME_SSE_1_5_97) == L"Hello 1.5.97.0");
 }
 
 TEST_CASE("Version/StringConstructor")

@@ -28,22 +28,22 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                                  \
-	BSTArray<BGSHeadPart*>           headParts[7];  /* 000 */ \
-	RaceSexCamera                    camera;        /* 0A8 */ \
-	BSTArray<RaceComponent>          sliderData[2]; /* 100 */ \
-	BSTArray<void*>                  unk170;        /* 130 */ \
-	std::uint64_t                    unk188;        /* 148 */ \
-	std::uint32_t                    unk190;        /* 150 */ \
-	std::uint32_t                    unk194;        /* 154 */ \
-	REX::EnumSet<SEX, std::uint32_t> sex;           /* 158 */ \
-	std::uint16_t                    unk19C;        /* 15C */ \
-	std::uint8_t                     unk19E;        /* 15E */ \
-	std::uint8_t                     pad19F;        /* 15F */ \
-	std::uint8_t                     unk1A0;        /* 160 */ \
-	std::uint8_t                     unk1A1;        /* 161 */ \
-	std::uint16_t                    unk1A2;        /* 162 */ \
-	std::uint32_t                    unk1A4;        /* 164 */
+#define RUNTIME_DATA_CONTENT                                   \
+	BSTArray<BGSHeadPart*>            headParts[7];  /* 000 */ \
+	RaceSexCamera                     camera;        /* 0A8 */ \
+	BSTArray<RaceComponent>           sliderData[2]; /* 100 */ \
+	BSTArray<void*>                   unk170;        /* 130 */ \
+	std::uint64_t                     unk188;        /* 148 */ \
+	std::uint32_t                     unk190;        /* 150 */ \
+	std::uint32_t                     unk194;        /* 154 */ \
+	REX::TEnumSet<SEX, std::uint32_t> sex;           /* 158 */ \
+	std::uint16_t                     unk19C;        /* 15C */ \
+	std::uint8_t                      unk19E;        /* 15E */ \
+	std::uint8_t                      pad19F;        /* 15F */ \
+	std::uint8_t                      unk1A0;        /* 160 */ \
+	std::uint8_t                      unk1A1;        /* 161 */ \
+	std::uint16_t                     unk1A2;        /* 162 */ \
+	std::uint32_t                     unk1A4;        /* 164 */
             RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x168);
@@ -52,20 +52,20 @@ namespace RE
 		// begins at +0x50, but fields after headParts are 0x58 bytes earlier.
 		struct VR_RUNTIME_DATA
 		{
-			BSTArray<BGSHeadPart*>           headParts[7];   // 000
-			BSTArray<RaceComponent>          sliderData[2];  // 0A8
-			BSTArray<void*>                  unk170;         // 0D8
-			std::uint64_t                    unk188;         // 0F0
-			std::uint32_t                    unk190;         // 0F8
-			std::uint32_t                    unk194;         // 0FC
-			REX::EnumSet<SEX, std::uint32_t> sex;            // 100
-			std::uint16_t                    unk19C;         // 104
-			std::uint8_t                     unk19E;         // 106
-			std::uint8_t                     pad19F;         // 107
-			std::uint8_t                     unk1A0;         // 108
-			std::uint8_t                     unk1A1;         // 109
-			std::uint16_t                    unk1A2;         // 10A
-			std::uint32_t                    unk1A4;         // 10C
+			BSTArray<BGSHeadPart*>            headParts[7];   // 000
+			BSTArray<RaceComponent>           sliderData[2];  // 0A8
+			BSTArray<void*>                   unk170;         // 0D8
+			std::uint64_t                     unk188;         // 0F0
+			std::uint32_t                     unk190;         // 0F8
+			std::uint32_t                     unk194;         // 0FC
+			REX::TEnumSet<SEX, std::uint32_t> sex;            // 100
+			std::uint16_t                     unk19C;         // 104
+			std::uint8_t                      unk19E;         // 106
+			std::uint8_t                      pad19F;         // 107
+			std::uint8_t                      unk1A0;         // 108
+			std::uint8_t                      unk1A1;         // 109
+			std::uint16_t                     unk1A2;         // 10A
+			std::uint32_t                     unk1A4;         // 10C
 		};
 		static_assert(sizeof(VR_RUNTIME_DATA) == 0x110);
 		static_assert(offsetof(VR_RUNTIME_DATA, sliderData) == 0xA8);

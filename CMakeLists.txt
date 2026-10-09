@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
 
-option(REX_OPTION_INI "Enables ini config support for REX." OFF)
-option(REX_OPTION_JSON "Enables json config support for REX." OFF)
-option(REX_OPTION_TOML "Enables toml config support for REX." OFF)
 option(SKSE_SUPPORT_XBYAK "Enables trampoline support for Xbyak." OFF)
 option(SKSE_SUPPORT_PATCH_SAFETY "Validate Trampoline::write_branch patch sites land on instruction boundaries before writing (vendors hde64); logs and still writes on failure, never blocks." ON)
 option(ENABLE_SKYRIM_SE "Enable support for Skyrim SE in the dynamic runtime feature." ON)
@@ -24,7 +21,7 @@ endif()
 project(
 	CommonLibSSE
 	LANGUAGES CXX
-	VERSION 11.0.0
+	VERSION 1.0.0
 )
 
 include(CheckIPOSupported)
@@ -34,6 +31,7 @@ if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 	message(FATAL_ERROR "in-source builds are not allowed")
 endif()
 
+find_package(commonlib-shared REQUIRED CONFIG)
 find_package(spdlog CONFIG REQUIRED)
 find_path(RAPIDCSV_INCLUDE_DIRS "rapidcsv.h")
 find_package(directxtk CONFIG REQUIRED)
@@ -82,7 +80,7 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 	)
 	# The lib bakes every REX config + xbyak, but they're additive — expose only the ones the
 	# consumer opted into, so it gets exactly the API (and headers) it asked for.
-	foreach(_opt REX_OPTION_INI REX_OPTION_JSON REX_OPTION_TOML SKSE_SUPPORT_XBYAK)
+	foreach(_opt SKSE_SUPPORT_XBYAK)
 		if(${_opt})
 			target_compile_definitions("${PROJECT_NAME}" INTERFACE ${_opt}=1)
 		endif()
@@ -98,6 +96,7 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 	endif()
 	target_link_libraries(
 		"${PROJECT_NAME}" INTERFACE
+		commonlib-shared::commonlib-shared
 		spdlog::spdlog
 		Microsoft::DirectXTK
 		advapi32.lib
@@ -167,9 +166,6 @@ target_compile_definitions(
 	PUBLIC
 	WINVER=0x0601 # windows 7, minimum supported version by skyrim special edition
 	_WIN32_WINNT=0x0601
-	"$<$<BOOL:${REX_OPTION_INI}>:REX_OPTION_INI=1>"
-	"$<$<BOOL:${REX_OPTION_JSON}>:REX_OPTION_JSON=1>"
-	"$<$<BOOL:${REX_OPTION_TOML}>:REX_OPTION_TOML=1>"
 	"$<$<BOOL:${SKSE_SUPPORT_XBYAK}>:SKSE_SUPPORT_XBYAK=1>"
 	"$<$<BOOL:${SKSE_SUPPORT_PATCH_SAFETY}>:SKSE_SUPPORT_PATCH_SAFETY=1>"
 	"$<$<BOOL:${ENABLE_SKYRIM_SE}>:ENABLE_SKYRIM_SE=1>"
@@ -276,6 +272,7 @@ target_compile_definitions(
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
+	commonlib-shared::commonlib-shared
 	spdlog::spdlog
 	Microsoft::DirectXTK
 	advapi32.lib

@@ -8,7 +8,6 @@
 #include "RE/H/hkpCharacterControl.h"
 #include "RE/H/hkpEntityListener.h"
 #include "RE/H/hkpWorldPostSimulationListener.h"
-#include "REX/REX/EnumSet.h"
 
 namespace RE
 {

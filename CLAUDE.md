@@ -116,7 +116,6 @@ Available runtime configurations:
 ### Directory Structure
 - `include/RE/`: Reverse-engineered Skyrim classes organized alphabetically
 - `include/REL/`: Address Library integration and relocation utilities
-- `include/REX/`: Cross-platform abstraction layer
 - `include/SKSE/`: SKSE plugin framework interfaces
 - `src/`: Implementation files mirroring the include structure
 - `tests/`: Unit and integration tests using Catch2

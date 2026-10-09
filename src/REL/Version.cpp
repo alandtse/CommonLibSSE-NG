@@ -4,7 +4,35 @@
 
 namespace REL
 {
-	std::optional<Version> GetFileVersion(stl::zwstring a_filename)
+	std::optional<Version> GetFileVersion(std::string_view a_filename)
+	{
+		std::uint32_t     dummy;
+		std::vector<char> buf(REX::W32::GetFileVersionInfoSizeA(a_filename.data(), std::addressof(dummy)));
+		if (buf.empty()) {
+			return std::nullopt;
+		}
+
+		if (!REX::W32::GetFileVersionInfoA(a_filename.data(), 0, static_cast<std::uint32_t>(buf.size()), buf.data())) {
+			return std::nullopt;
+		}
+
+		void*         verBuf{ nullptr };
+		std::uint32_t verLen{ 0 };
+		if (!REX::W32::VerQueryValueA(buf.data(), "\\StringFileInfo\\040904B0\\ProductVersion", std::addressof(verBuf), std::addressof(verLen))) {
+			return std::nullopt;
+		}
+
+		Version            version;
+		std::istringstream ss(std::string(static_cast<const char*>(verBuf), verLen));
+		std::string        token;
+		for (std::size_t i = 0; i < 4 && std::getline(ss, token, '.'); ++i) {
+			version[i] = static_cast<std::uint16_t>(std::stoi(token));
+		}
+
+		return version;
+	}
+
+	std::optional<Version> GetFileVersion(std::wstring_view a_filename)
 	{
 		std::uint32_t     dummy;
 		std::vector<char> buf(REX::W32::GetFileVersionInfoSizeW(a_filename.data(), std::addressof(dummy)));

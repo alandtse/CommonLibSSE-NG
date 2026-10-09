@@ -1,0 +1,41 @@
+{
+  "name": "commonlib-shared",
+  "version-date": "2026-08-21",
+  "description": "Shared library for CommonLib projects",
+  "homepage": "https://github.com/libxse/commonlib-shared",
+  "license": "GPL-3.0-or-later",
+  "dependencies": [
+    {
+      "name": "spdlog",
+      "version>=": "1.16.0",
+      "default-features": false,
+      "features": ["wchar"]
+    },
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ],
+  "features": {
+    "ini": {
+      "description": "REX::INI settings support",
+      "dependencies": [{ "name": "simpleini", "version>=": "4.25" }]
+    },
+    "json": {
+      "description": "REX::JSON settings support",
+      "dependencies": [{ "name": "glaze", "version>=": "7.0.0" }]
+    },
+    "random": {
+      "description": "enable REX::TRandom support",
+      "dependencies": [{ "name": "xoshiro-cpp", "version>=": "2021.08.04" }]
+    },
+    "toml": {
+      "description": "REX::TOML settings support",
+      "dependencies": [{ "name": "toml11", "version>=": "4.4.0" }]
+    }
+  }
+}
