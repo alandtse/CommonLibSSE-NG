@@ -157,7 +157,15 @@ target("commonlibsse-ng", function()
             return nil
         end
 
-        local prebuiltdir = resolve()
+        -- The bundle is MSVC-built; clang-cl objects disagree with it on inline STL ABI.
+        local function msvc_consumer()
+            for _, toolchain in ipairs(target:toolchains()) do
+                if toolchain:name():startswith("clang") then return false end
+            end
+            return true
+        end
+
+        local prebuiltdir = msvc_consumer() and resolve() or nil
         if prebuiltdir then
             target:set("kind", "phony")
             target:data_set("commonlib.prebuiltdir", prebuiltdir)
