@@ -159,6 +159,9 @@ namespace RE
 
 		RUNTIME_DATA_ACCESSOR_EX(std::uint8_t, GetFlags02, 0x109, 0x121)  // flags02
 
+		// LODMode byte (bit 7 singleLevel, bits 0-6 LOD index; see BSRenderPass::LODMode). Set to 3 by BSLODTriShape/BSMeshLODTriShape.
+		RUNTIME_DATA_ACCESSOR_EX(std::uint8_t, GetLODMode, 0x108, 0x120)
+
 		RUNTIME_DATA_ACCESSOR_EX(float, GetFadeAmount, 0x100, 0x118)
 		RUNTIME_DATA_ACCESSOR_EX(std::uint32_t, GetLastUpdatedFrameCounter, 0x104, 0x11C)
 
@@ -193,7 +196,7 @@ namespace RE
 		TESObjectREFR*                    userData;                 // 0F8
 		float                             fadeAmount;               // 100
 		std::uint32_t                     lastUpdatedFrameCounter;  // 104
-		std::uint8_t                      unk108;                   // 108
+		std::uint8_t                      unk108;                   // 108 - LODMode
 		std::uint8_t                      flags02;                  // 109
 		std::uint16_t                     unk10A;                   // 10A
 		std::uint32_t                     pad10C;                   // 10C
@@ -206,7 +209,7 @@ namespace RE
 		TESObjectREFR*                    userData;                 // 110
 		float                             fadeAmount;               // 118
 		std::uint32_t                     lastUpdatedFrameCounter;  // 11C
-		std::uint8_t                      unk120[2];                // 120 - bitfield
+		std::uint8_t                      unk120[2];                // 120 - [0] LODMode, [1] bitfield
 		bool                              skipOcclusionCulling;     // 122
 		std::uint8_t                      unk123[5];                // 123
 		std::uint8_t*                     occlusionResultSlot;      // 128

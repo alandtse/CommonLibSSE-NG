@@ -303,6 +303,7 @@ set(SOURCES
 	include/RE/B/BSInvMarker.h
 	include/RE/B/BSJobs.h
 	include/RE/B/BSKeyboardDevice.h
+	include/RE/B/BSLODTriShape.h
 	include/RE/B/BSLeafAnimNode.h
 	include/RE/B/BSLensFlareRenderData.h
 	include/RE/B/BSLight.h
@@ -328,6 +329,7 @@ set(SOURCES
 	include/RE/B/BSMasterParticleSystem.h
 	include/RE/B/BSMaterialObject.h
 	include/RE/B/BSMemStorage.h
+	include/RE/B/BSMeshLODTriShape.h
 	include/RE/B/BSModelDB.h
 	include/RE/B/BSMouseDevice.h
 	include/RE/B/BSMultiBound.h
