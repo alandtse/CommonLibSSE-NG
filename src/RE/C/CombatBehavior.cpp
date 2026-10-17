@@ -16,21 +16,21 @@ namespace RE
 	bool CombatBehavior::CheckTargetChanged()
 	{
 		using func_t = decltype(&CombatBehavior::CheckTargetChanged);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46089, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46089, 47353) };
 		return func(this);
 	}
 
 	CombatBehaviorThread* CombatBehavior::CreateChildThread(uint32_t child_ind, bool isControlChild)
 	{
 		using func_t = decltype(&CombatBehavior::CreateChildThread);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46090, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46090, 47354) };
 		return func(this, child_ind, isControlChild);
 	}
 
 	void CombatBehavior::StartChildThread(CombatBehaviorThread* thread, uint32_t child_ind, bool isControlChild)
 	{
 		using func_t = decltype(&CombatBehavior::StartChildThread);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46091, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46091, 47355) };
 		return func(this, thread, child_ind, isControlChild);
 	}
 
@@ -42,7 +42,7 @@ namespace RE
 	bool CombatBehaviorBranch::Validate(CombatBehaviorTreeNode* node)
 	{
 		using func_t = decltype(&CombatBehaviorBranch::Validate);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46093, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46093, 47357) };
 		return func(node);
 	}
 

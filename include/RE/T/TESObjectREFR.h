@@ -458,6 +458,7 @@ namespace RE
 		[[nodiscard]] bool                              IsInitiallyDisabled() const;
 		[[nodiscard]] bool                              IsInWater() const;
 		bool                                            IsJewelry() const;
+		[[nodiscard]] bool                              IsLeveledCreature() const;
 		[[nodiscard]] bool                              IsLocked() const;
 		[[nodiscard]] bool                              IsMarkedForDeletion() const;
 		[[nodiscard]] bool                              IsOffLimits();

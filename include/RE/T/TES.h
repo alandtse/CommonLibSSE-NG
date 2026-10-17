@@ -189,7 +189,8 @@ namespace RE
 	std::uint64_t                                   unk280;                            /* 280 - ctor sets only bytes 284-285 to 0x100; real sub-object boundary unresolved */ \
 	ParticleObjectCache*                            particleCacheHead;                 /* 288 - head of a callback-keyed clone/cache linked list */                           \
 	SystemEventAdapter                              unk290;                            /* 290 */                                                                              \
-	std::uint64_t                                   placeableWaterCount;               /* 2A0 - ctor zeroes only the low 4 bytes; may be two 4-byte sub-fields */             \
+	std::uint32_t                                   placeableWaterCount;               /* 2A0 - incremented and decremented as a 32-bit value */                              \
+	std::uint32_t                                   pad2A4;                            /* 2A4 */                                                                              \
 	NavMeshInfoMap*                                 navMeshInfoMap;                    /* 2A8 - lazily constructed on first access */                                         \
 	NiPointer<LoadedAreaBound>                      loadedAreaBound;                   /* 2B0 - refcounted */
             RUNTIME_DATA2_CONTENT

@@ -2,8 +2,8 @@
 
 namespace RE
 {
-	class BGSExplosion;
 	class Explosion;
+	struct SpawnExplosionData;
 
 	class IExplosionFactory
 	{
@@ -14,7 +14,7 @@ namespace RE
 		virtual ~IExplosionFactory();  // 00
 
 		// add
-		virtual Explosion* Create(BGSExplosion* a_form) = 0;  // 01
+		virtual Explosion* Create(SpawnExplosionData& a_data) = 0;  // 01
 	};
 	static_assert(sizeof(IExplosionFactory) == 0x8);
 }

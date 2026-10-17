@@ -209,6 +209,7 @@ namespace RE
 		void                                ForEachReferenceInRange(const NiPoint3& a_origin, float a_radius, std::function<BSContainer::ForEachResult(TESObjectREFR*)> a_callback) const;
 		[[nodiscard]] EXTERIOR_DATA*        GetCoordinates();
 		[[nodiscard]] TESFaction*           GetFactionOwner();
+		[[nodiscard]] TESObjectLAND*        GetLand() const;
 		[[nodiscard]] INTERIOR_DATA*        GetLighting();
 		[[nodiscard]] BGSLocation*          GetLocation() const;
 		[[nodiscard]] float                 GetNorthRotation();

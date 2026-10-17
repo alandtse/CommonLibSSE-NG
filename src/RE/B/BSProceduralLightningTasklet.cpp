@@ -9,13 +9,13 @@ namespace RE
 		RelocateVirtual<void(BSProceduralLightningTasklet*)>(0x00, 0x00, this);
 	}
 
-	void BSProceduralLightningTasklet::Func2()
+	void BSProceduralLightningTasklet::Process()
 	{
-		RelocateVirtual<decltype(&BSProceduralLightningTasklet::Func2)>(0x02, 0x02, this);
+		RelocateVirtual<decltype(&BSProceduralLightningTasklet::Process)>(0x02, 0x02, this);
 	}
 
-	void BSProceduralLightningTasklet::Func3()
+	void BSProceduralLightningTasklet::OnComplete()
 	{
-		RelocateVirtual<decltype(&BSProceduralLightningTasklet::Func3)>(0x03, 0x03, this);
+		RelocateVirtual<decltype(&BSProceduralLightningTasklet::OnComplete)>(0x03, 0x03, this);
 	}
 }

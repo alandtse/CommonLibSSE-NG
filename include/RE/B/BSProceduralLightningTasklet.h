@@ -1,11 +1,11 @@
 #pragma once
 
-#include "RE/B/BSTaskletData.h"
+#include "RE/B/BSWin32TaskletData.h"
 #include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
-	class BSProceduralLightningTasklet : public BSTaskletData
+	class BSProceduralLightningTasklet : public BSWin32TaskletData
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BSProceduralLightningTasklet;
@@ -14,17 +14,11 @@ namespace RE
 		~BSProceduralLightningTasklet() override { Dtor(); }  // 00
 
 		// override (BSTaskletData)
-		void Func2() override;  // 02
-		void Func3() override;  // 03
+		void Process() override;     // 02
+		void OnComplete() override;  // 03
 
 		// members
-		bool          unk08;        // 08
-		std::uint8_t  pad09[7];     // 09
-		void*         unk10;        // 10 - group/manager pointer
-		bool          active;       // 18
-		std::uint8_t  pad19[3];     // 19
-		std::uint32_t unk1C;        // 1C
-		std::uint8_t  unk20[0x60];  // 20 - own container/array bookkeeping; not yet identified
+		std::uint8_t unk28[0x58];  // 28 - own container/array bookkeeping; not yet identified
 
 		// VR inserts 0x18 unidentified bytes at this offset instead of appending
 		// a trailing tail, shifting every field after it by +0x18.

@@ -11,9 +11,13 @@ namespace RE
 		virtual ~BSTaskletData() = default;  // 00
 
 		// add
-		[[nodiscard]] virtual bool Func1() { return true; }  // 01 - { return 1; }
-		virtual void               Func2() { return; }       // 02 - { return; }
-		virtual void               Func3() { return; }       // 03 - { return; }
+		virtual bool OnStartup() { return true; };  // 01
+		virtual void Process(){};                   // 02
+		virtual void OnComplete(){};                // 03
+
+		// members
+		bool         yielding;  // 08
+		std::uint8_t pad09[7];  // 09
 	};
-	static_assert(sizeof(BSTaskletData) == 0x8);
+	static_assert(sizeof(BSTaskletData) == 0x10);
 }

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "RE/H/hkpEntityListener.h"
+#include "RE/B/bhkEntityListener.h"
 
 namespace RE
 {
-	class BGSAcousticSpaceListener : public hkpEntityListener
+	class BGSAcousticSpaceListener : public bhkEntityListener
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BGSAcousticSpaceListener;
@@ -12,15 +12,13 @@ namespace RE
 
 		~BGSAcousticSpaceListener() override;  // 00
 
-		// override (hkpEntityListener)
-		void EntityAddedCallback(hkpEntity* a_entity) override;    // 01 - { return; }
-		void EntityRemovedCallback(hkpEntity* a_entity) override;  // 02
-		void EntityDeletedCallback(hkpEntity* a_entity) override;  // 05 - { return; }
-
-		// add
-		virtual void RemoveCollidable(hkpEntity* a_entity);                             // 06
-		virtual void AddCollidable(hkpEntity* a_entityA, hkpEntity* a_entityB);         // 07
-		virtual void HandleCollidableExit(hkpEntity* a_entityA, hkpEntity* a_entityB);  // 08 - fired by bhkAcousticSpacePhantomCallbackShape's phantom-exit callback (paired with AddCollidable's phantom-enter callback); param types inferred by symmetry with AddCollidable, not independently confirmed
+		// override (bhkEntityListener)
+		void EntityAddedCallback(hkpEntity* a_entity) override;              // 01 - { return; }
+		void EntityRemovedCallback(hkpEntity* a_entity) override;            // 02
+		void EntityDeletedCallback(hkpEntity* a_entity) override;            // 05 - { return; }
+		void Update(float a_delta) override;                                 // 06 - finalizes the pending phantom exits
+		bool ContactPointAddedCallback(hkpRootCdPoint& a_point) override;    // 07 - fired by bhkAcousticSpacePhantomCallbackShape's phantom-enter callback
+		bool ContactPointRemovedCallback(hkpRootCdPoint& a_point) override;  // 08 - fired by its phantom-exit callback
 
 		struct Entry
 		{
@@ -31,9 +29,6 @@ namespace RE
 		static_assert(sizeof(Entry) == 0x10);
 
 		// members
-		void*         unk08;        // 08
-		std::uint32_t count;        // 10
-		std::uint32_t capacity;     // 14
 		std::uint32_t numBuckets;   // 18
 		std::uint32_t pad1C;        // 1C
 		Entry*        entries;      // 20

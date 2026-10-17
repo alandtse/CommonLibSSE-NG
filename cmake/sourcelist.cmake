@@ -34,6 +34,7 @@ set(SOURCES
 	include/RE/A/ActorValueOwner.h
 	include/RE/A/ActorValues.h
 	include/RE/A/AddCallbackVisitor.h
+	include/RE/A/AddCellGrassTask.h
 	include/RE/A/AlchemyItem.h
 	include/RE/A/AlchemyMenu.h
 	include/RE/A/AmiiboEvent.h
@@ -494,6 +495,7 @@ set(SOURCES
 	include/RE/B/BSWin32MouseDevice.h
 	include/RE/B/BSWin32SaveDataSystemUtility.h
 	include/RE/B/BSWin32SystemUtility.h
+	include/RE/B/BSWin32TaskletData.h
 	include/RE/B/BSWin32TaskletManager.h
 	include/RE/B/BSWin32VirtualKeyboardDevice.h
 	include/RE/B/BSWindModifier.h
@@ -542,6 +544,7 @@ set(SOURCES
 	include/RE/B/bhkConstraint.h
 	include/RE/B/bhkContactListener.h
 	include/RE/B/bhkEntity.h
+	include/RE/B/bhkEntityListener.h
 	include/RE/B/bhkGroupConstraint.h
 	include/RE/B/bhkListShape.h
 	include/RE/B/bhkListShapeCinfo.h
@@ -579,6 +582,7 @@ set(SOURCES
 	include/RE/C/Calendar.h
 	include/RE/C/CalibrationOptionMenu.h
 	include/RE/C/CalmEffect.h
+	include/RE/C/CellLoaderTask.h
 	include/RE/C/CellMopp.h
 	include/RE/C/ChainExplosion.h
 	include/RE/C/CharEvent.h
@@ -777,6 +781,7 @@ set(SOURCES
 	include/RE/E/EscortActorPackageData.h
 	include/RE/E/EtherealizationEffect.h
 	include/RE/E/Explosion.h
+	include/RE/E/ExteriorCellLoader.h
 	include/RE/E/ExtraAction.h
 	include/RE/E/ExtraActivateLoopSound.h
 	include/RE/E/ExtraActivateRef.h
@@ -1662,6 +1667,7 @@ set(SOURCES
 	include/RE/N/NiTriShapeData.h
 	include/RE/N/NiTriStrips.h
 	include/RE/N/NiTriStripsData.h
+	include/RE/N/NiUpdateData.h
 	include/RE/N/NiVisibleArray.h
 	include/RE/N/NightEyeEffect.h
 	include/RE/N/NonActorMagicCaster.h
@@ -1835,6 +1841,7 @@ set(SOURCES
 	include/RE/T/TESActorLocationChangeEvent.h
 	include/RE/T/TESAmmo.h
 	include/RE/T/TESAttackDamageForm.h
+	include/RE/T/TESAudio.h
 	include/RE/T/TESBipedModelForm.h
 	include/RE/T/TESBookReadEvent.h
 	include/RE/T/TESBoundAnimObject.h
@@ -2219,6 +2226,7 @@ set(SOURCES
 	src/RE/B/BSSystemFileStorage.cpp
 	src/RE/B/BSTArray.cpp
 	src/RE/B/BSTCreateFactoryManager.cpp
+	src/RE/B/BSTask.cpp
 	src/RE/B/BSTempNodeManager.cpp
 	src/RE/B/BSTreeNode.cpp
 	src/RE/B/BSUIMessageData.cpp
@@ -2558,6 +2566,7 @@ set(SOURCES
 	src/RE/T/TESAIForm.cpp
 	src/RE/T/TESActorBase.cpp
 	src/RE/T/TESAmmo.cpp
+	src/RE/T/TESAudio.cpp
 	src/RE/T/TESCamera.cpp
 	src/RE/T/TESCameraState.cpp
 	src/RE/T/TESClimate.cpp

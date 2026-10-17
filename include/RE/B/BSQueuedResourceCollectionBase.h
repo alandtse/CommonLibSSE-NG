@@ -28,13 +28,13 @@ namespace RE
 		~BSQueuedResourceCollectionBase() override;  // 00
 
 		// override (BSTask)
-		void Unk_03() override;  // 03 - CAS-guards on PostFlushNotify::TryAbort; on success releases the dependency, calls BSTask's own slots 1/2, then PostFlushNotify::Aborted
-		void Unk_04() override;  // 04 - debug type name, "Queued resource collection"
+		void Cancel(std::uint32_t a_previousState, void* a_unk) override;      // 03 - CAS-guards on PostFlushNotify::TryAbort; on success releases the parent, calls BSTask's own slots 1/2, then PostFlushNotify::Aborted
+		bool GetDescription(char* a_dest, std::uint32_t a_maxCount) override;  // 04 - debug type name, "Queued resource collection"
 
 		// override (QueuedFile)
-		void Unk_09() override;  // 09 - if pendingCount is nonzero, bumps refCount, calls Unk_15, and resubmits `this` to the global IOManager; else sets BSTask::unk0C (abort-state) to 5
-		void Unk_10() override;  // 10 - if pendingCount==0 and abort-state is 0/1, CASes abort-state to 4 and records needNotifyFlag
-		void Unk_11() override;  // 11 - calls Unk_13; if needNotifyFlag is set, notifies the global IOManager and clears it
+		void DoOnQueueMe() override;           // 09 - if pendingCount is nonzero, bumps refCount, calls Unk_15, and resubmits `this` to the global IOManager; else sets BSTask::unk0C (abort-state) to 5
+		void DoOnChildrenFinished() override;  // 0A - if pendingCount==0 and abort-state is 0/1, CASes abort-state to 4 and records needNotifyFlag
+		void DoOnTaskFinished() override;      // 0B - calls Unk_13; if needNotifyFlag is set, notifies the global IOManager and clears it
 
 		// add
 		virtual void Unk_12() { return; }  // 12

@@ -1,11 +1,14 @@
 #pragma once
 
+#include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BeamProjectile.h"
 #include "RE/E/Explosion.h"
 
 namespace RE
 {
+	class BGSProjectile;
+
 	class ChainExplosion :
 		public Explosion,                               // 00
 		public BSTEventSink<BeamProjectileImpactEvent>  // 140
@@ -15,6 +18,13 @@ namespace RE
 		inline static constexpr auto VTABLE = VTABLE_ChainExplosion;
 
 		~ChainExplosion() override;  // 00
+
+		// override (TESObjectREFR)
+		void SaveGame(BGSSaveFormBuffer* a_buf) override;        // 0E
+		void LoadGame(BGSLoadFormBuffer* a_buf) override;        // 0F
+		void InitLoadGame(BGSLoadFormBuffer* a_buf) override;    // 10
+		void FinishLoadGame(BGSLoadFormBuffer* a_buf) override;  // 11
+		void Revert(BGSLoadFormBuffer* a_buf) override;          // 12
 
 #ifndef SKYRIM_CROSS_VR
 		// override (Explosion)
@@ -27,7 +37,18 @@ namespace RE
 		BSEventNotifyControl ProcessEvent(const BeamProjectileImpactEvent* a_event, BSTEventSource<BeamProjectileImpactEvent>* a_eventSource) override;  // 01
 
 		// members
-		std::uint8_t unk148[0x58];  // 148 - chain-link bookkeeping (next-target handle, a component pointer, a bound BGSDestructibleObjectForm*, and per-link effectiveness floats); not yet broken out field-by-field
+		NiPoint3              nextOrigin;      // 148
+		BSTArray<ActorHandle> pastTargets;     // 158
+		ActorHandle           currentTarget;   // 170
+		std::uint32_t         unk174;          // 174 - handle
+		BGSProjectile*        projectileBase;  // 178
+		std::uint64_t         unk180;          // 180
+		std::uint32_t         unk188;          // 188
+		float                 timer;           // 18C
+		float                 effectiveness;   // 190
+		float                 unk194;          // 194
+		bool                  waiting;         // 198
+		std::uint8_t          pad199[7];       // 199
 
 	private:
 		TES_HEAP_REDEFINE_NEW();

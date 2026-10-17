@@ -12,7 +12,7 @@ namespace RE
 		inline static constexpr auto             VTABLE = VTABLE_FaderData;
 		inline static constexpr std::string_view CLASS_NAME = "FaderData";
 
-		~FaderData() override;
+		~FaderData() override;  // 00
 
 		// members
 		std::uint64_t unk10;         // 10

@@ -49,9 +49,9 @@ namespace RE
 		RelocateVirtual<decltype(&BSProceduralLightningController::ProcessClone)>(0x1D, 0x1D, this, a_cloning);
 	}
 
-	void BSProceduralLightningController::Update(float a_time)
+	void BSProceduralLightningController::Update(NiUpdateData& a_data)
 	{
-		RelocateVirtual<decltype(&BSProceduralLightningController::Update)>(0x27, 0x27, this, a_time);
+		RelocateVirtual<decltype(&BSProceduralLightningController::Update)>(0x27, 0x27, this, a_data);
 	}
 
 	bool BSProceduralLightningController::TargetIsRequiredType() const
