@@ -9,9 +9,9 @@ namespace RE
 		return func();
 	}
 
-	void SpellsLearned::SendEvent(SpellItem* a_spell)
+	void SpellsLearned::SendEvent()
 	{
-		Event e{ a_spell };
+		Event e{};
 		auto  source = GetEventSource();
 		if (source) {
 			source->SendEvent(std::addressof(e));
