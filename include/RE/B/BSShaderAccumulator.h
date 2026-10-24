@@ -95,7 +95,8 @@ namespace RE
 		static constexpr std::ptrdiff_t kRuntimeDataSE = 0x130;
 		static constexpr std::ptrdiff_t kRuntimeDataVR = 0x158;
 
-		// noFade, isDirectionalShadowMap and shadowMapIndex are named from constructor initialisers only; no reader confirms them yet.
+		// noFade is set around the first-person pass in Main::RenderFirstPersonView; BSShadowDirectionalLight::Accumulate sets
+		// isDirectionalShadowMap and shadowMapIndex (the cascade index) per cascade.
 		struct FLAT_RUNTIME_DATA
 		{
 #define FLAT_RUNTIME_DATA_CONTENT                                                                                                              \
