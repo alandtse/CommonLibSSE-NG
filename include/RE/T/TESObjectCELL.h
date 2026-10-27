@@ -88,7 +88,7 @@ namespace RE
 		NiPointer<NiNode>                                    lightMarkerNode;         // 010 - smart ptr
 		NiPointer<NiNode>                                    soundMarkerNode;         // 018 - smart ptr
 		NiPointer<NiNode>                                    multiBoundNode;          // 020 - smart ptr
-		std::uint64_t                                        unk028;                  // 028
+		NiAVObject*                                          waterNode;               // 028 - raw pointer set by BGSAutoWater, not ref-counted
 		std::uint64_t                                        unk030;                  // 030
 		std::uint64_t                                        unk038;                  // 038
 		BSTArray<ObjectRefHandle>                            unk040;                  // 040

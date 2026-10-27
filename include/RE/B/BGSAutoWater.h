@@ -17,7 +17,7 @@ namespace RE
 
 		void GenerateMultibounds(TESObjectCELL* a_cell);
 		void GeneratePlaceableWater(TESObjectCELL* a_cell, NiAVObject* a_water);
-		void GeneratePlaceableWaterForCell(TESObjectCELL* a_cell, bool a_unk);
+		void GeneratePlaceableWaterForCell(TESObjectCELL* a_cell, bool a_skipFlowMap);
 
 		// members
 		std::uint8_t                          pad0001;                        // 0001
