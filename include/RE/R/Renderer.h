@@ -178,6 +178,12 @@ namespace RE
 
 			RUNTIME_MEMBER_ACCESSOR_VERSIONED(REX::W32::CRITICAL_SECTION, GetLock, SKSE::RUNTIME_SSE_1_6_1130, 0x2790, 0x2F00, 0x27f0);
 
+			/**
+			 * @brief Refreshes camera-dependent renderer state.
+			 * @param a_flags Gates optional updates (bits 0x2, 0x4, 0x80); the engine render path passes 0.
+			 */
+			void UpdateCameraData(std::uint32_t a_flags);
+
 			[[nodiscard]] static Renderer*                         GetSingleton() noexcept;
 			[[nodiscard]] static bool&                             GetVolumetricLightingEnabled() noexcept;
 			[[nodiscard]] static REX::W32::ID3D11RasterizerState** GetRasterizerStates() noexcept

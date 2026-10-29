@@ -7,13 +7,6 @@ namespace RE
 {
 	namespace BSGraphics
 	{
-		void State::UpdateCameraData(std::uint32_t a_flags)
-		{
-			using func_t = void (*)(State*, std::uint32_t);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(75472, 77258) };
-			func(this, a_flags);
-		}
-
 		void SetDirtyStates(bool a_isCompute)
 		{
 			using func_t = void (*)(bool);
@@ -25,6 +18,13 @@ namespace RE
 		{
 			static REL::Relocation<Renderer*> singleton{ RELOCATION_ID(524907, 411393) };
 			return singleton.get();
+		}
+
+		void Renderer::UpdateCameraData(std::uint32_t a_flags)
+		{
+			using func_t = void (*)(Renderer*, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(75472, 77258) };
+			func(this, a_flags);
 		}
 
 		bool& Renderer::GetVolumetricLightingEnabled() noexcept
