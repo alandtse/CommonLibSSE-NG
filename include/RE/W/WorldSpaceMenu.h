@@ -13,12 +13,18 @@ namespace RE
 	struct QueuedMenuNodeUpdate
 	{
 	public:
+		enum class UpdateType : std::uint32_t
+		{
+			kVisibility = 0,
+			kShaderProperty = 1
+		};
+
 		// members
-		NiNode*  menuNode;  // 00 - set to WorldSpaceMenu->unk48
-		bool     hideMenu;  // 08 - false also unhides the menu if its already hidden
-		uint32_t unk0C;     // 0C
-		uint32_t unk10;     // 10 - set to WorldSpaceMenu->unk30, applied somehow to every child in the menunode
-		uint32_t unk14;     // 14
+		NiNode*                                        menuNode;      // 00 - set to WorldSpaceMenu->menuNode
+		bool                                           hideMenu;      // 08 - false also unhides the menu if its already hidden
+		std::uint32_t                                  flags;         // 0C - shader/material flags (e.g. 0x3 for linking + render target)
+		REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget;  // 10 - set to WorldSpaceMenu->renderTarget, applied to every child in the menunode
+		REX::EnumSet<UpdateType, std::uint32_t>        updateType;    // 14 - 0: kVisibility, 1: kShaderProperty
 	};
 	static_assert(sizeof(QueuedMenuNodeUpdate) == 0x18);
 
@@ -57,7 +63,7 @@ namespace RE
 		virtual void               PostCreate() override;                          // 02
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 04
 #ifdef ENABLE_SKYRIM_VR
-		virtual void Unk_09(UI_MENU_Unk09 a_unk) override;  // 09
+		virtual void SetRenderTarget(VRMenuRenderTarget a_target) override;  // 09
 #endif
 
 		// add
@@ -67,12 +73,12 @@ namespace RE
 
 		bool MessageMatchesMenu(RE::UIMessage* a_message);
 
-		void SetupMenuNodeWithNif(const char* nif, bool unk);
+		void SetupMenuNodeWithNif(const char* nif, std::uint32_t a_flags = 0);
 
 		RE::NiPointer<RE::NiNode> menuNode;                       // 48 - Created automatically in SetupMenuNode()
 		bool                      registerForHudModeChangeEvent;  // 50 - Set/Used in WorldSpaceMenu constructor
 		bool                      matchAsTopMenu{ false };        // 51 - Only used when calling MessageMatchesMenu so far
-		bool                      queueUpdateFixup{ false };      // 52 - Update menuNode immediately, or on next MAIN_DRAW when calling Unk_09
+		bool                      queueUpdateFixup{ false };      // 52 - Update menuNode immediately, or on next MAIN_DRAW when calling SetRenderTarget
 		std::uint8_t              pad53{ 0 };
 		std::uint32_t             pad54{ 0 };
 	};
