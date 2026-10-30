@@ -1,3 +1,14 @@
+## [15.3.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v15.2.0...v15.3.0) (2026-10-30)
+
+### Features
+
+* **TESPackage:** add AI condition return enums ([#464](https://github.com/alandtse/CommonLibSSE-NG/issues/464)) ([dc585f5](https://github.com/alandtse/CommonLibSSE-NG/commit/dc585f51e72b093fd3e33d5dc3808f119c78ede7))
+
+### Bug Fixes
+
+* **trampoline:** fill the branch slot before redirecting ([#465](https://github.com/alandtse/CommonLibSSE-NG/issues/465)) ([9c94e63](https://github.com/alandtse/CommonLibSSE-NG/commit/9c94e631db9d865e3a15014c1fbd31340e84cf7f))
+* **vr:** correct IMenu VR layout and target accessor ([#466](https://github.com/alandtse/CommonLibSSE-NG/issues/466)) ([9c04cc7](https://github.com/alandtse/CommonLibSSE-NG/commit/9c04cc7a3e63373d00122cb2396fa7204dd77283))
+
 ## [15.2.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v15.1.0...v15.2.0) (2026-10-29)
 
 ### Features
