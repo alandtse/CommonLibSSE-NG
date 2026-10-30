@@ -221,15 +221,15 @@ namespace SKSE
 		}
 #endif
 
-		SrcAssembly assembly;
-		assembly.opcode = a_opcode;
-		assembly.disp = static_cast<std::int32_t>(disp);
-		REL::safe_write(a_src, &assembly, sizeof(assembly));
-
 		mem->jmp = static_cast<std::uint8_t>(0xFF);
 		mem->modrm = static_cast<std::uint8_t>(0x25);
 		mem->disp = static_cast<std::int32_t>(0);
 		mem->addr = static_cast<std::uint64_t>(a_dst);
+
+		SrcAssembly assembly;
+		assembly.opcode = a_opcode;
+		assembly.disp = static_cast<std::int32_t>(disp);
+		REL::safe_write(a_src, &assembly, sizeof(assembly));
 	}
 
 	void Trampoline::write_6branch(std::uintptr_t a_src, std::uintptr_t a_dst, std::uint8_t a_modrm, bool a_skipSafetyCheck, std::uint64_t a_expectedPatchHash, std::source_location a_loc)
@@ -269,13 +269,13 @@ namespace SKSE
 		}
 #endif
 
+		*mem = a_dst;
+
 		Assembly assembly;
 		assembly.opcode = static_cast<std::uint8_t>(0xFF);
 		assembly.modrm = a_modrm;
 		assembly.disp = static_cast<std::int32_t>(disp);
 		REL::safe_write(a_src, &assembly, sizeof(assembly));
-
-		*mem = a_dst;
 	}
 
 	void Trampoline::log_stats() const
