@@ -19,10 +19,23 @@ namespace RE
 			kShaderProperty = 1
 		};
 
+		enum class Flag : std::uint32_t
+		{
+			kNone = 0,
+			kLinkMaterial = 1 << 0,         // 0x01: calls BSShaderProperty::LinkMaterial if material->unk30 == 0
+			kSetRenderTarget = 1 << 1,      // 0x02: sets BSEffectShaderMaterial::renderTarget (0x84) and invalidates lastRenderPassState (0x34)
+			kAttachAlphaProperty = 1 << 2,  // 0x04: creates/attaches NiAlphaProperty (flags 0xed)
+			kSnowOff = 1 << 3,              // 0x08: clears BSShaderPropertyFlag8::kSnow (0x3c)
+			kZBufferTestOff = 1 << 4,       // 0x10: clears BSShaderPropertyFlag8::kZBufferTest (0x1f)
+			kZBufferWrite = 1 << 5,         // 0x20: sets BSShaderPropertyFlag8::kZBufferWrite (0x20)
+			kVertexColors = 1 << 6,         // 0x40: sets BSShaderPropertyFlag8::kVertexColors (0x25)
+			kTwoSided = 1 << 7              // 0x80: sets BSShaderPropertyFlag8::kTwoSided (0x24)
+		};
+
 		// members
 		NiNode*                                        menuNode;      // 00 - set to WorldSpaceMenu->menuNode
 		bool                                           hideMenu;      // 08 - false also unhides the menu if its already hidden
-		std::uint32_t                                  flags;         // 0C - shader/material flags (e.g. 0x3 for linking + render target)
+		REX::EnumSet<Flag, std::uint32_t>              flags;         // 0C
 		REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget;  // 10 - set to WorldSpaceMenu->renderTarget, applied to every child in the menunode
 		REX::EnumSet<UpdateType, std::uint32_t>        updateType;    // 14 - 0: kVisibility, 1: kShaderProperty
 	};
@@ -73,7 +86,7 @@ namespace RE
 
 		bool MessageMatchesMenu(RE::UIMessage* a_message);
 
-		void SetupMenuNodeWithNif(const char* nif, std::uint32_t a_flags = 0);
+		void SetupMenuNodeWithNif(const char* nif, REX::EnumSet<QueuedMenuNodeUpdate::Flag, std::uint32_t> a_flags = QueuedMenuNodeUpdate::Flag::kNone);
 
 		RE::NiPointer<RE::NiNode> menuNode;                       // 48 - Created automatically in SetupMenuNode()
 		bool                      registerForHudModeChangeEvent;  // 50 - Set/Used in WorldSpaceMenu constructor

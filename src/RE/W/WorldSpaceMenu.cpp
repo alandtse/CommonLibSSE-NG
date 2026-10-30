@@ -69,7 +69,7 @@ namespace RE
 		return func(this);
 	}
 
-	void WorldSpaceMenu::SetupMenuNodeWithNif(const char* nif, std::uint32_t a_flags)
+	void WorldSpaceMenu::SetupMenuNodeWithNif(const char* nif, REX::EnumSet<QueuedMenuNodeUpdate::Flag, std::uint32_t> a_flags)
 	{
 		using func_t = decltype(&WorldSpaceMenu::SetupMenuNodeWithNif);
 		static REL::Relocation<func_t> func{ REL::Offset(0x53CB50) };
