@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSShaderMaterial.h"
+#include "RE/I/IMenu.h"
 #include "RE/N/NiColor.h"
 #include "RE/N/NiSmartPointer.h"
 #include "RE/T/TextureAddressModes.h"
@@ -39,6 +40,10 @@ namespace RE
 		BSFixedString                                              greyscaleTexturePath;  // 78
 		REX::EnumSet<BSGraphics::TextureAddressMode, std::uint8_t> effectClampMode;       // 80
 		std::uint8_t                                               unk81;                 // 81
+#if defined(ENABLE_SKYRIM_VR)
+		std::uint16_t                                  pad82{ 0 };                                 // 82
+		REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget{ VRMenuRenderTarget::kNone };  // 84
+#endif
 	};
 	static_assert(sizeof(BSEffectShaderMaterial) == 0x88);
 }
