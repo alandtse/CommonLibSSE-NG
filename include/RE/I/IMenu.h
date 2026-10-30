@@ -86,8 +86,8 @@ namespace RE
 		virtual void               PreDisplay();                                                 // 07 - { return; } - only available if kRendersOffscreenTargets is set
 		virtual void               RefreshPlatform();                                            // 08
 #ifdef ENABLE_SKYRIM_VR
-		virtual void SetRenderTarget(VRMenuRenderTarget a_target);  // 09 - { renderTarget = a_target; }
-		virtual void ResetOnShow();                                 // 0A - Invokes _root.ResetOnShow if present
+		SKYRIM_REL_VR_VIRTUAL void SetRenderTarget(VRMenuRenderTarget a_target);  // 09 - { renderTarget = a_target; }
+		SKYRIM_REL_VR_VIRTUAL void ResetOnShow();                                 // 0A - Invokes _root.ResetOnShow if present
 #endif
 
 		[[nodiscard]] constexpr bool AdvancesUnderPauseMenu() const noexcept

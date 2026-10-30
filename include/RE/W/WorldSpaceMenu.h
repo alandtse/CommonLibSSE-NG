@@ -76,7 +76,7 @@ namespace RE
 		virtual void               PostCreate() override;                          // 02
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 04
 #ifdef ENABLE_SKYRIM_VR
-		virtual void SetRenderTarget(VRMenuRenderTarget a_target) override;  // 09
+		SKYRIM_REL_VR_VIRTUAL void SetRenderTarget(VRMenuRenderTarget a_target) SKYRIM_REL_VR_OVERRIDE;  // 09
 #endif
 
 		// add
