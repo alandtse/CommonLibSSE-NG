@@ -53,10 +53,14 @@ namespace RE
 		kPassOn = 2
 	};
 
-	enum class UI_MENU_Unk09
+	enum class VRMenuRenderTarget
 	{
-		kNone = static_cast<std::underlying_type_t<UI_MENU_Unk09>>(-1),  // Entire enum needs more REing
-
+		kNone = static_cast<std::underlying_type_t<VRMenuRenderTarget>>(-1),
+		kVRFramebuffer = 114,
+		kProjectedMenu = 115,
+		kHUDMenu = 116,
+		kFaderUI = 117,
+		kWorldUI5 = 123
 	};
 
 	class IMenu : public FxDelegateHandler
@@ -82,8 +86,8 @@ namespace RE
 		virtual void               PreDisplay();                                                 // 07 - { return; } - only available if kRendersOffscreenTargets is set
 		virtual void               RefreshPlatform();                                            // 08
 #ifdef ENABLE_SKYRIM_VR
-		virtual void Unk_09(UI_MENU_Unk09 a_unk);  // 09 - { unk30 = a_unk; }
-		virtual void Unk_0A();                     // 0A - Does something with _root.ResetOnShow swf function
+		SKYRIM_REL_VR_VIRTUAL void SetRenderTarget(VRMenuRenderTarget a_target);  // 09 - { renderTarget = a_target; }
+		SKYRIM_REL_VR_VIRTUAL void ResetOnShow();                                 // 0A - Invokes _root.ResetOnShow if present
 #endif
 
 		[[nodiscard]] constexpr bool AdvancesUnderPauseMenu() const noexcept
@@ -120,29 +124,16 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                               \
-	REX::EnumSet<UI_MENU_Unk09, std::uint32_t> unk30{ UI_MENU_Unk09::kNone }; \
-	std::byte                                  unk34{ 1 };                    \
-	BSFixedString                              menuName{ "N/A" };  // 38
+#define VR_RUNTIME_DATA_CONTENT                                                               \
+	REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget{ VRMenuRenderTarget::kNone }; \
+	std::uint8_t                                   unk34{ 1 };                                \
+	std::uint8_t                                   pad35{ 0 };                                \
+	std::uint16_t                                  pad36{ 0 };                                \
+	BSFixedString                                  menuName{ "N/A" };  // 38
             VR_RUNTIME_DATA_CONTENT
 		};
 
-		// Returns nullptr on SE/AE; uses absolute VR offset so it works in cross-VR builds too.
-		[[nodiscard]] inline VR_RUNTIME_DATA* GetVRRuntimeData() noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
-				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x0, 0x0);
-			}
-			return nullptr;
-		}
-
-		[[nodiscard]] inline const VR_RUNTIME_DATA* GetVRRuntimeData() const noexcept
-		{
-			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
-				return &REL::RelocateMember<VR_RUNTIME_DATA>(this, 0x0, 0x0);
-			}
-			return nullptr;
-		}
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x30);
 
 		// members
 		GPtr<GFxMovieView>                         uiMovie{ nullptr };              // 10

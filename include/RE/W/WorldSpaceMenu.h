@@ -13,12 +13,31 @@ namespace RE
 	struct QueuedMenuNodeUpdate
 	{
 	public:
+		enum class UpdateType : std::uint32_t
+		{
+			kVisibility = 0,
+			kShaderProperty = 1
+		};
+
+		enum class Flag : std::uint32_t
+		{
+			kNone = 0,
+			kLinkMaterial = 1 << 0,         // 0x01: calls BSShaderProperty::LinkMaterial if material->unk30 == 0
+			kSetRenderTarget = 1 << 1,      // 0x02: sets BSEffectShaderMaterial::renderTarget (0x84) and invalidates lastRenderPassState (0x34)
+			kAttachAlphaProperty = 1 << 2,  // 0x04: creates/attaches NiAlphaProperty (flags 0xed)
+			kSnowOff = 1 << 3,              // 0x08: clears BSShaderPropertyFlag8::kSnow (0x3c)
+			kZBufferTestOff = 1 << 4,       // 0x10: clears BSShaderPropertyFlag8::kZBufferTest (0x1f)
+			kZBufferWrite = 1 << 5,         // 0x20: sets BSShaderPropertyFlag8::kZBufferWrite (0x20)
+			kVertexColors = 1 << 6,         // 0x40: sets BSShaderPropertyFlag8::kVertexColors (0x25)
+			kTwoSided = 1 << 7              // 0x80: sets BSShaderPropertyFlag8::kTwoSided (0x24)
+		};
+
 		// members
-		NiNode*  menuNode;  // 00 - set to WorldSpaceMenu->unk48
-		bool     hideMenu;  // 08 - false also unhides the menu if its already hidden
-		uint32_t unk0C;     // 0C
-		uint32_t unk10;     // 10 - set to WorldSpaceMenu->unk30, applied somehow to every child in the menunode
-		uint32_t unk14;     // 14
+		NiNode*                                        menuNode;      // 00 - set to WorldSpaceMenu->menuNode
+		bool                                           hideMenu;      // 08 - false also unhides the menu if its already hidden
+		REX::EnumSet<Flag, std::uint32_t>              flags;         // 0C
+		REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget;  // 10 - set to WorldSpaceMenu->renderTarget, applied to every child in the menunode
+		REX::EnumSet<UpdateType, std::uint32_t>        updateType;    // 14
 	};
 	static_assert(sizeof(QueuedMenuNodeUpdate) == 0x18);
 
@@ -57,7 +76,7 @@ namespace RE
 		virtual void               PostCreate() override;                          // 02
 		virtual UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 04
 #ifdef ENABLE_SKYRIM_VR
-		virtual void Unk_09(UI_MENU_Unk09 a_unk) override;  // 09
+		SKYRIM_REL_VR_VIRTUAL void SetRenderTarget(VRMenuRenderTarget a_target) SKYRIM_REL_VR_OVERRIDE;  // 09
 #endif
 
 		// add
@@ -67,12 +86,12 @@ namespace RE
 
 		bool MessageMatchesMenu(RE::UIMessage* a_message);
 
-		void SetupMenuNodeWithNif(const char* nif, bool unk);
+		void SetupMenuNodeWithNif(const char* nif, REX::EnumSet<QueuedMenuNodeUpdate::Flag, std::uint32_t> a_flags = QueuedMenuNodeUpdate::Flag::kNone);
 
 		RE::NiPointer<RE::NiNode> menuNode;                       // 48 - Created automatically in SetupMenuNode()
 		bool                      registerForHudModeChangeEvent;  // 50 - Set/Used in WorldSpaceMenu constructor
 		bool                      matchAsTopMenu{ false };        // 51 - Only used when calling MessageMatchesMenu so far
-		bool                      queueUpdateFixup{ false };      // 52 - Update menuNode immediately, or on next MAIN_DRAW when calling Unk_09
+		bool                      queueUpdateFixup{ false };      // 52 - Update menuNode immediately, or on next MAIN_DRAW when calling SetRenderTarget
 		std::uint8_t              pad53{ 0 };
 		std::uint32_t             pad54{ 0 };
 	};

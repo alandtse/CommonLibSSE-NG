@@ -28,7 +28,7 @@ namespace RE
 		this->registerForHudModeChangeEvent = a_registerHudModeChangeEvent;
 		this->matchAsTopMenu = a_matchAsTopMenu;
 		this->queueUpdateFixup = a_queueUpdateFixup;
-		this->Unk_09(RE::UI_MENU_Unk09::kNone);
+		this->SetRenderTarget(RE::VRMenuRenderTarget::kNone);
 		this->menuFlags.set(RE::UI_MENU_FLAGS::kUsesCursor, RE::UI_MENU_FLAGS::kModal,
 			RE::UI_MENU_FLAGS::kDisablePauseMenu, RE::UI_MENU_FLAGS::kTopmostRenderedMenu,
 			RE::UI_MENU_FLAGS::kAllowSaving, RE::UI_MENU_FLAGS::kInventoryItemMenu);
@@ -52,11 +52,14 @@ namespace RE
 		static REL::Relocation<func_t> func{ REL::Offset(0x53C2B0) };
 		return func(this, a_message);
 	}
-	void WorldSpaceMenu::Unk_09(UI_MENU_Unk09 a_unk)
+	void WorldSpaceMenu::SetRenderTarget(VRMenuRenderTarget a_target)
 	{
-		using func_t = decltype(&WorldSpaceMenu::Unk_09);
+		if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
+			return;
+		}
+		using func_t = decltype(&WorldSpaceMenu::SetRenderTarget);
 		static REL::Relocation<func_t> func{ REL::Offset(0x53C220) };
-		return func(this, a_unk);
+		return func(this, a_target);
 	}
 
 	void WorldSpaceMenu::SetupMenuNode()
@@ -66,11 +69,11 @@ namespace RE
 		return func(this);
 	}
 
-	void WorldSpaceMenu::SetupMenuNodeWithNif(const char* nif, bool a_unk)
+	void WorldSpaceMenu::SetupMenuNodeWithNif(const char* nif, REX::EnumSet<QueuedMenuNodeUpdate::Flag, std::uint32_t> a_flags)
 	{
 		using func_t = decltype(&WorldSpaceMenu::SetupMenuNodeWithNif);
 		static REL::Relocation<func_t> func{ REL::Offset(0x53CB50) };
-		return func(this, nif, a_unk);
+		return func(this, nif, a_flags);
 	}
 
 	bool WorldSpaceMenu::MessageMatchesMenu(RE::UIMessage* a_message)
