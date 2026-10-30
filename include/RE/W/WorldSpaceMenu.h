@@ -37,7 +37,7 @@ namespace RE
 		bool                                           hideMenu;      // 08 - false also unhides the menu if its already hidden
 		REX::EnumSet<Flag, std::uint32_t>              flags;         // 0C
 		REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget;  // 10 - set to WorldSpaceMenu->renderTarget, applied to every child in the menunode
-		REX::EnumSet<UpdateType, std::uint32_t>        updateType;    // 14 - 0: kVisibility, 1: kShaderProperty
+		REX::EnumSet<UpdateType, std::uint32_t>        updateType;    // 14
 	};
 	static_assert(sizeof(QueuedMenuNodeUpdate) == 0x18);
 

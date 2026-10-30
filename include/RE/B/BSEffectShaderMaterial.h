@@ -27,6 +27,15 @@ namespace RE
 
 		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x84);
 
+		BSEffectShaderMaterial()
+		{
+			if SKYRIM_REL_VR_CONSTEXPR (REL::Module::IsVR()) {
+				if (auto* vrData = GetVRRuntimeData()) {
+					vrData->renderTarget = VRMenuRenderTarget::kNone;
+				}
+			}
+		}
+
 		~BSEffectShaderMaterial() override;  // 00
 
 		// override (BSShaderMaterial)
