@@ -165,7 +165,7 @@ namespace RE
 			}
 			return (formID & 0x00FFFFFF) | (fullMasters << 24);
 		} else {
-			std::uint32_t masterIndex = modFile->masterCount;
+			std::uint32_t  masterIndex = modFile->masterCount;
 			const TESFile* owner = modFile;
 			if (expectedFile && modFile->masterPtrs) {
 				for (std::uint32_t i = 0; i < modFile->masterCount; ++i) {
