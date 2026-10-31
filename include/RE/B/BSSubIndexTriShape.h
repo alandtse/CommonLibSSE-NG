@@ -12,6 +12,7 @@ namespace RE
 		std::uint32_t numTris;      // 0C
 		std::uint8_t  flags;        // 10
 	};
+	static_assert(sizeof(SegmentData) == 0x14);
 
 	class BSSubIndexTriShape : public BSTriShape
 	{
@@ -27,11 +28,12 @@ namespace RE
 	std::uint32_t numSegments;  /* 08 */ \
 	std::uint32_t unkSegCount;  /* 0C */ \
 	bool          unk170;       /* 10 */ \
-	bool          nonSegmented; /* 14 */
+	bool          nonSegmented; /* 11 */
 
 			RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(SUB_INDEX_TRISHAPE_RUNTIME_DATA) == 0x18);
+		static_assert(offsetof(SUB_INDEX_TRISHAPE_RUNTIME_DATA, nonSegmented) == 0x11);
 
 		~BSSubIndexTriShape() override;  // 00
 
@@ -50,6 +52,12 @@ namespace RE
 #endif
 
 		RUNTIME_DATA_ACCESSOR_EX(SUB_INDEX_TRISHAPE_RUNTIME_DATA, GetSubIndexedTrishapeRuntimeData, 0x160, 0x1A0);
+
+		[[nodiscard]] std::uint32_t GetNumSegments() const noexcept
+		{
+			const auto& data = GetSubIndexedTrishapeRuntimeData();
+			return data.nonSegmented ? 1u : data.numSegments;
+		}
 
 		// members
 #ifndef SKYRIM_CROSS_VR
