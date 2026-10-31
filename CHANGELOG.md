@@ -1,3 +1,13 @@
+## [15.4.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v15.3.0...v15.4.0) (2026-10-31)
+
+### Features
+
+* **BSSubIndexTriShape:** add segment count ([#467](https://github.com/alandtse/CommonLibSSE-NG/issues/467)) ([97f09ad](https://github.com/alandtse/CommonLibSSE-NG/commit/97f09adee77b669d3ea2966b607a9a97aff7baf1))
+
+### Bug Fixes
+
+* **TESForm:** resolve raw IDs by master position ([#468](https://github.com/alandtse/CommonLibSSE-NG/issues/468)) ([224fa9c](https://github.com/alandtse/CommonLibSSE-NG/commit/224fa9c18ccc862fe33ba9b2f8b2ff1d89cef324))
+
 ## [15.3.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v15.2.0...v15.3.0) (2026-10-30)
 
 ### Features
