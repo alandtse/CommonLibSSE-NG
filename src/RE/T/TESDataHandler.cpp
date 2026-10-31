@@ -155,21 +155,21 @@ namespace RE
 			auto* master = file->masterPtrs[rawIndex];
 			return (a_rawFormID & 0x00FFFFFF) | (master->compileIndex << 24);
 		} else {
-			bool isLight = rawIndex == 0xFE;
-			if (isLight) {
-				rawIndex = (a_rawFormID & 0x00FFF000) >> 12;
+			// The engine resolves the top byte of an in-file ID as a position in masterPtrs (light and
+			// regular masters interleaved); the file itself is at masterCount.
+			const TESFile* owner = file;
+			if (rawIndex < file->masterCount) {
+				owner = file->masterPtrs ? file->masterPtrs[rawIndex] : nullptr;
+			} else if (rawIndex > file->masterCount) {
+				return 0;
 			}
-			std::uint32_t index = 0;
-			for (std::uint32_t i = 0; i < file->masterCount; ++i) {
-				auto* master = file->masterPtrs[i];
-				if ((master->compileIndex == 0xFE) != isLight) {
-					continue;
-				}
-				if (index++ == rawIndex) {
-					return (a_rawFormID & 0x00FFFFFF) | (master->compileIndex << 24);
-				}
+			if (!owner || owner->compileIndex == 0xFF) {
+				return 0;
 			}
-			return 0;
+			if (owner->compileIndex == 0xFE) {
+				return 0xFE000000 | (static_cast<FormID>(owner->smallFileCompileIndex) << 12) | (a_rawFormID & 0x00000FFF);
+			}
+			return (static_cast<FormID>(owner->compileIndex) << 24) | (a_rawFormID & 0x00FFFFFF);
 		}
 	}
 
