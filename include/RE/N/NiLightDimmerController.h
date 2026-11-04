@@ -14,16 +14,16 @@ namespace RE
 		~NiLightDimmerController() override;  // 00
 
 		// override (NiFloatInterpController)
-		const NiRTTI*      GetRTTI() const override;                                     // 02
-		NiObject*          CreateClone(NiCloningProcess& a_cloning) override;            // 17
-		void               LoadBinary(NiStream& a_stream) override;                      // 18
-		void               LinkObject(NiStream& a_stream) override;                      // 19
-		bool               RegisterStreamables(NiStream& a_stream) override;             // 1A
-		void               SaveBinary(NiStream& a_stream) override;                      // 1B
-		bool               IsEqual(NiObject* a_object) override;                         // 1C
-		void               Update(NiUpdateData& a_data) override;                        // 27 - writes the target NiLight's fade
+		const NiRTTI*      GetRTTI() const override;                                         // 02
+		NiObject*          CreateClone(NiCloningProcess& a_cloning) override;                // 17
+		void               LoadBinary(NiStream& a_stream) override;                          // 18
+		void               LinkObject(NiStream& a_stream) override;                          // 19
+		bool               RegisterStreamables(NiStream& a_stream) override;                 // 1A
+		void               SaveBinary(NiStream& a_stream) override;                          // 1B
+		bool               IsEqual(NiObject* a_object) override;                             // 1C
+		void               Update(NiUpdateData& a_data) override;                            // 27 - writes the target NiLight's fade
 		[[nodiscard]] bool InterpTargetIsCorrectType(NiObjectNET* a_target) const override;  // 3C
-		void               GetTargetFloatValue(float& a_value) override;                 // 3D
+		void               GetTargetFloatValue(float& a_value) override;                     // 3D
 
 		static NiLightDimmerController* Create()
 		{
