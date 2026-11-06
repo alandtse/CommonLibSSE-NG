@@ -5,6 +5,28 @@
 
 namespace RE
 {
+	namespace
+	{
+		bool HasPrecipitation(const Sky& a_sky, TESWeather::WeatherDataFlag a_flag)
+		{
+			constexpr float byteToUnit = 1.0F / 255.0F;
+			constexpr float fadeRange = 0.999F;
+			constexpr float fadeOutOffset = 0.001F;
+
+			const auto* current = a_sky.currentWeather;
+			if (current && current->data.flags.any(a_flag)) {
+				const float fadeIn = static_cast<float>(current->data.precipitationBeginFadeIn) * byteToUnit * fadeRange;
+				if (fadeIn < a_sky.currentWeatherPct) {
+					return true;
+				}
+			}
+
+			const auto* last = a_sky.lastWeather;
+			return last && last->data.flags.any(a_flag) &&
+			       static_cast<float>(last->data.precipitationEndFadeOut) * byteToUnit * fadeRange + fadeOutOffset > a_sky.currentWeatherPct;
+		}
+	}
+
 	Sky* Sky::GetSingleton()
 	{
 		using func_t = decltype(&Sky::GetSingleton);
@@ -117,38 +139,12 @@ namespace RE
 
 	bool Sky::IsRaining() const
 	{
-		const bool currentIsRainy = currentWeather && currentWeather->data.flags.any(TESWeather::WeatherDataFlag::kRainy);
-		// precipitationBeginFadeIn is negative
-		const float currentFadeInPct = currentIsRainy ?
-		                                   (1.0f + static_cast<float>(currentWeather->data.precipitationBeginFadeIn) / 255.0f) :
-		                                   0.0f;
-		const bool  currentlyRaining = currentIsRainy && currentFadeInPct < currentWeatherPct;
-
-		const bool  lastWasRainy = lastWeather && lastWeather->data.flags.any(TESWeather::WeatherDataFlag::kRainy);
-		const float endFadeOutPtc = lastWasRainy ?
-		                                static_cast<float>(lastWeather->data.precipitationEndFadeOut) / 255.0f :
-		                                0.0f;
-		const bool  isStillRaining = lastWasRainy && endFadeOutPtc > currentWeatherPct;
-
-		return currentlyRaining || isStillRaining;
+		return HasPrecipitation(*this, TESWeather::WeatherDataFlag::kRainy);
 	}
 
 	bool Sky::IsSnowing() const
 	{
-		const bool currentIsSnowy = currentWeather && currentWeather->data.flags.any(TESWeather::WeatherDataFlag::kSnow);
-		// precipitationBeginFadeIn is negative
-		const float currentFadeInPct = currentIsSnowy ?
-		                                   (1.0f + static_cast<float>(currentWeather->data.precipitationBeginFadeIn) / 255.0f) :
-		                                   0.0f;
-		const bool  currentlyRaining = currentIsSnowy && currentFadeInPct < currentWeatherPct;
-
-		const bool  lastWasSnowy = lastWeather && lastWeather->data.flags.any(TESWeather::WeatherDataFlag::kSnow);
-		const float endFadeOutPtc = lastWasSnowy ?
-		                                static_cast<float>(lastWeather->data.precipitationEndFadeOut) / 255.0f :
-		                                0.0f;
-		const bool  isStillRaining = lastWasSnowy && endFadeOutPtc > currentWeatherPct;
-
-		return currentlyRaining || isStillRaining;
+		return HasPrecipitation(*this, TESWeather::WeatherDataFlag::kSnow);
 	}
 
 	void Sky::ReleaseWeatherOverride()
