@@ -8,6 +8,12 @@ namespace
 {
 	template <class T>
 	concept HasEmbeddedCamera = requires(T& a_menu) { a_menu.camera; };
+
+	template <class T>
+	concept HasHeadParts = requires(T& a_menu) { a_menu.headParts; };
+
+	template <class T>
+	concept HasSliderData = requires(T& a_menu) { a_menu.sliderData; };
 }
 
 TEST_CASE("RaceSexMenu/RuntimeDataLayouts", "[unit][race-sex-menu]")
@@ -19,6 +25,7 @@ TEST_CASE("RaceSexMenu/RuntimeDataLayouts", "[unit][race-sex-menu]")
 	CHECK(offsetof(FlatData, headParts) == 0x0);
 	CHECK(offsetof(FlatData, camera) == 0xA8);
 	CHECK(offsetof(FlatData, sliderData) == 0x100);
+	CHECK(offsetof(FlatData, unk170) == 0x130);
 	CHECK(offsetof(FlatData, raceIndex) == 0x148);
 	CHECK(offsetof(FlatData, sex) == 0x158);
 	CHECK(offsetof(FlatData, unk1A4) == 0x164);
@@ -26,34 +33,37 @@ TEST_CASE("RaceSexMenu/RuntimeDataLayouts", "[unit][race-sex-menu]")
 	CHECK(sizeof(VRData) == 0x110);
 	CHECK(offsetof(VRData, headParts) == 0x0);
 	CHECK(offsetof(VRData, sliderData) == 0xA8);
+	CHECK(offsetof(VRData, unk170) == 0xD8);
 	CHECK(offsetof(VRData, raceIndex) == 0xF0);
 	CHECK(offsetof(VRData, sex) == 0x100);
 	CHECK(offsetof(VRData, unk1A4) == 0x10C);
 	CHECK_FALSE(HasEmbeddedCamera<VRData>);
 }
 
-#ifndef SKYRIM_CROSS_VR
 TEST_CASE("RaceSexMenu/DirectMemberLayout", "[unit][race-sex-menu]")
 {
 	using Menu = RE::RaceSexMenu;
+#ifdef SKYRIM_CROSS_VR
+	CHECK(sizeof(Menu) == 0x30);
+	CHECK_FALSE(HasEmbeddedCamera<Menu>);
+	CHECK_FALSE(HasHeadParts<Menu>);
+	CHECK_FALSE(HasSliderData<Menu>);
+#else
 #	ifdef EXCLUSIVE_SKYRIM_VR
-	CHECK(sizeof(Menu) == 0x160);
-	CHECK(offsetof(Menu, headParts) == 0x50);
-	CHECK(offsetof(Menu, sliderData) == 0xF8);
-	CHECK(offsetof(Menu, unk170) == 0x128);
-	CHECK(offsetof(Menu, raceIndex) == 0x140);
-	CHECK(offsetof(Menu, sex) == 0x150);
-	CHECK(offsetof(Menu, unk1A4) == 0x15C);
+	using Data = Menu::VR_RUNTIME_DATA;
+	constexpr std::size_t runtimeDataOffset = 0x50;
 	CHECK_FALSE(HasEmbeddedCamera<Menu>);
 #	else
-	CHECK(sizeof(Menu) == 0x1A8);
-	CHECK(offsetof(Menu, headParts) == 0x40);
-	CHECK(offsetof(Menu, camera) == 0xE8);
-	CHECK(offsetof(Menu, sliderData) == 0x140);
-	CHECK(offsetof(Menu, unk170) == 0x170);
-	CHECK(offsetof(Menu, raceIndex) == 0x188);
-	CHECK(offsetof(Menu, sex) == 0x198);
-	CHECK(offsetof(Menu, unk1A4) == 0x1A4);
+	using Data = Menu::RUNTIME_DATA;
+	constexpr std::size_t runtimeDataOffset = 0x40;
+	CHECK(offsetof(Menu, camera) == runtimeDataOffset + offsetof(Data, camera));
 #	endif
-}
+	CHECK(sizeof(Menu) == runtimeDataOffset + sizeof(Data));
+	CHECK(offsetof(Menu, headParts) == runtimeDataOffset);
+	CHECK(offsetof(Menu, sliderData) == runtimeDataOffset + offsetof(Data, sliderData));
+	CHECK(offsetof(Menu, unk170) == runtimeDataOffset + offsetof(Data, unk170));
+	CHECK(offsetof(Menu, raceIndex) == runtimeDataOffset + offsetof(Data, raceIndex));
+	CHECK(offsetof(Menu, sex) == runtimeDataOffset + offsetof(Data, sex));
+	CHECK(offsetof(Menu, unk1A4) == runtimeDataOffset + offsetof(Data, unk1A4));
 #endif
+}

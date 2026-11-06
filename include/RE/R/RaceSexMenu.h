@@ -109,7 +109,12 @@ namespace RE
 		RUNTIME_DATA_CONTENT;  // 40
 #endif
 	};
-	STATIC_ASSERT_SIZE(RaceSexMenu, 0x1A8, 0x1A8, 0x160, 0x30);
+	STATIC_ASSERT_SIZE(RaceSexMenu, 0x1A8, 0x1A8, 0x160, 0x30, 0x1A8);
+#ifdef EXCLUSIVE_SKYRIM_VR
+	static_assert(offsetof(RaceSexMenu, sliderData) == 0xF8);
+	static_assert(offsetof(RaceSexMenu, raceIndex) == 0x140);
+	static_assert(offsetof(RaceSexMenu, sex) == 0x150);
+#endif
 }
 #undef RUNTIME_DATA_CONTENT
 #undef VR_RUNTIME_DATA_CONTENT
