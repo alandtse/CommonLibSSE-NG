@@ -206,8 +206,9 @@ namespace RE
 				}
 				if SKYRIM_REL_CONSTEXPR (REL::Module::IsAE()) {
 					return REL::RelocateMember<bool>(this, 0x54);
+				} else {
+					return REL::RelocateMember<bool>(this, 0x50);
 				}
-				return REL::RelocateMember<bool>(this, 0x50);
 			}
 
 			// Legacy AE's letterbox/useEarlyZ sit 4 bytes later (0x55/0x59) than SE/VR's (0x51/0x55).
