@@ -6,7 +6,7 @@ namespace RE::BSScript
 	std::uint32_t BSBitReader::getBitPosition(const void* instructionDataStart) const
 	{
 		const auto     wordPosition = (reinterpret_cast<std::uintptr_t>(word) - reinterpret_cast<std::uintptr_t>(instructionDataStart)) * 8;
-		const uint32_t instructionBitPosition = bitOffset + wordPosition;
+		const uint32_t instructionBitPosition = static_cast<uint32_t>(bitOffset + wordPosition);
 		return instructionBitPosition;
 	}
 
