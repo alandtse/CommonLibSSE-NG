@@ -1,9 +1,14 @@
 #pragma once
 
+#include "RE/B/BSTSmartPointer.h"
+
 namespace RE
 {
+	class BSStorage;
 	namespace BSScript
 	{
+		class IStackCallbackFunctor;
+
 		class IStackCallbackSaveInterface
 		{
 		public:
