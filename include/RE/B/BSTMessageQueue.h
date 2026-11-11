@@ -228,12 +228,12 @@ namespace RE
 	template <class T, std::size_t SIZE>
 	class BSTCommonStaticMessageQueue : public BSTCommonMessageQueue<T>
 	{
-		static_assert(SIZE > 0 && SIZE <= std::numeric_limits<std::uint32_t>::max());
+		static_assert(SIZE > 0 && SIZE <= (std::numeric_limits<std::uint32_t>::max)());
 
 	public:
 		BSTCommonStaticMessageQueue() = default;
 		// Note: The real destructor does not drain: entries still queued are never destroyed, their references leak.
-		virtual ~BSTCommonStaticMessageQueue()
+		~BSTCommonStaticMessageQueue() override
 		{
 			T scratch{};
 			while (this->Pop(&scratch)) {}
