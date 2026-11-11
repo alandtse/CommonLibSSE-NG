@@ -1,13 +1,9 @@
 #pragma once
 
+#include "RE/B/BSTFreeList.h"
+
 namespace RE
 {
-	template <class T>
-	class BSTFreeList;
-
-	template <class T>
-	struct BSTFreeListElem;
-
 	class ScrapHeap;
 
 	template <class T>
