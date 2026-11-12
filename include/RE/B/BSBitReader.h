@@ -5,6 +5,10 @@ namespace RE::BSScript
 	// Instruction reader, reads a stream of bits for an instruction stream
 	struct BSBitReader
 	{
+		explicit BSBitReader(const void* instructionDataStart, const std::uint32_t currentOffset)
+		{
+			seek(instructionDataStart, currentOffset);
+		}
 		/**
 		 * Acquire the current position, represented as a relative offset from the start of the instruction stream
 		 * @param instructionDataStart The start of the instruction stream
