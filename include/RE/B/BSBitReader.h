@@ -25,9 +25,8 @@ namespace RE::BSScript
 		 * @example readRawBits(10) returns a 10-bit value inside the 64-bit integer, equal to the 10-bit contents read
 		 * @param count Amount of bits to read (MUST be less than 64)
 		 * @return unsigned 64-bit integer containing the bits read
-
 		 */
-		std::uint64_t readRawBits(size_t count);
+		std::uint64_t readRawBits(std::size_t count);
 
 	private:
 		std::uint64_t const* word{ nullptr };  // 00 - Current 64-bit value the reader is positioned on

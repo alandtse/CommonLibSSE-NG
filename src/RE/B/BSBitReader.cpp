@@ -1,6 +1,6 @@
 #include "RE/B/BSBitReader.h"
 
-constexpr long long bitOffsetMask = 0x3F;  // 0x111111 (63)
+constexpr long long bitOffsetMask = 0x3F;  // 0b111111 (63)
 namespace RE::BSScript
 {
 	std::uint32_t BSBitReader::getBitPosition(const void* instructionDataStart) const
@@ -22,7 +22,7 @@ namespace RE::BSScript
 		assert(getBitPosition(instructionStart) == offset);
 	}
 
-	std::uint64_t BSBitReader::readRawBits(const size_t count)
+	std::uint64_t BSBitReader::readRawBits(const std::size_t count)
 	{
 		assert(count < 0x40);
 		assert(bitOffset < 0x40);
