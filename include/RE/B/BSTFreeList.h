@@ -38,7 +38,7 @@ namespace RE
 
 		void Free(BSTFreeListElem<T>*& a_node)
 		{
-			std::destroy_at(reinterpret_cast<T*>(a_node->elem));  // releases funcQuery, then stack
+			std::destroy_at(reinterpret_cast<T*>(a_node->elem));
 
 			for (std::uint32_t expected = 0; !lock.compare_exchange_weak(expected, 1); expected = 0) {
 				_mm_pause();

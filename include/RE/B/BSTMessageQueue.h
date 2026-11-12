@@ -46,7 +46,6 @@ namespace RE
 			std::atomic<std::uint32_t>& lock;
 		};
 
-		// Locks for its lifetime and exposes the locked range of a concrete queue (its Range()).
 		template <class Queue>
 		class LockedView
 		{
@@ -189,9 +188,6 @@ namespace RE
 		// override (BSTCommonMessageQueue<T>)
 		bool PushInternal(T* a_obj) override
 		{
-			if (!freeList) {
-				return false;
-			}
 			BSTFreeListElem<T>* node = nullptr;
 			if (!freeList || !freeList->Allocate(node, *a_obj)) {
 				return false;
