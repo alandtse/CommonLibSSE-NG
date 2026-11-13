@@ -13,7 +13,7 @@ namespace RE
 		{
 			static auto EMPTY = BSFixedString();
 
-			AutoPropSetFunction::AutoPropSetFunction(BSFixedString& a_parentName, BSFixedString& a_propertyName, TypeInfo& a_type, uint32_t a_autoVarIndex) :
+			AutoPropSetFunction::AutoPropSetFunction(BSFixedString& a_parentName, BSFixedString& a_propertyName, TypeInfo& a_type, std::uint32_t a_autoVarIndex) :
 				parentObjName(a_parentName), propertyName(a_propertyName), type(a_type), autoVarIndex(a_autoVarIndex) {}
 
 			const BSFixedString& AutoPropSetFunction::GetName() const
@@ -94,7 +94,7 @@ namespace RE
 				Variable& self = a_stack->top->self;
 
 				if (self.IsObject() && self.GetObject() != nullptr) {
-					const auto value = a_stack->GetStackFrameVariable(a_stack->top, 0, 0);
+					const auto& value = a_stack->GetStackFrameVariable(a_stack->top, 0, 0);
 					self.GetObject()->variables[autoVarIndex] = value;
 				} else {
 					a_logger->PostErrorImpl("Missing object for setting property", ErrorLogger::Severity::kError);
@@ -118,7 +118,9 @@ namespace RE
 
 			bool AutoPropSetFunction::GetVarNameForStackIndex(std::uint32_t a_idx, BSFixedString& a_nameOut) const
 			{
-				if (a_idx == 0) {
+				// Skyrim does return "value" for non-zero indexes, which is an odd quirk since the value should be the first index (index 0)
+				// Kept as-is
+				if (a_idx != 0) {
 					a_nameOut = "value";
 					return true;
 				}
