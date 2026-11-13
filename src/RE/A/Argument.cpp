@@ -11,16 +11,16 @@ namespace
 			 */
 
 		auto acquiredPackedInt = [&a_reader] {
-			uint32_t encodedValue = a_reader.readRawBits(6);
+			auto encodedValue = static_cast<uint32_t>(a_reader.readRawBits(6));
 			if (encodedValue & 0x20)  // 5-bit int
 				return encodedValue & 0x1F;
 
-			encodedValue |= a_reader.readRawBits(9) << 5;
+			encodedValue |= static_cast<uint32_t>(a_reader.readRawBits(9)) << 5;
 			if (encodedValue & 0x2000)  // 13-bit int
 				return encodedValue & 0x1FFF;
 
-			encodedValue |= a_reader.readRawBits(19) << 13;  // 32-bit int
-			return encodedValue;                             // full 32 bits, terminal stage
+			encodedValue |= static_cast<uint32_t>(a_reader.readRawBits(19)) << 13;  // 32-bit int
+			return encodedValue;                                                    // full 32 bits, terminal stage
 		};
 
 		const auto encodedInt = acquiredPackedInt();
