@@ -2559,6 +2559,7 @@ set(SOURCES
 	src/RE/P/PriorityChildSelector.cpp
 	src/RE/P/ProcessLists.cpp
 	src/RE/P/Projectile.cpp
+	src/RE/P/PropertyTypeInfo.cpp
 	src/RE/Q/QuestStatus.cpp
 	src/RE/R/RaceSexMenu.cpp
 	src/RE/R/RandomValueChildSelector.cpp
