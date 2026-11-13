@@ -1,5 +1,7 @@
 #include "RE/A/Argument.h"
 
+#include <cstdint>
+
 namespace
 {
 	std::int32_t ReadPackedInt(RE::BSScript::BSBitReader& a_reader)
@@ -267,13 +269,13 @@ namespace RE::BSScript::ByteCode
 			}
 		case Type::kLocalVarIdx:
 			{
-				value.idx = a_reader.readRawBits(a_localVarBitCount);
+				value.idx = static_cast<uint32_t>(a_reader.readRawBits(a_localVarBitCount));
 				break;
 			}
 
 		case Type::kMemberVarIdx:
 			{
-				value.idx = a_reader.readRawBits(a_memberVarBitCount);
+				value.idx = static_cast<uint32_t>(a_reader.readRawBits(a_memberVarBitCount));
 				break;
 			}
 		}
