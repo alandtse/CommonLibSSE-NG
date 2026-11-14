@@ -67,6 +67,7 @@ namespace RE
 		void                          ResetInputDevices();
 		void                          DestroyInputDevices();
 		void                          PollInputDevices(float a_secsSinceLastFrame);
+		void                          RefreshVRControllerDevices();
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x80, 0x98);
 		// members
