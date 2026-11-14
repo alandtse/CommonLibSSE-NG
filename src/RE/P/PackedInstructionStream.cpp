@@ -232,7 +232,7 @@ namespace RE::BSScript::ByteCode
 				return;
 			}
 
-			if (!a_functor.VisitInstruction(static_cast<std::uint32_t>(opcode), instructionStart, argCount)) {
+			if (a_functor.VisitInstruction(static_cast<std::uint32_t>(opcode), instructionStart, argCount) != 1) {
 				return;
 			}
 
@@ -246,7 +246,7 @@ namespace RE::BSScript::ByteCode
 				}
 
 				if (visit) {
-					visit = a_functor.VisitArgument(argument);
+					visit = a_functor.VisitArgument(argument) == 1;
 				}
 			}
 
