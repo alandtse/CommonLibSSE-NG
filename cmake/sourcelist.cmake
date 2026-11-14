@@ -44,6 +44,7 @@ set(SOURCES
 	include/RE/A/AnimationSystemUtils.h
 	include/RE/A/Archive.h
 	include/RE/A/ArchiveStream.h
+	include/RE/A/Argument.h
 	include/RE/A/ArmorRatingVisitor.h
 	include/RE/A/ArmorRatingVisitorBase.h
 	include/RE/A/Array.h
@@ -58,6 +59,8 @@ set(SOURCES
 	include/RE/A/AttackBlockHandler.h
 	include/RE/A/AudioDefs.h
 	include/RE/A/AutoMoveHandler.h
+	include/RE/A/AutoPropGetFunction.h
+	include/RE/A/AutoPropSetFunction.h
 	include/RE/A/AutoRegisterCreator.h
 	include/RE/A/AutoRegisterFactory.h
 	include/RE/A/AutoVanityState.h
@@ -257,6 +260,7 @@ set(SOURCES
 	include/RE/B/BSAudioMonitor.h
 	include/RE/B/BSBatchRenderer.h
 	include/RE/B/BSBitField.h
+	include/RE/B/BSBitReader.h
 	include/RE/B/BSBloodSplatterShaderProperty.h
 	include/RE/B/BSBound.h
 	include/RE/B/BSCompoundFrustum.h
@@ -2159,9 +2163,12 @@ set(SOURCES
 	src/RE/A/AddCallbackVisitor.cpp
 	src/RE/A/AnimationClipDataSingleton.cpp
 	src/RE/A/AnimationSystemUtils.cpp
+	src/RE/A/Argument.cpp
 	src/RE/A/ArmorRatingVisitor.cpp
 	src/RE/A/ArmorRatingVisitorBase.cpp
 	src/RE/A/Array.cpp
+	src/RE/A/AutoPropGetFunction.cpp
+	src/RE/A/AutoPropSetFunction.cpp
 	src/RE/A/AutoVanityState.cpp
 	src/RE/B/BGSAcousticSpace.cpp
 	src/RE/B/BGSAttackData.cpp
@@ -2197,6 +2204,7 @@ set(SOURCES
 	src/RE/B/BGSTerrainManager.cpp
 	src/RE/B/BSAtomic.cpp
 	src/RE/B/BSAudioManager.cpp
+	src/RE/B/BSBitReader.cpp
 	src/RE/B/BSCompoundFrustum.cpp
 	src/RE/B/BSCubeMapCamera.cpp
 	src/RE/B/BSCullingProcess.cpp
