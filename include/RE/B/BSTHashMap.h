@@ -308,7 +308,9 @@ namespace RE
 				assert(entries != nullptr);
 				for (size_type i = 0; i < Parent::_capacity; ++i) {
 					if (entries[i].has_value()) {
-						[[maybe_unused]] auto doomed = std::move(entries[i]).steal();  // slot is already free when the value's destructor runs at scope end
+						auto& value = entries[i].value_data.value;
+						entries[i].next = nullptr;  // slot is free before the value's destructor runs
+						std::destroy_at(std::addressof(value));
 					}
 				}
 				Parent::_free = Parent::_capacity;
