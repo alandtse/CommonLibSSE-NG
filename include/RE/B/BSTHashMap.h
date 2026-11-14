@@ -339,6 +339,16 @@ namespace RE
 			return insert(value_type(std::forward<Args>(a_args)...));
 		}
 
+		template <class M>
+		std::pair<iterator, bool> insert_or_assign(const key_type& a_key, M&& a_mapped)
+		{
+			if (const auto it = find(a_key); it != end()) {
+				it->second = std::forward<M>(a_mapped);
+				return std::make_pair(it, false);
+			}
+			return emplace(a_key, std::forward<M>(a_mapped));
+		}
+
 		iterator erase(const_iterator a_pos) { return do_erase(a_pos); }
 		iterator erase(iterator a_pos) { return do_erase(a_pos); }
 
