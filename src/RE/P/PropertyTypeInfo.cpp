@@ -14,7 +14,7 @@ namespace RE
 			}
 
 			if (autoVarIndex != -1) {
-				const auto autoPropGetFunction = new AutoPropGetFunction(parentObjName, propertyName, type, autoVarIndex);
+				const auto autoPropGetFunction = new Internal::AutoPropGetFunction(parentObjName, propertyName, type, autoVarIndex);
 
 				a_outFunction = BSTSmartPointer<IFunction>(autoPropGetFunction);
 			}
@@ -28,7 +28,7 @@ namespace RE
 			}
 
 			if (autoVarIndex != -1) {
-				const auto autoPropSetFunction = new AutoPropSetFunction(parentObjName, propertyName, type, autoVarIndex);
+				const auto autoPropSetFunction = new Internal::AutoPropSetFunction(parentObjName, propertyName, type, autoVarIndex);
 
 				a_outFunction = BSTSmartPointer<IFunction>(autoPropSetFunction);
 			}
