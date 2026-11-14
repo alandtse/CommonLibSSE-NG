@@ -797,8 +797,8 @@ namespace RE
 	class BSTSmallSharedArray
 	{
 	public:
+		using size_type = typename std::uint32_t;
 		using value_type = T;
-		using size_type = std::uint32_t;
 		using pointer = value_type*;
 		using const_pointer = const value_type*;
 		using reference = value_type&;
@@ -806,17 +806,138 @@ namespace RE
 		using iterator = pointer;
 		using const_iterator = const_pointer;
 
-		[[nodiscard]] inline reference operator[](size_type a_pos) noexcept
+		constexpr BSTSmallSharedArray() noexcept = default;
+
+		inline BSTSmallSharedArray(const BSTSmallSharedArray& a_rhs)
 		{
-			assert(a_pos < _size);
+			const auto newCapacity = a_rhs.capacity();
+			if (newCapacity == 0) {
+				return;
+			}
+
+			const auto newSize = a_rhs.size();
+			const auto newData = allocate(newCapacity);
+			for (size_type i = 0; i < newSize; ++i) {
+				std::construct_at(newData + i, a_rhs[i]);
+			}
+
+			if (newData != &_data.local) {
+				_data.heap = newData;
+			}
+			_capacity = newCapacity;
+			set_size(newSize);
+		}
+
+		inline BSTSmallSharedArray(const std::initializer_list<T> a_list)
+		{
+			if (a_list.size() == 0) {
+				return;
+			}
+
+			const auto newSize = a_list.size();
+			const auto newData = allocate(newSize);
+			size_type  i = 0;
+			for (const auto& elem : a_list) {
+				std::construct_at(newData + i++, elem);
+			}
+
+			if (newData != &_data.local) {
+				_data.heap = newData;
+			}
+			_capacity = newSize;
+			set_size(newSize);
+		}
+
+		BSTSmallSharedArray(BSTSmallSharedArray&& a_rhs) noexcept
+		{
+			const auto newCapacity = a_rhs._capacity;
+			const auto newSize = a_rhs._size;
+
+			if (newSize == 1) {
+				// The local value may be larger than a pointer, so move the whole value
+				// through its own move constructor instead of only copying sizeof(void*)
+				// bytes of it (which is all `_data.heap = a_rhs._data.heap;` would move).
+				std::construct_at(std::addressof(_data.local), std::move(a_rhs._data.local));
+			} else if (newSize > 1) {
+				_data.heap = a_rhs._data.heap;
+				a_rhs._data.heap = nullptr;
+			}
+
+			_capacity = newCapacity;
+			_size = newSize;
+
+			a_rhs._capacity = 0;
+			a_rhs._size = 0;
+		}
+
+		inline ~BSTSmallSharedArray()
+		{
+			release();
+		}
+
+		inline BSTSmallSharedArray& operator=(const BSTSmallSharedArray& a_rhs)
+		{
+			if (this != std::addressof(a_rhs)) {
+				clear();
+
+				const auto newCapacity = a_rhs.capacity();
+				change_capacity(newCapacity);
+
+				const auto newSize = a_rhs.size();
+				set_size(newSize);
+
+				const auto newData = data();
+				for (size_type i = 0; i < newSize; ++i) {
+					std::construct_at(newData + i, a_rhs[i]);
+				}
+			}
+			return *this;
+		}
+
+		BSTSmallSharedArray& operator=(BSTSmallSharedArray&& a_rhs) noexcept
+		{
+			if (this != std::addressof(a_rhs)) {
+				release();
+
+				const auto newCapacity = a_rhs.capacity();
+				const auto newSize = a_rhs.size();
+				const auto newData = a_rhs.data();
+
+				if (a_rhs.size() <= 1) {
+					_data.local = std::move(a_rhs._data.local);
+				} else {
+					_data.heap = newData;
+					a_rhs._data.heap = nullptr;
+				}
+
+				_capacity = newCapacity;
+				a_rhs._capacity = 0;
+
+				set_size(newSize);
+				a_rhs.set_size(0);
+			}
+			return *this;
+		}
+
+		TES_HEAP_REDEFINE_NEW();
+
+		[[nodiscard]] constexpr reference operator[](size_type a_pos) noexcept
+		{
+			assert(a_pos < size());
 			return data()[a_pos];
 		}
 
-		[[nodiscard]] inline const_reference operator[](size_type a_pos) const noexcept
+		[[nodiscard]] constexpr const_reference operator[](size_type a_pos) const noexcept
 		{
-			assert(a_pos < _size);
+			assert(a_pos < size());
 			return data()[a_pos];
 		}
+
+		[[nodiscard]] constexpr reference       front() noexcept { return operator[](0); }
+		[[nodiscard]] constexpr const_reference front() const noexcept { return operator[](0); }
+
+		[[nodiscard]] constexpr reference       back() noexcept { return operator[](size() - 1); }
+		[[nodiscard]] constexpr const_reference back() const noexcept { return operator[](size() - 1); }
 
 		[[nodiscard]] inline pointer data() noexcept
 		{
@@ -828,19 +949,207 @@ namespace RE
 			return size() > 1 ? _data.heap : std::addressof(_data.local);
 		}
 
-		[[nodiscard]] inline iterator       begin() noexcept { return data(); }
-		[[nodiscard]] inline const_iterator begin() const noexcept { return data(); }
-		[[nodiscard]] inline const_iterator cbegin() const noexcept { return begin(); }
+		[[nodiscard]] constexpr iterator       begin() noexcept { return empty() ? nullptr : data(); }
+		[[nodiscard]] constexpr const_iterator begin() const noexcept { return empty() ? nullptr : data(); }
+		[[nodiscard]] constexpr const_iterator cbegin() const noexcept { return begin(); }
 
-		[[nodiscard]] inline iterator       end() noexcept { return data() + size(); }
-		[[nodiscard]] inline const_iterator end() const noexcept { return data() + size(); }
-		[[nodiscard]] inline const_iterator cend() const noexcept { return end(); }
+		[[nodiscard]] constexpr iterator       end() noexcept { return empty() ? nullptr : data() + size(); }
+		[[nodiscard]] constexpr const_iterator end() const noexcept { return empty() ? nullptr : data() + size(); }
+		[[nodiscard]] constexpr const_iterator cend() const noexcept { return end(); }
 
-		[[nodiscard]] constexpr bool empty() const noexcept { return size() == 0; }
+		[[nodiscard]] constexpr bool empty() const noexcept { return _size == 0; }
 
 		[[nodiscard]] constexpr size_type size() const noexcept { return _size; }
 
+		[[nodiscard]] constexpr size_type capacity() const noexcept { return _capacity; }
+
+		inline void clear()
+		{
+			if (!empty()) {
+				change_size(0);
+			}
+		}
+
+		// The real BSTSmallSharedArray uses a swap & pop on the last element, favoring O(1) time complexity
+		// over order preservation. This behavior is matched here
+		inline iterator erase(const_iterator a_pos)
+		{
+			assert(a_pos >= cbegin() && a_pos < cend());
+
+			const auto index = static_cast<size_type>(a_pos - cbegin());
+			if (index != size() - 1) {
+				(*this)[index] = std::move(back());
+			}
+			pop_back();
+
+			// pop_back() could transition the heap back to a local buffer, so index has
+			// to be re-calculated
+			return index < size() ? (begin() + index) : end();
+		}
+
+		inline void push_back(const value_type& a_value) { emplace_back(a_value); }
+		inline void push_back(value_type&& a_value) { emplace_back(std::move(a_value)); }
+
+		template <class... Args>
+		inline reference emplace_back(Args&&... a_args)
+		{
+			if (size() == capacity()) {
+				change_capacity(_capacity + 1);
+			}
+
+			set_size(size() + 1);
+			auto& elem = back();
+			std::construct_at(std::addressof(elem), std::forward<Args>(a_args)...);
+			return elem;
+		}
+
+		inline void insert(const_iterator position, const value_type& a_value) { emplace(position, a_value); }
+		inline void insert(const_iterator position, value_type&& a_value) { emplace(position, std::move(a_value)); }
+
+		inline void push_front(const value_type& a_value) { emplace(cbegin(), a_value); }
+		inline void push_front(value_type&& a_value) { emplace(cbegin(), std::move(a_value)); }
+
+		template <class... Args>
+		inline reference emplace(const_iterator position, Args&&... a_args)
+		{
+			assert(position >= cbegin() && position <= cend());
+
+			if (position == cend()) {
+				return emplace_back(std::forward<Args>(a_args)...);
+			}
+
+			pointer   oldData;
+			pointer   newData;
+			size_type newCapacity;
+
+			if (size() == capacity()) {
+				newCapacity = _capacity + 1;
+				newData = allocate(newCapacity);  // manually grow capacity to avoid unnecessary memcpy from change_capacity
+				oldData = data();
+			} else {
+				newData = data();
+				oldData = nullptr;
+				newCapacity = capacity();
+			}
+
+			const auto headPartToCopy = position - cbegin();
+			const auto tailPartToCopy = cend() - position;
+			const auto tailBytesToCopy = tailPartToCopy * sizeof(T);
+			std::memcpy(newData + headPartToCopy + 1, cend() - tailPartToCopy, tailBytesToCopy);
+			std::construct_at(newData + headPartToCopy, std::forward<Args>(a_args)...);
+			const auto headBytesToCopy = headPartToCopy * sizeof(T);
+			std::memcpy(newData, cbegin(), headBytesToCopy);
+
+			if (oldData) {
+				deallocate(oldData);
+				_data.heap = newData;
+				_capacity = newCapacity;
+			}
+
+			set_size(size() + 1);
+
+			return *(newData + headPartToCopy);
+		}
+
+		inline void pop_back()
+		{
+			assert(!empty());
+			std::destroy_at(std::addressof(back()));
+			set_size(size() - 1);
+		}
+
 	private:
+		[[nodiscard]] inline pointer allocate(size_type a_num)
+		{
+			if (a_num <= 1) {
+				return std::addressof(_data.local);
+			}
+
+			auto mem = calloc<value_type>(a_num);
+			if (!mem)
+				stl::report_and_fail("out of memory");
+			return mem;
+		}
+
+		inline void deallocate(void* a_ptr)
+		{
+			if (_capacity < 2) {
+				// Local element, no deallocation
+				return;
+			}
+
+			RE::free(a_ptr);
+		}
+
+		constexpr void set_size(size_type a_size) noexcept
+		{
+			// Handle Heap -> Local transition
+			const auto oldSize = _size;
+			if (a_size == 0 && oldSize >= 2) {
+				// Heap -> Inline, no surviving element
+				RE::free(_data.heap);
+				_data.heap = nullptr;
+				_capacity = 0;
+			} else if (a_size == 0 && oldSize == 1) {
+				_data.heap = nullptr;
+				_capacity = 0;
+			} else if (a_size == 1 && oldSize >= 2) {
+				// Heap -> Inline transition, 1 surviving element
+				value_type survivor = std::move(_data.heap[0]);
+				RE::free(_data.heap);
+				_data.heap = nullptr;
+				std::construct_at(std::addressof(_data.local), std::move(survivor));  // placement-construct, not assignment
+				_capacity = 1;
+			}
+
+			_size = a_size;
+		}
+
+		inline void change_capacity(size_type a_newCapacity)
+		{
+			const auto newData = a_newCapacity > 0 ? allocate(a_newCapacity) : nullptr;
+			const auto oldData = data();
+			if (oldData) {
+				const auto oldCapacity = capacity();
+				if (newData) {
+					const auto bytesToCopy = (std::min)(oldCapacity, a_newCapacity) * sizeof(value_type);
+#ifdef __clang__
+#	pragma clang diagnostic push
+#	pragma clang diagnostic ignored "-Wnontrivial-memaccess"
+#endif
+					std::memcpy(newData, oldData, bytesToCopy);
+#ifdef __clang__
+#	pragma clang diagnostic pop
+#endif
+				}
+				deallocate(oldData);
+			}
+			_data.heap = newData;
+			_capacity = a_newCapacity;
+		}
+
+		inline void change_size(size_type a_newSize)
+		{
+			if (a_newSize > capacity()) {
+				change_capacity(a_newSize);
+			}
+
+			const auto oldSize = size();
+			if (a_newSize <= oldSize) {
+				for (size_type i = a_newSize; i < oldSize; ++i) {
+					std::destroy_at(data() + i);
+				}
+			}
+
+			set_size(a_newSize);
+		}
+
+		inline void release()
+		{
+			clear();
+			change_capacity(0);
+		}
+
 		union Data
 		{
 			~Data(){};
@@ -850,7 +1159,10 @@ namespace RE
 		};
 
 		// members
-		std::uint32_t _size{ 0 };  // 00
-		Data          _data;       // 08
+		std::uint32_t _size{ 0 };      // 00
+		std::uint32_t _capacity{ 0 };  // 04
+		Data          _data{ 0 };      // 08
 	};
+	static_assert(sizeof(BSTSmallSharedArray<void*>) == 0x10);
+
 }
