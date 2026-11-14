@@ -15,7 +15,12 @@ namespace RE
 		public:
 			enum class Permissions
 			{
+				kReadOnly = 1,
+				kWriteOnly = 2
 			};
+
+			void GetGetFunction(BSTSmartPointer<IFunction>& a_outFunction);
+			void GetSetFunction(BSTSmartPointer<IFunction>& a_outFunction);
 
 			// members
 			BSFixedString                            parentObjName;  // 00
@@ -25,7 +30,7 @@ namespace RE
 			std::uint32_t                            pad1C;          // 1C
 			BSTSmartPointer<IFunction>               getFunction;    // 20
 			BSTSmartPointer<IFunction>               setFunction;    // 28
-			std::uint32_t                            autoVarIndex;   // 30
+			std::int32_t                             autoVarIndex;   // 30
 			std::uint32_t                            userFlags;      // 34
 			BSFixedString                            docString;      // 38
 		};
