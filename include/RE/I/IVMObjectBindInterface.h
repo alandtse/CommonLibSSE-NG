@@ -27,7 +27,7 @@ namespace RE
 			virtual void                   HandleCObjectDeletion(VMHandle a_handle) = 0;                                                                                        // 07
 			virtual void                   UnbindObject(const BSTSmartPointer<Object>& a_objPtr) = 0;                                                                           // 08
 			virtual bool                   CreateObjectWithProperties(const BSFixedString& a_className, std::uint32_t a_numProperties, BSTSmartPointer<Object>& a_objPtr) = 0;  // 09
-			virtual bool                   InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, void* a_property, bool a_arg3) = 0;                                          // 0A
+			virtual bool                   InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, void* a_property, std::uint32_t a_arg3) = 0;                                 // 0A
 		};
 		static_assert(sizeof(IVMObjectBindInterface) == 0x8);
 	}

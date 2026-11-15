@@ -146,7 +146,7 @@ namespace RE
 				void     HandleCObjectDeletion(VMHandle a_handle) override;                                                                                        // 07
 				void     UnbindObject(const BSTSmartPointer<Object>& a_objPtr) override;                                                                           // 08
 				bool     CreateObjectWithProperties(const BSFixedString& a_className, std::uint32_t a_numProperties, BSTSmartPointer<Object>& a_objPtr) override;  // 09
-				bool     InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, void* a_property, bool a_arg3) override;                                          // 0A
+				bool     InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, void* a_property, std::uint32_t a_arg3) override;                                 // 0A
 
 				// override (IVMSaveLoadInterface)
 				void                                                              SaveGame(SaveStorageWrapper* a_wrapper, SkyrimScript::SaveFileHandleReaderWriter* a_handle, bool unk) override;  // 01
