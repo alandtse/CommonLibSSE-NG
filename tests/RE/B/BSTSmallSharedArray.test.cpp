@@ -393,14 +393,17 @@ TEST_CASE("BSTSmallSharedArray/HeapTransition", "[unit]")
 
 	SECTION("growing past several elements keeps all values correct")
 	{
-		RE::BSTSmallSharedArray<int> arr;
-		for (int i = 0; i < 50; ++i) {
+		RE::BSTSmallSharedArray<std::uintptr_t> arr;
+		for (std::uintptr_t i = 0; i < 50; ++i) {
 			arr.push_back(i);
 		}
 
 		REQUIRE(arr.size() == 50);
-		for (int i = 0; i < 50; ++i) {
-			CHECK(arr[i] == i);
+		std::uintptr_t expected = 0;
+		for (const auto& value : arr) {
+			CHECK(value == expected);
+			++expected;
 		}
+		CHECK(expected == 50);
 	}
 }

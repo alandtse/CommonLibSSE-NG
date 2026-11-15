@@ -834,7 +834,7 @@ namespace RE
 				return;
 			}
 
-			const auto newSize = a_list.size();
+			const auto newSize = static_cast<size_type>(a_list.size());
 			const auto newData = allocate(newSize);
 			size_type  i = 0;
 			for (const auto& elem : a_list) {
