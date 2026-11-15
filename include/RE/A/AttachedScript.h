@@ -13,11 +13,11 @@ namespace RE
 			class AttachedScript : public BSTPointerAndFlags<BSTSmartPointer<Object>, 1>
 			{
 			public:
-				AttachedScript(BSTSmartPointer<Object> a_object, bool a_conditional) :
+				AttachedScript(BSTSmartPointer<Object> a_object, bool a_diskLoaded) :
 					BSTPointerAndFlags<BSTSmartPointer<Object>, 1>()
 				{
 					_storage.ptr = a_object;
-					_storage.address |= a_conditional;
+					_storage.address |= static_cast<std::uintptr_t>(a_diskLoaded);
 				}
 
 				bool DiskLoaded() const

@@ -27,7 +27,7 @@ namespace
 		TestPointerAndFlags(RE::BSTSmartPointer<RefCountedTracker> a_ptr, bool a_flag)
 		{
 			_storage.ptr = a_ptr;
-			_storage.address |= a_flag;
+			_storage.address |= static_cast<std::uintptr_t>(a_flag);
 		}
 
 		[[nodiscard]] bool GetFlag() const noexcept { return _storage.address & FLAG_MASK; }
