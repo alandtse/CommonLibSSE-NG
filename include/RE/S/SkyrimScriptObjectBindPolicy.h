@@ -19,10 +19,10 @@ namespace RE
 			void Unk_01(VMHandle a_handle) override;                                                       // 01
 			void Unk_02(VMHandle a_handle) override;                                                       // 02
 			void Unk_03(VMHandle a_handle) override;                                                       // 03
-			void Unk_04() override;                                                                        // 04
+			void ClearAll() override;                                                                      // 04
 			void Unk_05(void) override;                                                                    // 05 - { return 0; }
 			void Unk_06(void) override;                                                                    // 06
-			void Unk_07(void) override;                                                                    // 07
+			void Unk_07(void) override;                                                                    // 07 - ReadFragmentScripts(VMHandle, void*, void*, BSMemStorage*, std::uint64_t)
 			void Unk_08(void) override;                                                                    // 08
 			void Unk_09(void) override;                                                                    // 09
 			void Unk_0A(VMHandle a_handle, BSTSmartPointer<BSScript::Object>& a_obj, void* unk) override;  // 0A
