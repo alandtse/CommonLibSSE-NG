@@ -137,16 +137,16 @@ namespace RE
 #endif
 
 				// override (IVMObjectBindInterface)
-				VMHandle GetBoundHandle(const BSTSmartPointer<Object>& a_objPtr) const override;                                                                   // 01
-				bool     TypeCanBeBound(const BSFixedString& a_className, VMHandle a_handle) override;                                                             // 02
-				void     BindObject(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_conditional) override;                                            // 03
-				void     HandleLoadedBinding(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_conditional) override;                                   // 04
-				void     RemoveAllBoundObjects(VMHandle a_handle) override;                                                                                        // 05
-				void     RemoveAllDiskLoadedBoundObjects(VMHandle a_handle) override;                                                                              // 06
-				void     HandleCObjectDeletion(VMHandle a_handle) override;                                                                                        // 07
-				void     UnbindObject(const BSTSmartPointer<Object>& a_objPtr) override;                                                                           // 08
-				bool     CreateObjectWithProperties(const BSFixedString& a_className, std::uint32_t a_numProperties, BSTSmartPointer<Object>& a_objPtr) override;  // 09
-				bool     InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, void* a_property, bool a_arg3) override;                                          // 0A
+				VMHandle GetBoundHandle(const BSTSmartPointer<Object>& a_objPtr) const override;                                                                                         // 01
+				bool     TypeCanBeBound(const BSFixedString& a_className, VMHandle a_handle) override;                                                                                   // 02
+				void     BindObject(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_diskLoaded) override;                                                                   // 03
+				void     HandleLoadedBinding(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_diskLoaded) override;                                                          // 04
+				void     RemoveAllBoundObjects(VMHandle a_handle) override;                                                                                                              // 05
+				void     RemoveAllDiskLoadedBoundObjects(VMHandle a_handle) override;                                                                                                    // 06
+				void     HandleCObjectDeletion(VMHandle a_handle) override;                                                                                                              // 07
+				void     UnbindObject(const BSTSmartPointer<Object>& a_objPtr) override;                                                                                                 // 08
+				bool     CreateObjectWithProperties(const BSFixedString& a_className, std::uint32_t a_numProperties, BSTSmartPointer<Object>& a_objPtr) override;                        // 09
+				bool     InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, BSTScrapHashMap<BSFixedString, Variable>& a_propertyMap, std::uint32_t a_numExtraDecrements) override;  // 0A
 
 				// override (IVMSaveLoadInterface)
 				void                                                              SaveGame(SaveStorageWrapper* a_wrapper, SkyrimScript::SaveFileHandleReaderWriter* a_handle, bool unk) override;  // 01
