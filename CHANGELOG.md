@@ -1,3 +1,18 @@
+## [16.7.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.6.0...v16.7.0) (2026-11-16)
+
+### Features
+
+* **array:** add element type accessor ([#526](https://github.com/alandtse/CommonLibSSE-NG/issues/526)) ([acf1845](https://github.com/alandtse/CommonLibSSE-NG/commit/acf1845834fc51eac8f35fe2924c2974d688515f))
+* BSTHashMap insert_or_assign ([#517](https://github.com/alandtse/CommonLibSSE-NG/issues/517)) ([b1bf5e0](https://github.com/alandtse/CommonLibSSE-NG/commit/b1bf5e0f538d166ca3b3e86a2249c198986498db))
+* concrete AttachedScript ([#520](https://github.com/alandtse/CommonLibSSE-NG/issues/520)) ([113b72e](https://github.com/alandtse/CommonLibSSE-NG/commit/113b72eca232f3b6e4cebec032527a77050ccaff))
+* name ObjectBindPolicy::ClearAll ([#525](https://github.com/alandtse/CommonLibSSE-NG/issues/525)) ([276e4a8](https://github.com/alandtse/CommonLibSSE-NG/commit/276e4a8e067d1081d4ac3116eb55f375b285b98b))
+* RE IVMObjectBindInterface ([#522](https://github.com/alandtse/CommonLibSSE-NG/issues/522)) ([23c434c](https://github.com/alandtse/CommonLibSSE-NG/commit/23c434c2248448ed6310083d8d10d4d987e036d3))
+* RE IVMSaveLoadInterface ([#524](https://github.com/alandtse/CommonLibSSE-NG/issues/524)) ([0d306fb](https://github.com/alandtse/CommonLibSSE-NG/commit/0d306fb12e947ca9d4e9209e2145a42c8088aba6))
+
+### Bug Fixes
+
+* **bytecode:** return int from InstructionFunctor ([#519](https://github.com/alandtse/CommonLibSSE-NG/issues/519)) ([58f0440](https://github.com/alandtse/CommonLibSSE-NG/commit/58f044023a8654f09ebcb9424d5543d73df20a33))
+
 ## [16.6.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.5.0...v16.6.0) (2026-11-16)
 
 ### Features
