@@ -191,6 +191,19 @@ namespace RE
 			}
 		}
 
+		TypeInfo TypeInfo::GetElementTypeOfArray() const
+		{
+			assert(IsArray());
+			if (IsLiteralArray()) {
+				return TypeInfo(static_cast<RawType>(_rawType.underlying() - 0xA));
+			}
+			if (IsObjectArray()) {
+				constexpr auto arrayBitMask = ~static_cast<long long>(1);
+				return TypeInfo(static_cast<RawType>(_rawType.underlying() & arrayBitMask));
+			}
+			return {};
+		}
+
 		void TypeInfo::SetType(RawType a_type)
 		{
 			_rawType = a_type;
