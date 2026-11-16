@@ -1,3 +1,11 @@
+## [16.6.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.5.0...v16.6.0) (2026-11-16)
+
+### Features
+
+* add PropertyTypeInfo function getters ([#511](https://github.com/alandtse/CommonLibSSE-NG/issues/511)) ([5587de6](https://github.com/alandtse/CommonLibSSE-NG/commit/5587de62c02dbf941ed6d60011b5179d5c09bf30))
+* **BSInputDeviceManager:** add RefreshVRControllerDevices ([#508](https://github.com/alandtse/CommonLibSSE-NG/issues/508)) ([72181a3](https://github.com/alandtse/CommonLibSSE-NG/commit/72181a33d19ea180e7ce8c7cdd6034aa29c3aca6))
+* **bytecode:** concrete PackedInstructionStream ([#513](https://github.com/alandtse/CommonLibSSE-NG/issues/513)) ([909517b](https://github.com/alandtse/CommonLibSSE-NG/commit/909517ba2416bc530abf1d2794b319664850e234))
+
 ## [16.5.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.4.0...v16.5.0) (2026-11-14)
 
 ### Features
