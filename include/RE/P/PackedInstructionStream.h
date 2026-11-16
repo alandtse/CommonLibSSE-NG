@@ -19,9 +19,9 @@ namespace RE
 
 					virtual ~InstructionFunctor() = default;  // 00
 
-					// add
-					virtual bool VisitArgument(Argument& a_argument) = 0;                                                            // 01
-					virtual bool VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_bitOffset, std::uint32_t a_argCount) = 0;  // 02
+					// add - return 1 to continue; the engine tests the full 32-bit result against 1
+					virtual std::int32_t VisitArgument(Argument& a_argument) = 0;                                                            // 01
+					virtual std::int32_t VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_bitOffset, std::uint32_t a_argCount) = 0;  // 02
 				};
 				static_assert(sizeof(InstructionFunctor) == 0x8);
 
