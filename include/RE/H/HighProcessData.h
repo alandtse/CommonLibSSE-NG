@@ -265,7 +265,7 @@ namespace RE
 		float                                                 unk298;                                    // 298
 		float                                                 clearTalkToListTimer;                      // 29C
 		float                                                 maxAlpha;                                  // 2A0
-		float                                                 unk2A4;                                    // 2A4
+		float                                                 packageEvaluateTimer;                      // 2A4
 		std::uint64_t                                         unk2A8;                                    // 2A8
 		float                                                 checkToTalkTimer;                          // 2B0 - fAISocialTimerForConversationsMin
 		std::uint32_t                                         unk2B4;                                    // 2B4
