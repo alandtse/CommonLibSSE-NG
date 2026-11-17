@@ -42,6 +42,23 @@ namespace RE
 	};
 	static_assert(sizeof(hkUFloat8) == 0x1);
 
+	// Havok's one-byte bool. A member function returning it takes a hidden result pointer
+	// after `this` (rdx) and returns that pointer, as the game's functions do.
+	class hkBool
+	{
+	public:
+		hkBool() = default;
+		constexpr hkBool(bool a_value) noexcept :
+			value(static_cast<std::int8_t>(a_value))
+		{}
+
+		constexpr operator bool() const noexcept { return value != 0; }
+
+		// members
+		std::int8_t value;  // 0
+	};
+	static_assert(sizeof(hkBool) == 0x1);
+
 	template <class E, class U>
 	using hkEnum = REX::EnumSet<E, U>;
 }
