@@ -19,8 +19,8 @@ namespace RE
 		inline static constexpr auto VTABLE = VTABLE_hkpShapeCollectionFilter;
 
 		// add
-		virtual hkBool       IsCollisionEnabled1(const hkpCollisionInput& a_input, const hkpCdBody& a_bodyA, const hkpCdBody& a_bodyB, const hkpShapeContainer& a_shapeB, hkpShapeKey a_key) const = 0;                                                                      // 00
-		virtual hkBool       IsCollisionEnabled2(const hkpCollisionInput& a_input, const hkpCdBody& a_bodyA, const hkpCdBody& a_bodyB, const hkpShapeContainer& a_shapeA, const hkpShapeContainer& a_shapeB, hkpShapeKey a_keyA, hkpShapeKey a_keyB) const = 0;              // 01
+		virtual hkBool       IsCollisionEnabled2(const hkpCollisionInput& a_input, const hkpCdBody& a_bodyA, const hkpCdBody& a_bodyB, const hkpShapeContainer& a_shapeA, const hkpShapeContainer& a_shapeB, hkpShapeKey a_keyA, hkpShapeKey a_keyB) const = 0;              // 00
+		virtual hkBool       IsCollisionEnabled1(const hkpCollisionInput& a_input, const hkpCdBody& a_bodyA, const hkpCdBody& a_bodyB, const hkpShapeContainer& a_shapeB, hkpShapeKey a_key) const = 0;                                                                      // 01
 		virtual std::int32_t NumShapeKeyHitsLimitBreached(const hkpCollisionInput& a_input, const hkpCdBody& a_bodyA, const hkpCdBody& a_bodyB, const hkpBvTreeShape* a_shapeB, hkAabb& a_AABB, hkpShapeKey* a_shapeKeysInOut, std::int32_t a_shapeKeysCapacity) const = 0;  // 02
 
 		virtual ~hkpShapeCollectionFilter();  // 03
