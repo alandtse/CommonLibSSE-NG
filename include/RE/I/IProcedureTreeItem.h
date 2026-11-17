@@ -32,19 +32,23 @@ namespace RE
 											  //      false in the query-only GameFunc::IsWarningAbout
 			bool          continueFlag;       // 22 - cleared before each Execute call; caller checks it after
 			std::uint8_t  pad23[5];           // 23
-			void*         manager;            // 28 - stack-local closure; vtable[1] = SetActiveProcedure(BGSProcedureBase*)
+			void*         manager;            // 28 - stack-local BGSVisitProceduresProcess; vtable[1] runs the visited procedure
 			float         deltaTime;          // 30 - gSecondsSinceLastFrame_WorldTime at every observed call site
 			std::uint32_t processType;        // 34 - RE::PROCESS_TYPE in the low byte (see Character::GetActorProcessType)
 		};
 		static_assert(sizeof(ProcedureExecContext) == 0x38);
 
-		// Opaque pair passed to Execute().
+		// Per-node state passed to Execute(), built on the caller's stack.
 		struct ExecStateContext
 		{
-			ProcedureExecContext*    context;    // 00
-			IProcedureTreeExecState* nodeState;  // 08 - node-specific state (e.g. BGSProcedureTreeOneChildExecState)
+			ProcedureExecContext*    context;            // 00
+			IProcedureTreeExecState* nodeState;          // 08 - node-specific state (e.g. BGSProcedureTreeOneChildExecState)
+			bool                     isComplete;         // 10 - set by a procedure when it finishes
+			bool                     unk11;              // 11
+			bool                     propagateComplete;  // 12 - initialised from the tree item's vtable slot 8 result
+			std::uint8_t             pad13[5];           // 13
 		};
-		static_assert(sizeof(ExecStateContext) == 0x10);
+		static_assert(sizeof(ExecStateContext) == 0x18);
 
 		virtual ~IProcedureTreeItem();  // 00
 
