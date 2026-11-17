@@ -27,7 +27,7 @@ namespace RE
 		void Unk_10(void) override;          // 10
 
 		// add
-		virtual void Unk_11(void);  // 11
+		virtual void AddConditionalItem(BGSProcedureTreeConditionalItem* a_item);  // 11
 
 		// members
 		BSTArray<BGSProcedureTreeConditionalItem*> conditions;  // 10
