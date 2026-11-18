@@ -26,25 +26,29 @@ namespace RE
 											  //      EscortActorPackageData, GuardActorPackageData) -- type depends
 											  //      on the running package's PACKAGE_PROCEDURE_TYPE
 			ActorPackage* package;            // 18 - the currently executing package
-			bool          unk20;              // 20 - usually 0; propagated from an outer bool param in one caller
+			bool          packageComplete;    // 20 - set when a node whose GetSuccessCompletesPackage() is true completes
 			bool          recheckConditions;  // 21 - constant true in normal AI-tick callers; computed from
 											  //      TESCustomPackageData::alwaysRecheckConditions in one caller;
 											  //      false in the query-only GameFunc::IsWarningAbout
 			bool          continueFlag;       // 22 - cleared before each Execute call; caller checks it after
 			std::uint8_t  pad23[5];           // 23
-			void*         manager;            // 28 - stack-local closure; vtable[1] = SetActiveProcedure(BGSProcedureBase*)
+			void*         manager;            // 28 - stack-local BGSVisitProceduresProcess; vtable[1] runs the visited procedure
 			float         deltaTime;          // 30 - gSecondsSinceLastFrame_WorldTime at every observed call site
 			std::uint32_t processType;        // 34 - RE::PROCESS_TYPE in the low byte (see Character::GetActorProcessType)
 		};
 		static_assert(sizeof(ProcedureExecContext) == 0x38);
 
-		// Opaque pair passed to Execute().
+		// Per-node state passed to Execute(), built on the caller's stack.
 		struct ExecStateContext
 		{
-			ProcedureExecContext*    context;    // 00
-			IProcedureTreeExecState* nodeState;  // 08 - node-specific state (e.g. BGSProcedureTreeOneChildExecState)
+			ProcedureExecContext*    context;                  // 00
+			IProcedureTreeExecState* nodeState;                // 08 - node-specific state (e.g. BGSProcedureTreeOneChildExecState)
+			bool                     isComplete;               // 10 - set by a procedure when it finishes
+			bool                     markedComplete;           // 11 - set by MarkComplete only, not by SetComplete
+			bool                     successCompletesPackage;  // 12 - initialised from the tree item's GetSuccessCompletesPackage()
+			std::uint8_t             pad13[5];                 // 13
 		};
-		static_assert(sizeof(ExecStateContext) == 0x10);
+		static_assert(sizeof(ExecStateContext) == 0x18);
 
 		virtual ~IProcedureTreeItem();  // 00
 
@@ -56,7 +60,7 @@ namespace RE
 		virtual void Unk_05(void) = 0;                            // 05
 		virtual void Unk_06(void) = 0;                            // 06
 		virtual void Unk_07(void) = 0;                            // 07
-		virtual void Unk_08(void);                                // 08
+		virtual bool GetSuccessCompletesPackage();                // 08 - base returns false
 		virtual void Unk_09(void);                                // 09
 		virtual void Unk_0A(void) = 0;                            // 0A
 		virtual void Unk_0B(void) = 0;                            // 0B
