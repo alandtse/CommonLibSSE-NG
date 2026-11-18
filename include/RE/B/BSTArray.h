@@ -806,14 +806,11 @@ namespace RE
 		using iterator = pointer;
 		using const_iterator = const_pointer;
 
-		// Construction/move/destruction below assumes none of these can throw, so a failure
-		// partway through would otherwise leave a provisional allocation or element with no
-		// owner. Rather than add rollback machinery for a case that should never arise in
-		// practice, require it can't arise at all.
 		static_assert(std::is_nothrow_copy_constructible_v<T>, "BSTSmallSharedArray requires T to be nothrow copy constructible");
 		static_assert(std::is_nothrow_move_constructible_v<T>, "BSTSmallSharedArray requires T to be nothrow move constructible");
 		static_assert(std::is_nothrow_move_assignable_v<T>, "BSTSmallSharedArray requires T to be nothrow move assignable");
 		static_assert(std::is_nothrow_destructible_v<T>, "BSTSmallSharedArray requires T to be nothrow destructible");
+		static_assert(alignof(T) <= alignof(std::max_align_t), "BSTSmallSharedArray's heap allocation path does not support T with an over-aligned requirement");
 
 		constexpr BSTSmallSharedArray() noexcept = default;
 
