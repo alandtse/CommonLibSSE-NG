@@ -806,6 +806,15 @@ namespace RE
 		using iterator = pointer;
 		using const_iterator = const_pointer;
 
+		// Construction/move/destruction below assumes none of these can throw, so a failure
+		// partway through would otherwise leave a provisional allocation or element with no
+		// owner. Rather than add rollback machinery for a case that should never arise in
+		// practice, require it can't arise at all.
+		static_assert(std::is_nothrow_copy_constructible_v<T>, "BSTSmallSharedArray requires T to be nothrow copy constructible");
+		static_assert(std::is_nothrow_move_constructible_v<T>, "BSTSmallSharedArray requires T to be nothrow move constructible");
+		static_assert(std::is_nothrow_move_assignable_v<T>, "BSTSmallSharedArray requires T to be nothrow move assignable");
+		static_assert(std::is_nothrow_destructible_v<T>, "BSTSmallSharedArray requires T to be nothrow destructible");
+
 		constexpr BSTSmallSharedArray() noexcept = default;
 
 		inline BSTSmallSharedArray(const BSTSmallSharedArray& a_rhs)
@@ -858,6 +867,7 @@ namespace RE
 				// through its own move constructor instead of only copying sizeof(void*)
 				// bytes of it (which is all `_data.heap = a_rhs._data.heap;` would move).
 				std::construct_at(std::addressof(_data.local), std::move(a_rhs._data.local));
+				std::destroy_at(std::addressof(a_rhs._data.local));
 			} else if (newSize > 1) {
 				_data.heap = a_rhs._data.heap;
 				a_rhs._data.heap = nullptr;
@@ -903,9 +913,12 @@ namespace RE
 				const auto newSize = a_rhs.size();
 				const auto newData = a_rhs.data();
 
-				if (a_rhs.size() <= 1) {
-					_data.local = std::move(a_rhs._data.local);
-				} else {
+				if (newSize == 1) {
+					// release() left the destination's local slot with no live T, so it must be
+					// placement-constructed rather than assigned into.
+					std::construct_at(std::addressof(_data.local), std::move(a_rhs._data.local));
+					std::destroy_at(std::addressof(a_rhs._data.local));
+				} else if (newSize > 1) {
 					_data.heap = newData;
 					a_rhs._data.heap = nullptr;
 				}
@@ -993,13 +1006,20 @@ namespace RE
 		template <class... Args>
 		inline reference emplace_back(Args&&... a_args)
 		{
+			static_assert(std::is_nothrow_constructible_v<T, Args...>, "BSTSmallSharedArray::emplace_back requires T to be nothrow constructible from the given arguments");
+
+			// a_args may alias an existing element (e.g. push_back(arr[0])), and growing
+			// storage can overwrite the inline slot or free the heap block it lives in, so
+			// the new element is built in independent storage before that can happen.
+			std::optional<value_type> temp(std::in_place, std::forward<Args>(a_args)...);
+
 			if (size() == capacity()) {
 				change_capacity(_capacity + 1);
 			}
 
 			set_size(size() + 1);
 			auto& elem = back();
-			std::construct_at(std::addressof(elem), std::forward<Args>(a_args)...);
+			std::construct_at(std::addressof(elem), std::move(*temp));
 			return elem;
 		}
 
@@ -1012,43 +1032,68 @@ namespace RE
 		template <class... Args>
 		inline reference emplace(const_iterator position, Args&&... a_args)
 		{
+			static_assert(std::is_nothrow_constructible_v<T, Args...>, "BSTSmallSharedArray::emplace requires T to be nothrow constructible from the given arguments");
+
 			assert(position >= cbegin() && position <= cend());
 
 			if (position == cend()) {
 				return emplace_back(std::forward<Args>(a_args)...);
 			}
 
-			pointer   oldData;
+			// Build the new element before touching any existing storage: a_args may alias
+			// an existing element, and either branch below can relocate or free it.
+			std::optional<value_type> temp(std::in_place, std::forward<Args>(a_args)...);
+
+			const auto headCount = static_cast<size_type>(position - cbegin());
+			const auto oldSize = size();
+
 			pointer   newData;
 			size_type newCapacity;
+			bool      grew;
 
 			if (size() == capacity()) {
+				grew = true;
 				newCapacity = _capacity + 1;
-				newData = allocate(newCapacity);  // manually grow capacity to avoid unnecessary memcpy from change_capacity
-				oldData = data();
+				const auto oldData = data();
+				newData = allocate(newCapacity);
+
+				// Relocate every existing element into the new buffer through its own move
+				// constructor, then destroy the original: a nontrivial T's move constructor
+				// may need to run (e.g. to repair a self-referential address), so a byte
+				// copy cannot stand in for it.
+				for (size_type i = 0; i < headCount; ++i) {
+					std::construct_at(newData + i, std::move(oldData[i]));
+					std::destroy_at(oldData + i);
+				}
+				for (size_type i = headCount; i < oldSize; ++i) {
+					std::construct_at(newData + i + 1, std::move(oldData[i]));
+					std::destroy_at(oldData + i);
+				}
+
+				deallocate(oldData);
 			} else {
-				newData = data();
-				oldData = nullptr;
+				grew = false;
 				newCapacity = capacity();
+				newData = data();
+
+				// Shift the tail back one slot, moving from the end so no live element is
+				// overwritten before it has itself been moved out of.
+				for (size_type i = oldSize; i > headCount; --i) {
+					std::construct_at(newData + i, std::move(newData[i - 1]));
+					std::destroy_at(newData + i - 1);
+				}
 			}
 
-			const auto headPartToCopy = position - cbegin();
-			const auto tailPartToCopy = cend() - position;
-			const auto tailBytesToCopy = tailPartToCopy * sizeof(T);
-			std::memcpy(newData + headPartToCopy + 1, cend() - tailPartToCopy, tailBytesToCopy);
-			std::construct_at(newData + headPartToCopy, std::forward<Args>(a_args)...);
-			const auto headBytesToCopy = headPartToCopy * sizeof(T);
-			std::memcpy(newData, cbegin(), headBytesToCopy);
+			std::construct_at(newData + headCount, std::move(*temp));
 
-			if (oldData) {
-				deallocate(oldData);
+			if (grew) {
 				_data.heap = newData;
 				_capacity = newCapacity;
 			}
 
-			set_size(size() + 1);
+			set_size(oldSize + 1);
 
-			return *(newData + headPartToCopy);
+			return *(newData + headCount);
 		}
 
 		inline void pop_back()
@@ -1096,6 +1141,7 @@ namespace RE
 			} else if (a_size == 1 && oldSize >= 2) {
 				// Heap -> Inline transition, 1 surviving element
 				value_type survivor = std::move(_data.heap[0]);
+				std::destroy_at(std::addressof(_data.heap[0]));
 				RE::free(_data.heap);
 				_data.heap = nullptr;
 				std::construct_at(std::addressof(_data.local), std::move(survivor));  // placement-construct, not assignment
@@ -1110,17 +1156,15 @@ namespace RE
 			const auto newData = a_newCapacity > 0 ? allocate(a_newCapacity) : nullptr;
 			const auto oldData = data();
 			if (oldData) {
-				const auto oldCapacity = capacity();
-				if (newData) {
-					const auto bytesToCopy = (std::min)(oldCapacity, a_newCapacity) * sizeof(value_type);
-#ifdef __clang__
-#	pragma clang diagnostic push
-#	pragma clang diagnostic ignored "-Wnontrivial-memaccess"
-#endif
-					std::memcpy(newData, oldData, bytesToCopy);
-#ifdef __clang__
-#	pragma clang diagnostic pop
-#endif
+				if (newData && newData != oldData) {
+					// Relocate live elements through T's own move constructor rather than a
+					// byte copy: a nontrivial T (e.g. one that stores and repairs its own
+					// address) is not safe to relocate by bytes alone.
+					const auto elementsToMove = (std::min)(size(), a_newCapacity);
+					for (size_type i = 0; i < elementsToMove; ++i) {
+						std::construct_at(newData + i, std::move(oldData[i]));
+						std::destroy_at(oldData + i);
+					}
 				}
 				deallocate(oldData);
 			}

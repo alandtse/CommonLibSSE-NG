@@ -12,7 +12,7 @@ namespace RE
 
 		constexpr BSTPointerAndFlags() noexcept = default;
 
-		BSTPointerAndFlags(const BSTPointerAndFlags& a_rhs)
+		BSTPointerAndFlags(const BSTPointerAndFlags& a_rhs) noexcept
 		{
 			_storage.ptr = value_type(a_rhs.get());
 			_storage.address |= (a_rhs._storage.address & FLAG_MASK);
@@ -33,7 +33,7 @@ namespace RE
 			_storage.address = 0;
 		}
 
-		BSTPointerAndFlags& operator=(const BSTPointerAndFlags& a_rhs)
+		BSTPointerAndFlags& operator=(const BSTPointerAndFlags& a_rhs) noexcept
 		{
 			if (this != std::addressof(a_rhs)) {
 				clear_flags();

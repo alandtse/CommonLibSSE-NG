@@ -13,7 +13,7 @@ namespace RE
 			class AttachedScript : public BSTPointerAndFlags<BSTSmartPointer<Object>, 1>
 			{
 			public:
-				AttachedScript(BSTSmartPointer<Object> a_object, bool a_diskLoaded) :
+				AttachedScript(BSTSmartPointer<Object> a_object, bool a_diskLoaded) noexcept :
 					BSTPointerAndFlags<BSTSmartPointer<Object>, 1>()
 				{
 					_storage.ptr = a_object;
