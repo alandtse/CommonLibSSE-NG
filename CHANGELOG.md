@@ -1,3 +1,17 @@
+## [16.8.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.7.0...v16.8.0) (2026-11-18)
+
+### Features
+
+* **combatinventory:** name weapon/ammo arrays ([#529](https://github.com/alandtse/CommonLibSSE-NG/issues/529)) ([21a3dbb](https://github.com/alandtse/CommonLibSSE-NG/commit/21a3dbb0333f69ca238a51614fe213b551b40d9b))
+* name and size ExecStateContext ([#531](https://github.com/alandtse/CommonLibSSE-NG/issues/531)) ([0c4b64e](https://github.com/alandtse/CommonLibSSE-NG/commit/0c4b64eddcd5e3cd6eed6fecd594269e2e48ec27))
+* **procedure:** name ExecState virtuals ([#527](https://github.com/alandtse/CommonLibSSE-NG/issues/527)) ([1bd09cd](https://github.com/alandtse/CommonLibSSE-NG/commit/1bd09cd094e3ce822ad249d6985cd6a944c4fb5b))
+
+### Bug Fixes
+
+* **havok:** order shape filter virtuals as game ([#535](https://github.com/alandtse/CommonLibSSE-NG/issues/535)) ([d5c9fc9](https://github.com/alandtse/CommonLibSSE-NG/commit/d5c9fc95a5bc1ab6d2135346568895ffabff65e3))
+* **processdata:** type furnitureFacing as float ([#528](https://github.com/alandtse/CommonLibSSE-NG/issues/528)) ([b1018a4](https://github.com/alandtse/CommonLibSSE-NG/commit/b1018a4ae47aa9d7ddcadf858b62508f86bc8313))
+* **RE:** Havok filters return hkBool ([#532](https://github.com/alandtse/CommonLibSSE-NG/issues/532)) ([ac9cdfc](https://github.com/alandtse/CommonLibSSE-NG/commit/ac9cdfc4dedd9916912517a5461c3e22071fdcc4))
+
 ## [16.7.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.6.0...v16.7.0) (2026-11-16)
 
 ### Features
