@@ -40,7 +40,7 @@ namespace RE
 		float   maxRange;          // 34
 		float   tacticalDuration;  // 38
 		float   power;             // 3C
-		float   currentAV;         // 40
+		float   cost;              // 40
 		Effect* effect;            // 48
 	};
 	static_assert(sizeof(CombatInventoryItemMagic) == 0x50);
