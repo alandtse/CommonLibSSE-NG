@@ -1,3 +1,9 @@
+## [16.9.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.8.0...v16.9.0) (2026-11-19)
+
+### Features
+
+* concrete BSTSmallSharedArray ([#518](https://github.com/alandtse/CommonLibSSE-NG/issues/518)) ([e9d098d](https://github.com/alandtse/CommonLibSSE-NG/commit/e9d098d2e093cd7fb931872a87eac82d1d0c6afc))
+
 ## [16.8.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.7.0...v16.8.0) (2026-11-18)
 
 ### Features
