@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/H/hkBaseTypes.h"
 #include "RE/H/hkpShape.h"
 
 namespace RE
@@ -15,7 +16,7 @@ namespace RE
 		inline static constexpr auto VTABLE = VTABLE_hkpRayShapeCollectionFilter;
 
 		// add
-		virtual bool IsCollisionEnabled(const hkpShapeRayCastInput& a_input, const hkpShapeContainer& a_container, hkpShapeKey a_key) const = 0;  // 00
+		virtual hkBool IsCollisionEnabled(const hkpShapeRayCastInput& a_input, const hkpShape& a_shape, const hkpShapeContainer& a_container, hkpShapeKey a_key) const = 0;  // 00
 
 		virtual ~hkpRayShapeCollectionFilter();  // 01
 	};

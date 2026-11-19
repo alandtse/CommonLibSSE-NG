@@ -3,10 +3,16 @@ set(TESTS
     tests/RE/A/ActorValues.test.cpp
     tests/RE/B/BSShaderAccumulator.test.cpp
     tests/RE/B/BSInputEventQueue.test.cpp
+    tests/RE/B/BSTHashMap.test.cpp
+    tests/RE/B/BSTPointerAndFlags.test.cpp
+    tests/RE/B/BSTSmallSharedArray.test.cpp
     tests/RE/F/FormTypes.test.cpp
     tests/RE/I/InventoryChanges.test.cpp
     tests/RE/M/MenuEventHandlerEx.test.cpp
     tests/RE/P/PlayerInputHandler.test.cpp
+    tests/RE/R/RaceSexMenu.test.cpp
+    tests/RE/S/Sky.test.cpp
+    tests/RE/S/State.test.cpp
     tests/REL/Relocation.test.cpp
     tests/REL/RuntimeDataAccessors.test.cpp
     tests/REL/StaticAssertSize.test.cpp

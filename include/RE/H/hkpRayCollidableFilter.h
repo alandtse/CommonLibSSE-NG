@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RE/H/hkBaseTypes.h"
+
 namespace RE
 {
 	class hkpCollidable;
@@ -15,7 +17,7 @@ namespace RE
 		virtual ~hkpRayCollidableFilter();  // 00
 
 		// add
-		virtual bool IsCollisionEnabled(const hkpWorldRayCastInput& a_input, const hkpCollidable& a_collidable) const = 0;  // 01
+		virtual hkBool IsCollisionEnabled(const hkpWorldRayCastInput& a_input, const hkpCollidable& a_collidable) const = 0;  // 01
 	};
 	static_assert(sizeof(hkpRayCollidableFilter) == 0x08);
 }

@@ -81,11 +81,8 @@ namespace RE
 		ObjectTypeInfo* TypeInfo::GetTypeInfo() const
 		{
 			assert(IsObject() || IsObjectArray());
-			if (IsObject()) {
-				return reinterpret_cast<ObjectTypeInfo*>(std::to_underlying(GetRawType()) & ~std::to_underlying(RawType::kObject));
-			} else {
-				return reinterpret_cast<ObjectTypeInfo*>(std::to_underlying(GetRawType()) & ~std::to_underlying(RawType::kObjectArray));
-			}
+			// class types are the ObjectTypeInfo pointer itself, bit 0 is the array flag
+			return reinterpret_cast<ObjectTypeInfo*>(std::to_underlying(GetRawType()) & ~std::to_underlying(RawType::kObject));
 		}
 
 		auto TypeInfo::GetUnmangledRawType() const
@@ -192,6 +189,19 @@ namespace RE
 			default:
 				return "";
 			}
+		}
+
+		TypeInfo TypeInfo::GetElementTypeOfArray() const
+		{
+			assert(IsArray());
+			if (IsLiteralArray()) {
+				return TypeInfo(static_cast<RawType>(_rawType.underlying() - 0xA));
+			}
+			if (IsObjectArray()) {
+				constexpr auto arrayBitMask = ~static_cast<long long>(1);
+				return TypeInfo(static_cast<RawType>(_rawType.underlying() & arrayBitMask));
+			}
+			return {};
 		}
 
 		void TypeInfo::SetType(RawType a_type)

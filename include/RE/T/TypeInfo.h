@@ -61,6 +61,7 @@ namespace RE
 			[[nodiscard]] bool            IsObjectArray() const;
 			[[nodiscard]] bool            IsString() const;
 			[[nodiscard]] std::string     TypeAsString() const;
+			[[nodiscard]] TypeInfo        GetElementTypeOfArray() const;
 			void                          SetType(RawType a_type);
 
 		protected:

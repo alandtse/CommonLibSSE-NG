@@ -161,4 +161,16 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(67315, 68617) };
 		return func(this, a_secsSinceLastFrame);
 	}
+
+	void BSInputDeviceManager::RefreshVRControllerDevices()
+	{
+#if defined(ENABLE_SKYRIM_VR)
+		if SKYRIM_REL_VR_CONSTEXPR (!REL::Module::IsVR()) {
+			return;
+		}
+		using func_t = decltype(&BSInputDeviceManager::RefreshVRControllerDevices);
+		static REL::Relocation<func_t> func{ REL::Offset(0xC51D30) };
+		return func(this);
+#endif
+	}
 }

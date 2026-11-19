@@ -137,108 +137,108 @@ namespace RE
 #endif
 
 				// override (IVMObjectBindInterface)
-				VMHandle GetBoundHandle(const BSTSmartPointer<Object>& a_objPtr) const override;                                                                   // 01
-				bool     TypeCanBeBound(const BSFixedString& a_className, VMHandle a_handle) override;                                                             // 02
-				void     BindObject(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_conditional) override;                                            // 03
-				void     HandleLoadedBinding(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_conditional) override;                                   // 04
-				void     RemoveAllBoundObjects(VMHandle a_handle) override;                                                                                        // 05
-				void     RemoveAllDiskLoadedBoundObjects(VMHandle a_handle) override;                                                                              // 06
-				void     HandleCObjectDeletion(VMHandle a_handle) override;                                                                                        // 07
-				void     UnbindObject(const BSTSmartPointer<Object>& a_objPtr) override;                                                                           // 08
-				bool     CreateObjectWithProperties(const BSFixedString& a_className, std::uint32_t a_numProperties, BSTSmartPointer<Object>& a_objPtr) override;  // 09
-				bool     InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, void* a_property, bool a_arg3) override;                                          // 0A
+				VMHandle GetBoundHandle(const BSTSmartPointer<Object>& a_objPtr) const override;                                                                                         // 01
+				bool     TypeCanBeBound(const BSFixedString& a_className, VMHandle a_handle) override;                                                                                   // 02
+				void     BindObject(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_diskLoaded) override;                                                                   // 03
+				void     HandleLoadedBinding(BSTSmartPointer<Object>& a_objPtr, VMHandle a_handle, bool a_diskLoaded) override;                                                          // 04
+				void     RemoveAllBoundObjects(VMHandle a_handle) override;                                                                                                              // 05
+				void     RemoveAllDiskLoadedBoundObjects(VMHandle a_handle) override;                                                                                                    // 06
+				void     HandleCObjectDeletion(VMHandle a_handle) override;                                                                                                              // 07
+				void     UnbindObject(const BSTSmartPointer<Object>& a_objPtr) override;                                                                                                 // 08
+				bool     CreateObjectWithProperties(const BSFixedString& a_className, std::uint32_t a_numProperties, BSTSmartPointer<Object>& a_objPtr) override;                        // 09
+				bool     InitObjectProperties(BSTSmartPointer<Object>& a_objPtr, BSTScrapHashMap<BSFixedString, Variable>& a_propertyMap, std::uint32_t a_numExtraDecrements) override;  // 0A
 
 				// override (IVMSaveLoadInterface)
-				void                                                              SaveGame(SaveStorageWrapper* a_wrapper, SkyrimScript::SaveFileHandleReaderWriter* a_handle, bool unk) override;  // 01
-				void                                                              LoadGame(LoadStorageWrapper* a_wrapper, SkyrimScript::SaveFileHandleReaderWriter* a_handle) override;            // 02
-				void                                                              MarkSaveInvalid(BSStorage* a_storage) override;                                                                  // 03
-				std::byte                                                         GetSaveGameVersion() override;                                                                                   // 04 - { return this->saveGameVersion; }
-				void                                                              CleanupSave() override;                                                                                          // 05
-				void                                                              Unk_06() override;                                                                                               // 06
-				void                                                              DropAllRunningData() override;                                                                                   // 07
-				void                                                              Unk_08(void* unk) override;                                                                                      // 08 - { return unk; }
-				void                                                              Unk_09(void) override;                                                                                           // 09 - { return 0; }
-				void                                                              Unk_0A(VMHandle a_handle, Object** a_out) override;                                                              // 0A
-				void                                                              Unk_0B(void* unk) override;                                                                                      // 0B - { return unk; }
-				void                                                              Unk_0C(void) override;                                                                                           // 0C - { return 0; }
-				void                                                              Unk_0D(VMHandle a_handle, Array** a_out) override;                                                               // 0D
-				void                                                              Unk_0E(LoadStorageWrapper* a_storage, void* unk) override;                                                       // 0E
-				bool                                                              GetStackByID(VMStackID a_stackID, Stack** a_out) override;                                                       // 0F
-				WritableStringTable                                               GetWritableStringTable() override;                                                                               // 10 - { return this->writableStringTable; }
-				const WritableStringTable                                         GetWritableStringTable2() override;                                                                              // 11 - { return this->writableStringTable; }
-				ReadableStringTable                                               GetReadableStringTable() override;                                                                               // 12 - { return this->readableStringTable; }
-				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>>*       GetWritableTypeTable() override;                                                                                 // 13 - { return this->writableTypeTable; }
-				const BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>>* GetWritableTypeTable2() override;                                                                                // 14 - { return this->writableTypeTable; }
-				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>>*       GetReadableTypeTable() override;                                                                                 // 15 - { return this->readableTypeTable; }
-				bool                                                              CreateEmptyTasklet(Stack* a_stack, Internal::CodeTasklet** a_out) override;                                      // 16
+				bool                       SaveGame(SaveStorageWrapper* a_wrapper, SkyrimScript::SaveFileHandleReaderWriter* a_handle, bool unk) override;                             // 01
+				bool                       LoadGame(LoadStorageWrapper* a_wrapper, SkyrimScript::SaveFileHandleReaderWriter* a_handle, bool* a_loadOk, bool* a_saveInvalid) override;  // 02
+				void                       MarkSaveInvalid(BSStorage* a_storage) override;                                                                                             // 03
+				std::uint16_t              GetSaveGameVersion() override;                                                                                                              // 04 - { return this->saveGameVersion; }
+				void                       CleanupSave() override;                                                                                                                     // 05
+				void                       CleanupObjects() override;                                                                                                                  // 06
+				void                       DropAllRunningData() override;                                                                                                              // 07
+				std::uint64_t              GetObjectSaveID(Object* a_obj) override;                                                                                                    // 08 - { return a_obj; }
+				void                       Unk_09(void) override;                                                                                                                      // 09 - { return 0; }
+				bool                       GetSavedObject(VMHandle a_handle, BSTSmartPointer<Object>& a_out) override;                                                                 // 0A
+				std::uint64_t              GetArraySaveID(Array*) override;                                                                                                            // 0B - { return unk; }
+				void                       Unk_0C(void) override;                                                                                                                      // 0C - { return 0; }
+				bool                       GetSavedArray(VMHandle a_handle, BSTSmartPointer<Array>& a_out) override;                                                                   // 0D
+				bool                       ReadVMHandle(LoadStorageWrapper* a_wrapper, VMHandle& a_outHandle) override;                                                                // 0E
+				bool                       GetStackByID(VMStackID a_stackID, BSTSmartPointer<Stack>& a_out) override;                                                                  // 0F
+				WritableStringTable*       GetWritableStringTable() override;                                                                                                          // 10 - { return this->writableStringTable; }
+				const WritableStringTable* GetWritableStringTable2() override;                                                                                                         // 11 - { return this->writableStringTable; }
+				ReadableStringTable*       GetReadableStringTable() override;                                                                                                          // 12 - { return this->readableStringTable; }
+				WritableTypeTable*         GetWritableTypeTable() override;                                                                                                            // 13 - { return this->writableTypeTable; }
+				const WritableTypeTable*   GetWritableTypeTable2() override;                                                                                                           // 14 - { return this->writableTypeTable; }
+				ReadableTypeTable*         GetReadableTypeTable() override;                                                                                                            // 15 - { return this->readableTypeTable; }
+				bool                       CreateEmptyTasklet(Stack* a_stack, BSTSmartPointer<CodeTasklet>& a_outTasklet) override;                                                    // 16
 
 				static VirtualMachine* GetSingleton();
 
 				// members
-				ErrorLogger*                                                errorLogger;                 // 0080
-				IMemoryPagePolicy*                                          memoryPagePolicy;            // 0088
-				IObjectHandlePolicy*                                        handlePolicy;                // 0090
-				ObjectBindPolicy*                                           objectBindPolicy;            // 0098
-				IFreezeQuery*                                               freezeQuery;                 // 00A0
-				IStackCallbackSaveInterface*                                stackCallbackSaveInterface;  // 00A8
-				IProfilePolicy*                                             profilePolicy;               // 00B0
-				ISavePatcherInterface*                                      savePatcherInterface;        // 00B8
-				mutable BSSpinLock                                          typeInfoLock;                // 00C0
-				LinkerProcessor                                             linker;                      // 00C8
-				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>>  objectTypeMap;               // 0158
-				BSTHashMap<VMTypeID, BSFixedString>                         typeIDToObjectType;          // 0188
-				BSTHashMap<BSFixedString, VMTypeID>                         objectTypeToTypeID;          // 01B8
-				BSTArray<BSTSmartPointer<ObjectTypeInfo>>                   typesToUnload;               // 01E8
-				mutable BSSpinLock                                          funcQueueLock;               // 0200
-				BSTStaticFreeList<FunctionMessage, 1024>                    funcMsgPool;                 // 0208
-				BSTCommonLLMessageQueue<FunctionMessage>                    funcMsgQueue;                // 8220
-				BSTArray<FunctionMessage>                                   overflowFuncMsgs;            // 8248
-				BSTArray<CodeTasklet*>                                      vmTasks;                     // 8260
-				std::uint32_t                                               uiWaitingFunctionMessages;   // 8278
-				bool                                                        overstressed;                // 827C
-				bool                                                        initialized;                 // 827D
-				std::uint16_t                                               pad827E;                     // 827E
-				BSTCommonStaticMessageQueue<SuspendedStack, 128>            suspendQueue1;               // 8280
-				BSTCommonStaticMessageQueue<SuspendedStack, 128>            suspendQueue2;               // 8AA0
-				BSTArray<SuspendedStack>                                    overflowSuspendArray1;       // 92C0
-				BSTArray<SuspendedStack>                                    overflowSuspendArray2;       // 92D8
-				mutable BSSpinLock                                          suspendQueueLock;            // 92F0
-				BSTCommonStaticMessageQueue<SuspendedStack, 128>*           stacksToResume;              // 92F8 - ref to suspendQueue2
-				BSTArray<SuspendedStack>*                                   stacksToResumeOverflow;      // 9300 - ref to overflowSuspendArray2
-				BSTCommonStaticMessageQueue<SuspendedStack, 128>*           stacksToSuspend;             // 9308 - ref to suspendQueue1
-				BSTArray<SuspendedStack>*                                   stacksToSuspendOverflow;     // 9310 - ref to overflowSuspendArray1
-				mutable BSSpinLock                                          runningStacksLock;           // 9318
-				BSTHashMap<VMStackID, BSTSmartPointer<Stack>>               allRunningStacks;            // 9320
-				BSTHashMap<VMStackID, BSTSmartPointer<Stack>>               waitingLatentReturns;        // 9350
-				VMStackID                                                   nextStackID;                 // 9380
-				mutable BSSpinLock                                          frozenStacksLock;            // 9384
-				std::uint32_t                                               pad938C;                     // 938C
-				BSScript::Stack*                                            frozenStacks;                // 9390
-				std::uint32_t                                               frozenStacksCount;           // 9398
-				REX::EnumSet<FreezeState, std::uint32_t>                    freezeState;                 // 939C
-				mutable BSSpinLock                                          attachedScriptsLock;         // 93A0
-				BSTHashMap<VMHandle, BSTSmallSharedArray<AttachedScript>>   attachedScripts;             // 93A8
-				std::uint32_t                                               unk93D8;                     // 93D8
-				std::uint32_t                                               unk93DC;                     // 93DC
-				BSTArray<BSTSmartPointer<Object>>                           objectsAwaitingCleanup;      // 93E0
-				mutable BSSpinLock                                          arraysLock;                  // 93F8
-				std::uint32_t                                               nextArrayToClean;            // 9400
-				std::uint32_t                                               pad9404;                     // 9404
-				BSTArray<BSTSmartPointer<Array>>                            arrays;                      // 9408
-				mutable BSSpinLock                                          objectResetLock;             // 9420
-				BSTArray<BSTSmartPointer<Object>>                           objectsAwaitingReset;        // 9428
-				mutable BSSpinLock                                          objectLock;                  // 9440 - Used for objectTable/arrayTable
-				BSTHashMap<VMHandle, BSTSmartPointer<Object>>               objectTable;                 // 9448 - Used when loading a save
-				BSTHashMap<VMHandle, BSTSmartPointer<Array>>                arrayTable;                  // 9478 - Used when loading a save
-				mutable BSSpinLock                                          queuedUnbindLock;            // 94A8
-				BSTArray<QueuedUnbindRefs>                                  queuedUnbinds;               // 94B0
-				std::byte                                                   saveGameVersion;             // 94C8 - Set when loading a save
-				std::uint32_t                                               scriptCount;                 // 94CC - number of attached scripts
-				std::uint32_t                                               arrayCount;                  // 94D0 - number of arrays
-				WritableStringTable                                         writableStringTable;         // 94D8 - Created/Used only while saving
-				ReadableStringTable                                         readableStringTable;         // 94F0 - Created/Used only while loading a save
-				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>>* writeableTypeTable;          // 9508 - Created/Used only while saving
-				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>>* readableTypeTable;           // 9510 - Created/Used only while loading a save
+				ErrorLogger*                                               errorLogger;                 // 0080
+				IMemoryPagePolicy*                                         memoryPagePolicy;            // 0088
+				IObjectHandlePolicy*                                       handlePolicy;                // 0090
+				ObjectBindPolicy*                                          objectBindPolicy;            // 0098
+				IFreezeQuery*                                              freezeQuery;                 // 00A0
+				IStackCallbackSaveInterface*                               stackCallbackSaveInterface;  // 00A8
+				IProfilePolicy*                                            profilePolicy;               // 00B0
+				ISavePatcherInterface*                                     savePatcherInterface;        // 00B8
+				mutable BSSpinLock                                         typeInfoLock;                // 00C0
+				LinkerProcessor                                            linker;                      // 00C8
+				BSTHashMap<BSFixedString, BSTSmartPointer<ObjectTypeInfo>> objectTypeMap;               // 0158
+				BSTHashMap<VMTypeID, BSFixedString>                        typeIDToObjectType;          // 0188
+				BSTHashMap<BSFixedString, VMTypeID>                        objectTypeToTypeID;          // 01B8
+				BSTArray<BSTSmartPointer<ObjectTypeInfo>>                  typesToUnload;               // 01E8
+				mutable BSSpinLock                                         funcQueueLock;               // 0200
+				BSTStaticFreeList<FunctionMessage, 1024>                   funcMsgPool;                 // 0208
+				BSTCommonLLMessageQueue<FunctionMessage>                   funcMsgQueue;                // 8220
+				BSTArray<FunctionMessage>                                  overflowFuncMsgs;            // 8248
+				BSTArray<CodeTasklet*>                                     vmTasks;                     // 8260
+				std::uint32_t                                              uiWaitingFunctionMessages;   // 8278
+				bool                                                       overstressed;                // 827C
+				bool                                                       initialized;                 // 827D
+				std::uint16_t                                              pad827E;                     // 827E
+				BSTCommonStaticMessageQueue<SuspendedStack, 128>           suspendQueue1;               // 8280
+				BSTCommonStaticMessageQueue<SuspendedStack, 128>           suspendQueue2;               // 8AA0
+				BSTArray<SuspendedStack>                                   overflowSuspendArray1;       // 92C0
+				BSTArray<SuspendedStack>                                   overflowSuspendArray2;       // 92D8
+				mutable BSSpinLock                                         suspendQueueLock;            // 92F0
+				BSTCommonStaticMessageQueue<SuspendedStack, 128>*          stacksToResume;              // 92F8 - ref to suspendQueue2
+				BSTArray<SuspendedStack>*                                  stacksToResumeOverflow;      // 9300 - ref to overflowSuspendArray2
+				BSTCommonStaticMessageQueue<SuspendedStack, 128>*          stacksToSuspend;             // 9308 - ref to suspendQueue1
+				BSTArray<SuspendedStack>*                                  stacksToSuspendOverflow;     // 9310 - ref to overflowSuspendArray1
+				mutable BSSpinLock                                         runningStacksLock;           // 9318
+				BSTHashMap<VMStackID, BSTSmartPointer<Stack>>              allRunningStacks;            // 9320
+				BSTHashMap<VMStackID, BSTSmartPointer<Stack>>              waitingLatentReturns;        // 9350
+				VMStackID                                                  nextStackID;                 // 9380
+				mutable BSSpinLock                                         frozenStacksLock;            // 9384
+				std::uint32_t                                              pad938C;                     // 938C
+				BSScript::Stack*                                           frozenStacks;                // 9390
+				std::uint32_t                                              frozenStacksCount;           // 9398
+				REX::EnumSet<FreezeState, std::uint32_t>                   freezeState;                 // 939C
+				mutable BSSpinLock                                         attachedScriptsLock;         // 93A0
+				BSTHashMap<VMHandle, BSTSmallSharedArray<AttachedScript>>  attachedScripts;             // 93A8
+				std::uint32_t                                              unk93D8;                     // 93D8
+				std::uint32_t                                              unk93DC;                     // 93DC
+				BSTArray<BSTSmartPointer<Object>>                          objectsAwaitingCleanup;      // 93E0
+				mutable BSSpinLock                                         arraysLock;                  // 93F8
+				std::uint32_t                                              nextArrayToClean;            // 9400
+				std::uint32_t                                              pad9404;                     // 9404
+				BSTArray<BSTSmartPointer<Array>>                           arrays;                      // 9408
+				mutable BSSpinLock                                         objectResetLock;             // 9420
+				BSTArray<BSTSmartPointer<Object>>                          objectsAwaitingReset;        // 9428
+				mutable BSSpinLock                                         objectLock;                  // 9440 - Used for objectTable/arrayTable
+				BSTHashMap<VMHandle, BSTSmartPointer<Object>>              objectTable;                 // 9448 - Used when loading a save
+				BSTHashMap<VMHandle, BSTSmartPointer<Array>>               arrayTable;                  // 9478 - Used when loading a save
+				mutable BSSpinLock                                         queuedUnbindLock;            // 94A8
+				BSTArray<QueuedUnbindRefs>                                 queuedUnbinds;               // 94B0
+				std::uint16_t                                              saveGameVersion;             // 94C8 - Set when loading a save
+				std::uint32_t                                              scriptCount;                 // 94CC - number of attached scripts, only when saving/loading
+				std::uint32_t                                              arrayCount;                  // 94D0 - number of arrays, only when saving/loading
+				WritableStringTable                                        writableStringTable;         // 94D8 - Created/Used only while saving
+				ReadableStringTable                                        readableStringTable;         // 94F0 - Created/Used only while loading a save
+				WritableTypeTable                                          writeableTypeTable;          // 9508 - Created/Used only while saving
+				ReadableTypeTable                                          readableTypeTable;           // 9510 - Created/Used only while loading a save
 			};
 			static_assert(sizeof(VirtualMachine) == 0x9518);
 		}

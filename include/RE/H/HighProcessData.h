@@ -265,7 +265,7 @@ namespace RE
 		float                                                 unk298;                                    // 298
 		float                                                 clearTalkToListTimer;                      // 29C
 		float                                                 maxAlpha;                                  // 2A0
-		float                                                 unk2A4;                                    // 2A4
+		float                                                 packageEvaluateTimer;                      // 2A4
 		std::uint64_t                                         unk2A8;                                    // 2A8
 		float                                                 checkToTalkTimer;                          // 2B0 - fAISocialTimerForConversationsMin
 		std::uint32_t                                         unk2B4;                                    // 2B4
@@ -358,7 +358,7 @@ namespace RE
 		bool                                                  unk46A;                                    // 46A
 		bool                                                  deathDialogue;                             // 46B
 		bool                                                  fistsDrawn;                                // 46C
-		bool                                                  unk46D;                                    // 46D
+		bool                                                  animationDrivenMotion;                     // 46D
 		bool                                                  unk46E;                                    // 46E
 		bool                                                  allowRotation;                             // 46F
 		bool                                                  doorActivated;                             // 470

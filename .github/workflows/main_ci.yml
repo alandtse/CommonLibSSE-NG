@@ -169,7 +169,8 @@ jobs:
   # Build-only and unmatrixed on purpose: the output is a Windows PE a Linux
   # runner can't execute.
   build-linux-cross-compile:
-    runs-on: ubuntu-latest
+    # apt.llvm.org has no repository for Ubuntu 26.04, so the LLVM install fails on ubuntu-latest.
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
     env:

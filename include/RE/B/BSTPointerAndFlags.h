@@ -12,7 +12,11 @@ namespace RE
 
 		constexpr BSTPointerAndFlags() noexcept = default;
 
-		BSTPointerAndFlags(const BSTPointerAndFlags& a_rhs) { _storage.ptr = a_rhs.get(); }
+		BSTPointerAndFlags(const BSTPointerAndFlags& a_rhs) noexcept
+		{
+			_storage.ptr = value_type(a_rhs.get());
+			_storage.address |= (a_rhs._storage.address & FLAG_MASK);
+		}
 
 		constexpr BSTPointerAndFlags(BSTPointerAndFlags&& a_rhs) noexcept
 		{
@@ -29,11 +33,12 @@ namespace RE
 			_storage.address = 0;
 		}
 
-		BSTPointerAndFlags& operator=(const BSTPointerAndFlags& a_rhs)
+		BSTPointerAndFlags& operator=(const BSTPointerAndFlags& a_rhs) noexcept
 		{
 			if (this != std::addressof(a_rhs)) {
 				clear_flags();
-				_storage.ptr = a_rhs.get();
+				_storage.ptr = value_type(a_rhs.get());
+				_storage.address |= (a_rhs._storage.address & FLAG_MASK);
 			}
 			return *this;
 		}
@@ -42,7 +47,7 @@ namespace RE
 		{
 			if (this != std::addressof(a_rhs)) {
 				clear_flags();
-				a_rhs.clear_flags();
+				_storage.ptr.~value_type();
 				_storage.address = a_rhs._storage.address;
 				a_rhs._storage.address = 0;
 			}
