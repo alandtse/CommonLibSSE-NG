@@ -97,10 +97,14 @@ namespace RE
 
 	inline void* malloc(std::size_t a_size)
 	{
+#ifdef ENABLE_COMMONLIBSSE_TESTING
+		return std::malloc(a_size);
+#else
 		auto heap = MemoryManager::GetSingleton();
 		return heap ?
 		           heap->Allocate(a_size, 0, false) :
 		           nullptr;
+#endif
 	}
 
 	template <class T>
@@ -208,10 +212,14 @@ namespace RE
 
 	inline void free(void* a_ptr)
 	{
+#ifdef ENABLE_COMMONLIBSSE_TESTING
+		std::free(a_ptr);
+#else
 		auto heap = MemoryManager::GetSingleton();
 		if (heap) {
 			heap->Deallocate(a_ptr, false);
 		}
+#endif
 	}
 
 	inline void aligned_free(void* a_ptr)

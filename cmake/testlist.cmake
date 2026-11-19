@@ -5,6 +5,7 @@ set(TESTS
     tests/RE/B/BSInputEventQueue.test.cpp
     tests/RE/B/BSTHashMap.test.cpp
     tests/RE/B/BSTPointerAndFlags.test.cpp
+    tests/RE/B/BSTSmallSharedArray.test.cpp
     tests/RE/F/FormTypes.test.cpp
     tests/RE/I/InventoryChanges.test.cpp
     tests/RE/M/MenuEventHandlerEx.test.cpp
