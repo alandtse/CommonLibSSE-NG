@@ -329,6 +329,23 @@ namespace RE
 			clear();
 		}
 
+		SimpleArray(const SimpleArray&) = delete;
+
+		SimpleArray(SimpleArray&& a_rhs) noexcept :
+			_data(std::exchange(a_rhs._data, nullptr))
+		{}
+
+		SimpleArray& operator=(const SimpleArray&) = delete;
+
+		SimpleArray& operator=(SimpleArray&& a_rhs) noexcept
+		{
+			if (this != std::addressof(a_rhs)) {
+				clear();
+				_data = std::exchange(a_rhs._data, nullptr);
+			}
+			return *this;
+		}
+
 		TES_HEAP_REDEFINE_NEW();
 
 		[[nodiscard]] reference operator[](size_type a_pos) noexcept
