@@ -155,6 +155,8 @@ namespace RE
 
 		std::string TypeInfo::TypeAsString() const
 		{
+			constexpr auto badTypeName = "<bad type>";
+
 			switch (GetUnmangledRawType()) {
 			case RawType::kNone:
 				return "None";
@@ -169,14 +171,14 @@ namespace RE
 			case RawType::kObject:
 				{
 					auto info = GetTypeInfo();
-					return info ? info->name.c_str() : "<bad_type>";
+					return info ? info->name.c_str() : badTypeName;
 				}
 			case RawType::kNoneArray:
-				return "<bad_type>";
+				return badTypeName;
 			case RawType::kObjectArray:
 				{
 					auto info = GetTypeInfo();
-					return info ? std::string(info->name.c_str()) + "[]" : "<bad_type>[]";
+					return info ? std::string(info->name.c_str()) + "[]" : badTypeName;
 				}
 			case RawType::kStringArray:
 				return "String[]";
@@ -187,7 +189,7 @@ namespace RE
 			case RawType::kBoolArray:
 				return "Bool[]";
 			default:
-				return "<bad_type>";
+				return badTypeName;
 			}
 		}
 
