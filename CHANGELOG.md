@@ -1,3 +1,15 @@
+## [16.10.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.9.0...v16.10.0) (2026-11-20)
+
+### Features
+
+* movable SimpleArray ([#536](https://github.com/alandtse/CommonLibSSE-NG/issues/536)) ([056103c](https://github.com/alandtse/CommonLibSSE-NG/commit/056103c7c32f51d0e02b79783e2d291a75c9a6fb))
+* **vm:** add IForEachScriptObjectFunctor ([#539](https://github.com/alandtse/CommonLibSSE-NG/issues/539)) ([82eb52f](https://github.com/alandtse/CommonLibSSE-NG/commit/82eb52f747400f0b5d25f13cf6476c3db8603e9c))
+
+### Bug Fixes
+
+* **RE:** name GRefCountBaseGC collector members ([#537](https://github.com/alandtse/CommonLibSSE-NG/issues/537)) ([2338eb1](https://github.com/alandtse/CommonLibSSE-NG/commit/2338eb119ce30623be0a60a67f77de6e00abe144)), closes [alandtse/skyrim_vr_address_library#360](https://github.com/alandtse/skyrim_vr_address_library/issues/360)
+* **typeinfo:** use Skyrim's type->string conversion ([#538](https://github.com/alandtse/CommonLibSSE-NG/issues/538)) ([eeb7a81](https://github.com/alandtse/CommonLibSSE-NG/commit/eeb7a819d61c1803bab2bff1502315cde7a3623b))
+
 ## [16.9.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.8.0...v16.9.0) (2026-11-19)
 
 ### Features
