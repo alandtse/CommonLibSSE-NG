@@ -1400,6 +1400,7 @@
 #include "RE/I/ID.h"
 #include "RE/I/IDEvent.h"
 #include "RE/I/IExplosionFactory.h"
+#include "RE/I/IForEachScriptObjectFunctor.h"
 #include "RE/I/IFormFactory.h"
 #include "RE/I/IFreezeQuery.h"
 #include "RE/I/IFuncCallQuery.h"
