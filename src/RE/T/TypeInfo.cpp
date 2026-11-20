@@ -157,37 +157,37 @@ namespace RE
 		{
 			switch (GetUnmangledRawType()) {
 			case RawType::kNone:
-				return "none";
+				return "None";
 			case RawType::kString:
-				return "string";
+				return "String";
 			case RawType::kInt:
-				return "int";
+				return "Int";
 			case RawType::kFloat:
-				return "float";
+				return "Float";
 			case RawType::kBool:
-				return "bool";
+				return "Bool";
 			case RawType::kObject:
 				{
 					auto info = GetTypeInfo();
-					return info ? info->name.c_str() : "none";
+					return info ? info->name.c_str() : "<bad_type>";
 				}
 			case RawType::kNoneArray:
-				return "none";
+				return "<bad_type>";
 			case RawType::kObjectArray:
 				{
 					auto info = GetTypeInfo();
-					return info ? std::string(info->name.c_str()) + "[]" : "none";
+					return info ? std::string(info->name.c_str()) + "[]" : "<bad_type>[]";
 				}
 			case RawType::kStringArray:
-				return "string[]";
+				return "String[]";
 			case RawType::kIntArray:
-				return "int[]";
+				return "Int[]";
 			case RawType::kFloatArray:
-				return "float[]";
+				return "Float[]";
 			case RawType::kBoolArray:
-				return "bool[]";
+				return "Bool[]";
 			default:
-				return "";
+				return "<bad_type>";
 			}
 		}
 
