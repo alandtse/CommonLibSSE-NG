@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSTArray.h"
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/V/Variable.h"
 
