@@ -1,9 +1,30 @@
 #include "RE/O/ObjectTypeInfo.h"
 
+#include "RE/I/IFunction.h"
+
 namespace RE
 {
 	namespace BSScript
 	{
+		ObjectTypeInfo::ObjectTypeInfo(const BSFixedString& a_className)
+		{
+			name = a_className;
+			parentTypeInfo = nullptr;
+			docString = "";
+
+			linkedValid = LinkValidState::kNotLinked;
+			userFlagCount = 0;
+			variableCount = 0;
+			variableUserFlagCount = 0;
+			initialValueCount = 0;
+			propertyCount = 0;
+			staticFunctionCount = 0;
+			emptyStateMemberFunctionCount = 0;
+			namedStateCount = 0;
+			autoStateIndex = 0;
+			data = nullptr;
+		}
+
 		BSFixedString ObjectTypeInfo::UserFlagInfo::GetUserFlag() const
 		{
 			auto sanitizedType = data & ~kSetOnObject;
@@ -24,7 +45,7 @@ namespace RE
 
 		ObjectTypeInfo::~ObjectTypeInfo()
 		{
-			ReleaseData();
+			ReleaseData(false);
 		}
 
 		const char* ObjectTypeInfo::GetName() const
@@ -166,13 +187,94 @@ namespace RE
 			return static_cast<std::uint32_t>(-1);
 		}
 
-		void ObjectTypeInfo::ReleaseData()
+		[[nodiscard]] bool ObjectTypeInfo::HasAutoState() const noexcept
 		{
-			constexpr bool kKeepReferencedObjects = false;
+			return autoStateIndex < namedStateCount;
+		}
 
-			using func_t = void (*)(ObjectTypeInfo*, bool);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(97538, 104323) };
-			return func(this, kKeepReferencedObjects);
+		const BSFixedString ObjectTypeInfo::GetInitialStateName() const
+		{
+			if (linkedValid == LinkValidState::kLinkedValid && HasAutoState()) {
+				return GetNamedStateIter()[autoStateIndex].name;
+			}
+			return "";
+		}
+
+		void ObjectTypeInfo::ReleaseData(const bool a_keepNativeFunctions)
+		{
+			UnlinkedNativeFunction* nativeList = nullptr;
+
+			// destroys one function slot, first moving natives onto the unlinked list when asked to
+			const auto releaseFunc = [&](BSTSmartPointer<IFunction>& a_func) {
+				if (a_keepNativeFunctions && a_func->GetIsNative()) {
+					auto* node = static_cast<UnlinkedNativeFunction*>(RE::malloc(sizeof(UnlinkedNativeFunction)));
+					// the engine drops the whole list if this allocation fails
+					if (!node) {
+						nativeList = nullptr;
+					} else {
+						node->next = nativeList;
+						new (&node->func) BSTSmartPointer(a_func);
+						nativeList = node;
+					}
+				}
+				std::destroy_at(&a_func);
+			};
+
+			if (linkedValid == LinkValidState::kLinkedInvalid || linkedValid == LinkValidState::kLinkedValid) {
+				for (auto *it = GetUserFlagIter(), *end = it + GetNumUserFlags(); it != end; ++it) {
+					it->data &= ~UserFlagInfo::kSetOnObject;
+					std::destroy_at(reinterpret_cast<BSFixedString*>(&it->data));
+				}
+				for (auto *it = GetVariableIter(), *end = it + GetNumVariables(); it != end; ++it) {
+					std::destroy_at(&it->name);
+				}
+				for (auto *it = GetInitialValueIter(), *end = it + GetNumInitalValues(); it != end; ++it) {
+					std::destroy_at(&it->initialValue);
+				}
+				for (auto *it = GetPropertyIter(), *end = it + GetNumProperties(); it != end; ++it) {
+					std::destroy_at(it);
+				}
+				for (auto *it = GetGlobalFuncIter(), *end = it + GetNumGlobalFuncs(); it != end; ++it) {
+					releaseFunc(it->func);
+				}
+				for (auto *it = GetMemberFuncIter(), *end = it + GetNumMemberFuncs(); it != end; ++it) {
+					releaseFunc(it->func);
+				}
+				for (auto *state = GetNamedStateIter(), *end = state + GetNumNamedStates(); state != end; ++state) {
+					for (auto *fn = state->GetFuncIter(), *fnEnd = fn + state->GetNumFuncs(); fn != fnEnd; ++fn) {
+						releaseFunc(fn->func);
+					}
+					std::destroy_at(&state->name);
+				}
+				RE::free(data);
+				data = nativeList;
+			} else if (!a_keepNativeFunctions) {
+				for (auto* node = GetUnlinkedFunctionIter(); node != nullptr;) {
+					auto* next = node->next;
+					std::destroy_at(&node->func);
+					RE::free(node);
+					node = next;
+				}
+				data = nullptr;
+			}
+
+			docString = "";
+
+			linkedValid = LinkValidState::kNotLinked;
+			userFlagCount = 0;
+			variableCount = 0;
+			variableUserFlagCount = 0;
+			initialValueCount = 0;
+			propertyCount = 0;
+			staticFunctionCount = 0;
+			emptyStateMemberFunctionCount = 0;
+			namedStateCount = 0;
+			autoStateIndex = 0;
+
+			if (!a_keepNativeFunctions) {
+				name = "";
+				parentTypeInfo = nullptr;
+			}
 		}
 	}
 }
