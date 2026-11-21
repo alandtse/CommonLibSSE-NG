@@ -17,7 +17,7 @@ namespace RE
 
 			const auto pageHint = GetPageForFrame();
 			for (std::uint32_t i = 0; i < a_frameSize; ++i) {
-				GetStackFrameVariable(i, pageHint) = Variable();
+				std::construct_at(std::addressof(GetStackFrameVariable(i, pageHint)));
 			}
 		}
 
