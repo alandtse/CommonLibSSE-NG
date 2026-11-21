@@ -27,9 +27,11 @@ namespace RE
 			struct UnlinkedNativeFunction
 			{
 			public:
+				TES_HEAP_REDEFINE_NEW()
+
 				// members
-				UnlinkedNativeFunction*    next;  // 00
-				BSTSmartPointer<IFunction> func;  // 08
+				UnlinkedNativeFunction*    next;    // 00
+				BSTSmartPointer<IFunction> func{};  // 08
 			};
 			static_assert(sizeof(UnlinkedNativeFunction) == 0x10);
 

@@ -207,15 +207,10 @@ namespace RE
 			// destroys one function slot, first moving natives onto the unlinked list when asked to
 			const auto releaseFunc = [&](BSTSmartPointer<IFunction>& a_func) {
 				if (a_keepNativeFunctions && a_func->GetIsNative()) {
-					auto* node = static_cast<UnlinkedNativeFunction*>(RE::malloc(sizeof(UnlinkedNativeFunction)));
-					// the engine drops the whole list if this allocation fails
-					if (!node) {
-						nativeList = nullptr;
-					} else {
-						node->next = nativeList;
-						new (&node->func) BSTSmartPointer(a_func);
-						nativeList = node;
-					}
+					auto* node = new UnlinkedNativeFunction();
+					node->next = nativeList;
+					node->func = a_func;
+					nativeList = node;
 				}
 				std::destroy_at(&a_func);
 			};
