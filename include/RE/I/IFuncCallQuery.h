@@ -31,7 +31,7 @@ namespace RE
 				virtual ~IFuncCallQuery();  // 00
 
 				// add
-				virtual bool GetFunctionCallInfo(CallType& a_callType, BSTSmartPointer<ObjectTypeInfo>& a_arg2, BSFixedString& a_arg3, Variable& a_arg4, BSScrapArray<Variable>& a_arg5) = 0;  // 01
+				virtual bool GetFunctionCallInfo(CallType& a_callType, BSTSmartPointer<ObjectTypeInfo>& a_objType, BSFixedString& a_name, Variable& a_obj, BSScrapArray<Variable>& a_args) const = 0;  // 01
 
 				// members
 				std::uint32_t pad0C;  // 0C
