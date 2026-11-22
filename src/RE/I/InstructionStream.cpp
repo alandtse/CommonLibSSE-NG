@@ -164,9 +164,9 @@ namespace RE
 						const auto& arg = node->args[argIndex];
 						if (IsJumpOpcode(opcode) && k == static_cast<std::uint32_t>(argCount - 1)) {
 							const std::int32_t  relative = arg.GetType() == Argument::Type::kInt ? arg.GetInt() : 0;  // GetIntLiteral leaves 0 for a non-int
-							const std::uint32_t target = static_cast<std::uint32_t>(static_cast<std::uint32_t>(relative + static_cast<std::int32_t>(i)) & jumpMask);
-							fixups.push_back(Fixup{ .bitPosition = writer.Position(), .targetIndex = target });
-							writer.Write(target, jumpBits);
+							const std::uint32_t absoluteTarget = static_cast<std::uint32_t>(relative + static_cast<std::int32_t>(i));
+							fixups.push_back(Fixup{ .bitPosition = writer.Position(), .targetIndex = absoluteTarget });  // unmasked: pass 3's functionCodeSize check needs the true value
+							writer.Write(absoluteTarget & jumpMask, jumpBits);                                           // placeholder only; pass 3 overwrites this with the real bit offset
 						} else {
 							arg.WriteToBitStream(writer, localVarBitCount, memberVarBitCount);
 						}
