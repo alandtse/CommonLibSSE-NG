@@ -33,6 +33,21 @@ namespace
 
 		return decodedInt;
 	}
+
+	void WritePackedInt(RE::BSScript::BSBitWriter& a_writer, std::int32_t a_val)
+	{
+		const auto encoded = (static_cast<std::uint32_t>(a_val) << 1) ^ static_cast<std::uint32_t>(a_val >> 31);
+		if (encoded < 0x20) {
+			a_writer.Write(encoded | 0x20, 6);
+		} else if (encoded < 0x2000) {
+			a_writer.Write(encoded & 0x1F, 6);
+			a_writer.Write(((encoded >> 5) & 0xFF) | 0x100, 9);
+		} else {
+			a_writer.Write(encoded & 0x1F, 6);
+			a_writer.Write((encoded >> 5) & 0xFF, 9);
+			a_writer.Write(encoded >> 13, 19);
+		}
+	}
 }
 
 namespace RE::BSScript::ByteCode
@@ -331,6 +346,42 @@ namespace RE::BSScript::ByteCode
 				a_reader.readRawBits(a_memberVarBitCount);
 				break;
 			}
+		}
+	}
+
+	void Argument::WriteToBitStream(BSBitWriter& a_writer, const std::uint32_t a_localVarBitCount, const std::uint32_t a_memberVarBitCount) const
+	{
+		a_writer.Write(static_cast<std::uint64_t>(GetType()), 3);
+		switch (GetType()) {
+		case Type::kIdentifier:
+		case Type::kString:
+			{
+				// Bit stream must hold a strong reference. It is manually released by `~PackedInstructionStream`
+				alignas(RE::BSFixedString) std::byte keepAlive[sizeof(RE::BSFixedString)];
+				new (keepAlive) RE::BSFixedString(GetString());
+
+				a_writer.Write(reinterpret_cast<std::uintptr_t>(&GetString().front()) >> 2, 62);
+				break;
+			}
+		case Type::kInt:
+			{
+				WritePackedInt(a_writer, GetInt());
+				break;
+			}
+		case Type::kFloat:
+			a_writer.Write(std::bit_cast<std::uint32_t>(GetFloat()), 32);
+			break;
+		case Type::kBool:
+			a_writer.Write(GetBool() ? 1 : 0, 1);
+			break;
+		case Type::kLocalVarIdx:
+			a_writer.Write(GetLocalVarIdx(), a_localVarBitCount);
+			break;
+		case Type::kMemberVarIdx:
+			a_writer.Write(GetMemberVarIdx(), a_memberVarBitCount);
+			break;
+		default:
+			break;
 		}
 	}
 
