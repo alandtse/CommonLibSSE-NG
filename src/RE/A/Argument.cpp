@@ -385,6 +385,33 @@ namespace RE::BSScript::ByteCode
 		}
 	}
 
+	std::uint32_t Argument::GetBitCount(std::uint32_t a_localVarBitCount, std::uint32_t a_memberVarBitCount) const
+	{
+		constexpr auto TYPE_BIT_COUNT = 3;
+		switch (GetType()) {
+		case Type::kIdentifier:
+		case Type::kString:
+			return TYPE_BIT_COUNT + 62;
+		case Type::kInt:
+			{
+				auto       val = GetInt();
+				const auto encoded = (static_cast<std::uint32_t>(val) << 1) ^ static_cast<std::uint32_t>(val >> 31);
+				return TYPE_BIT_COUNT + (encoded < 0x20 ? 6u : encoded < 0x2000 ? 15u :
+																				  34u);
+			}
+		case Type::kFloat:
+			return TYPE_BIT_COUNT + 32;
+		case Type::kBool:
+			return TYPE_BIT_COUNT + 1;
+		case Type::kLocalVarIdx:
+			return TYPE_BIT_COUNT + a_localVarBitCount;
+		case Type::kMemberVarIdx:
+			return TYPE_BIT_COUNT + a_memberVarBitCount;
+		default:
+			return TYPE_BIT_COUNT;
+		}
+	}
+
 	void Argument::ChangeType(const Type a_type)
 	{
 		Reset();

@@ -26,6 +26,45 @@ namespace RE
 		};
 		static_assert(sizeof(ThreadScrapHeap) == 0xA0);
 
+		// untyped core, holds the two relocations once
+		class AutoScrapBufferBase
+		{
+		public:
+			AutoScrapBufferBase(const AutoScrapBufferBase&) = delete;
+			AutoScrapBufferBase& operator=(const AutoScrapBufferBase&) = delete;
+
+			void swap(AutoScrapBufferBase& a_rhs) noexcept { std::swap(_data, a_rhs._data); }
+
+		protected:
+			AutoScrapBufferBase(std::size_t a_size, std::size_t a_alignment)
+			{
+				_data = MemoryManager::GetSingleton()->GetThreadScrapHeap()->Allocate(a_size, a_alignment);
+			}
+
+			~AutoScrapBufferBase()
+			{
+				MemoryManager::GetSingleton()->GetThreadScrapHeap()->Deallocate(_data);
+			}
+
+			void* _data;  // 00
+		};
+		static_assert(sizeof(AutoScrapBufferBase) == 0x8);
+
+		// typed view, T is raw memory only: elements are neither constructed nor destroyed
+		template <class T = std::byte>
+		class AutoScrapBuffer : public AutoScrapBufferBase
+		{
+			static_assert(std::is_trivially_destructible_v<T>, "AutoScrapBuffer never destroys its elements");
+
+		public:
+			explicit AutoScrapBuffer(const std::size_t a_count, const std::size_t a_alignment = alignof(T)) :
+				AutoScrapBufferBase(a_count * sizeof(T), a_alignment)
+			{}
+
+			[[nodiscard]] T* get() const noexcept { return static_cast<T*>(_data); }
+		};
+		static_assert(sizeof(AutoScrapBuffer<>) == 0x8);
+
 		[[nodiscard]] static MemoryManager* GetSingleton()
 		{
 			using func_t = decltype(&MemoryManager::GetSingleton);

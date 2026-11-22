@@ -79,6 +79,8 @@ namespace RE::BSScript::ByteCode
 
 		void WriteToBitStream(BSBitWriter& a_writer, std::uint32_t a_localVarBitCount, std::uint32_t a_memberVarBitCount) const;
 
+		std::uint32_t GetBitCount(std::uint32_t a_localVarBitCount, std::uint32_t a_memberVarBitCount) const;
+
 	private:
 		void ChangeType(Type a_type);
 		void Reset();
