@@ -1,3 +1,9 @@
+## [16.11.1](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.0...v16.11.1) (2026-11-22)
+
+### Bug Fixes
+
+* **RE:** name AIProcess package object handles ([#551](https://github.com/alandtse/CommonLibSSE-NG/issues/551)) ([20da75e](https://github.com/alandtse/CommonLibSSE-NG/commit/20da75e6ed8d84d50f17de88fe0d513e3f803979))
+
 ## [16.11.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.10.0...v16.11.0) (2026-11-22)
 
 ### Features
