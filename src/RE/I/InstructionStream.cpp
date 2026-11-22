@@ -67,8 +67,6 @@ namespace RE
 					std::swap(recordWriteCursor, a_rhs.recordWriteCursor);
 					std::swap(instructionListHead, a_rhs.instructionListHead);
 					std::swap(tailNode, a_rhs.tailNode);
-					std::swap(instructionListHead, a_rhs.instructionListHead);
-					std::swap(tailNode, a_rhs.tailNode);
 					std::swap(tailNextLink, a_rhs.tailNextLink);
 					if (tailNextLink == &a_rhs.instructionListHead) {
 						tailNextLink = &instructionListHead;
@@ -164,7 +162,7 @@ namespace RE
 
 					for (std::uint32_t k = 0; k < argCount; ++k) {
 						const auto& arg = node->args[argIndex];
-						if (IsJumpOpcode(opcode) && k == argCount - 1) {
+						if (IsJumpOpcode(opcode) && k == static_cast<std::uint32_t>(argCount - 1)) {
 							const std::int32_t  relative = arg.GetType() == Argument::Type::kInt ? arg.GetInt() : 0;  // GetIntLiteral leaves 0 for a non-int
 							const std::uint32_t target = static_cast<std::uint32_t>(static_cast<std::uint32_t>(relative + static_cast<std::int32_t>(i)) & jumpMask);
 							fixups.push_back(Fixup{ .bitPosition = writer.Position(), .targetIndex = target });
