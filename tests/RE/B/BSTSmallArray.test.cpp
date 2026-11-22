@@ -450,6 +450,122 @@ TEST_CASE("BSTSmallArray/HeapStaysHeapAfterShrinking", "[unit]")
 	CHECK_FALSE(UsesLocalBuffer(arr));
 }
 
+TEST_CASE("BSTSmallArray/ShrinkToFit", "[unit]")
+{
+	SECTION("heap-backed array shrinking back within the inline capacity returns to local storage")
+	{
+		LifecycleTracker::Reset();
+
+		{
+			TestSmallArray<LifecycleTracker> arr;
+			for (int i = 0; i < 6; ++i) {
+				arr.emplace_back(i);
+			}
+			REQUIRE_FALSE(UsesLocalBuffer(arr));
+
+			arr.pop_back();
+			arr.pop_back();
+			arr.pop_back();
+			arr.pop_back();
+			REQUIRE(arr.size() == 2);
+			REQUIRE_FALSE(UsesLocalBuffer(arr));  // popping alone never reclaims the buffer
+
+			arr.shrink_to_fit();
+
+			CHECK(arr.capacity() == 2);
+			CHECK(UsesLocalBuffer(arr));
+			REQUIRE(arr.size() == 2);
+			CHECK(arr[0].value == 0);
+			CHECK(arr[1].value == 1);
+		}
+
+		CHECK(LifecycleTracker::corruptionCount == 0);
+		CHECK(LifecycleTracker::liveCount == 0);
+	}
+
+	SECTION("heap-backed array shrinking to a size still over the inline capacity stays on the heap")
+	{
+		TestSmallArray<int> arr;
+		for (int i = 1; i <= 10; ++i) {
+			arr.push_back(i);
+		}
+		REQUIRE_FALSE(UsesLocalBuffer(arr));
+
+		while (arr.size() > 5) {
+			arr.pop_back();
+		}
+		REQUIRE(arr.capacity() > 5);
+
+		arr.shrink_to_fit();
+
+		CHECK(arr.capacity() == 5);
+		CHECK_FALSE(UsesLocalBuffer(arr));
+		REQUIRE(arr.size() == 5);
+		for (int i = 0; i < 5; ++i) {
+			CHECK(arr[i] == i + 1);
+		}
+	}
+
+	SECTION("local-backed array shrinking to a smaller local capacity preserves values")
+	{
+		// Regression: change_capacity() used to memcpy the inline buffer onto itself here -
+		// allocate() returns that same fixed address for any capacity that still fits inline,
+		// so a shrink that stays local never actually needs to move anything, but running
+		// memcpy(x, x, n) to do that "nothing" is undefined behavior.
+		LifecycleTracker::Reset();
+
+		{
+			TestSmallArray<LifecycleTracker> arr;
+			arr.emplace_back(1);
+			arr.emplace_back(2);
+			arr.emplace_back(3);
+			arr.emplace_back(4);
+			REQUIRE(UsesLocalBuffer(arr));
+			REQUIRE(arr.capacity() == 4);
+
+			arr.pop_back();
+			arr.pop_back();
+			REQUIRE(arr.size() == 2);
+			REQUIRE(arr.capacity() == 4);
+
+			arr.shrink_to_fit();
+
+			CHECK(arr.capacity() == 2);
+			CHECK(UsesLocalBuffer(arr));
+			REQUIRE(arr.size() == 2);
+			CHECK(arr[0].value == 1);
+			CHECK(arr[1].value == 2);
+		}
+
+		CHECK(LifecycleTracker::corruptionCount == 0);
+		CHECK(LifecycleTracker::liveCount == 0);
+	}
+
+	SECTION("shrink_to_fit is a no-op when capacity already equals size")
+	{
+		TestSmallArray<int> arr;
+		for (int i = 1; i <= 4; ++i) {
+			arr.push_back(i);
+		}
+		REQUIRE(arr.size() == 4);
+		REQUIRE(arr.capacity() == 4);
+
+		const auto* originalData = arr.data();
+		arr.shrink_to_fit();
+
+		CHECK(arr.capacity() == 4);
+		CHECK(arr.data() == originalData);
+	}
+
+	SECTION("shrink_to_fit on an empty array is a no-op")
+	{
+		TestSmallArray<int> arr;
+		arr.shrink_to_fit();
+		CHECK(arr.empty());
+		CHECK(arr.capacity() == 0);
+	}
+}
+
 TEST_CASE("BSTSmallArray/NoDoubleFreeOrCorruption", "[unit]")
 {
 	LifecycleTracker::Reset();

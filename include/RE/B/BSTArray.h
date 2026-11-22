@@ -681,7 +681,7 @@ namespace RE
 			const auto oldData = data();
 			if (oldData) {
 				const auto oldCapacity = capacity();
-				if (newData) {
+				if (newData && newData != oldData) {
 					const auto bytesToCopy = (std::min)(oldCapacity, a_newCapacity) * sizeof(value_type);
 #ifdef __clang__
 #	pragma clang diagnostic push
