@@ -19,6 +19,9 @@ namespace RE
 		void BSBitWriter::WriteAt(const std::uint64_t a_position, const std::uint64_t a_value, const std::uint32_t a_count)
 		{
 			assert(a_count < 64);
+			if (a_count == 0) {
+				return;
+			}
 			const std::uint64_t mask = (std::uint64_t{ 1 } << a_count) - 1;
 			const std::uint64_t value = a_value & mask;
 			const auto          word = a_position >> 6;

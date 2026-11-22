@@ -360,7 +360,7 @@ namespace RE::BSScript::ByteCode
 				alignas(RE::BSFixedString) std::byte keepAlive[sizeof(RE::BSFixedString)];
 				new (keepAlive) RE::BSFixedString(GetString());
 
-				a_writer.Write(reinterpret_cast<std::uintptr_t>(&GetString().front()) >> 2, 62);
+				a_writer.Write(reinterpret_cast<std::uintptr_t>(GetString().underlying()) >> 2, 62);
 				break;
 			}
 		case Type::kInt:
