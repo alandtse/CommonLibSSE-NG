@@ -70,9 +70,9 @@ namespace RE
 			return CreateArray2(a_typeID, a_className, a_size, a_arrayPtr);
 		}
 
-		bool IVirtualMachine::CreateObject(const BSFixedString& a_className, void* a_property, BSTSmartPointer<Object>& a_objPtr)
+		bool IVirtualMachine::CreateObject(const BSFixedString& a_className, BSTScrapHashMap<BSFixedString, Variable>& a_propertyMap, BSTSmartPointer<Object>& a_objPtr)
 		{
-			return CreateObject1(a_className, a_property, a_objPtr);
+			return CreateObject1(a_className, a_propertyMap, a_objPtr);
 		}
 
 		bool IVirtualMachine::CreateObject(const BSFixedString& a_className, BSTSmartPointer<Object>& a_result)
@@ -305,9 +305,9 @@ namespace RE
 			return REL::RelocateVirtual<decltype(&IVirtualMachine::DispatchMethodCall2)>(0x28, 0x2A, this, a_handle, a_className, a_fnName, a_args, a_result);
 		}
 
-		bool IVirtualMachine::DispatchUnboundMethodCall()
+		bool IVirtualMachine::DispatchUnboundMethodCall(VMHandle a_handle, void* unk, const BSFixedString& a_fnName, IFunctionArguments* a_args, BSTSmartPointer<IStackCallbackFunctor>& a_result)
 		{
-			return REL::RelocateVirtual<decltype(&IVirtualMachine::DispatchUnboundMethodCall)>(0x29, 0x2B, this);
+			return REL::RelocateVirtual<decltype(&IVirtualMachine::DispatchUnboundMethodCall)>(0x29, 0x2B, this, a_handle, unk, a_fnName, a_args, a_result);
 		}
 
 		bool IVirtualMachine::IsWaitingOnLatent(VMStackID a_stackID) const
