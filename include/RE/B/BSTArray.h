@@ -229,6 +229,11 @@ namespace RE
 			if (a_capacity * a_typeSize > N) {
 				_local = 0;
 				_data.heap = a_data;
+			} else {
+				_local = 1;
+				if (a_data && a_data != _data.local) {
+					std::memmove(_data.local, a_data, static_cast<std::size_t>(a_capacity) * a_typeSize);
+				}
 			}
 		}
 
@@ -264,10 +269,15 @@ namespace RE
 
 			_capacity = a_rhs._capacity;
 			_local = a_rhs._local;
-			std::memmove(data(), a_rhs.data(), capacity());
 
-			std::memset(a_rhs.data(), 0, a_rhs.capacity());
-			a_rhs._capacity = N;
+			if (local()) {
+				std::memmove(_data.local, a_rhs._data.local, N);
+			} else {
+				_data.heap = a_rhs._data.heap;
+			}
+
+			std::memset(&a_rhs._data, 0, sizeof(a_rhs._data));
+			a_rhs._capacity = 0;
 			a_rhs._local = 1;
 		}
 
@@ -279,8 +289,8 @@ namespace RE
 				free(_data.heap);
 			}
 
-			std::memset(data(), 0, capacity());
-			_capacity = N;
+			std::memset(&_data, 0, sizeof(_data));
+			_capacity = 0;
 			_local = 1;
 		}
 
@@ -419,7 +429,7 @@ namespace RE
 				return;
 			}
 
-			const auto newSize = a_list.size();
+			const auto newSize = static_cast<size_type>(a_list.size());
 			const auto newData = allocate(newSize);
 			size_type  i = 0;
 			for (const auto& elem : a_list) {
@@ -671,7 +681,7 @@ namespace RE
 			const auto oldData = data();
 			if (oldData) {
 				const auto oldCapacity = capacity();
-				if (newData) {
+				if (newData && newData != oldData) {
 					const auto bytesToCopy = (std::min)(oldCapacity, a_newCapacity) * sizeof(value_type);
 #ifdef __clang__
 #	pragma clang diagnostic push
