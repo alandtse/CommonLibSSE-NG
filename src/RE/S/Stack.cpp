@@ -76,6 +76,7 @@ namespace RE
 
 		IMemoryPagePolicy::AllocationStatus Stack::PushBlankFrame(std::uint32_t a_frameSize, bool a_ignoreMemoryLimit)
 		{
+			assert(((UINT32_MAX / sizeof(Variable)) - 4) > a_frameSize);
 			using Status = IMemoryPagePolicy::AllocationStatus;
 			using Strategy = IMemoryPagePolicy::NewPageStrategy;
 
