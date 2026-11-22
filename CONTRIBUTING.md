@@ -12,9 +12,9 @@ See the [Conventional Commits specification](https://www.conventionalcommits.org
 
 **Common types and their effect on versioning:**
 - `feat:` → Minor version bump (1.2.0 → 1.3.0)
-- `fix:`, `perf:`, `refactor:`, `style:` → Patch version bump (1.2.0 → 1.2.1)
+- `fix:`, `perf:`, `refactor:` → Patch version bump (1.2.0 → 1.2.1)
 - `BREAKING CHANGE:` or `!` → Major version bump (1.2.0 → 2.0.0)
-- `docs:`, `test:`, `chore:`, `ci:`, `build:` → No version bump
+- `docs:`, `style:`, `test:`, `chore:`, `ci:`, `build:` → No version bump
 
 **Examples:**
 ```bash
