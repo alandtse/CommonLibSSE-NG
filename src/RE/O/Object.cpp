@@ -83,7 +83,7 @@ namespace RE
 			while (currentType != nullptr) {
 				valid = valid && (currentType->linkedValid == ObjectTypeInfo::LinkValidState::kLinkedValid);
 
-				if (!stateAssigned && currentType->HasAutoState()) {
+				if (!stateAssigned) {
 					currentState = currentType->GetInitialStateName();
 					stateAssigned = !currentState.empty();
 				}

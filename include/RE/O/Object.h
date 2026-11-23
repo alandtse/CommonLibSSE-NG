@@ -71,8 +71,6 @@ namespace RE
 
 			void ReleaseProperties();
 
-			TES_HEAP_REDEFINE_NEW();
-
 			[[nodiscard]] inline void* operator new(std::size_t basesSize, size_t numVariables)
 			{
 				size_t     totalClassSize = basesSize + sizeof(Variable) * numVariables;
@@ -83,6 +81,29 @@ namespace RE
 					stl::report_and_fail("out of memory"sv);
 				}
 			}
+
+			inline void operator delete(void* a_ptr)
+			{
+				RE::free(a_ptr);
+			}
+			inline void operator delete(void* a_ptr, std::size_t) noexcept
+			{
+				RE::free(a_ptr);
+			}
+
+			// Disallow object creation without variable count
+			[[nodiscard]] inline void*    operator new(std::size_t a_count) = delete;
+			[[nodiscard]] inline void*    operator new[](std::size_t a_count) = delete;
+			[[nodiscard]] constexpr void* operator new(std::size_t, void* a_ptr) = delete;
+			[[nodiscard]] constexpr void* operator new[](std::size_t, void* a_ptr) = delete;
+			[[nodiscard]] constexpr void* operator new(std::size_t, std::align_val_t, void* a_ptr) = delete;
+			[[nodiscard]] constexpr void* operator new[](std::size_t, std::align_val_t, void* a_ptr) = delete;
+			inline void                   operator delete[](void* a_ptr) = delete;
+			inline void                   operator delete(void* a_ptr, std::align_val_t) = delete;
+			inline void                   operator delete[](void* a_ptr, std::align_val_t) = delete;
+			inline void                   operator delete[](void* a_ptr, std::size_t) = delete;
+			inline void                   operator delete(void* a_ptr, std::size_t, std::align_val_t) = delete;
+			inline void                   operator delete[](void* a_ptr, std::size_t, std::align_val_t) = delete;
 
 			// members
 			std::uint32_t                   constructed: 1;            // 00 - 0
