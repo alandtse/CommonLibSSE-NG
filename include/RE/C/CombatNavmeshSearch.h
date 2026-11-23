@@ -21,8 +21,8 @@ namespace RE
 		BSTSmartPointer<BSPathingRequest> request;                    // 168 - refcount at +08
 		std::uint8_t                      pad170[0x1D0 - 0x170];      // 170
 		BSFastNavmeshTriLocation*         bestGoal;                   // 1D0 - null until A* result==2; confirmed SE+VR binary RE
-		std::uint64_t                     unk1D8;                     // 1D8
-		std::uint32_t                     unk1E0;                     // 1E0 - set to 2 by the goal-policy ctor when the goal is rejected
+		void*                             unk1D8;                     // 1D8
+		std::uint32_t                     status;                     // 1E0 - 2 = no goal, 1 = goal found
 		std::uint32_t                     pad1E4;                     // 1E4
 	};
 	static_assert(sizeof(CombatNavmeshSearch) == 0x1E8, "size");
