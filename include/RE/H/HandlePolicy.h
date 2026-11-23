@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSAtomic.h"
 #include "RE/B/BSTHashMap.h"
 #include "RE/I/IObjectHandlePolicy.h"
 
@@ -29,9 +30,9 @@ namespace RE
 			void     ConvertHandleToString(VMHandle a_handle, BSFixedString& a_strOut) const override;  // 0B
 
 			// members
-			std::uint64_t                unk08;  // 08
-			BSTHashMap<UnkKey, UnkValue> unk10;  // 10
-			BSTHashMap<UnkKey, UnkValue> unk40;  // 40
+			BSSpinLock                   lock;               // 08
+			BSTHashMap<UnkKey, UnkValue> unk10;              // 10
+			BSTHashMap<VMHandle, bool>   promotionRequests;  // 40 - true: promote, false: demote
 		};
 		static_assert(sizeof(HandlePolicy) == 0x70);
 	}
