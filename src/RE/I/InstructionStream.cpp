@@ -15,7 +15,7 @@ namespace
 		return a_opcode >= static_cast<std::uint32_t>(OpCode::kJMP) && a_opcode <= static_cast<std::uint32_t>(OpCode::kJMPF);
 	}
 
-	[[nodiscard]] std::uint32_t CallCountBias(std::uint32_t a_opcode)
+	[[nodiscard]] std::uint16_t CallCountBias(std::uint32_t a_opcode)
 	{
 		switch (static_cast<OpCode>(a_opcode)) {
 		case OpCode::kCALLMETHOD:
@@ -140,6 +140,10 @@ namespace RE
 				if (totalBits != 0) {
 					const std::size_t byteCount = ((static_cast<std::size_t>(totalBits) + 63) / 64) * 8;
 					words = static_cast<std::uint64_t*>(RE::malloc(byteCount));
+					if (!words) {
+						stl::report_and_fail("out of memory"sv);
+					}
+
 					std::memset(words, 0, byteCount);
 				}
 
