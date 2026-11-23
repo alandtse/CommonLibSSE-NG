@@ -38,9 +38,9 @@ namespace RE
 			};
 			static_assert(sizeof(ObjectHandleRef) == 0x10);
 
-			explicit Object(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties);
-
 			~Object();
+
+			[[nodiscard]] static BSTSmartPointer<Object> Create(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties);
 
 			void Initialize();
 
@@ -70,17 +70,6 @@ namespace RE
 			[[nodiscard]] bool                   IsPendingReset() const noexcept;
 
 			void ReleaseProperties();
-
-			[[nodiscard]] inline void* operator new(std::size_t basesSize, size_t numVariables)
-			{
-				size_t     totalClassSize = basesSize + sizeof(Variable) * numVariables;
-				const auto mem = RE::malloc(totalClassSize);
-				if (mem) {
-					return mem;
-				} else {
-					stl::report_and_fail("out of memory"sv);
-				}
-			}
 
 			inline void operator delete(void* a_ptr)
 			{
@@ -115,6 +104,31 @@ namespace RE
 			std::atomic<uintptr_t>          owningStack;               // 18 - stack that claims execution on this object, first bit used as pending reset flag
 			ObjectHandleRef                 handleRef{};               // 20
 			Variable                        variables[0];              // 30 - size == classPtr->GetTotalNumVariables() + 3
+
+		private:
+			explicit Object(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties);
+
+			struct VariableCountTag
+			{
+				std::size_t count;
+			};
+
+			[[nodiscard]] static void* operator new(std::size_t a_basesSize, VariableCountTag a_numVariables)
+			{
+				const auto totalClassSize = a_basesSize + sizeof(Variable) * a_numVariables.count;
+				const auto mem = RE::malloc(totalClassSize);
+				if (mem) {
+					return mem;
+				} else {
+					stl::report_and_fail("out of memory"sv);
+				}
+			}
+
+			// Matching placement delete; only reachable if the constructor above throws.
+			static void operator delete(void* a_ptr, VariableCountTag) noexcept
+			{
+				RE::free(a_ptr);
+			}
 		};
 		static_assert(sizeof(Object) == 0x30);
 	}

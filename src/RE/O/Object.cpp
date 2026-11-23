@@ -53,6 +53,11 @@ namespace RE
 			std::memset((void*)variables, 0, sizeof(Variable) * type->GetTotalNumVariables());
 		}
 
+		BSTSmartPointer<Object> Object::Create(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties)
+		{
+			return BSTSmartPointer<Object>(new (VariableCountTag{ a_type->GetTotalNumVariables() }) Object(a_type, a_policy, a_numProperties));
+		}
+
 		Object::~Object()
 		{
 			if (IsConstructed()) {
