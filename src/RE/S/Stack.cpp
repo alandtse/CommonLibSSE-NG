@@ -59,7 +59,7 @@ namespace RE
 
 			const auto result = PushBlankFrame(frameSize, false);
 			if (result != Status::kSuccess || !top) {
-				return result;  // a null top after a successful push also returns the (success) result, as in the original
+				return result;
 			}
 
 			if (profilePolicy) {
@@ -76,7 +76,10 @@ namespace RE
 
 		IMemoryPagePolicy::AllocationStatus Stack::PushBlankFrame(std::uint32_t a_frameSize, bool a_ignoreMemoryLimit)
 		{
-			assert(((UINT32_MAX / sizeof(Variable)) - 4) > a_frameSize);
+			if (UINT32_MAX / sizeof(Variable) - 4 > a_frameSize) {
+				return IMemoryPagePolicy::AllocationStatus::kFailed;
+			}
+
 			using Status = IMemoryPagePolicy::AllocationStatus;
 			using Strategy = IMemoryPagePolicy::NewPageStrategy;
 
@@ -117,7 +120,7 @@ namespace RE
 				if (usePage) {
 					available = page->pageSize - 0x40;
 					frameMemory = reinterpret_cast<char*>(page.get()) + 4;
-					pages.push_back(Stack::MemoryPageData{ std::move(page), available, 0 });  // sub_141247310
+					pages.push_back(Stack::MemoryPageData{ std::move(page), available, 0 });
 				}
 			}
 
