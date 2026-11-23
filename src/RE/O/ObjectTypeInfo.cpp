@@ -201,6 +201,13 @@ namespace RE
 			return "";
 		}
 
+		bool ObjectTypeInfo::BindNativeFunction(IFunction* a_func, ErrorLogger* a_logger)
+		{
+			using func_t = decltype(&ObjectTypeInfo::BindNativeFunction);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(97540, 104325) };
+			return func(this, a_func, a_logger);
+		}
+
 		bool ObjectTypeInfo::FinishLinking(LinkContext& a_context, ErrorLogger* a_logger)
 		{
 			using func_t = decltype(&ObjectTypeInfo::FinishLinking);
