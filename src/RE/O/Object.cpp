@@ -323,9 +323,9 @@ namespace RE
 		VMHandle Object::ObjectHandleRef::GetHandle() const noexcept
 		{
 			// Always unconditionally called for `GetHandle()`, likely to create empty handle if it does not exist
-			auto           _ = GetHandlePolicy()->EmptyHandle();
-			std::int32_t   original = Lock();
-			const VMHandle result = _handle;
+			[[maybe_unused]] auto _ = GetHandlePolicy()->EmptyHandle();
+			std::int32_t          original = Lock();
+			const VMHandle        result = _handle;
 			Unlock(original);
 			return result;
 		}
