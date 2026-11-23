@@ -218,7 +218,7 @@ namespace RE
 
 			if (owningStack.compare_exchange_strong(expected, desired)) {
 				if (a_stack != nullptr) {
-					auto _ = a_stack->IncRef();
+					a_stack->IncRef();
 				}
 				return true;
 			}
@@ -240,7 +240,7 @@ namespace RE
 				// clear pointer, keep whatever the tag bit currently is
 				const auto desired = current & kPendingResetBit;
 				if (owningStack.compare_exchange_weak(current, desired)) {
-					auto _ = a_stack->DecRef();
+					a_stack->DecRef();
 					break;
 				}
 			}
