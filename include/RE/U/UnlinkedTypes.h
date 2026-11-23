@@ -7,6 +7,8 @@
 #include "RE/I/IFunction.h"
 #include "RE/I/InstructionStream.h"
 #include "RE/L/LinkerProcessor.h"
+#include "RE/T/TypeInfo.h"
+#include "RE/V/VirtualMachine.h"
 
 namespace RE
 {
