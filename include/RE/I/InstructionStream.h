@@ -43,6 +43,7 @@ namespace RE
 				std::uint32_t       pad14;     // 14
 				ByteCode::Argument* args;      // 18
 			};
+			static_assert(sizeof(InstructionNode) == 0x20);
 
 			class InstructionStream
 			{
@@ -69,7 +70,7 @@ namespace RE
 
 				static_assert(sizeof(InstructionRecord) == 0xC);
 
-				explicit InstructionStream(const std::uint32_t a_recordCount = 0);
+				explicit InstructionStream(const BSTArray<InstructionRecord>& a_records, const BSTArray<ByteCode::Argument>& a_arguments);
 
 				InstructionStream(const InstructionStream&) = delete;
 				InstructionStream& operator=(const InstructionStream&) = delete;
@@ -85,6 +86,8 @@ namespace RE
 
 				// Packs and consumes this stream
 				void PackTo(ByteCode::PackedInstructionStream& a_out);
+
+				void AddArgument(const ByteCode::Argument& a_argument);
 
 				// members
 				ScrapHeap*                                        threadScrapHeap;      // 00

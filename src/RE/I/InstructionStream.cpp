@@ -35,21 +35,29 @@ namespace RE
 	{
 		namespace UnlinkedTypes
 		{
-			InstructionStream::InstructionStream(const std::uint32_t a_recordCount) :
+			InstructionStream::InstructionStream(const BSTArray<InstructionRecord>& a_records, const BSTArray<ByteCode::Argument>& a_arguments) :
 				threadScrapHeap(MemoryManager::GetSingleton()->GetThreadScrapHeap()),
-				functionCodeSize(a_recordCount),
+				functionCodeSize(a_records.size()),
 				argumentCount(0),
 				localVarBitCount(0),
 				memberVarBitCount(0),
-				recordBuffer(a_recordCount, 8),
+				recordBuffer(a_records.size(), 8),
 				records(recordBuffer.get()),
 				recordWriteCursor(recordBuffer.get()),
 				instructionListHead(nullptr),
 				tailNode(nullptr),
-				tailNextLink(&instructionListHead) {}
+				tailNextLink(&instructionListHead)
+			{
+				for (const auto& record : a_records) {
+					*recordWriteCursor++ = record;
+				}
+				for (const auto& argument : a_arguments) {
+					AddArgument(argument);
+				}
+			}
 
 			InstructionStream::InstructionStream(InstructionStream&& a_rhs) noexcept :
-				InstructionStream(0)
+				InstructionStream({}, {})
 			{
 				*this = std::move(a_rhs);
 			}
@@ -196,7 +204,32 @@ namespace RE
 			void InstructionStream::PackTo(ByteCode::PackedInstructionStream& a_out)
 			{
 				Pack(a_out);
-				*this = InstructionStream(0);
+				*this = InstructionStream({}, {});
+			}
+
+			void InstructionStream::AddArgument(const Argument& a_argument)
+			{
+				if (!tailNode || tailNode->argCount == InstructionNode::kArgumentsPerNode) {
+					auto* node = static_cast<InstructionNode*>(threadScrapHeap->Allocate(sizeof(InstructionNode) + InstructionNode::kArgumentsPerNode * sizeof(Argument), 8));
+					node->argCount = 0;
+					node->args = reinterpret_cast<Argument*>(node + 1);
+					node->next = nullptr;
+					node->prev = tailNode;
+					*tailNextLink = node;
+					tailNextLink = &node->next;
+					tailNode = node;
+				}
+
+				if (!instructionListHead) {
+					instructionListHead = tailNode;
+				}
+
+				auto* slot = tailNode->args + tailNode->argCount;
+				++tailNode->argCount;
+				if (slot) {
+					std::construct_at(slot, a_argument);
+				}
+				++argumentCount;
 			}
 
 			bool CountInstructionInfo::VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info)
