@@ -30,9 +30,9 @@ namespace RE
 			void     ConvertHandleToString(VMHandle a_handle, BSFixedString& a_strOut) const override;  // 0B
 
 			// members
-			BSSpinLock                   lock;               // 08
-			BSTHashMap<UnkKey, UnkValue> unk10;              // 10
-			BSTHashMap<VMHandle, bool>   promotionRequests;  // 40 - true: promote, false: demote
+			BSSpinLock                          lock;               // 08
+			BSTHashMap<VMHandle, std::uint32_t> handleRefCounts;    // 10 - persist count per handle
+			BSTHashMap<VMHandle, bool>          promotionRequests;  // 40 - true: promote, false: demote
 		};
 		static_assert(sizeof(HandlePolicy) == 0x70);
 	}
