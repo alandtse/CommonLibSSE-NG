@@ -1,6 +1,7 @@
 #include "RE/O/ObjectTypeInfo.h"
 
 #include "RE/I/IFunction.h"
+#include "RE/L/LinkContext.h"
 
 namespace RE
 {
@@ -198,6 +199,13 @@ namespace RE
 				return GetNamedStateIter()[autoStateIndex].name;
 			}
 			return "";
+		}
+
+		bool ObjectTypeInfo::FinishLinking(LinkContext& a_context, ErrorLogger* a_logger)
+		{
+			using func_t = decltype(&ObjectTypeInfo::FinishLinking);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(97539, 104324) };
+			return func(this, a_context, a_logger);
 		}
 
 		void ObjectTypeInfo::ReleaseData(const bool a_keepNativeFunctions)

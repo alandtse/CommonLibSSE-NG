@@ -11,7 +11,9 @@ namespace RE
 {
 	namespace BSScript
 	{
+		class ErrorLogger;
 		class IFunction;
+		class LinkContext;
 
 		class ObjectTypeInfo : public BSIntrusiveRefCounted
 		{
@@ -195,6 +197,7 @@ namespace RE
 			const BSFixedString GetInitialStateName() const;
 
 			void ReleaseData(bool a_keepNativeFunctions);
+			bool FinishLinking(LinkContext& a_context, ErrorLogger* a_logger);
 
 			// members
 			BSFixedString                   name;                               // 08

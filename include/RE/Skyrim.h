@@ -1504,6 +1504,7 @@
 #include "RE/L/LevelIncrease.h"
 #include "RE/L/LevelUpMenu.h"
 #include "RE/L/LightEffect.h"
+#include "RE/L/LinkContext.h"
 #include "RE/L/LinkerProcessor.h"
 #include "RE/L/LoadGameMissingContentCallBack.h"
 #include "RE/L/LoadStorageWrapper.h"
