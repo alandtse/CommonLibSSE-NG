@@ -55,9 +55,15 @@ namespace RE
 					inline static constexpr auto VTABLE = VTABLE_BSScript__UnlinkedTypes__InstructionStream__InstructionFunctor;
 					virtual ~InstructionFunctor() = default;
 
+					enum class ForEachResult
+					{
+						kStop = 0,
+						kContinue = 1
+					};
+
 					// add
-					virtual bool VisitArgument(ByteCode::Argument& a_arg) = 0;                    // 01
-					virtual bool VisitInstruction(std::uint32_t opCode, std::uint32_t info) = 0;  // 02
+					virtual ForEachResult VisitArgument(ByteCode::Argument& a_arg) = 0;                    // 01
+					virtual ForEachResult VisitInstruction(std::uint32_t opCode, std::uint32_t info) = 0;  // 02
 				};
 
 				struct InstructionRecord
@@ -114,8 +120,8 @@ namespace RE
 				explicit CountInstructionInfo(const std::uint32_t a_localBits, const std::uint32_t a_memberBits) :
 					localBits(a_localBits), memberBits(a_memberBits) {}
 
-				bool VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info) override;
-				bool VisitArgument(ByteCode::Argument& a_arg) override;
+				ForEachResult VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info) override;
+				ForEachResult VisitArgument(ByteCode::Argument& a_arg) override;
 
 				// members
 				std::uint32_t fixedBits{ 0 };

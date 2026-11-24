@@ -106,15 +106,19 @@ namespace RE
 				for (std::uint32_t n = 0; n < functionCodeSize; ++n) {
 					const auto record = records[n];
 
-					if (!a_functor.VisitInstruction(record.opcode, record.info)) {
-						// false ends the whole walk
+					if (a_functor.VisitInstruction(record.opcode, record.info) == InstructionFunctor::ForEachResult::kStop) {
+						// ends the whole walk
 						break;
 					}
 
 					bool skipArgs = false;
 					for (std::uint32_t j = 0; j < static_cast<std::uint16_t>(record.info); ++j) {
+						if (node == nullptr) {
+							// Unexpected, the stream may be corrupted
+							continue;
+						}
 						if (!skipArgs) {
-							skipArgs = !a_functor.VisitArgument(node->args[argIndex]);  // false only mutes the rest of this instruction
+							skipArgs = a_functor.VisitArgument(node->args[argIndex]) == InstructionFunctor::ForEachResult::kStop;  // only mutes the rest of this instruction
 						}
 						if (++argIndex >= node->argCount) {
 							node = node->next;
@@ -173,6 +177,10 @@ namespace RE
 					}
 
 					for (std::uint32_t k = 0; k < argCount; ++k) {
+						if (node == nullptr) {
+							// Unexpected, the stream may be corrupted
+							continue;
+						}
 						const auto& arg = node->args[argIndex];
 						if (IsJumpOpcode(opcode) && k == static_cast<std::uint32_t>(argCount - 1)) {
 							const std::int32_t  relative = arg.GetType() == Argument::Type::kInt ? arg.GetInt() : 0;  // GetIntLiteral leaves 0 for a non-int
@@ -236,16 +244,16 @@ namespace RE
 				++argumentCount;
 			}
 
-			bool CountInstructionInfo::VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info)
+			InstructionStream::InstructionFunctor::ForEachResult CountInstructionInfo::VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info)
 			{
 				opcode = a_opcode;
 				argCount = static_cast<std::uint16_t>(a_info);
 				argIndex = 0;
 				fixedBits += 6 + (CallCountBias(a_opcode) != 0 ? 9 : 0);
-				return true;
+				return ForEachResult::kContinue;
 			}
 
-			bool CountInstructionInfo::VisitArgument(ByteCode::Argument& a_arg)
+			InstructionStream::InstructionFunctor::ForEachResult CountInstructionInfo::VisitArgument(ByteCode::Argument& a_arg)
 			{
 				if (IsJumpOpcode(opcode) && argIndex == argCount - 1) {
 					++jumpCount;
@@ -253,7 +261,7 @@ namespace RE
 					fixedBits += a_arg.GetBitCount(localBits, memberBits);
 				}
 				++argIndex;
-				return true;
+				return ForEachResult::kContinue;
 			}
 
 		}
