@@ -4,8 +4,6 @@
 
 namespace RE
 {
-	class BSPathingLocation;
-
 	enum class ACTOR_LIFE_STATE : std::uint32_t
 	{
 		kAlive = 0,
@@ -215,86 +213,6 @@ namespace RE
 			default:
 				return false;
 			}
-		}
-
-		std::uint32_t GetFormID()
-		{
-			using func_t = std::uint32_t(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(36995, 38023) };
-			return func(this);
-		}
-		void GetPathingLocation(BSPathingLocation* a_out)
-		{
-			using func_t = void(ActorState*, BSPathingLocation*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(36996, 38024) };
-			func(this, a_out);
-		}
-		void GetPosition(NiPoint3* a_out)
-		{
-			using func_t = void(ActorState*, NiPoint3*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(36997, 38025) };
-			func(this, a_out);
-		}
-		void GetAngle(NiPoint3* a_out)
-		{
-			using func_t = void(ActorState*, NiPoint3*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(36998, 38026) };
-			func(this, a_out);
-		}
-		float GetScaledBoundSize()
-		{
-			using func_t = float(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37002, 38030) };
-			return func(this);
-		}
-		std::int32_t GetCharacterState()
-		{
-			using func_t = std::int32_t(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37010, 38038) };
-			return func(this);
-		}
-
-		float GetYawRotationSpeed()
-		{
-			using func_t = float(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(36993, 38021) };
-			return func(this);
-		}
-		void GetProcessRotation(NiPoint3* a_out)
-		{
-			using func_t = void(ActorState*, NiPoint3*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(36999, 38027) };
-			func(this, a_out);
-		}
-		float GetCurrentMovementSpeed()
-		{
-			using func_t = float(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37000, 38028) };
-			return func(this);
-		}
-		float GetRadius()
-		{
-			using func_t = float(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37006, 38034) };
-			return func(this);
-		}
-		float GetWidth()
-		{
-			using func_t = float(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37007, 38035) };
-			return func(this);
-		}
-		float GetLength()
-		{
-			using func_t = float(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37008, 38036) };
-			return func(this);
-		}
-		bool IsMountedByPlayer()
-		{
-			using func_t = bool(ActorState*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37011, 38039) };
-			return func(this);
 		}
 
 		float SpeedToNormalized(float a_speed)
