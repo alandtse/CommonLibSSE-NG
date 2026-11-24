@@ -245,6 +245,13 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36841, 37865) };
 			return func(this);
 		}
+
+		void ActivatePathingDoor(void* a_doorInfo)
+		{
+			using func_t = void(Character*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36854, 37878) };
+			func(this, a_doorInfo);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }

@@ -530,6 +530,19 @@ namespace RE
 			return func(this, a_actor);
 		}
 
+		std::uint32_t GetEffectiveLocationRadius(Actor* a_actor)
+		{
+			using func_t = std::uint32_t(TESPackage*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28784, 29560) };
+			return func(this, a_actor);
+		}
+		bool IsCurrentTargetAtSecondLocation(Actor* a_actor, float a_radius, bool* a_outFlag)
+		{
+			using func_t = bool(TESPackage*, Actor*, float, bool*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28803, 29579) };
+			return func(this, a_actor, a_radius, a_outFlag);
+		}
+
 		// members
 		PACKAGE_DATA                                        packData;        // 20 - PKDT
 		std::uint32_t                                       pad2C;           // 2C
