@@ -230,6 +230,13 @@ namespace RE
 		void                           MarkType(ExtraDataType a_type, bool a_cleared);
 		[[nodiscard]] BSReadWriteLock& GetLock() const noexcept;
 
+		void SetPackageStartLocation(TESWorldSpace* a_worldSpace, TESObjectCELL* a_cell, NiPoint3* a_position, float a_rotationZ)
+		{
+			using func_t = void(ExtraDataList*, TESWorldSpace*, TESObjectCELL*, NiPoint3*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(11484, 11630) };
+			func(this, a_worldSpace, a_cell, a_position, a_rotationZ);
+		}
+
 		// members
 		BaseExtraList _extraData;  // 00
 #ifndef SKYRIM_CROSS_VR

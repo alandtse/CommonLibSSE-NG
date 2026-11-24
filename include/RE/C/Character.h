@@ -97,6 +97,67 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(37677, 38631) };
 			return func(this, a_attacker, a_health);
 		}
+
+		void ReleaseOccupiedFurniture()
+		{
+			using func_t = void(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36341, 37331) };
+			func(this);
+		}
+		void ResumeOccupiedFurniture()
+		{
+			using func_t = void(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36342, 37332) };
+			func(this);
+		}
+		void StartGuardWarnPackage(void* a_targetInfo, void* a_location, std::uint32_t* a_handle, float a_radiusSlot2, float a_locationRadius, float a_radiusSlot3, void* a_packageTarget)
+		{
+			using func_t = void(Character*, void*, void*, std::uint32_t*, float, float, float, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36412, 37406) };
+			func(this, a_targetInfo, a_location, a_handle, a_radiusSlot2, a_locationRadius, a_radiusSlot3, a_packageTarget);
+		}
+		void MoveToPackageLocationEx(bool a_useSavedPackage, void** a_outRequest, void* a_packageContext)
+		{
+			using func_t = void(Character*, bool, void**, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36473, 37472) };
+			func(this, a_useSavedPackage, a_outRequest, a_packageContext);
+		}
+		void UpdatePackageStartLocationIfCurrentLoc()
+		{
+			using func_t = void(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36739, 37753) };
+			func(this);
+		}
+		void RefreshPackageStartLocation()
+		{
+			using func_t = void(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36740, 37754) };
+			func(this);
+		}
+		bool CastShoutWord(TESShout* a_shout, std::uint32_t a_wordIndex, TESObjectREFR* a_target)
+		{
+			using func_t = bool(Character*, TESShout*, std::uint32_t, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37850, 38804) };
+			return func(this, a_shout, a_wordIndex, a_target);
+		}
+		float GetCombatHoverDuration()
+		{
+			using func_t = float(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(49734, 50661) };
+			return func(this);
+		}
+		float GetCombatGroundAttackDuration()
+		{
+			using func_t = float(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(49736, 50663) };
+			return func(this);
+		}
+		float GetCombatPerchAttackDuration()
+		{
+			using func_t = float(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(49738, 50665) };
+			return func(this);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }

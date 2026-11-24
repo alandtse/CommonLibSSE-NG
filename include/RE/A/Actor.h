@@ -850,6 +850,31 @@ namespace RE
 			return func(this, a_avo);
 		}
 
+		void RequestFollowPath()
+		{
+			using func_t = void(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36762, 37778) };
+			func(this);
+		}
+		bool IsFollowPathRequestActive()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36763, 37779) };
+			return func(this);
+		}
+		bool CanDualCast()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37816, 38765) };
+			return func(this);
+		}
+		void GetCarryWeightInfo(float* a_outActorValue1F, float* a_outTotalCarryWeight)
+		{
+			using func_t = void(Actor*, float*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(39362, 40434) };
+			func(this, a_outActorValue1F, a_outTotalCarryWeight);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()

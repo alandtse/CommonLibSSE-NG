@@ -255,6 +255,25 @@ namespace RE
 			func(this, a_actor, a_package, a_target);
 		}
 
+		void VisitKnowledgeEntries(void* a_visitor)
+		{
+			using func_t = void(AIProcess*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(27995, 27292) };
+			func(this, a_visitor);
+		}
+		bool GetMiddleHighFlag32D()
+		{
+			using func_t = bool(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38887, 39928) };
+			return func(this);
+		}
+		void SetMiddleHighFlag32D(bool a_value)
+		{
+			using func_t = void(AIProcess*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38888, 39929) };
+			func(this, a_value);
+		}
+
 		// members
 		MiddleLowProcessData*                       middleLow;                      // 000
 		MiddleHighProcessData*                      middleHigh;                     // 008

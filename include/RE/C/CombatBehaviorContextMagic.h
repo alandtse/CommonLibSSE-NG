@@ -26,11 +26,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(48036, 49082) };
 			func(this);
 		}
-		bool StartCast(bool a_atPlayer)
+		bool StartCast(bool a_isDualCast)
 		{
 			using func_t = bool(CombatBehaviorContextMagic*, bool);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(48037, 49083) };
-			return func(this, a_atPlayer);
+			return func(this, a_isDualCast);
 		}
 		void PrepareCastAnimation()
 		{

@@ -502,6 +502,25 @@ namespace RE
 		static_assert(sizeof(REFERENCE_RUNTIME_DATA) == 0x10);
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(REFERENCE_RUNTIME_DATA, GetReferenceRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x88, 0x90);
+		void SetPackageStartLocation(TESWorldSpace* a_worldSpace, TESObjectCELL* a_cell, NiPoint3* a_position, float a_rotationZ)
+		{
+			using func_t = void(TESObjectREFR*, TESWorldSpace*, TESObjectCELL*, NiPoint3*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19873, 20280) };
+			func(this, a_worldSpace, a_cell, a_position, a_rotationZ);
+		}
+		float GetDistanceToEdge(TESObjectREFR* a_target, bool a_checkSlope, TESObjectREFR* a_origin)
+		{
+			using func_t = float(TESObjectREFR*, TESObjectREFR*, bool, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(46012, 47273) };
+			return func(this, a_target, a_checkSlope, a_origin);
+		}
+		float GetCombinedBoundLength(TESObjectREFR* a_other)
+		{
+			using func_t = float(TESObjectREFR*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(46015, 47276) };
+			return func(this, a_other);
+		}
+
 		// members
 		OBJ_REFR         data;        // 40
 		TESObjectCELL*   parentCell;  // 60
