@@ -9,12 +9,14 @@ vcpkg_from_github(
 )
 
 # CommonLibSSE-NG provides its own multi-runtime REL implementation (SE/AE/VR);
-# strip commonlib-shared's single-runtime REL files so they are neither compiled nor installed.
+# keep src/REL/Utility.cpp for FModule::SetImportFunctionPointer while stripping
+# commonlib-shared's other single-runtime REL sources and all REL headers from install.
 set(SOURCELIST_PATH "${SOURCE_PATH}/res/cmake/sourcelist.cmake")
 file(STRINGS "${SOURCELIST_PATH}" SOURCELIST_LINES)
 set(FILTERED_SOURCELIST_LINES)
 foreach(SOURCELIST_LINE IN LISTS SOURCELIST_LINES)
-    if(SOURCELIST_LINE MATCHES "^[ \t]*(include/REL/.*\\.h|src/REL/.*)$")
+    if(SOURCELIST_LINE MATCHES "^[ \t]*(include/REL/.*\\.h|src/REL/.*)$"
+       AND NOT SOURCELIST_LINE MATCHES "^[ \t]*src/REL/Utility\\.cpp$")
         continue()
     endif()
 

@@ -18,7 +18,7 @@ file(COPY "${commonlib_shared_SOURCE_DIR}/include/REX" DESTINATION "${_commonlib
 include("${commonlib_shared_SOURCE_DIR}/res/cmake/sourcelist.cmake")
 set(_commonlib_shared_sources)
 foreach(_entry IN LISTS SOURCES)
-	if(_entry MATCHES "^src/REX/.*\\.cpp$")
+	if(_entry MATCHES "^src/REX/.*\\.cpp$" OR _entry MATCHES "^src/REL/Utility\\.cpp$")
 		list(APPEND _commonlib_shared_sources "${commonlib_shared_SOURCE_DIR}/${_entry}")
 	elseif(_entry MATCHES "^include/REX/.*\\.h$")
 		string(REGEX REPLACE "^include/" "" _rel_header "${_entry}")
@@ -75,6 +75,8 @@ target_include_directories(
 	PUBLIC
 	"$<BUILD_INTERFACE:${_commonlib_shared_include_dir}>"
 	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+	PRIVATE
+	"${commonlib_shared_SOURCE_DIR}/include"
 )
 
 target_link_libraries(

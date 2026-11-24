@@ -44,9 +44,13 @@ package("commonlib-shared")
 
     on_install("windows", function(package)
         -- CommonLibSSE-NG provides its own multi-runtime REL implementation (SE/AE/VR);
-        -- strip commonlib-shared's single-runtime REL files so they are neither compiled nor installed.
-        os.tryrm("include/REL")
-        os.tryrm("src/REL")
+        -- keep include/REL readable while building FModule.cpp and src/REL/Utility.cpp for
+        -- WriteSafeData, while stripping other single-runtime REL sources and all installed REL headers.
+        for _, file in ipairs(os.files("src/REL/*.cpp")) do
+            if path.filename(file) ~= "Utility.cpp" then
+                os.tryrm(file)
+            end
+        end
         io.replace("xmake.lua", '"include/(REL/**.h)",', "", { plain = true })
 
         import("package.tools.xmake").install(package, {
@@ -55,6 +59,7 @@ package("commonlib-shared")
             "--commonlib_toml=" .. (package:config("toml") and "y" or "n"),
             "--commonlib_random=" .. (package:config("random") and "y" or "n")
         })
+        os.tryrm(path.join(package:installdir("include"), "REL"))
     end)
 package_end()
 
