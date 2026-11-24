@@ -274,6 +274,13 @@ namespace RE
 			func(this, a_value);
 		}
 
+		bool ApplyNewPackage(Character* a_actor)
+		{
+			using func_t = bool(AIProcess*, Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38247, 39207) };
+			return func(this, a_actor);
+		}
+
 		// members
 		MiddleLowProcessData*                       middleLow;                      // 000
 		MiddleHighProcessData*                      middleHigh;                     // 008

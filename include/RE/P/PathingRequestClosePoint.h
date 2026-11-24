@@ -4,7 +4,6 @@
 
 namespace RE
 {
-	// Members past BSPathingRequest are unresolved.
 	class PathingRequestClosePoint : public BSPathingRequest
 	{
 	public:
@@ -14,7 +13,13 @@ namespace RE
 		~PathingRequestClosePoint() override;  // 00
 
 		// members
-		std::uint8_t unk100[0x40];  // 100
+		BSPathingLocation closeLocation;  // 100
+		float             scaledRadius;   // 130
+		float             closeRadius;    // 134
+		std::uint8_t      unk138;         // 138
+		std::uint8_t      unk139;         // 139
+		std::uint8_t      unk13A;         // 13A
+		std::uint8_t      pad13B[5];      // 13B
 	};
 	static_assert(sizeof(PathingRequestClosePoint) == 0x140);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/A/ActiveEffect.h"
+#include "RE/D/DetectionCollector.h"
 
 namespace RE
 {
@@ -20,6 +21,20 @@ namespace RE
 			kNormal,
 			kFail
 		};
+
+		// Size is inferred from the member extents, not an allocation size.
+		class DetectionChecker : public DetectionCollector
+		{
+		public:
+			inline static constexpr auto RTTI = RTTI_DisguiseEffect__DetectionChecker;
+			inline static constexpr auto VTABLE = VTABLE_DisguiseEffect__DetectionChecker;
+
+			// members
+			DisguiseEffect* effect;        // 30
+			std::uint32_t   casterHandle;  // 38
+			std::uint32_t   pad3C;         // 3C
+		};
+		static_assert(sizeof(DetectionChecker) == 0x40);
 
 		// override (ActiveEffect)
 		virtual void EvaluateConditions(float a_delta, bool a_forceUpdate) override;  // 05

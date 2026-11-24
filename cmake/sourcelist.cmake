@@ -768,6 +768,7 @@ set(SOURCES
 	include/RE/D/DemoralizeEffect.h
 	include/RE/D/DepthStencilDepthModes.h
 	include/RE/D/DetectLifeEffect.h
+	include/RE/D/DetectionCollector.h
 	include/RE/D/DetectionListener.h
 	include/RE/D/DetectionPriorities.h
 	include/RE/D/DetectionState.h
