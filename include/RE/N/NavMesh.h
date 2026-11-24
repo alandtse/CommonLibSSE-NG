@@ -46,6 +46,13 @@ namespace RE
 		[[nodiscard]] virtual bool SavesBefore(FORM* a_form);     // 3C - { return fa;se; }
 		[[nodiscard]] virtual bool SavesBefore(TESForm* a_form);  // 3D - { return false; }
 		[[nodiscard]] virtual bool ProcessBeforeSave();           // 3E - { return false; }
+
+		void CloneInto(NavMesh** a_clone)
+		{
+			using func_t = void(NavMesh*, NavMesh**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29394, 30245) };
+			func(this, a_clone);
+		}
 	};
 	static_assert(sizeof(NavMesh) == 0x140);
 }

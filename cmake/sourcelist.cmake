@@ -1593,6 +1593,7 @@ set(SOURCES
 	include/RE/N/NativeLatentFunction.h
 	include/RE/N/NavMesh.h
 	include/RE/N/NavMeshInfoMap.h
+	include/RE/N/NavMeshObstacleManager.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
 	include/RE/N/NextChildSelector.h
 	include/RE/N/NiAVObject.h
@@ -1712,6 +1713,7 @@ set(SOURCES
 	include/RE/O/ObjectTypeInfo.h
 	include/RE/O/ObjectTypes.h
 	include/RE/O/ObjectiveState.h
+	include/RE/O/ObstacleTaskData.h
 	include/RE/O/OldMessageBoxCallback.h
 	include/RE/O/OpenEffect.h
 	include/RE/Offsets_NiRTTI.h
