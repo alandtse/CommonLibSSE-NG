@@ -5,6 +5,7 @@
 namespace RE
 {
 	class Actor;
+	class BSPathingLocation;
 	class TESObjectCELL;
 	class TESObjectREFR;
 	class TESWorldSpace;
@@ -64,6 +65,19 @@ namespace RE
 			using func_t = void(ActorMover*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40589, 41618) };
 			func(this);
+		}
+
+		bool PathToFollowPoint(NiPoint3* a_point)
+		{
+			using func_t = bool(ActorMover*, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40593, 41622) };
+			return func(this, a_point);
+		}
+		bool GetPathingDoor(std::uint32_t* a_outDoorHandle, BSPathingLocation* a_outLocation)
+		{
+			using func_t = bool(ActorMover*, std::uint32_t*, BSPathingLocation*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40606, 41635) };
+			return func(this, a_outDoorHandle, a_outLocation);
 		}
 
 		// members

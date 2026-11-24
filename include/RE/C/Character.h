@@ -5,6 +5,7 @@
 namespace RE
 {
 	class BGSAIWorldLocation;
+	class BSPathingLocation;
 	class PackageTarget;
 	class PathingRequestClosePoint;
 	class DetectionListener;
@@ -187,6 +188,25 @@ namespace RE
 			using func_t = float(Character*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36760, 37776) };
 			return func(this);
+		}
+
+		void PathToPathingLocation(BSPathingLocation* a_location, float a_distance, void* a_avoid)
+		{
+			using func_t = void(Character*, BSPathingLocation*, float, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36784, 37800) };
+			func(this, a_location, a_distance, a_avoid);
+		}
+		void PathToLocation(NiPoint3* a_point, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, float a_distance, void* a_avoid)
+		{
+			using func_t = void(Character*, NiPoint3*, TESObjectCELL*, TESWorldSpace*, float, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36786, 37802) };
+			func(this, a_point, a_cell, a_worldSpace, a_distance, a_avoid);
+		}
+		bool PathToFollowPoint(NiPoint3* a_point)
+		{
+			using func_t = bool(Character*, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36797, 37813) };
+			return func(this, a_point);
 		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
