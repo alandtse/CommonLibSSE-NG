@@ -11,7 +11,9 @@
 namespace RE
 {
 	class BSPathingLOSGridMap;
+	class Character;
 	class CombatSearchLocation;
+	class DetectionState;
 
 	class CombatTarget
 	{

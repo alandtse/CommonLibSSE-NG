@@ -4,6 +4,8 @@
 
 namespace RE
 {
+	class DetectionListener;
+
 	class Character : public Actor
 	{
 	public:
