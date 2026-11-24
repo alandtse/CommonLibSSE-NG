@@ -1,3 +1,10 @@
+## [16.11.2](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.1...v16.11.2) (2026-11-24)
+
+### Bug Fixes
+
+* **array:** scrap array failing to move allocator ([#561](https://github.com/alandtse/CommonLibSSE-NG/issues/561)) ([d7e8a7b](https://github.com/alandtse/CommonLibSSE-NG/commit/d7e8a7be3ce52e839e09c6a592895126684bd37d))
+* **string:** hash BSFixedString pointer directly ([#559](https://github.com/alandtse/CommonLibSSE-NG/issues/559)) ([5e23be1](https://github.com/alandtse/CommonLibSSE-NG/commit/5e23be11560a05a6f83e8d5c9d01e5bdb4838e5e))
+
 ## [16.11.1](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.0...v16.11.1) (2026-11-22)
 
 ### Bug Fixes
