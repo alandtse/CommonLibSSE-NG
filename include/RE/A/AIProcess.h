@@ -281,6 +281,13 @@ namespace RE
 			return func(this, a_actor);
 		}
 
+		void SetLastActivatedDoor(std::uint32_t* a_handle, bool a_flag)
+		{
+			using func_t = void(AIProcess*, std::uint32_t*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38412, 39407) };
+			func(this, a_handle, a_flag);
+		}
+
 		// members
 		MiddleLowProcessData*                       middleLow;                      // 000
 		MiddleHighProcessData*                      middleHigh;                     // 008

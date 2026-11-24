@@ -528,6 +528,19 @@ namespace RE
 			return func(this, a_pos, a_rotZ, a_rotX, a_cell, a_worldSpace, a_unk);
 		}
 
+		void MoveToPositionWithFollowers(NiPoint3* a_pos, float a_rotZ, float a_rotX, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, bool a_atDoor, bool a_ignoreSleep, bool a_p9)
+		{
+			using func_t = void(TESObjectREFR*, NiPoint3*, float, float, TESObjectCELL*, TESWorldSpace*, bool, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36437, 37432) };
+			func(this, a_pos, a_rotZ, a_rotX, a_cell, a_worldSpace, a_atDoor, a_ignoreSleep, a_p9);
+		}
+		void MoveToRefPositionWithFollowers(TESObjectREFR* a_ref, bool a_atDoor, bool a_ignoreSleep, bool a_p4)
+		{
+			using func_t = void(TESObjectREFR*, TESObjectREFR*, bool, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36438, 37433) };
+			func(this, a_ref, a_atDoor, a_ignoreSleep, a_p4);
+		}
+
 		// members
 		OBJ_REFR         data;        // 40
 		TESObjectCELL*   parentCell;  // 60

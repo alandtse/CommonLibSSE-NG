@@ -208,6 +208,43 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36797, 37813) };
 			return func(this, a_point);
 		}
+
+		void MoveFollowersToPosition(NiPoint3* a_pos, float a_rotZ, float a_rotX, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, bool a_atDoor, bool a_ignoreSleep)
+		{
+			using func_t = void(Character*, NiPoint3*, float, float, TESObjectCELL*, TESWorldSpace*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36439, 37434) };
+			func(this, a_pos, a_rotZ, a_rotX, a_cell, a_worldSpace, a_atDoor, a_ignoreSleep);
+		}
+		bool CollectFollowers(void* a_out)
+		{
+			using func_t = bool(Character*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36440, 37435) };
+			return func(this, a_out);
+		}
+		float GetFollowersSpacing()
+		{
+			using func_t = float(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36441, 37436) };
+			return func(this);
+		}
+		float GetFollowersTotalSpacing(void* a_followers)
+		{
+			using func_t = float(Character*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36442, 37437) };
+			return func(this, a_followers);
+		}
+		void TeleportToPackageLocation(NiPoint3* a_pos, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace)
+		{
+			using func_t = void(Character*, NiPoint3*, TESObjectCELL*, TESWorldSpace*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36474, 37473) };
+			func(this, a_pos, a_cell, a_worldSpace);
+		}
+		float CalculateRadius()
+		{
+			using func_t = float(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36841, 37865) };
+			return func(this);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }

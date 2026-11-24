@@ -888,6 +888,13 @@ namespace RE
 			func(this, a_flyState);
 		}
 
+		void WarpToRecord(void* a_record, void* a_loc)
+		{
+			using func_t = void(Actor*, void*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36853, 37877) };
+			func(this, a_record, a_loc);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()
