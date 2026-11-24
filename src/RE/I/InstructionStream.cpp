@@ -115,7 +115,7 @@ namespace RE
 					for (std::uint32_t j = 0; j < static_cast<std::uint16_t>(record.info); ++j) {
 						if (node == nullptr) {
 							// Unexpected, the stream may be corrupted
-							continue;
+							stl::report_and_fail("Failed to iterate papyrus function instruction stream, it is corrupted");
 						}
 						if (!skipArgs) {
 							skipArgs = a_functor.VisitArgument(node->args[argIndex]) == InstructionFunctor::ForEachResult::kStop;  // only mutes the rest of this instruction
@@ -179,7 +179,7 @@ namespace RE
 					for (std::uint32_t k = 0; k < argCount; ++k) {
 						if (node == nullptr) {
 							// Unexpected, the stream may be corrupted
-							continue;
+							stl::report_and_fail("Failed to pack papyrus function instruction stream, it is corrupted");
 						}
 						const auto& arg = node->args[argIndex];
 						if (IsJumpOpcode(opcode) && k == static_cast<std::uint32_t>(argCount - 1)) {
