@@ -14,3 +14,6 @@
 CMakeUserPresets.json
 CMakeFiles
 CMakeCache.txt
+
+# nix flake build result symlink
+result
