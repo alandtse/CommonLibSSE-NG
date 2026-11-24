@@ -23,7 +23,7 @@ namespace RE
 	float                                 endSplitDistances[3];           /* 5A4, VR 604 */ \
 	float                                 sunUpdate;                      /* 5B0, VR 610 */ \
 	std::uint32_t                         sunUpdateMode;                  /* 5B4, VR 614 */
-            RUNTIME_DATA_CONTENT
+			RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x58);
 
@@ -71,7 +71,7 @@ namespace RE
 		void          ReturnShadowmaps() override;                                                                                                                                   // 0C
 		std::uint32_t GetPassExtraParam(std::uint32_t a_accumFlag) override;                                                                                                         // 0D
 		bool          GetNeedsClipPlanes() override;                                                                                                                                 // 0E
-		void          TransformClipSpacePlanes(REX::W32::D3DXMatrix* a_matrix1, REX::W32::D3DXMatrix* a_matrix2) override;                                                           // 0F
+		void          TransformClipSpacePlanes(REX::W32::D3DMATRIX* a_matrix1, REX::W32::D3DMATRIX* a_matrix2) override;                                                             // 0F
 		bool          UpdateCamera(const NiCamera* a_viewCamera) override;                                                                                                           // 10
 
 		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA, GetShadowDirectionalLightRuntimeData, 0x560, 0x5C0);
