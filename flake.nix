@@ -311,10 +311,8 @@
             set -euo pipefail
             build=build/release-linux-clangcl-vcpkg-all
 
-            mkdir -p $out/lib $out/share/CommonLibSSE-NG
+            mkdir -p $out/lib
             cp "$build/CommonLibSSE.lib" $out/lib/
-            # The whole build tree, for debugging and inspection.
-            cp -a "$build/." $out/share/CommonLibSSE-NG/
           '';
         });
 
@@ -328,9 +326,13 @@
           default = commonlibsse-ng;
         };
 
-        # Same toolchain, interactively (`nix develop`).
+        # Same toolchain, interactively (`nix develop`, run from the repo root).
+        # The hook exports the cross environment (sysroot, vcpkg root, overlay
+        # ports). The working tree is NOT patched, so use `nix build` for
+        # real builds.
         devShells.default = pkgs.mkShell {
           packages = buildTools ++ [ clangCl fxc2Compiler ];
+          shellHook = crossEnv;
         };
 
         formatter = pkgs.nixpkgs-fmt;
