@@ -1740,6 +1740,7 @@
 #include "RE/P/PathingRequestClosePoint.h"
 #include "RE/P/PathingRequestFly.h"
 #include "RE/P/PathingRequestFlyHover.h"
+#include "RE/P/PathingSolutionQueue.h"
 #include "RE/P/PatrolActorPackageData.h"
 #include "RE/P/PeakValueModifierEffect.h"
 #include "RE/P/PerkEntryVisitor.h"

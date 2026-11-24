@@ -5,6 +5,7 @@
 #include "RE/I/IMovementQueryPathingState.h"
 #include "RE/I/IMovementSetGoal.h"
 #include "RE/M/MovementControllerAI.h"
+#include "RE/P/PathingSolutionQueue.h"
 
 namespace RE
 {
@@ -74,15 +75,15 @@ namespace RE
 		}
 
 		// members
-		BSTArray<void*>    agents;           // 28
-		void*              controller;       // 40
-		std::uint32_t      pathState;        // 48
-		std::uint32_t      pad4C;            // 4C
-		BSPathingRequest*  request;          // 50
-		BSPathingSolution* solution;         // 58
-		BSPathingSolution* pendingSolution;  // 60
-		std::uint8_t       lock[0x10];       // 68 - MutexRW
-		void*              dataTracker;      // 78
+		BSTArray<void*>       agents;           // 28
+		void*                 controller;       // 40
+		std::uint32_t         pathState;        // 48
+		std::uint32_t         pad4C;            // 4C
+		BSPathingRequest*     request;          // 50
+		BSPathingSolution*    solution;         // 58
+		PathingSolutionQueue* pendingSolution;  // 60
+		std::uint8_t          lock[0x10];       // 68 - MutexRW
+		void*                 dataTracker;      // 78
 	};
 	static_assert(sizeof(MovementPathManagerArbiter) == 0x80);
 }

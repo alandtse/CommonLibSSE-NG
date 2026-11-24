@@ -4,6 +4,7 @@
 #include "RE/I/IMovementQueryState.h"
 #include "RE/I/IMovementSetState.h"
 #include "RE/M/MovementControllerAI.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
@@ -20,10 +21,12 @@ namespace RE
 		~MovementAgentActorState() override;  // 00
 
 		// members
-		std::uint32_t plannedStateType;    // 30
-		std::uint8_t  unk34[0x10];         // 34
-		float         turnAngleThreshold;  // 44
-		std::uint8_t  unk48[0x8];          // 48
+		std::uint32_t plannedStateType;    // 30 - MovementPlannedState: nonzero when set
+		NiPoint3      plannedPosition;     // 34
+		float         plannedField10;      // 40
+		float         angleThreshold;      // 44 - |heading error| that clears turnState
+		std::uint32_t unk48;               // 48
+		std::uint32_t pad4C;               // 4C
 		void*         controller;          // 50
 		std::uint32_t turnState;           // 58 - 0 or 1, hysteresis
 		std::uint32_t pad5C;               // 5C

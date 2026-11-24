@@ -1,9 +1,10 @@
 #pragma once
 
+#include "RE/B/BSPathingLocation.h"
 #include "RE/I/IMovementPlannerAgent.h"
 #include "RE/I/IMovementSetWarp.h"
 #include "RE/M/MovementControllerAI.h"
-#include "RE/N/NiPoint3.h"
+#include "RE/P/PathingSolutionQueue.h"
 
 namespace RE
 {
@@ -21,17 +22,17 @@ namespace RE
 		~MovementPlannerAgentWarp() override;  // 00
 
 		// members
-		std::uint8_t  unk28[0x30];   // 28
-		NiPoint3      warpPosition;  // 58
-		std::uint8_t  unk64[0x24];   // 64
-		float         warpTimer;     // 88
-		std::uint32_t pad8C;         // 8C
-		Character*    character;     // 90
-		std::uint8_t  unk98[0x10];   // 98
-		void*         controller;    // A8
-		std::uint32_t warpState;     // B0 - 0 to 3
-		std::uint32_t padB4;         // B4
-		std::uint8_t  lock[0x8];     // B8 - Mutex
+		BSPathingLocation     savedLocation;   // 28
+		BSPathingLocation     warpLocation;    // 58
+		float                 warpTimer;       // 88
+		std::uint32_t         pad8C;           // 8C
+		Character*            character;       // 90
+		PathingSolutionQueue* solutionQueueA;  // 98
+		PathingSolutionQueue* solutionQueueB;  // A0
+		void*                 controller;      // A8
+		std::uint32_t         warpState;       // B0 - 0 to 3
+		std::uint32_t         unkB4;           // B4
+		std::uint8_t          lock[0x8];       // B8 - Mutex
 	};
 	static_assert(sizeof(MovementPlannerAgentWarp) == 0xC0);
 }
