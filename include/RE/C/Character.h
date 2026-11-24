@@ -181,6 +181,13 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36795, 37811) };
 			return func(this, a_target, a_tolerance);
 		}
+
+		float GetLookAtHeadingMaxAngle()
+		{
+			using func_t = float(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36760, 37776) };
+			return func(this);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }

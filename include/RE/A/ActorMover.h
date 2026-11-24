@@ -5,6 +5,9 @@
 namespace RE
 {
 	class Actor;
+	class TESObjectCELL;
+	class TESObjectREFR;
+	class TESWorldSpace;
 
 	class ActorMover
 	{
@@ -24,6 +27,43 @@ namespace RE
 			using func_t = bool(ActorMover*, NiPoint3*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40591, 41620) };
 			return func(this, a_target, a_tolerance);
+		}
+
+		bool SetGoal(void* a_request)
+		{
+			using func_t = bool(ActorMover*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40578, 41607) };
+			return func(this, a_request);
+		}
+		bool PathToLocation(NiPoint3* a_pos, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, float a_unkFloat, void* a_unk)
+		{
+			using func_t = bool(ActorMover*, NiPoint3*, TESObjectCELL*, TESWorldSpace*, float, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40579, 41608) };
+			return func(this, a_pos, a_cell, a_worldSpace, a_unkFloat, a_unk);
+		}
+		void PathToReference(TESObjectREFR* a_ref)
+		{
+			using func_t = void(ActorMover*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40580, 41609) };
+			func(this, a_ref);
+		}
+		void StopMoving()
+		{
+			using func_t = void(ActorMover*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40584, 41613) };
+			func(this);
+		}
+		void ClearGoal()
+		{
+			using func_t = void(ActorMover*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40585, 41614) };
+			func(this);
+		}
+		void ResetMovementState()
+		{
+			using func_t = void(ActorMover*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40589, 41618) };
+			func(this);
 		}
 
 		// members
