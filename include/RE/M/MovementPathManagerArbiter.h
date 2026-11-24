@@ -66,6 +66,13 @@ namespace RE
 			func(this, a_failed);
 		}
 
+		void PostSetStaticPathMessage(bool a_staticPath)
+		{
+			using func_t = void(MovementPathManagerArbiter*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88453, 90878) };
+			func(this, a_staticPath);
+		}
+
 		// members
 		BSTArray<void*>    agents;           // 28
 		void*              controller;       // 40

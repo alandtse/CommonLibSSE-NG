@@ -254,6 +254,49 @@ namespace RE
 			return func(this);
 		}
 
+		float GetYawRotationSpeed()
+		{
+			using func_t = float(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36993, 38021) };
+			return func(this);
+		}
+		void GetProcessRotation(NiPoint3* a_out)
+		{
+			using func_t = void(ActorState*, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36999, 38027) };
+			func(this, a_out);
+		}
+		float GetCurrentMovementSpeed()
+		{
+			using func_t = float(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37000, 38028) };
+			return func(this);
+		}
+		float GetRadius()
+		{
+			using func_t = float(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37006, 38034) };
+			return func(this);
+		}
+		float GetWidth()
+		{
+			using func_t = float(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37007, 38035) };
+			return func(this);
+		}
+		float GetLength()
+		{
+			using func_t = float(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37008, 38036) };
+			return func(this);
+		}
+		bool IsMountedByPlayer()
+		{
+			using func_t = bool(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37011, 38039) };
+			return func(this);
+		}
+
 		// members
 		ActorState1 actorState1;  // 08
 		ActorState2 actorState2;  // 0C
