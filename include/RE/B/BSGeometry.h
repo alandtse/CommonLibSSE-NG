@@ -131,9 +131,9 @@ namespace RE
 		RUNTIME_DATA_CONTENT;  // 120, 160
 #	if defined(EXCLUSIVE_SKYRIM_FLAT)
 		REX::TEnumSet<Type, std::uint8_t> type;    // 150
-		std::uint8_t                     pad151;  // 151
-		std::uint16_t                    pad152;  // 152
-		std::uint32_t                    pad154;  // 154
+		std::uint8_t                      pad151;  // 151
+		std::uint16_t                     pad152;  // 152
+		std::uint32_t                     pad154;  // 154
 #	elif defined(EXCLUSIVE_SKYRIM_VR)
 		BSGeometryTypeSet type;    // 190
 		std::uint8_t      pad191;  // 191

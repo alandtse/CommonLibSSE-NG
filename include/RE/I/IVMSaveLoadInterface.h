@@ -58,8 +58,8 @@ namespace RE
 			static_assert(sizeof(StringEntry) == 0x10);
 
 			// members
-			ScrapChunkQueue<StringPage, 1>*             pages;      // 00
-			BSScrapArray<StringEntry>*                  entries;    // 08
+			ScrapChunkQueue<StringPage, 1>*              pages;      // 00
+			BSScrapArray<StringEntry>*                   entries;    // 08
 			REX::TEnumSet<StringIndexSize, std::int32_t> indexSize;  // 10
 		};
 
@@ -71,7 +71,7 @@ namespace RE
 			// members
 			ScrapChunkQueue<BSFixedString, 32>*            stringArray;   // 00
 			BSTScrapHashMap<BSFixedString, std::uint32_t>* referenceMap;  // 08
-			REX::TEnumSet<StringIndexSize, std::int32_t>    indexSize;     // 10
+			REX::TEnumSet<StringIndexSize, std::int32_t>   indexSize;     // 10
 		};
 		static_assert(sizeof(WritableStringTable) == 0x18);
 

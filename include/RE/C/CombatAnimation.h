@@ -57,7 +57,7 @@ namespace RE
 
 		// members
 		BSScrapArray<AnimationSystemUtils::UtilsClipData> clipData;      // 60
-		REX::TEnumSet<LoadedStatus, std::int32_t>          loadedStatus;  // 80
+		REX::TEnumSet<LoadedStatus, std::int32_t>         loadedStatus;  // 80
 		std::uint32_t                                     pad84;         // 84
 	};
 	static_assert(sizeof(CombatAnimation) == 0x88);

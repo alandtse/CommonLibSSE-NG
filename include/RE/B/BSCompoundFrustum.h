@@ -28,8 +28,8 @@ namespace RE
 		struct Operator
 		{
 			REX::TEnum<OperatorType, std::int32_t> type;    // 00
-			std::uint32_t                         onPass;  // 04
-			std::uint32_t                         onFail;  // 08
+			std::uint32_t                          onPass;  // 04
+			std::uint32_t                          onFail;  // 08
 		};
 		static_assert(sizeof(Operator) == 0xC);
 

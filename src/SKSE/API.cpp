@@ -13,7 +13,7 @@ namespace SKSE
 	namespace Impl
 	{
 		class API :
-		    public REX::TSingleton<API>
+			public REX::TSingleton<API>
 		{
 		public:
 			void Init(InitInfo, const SKSE::QueryInterface* a_intfc);

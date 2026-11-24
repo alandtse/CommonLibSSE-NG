@@ -22,7 +22,7 @@ namespace RE
 		virtual void CreateConstraintData();  // 01
 
 		// members
-		hkRefPtr<hkpConstraintData>                                           constraintData = nullptr;  // 08
+		hkRefPtr<hkpConstraintData>                                            constraintData = nullptr;  // 08
 		REX::TEnumSet<hkpConstraintInstance::ConstraintPriority, std::uint8_t> priority =
 			hkpConstraintInstance::ConstraintPriority::kInvalid;  // 10
 		std::uint8_t  pad11[3] = { 0 };                           // 11

@@ -80,27 +80,27 @@ namespace RE
 		{
 			CullingContext();
 
-			NiPointer<NiAccumulator>   accumulator;           // 00
-			NiPointer<NiRefObject>     unk08;                 // 08
-			NiPointer<NiCamera>        camera;                // 10
-			BSCompoundFrustum*         compoundFrustum;       // 18
-			const NiFrustum*           frustum;               // 20
-			BSPortalGraphEntry*        portalGraphEntry;      // 28
-			NiCullingProcess*          cullingProcess;        // 30
-			const NiFrustumPlanes*     customCullPlanes;      // 38
-			NiPointer<NiAVObject>      scene;                 // 40
-			NiVisibleArray*            visibleSet;            // 48
+			NiPointer<NiAccumulator>    accumulator;           // 00
+			NiPointer<NiRefObject>      unk08;                 // 08
+			NiPointer<NiCamera>         camera;                // 10
+			BSCompoundFrustum*          compoundFrustum;       // 18
+			const NiFrustum*            frustum;               // 20
+			BSPortalGraphEntry*         portalGraphEntry;      // 28
+			NiCullingProcess*           cullingProcess;        // 30
+			const NiFrustumPlanes*      customCullPlanes;      // 38
+			NiPointer<NiAVObject>       scene;                 // 40
+			NiVisibleArray*             visibleSet;            // 48
 			REX::TEnum<BSCPCullingType> cullMode;              // 50
-			float                      unk54;                 // 54
-			std::uint32_t              unk58;                 // 58
-			bool                       useParabolicCulling;   // 5C
-			std::uint8_t               unk5D;                 // 5D
-			bool                       ignorePreprocess;      // 5E
-			bool                       doCustomCullPlanes;    // 5F
-			bool                       cameraRelatedUpdates;  // 60
-			bool                       unk61;                 // 61
-			bool                       updateAccumulateFlag;  // 62
-			std::uint8_t               pad63[0x5];            // 63
+			float                       unk54;                 // 54
+			std::uint32_t               unk58;                 // 58
+			bool                        useParabolicCulling;   // 5C
+			std::uint8_t                unk5D;                 // 5D
+			bool                        ignorePreprocess;      // 5E
+			bool                        doCustomCullPlanes;    // 5F
+			bool                        cameraRelatedUpdates;  // 60
+			bool                        unk61;                 // 61
+			bool                        updateAccumulateFlag;  // 62
+			std::uint8_t                pad63[0x5];            // 63
 		};
 		static_assert(sizeof(CullingContext) == 0x68);
 
@@ -131,9 +131,9 @@ namespace RE
 		BSTLocklessQueue::ObjMultiProdCons<Data, 4096, 0>                        cullQueue;             // 00140
 		BSTHashMap<NiAVObject*, bool>                                            roomSharedMap;         // 30160
 		BSPortalGraphEntry*                                                      portalGraphEntry;      // 30190
-		REX::TEnum<BSCPCullingType>                                               cullMode;              // 30198
+		REX::TEnum<BSCPCullingType>                                              cullMode;              // 30198
 		BSCompoundFrustum*                                                       compoundFrustum;       // 301A0
-		REX::TEnum<BSCPCullingType>                                               cullModeStack[10];     // 301A8
+		REX::TEnum<BSCPCullingType>                                              cullModeStack[10];     // 301A8
 		std::uint32_t                                                            cullModeStackIndex;    // 301D0
 		bool                                                                     recurseToGeometry;     // 301D4
 		bool                                                                     isGroupingAlphas;      // 301D5

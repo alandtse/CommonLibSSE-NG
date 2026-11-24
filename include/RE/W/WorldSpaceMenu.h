@@ -33,8 +33,8 @@ namespace RE
 		};
 
 		// members
-		NiNode*                                        menuNode;      // 00 - set to WorldSpaceMenu->menuNode
-		bool                                           hideMenu;      // 08 - false also unhides the menu if its already hidden
+		NiNode*                                         menuNode;      // 00 - set to WorldSpaceMenu->menuNode
+		bool                                            hideMenu;      // 08 - false also unhides the menu if its already hidden
 		REX::TEnumSet<Flag, std::uint32_t>              flags;         // 0C
 		REX::TEnumSet<VRMenuRenderTarget, std::int32_t> renderTarget;  // 10 - set to WorldSpaceMenu->renderTarget, applied to every child in the menunode
 		REX::TEnumSet<UpdateType, std::uint32_t>        updateType;    // 14

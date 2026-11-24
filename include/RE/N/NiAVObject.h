@@ -179,28 +179,28 @@ namespace RE
 		NiBound                      worldBound;       // 0E4
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		REX::TEnumSet<Flag, std::uint32_t> flags;                    // 0F4
-		TESObjectREFR*                    userData;                 // 0F8
-		float                             fadeAmount;               // 100
-		std::uint32_t                     lastUpdatedFrameCounter;  // 104
-		std::uint8_t                      unk108;                   // 108 - LODMode
-		std::uint8_t                      flags02;                  // 109
-		std::uint16_t                     unk10A;                   // 10A
-		std::uint32_t                     pad10C;                   // 10C
+		TESObjectREFR*                     userData;                 // 0F8
+		float                              fadeAmount;               // 100
+		std::uint32_t                      lastUpdatedFrameCounter;  // 104
+		std::uint8_t                       unk108;                   // 108 - LODMode
+		std::uint8_t                       flags02;                  // 109
+		std::uint16_t                      unk10A;                   // 10A
+		std::uint32_t                      pad10C;                   // 10C
 	};
 	static_assert(sizeof(NiAVObject) == 0x110);
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-		NiPoint3                          occlusionBoxCenter;       // 0F4
-		NiPoint3                          occlusionBoxHalfExtents;  // 100
+		NiPoint3                           occlusionBoxCenter;       // 0F4
+		NiPoint3                           occlusionBoxHalfExtents;  // 100
 		REX::TEnumSet<Flag, std::uint32_t> flags;                    // 10C
-		TESObjectREFR*                    userData;                 // 110
-		float                             fadeAmount;               // 118
-		std::uint32_t                     lastUpdatedFrameCounter;  // 11C
-		std::uint8_t                      unk120[2];                // 120 - [0] LODMode, [1] bitfield
-		bool                              skipOcclusionCulling;     // 122
-		std::uint8_t                      unk123[5];                // 123
-		std::uint8_t*                     occlusionResultSlot;      // 128
-		std::uint32_t                     lastRegisteredFrame;      // 130
-		std::uint32_t                     unk134;                   // 134
+		TESObjectREFR*                     userData;                 // 110
+		float                              fadeAmount;               // 118
+		std::uint32_t                      lastUpdatedFrameCounter;  // 11C
+		std::uint8_t                       unk120[2];                // 120 - [0] LODMode, [1] bitfield
+		bool                               skipOcclusionCulling;     // 122
+		std::uint8_t                       unk123[5];                // 123
+		std::uint8_t*                      occlusionResultSlot;      // 128
+		std::uint32_t                      lastRegisteredFrame;      // 130
+		std::uint32_t                      unk134;                   // 134
 	};
 	static_assert(sizeof(NiAVObject) == 0x138);
 #else

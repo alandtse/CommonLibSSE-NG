@@ -73,14 +73,14 @@ namespace RE
 			}
 
 			// members
-			void*                             vftable;        // 00
+			void*                              vftable;        // 00
 			REX::TEnumSet<Flag, std::uint32_t> flags;          // 08
-			std::uint32_t                     pad0C;          // 0C
-			BSTArray<void*>                   trackedBodies;  // 10
-			BGSWaterUpdateI*                  next;           // 28
-			TESWaterForm*                     waterType;      // 30
-			void*                             context;        // 38
-			bhkRigidBody*                     body;           // 40
+			std::uint32_t                      pad0C;          // 0C
+			BSTArray<void*>                    trackedBodies;  // 10
+			BGSWaterUpdateI*                   next;           // 28
+			TESWaterForm*                      waterType;      // 30
+			void*                              context;        // 38
+			bhkRigidBody*                      body;           // 40
 		};
 		static_assert(sizeof(BGSWaterUpdateI) == 0x48);
 	}
