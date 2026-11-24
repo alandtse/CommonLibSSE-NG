@@ -72,6 +72,25 @@ namespace RE
 	public:
 		bool IsSearching() const;
 
+		bool UpdateTargetFromDetection(Actor* a_member, Actor* a_target, DetectionState* a_state)
+		{
+			using func_t = bool(CombatGroup*, Actor*, Actor*, DetectionState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(43501, 44725) };
+			return func(this, a_member, a_target, a_state);
+		}
+		void RefreshMemberKnowledge(Character* a_member)
+		{
+			using func_t = void(CombatGroup*, Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(43562, 44788) };
+			func(this, a_member);
+		}
+		void RefreshMembersKnowledgeOfTarget(TESObjectREFR* a_target)
+		{
+			using func_t = void(CombatGroup*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(43563, 44789) };
+			func(this, a_target);
+		}
+
 		// members
 		std::uint32_t                  groupID;                      // 000
 		std::uint32_t                  groupIndex;                   // 004

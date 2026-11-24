@@ -14,8 +14,10 @@ namespace RE
 {
 	enum class RESET_3D_FLAGS;
 	class Actor;
+	class ActorKnowledge;
 	class bhkCharacterController;
 	class BipedAnim;
+	class CombatGroup;
 	class InventoryEntryData;
 	class NiAVObject;
 	class NiPoint3;
@@ -185,6 +187,73 @@ namespace RE
 		void                    UpdateRegenDelay(ActorValue a_actorValue, float a_regenDelay);
 
 		[[deprecated("Pass the owning actor")]] void ClearFurniture();
+
+		void SetCurrentPackage(TESPackage* a_package, Actor* a_actor)
+		{
+			using func_t = void(AIProcess*, TESPackage*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38189, 39149) };
+			func(this, a_package, a_actor);
+		}
+		void SetHighUnk028(std::uint64_t a_value)
+		{
+			using func_t = void(AIProcess*, std::uint64_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38305, 39275) };
+			func(this, a_value);
+		}
+		void StartFleeFrom(Actor* a_actor, TESObjectREFR* a_threat)
+		{
+			using func_t = void(AIProcess*, Actor*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38376, 39360) };
+			func(this, a_actor, a_threat);
+		}
+		ActorKnowledge* GetOrCreateActorKnowledge(Actor* a_owner, TESObjectREFR* a_target)
+		{
+			using func_t = ActorKnowledge*(AIProcess*, Actor*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38505, 39515) };
+			return func(this, a_owner, a_target);
+		}
+		void SetBleedoutRate(float a_rate)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38949, 40002) };
+			func(this, a_rate);
+		}
+		void SetBleedoutParam2B0(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38951, 40004) };
+			func(this, a_value);
+		}
+		void SetBleedoutParam2B8(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38953, 40006) };
+			func(this, a_value);
+		}
+		void SetBleedoutAttacker(void* a_handle)
+		{
+			using func_t = void(AIProcess*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38954, 40007) };
+			func(this, a_handle);
+		}
+		void* GetBleedoutAttacker(void* a_outHandle)
+		{
+			using func_t = void*(AIProcess*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38955, 40008) };
+			return func(this, a_outHandle);
+		}
+		bool EnterCombat(Actor* a_actor, Actor* a_target, CombatGroup* a_group)
+		{
+			using func_t = bool(AIProcess*, Actor*, Actor*, CombatGroup*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(39012, 40079) };
+			return func(this, a_actor, a_target, a_group);
+		}
+		void StartInterruptPackage(Actor* a_actor, TESPackage* a_package, TESObjectREFR* a_target)
+		{
+			using func_t = void(AIProcess*, Actor*, TESPackage*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(39029, 40096) };
+			func(this, a_actor, a_package, a_target);
+		}
 
 		// members
 		MiddleLowProcessData*                       middleLow;                      // 000

@@ -267,6 +267,13 @@ namespace RE
 		bool                         SetSleepOutfit(BGSOutfit* a_outfit);
 		void                         UpdateNeck(BSFaceGenNiNode* a_faceNode);
 
+		TESPackage* GetEnterCombatOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24169, 24673) };
+			return func(this, a_actor);
+		}
+
 		// members
 		Skills                                  playerSkills;     // 190 - DNAM
 		TESClass*                               npcClass;         // 1C0 - CNAM

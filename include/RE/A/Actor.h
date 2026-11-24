@@ -794,6 +794,55 @@ namespace RE
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<bhkCharacterMoveFinishEvent>, AsCharacterMoveFinishEventSink, SKSE::RUNTIME_SSE_1_6_629, 0xD0, 0xD8);
 		RUNTIME_CAST_ACCESSOR_VERSIONED(IPostAnimationChannelUpdateFunctor, AsIPostAnimationChannelUpdateFunctor, SKSE::RUNTIME_SSE_1_6_629, 0xD8, 0xE0);
 
+		float CalcArmorAdjustedHealth(float a_factor)
+		{
+			using func_t = float(Actor*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37605, 38558) };
+			return func(this, a_factor);
+		}
+		bool WouldTargetBlock(Actor* a_target)
+		{
+			using func_t = bool(Actor*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37606, 38559) };
+			return func(this, a_target);
+		}
+		void UpdateControllerNoMoveFlag()
+		{
+			using func_t = void(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37631, 38584) };
+			func(this);
+		}
+		void TriggerBlockAnticipateAction(Actor* a_other)
+		{
+			using func_t = void(Actor*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37632, 38585) };
+			func(this, a_other);
+		}
+		bool IsAttackStateActive()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37638, 38591) };
+			return func(this);
+		}
+		void ApplyAttackStaminaCost(bool a_leftHand, bool a_flag)
+		{
+			using func_t = void(Actor*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37650, 38603) };
+			func(this, a_leftHand, a_flag);
+		}
+		Actor* GetAttackTargetRef()
+		{
+			using func_t = Actor*(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37655, 38608) };
+			return func(this);
+		}
+		Actor* FindAttackTargetInReach()
+		{
+			using func_t = Actor*(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(46011, 47272) };
+			return func(this);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()

@@ -24,6 +24,31 @@ namespace RE
 
 		~ActorKnowledge() override;  // 00
 
+		DetectionState* GetFreshDetectionState(std::int32_t a_level)
+		{
+			using func_t = DetectionState*(ActorKnowledge*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41624, 42702) };
+			return func(this, a_level);
+		}
+		void UpdateListeners()
+		{
+			using func_t = void(ActorKnowledge*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41632, 42710) };
+			func(this);
+		}
+		void QueueDetectionUpdate(float a_time)
+		{
+			using func_t = void(ActorKnowledge*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41633, 42712) };
+			func(this, a_time);
+		}
+		void PushBackListener(void* a_listeners, DetectionListener* a_listener)
+		{
+			using func_t = void(ActorKnowledge*, void*, DetectionListener*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41636, 42716) };
+			func(this, a_listeners, a_listener);
+		}
+
 		// members
 		ActorHandle                                 owner;                        // 10
 		ActorHandle                                 target;                       // 14

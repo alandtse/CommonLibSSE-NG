@@ -57,6 +57,19 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void Unk_129(void);  // 129 - { return 1; }
 
 		void SetAnimationDrivenMotion(bool a_active);
+
+		float GetSpeedMultScale()
+		{
+			using func_t = float(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36355, 37346) };
+			return func(this);
+		}
+		bool RefreshKnowledgeOf(TESObjectREFR* a_target, DetectionListener* a_listener, int a_level)
+		{
+			using func_t = bool(Character*, TESObjectREFR*, DetectionListener*, int);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36743, 37759) };
+			return func(this, a_target, a_listener, a_level);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }
