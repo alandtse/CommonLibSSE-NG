@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSPathing.h"
 #include "RE/B/BSPathingActorAttributes.h"
 #include "RE/B/BSPathingLocation.h"
 #include "RE/B/BSPathingSearchParameters.h"

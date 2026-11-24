@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSPathingCell.h"
+#include "RE/B/BSTArray.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
 

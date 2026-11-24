@@ -1,15 +1,19 @@
 #pragma once
 
 #include "RE/B/BSPathingLocation.h"
+#include "RE/B/BSTHashMap.h"
+#include "RE/B/BSTSingleton.h"
 #include "RE/F/FindTriangleForLocationFilterCheckDeltaZ.h"
 
 namespace RE
 {
+	class BSPathingDoor;
 	class BSPathingLockData;
 	class BSPathingStreamRead;
 	class BSPathingStreamWrite;
 	class IDebugText;
 	class IMovementParameters;
+	class NiAVObject;
 	class MovementMessage;
 	class PathingCell;
 

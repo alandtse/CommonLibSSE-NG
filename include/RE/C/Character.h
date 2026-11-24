@@ -4,6 +4,9 @@
 
 namespace RE
 {
+	class BGSAIWorldLocation;
+	class PackageTarget;
+	class PathingRequestClosePoint;
 	class DetectionListener;
 
 	class Character : public Actor
@@ -110,15 +113,15 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36342, 37332) };
 			func(this);
 		}
-		void StartGuardWarnPackage(void* a_targetInfo, void* a_location, std::uint32_t* a_handle, float a_radiusSlot2, float a_locationRadius, float a_radiusSlot3, void* a_packageTarget)
+		void StartGuardWarnPackage(void* a_targetInfo, BGSAIWorldLocation* a_location, std::uint32_t* a_handle, float a_radiusSlot2, float a_locationRadius, float a_radiusSlot3, PackageTarget* a_packageTarget)
 		{
-			using func_t = void(Character*, void*, void*, std::uint32_t*, float, float, float, void*);
+			using func_t = void(Character*, void*, void*, std::uint32_t*, float, float, float, PackageTarget*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36412, 37406) };
 			func(this, a_targetInfo, a_location, a_handle, a_radiusSlot2, a_locationRadius, a_radiusSlot3, a_packageTarget);
 		}
-		void MoveToPackageLocationEx(bool a_useSavedPackage, void** a_outRequest, void* a_packageContext)
+		void MoveToPackageLocationEx(bool a_useSavedPackage, PathingRequestClosePoint** a_outRequest, void* a_packageContext)
 		{
-			using func_t = void(Character*, bool, void**, void*);
+			using func_t = void(Character*, bool, PathingRequestClosePoint**, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36473, 37472) };
 			func(this, a_useSavedPackage, a_outRequest, a_packageContext);
 		}
@@ -157,6 +160,19 @@ namespace RE
 			using func_t = float(Character*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(49738, 50665) };
 			return func(this);
+		}
+
+		void AppendSpeakerAvoidNodeToRequest(void* a_request)
+		{
+			using func_t = void(Character*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36785, 37801) };
+			func(this, a_request);
+		}
+		void SubmitPathRequest(void* a_request, void* a_location, float a_unkFloat, void* a_unk)
+		{
+			using func_t = void(Character*, void*, void*, float, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40612, 41642) };
+			func(this, a_request, a_location, a_unkFloat, a_unk);
 		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);

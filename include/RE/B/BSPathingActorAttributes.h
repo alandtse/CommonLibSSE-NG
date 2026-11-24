@@ -1,7 +1,11 @@
 #pragma once
 
+#include "RE/B/BSTSmartPointer.h"
+
 namespace RE
 {
+	class BSPathingLockData;
+
 	class BSPathingActorAttributes
 	{
 	public:

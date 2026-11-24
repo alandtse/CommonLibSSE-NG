@@ -1169,6 +1169,7 @@ set(SOURCES
 	include/RE/G/GridArray.h
 	include/RE/G/GridCellArray.h
 	include/RE/G/GuardActorPackageData.h
+	include/RE/G/GuardWarnSearch.h
 	include/RE/G/GuideEffect.h
 	include/RE/H/HUDChargeMeter.h
 	include/RE/H/HUDData.h
@@ -1726,6 +1727,9 @@ set(SOURCES
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
 	include/RE/P/PathingDoor.h
+	include/RE/P/PathingRequestClosePoint.h
+	include/RE/P/PathingRequestFly.h
+	include/RE/P/PathingRequestFlyHover.h
 	include/RE/P/PatrolActorPackageData.h
 	include/RE/P/PeakValueModifierEffect.h
 	include/RE/P/PerkEntryVisitor.h
