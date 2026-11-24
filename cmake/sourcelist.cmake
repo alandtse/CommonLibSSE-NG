@@ -394,6 +394,8 @@ set(SOURCES
 	include/RE/B/BSPathingLocation.h
 	include/RE/B/BSPathingRequest.h
 	include/RE/B/BSPathingSearchParameters.h
+	include/RE/B/BSPathingStreamRead.h
+	include/RE/B/BSPathingStreamWrite.h
 	include/RE/B/BSPointerHandle.h
 	include/RE/B/BSPointerHandleManager.h
 	include/RE/B/BSPointerHandleSmartPointer.h
@@ -1749,6 +1751,8 @@ set(SOURCES
 	include/RE/P/PathingRequestFly.h
 	include/RE/P/PathingRequestFlyHover.h
 	include/RE/P/PathingSolutionQueue.h
+	include/RE/P/PathingStreamLoadGame.h
+	include/RE/P/PathingStreamSaveGame.h
 	include/RE/P/PatrolActorPackageData.h
 	include/RE/P/PeakValueModifierEffect.h
 	include/RE/P/PerkEntryVisitor.h

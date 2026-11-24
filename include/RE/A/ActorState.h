@@ -297,6 +297,19 @@ namespace RE
 			return func(this);
 		}
 
+		float SpeedToNormalized(float a_speed)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88499, 90925) };
+			return func(this, a_speed);
+		}
+		float NormalizedToSpeed(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88500, 90926) };
+			return func(this, a_normalized);
+		}
+
 		// members
 		ActorState1 actorState1;  // 08
 		ActorState2 actorState2;  // 0C

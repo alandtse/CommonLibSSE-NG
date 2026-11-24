@@ -37,6 +37,7 @@ namespace RE
 
 	class ActorMagicCaster;
 	class ActorMover;
+	class IMovementParameters;
 	class AIProcess;
 	class bhkCharacterController;
 	class bhkCharacterMoveFinishEvent;
@@ -907,6 +908,19 @@ namespace RE
 			using func_t = std::int32_t(Actor*, TESObjectREFR*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36869, 37893) };
 			return func(this, a_target, a_walkRunPercent);
+		}
+
+		void BuildMovementParametersNormalSpeed(IMovementParameters** a_out)
+		{
+			using func_t = void(Actor*, IMovementParameters**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36806, 37822) };
+			func(this, a_out);
+		}
+		void BuildMovementParameters(IMovementParameters** a_out)
+		{
+			using func_t = void(Actor*, IMovementParameters**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36807, 37823) };
+			func(this, a_out);
 		}
 
 		// members

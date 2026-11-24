@@ -303,11 +303,11 @@ namespace RE
 			func(this, a_actor, a_advanceProcedure, a_moveMode, a_pursue);
 		}
 
-		bool RequestFollowPathing(Character* a_follower, Character* a_leader, BSPathingLocation* a_goal, float a_followDistance, bool* a_outBeyondHysteresis, std::uint8_t* a_outRequestFlag, float* a_outFollowerPathLength, float* a_outLeaderPathLength)
+		bool RequestFollowPathing(Character* a_follower, Character* a_leader, BSPathingLocation* a_goal, float a_followDistance, bool* a_outBeyondHysteresis, std::uint8_t* a_outGoalClientData, float* a_outFollowerPathLength, float* a_outLeaderPathLength)
 		{
 			using func_t = bool(AIProcess*, Character*, Character*, BSPathingLocation*, float, bool*, std::uint8_t*, float*, float*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(38529, 39539) };
-			return func(this, a_follower, a_leader, a_goal, a_followDistance, a_outBeyondHysteresis, a_outRequestFlag, a_outFollowerPathLength, a_outLeaderPathLength);
+			return func(this, a_follower, a_leader, a_goal, a_followDistance, a_outBeyondHysteresis, a_outGoalClientData, a_outFollowerPathLength, a_outLeaderPathLength);
 		}
 
 		// members

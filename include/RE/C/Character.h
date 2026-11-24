@@ -4,6 +4,7 @@
 
 namespace RE
 {
+	class MovementMessage;
 	class BGSAIWorldLocation;
 	class BSPathingLocation;
 	class PackageTarget;
@@ -258,6 +259,13 @@ namespace RE
 			using func_t = void(Character*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36850, 37874) };
 			func(this);
+		}
+
+		bool DispatchMovementMessage(MovementMessage* a_message)
+		{
+			using func_t = bool(Character*, MovementMessage*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36868, 37892) };
+			return func(this, a_message);
 		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);

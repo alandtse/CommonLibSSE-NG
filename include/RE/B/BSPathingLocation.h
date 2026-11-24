@@ -35,6 +35,19 @@ namespace RE
 			return func(this, a_navMeshOut, a_triOut);
 		}
 
+		void Read(BSPathingStreamRead* a_stream)
+		{
+			using func_t = void(BSPathingLocation*, BSPathingStreamRead*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87992, 90376) };
+			func(this, a_stream);
+		}
+		void Write(BSPathingStreamWrite* a_stream)
+		{
+			using func_t = void(BSPathingLocation*, BSPathingStreamWrite*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87993, 90377) };
+			func(this, a_stream);
+		}
+
 		// members
 		NiPoint3                       location;          // 00
 		BSNavmeshInfo*                 navMeshInfo;       // 10

@@ -16,10 +16,10 @@ namespace RE
 		virtual ~IMovementParameters();  // 00
 
 		// add
-		virtual float GetParam10() = 0;                              // 01
-		virtual float GetParam14() = 0;                              // 02
-		virtual float GetParam18() = 0;                              // 03
-		virtual float GetParam20() = 0;                              // 04
+		virtual float GetSpeed() = 0;                                // 01
+		virtual float GetInverseAcceleration() = 0;                  // 02
+		virtual float GetInverseDeceleration() = 0;                  // 03
+		virtual float GetInverseAngleAcceleration() = 0;             // 04
 		virtual float GetParam1C() = 0;                              // 05
 		virtual void  Unk_06(void) = 0;                              // 06
 		virtual void  SaveGame(BSPathingStreamWrite& a_stream) = 0;  // 07
