@@ -1599,10 +1599,19 @@ set(SOURCES
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
 	include/RE/M/MovementMessage.h
+	include/RE/M/MovementMessageActorCollision.h
+	include/RE/M/MovementMessageApproachingDoor.h
+	include/RE/M/MovementMessageBlocked.h
+	include/RE/M/MovementMessageDoor.h
+	include/RE/M/MovementMessageFreezeDirection.h
+	include/RE/M/MovementMessageMovementTypeChange.h
 	include/RE/M/MovementMessagePathComplete.h
 	include/RE/M/MovementMessagePathEvent.h
+	include/RE/M/MovementMessagePlayIdle.h
 	include/RE/M/MovementMessagePool.h
 	include/RE/M/MovementMessageSetStaticPath.h
+	include/RE/M/MovementMessageWarpToLocation.h
+	include/RE/M/MovementMessageWarpToMultiple.h
 	include/RE/M/MovementParameters.h
 	include/RE/M/MovementParametersFixed.h
 	include/RE/M/MovementPathManagerArbiter.h
