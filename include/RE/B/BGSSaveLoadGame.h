@@ -156,6 +156,13 @@ namespace RE
 		VR_RUNTIME_DATA_CONTENT;
 		RUNTIME_DATA2_CONTENT;
 #endif
+
+		void MoveLoadedActorsToPackageLocation()
+		{
+			using func_t = void(BGSSaveLoadGame*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(34685, 35608) };
+			func(this);
+		}
 	};
 	STATIC_ASSERT_SIZE(BGSSaveLoadGame, 0x348, 0x348, 0x518, 0x1);
 }

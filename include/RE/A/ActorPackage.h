@@ -36,6 +36,13 @@ namespace RE
 			func(this, a_data);
 		}
 
+		void Reset(Actor* a_actor)
+		{
+			using func_t = void(ActorPackage*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38003, 38957) };
+			func(this, a_actor);
+		}
+
 		// members
 		mutable BSSpinLock                            packageLock;            // 00
 		TESPackage*                                   package;                // 08

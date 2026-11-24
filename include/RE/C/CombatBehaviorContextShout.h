@@ -11,6 +11,13 @@ namespace RE
 	public:
 		float CalcCastMagicChance() const;
 
+		bool TryCastShout()
+		{
+			using func_t = bool(CombatBehaviorContextShout*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(48803, 49758) };
+			return func(this);
+		}
+
 		// members
 		TESShout* shout;  // 20
 	};

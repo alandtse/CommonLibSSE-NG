@@ -37,6 +37,13 @@ namespace RE
 			return func(this, a_listener, a_handle);
 		}
 
+		void StartDetectionCheck()
+		{
+			using func_t = void(DisguiseEffect*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(33516, 34295) };
+			func(this);
+		}
+
 		// members
 		DisguiseEffect::State state;  // 90
 	};

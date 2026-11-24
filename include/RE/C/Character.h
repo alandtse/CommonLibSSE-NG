@@ -72,6 +72,31 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36743, 37759) };
 			return func(this, a_target, a_listener, a_level);
 		}
+
+		int GetInitialDataType()
+		{
+			using func_t = int(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(34799, 35708) };
+			return func(this);
+		}
+		void ObserveCorpse(TESObjectREFR* a_corpse)
+		{
+			using func_t = void(Character*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36423, 37417) };
+			func(this, a_corpse);
+		}
+		void MoveToPackageLocation()
+		{
+			using func_t = void(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36472, 37471) };
+			func(this);
+		}
+		bool UpdateBleedoutOrKill(TESObjectREFR* a_attacker, float a_health)
+		{
+			using func_t = bool(Character*, TESObjectREFR*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37677, 38631) };
+			return func(this, a_attacker, a_health);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }

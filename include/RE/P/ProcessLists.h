@@ -49,6 +49,19 @@ namespace RE
 		void         StopAllMagicEffects(TESObjectREFR& a_ref);
 		void         StopCombatAndAlarmOnActor(Actor* a_actor, bool a_notAlarm);
 
+		void MoveAllActorsToPackageLocations()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40301, 41311) };
+			func(this);
+		}
+		void ProcessPackageLocationQueue()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40303, 41313) };
+			func(this);
+		}
+
 		// members
 		bool                                    runDetection;                                  // 001
 		bool                                    showDetectionStats;                            // 002

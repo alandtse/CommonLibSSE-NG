@@ -57,6 +57,13 @@ namespace RE
 			func(this, a_listener, a_level);
 		}
 
+		void AddListenerNoNotify(DetectionListener* a_listener)
+		{
+			using func_t = void(ActorKnowledge*, DetectionListener*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41631, 42709) };
+			func(this, a_listener);
+		}
+
 		// members
 		ActorHandle                                 owner;                        // 10
 		ActorHandle                                 target;                       // 14

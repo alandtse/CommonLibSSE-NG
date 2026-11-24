@@ -516,6 +516,13 @@ namespace RE
 			return func(this);
 		}
 
+		TESObjectREFR* GetTargetReference(TESObjectREFR* a_actor)
+		{
+			using func_t = TESObjectREFR*(TESPackage*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28780, 29556) };
+			return func(this, a_actor);
+		}
+
 		// members
 		PACKAGE_DATA                                        packData;        // 20 - PKDT
 		std::uint32_t                                       pad2C;           // 2C
