@@ -3,6 +3,7 @@
 #include "RE/B/BSIntrusiveRefCounted.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTSmartPointer.h"
+#include "RE/I/IMemoryPagePolicy.h"
 #include "RE/M/MemoryPage.h"
 #include "RE/V/Variable.h"
 
@@ -10,6 +11,8 @@ namespace RE
 {
 	namespace BSScript
 	{
+		class IFunction;
+
 		namespace Internal
 		{
 			class CodeTasklet;
@@ -61,10 +64,16 @@ namespace RE
 			};
 			static_assert(sizeof(MemoryPageData) == 0x10);
 
+			explicit Stack(IMemoryPagePolicy* a_memoryPagePolicy, IProfilePolicy* a_profilePolicy, VMStackID a_stackID, StackType a_type, BSTSmartPointer<IStackCallbackFunctor>& a_callback);
+
 			~Stack();
 
 			std::uint32_t GetPageForFrame(const StackFrame* a_frame) const;
 			Variable&     GetStackFrameVariable(const StackFrame* a_frame, std::uint32_t a_index, std::uint32_t a_pageHint);
+
+			IMemoryPagePolicy::AllocationStatus PushFrame(BSTSmartPointer<IFunction>& a_function, BSTSmartPointer<ObjectTypeInfo>& a_type, Variable& a_functionSelf, BSScrapArray<Variable>& a_args);
+			IMemoryPagePolicy::AllocationStatus PushBlankFrame(std::uint32_t a_frameSize, bool a_ignoreMemoryLimit);
+			bool                                PopFrame();
 
 			// members
 			std::uint32_t                            pad04;          // 04
@@ -82,9 +91,6 @@ namespace RE
 			BSTSmartPointer<Internal::CodeTasklet>   owningTasklet;  // 88
 			BSTSmartPointer<IStackCallbackFunctor>   callback;       // 90
 			BSTSmartPointer<Stack>                   nextStack;      // 98
-
-		private:
-			void Dtor();
 		};
 		static_assert(sizeof(Stack) == 0xA0);
 	}
