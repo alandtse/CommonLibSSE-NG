@@ -365,6 +365,7 @@ set(SOURCES
 	include/RE/B/BSNavmesh.h
 	include/RE/B/BSNavmeshInfoMap.h
 	include/RE/B/BSNavmeshInfoSearch.h
+	include/RE/B/BSNavmeshObstacleData.h
 	include/RE/B/BSNavmeshSearch.h
 	include/RE/B/BSNiAllocator.h
 	include/RE/B/BSNiNode.h
@@ -573,6 +574,8 @@ set(SOURCES
 	include/RE/B/bhkMeshMaterial.h
 	include/RE/B/bhkMouseSpringAction.h
 	include/RE/B/bhkNiCollisionObject.h
+	include/RE/B/bhkObstacleDeactivationListener.h
+	include/RE/B/bhkObstacleRemovalListener.h
 	include/RE/B/bhkPCollisionObject.h
 	include/RE/B/bhkPhantom.h
 	include/RE/B/bhkPickData.h
@@ -1328,6 +1331,7 @@ set(SOURCES
 	include/RE/H/hkpDynamicsCpIdMgr.h
 	include/RE/H/hkpEaseConstraintsAction.h
 	include/RE/H/hkpEntity.h
+	include/RE/H/hkpEntityActivationListener.h
 	include/RE/H/hkpEntityListener.h
 	include/RE/H/hkpFixedRigidMotion.h
 	include/RE/H/hkpKeyframedRigidMotion.h

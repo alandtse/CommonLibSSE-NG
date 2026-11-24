@@ -9,6 +9,9 @@
 
 namespace RE
 {
+	class bhkObstacleDeactivationListener;
+	class bhkObstacleRemovalListener;
+	class bhkRigidBody;
 	class BSNavmeshObstacleData;
 	class BSTaskletGroupData;
 	class TESObjectREFR;
@@ -51,7 +54,6 @@ namespace RE
 	static_assert(sizeof(BSNavmeshReferenceObstacleArray) == 0x30);
 
 	// Owns the per-navmesh ObstacleTaskData tasks that apply dynamic obstacles (doors, placed objects) on the pathing job thread.
-	// unk190 and unk198 are 8-byte heap objects allocated in the constructor whose purpose is unresolved.
 	class NavMeshObstacleManager : public BSTSingletonSDM<NavMeshObstacleManager>
 	{
 	public:
@@ -60,6 +62,18 @@ namespace RE
 
 		virtual ~NavMeshObstacleManager();  // 00
 
+		void AddBodyListeners(bhkRigidBody* a_body)
+		{
+			using func_t = void(NavMeshObstacleManager*, bhkRigidBody*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29649, 30482) };
+			func(this, a_body);
+		}
+		void RemoveBodyListeners(bhkRigidBody* a_body)
+		{
+			using func_t = void(NavMeshObstacleManager*, bhkRigidBody*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29651, 30484) };
+			func(this, a_body);
+		}
 		void Flush()
 		{
 			using func_t = void(NavMeshObstacleManager*);
@@ -190,8 +204,8 @@ namespace RE
 		BSTArray<std::uint32_t>                                               doorIDsQueueB;           // 118
 		BSTHashMap<std::uint32_t, NiPointer<BSNavmeshReferenceObstacleArray>> doorObstaclesA;          // 130
 		BSTHashMap<std::uint32_t, NiPointer<BSNavmeshReferenceObstacleArray>> doorObstaclesB;          // 160
-		void*                                                                 unk190;                  // 190
-		void*                                                                 unk198;                  // 198
+		bhkObstacleDeactivationListener*                                      deactivationListener;    // 190
+		bhkObstacleRemovalListener*                                           removalListener;         // 198
 		BSTaskletGroupData*                                                   taskGroup;               // 1A0
 		std::uint8_t                                                          pad1A8[0xC];             // 1A8
 		std::uint32_t                                                         taskMapCapacity;         // 1B4
