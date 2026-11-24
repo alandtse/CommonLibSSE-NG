@@ -174,6 +174,13 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40612, 41642) };
 			func(this, a_request, a_location, a_unkFloat, a_unk);
 		}
+
+		bool TurnToFace(NiPoint3* a_target, float a_tolerance)
+		{
+			using func_t = bool(Character*, NiPoint3*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36795, 37811) };
+			return func(this, a_target, a_tolerance);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }

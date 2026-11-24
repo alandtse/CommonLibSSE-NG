@@ -523,6 +523,13 @@ namespace RE
 			return func(this, a_actor);
 		}
 
+		float GetLocationRadius(Actor* a_actor)
+		{
+			using func_t = float(TESPackage*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28785, 29561) };
+			return func(this, a_actor);
+		}
+
 		// members
 		PACKAGE_DATA                                        packData;        // 20 - PKDT
 		std::uint32_t                                       pad2C;           // 2C

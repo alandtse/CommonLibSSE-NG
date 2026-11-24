@@ -521,6 +521,13 @@ namespace RE
 			return func(this, a_other);
 		}
 
+		std::uint64_t MoveToPosition(NiPoint3* a_pos, float a_rotZ, float a_rotX, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, bool a_unk)
+		{
+			using func_t = std::uint64_t(TESObjectREFR*, NiPoint3*, float, float, TESObjectCELL*, TESWorldSpace*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36323, 37313) };
+			return func(this, a_pos, a_rotZ, a_rotX, a_cell, a_worldSpace, a_unk);
+		}
+
 		// members
 		OBJ_REFR         data;        // 40
 		TESObjectCELL*   parentCell;  // 60
