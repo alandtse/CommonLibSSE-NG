@@ -1,7 +1,10 @@
 #pragma once
 
 #include "RE/B/BSTArray.h"
+#include "RE/B/BSTHashMap.h"
 #include "RE/B/BSTSingleton.h"
+#include "RE/N/NiRefObject.h"
+#include "RE/N/NiSmartPointer.h"
 #include "RE/O/ObstacleTaskData.h"
 
 namespace RE
@@ -32,8 +35,23 @@ namespace RE
 	};
 	static_assert(sizeof(ObstacleTaskMapEntry) == 0x18);
 
+	class BSNavmeshReferenceObstacleArray : public NiRefObject
+	{
+	public:
+		inline static constexpr auto RTTI = RTTI_BSNavmeshReferenceObstacleArray;
+		inline static constexpr auto VTABLE = VTABLE_BSNavmeshReferenceObstacleArray;
+
+		~BSNavmeshReferenceObstacleArray() override;  // 00
+
+		// members
+		std::uint32_t                    formID;     // 10
+		std::uint32_t                    pad14;      // 14
+		BSTArray<BSNavmeshObstacleData*> obstacles;  // 18
+	};
+	static_assert(sizeof(BSNavmeshReferenceObstacleArray) == 0x30);
+
 	// Owns the per-navmesh ObstacleTaskData tasks that apply dynamic obstacles (doors, placed objects) on the pathing job thread.
-	// Members not listed (0x10-0x6F, 0xC0-0x1A0 except where named, 0x1B0-0x1CF) are known to exist but their layout is unresolved.
+	// unk190 and unk198 are 8-byte heap objects allocated in the constructor whose purpose is unresolved.
 	class NavMeshObstacleManager : public BSTSingletonSDM<NavMeshObstacleManager>
 	{
 	public:
@@ -158,27 +176,38 @@ namespace RE
 		}
 
 		// members
-		bool                             refreshAllPending;       // 09
-		std::uint8_t                     pad0A[0x66];             // 0A - unresolved maps and sets
-		BSTArray<BSNavmeshObstacleData*> movingObstacles;         // 70
-		BSTArray<void*>                  activatedEntityQueue;    // 88
-		BSTArray<void*>                  deactivatedEntityQueue;  // A0
-		std::uint8_t                     padB8[0xE8];             // B8
-		BSTaskletGroupData*              taskGroup;               // 1A0
-		std::uint8_t                     pad1A8[0xC];             // 1A8
-		std::uint32_t                    taskMapCapacity;         // 1B4
-		std::uint32_t                    taskMapFreeCount;        // 1B8
-		std::uint32_t                    taskMapFreeIdx;          // 1BC
-		std::uint8_t                     pad1C0[0x10];            // 1C0
-		ObstacleTaskMapEntry*            taskMapEntries;          // 1D0
-		BSTArray<ObstacleTaskData*>      queuedTasks;             // 1D8
-		BSTArray<ObstacleTaskData*>      completedTasks;          // 1F0
-		std::uint64_t                    taskMutex;               // 208
-		BSTArray<NavmeshEdgeRef>         danglingEdges;           // 210
-		BSTArray<NavmeshTriangleRef>     relinkInputs;            // 228
-		std::uint32_t                    state;                   // 240
-		float                            timer;                   // 244
-		std::uint8_t                     pad248[8];               // 248
+		bool                                                                  refreshAllPending;       // 09
+		std::uint8_t                                                          pad0A[6];                // 0A
+		BSTHashMap<std::uint32_t, NiPointer<BSNavmeshReferenceObstacleArray>> obstaclesByRef;          // 10
+		BSTArray<TESObjectREFR*>                                              pendingRefs;             // 40
+		BSTArray<std::uint32_t>                                               removedRefIDs;           // 58
+		BSTArray<BSNavmeshObstacleData*>                                      movingObstacles;         // 70
+		BSTArray<void*>                                                       activatedEntityQueue;    // 88
+		BSTArray<void*>                                                       deactivatedEntityQueue;  // A0
+		BSTHashMap<void*, NiPointer<BSNavmeshObstacleData>>                   obstaclesByEntity;       // B8
+		BSTArray<TESObjectREFR*>                                              pendingDoorRefs;         // E8
+		BSTArray<std::uint32_t>                                               doorIDsQueueA;           // 100
+		BSTArray<std::uint32_t>                                               doorIDsQueueB;           // 118
+		BSTHashMap<std::uint32_t, NiPointer<BSNavmeshReferenceObstacleArray>> doorObstaclesA;          // 130
+		BSTHashMap<std::uint32_t, NiPointer<BSNavmeshReferenceObstacleArray>> doorObstaclesB;          // 160
+		void*                                                                 unk190;                  // 190
+		void*                                                                 unk198;                  // 198
+		BSTaskletGroupData*                                                   taskGroup;               // 1A0
+		std::uint8_t                                                          pad1A8[0xC];             // 1A8
+		std::uint32_t                                                         taskMapCapacity;         // 1B4
+		std::uint32_t                                                         taskMapFreeCount;        // 1B8
+		std::uint32_t                                                         taskMapFreeIdx;          // 1BC
+		void*                                                                 taskMapSentinel;         // 1C0
+		std::uint8_t                                                          pad1C8[8];               // 1C8
+		ObstacleTaskMapEntry*                                                 taskMapEntries;          // 1D0
+		BSTArray<ObstacleTaskData*>                                           queuedTasks;             // 1D8
+		BSTArray<ObstacleTaskData*>                                           completedTasks;          // 1F0
+		std::uint64_t                                                         taskMutex;               // 208
+		BSTArray<NavmeshEdgeRef>                                              danglingEdges;           // 210
+		BSTArray<NavmeshTriangleRef>                                          relinkInputs;            // 228
+		std::uint32_t                                                         state;                   // 240
+		float                                                                 timer;                   // 244
+		std::uint8_t                                                          pad248[8];               // 248
 	};
 	static_assert(sizeof(NavMeshObstacleManager) == 0x250);
 }
