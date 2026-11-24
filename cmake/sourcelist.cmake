@@ -1428,6 +1428,7 @@ set(SOURCES
 	include/RE/I/IMovementParameters.h
 	include/RE/I/IMovementPlannerAgent.h
 	include/RE/I/IMovementPlannerDirectControl.h
+	include/RE/I/IMovementPlayIdleResult.h
 	include/RE/I/IMovementQueryPathingState.h
 	include/RE/I/IMovementQueryState.h
 	include/RE/I/IMovementSelectIdle.h
@@ -1600,6 +1601,7 @@ set(SOURCES
 	include/RE/M/MovementMessage.h
 	include/RE/M/MovementMessagePathComplete.h
 	include/RE/M/MovementMessagePathEvent.h
+	include/RE/M/MovementMessagePool.h
 	include/RE/M/MovementMessageSetStaticPath.h
 	include/RE/M/MovementParameters.h
 	include/RE/M/MovementParametersFixed.h

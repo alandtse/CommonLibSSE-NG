@@ -923,6 +923,13 @@ namespace RE
 			func(this, a_out);
 		}
 
+		void RefreshCombatOnProcessChange(std::uint32_t a_arg1, std::int32_t a_arg2)
+		{
+			using func_t = void(Actor*, std::uint32_t, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37614, 38567) };
+			func(this, a_arg1, a_arg2);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()

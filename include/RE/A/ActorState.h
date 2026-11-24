@@ -228,6 +228,37 @@ namespace RE
 			return func(this, a_normalized);
 		}
 
+		float RotationSpeedToNormalized(float a_rotationSpeed)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88501, 90927) };
+			return func(this, a_rotationSpeed);
+		}
+		float NormalizedToRotationSpeed(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88502, 90928) };
+			return func(this, a_normalized);
+		}
+		float AccelerationToNormalized(float a_acceleration)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88503, 90929) };
+			return func(this, a_acceleration);
+		}
+		float NormalizedToAcceleration(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88504, 90930) };
+			return func(this, a_normalized);
+		}
+		float AngularAccelerationToNormalized(float a_angularAcceleration)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88505, 90931) };
+			return func(this, a_angularAcceleration);
+		}
+
 		// members
 		ActorState1 actorState1;  // 08
 		ActorState2 actorState2;  // 0C
