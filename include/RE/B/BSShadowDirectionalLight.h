@@ -23,7 +23,7 @@ namespace RE
 	float                                 endSplitDistances[3];           /* 5A4, VR 604 */ \
 	float                                 sunUpdate;                      /* 5B0, VR 610 */ \
 	std::uint32_t                         sunUpdateMode;                  /* 5B4, VR 614 */
-			RUNTIME_DATA_CONTENT
+            RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x58);
 

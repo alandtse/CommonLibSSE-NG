@@ -37,7 +37,7 @@ namespace RE
 	BSCullingProcess*              cullingProcess;    /* E0, VR F8 */                       \
 	bool                           clearRenderTarget; /* E8, VR 100 was uint16_t flags */   \
 	bool                           isEnabled;         /* E9 */
-			SHADOWMAPDESCRIPTOR_CONTENT;
+            SHADOWMAPDESCRIPTOR_CONTENT;
 		};
 		static_assert(sizeof(ShadowmapDescriptor) == 0xF0);
 		static_assert(offsetof(ShadowmapDescriptor, shaderAccumulator) == 0x48);
@@ -64,7 +64,7 @@ namespace RE
 	BSCullingProcess*              cullingProcess;       /* E0, VR F8 */                          \
 	bool                           clearRenderTarget;    /* E8, VR 100 was uint16_t flags */      \
 	bool                           isEnabled;            /* E9 */
-			SHADOWMAPDESCRIPTOR_CONTENT_VR;
+            SHADOWMAPDESCRIPTOR_CONTENT_VR;
 		};
 		static_assert(sizeof(ShadowmapDescriptorVR) == 0x108);
 		static_assert(offsetof(ShadowmapDescriptorVR, camera) == 0x40);
@@ -93,7 +93,7 @@ namespace RE
 	std::uint8_t                    pad559;                       /* 559 */                                                                                                                                                                                                 \
 	std::uint8_t                    pad55A;                       /* 55A */                                                                                                                                                                                                 \
 	std::uint32_t                   pad55B;                       /* 55B */
-			RUNTIME_DATA_CONTENT
+            RUNTIME_DATA_CONTENT
 		};
 
 		struct RUNTIME_DATA_VR
@@ -111,7 +111,7 @@ namespace RE
 	std::uint8_t                    pad559;                       /* 5B9 */                                                                 \
 	std::uint8_t                    pad55A;                       /* 5BA */                                                                 \
 	std::uint32_t                   pad55B;                       /* 5BB */
-			RUNTIME_DATA_CONTENT_VR
+            RUNTIME_DATA_CONTENT_VR
 		};
 
 		~BSShadowLight() override;  // 00
