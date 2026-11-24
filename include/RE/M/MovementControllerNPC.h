@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSAtomic.h"
+#include "RE/B/BSPathingLocation.h"
 #include "RE/B/BSTArray.h"
 #include "RE/I/IAnimationSetCallbackFunctor.h"
 #include "RE/I/IMovementDirectControl.h"
@@ -9,11 +10,21 @@
 #include "RE/I/IMovementPlannerDirectControl.h"
 #include "RE/I/IMovementSelectIdle.h"
 #include "RE/M/MovementControllerAI.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
 	class Actor;
 	class MovementMessage;
+
+	struct MovementLocationEvent
+	{
+	public:
+		BSPathingLocation location;      // 00
+		NiPoint3          direction;     // 30
+		std::uint32_t     messageIndex;  // 3C
+	};
+	static_assert(sizeof(MovementLocationEvent) == 0x40);
 
 	class MovementControllerNPC :
 		public MovementControllerAI,           // 000
@@ -44,24 +55,24 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void Unk_14(void);         // 14
 
 		// members
-		BSSpinLock                 unk150;            // 150
-		BSTArray<MovementMessage*> movementMessages;  // 158
-		BSTArray<void*>            unk170;            // 170
-		BSTArray<void*>            unk188;            // 188
-		BSSpinLock                 unk1A0;            // 1A0
-		std::uint64_t              unk1A8;            // 1A8
-		std::uint64_t              unk1B0;            // 1B0
-		Actor*                     actor;             // 1B8
-		std::uint32_t              unk1C0;            // 1C0
-		bool                       unk1C4;            // 1C4
-		bool                       controlsDriven;    // 1C5
-		bool                       unk1C6;            // 1C6
-		bool                       unk1C7;            // 1C7
-		bool                       unk1C8;            // 1C8
-		bool                       unk1C9;            // 1C9
-		bool                       unk1CA;            // 1CA
-		bool                       unk1CB;            // 1CB
-		std::uint32_t              unk1CC;            // 1CC
+		BSSpinLock                      messageLock;       // 150
+		BSTArray<MovementMessage*>      movementMessages;  // 158
+		BSTArray<MovementLocationEvent> locationEvents;    // 170
+		BSTArray<void*>                 unk188;            // 188
+		BSSpinLock                      unk1A0;            // 1A0
+		std::uint64_t                   unk1A8;            // 1A8
+		std::uint64_t                   unk1B0;            // 1B0
+		Actor*                          actor;             // 1B8
+		std::uint32_t                   unk1C0;            // 1C0
+		bool                            unk1C4;            // 1C4
+		bool                            controlsDriven;    // 1C5
+		bool                            unk1C6;            // 1C6
+		bool                            unk1C7;            // 1C7
+		bool                            unk1C8;            // 1C8
+		bool                            unk1C9;            // 1C9
+		bool                            unk1CA;            // 1CA
+		bool                            unk1CB;            // 1CB
+		std::uint32_t                   unk1CC;            // 1CC
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 	static_assert(sizeof(MovementControllerNPC) == 0x1D0);

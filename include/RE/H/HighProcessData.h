@@ -14,11 +14,13 @@
 #include "RE/M/Movement.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
+#include "RE/P/PathingSolutionQueue.h"
 #include "RE/P/PlayerCharacter.h"
 #include "RE/T/TESShout.h"
 
 namespace RE
 {
+	class BSPathingRequest;
 	class ActorKnowledge;
 	class BGSAttackData;
 	class BGSProjectile;
@@ -224,10 +226,10 @@ namespace RE
 		float                                                 headTrackTargetOffsetTimer;                // 174
 		ObjectRefHandle                                       lastTarget;                                // 178
 		ObjectRefHandle                                       pathLookAtTarget;                          // 17C
-		void*                                                 unk180;                                    // 180 - smart ptr
-		void*                                                 unk188;                                    // 188 - smart ptr
-		BSTSmartPointer<Data190>                              unk190;                                    // 190
-		BSTSmartPointer<Data190>                              unk198;                                    // 198
+		BSPathingRequest*                                     followerPathRequest;                       // 180 - NiPointer
+		BSPathingRequest*                                     leaderPathRequest;                         // 188 - NiPointer
+		PathingSolutionQueue*                                 followerSolutionQueue;                     // 190
+		PathingSolutionQueue*                                 leaderSolutionQueue;                       // 198
 		NiPoint3                                              unk1A0;                                    // 1A0
 		std::uint32_t                                         unk1AC;                                    // 1AC
 		std::uint64_t                                         unk1B0;                                    // 1B0
