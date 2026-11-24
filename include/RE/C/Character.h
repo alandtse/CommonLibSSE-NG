@@ -252,6 +252,13 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36854, 37878) };
 			func(this, a_doorInfo);
 		}
+
+		void RefreshCachedValues()
+		{
+			using func_t = void(Character*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36850, 37874) };
+			func(this);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }

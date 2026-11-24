@@ -1424,7 +1424,9 @@ set(SOURCES
 	include/RE/I/IMovementMessageInterface.h
 	include/RE/I/IMovementMotionDrivenControl.h
 	include/RE/I/IMovementPlannerDirectControl.h
+	include/RE/I/IMovementQueryPathingState.h
 	include/RE/I/IMovementSelectIdle.h
+	include/RE/I/IMovementSetGoal.h
 	include/RE/I/IMovementState.h
 	include/RE/I/INIPrefSettingCollection.h
 	include/RE/I/INISettingCollection.h
@@ -1588,6 +1590,7 @@ set(SOURCES
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
 	include/RE/M/MovementParameters.h
+	include/RE/M/MovementPathManagerArbiter.h
 	include/RE/M/MoviePlayer.h
 	include/RE/M/MultiBoundMarkerData.h
 	include/RE/N/NativeFunction.h

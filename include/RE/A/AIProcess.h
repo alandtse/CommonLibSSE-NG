@@ -288,6 +288,13 @@ namespace RE
 			func(this, a_handle, a_flag);
 		}
 
+		void ProcessFollowHigh(Actor* a_actor, bool a_advanceProcedure, std::int32_t a_moveMode, bool a_pursue)
+		{
+			using func_t = void(AIProcess*, Actor*, bool, std::int32_t, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38608, 39639) };
+			func(this, a_actor, a_advanceProcedure, a_moveMode, a_pursue);
+		}
+
 		// members
 		MiddleLowProcessData*                       middleLow;                      // 000
 		MiddleHighProcessData*                      middleHigh;                     // 008

@@ -4,6 +4,8 @@
 
 namespace RE
 {
+	class BSPathingLocation;
+
 	enum class ACTOR_LIFE_STATE : std::uint32_t
 	{
 		kAlive = 0,
@@ -213,6 +215,43 @@ namespace RE
 			default:
 				return false;
 			}
+		}
+
+		std::uint32_t GetFormID()
+		{
+			using func_t = std::uint32_t(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36995, 38023) };
+			return func(this);
+		}
+		void GetPathingLocation(BSPathingLocation* a_out)
+		{
+			using func_t = void(ActorState*, BSPathingLocation*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36996, 38024) };
+			func(this, a_out);
+		}
+		void GetPosition(NiPoint3* a_out)
+		{
+			using func_t = void(ActorState*, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36997, 38025) };
+			func(this, a_out);
+		}
+		void GetAngle(NiPoint3* a_out)
+		{
+			using func_t = void(ActorState*, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36998, 38026) };
+			func(this, a_out);
+		}
+		float GetScaledBoundSize()
+		{
+			using func_t = float(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37002, 38030) };
+			return func(this);
+		}
+		std::int32_t GetCharacterState()
+		{
+			using func_t = std::int32_t(ActorState*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37010, 38038) };
+			return func(this);
 		}
 
 		// members

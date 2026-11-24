@@ -902,6 +902,13 @@ namespace RE
 			func(this, a_request, a_ref, a_unk1, a_unk2, a_unkFloat, a_unk3);
 		}
 
+		std::int32_t StartPathToReference(TESObjectREFR* a_target, float a_walkRunPercent)
+		{
+			using func_t = std::int32_t(Actor*, TESObjectREFR*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36869, 37893) };
+			return func(this, a_target, a_walkRunPercent);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()
