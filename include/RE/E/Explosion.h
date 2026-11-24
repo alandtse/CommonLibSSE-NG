@@ -91,7 +91,7 @@ namespace RE
 	NiPoint3                           negativeVelocity;  /* 128 */      \
 	float                              damage;            /* 134 */      \
 	float                              unk138;            /* 138 */      \
-	REX::EnumSet<Flags, std::uint32_t> flags;             /* 13C */
+	REX::TEnumSet<Flags, std::uint32_t> flags;             /* 13C */
 
 			EXPLOSION_RUNTIME_DATA_CONTENT
 		};

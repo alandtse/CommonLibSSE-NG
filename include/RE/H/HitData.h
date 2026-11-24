@@ -85,10 +85,10 @@ namespace RE
 		float                                 unk74;                   // 74
 		float                                 pushBack;                // 78
 		float                                 reflectedDamage;         // 7C
-		REX::EnumSet<Flag, std::uint32_t>     flags;                   // 80
+		REX::TEnumSet<Flag, std::uint32_t>     flags;                   // 80
 		std::uint32_t                         equipIndex;              // 84
 		ActorValue                            skill;                   // 88
-		REX::Enum<BGSBodyPartDefs::LIMB_ENUM> damageLimb;              // 8C
+		REX::TEnum<BGSBodyPartDefs::LIMB_ENUM> damageLimb;              // 8C
 
 	private:
 		HitData* Ctor()

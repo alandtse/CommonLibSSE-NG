@@ -51,7 +51,7 @@ namespace RE
 		std::uint16_t                          pad0A;        // 0A
 		GColor                                 color;        // 0C
 		GFxFillStyle*                          complexFill;  // 10
-		REX::EnumSet<LineStyle, std::uint16_t> styleFlags;   // 18
+		REX::TEnumSet<LineStyle, std::uint16_t> styleFlags;   // 18
 		std::uint16_t                          pad1A;        // 1A
 		float                                  miterSize;    // 1C
 	};

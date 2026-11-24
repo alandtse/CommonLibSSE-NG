@@ -78,7 +78,7 @@ namespace RE
 		std::uint32_t GetRuntimeFormID(FormID rawFormID) const;
 
 		// members
-		REX::EnumSet<Error, std::uint32_t>      lastError;                        // 000
+		REX::TEnumSet<Error, std::uint32_t>      lastError;                        // 000
 		std::uint32_t                           pad004;                           // 004
 		TESFile*                                threadSafeParent;                 // 008
 		void*                                   threadSafeFileMap;                // 010 - NiTPointerMap<std::uint32_t, TESFile*>* - size == 0x20
@@ -122,7 +122,7 @@ namespace RE
 		float                                   version;                          // 42C
 		std::uint32_t                           formCount;                        // 430
 		std::uint32_t                           nextFormID;                       // 434
-		REX::EnumSet<RecordFlag, std::uint32_t> recordFlags;                      // 438
+		REX::TEnumSet<RecordFlag, std::uint32_t> recordFlags;                      // 438
 		std::uint32_t                           pad43C;                           // 43C
 		BSSimpleList<const char*>               masters;                          // 440
 		BSSimpleList<std::uint64_t*>            mastersData;                      // 450

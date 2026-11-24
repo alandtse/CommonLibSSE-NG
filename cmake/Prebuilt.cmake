@@ -15,6 +15,7 @@
 function(_commonlib_prebuilt_complete dir out_var)
     if(IS_DIRECTORY "${dir}/include"
        AND EXISTS "${dir}/lib/CommonLibSSE.lib"
+       AND EXISTS "${dir}/lib/commonlib-shared.lib"
        AND EXISTS "${dir}/lib/openvr_api.lib"
        AND IS_DIRECTORY "${dir}/extern/openvr/headers")
         set(${out_var} TRUE PARENT_SCOPE)

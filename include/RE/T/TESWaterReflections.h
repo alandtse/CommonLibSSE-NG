@@ -49,7 +49,7 @@ namespace RE
 		bool UpdateActor();
 
 		// members
-		REX::EnumSet<Flags, std::uint16_t> flags;                  // 10
+		REX::TEnumSet<Flags, std::uint16_t> flags;                  // 10
 		std::uint16_t                      pad12;                  // 12
 		NiPlane                            reflectPlane;           // 14
 		std::uint32_t                      pad24;                  // 24

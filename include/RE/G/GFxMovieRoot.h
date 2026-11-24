@@ -176,7 +176,7 @@ namespace RE
 		std::uint64_t                     unk1108[(0x24A0 - 0x1108) >> 3];  // 1108
 		GASGlobalContext*                 globalContext;                    // 24A0
 		std::uint64_t                     unk24A8[(0x25E0 - 0x24A8) >> 3];  // 1108
-		REX::EnumSet<Flag, std::uint32_t> flags;                            // 25E0
+		REX::TEnumSet<Flag, std::uint32_t> flags;                            // 25E0
 		std::uint32_t                     unk25E4;                          // 25E4
 		void**                            topmostLevelChars;                // 25E8
 		std::uint64_t                     topmostLevelCount;                // 25F0

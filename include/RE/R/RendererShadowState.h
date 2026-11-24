@@ -103,7 +103,7 @@ namespace RE
 			struct FLAT_RUNTIME_DATA
 			{
 #define FLAT_RUNTIME_DATA_CONTENT                                                                                                                                           \
-	REX::EnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                                      /* 00 Flags +0x0  0xFFFFFFFF; global state updates */ \
+	REX::TEnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                                      /* 00 Flags +0x0  0xFFFFFFFF; global state updates */ \
 	uint32_t                                   PSResourceModifiedBits;                                                /* 04 Flags +0x4  0xFFFF */                           \
 	uint32_t                                   PSSamplerModifiedBits;                                                 /* 08 Flags +0x8  0xFFFF */                           \
 	uint32_t                                   CSResourceModifiedBits;                                                /* 0c Flags +0xC  0xFFFF */                           \
@@ -131,11 +131,11 @@ namespace RE
 	uint32_t                                   alphaBlendWriteMode;                                                   /* b0, VR b8 */                                       \
 	bool                                       alphaTestEnabled;                                                      /* b4, VR BC */                                       \
 	float                                      alphaTestRef;                                                          /* b8, VR C0 */                                       \
-	REX::EnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                              /* bc, VR c4 */                                       \
-	REX::EnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                               /* fc, VR 104 */                                      \
+	REX::TEnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                              /* bc, VR c4 */                                       \
+	REX::TEnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                               /* fc, VR 104 */                                      \
 	REX::W32::ID3D11ShaderResourceView*        PSTexture[16];                                                         /* 140, VR 148 */                                     \
-	REX::EnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                              /* 1c0, VR 1c8 */                                     \
-	REX::EnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                               /* 200, VR 208 */                                     \
+	REX::TEnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                              /* 1c0, VR 1c8 */                                     \
+	REX::TEnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                               /* 200, VR 208 */                                     \
 	REX::W32::ID3D11ShaderResourceView*        CSTexture[16];                                                         /* 240, VR 248 */                                     \
 	uint32_t                                   CSTextureMinLodMode[16];                                               /* 2c0, VR 2C8 */                                     \
 	REX::W32::ID3D11UnorderedAccessView*       CSUAV[8];                                                              /* 300, VR 308 */                                     \
@@ -186,7 +186,7 @@ namespace RE
 			struct VR_RUNTIME_DATA
 			{
 #define VR_RUNTIME_DATA_CONTENT                                                                                                                                                                                  \
-	REX::EnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                                      /* 00 Flags +0x0  0xFFFFFFFF; global state updates */                                      \
+	REX::TEnumSet<ShaderFlags, uint32_t>        stateUpdateFlags;                                                      /* 00 Flags +0x0  0xFFFFFFFF; global state updates */                                      \
 	uint32_t                                   PSResourceModifiedBits;                                                /* 04 Flags +0x4  0xFFFF */                                                                \
 	uint32_t                                   PSSamplerModifiedBits;                                                 /* 08 Flags +0x8  0xFFFF */                                                                \
 	uint32_t                                   CSResourceModifiedBits;                                                /* 0c Flags +0xC  0xFFFF */                                                                \
@@ -216,11 +216,11 @@ namespace RE
 	uint32_t                                   alphaBlendWriteMode;                                                   /* b0, VR b8 */                                                                            \
 	bool                                       alphaTestEnabled;                                                      /* b4, VR BC */                                                                            \
 	float                                      alphaTestRef;                                                          /* b8, VR C0 */                                                                            \
-	REX::EnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                              /* bc, VR c4 */                                                                            \
-	REX::EnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                               /* fc, VR 104 */                                                                           \
+	REX::TEnumSet<TextureAddressMode, uint32_t> PSTextureAddressMode[16];                                              /* bc, VR c4 */                                                                            \
+	REX::TEnumSet<TextureFilterMode, uint32_t>  PSTextureFilterMode[16];                                               /* fc, VR 104 */                                                                           \
 	REX::W32::ID3D11ShaderResourceView*        PSTexture[16];                                                         /* 140, VR 148 */                                                                          \
-	REX::EnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                              /* 1c0, VR 1c8 */                                                                          \
-	REX::EnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                               /* 200, VR 208 */                                                                          \
+	REX::TEnumSet<TextureAddressMode, uint32_t> CSTextureAddressMode[16];                                              /* 1c0, VR 1c8 */                                                                          \
+	REX::TEnumSet<TextureFilterMode, uint32_t>  CSTextureFilterMode[16];                                               /* 200, VR 208 */                                                                          \
 	REX::W32::ID3D11ShaderResourceView*        CSTexture[16];                                                         /* 240, VR 248 */                                                                          \
 	uint32_t                                   CSTextureMinLodMode[16];                                               /* 2c0, VR 2C8 */                                                                          \
 	REX::W32::ID3D11UnorderedAccessView*       CSUAV[8];                                                              /* 300, VR 308 */                                                                          \

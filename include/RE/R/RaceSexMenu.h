@@ -37,7 +37,7 @@ namespace RE
 	std::uint32_t                    pad18C;        /* 14C */                              \
 	std::uint32_t                    unk190;        /* 150 */                              \
 	std::uint32_t                    unk194;        /* 154 */                              \
-	REX::EnumSet<SEX, std::uint32_t> sex;           /* 158 */                              \
+	REX::TEnumSet<SEX, std::uint32_t> sex;           /* 158 */                              \
 	std::uint16_t                    unk19C;        /* 15C */                              \
 	std::uint8_t                     unk19E;        /* 15E */                              \
 	std::uint8_t                     pad19F;        /* 15F */                              \
@@ -61,7 +61,7 @@ namespace RE
 	std::uint32_t                    pad18C;        /* 0F4 */                              \
 	std::uint32_t                    unk190;        /* 0F8 */                              \
 	std::uint32_t                    unk194;        /* 0FC */                              \
-	REX::EnumSet<SEX, std::uint32_t> sex;           /* 100 */                              \
+	REX::TEnumSet<SEX, std::uint32_t> sex;           /* 100 */                              \
 	std::uint16_t                    unk19C;        /* 104 */                              \
 	std::uint8_t                     unk19E;        /* 106 */                              \
 	std::uint8_t                     pad19F;        /* 107 */                              \

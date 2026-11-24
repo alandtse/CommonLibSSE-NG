@@ -2,7 +2,7 @@
 # consumable. Runs on every PR to ng (validation only) and is called by release.yml on
 # a published release (with attach_tag set) to attach the bundle to the GitHub release.
 #
-# Three bundles, all baked with the same config (skyrim all (SE+AE+VR) + rex_ini + skse_xbyak): xmake
+# Three bundles, all baked with the same config (skyrim all (SE+AE+VR) + commonlib_ini/json/toml/random + skse_xbyak): xmake
 # (MSVC), cmake built by MSVC, and cmake built by clang-cl. A consumer only ever links the bundle from
 # its own compiler family (see cmake/Prebuilt.cmake), so the clean-tag auto-fetch in each build file can
 # download + link one with zero CommonLib recompile — see PREBUILT.md.
@@ -84,9 +84,9 @@ jobs:
       - name: Update xmake package repo
         run: xmake repo --update
 
-      - name: Build commonlibsse-ng (all + rex_ini + rex_json + rex_toml + skse_xbyak, releasedbg)
+      - name: Build commonlibsse-ng (all + commonlib_ini + commonlib_json + commonlib_toml + commonlib_random + skse_xbyak, releasedbg)
         run: |
-          xmake config -m releasedbg -a x64 --skyrim_se=y --skyrim_ae=y --skyrim_vr=y --rex_ini=y --rex_json=y --rex_toml=y --skse_xbyak=y --yes
+          xmake config -m releasedbg -a x64 --skyrim_se=y --skyrim_ae=y --skyrim_vr=y --commonlib_ini=y --commonlib_json=y --commonlib_toml=y --commonlib_random=y --skse_xbyak=y --yes
           xmake build --yes commonlibsse-ng
 
       - name: Assemble bundle + stage into self-test consumer
@@ -143,7 +143,7 @@ jobs:
           gh release view "$env:ATTACH_TAG" *> $null
           if ($LASTEXITCODE -ne 0) {
             gh release create "$env:ATTACH_TAG" --title "CommonLibSSE-NG $env:ATTACH_TAG" `
-              --notes "Prebuilt CommonLib bundle for downstream xmake consumers (config: skyrim all + rex_ini + rex_json + rex_toml + skse_xbyak). See PREBUILT.md."
+              --notes "Prebuilt CommonLib bundle for downstream xmake consumers (config: skyrim all + commonlib_ini + commonlib_json + commonlib_toml + commonlib_random + skse_xbyak). See PREBUILT.md."
           }
           gh release upload "$env:ATTACH_TAG" "${{ steps.bundle.outputs.bundle }}" "${{ steps.bundle.outputs.sha }}" --clobber
 
@@ -209,7 +209,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -218,7 +218,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -229,7 +229,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
@@ -239,7 +239,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-msvc-
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
@@ -258,14 +258,14 @@ jobs:
           shell: pwsh
           command: |
             Set-Location "${{ github.workspace }}"
-            cmake --preset build-release-msvc-vcpkg-all -DREX_OPTION_INI=ON -DREX_OPTION_JSON=ON -DREX_OPTION_TOML=ON -DSKSE_SUPPORT_XBYAK=ON -DBUILD_TESTS=OFF
+            cmake --preset build-release-msvc-vcpkg-all "-DVCPKG_MANIFEST_FEATURES=ini;json;toml;random" -DCOMMONLIB_INI=ON -DCOMMONLIB_JSON=ON -DCOMMONLIB_TOML=ON -DCOMMONLIB_RANDOM=ON -DSKSE_SUPPORT_XBYAK=ON -DBUILD_TESTS=OFF
 
-      - name: Build CommonLibSSE (all + rex_ini + rex_json + rex_toml + skse_xbyak, release)
+      - name: Build CommonLibSSE (all + commonlib_ini + commonlib_json + commonlib_toml + commonlib_random + skse_xbyak, release)
         uses: lukka/run-cmake@v10
         with:
           cmakeListsTxtPath: ${{ github.workspace }}/CMakeLists.txt
           configurePreset: build-release-msvc-vcpkg-all
-          configurePresetAdditionalArgs: "['-DREX_OPTION_INI=ON', '-DREX_OPTION_JSON=ON', '-DREX_OPTION_TOML=ON', '-DSKSE_SUPPORT_XBYAK=ON', '-DBUILD_TESTS=OFF']"
+          configurePresetAdditionalArgs: "['-DVCPKG_MANIFEST_FEATURES=ini;json;toml;random', '-DCOMMONLIB_INI=ON', '-DCOMMONLIB_JSON=ON', '-DCOMMONLIB_TOML=ON', '-DCOMMONLIB_RANDOM=ON', '-DSKSE_SUPPORT_XBYAK=ON', '-DBUILD_TESTS=OFF']"
           buildPreset: release-msvc-vcpkg-all
 
       - name: Assemble bundle
@@ -280,11 +280,14 @@ jobs:
           $lib = "build/release-msvc-vcpkg-all/CommonLibSSE.lib"
           if (-not (Test-Path $lib)) { Write-Error "lib not found at $lib"; exit 1 }
           Copy-Item $lib "$stage/lib/"
+          $sharedLib = "build/release-msvc-vcpkg-all/vcpkg_installed/x64-windows-static-md/lib/commonlib-shared.lib"
+          if (-not (Test-Path $sharedLib)) { Write-Error "lib not found at $sharedLib"; exit 1 }
+          Copy-Item $sharedLib "$stage/lib/"
           # openvr_api.lib is linked PUBLIC by the IMPORTED target, so it ships in the bundle.
           Copy-Item extern/openvr/lib/win64/openvr_api.lib "$stage/lib/"
           Copy-Item PREBUILT.md "$stage/"
           Copy-Item licenses/LICENSE-hde64.txt "$stage/"
-          # Stamp the toolset version (Prebuilt.cmake's compatibility gate); the file-version
+          # Stamp the toolset (Prebuilt.cmake's compatibility gate); the file-version
           # resource, not the usage banner, is locale-independent and matches CMake's own format.
           $clPath = (Get-Command cl.exe -ErrorAction Stop).Source
           $clVersion = (Get-Item $clPath).VersionInfo.FileVersion
@@ -293,6 +296,9 @@ jobs:
           # Which compiler family built the bundle; Prebuilt.cmake only links it into the same family.
           "msvc" | Out-File "$stage/TOOLCHAIN_ID.txt" -Encoding ascii -NoNewline
           Copy-Item -Recurse include "$stage/include"
+          $sharedRexInc = "build/release-msvc-vcpkg-all/vcpkg_installed/x64-windows-static-md/include/REX"
+          if (-not (Test-Path $sharedRexInc)) { Write-Error "REX headers not found at $sharedRexInc"; exit 1 }
+          Copy-Item -Recurse -Force "$sharedRexInc/*" "$stage/include/REX/"
           Copy-Item -Recurse extern/openvr/headers "$stage/extern/openvr/headers"
           # .zip so the consumer's file(ARCHIVE_EXTRACT) (libarchive) unpacks it reliably.
           Compress-Archive -Path "$stage" -DestinationPath "$stage.zip" -Force
@@ -333,7 +339,7 @@ jobs:
           gh release view "$env:ATTACH_TAG" *> $null
           if ($LASTEXITCODE -ne 0) {
             gh release create "$env:ATTACH_TAG" --title "CommonLibSSE-NG $env:ATTACH_TAG" `
-              --notes "Prebuilt CommonLib bundles for downstream consumers (config: skyrim all + rex_ini + rex_json + rex_toml + skse_xbyak). See PREBUILT.md."
+              --notes "Prebuilt CommonLib bundles for downstream consumers (config: skyrim all + commonlib_ini + commonlib_json + commonlib_toml + commonlib_random + skse_xbyak). See PREBUILT.md."
           }
           gh release upload "$env:ATTACH_TAG" "${{ steps.bundle.outputs.bundle }}" "${{ steps.bundle.outputs.sha }}" --clobber
 
@@ -395,7 +401,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -404,7 +410,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -415,7 +421,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-clangcl-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-clangcl-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-clangcl-
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
@@ -425,7 +431,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-clangcl-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-clangcl-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-clangcl-
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-static-md-
@@ -445,14 +451,14 @@ jobs:
           shell: pwsh
           command: |
             Set-Location "${{ github.workspace }}"
-            cmake -S . -B "$env:RUNNER_TEMP/vcpkg-warmup" --preset build-release-clang-cl-vcpkg-all -DREX_OPTION_INI=ON -DREX_OPTION_JSON=ON -DREX_OPTION_TOML=ON -DSKSE_SUPPORT_XBYAK=ON -DBUILD_TESTS=OFF -DCOMMONLIB_ENABLE_IPO=OFF
+            cmake -S . -B "$env:RUNNER_TEMP/vcpkg-warmup" --preset build-release-clang-cl-vcpkg-all "-DVCPKG_MANIFEST_FEATURES=ini;json;toml;random" -DCOMMONLIB_INI=ON -DCOMMONLIB_JSON=ON -DCOMMONLIB_TOML=ON -DCOMMONLIB_RANDOM=ON -DSKSE_SUPPORT_XBYAK=ON -DBUILD_TESTS=OFF -DCOMMONLIB_ENABLE_IPO=OFF
 
-      - name: Build CommonLibSSE (all + rex_ini + rex_json + rex_toml + skse_xbyak, release)
+      - name: Build CommonLibSSE (all + commonlib_ini + commonlib_json + commonlib_toml + commonlib_random + skse_xbyak, release)
         uses: lukka/run-cmake@v10
         with:
           cmakeListsTxtPath: ${{ github.workspace }}/CMakeLists.txt
           configurePreset: build-release-clang-cl-vcpkg-all
-          configurePresetAdditionalArgs: "['-DREX_OPTION_INI=ON', '-DREX_OPTION_JSON=ON', '-DREX_OPTION_TOML=ON', '-DSKSE_SUPPORT_XBYAK=ON', '-DBUILD_TESTS=OFF', '-DCOMMONLIB_ENABLE_IPO=OFF']"
+          configurePresetAdditionalArgs: "['-DVCPKG_MANIFEST_FEATURES=ini;json;toml;random', '-DCOMMONLIB_INI=ON', '-DCOMMONLIB_JSON=ON', '-DCOMMONLIB_TOML=ON', '-DCOMMONLIB_RANDOM=ON', '-DSKSE_SUPPORT_XBYAK=ON', '-DBUILD_TESTS=OFF', '-DCOMMONLIB_ENABLE_IPO=OFF']"
           buildPreset: release-clang-cl-vcpkg-all
 
       - name: Assemble bundle
@@ -467,6 +473,9 @@ jobs:
           $lib = "build/release-clang-cl-vcpkg-all/CommonLibSSE.lib"
           if (-not (Test-Path $lib)) { Write-Error "lib not found at $lib"; exit 1 }
           Copy-Item $lib "$stage/lib/"
+          $sharedLib = "build/release-clang-cl-vcpkg-all/vcpkg_installed/x64-windows-static-md/lib/commonlib-shared.lib"
+          if (-not (Test-Path $sharedLib)) { Write-Error "lib not found at $sharedLib"; exit 1 }
+          Copy-Item $sharedLib "$stage/lib/"
           # openvr_api.lib is linked PUBLIC by the IMPORTED target, so it ships in the bundle.
           Copy-Item extern/openvr/lib/win64/openvr_api.lib "$stage/lib/"
           Copy-Item PREBUILT.md "$stage/"
@@ -479,6 +488,9 @@ jobs:
           $clangVersion | Out-File "$stage/TOOLSET_VERSION.txt" -Encoding ascii -NoNewline
           "clangcl" | Out-File "$stage/TOOLCHAIN_ID.txt" -Encoding ascii -NoNewline
           Copy-Item -Recurse include "$stage/include"
+          $sharedRexInc = "build/release-clang-cl-vcpkg-all/vcpkg_installed/x64-windows-static-md/include/REX"
+          if (-not (Test-Path $sharedRexInc)) { Write-Error "REX headers not found at $sharedRexInc"; exit 1 }
+          Copy-Item -Recurse -Force "$sharedRexInc/*" "$stage/include/REX/"
           Copy-Item -Recurse extern/openvr/headers "$stage/extern/openvr/headers"
           # .zip so the consumer's file(ARCHIVE_EXTRACT) (libarchive) unpacks it reliably.
           Compress-Archive -Path "$stage" -DestinationPath "$stage.zip" -Force
@@ -525,6 +537,6 @@ jobs:
           gh release view "$env:ATTACH_TAG" *> $null
           if ($LASTEXITCODE -ne 0) {
             gh release create "$env:ATTACH_TAG" --title "CommonLibSSE-NG $env:ATTACH_TAG" `
-              --notes "Prebuilt CommonLib bundles for downstream consumers (config: skyrim all + rex_ini + rex_json + rex_toml + skse_xbyak). See PREBUILT.md."
+              --notes "Prebuilt CommonLib bundles for downstream consumers (config: skyrim all + commonlib_ini + commonlib_json + commonlib_toml + commonlib_random + skse_xbyak). See PREBUILT.md."
           }
           gh release upload "$env:ATTACH_TAG" "$env:BUNDLE" "$env:SHA" --clobber

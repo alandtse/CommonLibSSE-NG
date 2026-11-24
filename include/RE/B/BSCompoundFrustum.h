@@ -27,7 +27,7 @@ namespace RE
 
 		struct Operator
 		{
-			REX::Enum<OperatorType, std::int32_t> type;    // 00
+			REX::TEnum<OperatorType, std::int32_t> type;    // 00
 			std::uint32_t                         onPass;  // 04
 			std::uint32_t                         onFail;  // 08
 		};

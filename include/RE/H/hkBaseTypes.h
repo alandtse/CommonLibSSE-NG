@@ -60,5 +60,5 @@ namespace RE
 	static_assert(sizeof(hkBool) == 0x1);
 
 	template <class E, class U>
-	using hkEnum = REX::EnumSet<E, U>;
+	using hkEnum = REX::TEnumSet<E, U>;
 }

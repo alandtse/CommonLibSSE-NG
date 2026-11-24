@@ -268,7 +268,7 @@ namespace RE
 		// members
 		float                                      timer;   // 0
 		RefHandle                                  refObj;  // 4
-		REX::EnumSet<PLAYER_ACTION, std::uint32_t> next;    // 8
+		REX::TEnumSet<PLAYER_ACTION, std::uint32_t> next;    // 8
 	};
 	static_assert(sizeof(PlayerActionObject) == 0xC);
 
@@ -522,7 +522,7 @@ namespace RE
 	ActorHandle                               assumedIdentity; /* 4 */ \
 	std::int8_t                               murder;          /* 8 */ \
 	std::uint8_t                              perkCount;       /* 9 */ \
-	REX::EnumSet<ByCharGenFlag, std::uint8_t> byCharGenFlag;   /* A */ \
+	REX::TEnumSet<ByCharGenFlag, std::uint8_t> byCharGenFlag;   /* A */ \
 	std::uint8_t                              padB;            /* B */
 
 			GAME_STATE_DATA_CONTENT
@@ -898,8 +898,8 @@ namespace RE
 	TESImageSpaceModifier*                     sunGazeImageSpaceModifier;                             /* AE0 */                                                                                                                               \
 	ActorValue                                 advanceSkill;                                          /* AE8 */                                                                                                                               \
 	std::uint32_t                              advanceAction;                                         /* AEC */                                                                                                                               \
-	REX::EnumSet<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                                 /* AF0 */                                                                                                                               \
-	REX::EnumSet<GrabbingType, std::uint32_t>  grabType;                                              /* AF4 */                                                                                                                               \
+	REX::TEnumSet<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                                 /* AF0 */                                                                                                                               \
+	REX::TEnumSet<GrabbingType, std::uint32_t>  grabType;                                              /* AF4 */                                                                                                                               \
 	GAME_STATE_DATA_CONTENT;                                                                          /* AF8 */                                                                                                                               \
 	std::uint32_t        unkB04;                                                                      /* B04 */                                                                                                                               \
 	Crime*               resistArrestCrime;                                                           /* B08 */                                                                                                                               \
@@ -1052,7 +1052,7 @@ namespace RE
 	TESImageSpaceModifier*                     sunGazeImageSpaceModifier;                             /* 11E0 */                                                                                                                                                                                                                                                                                          \
 	ActorValue                                 advanceSkill;                                          /* 11E8 - advance values set, then cleared in PlayerSkills::ModSkillPoints surronding ApplyPerkEntry */                                                                                                                                                                                             \
 	std::uint32_t                              advanceAction;                                         /* 11EC - Part of 10F0 and 11E8 */                                                                                                                                                                                                                                                                  \
-	REX::EnumSet<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                                 /* 11F0 */                                                                                                                                                                                                                                                                                          \
+	REX::TEnumSet<DEFAULT_OBJECT, std::int32_t> animationObjectAction;                                 /* 11F0 */                                                                                                                                                                                                                                                                                          \
 	/* grabType (SE offset AF4) confirmed absent here -- VR's ctor writes animationObjectAction (11F0) then GAME_STATE_DATA_CONTENT's first field directly at 11F4, no gap. VR uses its own physical hand-grab system (grabbedObjectData) instead. */                                                                                                                                                     \
 	GAME_STATE_DATA_CONTENT;                         /* 11F4 */                                                                                                                                                                                                                                                                                                                                           \
 	Crime*               resistArrestCrime;          /* 1200 */                                                                                                                                                                                                                                                                                                                                           \

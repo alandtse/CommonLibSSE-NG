@@ -30,7 +30,7 @@ namespace RE
 			}
 
 			// members
-			REX::EnumSet<EntryBitfieldConstants, std::uint32_t> handleEntryBits;  // 00
+			REX::TEnumSet<EntryBitfieldConstants, std::uint32_t> handleEntryBits;  // 00
 			std::uint32_t                                       pad04;            // 04
 			NiPointer<BSHandleRefObject>                        pointer;          // 08
 		};

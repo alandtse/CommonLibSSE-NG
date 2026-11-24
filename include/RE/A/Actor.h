@@ -723,9 +723,9 @@ namespace RE
 		struct ACTOR_RUNTIME_DATA
 		{
 #define RUNTIME_DATA_CONTENT                                                                       \
-	REX::EnumSet<BOOL_BITS, std::uint32_t>            boolBits;                          /* 0E0 */ \
+	REX::TEnumSet<BOOL_BITS, std::uint32_t>            boolBits;                          /* 0E0 */ \
 	float                                             updateTargetTimer;                 /* 0E4 */ \
-	REX::EnumSet<ACTOR_CRITICAL_STAGE, std::uint32_t> criticalStage;                     /* 0E8 */ \
+	REX::TEnumSet<ACTOR_CRITICAL_STAGE, std::uint32_t> criticalStage;                     /* 0E8 */ \
 	std::uint32_t                                     pad0EC;                            /* 0EC */ \
 	AIProcess*                                        currentProcess;                    /* 0F0 */ \
 	ObjectRefHandle                                   dialogueItemTarget;                /* 0F8 */ \
@@ -762,7 +762,7 @@ namespace RE
 	std::uint32_t                                     pad1EC;                            /* 1EC */ \
 	TESRace*                                          race;                              /* 1F0 */ \
 	float                                             equippedWeight;                    /* 1F8 */ \
-	REX::EnumSet<BOOL_FLAGS, std::uint32_t>           boolFlags;                         /* 1FC */ \
+	REX::TEnumSet<BOOL_FLAGS, std::uint32_t>           boolFlags;                         /* 1FC */ \
 	ActorValueStorage                                 avStorage;                         /* 200 */ \
 	BGSDialogueBranch*                                exclusiveBranch;                   /* 220 */ \
 	Modifiers                                         healthModifiers;                   /* 228 */ \

@@ -52,8 +52,8 @@ namespace RE
 		};
 
 		// members
-		REX::EnumSet<BipedObjectSlot, std::uint32_t> bipedObjectSlots;  // 0
-		REX::EnumSet<ArmorType, std::uint32_t>       armorType;         // 4
+		REX::TEnumSet<BipedObjectSlot, std::uint32_t> bipedObjectSlots;  // 0
+		REX::TEnumSet<ArmorType, std::uint32_t>       armorType;         // 4
 	};
 	static_assert(sizeof(BIPED_MODEL) == 0x8);
 
@@ -76,7 +76,7 @@ namespace RE
 
 		BipedObjectSlot                                            AddSlotToMask(BipedObjectSlot a_slot);
 		[[nodiscard]] ArmorType                                    GetArmorType() const;
-		[[nodiscard]] REX::EnumSet<BipedObjectSlot, std::uint32_t> GetSlotMask() const;
+		[[nodiscard]] REX::TEnumSet<BipedObjectSlot, std::uint32_t> GetSlotMask() const;
 		[[nodiscard]] bool                                         HasPartOf(BipedObjectSlot a_flag) const;
 		[[nodiscard]] bool                                         IsClothing() const;
 		[[nodiscard]] bool                                         IsHeavyArmor() const;

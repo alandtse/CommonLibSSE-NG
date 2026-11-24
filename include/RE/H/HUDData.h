@@ -28,7 +28,7 @@ namespace RE
 		}
 
 		// members
-		REX::EnumSet<HUD_MESSAGE_TYPE, std::uint32_t> type;          // 10
+		REX::TEnumSet<HUD_MESSAGE_TYPE, std::uint32_t> type;          // 10
 		std::uint32_t                                 pad14;         // 14
 		BSString                                      text;          // 18
 		ObjectRefHandle                               crosshairRef;  // 28
@@ -38,7 +38,7 @@ namespace RE
 		bool                                          show;          // 40
 		std::uint8_t                                  pad41;         // 41
 		std::uint16_t                                 pad42;         // 42
-		REX::EnumSet<MARKER_TYPE, std::uint32_t>      discovery;     // 44
+		REX::TEnumSet<MARKER_TYPE, std::uint32_t>      discovery;     // 44
 	};
 	static_assert(sizeof(HUDData) == 0x48);
 }

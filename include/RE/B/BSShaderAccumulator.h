@@ -5,7 +5,6 @@
 #include "RE/N/NiColor.h"
 #include "RE/N/NiSmartPointer.h"
 #include "REL/RuntimeDataAccessors.h"
-#include "REX/REX/EnumSet.h"
 
 namespace RE
 {

@@ -2,12 +2,17 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
   "name": "prebuilt-consumer-cmake",
   "version": "0.0.1",
-  "builtin-baseline": "ee12231b20c95013c6638d845d04c91559a1d1ff",
-  "description": "Self-test consumer for the CommonLibSSE CMake prebuilt auto-fetch. This consumer leaves rex_ini and skse_xbyak OFF (the common case), so it does NOT need simpleini or xbyak — proving the baked lib is a usable superset for those options.",
+  "builtin-baseline": "00c5775211f45cd08b37fce0484b4cb940e422ab",
+  "description": "Self-test consumer for the CommonLibSSE CMake prebuilt auto-fetch. This consumer leaves commonlib options and skse_xbyak OFF (the common case), so it does NOT need simpleini, glaze, toml11, xoshiro-cpp, or xbyak — proving the baked lib is a usable superset for those options.",
   "supports": "windows & x64",
   "dependencies": [
-    "spdlog",
-    "fmt",
+    {
+      "name": "spdlog",
+      "default-features": false,
+      "features": [
+        "wchar"
+      ]
+    },
     "directxtk",
     "directxmath"
   ]

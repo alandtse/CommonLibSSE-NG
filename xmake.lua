@@ -12,23 +12,71 @@ set_encodings("utf-8")
 add_rules("mode.debug", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
+package("commonlib-shared")
+    set_homepage("https://github.com/libxse/commonlib-shared")
+    set_description("Shared library for CommonLib projects")
+    set_license("GPL-3.0-or-later")
+
+    add_urls("https://github.com/libxse/commonlib-shared.git")
+    add_versions("2026.11.16", "def5f6c93db28d20307d8e55a62118fc1c4f0b6c")
+
+    add_configs("ini", { description = "enable REX::INI settings support", default = false, type = "boolean" })
+    add_configs("json", { description = "enable REX::JSON settings support", default = false, type = "boolean" })
+    add_configs("random", { description = "enable REX::TRandom support", default = false, type = "boolean" })
+    add_configs("toml", { description = "enable REX::TOML settings support", default = false, type = "boolean" })
+
+    add_deps("spdlog v1.16.0", { configs = { header_only = false, wchar = true, std_format = true } })
+
+    on_load(function(package)
+        if package:config("ini") then
+            package:add("deps", "simpleini v4.25")
+        end
+        if package:config("json") then
+            package:add("deps", "glaze v7.0.0")
+        end
+        if package:config("random") then
+            package:add("deps", "xoshiro-cpp 2021.08.04")
+        end
+        if package:config("toml") then
+            package:add("deps", "toml11 v4.4.0")
+        end
+    end)
+
+    on_install("windows", function(package)
+        -- CommonLibSSE-NG provides its own multi-runtime REL implementation (SE/AE/VR);
+        -- strip commonlib-shared's single-runtime REL files so they are neither compiled nor installed.
+        os.tryrm("include/REL")
+        os.tryrm("src/REL")
+        io.replace("xmake.lua", '"include/(REL/**.h)",', "", { plain = true })
+
+        import("package.tools.xmake").install(package, {
+            "--commonlib_ini=" .. (package:config("ini") and "y" or "n"),
+            "--commonlib_json=" .. (package:config("json") and "y" or "n"),
+            "--commonlib_toml=" .. (package:config("toml") and "y" or "n"),
+            "--commonlib_random=" .. (package:config("random") and "y" or "n")
+        })
+    end)
+package_end()
+
 -- add options
-option("rex_ini", function()
+option("commonlib_ini", function()
     set_default(false)
-    set_description("Enable ini config support for REX")
-    add_defines("REX_OPTION_INI=1")
+    set_description("Enable REX::INI settings support")
 end)
 
-option("rex_json", function()
+option("commonlib_json", function()
     set_default(false)
-    set_description("Enable json config support for REX")
-    add_defines("REX_OPTION_JSON=1")
+    set_description("Enable REX::JSON settings support")
 end)
 
-option("rex_toml", function()
+option("commonlib_toml", function()
     set_default(false)
-    set_description("Enable toml config support for REX")
-    add_defines("REX_OPTION_TOML=1")
+    set_description("Enable REX::TOML settings support")
+end)
+
+option("commonlib_random", function()
+    set_default(false)
+    set_description("Enable REX::TRandom support")
 end)
 
 option("skyrim_se", function()
@@ -68,20 +116,16 @@ option("tests", function()
 end)
 
 -- add packages
+add_requires("commonlib-shared 2026.11.16", {
+    configs = {
+        ini = has_config("commonlib_ini"),
+        json = has_config("commonlib_json"),
+        toml = has_config("commonlib_toml"),
+        random = has_config("commonlib_random")
+    }
+})
 add_requires("directxmath 2024.02", "directxtk 24.2.0")
 add_requires("spdlog v1.16.0", { configs = { header_only = false, wchar = true, std_format = true } })
-
-if has_config("rex_ini") then
-    add_requires("simpleini v4.25")
-end
-
-if has_config("rex_json") then
-    add_requires("nlohmann_json v3.12.0")
-end
-
-if has_config("rex_toml") then
-    add_requires("toml11 v4.4.0")
-end
 
 if has_config("skse_xbyak") then
     add_requires("xbyak v7.06")
@@ -171,7 +215,7 @@ target("commonlibsse-ng", function()
             target:data_set("commonlib.prebuiltdir", prebuiltdir)
             target:add("linkdirs", path.join(prebuiltdir, "lib"), { public = true })
             target:add("links", "commonlibsse-ng", { public = true })
-            target:add("syslinks", "advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version", { public = true })
+            target:add("syslinks", "advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version", "ws2_32", { public = true })
         else
             -- Source build only: a phony target ignores add_files but would still build a
             -- pcxxheader, so set the PCH here rather than unconditionally.
@@ -215,15 +259,14 @@ target("commonlibsse-ng", function()
     -- Once options are resolved: if we're on a prebuilt, refuse an ABI-incompatible config,
     -- and supply openvr headers from the bundle when the nested openvr submodule isn't
     -- checked out. Only the skyrim runtime set is layout-critical (linking the fixed lib while
-    -- compiling ENABLE_SKYRIM_* headers differently is a silent ABI break). rex_ini and
-    -- skse_xbyak are additive — the baked lib is a superset, and this target only adds their
-    -- defines/packages when the consumer enables them — so a consumer may leave them off.
-    -- rex_json/toml are baked off, so the lib lacks those symbols and they must stay off.
+    -- compiling ENABLE_SKYRIM_* headers differently is a silent ABI break). skse_xbyak is
+    -- additive (the baked lib is a superset), and commonlib-shared is built separately per
+    -- consumer config.
     on_config(function(target)
         if target:kind() ~= "phony" then return end
         local required = {
             skyrim_se = true, skyrim_ae = true, skyrim_vr = true,
-            rex_json = false, rex_toml = false, skse_patch_safety = true,
+            skse_patch_safety = true,
         }
         for opt, want in pairs(required) do
             local got = has_config(opt) and true or false
@@ -244,7 +287,7 @@ target("commonlibsse-ng", function()
     set_default(os.scriptdir() == os.projectdir())
 
     -- add packages
-    add_packages("directxmath", "directxtk", "spdlog", { public = true })
+    add_packages("commonlib-shared", "directxmath", "directxtk", "spdlog", { public = true })
 
     -- add config packages
     if has_config("skyrim_vr") then
@@ -257,24 +300,12 @@ target("commonlibsse-ng", function()
         end
     end
 
-    if has_config("rex_ini") then
-        add_packages("simpleini", { public = true })
-    end
-
-    if has_config("rex_json") then
-        add_packages("nlohmann_json", { public = true })
-    end
-
-    if has_config("rex_toml") then
-        add_packages("toml11", { public = true })
-    end
-
     if has_config("skse_xbyak") then
         add_packages("xbyak", { public = true })
     end
 
     -- add options
-    add_options("rex_ini", "rex_json", "rex_toml", "skyrim_se", "skyrim_ae", "skyrim_vr", "skse_xbyak", "skse_patch_safety", "tests", { public = true })
+    add_options("commonlib_ini", "commonlib_json", "commonlib_toml", "commonlib_random", "skyrim_se", "skyrim_ae", "skyrim_vr", "skse_xbyak", "skse_patch_safety", "tests", { public = true })
 
     if (has_config("skyrim_se") and has_config("skyrim_ae"))
         or (has_config("skyrim_se") and has_config("skyrim_vr"))
@@ -284,7 +315,7 @@ target("commonlibsse-ng", function()
 
     -- System links + sources. A phony (prebuilt) target ignores add_files, and the
     -- prebuilt path adds its own public syslinks in on_load, so this stays unconditional.
-    add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version")
+    add_syslinks("advapi32", "bcrypt", "d3d11", "d3dcompiler", "dbghelp", "dxgi", "ole32", "shell32", "user32", "version", "ws2_32")
     add_files("src/**.cpp")
 
     -- add header files

@@ -2,6 +2,8 @@
 
 #include "RE/B/BSTEvent.h"
 
+#include "REX/LOG.h"
+
 #include "SKSE/Events.h"
 #include "SKSE/Interfaces.h"
 #include "SKSE/Version.h"
@@ -25,9 +27,9 @@ namespace SKSE
 	{
 		bool log{ true };
 #ifndef NDEBUG
-		spdlog::level::level_enum logLevel{ spdlog::level::debug };
+		REX::ELogLevel logLevel{ REX::ELogLevel::Debug };
 #else
-		spdlog::level::level_enum logLevel{ spdlog::level::info };
+		REX::ELogLevel logLevel{ REX::ELogLevel::Info };
 #endif
 		const char* logName{ nullptr };
 		const char* logPattern{ nullptr };

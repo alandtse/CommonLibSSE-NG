@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.19)
 
-option(REX_OPTION_INI "Enables ini config support for REX." OFF)
-option(REX_OPTION_JSON "Enables json config support for REX." OFF)
-option(REX_OPTION_TOML "Enables toml config support for REX." OFF)
+option(COMMONLIB_INI "Enable REX::INI settings support." OFF)
+option(COMMONLIB_JSON "Enable REX::JSON settings support." OFF)
+option(COMMONLIB_TOML "Enable REX::TOML settings support." OFF)
+option(COMMONLIB_RANDOM "Enable REX::TRandom support." OFF)
 option(SKSE_SUPPORT_XBYAK "Enables trampoline support for Xbyak." OFF)
 option(SKSE_SUPPORT_PATCH_SAFETY "Validate Trampoline::write_branch patch sites land on instruction boundaries before writing (vendors hde64); logs and still writes on failure, never blocks." ON)
 option(ENABLE_SKYRIM_SE "Enable support for Skyrim SE in the dynamic runtime feature." ON)
@@ -82,11 +83,21 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 	)
 	# The lib bakes every REX config + xbyak, but they're additive — expose only the ones the
 	# consumer opted into, so it gets exactly the API (and headers) it asked for.
-	foreach(_opt REX_OPTION_INI REX_OPTION_JSON REX_OPTION_TOML SKSE_SUPPORT_XBYAK)
-		if(${_opt})
-			target_compile_definitions("${PROJECT_NAME}" INTERFACE ${_opt}=1)
-		endif()
-	endforeach()
+	if(COMMONLIB_INI)
+		target_compile_definitions("${PROJECT_NAME}" INTERFACE COMMONLIB_OPTION_INI=1)
+	endif()
+	if(COMMONLIB_JSON)
+		target_compile_definitions("${PROJECT_NAME}" INTERFACE COMMONLIB_OPTION_JSON=1)
+	endif()
+	if(COMMONLIB_TOML)
+		target_compile_definitions("${PROJECT_NAME}" INTERFACE COMMONLIB_OPTION_TOML=1)
+	endif()
+	if(COMMONLIB_RANDOM)
+		target_compile_definitions("${PROJECT_NAME}" INTERFACE COMMONLIB_OPTION_RANDOM=1)
+	endif()
+	if(SKSE_SUPPORT_XBYAK)
+		target_compile_definitions("${PROJECT_NAME}" INTERFACE SKSE_SUPPORT_XBYAK=1)
+	endif()
 	if(MSVC)
 		target_compile_options(
 			"${PROJECT_NAME}" INTERFACE
@@ -98,6 +109,7 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 	endif()
 	target_link_libraries(
 		"${PROJECT_NAME}" INTERFACE
+		"${COMMONLIB_PREBUILT_RESOLVED}/lib/commonlib-shared.lib"
 		spdlog::spdlog
 		Microsoft::DirectXTK
 		advapi32.lib
@@ -107,11 +119,20 @@ if(COMMONLIB_PREBUILT_RESOLVED)
 		dbghelp.lib
 		DXGI.lib
 		ole32.lib
+		shell32.lib
+		user32.lib
 		version.lib
+		ws2_32.lib
 		"${COMMONLIB_PREBUILT_RESOLVED}/lib/openvr_api.lib"
 	)
 	include(cmake/CommonLibSSE.cmake)  # add_commonlibsse_plugin() helper for consumers
 	return()
+endif()
+
+set(COMMONLIB_SHARED_FROM_FETCHCONTENT FALSE)
+find_package(commonlib-shared QUIET CONFIG)
+if(NOT commonlib-shared_FOUND)
+	include(cmake/CommonLibShared.cmake)
 endif()
 
 include(cmake/sourcelist.cmake)
@@ -167,9 +188,6 @@ target_compile_definitions(
 	PUBLIC
 	WINVER=0x0601 # windows 7, minimum supported version by skyrim special edition
 	_WIN32_WINNT=0x0601
-	"$<$<BOOL:${REX_OPTION_INI}>:REX_OPTION_INI=1>"
-	"$<$<BOOL:${REX_OPTION_JSON}>:REX_OPTION_JSON=1>"
-	"$<$<BOOL:${REX_OPTION_TOML}>:REX_OPTION_TOML=1>"
 	"$<$<BOOL:${SKSE_SUPPORT_XBYAK}>:SKSE_SUPPORT_XBYAK=1>"
 	"$<$<BOOL:${SKSE_SUPPORT_PATCH_SAFETY}>:SKSE_SUPPORT_PATCH_SAFETY=1>"
 	"$<$<BOOL:${ENABLE_SKYRIM_SE}>:ENABLE_SKYRIM_SE=1>"
@@ -276,6 +294,7 @@ target_compile_definitions(
 target_link_libraries(
 	"${PROJECT_NAME}"
 	PUBLIC
+	commonlib-shared::commonlib-shared
 	spdlog::spdlog
 	Microsoft::DirectXTK
 	advapi32.lib
@@ -285,7 +304,10 @@ target_link_libraries(
 	dbghelp.lib
 	DXGI.lib
 	ole32.lib
+	shell32.lib
+	user32.lib
 	version.lib
+	ws2_32.lib
 	"$<BUILD_INTERFACE:$<$<BOOL:${ENABLE_SKYRIM_VR}>:${OPENVR_LIB_DIR}/openvr_api.lib>>"
 	"$<INSTALL_INTERFACE:$<$<BOOL:${ENABLE_SKYRIM_VR}>:$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/openvr_api.lib>>"
 )
@@ -305,10 +327,23 @@ target_precompile_headers(
 	include/SKSE/Impl/PCH.h
 )
 
-install(
-	TARGETS "${PROJECT_NAME}"
-	EXPORT "${PROJECT_NAME}-targets"
-)
+if(COMMONLIB_SHARED_FROM_FETCHCONTENT)
+	set(COMMONLIB_CONFIG_FIND_SHARED "")
+	install(
+		TARGETS "${PROJECT_NAME}" commonlib-shared
+		EXPORT "${PROJECT_NAME}-targets"
+	)
+	install(
+		DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/_commonlib_shared_include/REX"
+		DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+	)
+else()
+	set(COMMONLIB_CONFIG_FIND_SHARED "find_dependency(commonlib-shared CONFIG)")
+	install(
+		TARGETS "${PROJECT_NAME}"
+		EXPORT "${PROJECT_NAME}-targets"
+	)
+endif()
 
 install(
 	EXPORT "${PROJECT_NAME}-targets"

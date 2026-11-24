@@ -35,9 +35,9 @@ namespace RE
 		// members
 		NiNode*                                        menuNode;      // 00 - set to WorldSpaceMenu->menuNode
 		bool                                           hideMenu;      // 08 - false also unhides the menu if its already hidden
-		REX::EnumSet<Flag, std::uint32_t>              flags;         // 0C
-		REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget;  // 10 - set to WorldSpaceMenu->renderTarget, applied to every child in the menunode
-		REX::EnumSet<UpdateType, std::uint32_t>        updateType;    // 14
+		REX::TEnumSet<Flag, std::uint32_t>              flags;         // 0C
+		REX::TEnumSet<VRMenuRenderTarget, std::int32_t> renderTarget;  // 10 - set to WorldSpaceMenu->renderTarget, applied to every child in the menunode
+		REX::TEnumSet<UpdateType, std::uint32_t>        updateType;    // 14
 	};
 	static_assert(sizeof(QueuedMenuNodeUpdate) == 0x18);
 
@@ -86,7 +86,7 @@ namespace RE
 
 		bool MessageMatchesMenu(RE::UIMessage* a_message);
 
-		void SetupMenuNodeWithNif(const char* nif, REX::EnumSet<QueuedMenuNodeUpdate::Flag, std::uint32_t> a_flags = QueuedMenuNodeUpdate::Flag::kNone);
+		void SetupMenuNodeWithNif(const char* nif, REX::TEnumSet<QueuedMenuNodeUpdate::Flag, std::uint32_t> a_flags = QueuedMenuNodeUpdate::Flag::kNone);
 
 		RE::NiPointer<RE::NiNode> menuNode;                       // 48 - Created automatically in SetupMenuNode()
 		bool                      registerForHudModeChangeEvent;  // 50 - Set/Used in WorldSpaceMenu constructor

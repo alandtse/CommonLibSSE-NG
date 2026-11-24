@@ -119,7 +119,7 @@ namespace RE
 	BSTArray<BGSLoadFormData*>               loadFormData;               /*318*/       \
 	BGSSaveLoadChangesMap*                   saveLoadChanges;            /*330*/       \
 	BGSSaveLoadChangesMap*                   oldChangesMap;              /*338*/       \
-	REX::EnumSet<GlobalFlags, std::uint32_t> globalFlags;                /*340*/       \
+	REX::TEnumSet<GlobalFlags, std::uint32_t> globalFlags;                /*340*/       \
 	std::uint8_t                             currentMinorVersion;        /*344 */
             RUNTIME_DATA2_CONTENT
 		};

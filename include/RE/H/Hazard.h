@@ -64,7 +64,7 @@ namespace RE
 	BGSHazard*                         hazard;         /* B8 */     \
 	NiPointer<NiLight>                 light;          /* C0 */     \
 	BSSoundHandle                      sound;          /* C8 */     \
-	REX::EnumSet<Flags, std::uint32_t> flags;          /* D4 */
+	REX::TEnumSet<Flags, std::uint32_t> flags;          /* D4 */
 
 			HAZARD_RUNTIME_DATA_CONTENT
 		};
