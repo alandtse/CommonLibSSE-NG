@@ -5,7 +5,7 @@
 
 namespace RE
 {
-	class BSNavmeshInfo;
+	struct BSNavmeshInfo;
 
 	// Layout beyond the reference count and navmeshInfos is unresolved.
 	class BSNavmeshObstacleData : public NiRefObject
