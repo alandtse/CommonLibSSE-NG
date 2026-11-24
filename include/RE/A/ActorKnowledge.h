@@ -2,6 +2,7 @@
 
 #include "RE/A/AITimeStamp.h"
 #include "RE/B/BSPointerHandle.h"
+#include "RE/B/BSTArray.h"
 #include "RE/F/FightReactions.h"
 #include "RE/N/NiRefObject.h"
 #include "RE/N/NiSmartPointer.h"
@@ -47,6 +48,13 @@ namespace RE
 			using func_t = void(ActorKnowledge*, void*, DetectionListener*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(41636, 42716) };
 			func(this, a_listeners, a_listener);
+		}
+
+		void AddListener(DetectionListener* a_listener, std::int32_t a_level)
+		{
+			using func_t = void(ActorKnowledge*, DetectionListener*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41622, 42700) };
+			func(this, a_listener, a_level);
 		}
 
 		// members

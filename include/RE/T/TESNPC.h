@@ -274,6 +274,25 @@ namespace RE
 			return func(this, a_actor);
 		}
 
+		TESPackage* GetSpectatorOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24166, 24670) };
+			return func(this, a_actor);
+		}
+		TESPackage* GetObserveCorpseOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24167, 24671) };
+			return func(this, a_actor);
+		}
+		TESPackage* GetGuardWarnOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24168, 24672) };
+			return func(this, a_actor);
+		}
+
 		// members
 		Skills                                  playerSkills;     // 190 - DNAM
 		TESClass*                               npcClass;         // 1C0 - CNAM

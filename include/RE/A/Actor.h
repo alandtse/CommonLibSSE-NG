@@ -843,6 +843,13 @@ namespace RE
 			return func(this);
 		}
 
+		float CalcArmorRatingFromActorValueOwner(ActorValueOwner* a_avo)
+		{
+			using func_t = float(Actor*, ActorValueOwner*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37616, 38569) };
+			return func(this, a_avo);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()

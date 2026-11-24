@@ -4,6 +4,8 @@
 
 namespace RE
 {
+	class DetectionListener;
+
 	class DisguiseEffect :
 		public ActiveEffect  // 00
 	{
@@ -27,6 +29,13 @@ namespace RE
 		virtual ~DisguiseEffect();                                                    // 13
 		virtual void Start() override;                                                // 14
 		virtual void Finish() override;                                               // 15
+
+		bool RefreshActorKnowledgeOfPlayer(DetectionListener** a_listener, std::uint32_t* a_handle)
+		{
+			using func_t = bool(DisguiseEffect*, DetectionListener**, std::uint32_t*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(33521, 34300) };
+			return func(this, a_listener, a_handle);
+		}
 
 		// members
 		DisguiseEffect::State state;  // 90

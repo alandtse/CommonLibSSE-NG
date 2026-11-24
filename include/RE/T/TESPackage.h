@@ -7,6 +7,7 @@
 
 namespace RE
 {
+	class ActorPackageData;
 	class BGSIdleCollection;
 	class PackageLocation;
 	class TESPackageData;
@@ -506,6 +507,13 @@ namespace RE
 			using func_t = decltype(&TESPackage::SetPackType);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(28751, 29525) };
 			return func(this, a_type);
+		}
+
+		ActorPackageData* CreateActorPackageData()
+		{
+			using func_t = ActorPackageData*(TESPackage*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38020, 38975) };
+			return func(this);
 		}
 
 		// members
