@@ -3,6 +3,7 @@ set(TESTS
     tests/RE/A/ActorValues.test.cpp
     tests/RE/B/BSShaderAccumulator.test.cpp
     tests/RE/B/BSInputEventQueue.test.cpp
+    tests/RE/B/BSScrapArray.test.cpp
     tests/RE/B/BSTHashMap.test.cpp
     tests/RE/B/BSTPointerAndFlags.test.cpp
     tests/RE/B/BSTSmallArray.test.cpp

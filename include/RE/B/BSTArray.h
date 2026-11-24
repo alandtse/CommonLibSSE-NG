@@ -326,7 +326,12 @@ namespace RE
 			a_rhs._capacity = 0;
 		}
 
-		~BSScrapArrayAllocator();
+		~BSScrapArrayAllocator()
+		{
+			if (_data) {
+				deallocate(_data);
+			}
+		}
 
 		inline BSScrapArrayAllocator& operator=(const BSScrapArrayAllocator& a_rhs)
 		{
@@ -370,9 +375,37 @@ namespace RE
 
 		[[nodiscard]] constexpr size_type capacity() const noexcept { return _capacity; }
 
+#ifdef ENABLE_COMMONLIBSSE_TESTING
+		[[nodiscard]] ScrapHeap* GetAllocator() const noexcept
+		{
+			return _allocator;
+		}
+		void SetAllocator(ScrapHeap* a_heap) noexcept { _allocator = a_heap; }
+#endif
+
 	protected:
+#ifdef ENABLE_COMMONLIBSSE_TESTING
+		void* allocate(std::size_t a_size)
+		{
+			assert(_allocator);
+			auto mem = std::malloc(a_size);
+			assert(mem != nullptr);
+			std::memset(mem, 0, a_size);
+			return mem;
+		}
+
+		void deallocate(void* a_ptr)
+		{
+			if (_allocator) {
+				std::free(a_ptr);
+			} else {
+				assert(false);
+			}
+		}
+#else
 		void* allocate(std::size_t a_size);
 		void  deallocate(void* a_ptr);
+#endif
 
 		constexpr void set_allocator_traits(void* a_data, std::uint32_t a_capacity, std::size_t) noexcept
 		{
@@ -484,16 +517,8 @@ namespace RE
 		{
 			if (this != std::addressof(a_rhs)) {
 				release();
-
-				const auto newCapacity = a_rhs.capacity();
-				const auto newSize = a_rhs.size();
-				const auto newData = a_rhs.data();
-
-				set_allocator_traits(newData, newCapacity);
-				a_rhs.set_allocator_traits(0, 0);
-
-				set_size(newSize);
-				a_rhs.set_size(0);
+				allocator_type::operator=(std::move(static_cast<allocator_type&>(a_rhs)));
+				BSTArrayBase::operator=(std::move(static_cast<BSTArrayBase&>(a_rhs)));
 			}
 			return *this;
 		}
