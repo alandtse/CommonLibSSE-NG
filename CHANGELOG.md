@@ -1,3 +1,9 @@
+## [16.12.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.2...v16.12.0) (2026-11-24)
+
+### Features
+
+* **stack:** concrete Stack ([#550](https://github.com/alandtse/CommonLibSSE-NG/issues/550)) ([d825e83](https://github.com/alandtse/CommonLibSSE-NG/commit/d825e83205c4b48493ee10f72468a408bfc0a938))
+
 ## [16.11.2](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.1...v16.11.2) (2026-11-24)
 
 ### Bug Fixes
