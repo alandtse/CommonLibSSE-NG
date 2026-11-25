@@ -224,18 +224,18 @@ namespace RE
 		void                  SetOwner(TESForm* a_owner);
 		void                  SetStartingPosition(TESObjectREFR* a_refr, const NiPoint3& a_position, const NiPoint3& a_rotation, BGSLocation* a_location);
 
-	private:
-		[[nodiscard]] BSExtraData*     GetByTypeImpl(ExtraDataType a_type) const;
-		void                           MarkType(std::uint32_t a_type, bool a_cleared);
-		void                           MarkType(ExtraDataType a_type, bool a_cleared);
-		[[nodiscard]] BSReadWriteLock& GetLock() const noexcept;
-
 		void SetPackageStartLocation(TESWorldSpace* a_worldSpace, TESObjectCELL* a_cell, NiPoint3* a_position, float a_rotationZ)
 		{
 			using func_t = void(ExtraDataList*, TESWorldSpace*, TESObjectCELL*, NiPoint3*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(11484, 11630) };
 			func(this, a_worldSpace, a_cell, a_position, a_rotationZ);
 		}
+
+	private:
+		[[nodiscard]] BSExtraData*     GetByTypeImpl(ExtraDataType a_type) const;
+		void                           MarkType(std::uint32_t a_type, bool a_cleared);
+		void                           MarkType(ExtraDataType a_type, bool a_cleared);
+		[[nodiscard]] BSReadWriteLock& GetLock() const noexcept;
 
 		// members
 		BaseExtraList _extraData;  // 00

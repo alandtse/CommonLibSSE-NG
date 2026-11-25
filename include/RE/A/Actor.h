@@ -844,13 +844,6 @@ namespace RE
 			return func(this);
 		}
 
-		float CalcArmorRatingFromActorValueOwner(ActorValueOwner* a_avo)
-		{
-			using func_t = float(Actor*, ActorValueOwner*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37616, 38569) };
-			return func(this, a_avo);
-		}
-
 		void RequestFollowPath()
 		{
 			using func_t = void(Actor*);
