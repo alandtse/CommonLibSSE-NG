@@ -36,6 +36,20 @@ namespace RE
 			return func(this);
 		}
 
+		void AddSubtitle(TESObjectREFR* a_speaker, const char* a_subtitle, bool a_forceDisplay)
+		{
+			using func_t = decltype(&SubtitleManager::AddSubtitle);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(51753, 52626) };
+			return func(this, a_speaker, a_subtitle, a_forceDisplay);
+		}
+
+		void RemoveSubtitle(TESObjectREFR* a_speaker)
+		{
+			using func_t = decltype(&SubtitleManager::RemoveSubtitle);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(51754, 52627) };
+			return func(this, a_speaker);
+		}
+
 		// members
 		std::uint8_t           pad01;           // 01
 		std::uint16_t          pad02;           // 02
