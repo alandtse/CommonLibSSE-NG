@@ -66,6 +66,8 @@ namespace RE
 			virtual bool                 CanBeCalledFromTasklets() const = 0;                                                                                                 // 13
 			virtual void                 SetCallableFromTasklets(bool a_callable) = 0;                                                                                        // 14
 
+			bool SignaturesMatch(const BSTSmartPointer<IFunction>& a_rhs) const;
+
 			// members
 			std::uint32_t pad0C;  // 0C
 		};

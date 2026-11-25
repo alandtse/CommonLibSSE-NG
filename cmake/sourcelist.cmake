@@ -261,6 +261,7 @@ set(SOURCES
 	include/RE/B/BSBatchRenderer.h
 	include/RE/B/BSBitField.h
 	include/RE/B/BSBitReader.h
+	include/RE/B/BSBitWriter.h
 	include/RE/B/BSBloodSplatterShaderProperty.h
 	include/RE/B/BSBound.h
 	include/RE/B/BSCompoundFrustum.h
@@ -1398,6 +1399,7 @@ set(SOURCES
 	include/RE/I/ID.h
 	include/RE/I/IDEvent.h
 	include/RE/I/IExplosionFactory.h
+	include/RE/I/IForEachScriptObjectFunctor.h
 	include/RE/I/IFormFactory.h
 	include/RE/I/IFreezeQuery.h
 	include/RE/I/IFuncCallQuery.h
@@ -2205,6 +2207,7 @@ set(SOURCES
 	src/RE/B/BSAtomic.cpp
 	src/RE/B/BSAudioManager.cpp
 	src/RE/B/BSBitReader.cpp
+	src/RE/B/BSBitWriter.cpp
 	src/RE/B/BSCompoundFrustum.cpp
 	src/RE/B/BSCubeMapCamera.cpp
 	src/RE/B/BSCullingProcess.cpp

@@ -73,7 +73,7 @@ namespace RE
 				~CodeTasklet() override;  // 00
 
 				// override (IFuncCallQuery)
-				bool GetFunctionCallInfo(CallType& a_callType, BSTSmartPointer<ObjectTypeInfo>& a_arg2, BSFixedString& a_arg3, Variable& a_arg4, BSScrapArray<Variable>& a_arg5) override;  // 01
+				bool GetFunctionCallInfo(CallType& a_callType, BSTSmartPointer<ObjectTypeInfo>& a_objType, BSFixedString& a_name, Variable& a_obj, BSScrapArray<Variable>& a_args) const override;  // 01
 
 				// members
 				Stack*                                    stack;                    // 10

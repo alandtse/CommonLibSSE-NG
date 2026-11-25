@@ -20,10 +20,10 @@ namespace RE
 		virtual ~GRefCountBaseGC();  // 02
 
 		// members
-		void*         unk08;     // 08
-		std::uint32_t refCount;  // 10
-		std::uint32_t pad14;     // 14
-		std::uint64_t unk18;     // 18 - union
+		void*         pRCCRaw;          // 08 - GASRefCountCollector*, scan-list next while buffered
+		std::uint32_t refCount;         // 10 - low 26 bits count, high bits collector colour and flags
+		std::uint32_t pad14;            // 14
+		std::uint64_t rootIndexOrPrev;  // 18 - Roots slot index, scan-list prev while buffered
 	};
 	// size == 0x20
 }

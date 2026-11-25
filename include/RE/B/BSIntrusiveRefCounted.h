@@ -22,6 +22,12 @@ namespace RE
 			return --myRefCount;
 		}
 
+		std::uint32_t GetRefCount() const
+		{
+			stl::atomic_ref myRefCount{ _refCount };
+			return myRefCount;
+		}
+
 		TES_HEAP_REDEFINE_NEW();
 
 	protected:

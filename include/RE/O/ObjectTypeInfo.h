@@ -27,9 +27,11 @@ namespace RE
 			struct UnlinkedNativeFunction
 			{
 			public:
+				TES_HEAP_REDEFINE_NEW()
+
 				// members
-				UnlinkedNativeFunction*    next;  // 00
-				BSTSmartPointer<IFunction> func;  // 08
+				UnlinkedNativeFunction*    next;    // 00
+				BSTSmartPointer<IFunction> func{};  // 08
 			};
 			static_assert(sizeof(UnlinkedNativeFunction) == 0x10);
 
@@ -114,12 +116,14 @@ namespace RE
 				[[nodiscard]] const Func*             GetFuncIter() const;
 
 				// members
-				BSFixedString name;                     // 00
-				std::uint32_t memberFunctionCount: 9;   // 08 - 0
-				std::uint32_t memberFunctionOffset: 9;  // 09 - 1
-				std::uint32_t pad0C;                    // 0C
+				BSFixedString name;                      // 00
+				std::uint32_t memberFunctionCount: 9;    // 08 - 0
+				std::uint32_t memberFunctionOffset: 23;  // 09 - 1
+				std::uint32_t pad0C;                     // 0C
 			};
 			static_assert(sizeof(NamedStateInfo) == 0x10);
+
+			explicit ObjectTypeInfo(const RE::BSFixedString& a_className);
 
 			~ObjectTypeInfo();
 
@@ -187,6 +191,11 @@ namespace RE
 
 			std::uint32_t GetPropertyIndex(const BSFixedString& a_name) const;
 
+			[[nodiscard]] bool  HasAutoState() const noexcept;
+			const BSFixedString GetInitialStateName() const;
+
+			void ReleaseData(bool a_keepNativeFunctions);
+
 			// members
 			BSFixedString                   name;                               // 08
 			BSTSmartPointer<ObjectTypeInfo> parentTypeInfo;                     // 10
@@ -202,11 +211,9 @@ namespace RE
 			std::uint32_t                   pad24_29: 3;                        // 24 - 29
 			std::uint32_t                   emptyStateMemberFunctionCount: 11;  // 28 - 0
 			std::uint32_t                   namedStateCount: 7;                 // 28 - 11
-			std::uint32_t                   pad28_18: 14;                       // 28 - 18
+			std::uint32_t                   autoStateIndex: 7;                  // 28 - 18
+			std::int32_t                    pad28_25: 7;                        // 28 - 25
 			void*                           data;                               // 30
-
-		private:
-			void ReleaseData();
 		};
 		static_assert(sizeof(ObjectTypeInfo) == 0x38);
 	}

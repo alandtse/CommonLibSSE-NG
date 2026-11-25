@@ -229,6 +229,11 @@ namespace RE
 			if (a_capacity * a_typeSize > N) {
 				_local = 0;
 				_data.heap = a_data;
+			} else {
+				_local = 1;
+				if (a_data && a_data != _data.local) {
+					std::memmove(_data.local, a_data, static_cast<std::size_t>(a_capacity) * a_typeSize);
+				}
 			}
 		}
 
@@ -264,10 +269,15 @@ namespace RE
 
 			_capacity = a_rhs._capacity;
 			_local = a_rhs._local;
-			std::memmove(data(), a_rhs.data(), capacity());
 
-			std::memset(a_rhs.data(), 0, a_rhs.capacity());
-			a_rhs._capacity = N;
+			if (local()) {
+				std::memmove(_data.local, a_rhs._data.local, N);
+			} else {
+				_data.heap = a_rhs._data.heap;
+			}
+
+			std::memset(&a_rhs._data, 0, sizeof(a_rhs._data));
+			a_rhs._capacity = 0;
 			a_rhs._local = 1;
 		}
 
@@ -279,8 +289,8 @@ namespace RE
 				free(_data.heap);
 			}
 
-			std::memset(data(), 0, capacity());
-			_capacity = N;
+			std::memset(&_data, 0, sizeof(_data));
+			_capacity = 0;
 			_local = 1;
 		}
 
@@ -316,7 +326,12 @@ namespace RE
 			a_rhs._capacity = 0;
 		}
 
-		~BSScrapArrayAllocator();
+		~BSScrapArrayAllocator()
+		{
+			if (_data) {
+				deallocate(_data);
+			}
+		}
 
 		inline BSScrapArrayAllocator& operator=(const BSScrapArrayAllocator& a_rhs)
 		{
@@ -360,9 +375,37 @@ namespace RE
 
 		[[nodiscard]] constexpr size_type capacity() const noexcept { return _capacity; }
 
+#ifdef ENABLE_COMMONLIBSSE_TESTING
+		[[nodiscard]] ScrapHeap* GetAllocator() const noexcept
+		{
+			return _allocator;
+		}
+		void SetAllocator(ScrapHeap* a_heap) noexcept { _allocator = a_heap; }
+#endif
+
 	protected:
+#ifdef ENABLE_COMMONLIBSSE_TESTING
+		void* allocate(std::size_t a_size)
+		{
+			assert(_allocator);
+			auto mem = std::malloc(a_size);
+			assert(mem != nullptr);
+			std::memset(mem, 0, a_size);
+			return mem;
+		}
+
+		void deallocate(void* a_ptr)
+		{
+			if (_allocator) {
+				std::free(a_ptr);
+			} else {
+				assert(false);
+			}
+		}
+#else
 		void* allocate(std::size_t a_size);
 		void  deallocate(void* a_ptr);
+#endif
 
 		constexpr void set_allocator_traits(void* a_data, std::uint32_t a_capacity, std::size_t) noexcept
 		{
@@ -419,7 +462,7 @@ namespace RE
 				return;
 			}
 
-			const auto newSize = a_list.size();
+			const auto newSize = static_cast<size_type>(a_list.size());
 			const auto newData = allocate(newSize);
 			size_type  i = 0;
 			for (const auto& elem : a_list) {
@@ -474,16 +517,8 @@ namespace RE
 		{
 			if (this != std::addressof(a_rhs)) {
 				release();
-
-				const auto newCapacity = a_rhs.capacity();
-				const auto newSize = a_rhs.size();
-				const auto newData = a_rhs.data();
-
-				set_allocator_traits(newData, newCapacity);
-				a_rhs.set_allocator_traits(0, 0);
-
-				set_size(newSize);
-				a_rhs.set_size(0);
+				allocator_type::operator=(std::move(static_cast<allocator_type&>(a_rhs)));
+				BSTArrayBase::operator=(std::move(static_cast<BSTArrayBase&>(a_rhs)));
 			}
 			return *this;
 		}
@@ -671,7 +706,7 @@ namespace RE
 			const auto oldData = data();
 			if (oldData) {
 				const auto oldCapacity = capacity();
-				if (newData) {
+				if (newData && newData != oldData) {
 					const auto bytesToCopy = (std::min)(oldCapacity, a_newCapacity) * sizeof(value_type);
 #ifdef __clang__
 #	pragma clang diagnostic push

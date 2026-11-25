@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSBitReader.h"
+#include "RE/B/BSBitWriter.h"
 #include "RE/B/BSFixedString.h"
 
 namespace RE::BSScript::ByteCode
@@ -75,6 +76,8 @@ namespace RE::BSScript::ByteCode
 
 		bool        ReadFromBitStream(BSBitReader& a_reader, std::uint32_t a_localVarBitCount, std::uint32_t a_memberVarBitCount);
 		static void SkipFromBitStream(BSBitReader& a_reader, std::uint32_t a_localVarBitCount, std::uint32_t a_memberVarBitCount);
+
+		void WriteToBitStream(BSBitWriter& a_writer, std::uint32_t a_localVarBitCount, std::uint32_t a_memberVarBitCount) const;
 
 	private:
 		void ChangeType(Type a_type);

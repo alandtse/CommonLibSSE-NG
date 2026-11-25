@@ -1,3 +1,50 @@
+## [16.12.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.2...v16.12.0) (2026-11-24)
+
+### Features
+
+* **stack:** concrete Stack ([#550](https://github.com/alandtse/CommonLibSSE-NG/issues/550)) ([d825e83](https://github.com/alandtse/CommonLibSSE-NG/commit/d825e83205c4b48493ee10f72468a408bfc0a938))
+
+## [16.11.2](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.1...v16.11.2) (2026-11-24)
+
+### Bug Fixes
+
+* **array:** scrap array failing to move allocator ([#561](https://github.com/alandtse/CommonLibSSE-NG/issues/561)) ([d7e8a7b](https://github.com/alandtse/CommonLibSSE-NG/commit/d7e8a7be3ce52e839e09c6a592895126684bd37d))
+* **string:** hash BSFixedString pointer directly ([#559](https://github.com/alandtse/CommonLibSSE-NG/issues/559)) ([5e23be1](https://github.com/alandtse/CommonLibSSE-NG/commit/5e23be11560a05a6f83e8d5c9d01e5bdb4838e5e))
+
+## [16.11.1](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.0...v16.11.1) (2026-11-22)
+
+### Bug Fixes
+
+* **RE:** name AIProcess package object handles ([#551](https://github.com/alandtse/CommonLibSSE-NG/issues/551)) ([20da75e](https://github.com/alandtse/CommonLibSSE-NG/commit/20da75e6ed8d84d50f17de88fe0d513e3f803979))
+
+## [16.11.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.10.0...v16.11.0) (2026-11-22)
+
+### Features
+
+* **bsscript:** add signature matching ([#548](https://github.com/alandtse/CommonLibSSE-NG/issues/548)) ([f0ed2fb](https://github.com/alandtse/CommonLibSSE-NG/commit/f0ed2fb03274e3a0f0b9d63160820b53ae4b56a4))
+* concrete BSBitWriter ([#545](https://github.com/alandtse/CommonLibSSE-NG/issues/545)) ([f5f5552](https://github.com/alandtse/CommonLibSSE-NG/commit/f5f55529be4b509f27867274e45c99a16cb737e6))
+* concrete StackFrame ([#543](https://github.com/alandtse/CommonLibSSE-NG/issues/543)) ([f168207](https://github.com/alandtse/CommonLibSSE-NG/commit/f16820751feb57648c3c32694d469d0c20819655))
+* RE of IVirtualMachine ([#544](https://github.com/alandtse/CommonLibSSE-NG/issues/544)) ([65102c4](https://github.com/alandtse/CommonLibSSE-NG/commit/65102c4944a928a47e0e071e4642e5b986272869))
+* **refcount:** add ref count access ([#546](https://github.com/alandtse/CommonLibSSE-NG/issues/546)) ([1b02f50](https://github.com/alandtse/CommonLibSSE-NG/commit/1b02f50041009aca1b0a09c1e5b405edb3b8ab79))
+* **vm:** concrete ObjectTypeInfo ([#541](https://github.com/alandtse/CommonLibSSE-NG/issues/541)) ([7159eff](https://github.com/alandtse/CommonLibSSE-NG/commit/7159effd6176013b0fb22488df6c6b6e737f8702))
+
+### Bug Fixes
+
+* **smallarray:** re-set local on BSTSmallArray ([#547](https://github.com/alandtse/CommonLibSSE-NG/issues/547)) ([1ff62ea](https://github.com/alandtse/CommonLibSSE-NG/commit/1ff62eab44b16cc6bb3d356d2913f500ed1a5e7a))
+* **vm:** getFunctionCallInfo signature ([#542](https://github.com/alandtse/CommonLibSSE-NG/issues/542)) ([804dc07](https://github.com/alandtse/CommonLibSSE-NG/commit/804dc07c02eb3411978d23a9267d5e386ab80c75))
+
+## [16.10.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.9.0...v16.10.0) (2026-11-20)
+
+### Features
+
+* movable SimpleArray ([#536](https://github.com/alandtse/CommonLibSSE-NG/issues/536)) ([056103c](https://github.com/alandtse/CommonLibSSE-NG/commit/056103c7c32f51d0e02b79783e2d291a75c9a6fb))
+* **vm:** add IForEachScriptObjectFunctor ([#539](https://github.com/alandtse/CommonLibSSE-NG/issues/539)) ([82eb52f](https://github.com/alandtse/CommonLibSSE-NG/commit/82eb52f747400f0b5d25f13cf6476c3db8603e9c))
+
+### Bug Fixes
+
+* **RE:** name GRefCountBaseGC collector members ([#537](https://github.com/alandtse/CommonLibSSE-NG/issues/537)) ([2338eb1](https://github.com/alandtse/CommonLibSSE-NG/commit/2338eb119ce30623be0a60a67f77de6e00abe144)), closes [alandtse/skyrim_vr_address_library#360](https://github.com/alandtse/skyrim_vr_address_library/issues/360)
+* **typeinfo:** use Skyrim's type->string conversion ([#538](https://github.com/alandtse/CommonLibSSE-NG/issues/538)) ([eeb7a81](https://github.com/alandtse/CommonLibSSE-NG/commit/eeb7a819d61c1803bab2bff1502315cde7a3623b))
+
 ## [16.9.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.8.0...v16.9.0) (2026-11-19)
 
 ### Features

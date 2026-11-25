@@ -6,6 +6,7 @@
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/E/ErrorLogger.h"
+#include "RE/I/IForEachScriptObjectFunctor.h"
 #include "RE/I/IStackCallbackFunctor.h"
 #include "RE/T/TypeInfo.h"
 #include "RE/T/TypeTraits.h"
@@ -19,7 +20,6 @@ namespace RE
 	{
 		class Array;
 		class ErrorLogger;
-		class IForEachScriptObjectFunctor;
 		class IFunction;
 		class IFunctionArguments;
 		class ISavePatcherInterface;
@@ -31,6 +31,7 @@ namespace RE
 		struct IObjectHandlePolicy;
 		struct LogEvent;
 		struct StatsEvent;
+		struct ILoader;
 
 		class IVirtualMachine : public BSIntrusiveRefCounted
 		{
@@ -63,38 +64,38 @@ namespace RE
 			virtual ~IVirtualMachine();  // 00
 
 			// add
-			virtual void SetLinkedCallback(ITypeLinkedCallback* a_callback) = 0;                                                                                    // 01
-			virtual void TraceStack(const char* a_str, VMStackID a_stackID, Severity a_severity = Severity::kError) = 0;                                            // 02
-			virtual void FormatAndPostMessage(const char* a_message, Severity a_severity) = 0;                                                                      // 03
-			virtual void Update(float a_budget) = 0;                                                                                                                // 04
-			virtual void UpdateTasklets(float a_budget) = 0;                                                                                                        // 05
-			virtual void SetOverstressed(bool a_set) = 0;                                                                                                           // 06
-			virtual bool IsCompletelyFrozen() const = 0;                                                                                                            // 07
-			virtual bool RegisterObjectType(VMTypeID a_typeID, const char* a_className) = 0;                                                                        // 08
-			virtual bool GetScriptObjectType1(const BSFixedString& a_className, BSTSmartPointer<ObjectTypeInfo>& a_outTypeInfoPtr) = 0;                             // 09
-			virtual bool GetScriptObjectType2(VMTypeID a_typeID, BSTSmartPointer<ObjectTypeInfo>& a_outTypeInfoPtr) = 0;                                            // 0A
-			virtual bool GetScriptObjectTypeNoLoad1(const BSFixedString& a_className, BSTSmartPointer<ObjectTypeInfo>& a_typeInfoPtr) const = 0;                    // 0B
-			virtual bool GetScriptObjectTypeNoLoad2(VMTypeID a_typeID, BSTSmartPointer<ObjectTypeInfo>& a_outTypeInfoPtr) const = 0;                                // 0C
-			virtual bool GetTypeIDForScriptObject(const BSFixedString& a_className, VMTypeID& a_typeID) const = 0;                                                  // 0D
-			virtual void GetScriptObjectsWithATypeID(BSScrapArray<BSFixedString>& a_classes) const = 0;                                                             // 0E
-			virtual bool GetParentNativeType(const BSFixedString& a_className, BSTSmartPointer<ObjectTypeInfo>& a_typeInfoPtr) = 0;                                 // 0F
-			virtual bool TypeIsValid(const BSFixedString& a_className) = 0;                                                                                         // 10
-			virtual bool ReloadType(const char* a_className) = 0;                                                                                                   // 11
-			virtual void TasksToJobs(BSJobs::JobList& a_jobList) = 0;                                                                                               // 12
-			virtual void CalculateFullReloadList(void) const = 0;                                                                                                   // 13
-			virtual bool CreateObject1(const BSFixedString& a_className, void* a_property, BSTSmartPointer<Object>& a_objPtr) = 0;                                  // 14
-			virtual bool CreateObject2(const BSFixedString& a_className, BSTSmartPointer<Object>& a_result) = 0;                                                    // 15
-			virtual bool CreateArray1(const TypeInfo& a_typeInfo, std::uint32_t a_size, BSTSmartPointer<Array>& a_arrayPtr) = 0;                                    // 16
-			virtual bool CreateArray2(TypeInfo::RawType a_typeID, const BSFixedString& a_className, std::uint32_t a_size, BSTSmartPointer<Array>& a_arrayPtr) = 0;  // 17
-			virtual bool BindNativeMethod(IFunction* a_fn) = 0;                                                                                                     // 18
-			virtual void SetCallableFromTasklets1(const char* a_className, const char* a_stateName, const char* a_fnName, bool a_callable) = 0;                     // 19
-			virtual void SetCallableFromTasklets2(const char* a_className, const char* a_fnName, bool a_callable) = 0;                                              // 1A
+			virtual void SetLinkedCallback(ILoader* a_callback) = 0;                                                                                                       // 01
+			virtual void TraceStack(const char* a_str, VMStackID a_stackID, Severity a_severity = Severity::kError) = 0;                                                   // 02
+			virtual void FormatAndPostMessage(const char* a_message, Severity a_severity) = 0;                                                                             // 03
+			virtual void Update(float a_budget) = 0;                                                                                                                       // 04
+			virtual void UpdateTasklets(float a_budget) = 0;                                                                                                               // 05
+			virtual void SetOverstressed(bool a_set) = 0;                                                                                                                  // 06
+			virtual bool IsCompletelyFrozen() const = 0;                                                                                                                   // 07
+			virtual bool RegisterObjectType(VMTypeID a_typeID, const char* a_className) = 0;                                                                               // 08
+			virtual bool GetScriptObjectType1(const BSFixedString& a_className, BSTSmartPointer<ObjectTypeInfo>& a_outTypeInfoPtr) = 0;                                    // 09
+			virtual bool GetScriptObjectType2(VMTypeID a_typeID, BSTSmartPointer<ObjectTypeInfo>& a_outTypeInfoPtr) = 0;                                                   // 0A
+			virtual bool GetScriptObjectTypeNoLoad1(const BSFixedString& a_className, BSTSmartPointer<ObjectTypeInfo>& a_typeInfoPtr) const = 0;                           // 0B
+			virtual bool GetScriptObjectTypeNoLoad2(VMTypeID a_typeID, BSTSmartPointer<ObjectTypeInfo>& a_outTypeInfoPtr) const = 0;                                       // 0C
+			virtual bool GetTypeIDForScriptObject(const BSFixedString& a_className, VMTypeID& a_typeID) const = 0;                                                         // 0D
+			virtual void GetScriptObjectsWithATypeID(BSScrapArray<BSFixedString>& a_classes) const = 0;                                                                    // 0E
+			virtual bool GetParentNativeType(const BSFixedString& a_className, BSTSmartPointer<ObjectTypeInfo>& a_typeInfoPtr) = 0;                                        // 0F
+			virtual bool TypeIsValid(const BSFixedString& a_className) = 0;                                                                                                // 10
+			virtual bool ReloadType(const char* a_className) = 0;                                                                                                          // 11
+			virtual void TasksToJobs(BSJobs::JobList& a_jobList) = 0;                                                                                                      // 12
+			virtual void CalculateFullReloadList(BSTSet<BSFixedString>& a_changedClasses, BSScrapArray<BSFixedString>& a_reloadList) const = 0;                            // 13
+			virtual bool CreateObject1(const BSFixedString& a_className, BSTScrapHashMap<BSFixedString, Variable>& a_propertyMap, BSTSmartPointer<Object>& a_result) = 0;  // 14
+			virtual bool CreateObject2(const BSFixedString& a_className, BSTSmartPointer<Object>& a_result) = 0;                                                           // 15
+			virtual bool CreateArray1(const TypeInfo& a_arrayTypeInfo, std::uint32_t a_size, BSTSmartPointer<Array>& a_arrayPtr) = 0;                                      // 16
+			virtual bool CreateArray2(TypeInfo::RawType a_elementTypeID, const BSFixedString& a_className, std::uint32_t a_size, BSTSmartPointer<Array>& a_arrayPtr) = 0;  // 17
+			virtual bool BindNativeMethod(IFunction* a_fn) = 0;                                                                                                            // 18
+			virtual void SetCallableFromTasklets1(const char* a_className, const char* a_stateName, const char* a_fnName, bool a_callable) = 0;                            // 19
+			virtual void SetCallableFromTasklets2(const char* a_className, const char* a_fnName, bool a_callable) = 0;                                                     // 1A
 #if defined(EXCLUSIVE_SKYRIM_VR)
-			virtual void New_1B(void) = 0;
+			virtual void* New_1B(std::uint64_t a_unk1, std::uint64_t a_unk2, std::uint64_t a_unk3) = 0;
 #endif
 			SKYRIM_REL_VR_VIRTUAL void ForEachBoundObject(VMHandle a_handle, IForEachScriptObjectFunctor* a_functor);  // 1B, 1C
 #if defined(EXCLUSIVE_SKYRIM_VR)
-			virtual void New_1D(void) = 0;
+			virtual void* New_1D(std::uint64_t a_unk1, std::uint64_t a_unk2, std::uint64_t a_unk3) = 0;
 #endif
 			SKYRIM_REL_VR_VIRTUAL bool                       FindBoundObject(VMHandle a_handle, const char* a_className, BSTSmartPointer<Object>& a_result) const;                                                                                   // 1C
 			SKYRIM_REL_VR_VIRTUAL void                       MoveBoundObjects(VMHandle a_from, VMHandle a_to);                                                                                                                                       // 1D
@@ -109,7 +110,7 @@ namespace RE
 			SKYRIM_REL_VR_VIRTUAL bool                       DispatchStaticCall(const BSFixedString& a_className, const BSFixedString& a_fnName, IFunctionArguments* a_args, BSTSmartPointer<IStackCallbackFunctor>& a_result);                      // 26
 			SKYRIM_REL_VR_VIRTUAL bool                       DispatchMethodCall1(BSTSmartPointer<Object>& a_obj, const BSFixedString& a_fnName, IFunctionArguments* a_args, BSTSmartPointer<IStackCallbackFunctor>& a_result);                       // 27
 			SKYRIM_REL_VR_VIRTUAL bool                       DispatchMethodCall2(VMHandle a_handle, const BSFixedString& a_className, const BSFixedString& a_fnName, IFunctionArguments* a_args, BSTSmartPointer<IStackCallbackFunctor>& a_result);  // 28
-			SKYRIM_REL_VR_VIRTUAL bool                       DispatchUnboundMethodCall(void);                                                                                                                                                        // 29
+			SKYRIM_REL_VR_VIRTUAL bool                       DispatchUnboundMethodCall(VMHandle a_handle, void* unk, const BSFixedString& a_fnName, IFunctionArguments* a_args, BSTSmartPointer<IStackCallbackFunctor>& a_result);                   // 29
 			SKYRIM_REL_VR_VIRTUAL bool                       IsWaitingOnLatent(VMStackID a_stackID) const;                                                                                                                                           // 2A
 			SKYRIM_REL_VR_VIRTUAL void                       ReturnFromLatent(VMStackID a_stackID, const Variable& a_val);                                                                                                                           // 2B
 			SKYRIM_REL_VR_VIRTUAL ErrorLogger*               GetErrorLogger();                                                                                                                                                                       // 2C
@@ -125,7 +126,7 @@ namespace RE
 
 			bool                       CreateArray(const TypeInfo& a_typeInfo, std::uint32_t a_size, BSTSmartPointer<Array>& a_arrayPtr);
 			bool                       CreateArray(TypeInfo::RawType a_typeID, const BSFixedString& a_className, std::uint32_t a_size, BSTSmartPointer<Array>& a_arrayPtr);
-			bool                       CreateObject(const BSFixedString& a_className, void* a_property, BSTSmartPointer<Object>& a_objPtr);
+			bool                       CreateObject(const BSFixedString& a_className, BSTScrapHashMap<BSFixedString, Variable>& a_propertyMap, BSTSmartPointer<Object>& a_objPtr);
 			bool                       CreateObject(const BSFixedString& a_className, BSTSmartPointer<Object>& a_result);
 			bool                       DispatchMethodCall(BSTSmartPointer<Object>& a_obj, const BSFixedString& a_fnName, IFunctionArguments* a_args, BSTSmartPointer<IStackCallbackFunctor>& a_result);
 			Awaitable                  ADispatchMethodCall(BSTSmartPointer<Object>& a_obj, const BSFixedString& a_fnName, IFunctionArguments* a_args);

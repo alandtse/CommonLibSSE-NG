@@ -174,6 +174,8 @@ namespace RE
 				return false;
 			}
 
+			[[nodiscard]] inline const_pointer underlying() const noexcept { return _data; }
+
 		private:
 			[[nodiscard]] static inline int strncmp(const char* a_lhs, const char* a_rhs, std::size_t a_length)
 			{
@@ -246,7 +248,7 @@ namespace RE
 	public:
 		[[nodiscard]] inline std::uint32_t operator()(const detail::BSFixedString<CharT>& a_key) const noexcept
 		{
-			return BSCRC32_<const void*>()(a_key.data());
+			return BSCRC32_<const void*>()(a_key.underlying());  // the game hashes the raw pointer, null included
 		}
 	};
 }
