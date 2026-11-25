@@ -64,6 +64,7 @@ set(SOURCES
 	include/RE/A/AutoRegisterCreator.h
 	include/RE/A/AutoRegisterFactory.h
 	include/RE/A/AutoVanityState.h
+	include/RE/A/AvoidedActorInfo.h
 	include/RE/A/ahkpCharacterProxy.h
 	include/RE/A/ahkpWorld.h
 	include/RE/B/BGSAIWorldLocation.h
@@ -1595,6 +1596,7 @@ set(SOURCES
 	include/RE/M/MoveToFunctor.h
 	include/RE/M/Movement.h
 	include/RE/M/MovementActorAvoidanceParameters.h
+	include/RE/M/MovementAgentActorAvoider.h
 	include/RE/M/MovementAgentActorState.h
 	include/RE/M/MovementAgentPathFollowerStandard.h
 	include/RE/M/MovementControllerAI.h
