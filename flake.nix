@@ -14,7 +14,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable"; # newer vcpkg
     flake-utils.url = "github:numtide/flake-utils";
 
     # extern/openvr is a git submodule; include it in the flake's source.
@@ -22,15 +21,14 @@
     self.submodules = true;
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils }:
     # Wine and the xwin sysroot only make sense on an x86_64 Linux host.
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         inherit (pkgs) lib;
 
-        # vcpkg comes from unstable (newer than the stable channel).
-        vcpkg = nixpkgs-unstable.legacyPackages.${system}.vcpkg;
+        vcpkg = pkgs.vcpkg;
 
         # nixpkgs' mingw-w64 cross compiler (only used to build fxc2.exe).
         mingw = pkgs.pkgsCross.mingwW64;
