@@ -12,7 +12,9 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementMessageWarpToLocation;
 		inline static constexpr auto VTABLE = VTABLE_MovementMessageWarpToLocation;
 
-		~MovementMessageWarpToLocation() override;  // 00
+		~MovementMessageWarpToLocation() override;                // 00
+		void SaveGame(PathingStreamSaveGame* a_stream) override;  // 02
+		void LoadGame(PathingStreamLoadGame* a_stream) override;  // 03
 
 		// members
 		BSPathingLocation location;   // 10

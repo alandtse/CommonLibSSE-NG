@@ -14,7 +14,9 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementMessagePlayIdle;
 		inline static constexpr auto VTABLE = VTABLE_MovementMessagePlayIdle;
 
-		~MovementMessagePlayIdle() override;  // 00
+		~MovementMessagePlayIdle() override;                      // 00
+		void SaveGame(PathingStreamSaveGame* a_stream) override;  // 02
+		void LoadGame(PathingStreamLoadGame* a_stream) override;  // 03
 
 		// members
 		BSFixedString            idleName;  // 10

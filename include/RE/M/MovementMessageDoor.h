@@ -13,7 +13,8 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementMessageDoor;
 		inline static constexpr auto VTABLE = VTABLE_MovementMessageDoor;
 
-		~MovementMessageDoor() override;  // 00
+		~MovementMessageDoor() override;                          // 00
+		void SaveGame(PathingStreamSaveGame* a_stream) override;  // 02
 
 		// members
 		BSTSmartPointer<BSPathingDoor> door;  // 10

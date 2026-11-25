@@ -10,7 +10,9 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementMessageSetStaticPath;
 		inline static constexpr auto VTABLE = VTABLE_MovementMessageSetStaticPath;
 
-		~MovementMessageSetStaticPath() override;  // 00
+		~MovementMessageSetStaticPath() override;                 // 00
+		void SaveGame(PathingStreamSaveGame* a_stream) override;  // 02
+		void LoadGame(PathingStreamLoadGame* a_stream) override;  // 03
 
 		// members
 		bool         staticPath;  // 10

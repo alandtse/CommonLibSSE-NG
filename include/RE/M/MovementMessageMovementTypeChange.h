@@ -10,7 +10,9 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementMessageMovementTypeChange;
 		inline static constexpr auto VTABLE = VTABLE_MovementMessageMovementTypeChange;
 
-		~MovementMessageMovementTypeChange() override;  // 00
+		~MovementMessageMovementTypeChange() override;            // 00
+		void SaveGame(PathingStreamSaveGame* a_stream) override;  // 02
+		void LoadGame(PathingStreamLoadGame* a_stream) override;  // 03
 
 		// members
 		std::uint8_t typeData0[0x40];  // 10 - starts with a BSFixedString
