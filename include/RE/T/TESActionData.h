@@ -25,7 +25,7 @@ namespace RE
 		{
 			auto tesActionData = malloc<TESActionData>();
 			if (tesActionData) {
-				std::memset(tesActionData, 0, sizeof(TESActionData));
+				std::memset(static_cast<void*>(tesActionData), 0, sizeof(TESActionData));
 				tesActionData->Ctor();
 				stl::emplace_vtable(tesActionData);
 			}
