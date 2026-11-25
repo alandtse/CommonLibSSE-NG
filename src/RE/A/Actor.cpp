@@ -1741,9 +1741,9 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::DrawWeaponMagicHands)>(0x0A6, 0x0A8, this, a_draw);
 	}
 
-	void Actor::DetachCharController()
+	bool Actor::DetachCharController()
 	{
-		RelocateVirtual<decltype(&Actor::DetachCharController)>(0x0A7, 0x0A9, this);
+		return RelocateVirtual<decltype(&Actor::DetachCharController)>(0x0A7, 0x0A9, this);
 	}
 
 	void Actor::RemoveCharController()
@@ -2066,7 +2066,7 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::GetArmorBaseFactorSum)>(0x0E7, 0x0E9, this);
 	}
 
-	float Actor::CalcUnarmedDamage()
+	std::int32_t Actor::CalcUnarmedDamage()
 	{
 		return RelocateVirtual<decltype(&Actor::CalcUnarmedDamage)>(0x0E8, 0x0EA, this);
 	}
