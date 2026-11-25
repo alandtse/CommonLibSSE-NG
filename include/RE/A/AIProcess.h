@@ -8,6 +8,7 @@
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTObjectArena.h"
 #include "RE/B/BSTSmartPointer.h"
+#include "RE/M/Movement.h"
 #include "RE/P/ProcessType.h"
 
 namespace RE
@@ -308,6 +309,13 @@ namespace RE
 			using func_t = bool(AIProcess*, Character*, Character*, BSPathingLocation*, float, bool*, std::uint8_t*, float*, float*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(38529, 39539) };
 			return func(this, a_follower, a_leader, a_goal, a_followDistance, a_outBeyondHysteresis, a_outGoalClientData, a_outFollowerPathLength, a_outLeaderPathLength);
+		}
+
+		bool GetCurrentMaxSpeeds(Movement::MaxSpeeds* a_out)
+		{
+			using func_t = bool(AIProcess*, Movement::MaxSpeeds*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38544, 39555) };
+			return func(this, a_out);
 		}
 
 		// members
