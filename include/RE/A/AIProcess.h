@@ -196,6 +196,12 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(38189, 39149) };
 			func(this, a_package, a_actor);
 		}
+		void ClearSpeech(Actor* a_actor)
+		{
+			using func_t = void(AIProcess*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38390, 39376) };
+			func(this, a_actor);
+		}
 		void SetHighUnk028(std::uint64_t a_value)
 		{
 			using func_t = void(AIProcess*, std::uint64_t);

@@ -99,6 +99,14 @@ namespace RE
 			return func(this, a_player, a_arg2, a_arg3);
 		}
 
+		// First queued command, or null when commandList is empty.
+		VATSCommand* GetFrontCommand()
+		{
+			using func_t = VATSCommand*(VATS*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(43096, 44292) };
+			return func(this);
+		}
+
 		// members
 		std::uint32_t                          pad00;                    // 00
 		BSTArray<BSTSmartPointer<VATSCommand>> commandList;              // 08
