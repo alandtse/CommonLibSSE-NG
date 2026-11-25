@@ -44,17 +44,17 @@ namespace RE
 		~MovementControllerNPC() override;  // 00
 
 		// add
-		SKYRIM_REL_VR_VIRTUAL void SetSprinting(bool a_sprinting);  // 0A
-		SKYRIM_REL_VR_VIRTUAL bool GetSprinting();                  // 0B
-		SKYRIM_REL_VR_VIRTUAL void SetAIDriven();                   // 0C
-		SKYRIM_REL_VR_VIRTUAL void SetControlsDriven();             // 0D
-		SKYRIM_REL_VR_VIRTUAL bool GetAIDriven();                   // 0E - { return controlsDriven == 0; }
-		SKYRIM_REL_VR_VIRTUAL bool GetControlsDriven();             // 0F - { return controlsDriven; }
-		SKYRIM_REL_VR_VIRTUAL void SetMovementMode6Virtual();       // 10
-		SKYRIM_REL_VR_VIRTUAL void SetUnk1C4(bool a_value);         // 11 - re-applies SetMotionDriven when motion-driven
-		SKYRIM_REL_VR_VIRTUAL void Unk_12(void);                    // 12
-		SKYRIM_REL_VR_VIRTUAL void Unk_13(void);                    // 13
-		SKYRIM_REL_VR_VIRTUAL void Unk_14(void);                    // 14
+		SKYRIM_REL_VR_VIRTUAL void SetSprinting(bool a_sprinting);                   // 0A
+		SKYRIM_REL_VR_VIRTUAL bool GetSprinting();                                   // 0B
+		SKYRIM_REL_VR_VIRTUAL void SetAIDriven();                                    // 0C
+		SKYRIM_REL_VR_VIRTUAL void SetControlsDriven();                              // 0D
+		SKYRIM_REL_VR_VIRTUAL bool GetAIDriven();                                    // 0E - { return controlsDriven == 0; }
+		SKYRIM_REL_VR_VIRTUAL bool GetControlsDriven();                              // 0F - { return controlsDriven; }
+		SKYRIM_REL_VR_VIRTUAL void SetMovementMode6Virtual();                        // 10
+		SKYRIM_REL_VR_VIRTUAL void SetUnk1C4(bool a_value);                          // 11 - re-applies SetMotionDriven when motion-driven
+		SKYRIM_REL_VR_VIRTUAL void Unk_12(void);                                     // 12
+		SKYRIM_REL_VR_VIRTUAL void Unk_13(void);                                     // 13
+		SKYRIM_REL_VR_VIRTUAL void OnMessageDispatched(MovementMessage* a_message);  // 14
 
 		bool ApplyAgentConfig(MovementAgentConfig* a_config)
 		{
