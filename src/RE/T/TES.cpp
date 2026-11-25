@@ -238,10 +238,8 @@ namespace RE
 		func(this);
 	}
 
-	void TES::SetCurrentCell(TESObjectCELL* a_cell, const NiPoint3& a_position, float a_unk4)
+	void TES::SetCurrentCell(TESObjectCELL* a_cell, const NiPoint3& a_position, float)
 	{
-		using func_t = decltype(&TES::SetCurrentCell);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(13171, 13316) };
-		return func(this, a_cell, a_position, a_unk4);
+		LoadInterior(a_cell, a_position);
 	}
 }

@@ -2,6 +2,8 @@
 
 namespace RE
 {
+	hkbVariableValueSet::~hkbVariableValueSet() = default;
+
 	int hkbVariableValueSet::AddBool(bool a_value)
 	{
 		if (m_wordVariableValues.data()) {

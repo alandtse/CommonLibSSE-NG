@@ -5,7 +5,7 @@ namespace RE
 	void TESWorldSpace::AddPersistentRef(RE::TESObjectREFR* a_ref)
 	{
 		using func_t = decltype(&TESWorldSpace::AddPersistentRef);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(20077, 20520) };
+		static REL::Relocation<func_t> func{ REL::VariantID(20077, 20520, 0x2C6600) };
 		func(this, a_ref);
 	}
 
@@ -47,7 +47,7 @@ namespace RE
 	void TESWorldSpace::RemovePersistentRef(RE::TESObjectREFR* a_ref)
 	{
 		using func_t = decltype(&TESWorldSpace::RemovePersistentRef);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(20078, 20521) };
+		static REL::Relocation<func_t> func{ REL::VariantID(20078, 20521, 0x2C6820) };
 		func(this, a_ref);
 	}
 }

@@ -6,7 +6,7 @@ namespace RE
 	{
 		auto obj = malloc<TESWaterReflections>();
 		if (obj) {
-			std::memset(obj, 0, sizeof(TESWaterReflections));
+			std::memset(static_cast<void*>(obj), 0, sizeof(TESWaterReflections));
 			obj->Ctor(a_plane, a_mat, a_flags, a_texture);
 		}
 		return obj;

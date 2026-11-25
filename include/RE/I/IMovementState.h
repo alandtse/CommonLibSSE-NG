@@ -8,7 +8,7 @@ namespace RE
 {
 	class NiPoint3;
 	class IMovementParameters;
-	struct BSPathingLocation;
+	class BSPathingLocation;
 	namespace Movement
 	{
 		struct MaxSpeeds;

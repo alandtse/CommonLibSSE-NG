@@ -13,7 +13,7 @@ namespace RE
 	TESQuestStageItem* TESQuestStage::GetStageItem(std::uint8_t a_index)
 	{
 		using func_t = decltype(&TESQuestStage::GetStageItem);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(24766, 25246) };
+		static REL::Relocation<func_t> func{ REL::VariantID(24766, 25246, 0x3918C0) };
 		return func(this, a_index);
 	}
 

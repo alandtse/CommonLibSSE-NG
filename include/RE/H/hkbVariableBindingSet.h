@@ -37,7 +37,7 @@ namespace RE
 			std::int32_t                                   rootVariableIndex;      // 18
 			std::int32_t                                   variableIndex;          // 1C
 			std::int8_t                                    bitIndex;               // 20
-			REX::EnumSet<BindingType, std::int8_t>         bindingType;            // 21
+			REX::Enum<BindingType, std::int8_t>            bindingType;            // 21
 			std::uint8_t                                   memberType;             // 22 - hkClassMember::Type
 			std::int8_t                                    variableType;           // 23
 			REX::EnumSet<InternalBindingFlag, std::int8_t> flags;                  // 24

@@ -16,7 +16,7 @@ namespace RE
 		void SetFrequency(float a_frequency)
 		{
 			using func_t = decltype(&BSSoundCategoryHandle::SetFrequency);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(66606, 67846) };
+			static REL::Relocation<func_t> func{ REL::VariantID(66606, 67846, 0xC33F00) };
 			return func(this, a_frequency);
 		}
 

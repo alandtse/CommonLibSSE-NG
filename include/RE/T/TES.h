@@ -99,12 +99,12 @@ namespace RE
 		bool            GetLandHeight(const NiPoint3& a_positionIn, float& a_heightOut);
 		TESLandTexture* GetLandTexture(const NiPoint3& a_position) const;
 		float           GetWaterHeight(const NiPoint3& a_pos, TESObjectCELL* a_cell) const;
+		void            LoadInterior(TESObjectCELL* a_cell, const NiPoint3& a_position);
 		NiAVObject*     Pick(bhkPickData& a_pickData);
 		void            PurgeBufferedCells();
 		void            ResumeMasterFileLoads();
 
-		// Core interior/exterior cell-transition engine backing every cell
-		// attach/detach (interior enter/exit, coc, worldspace load).
+		// Delegates to LoadInterior; a_unk4 is unused by engine function 13171/13316.
 		void SetCurrentCell(TESObjectCELL* a_cell, const NiPoint3& a_position, float a_unk4);
 
 		struct RUNTIME_DATA

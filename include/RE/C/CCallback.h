@@ -44,6 +44,10 @@ namespace RE
 		SteamAPICall_t apiCall;  // 10
 		T*             obj;      // 18
 		func_t         func;     // 20
+
+	private:
+		using CCallbackBase::RTTI;
+		using CCallbackBase::VTABLE;
 	};
 	// size == 0x30
 
@@ -64,6 +68,10 @@ namespace RE
 		// members
 		T*     obj;   // 10
 		func_t func;  // 18
+
+	private:
+		using CCallbackBase::RTTI;
+		using CCallbackBase::VTABLE;
 	};
 	// size == 0x28
 }

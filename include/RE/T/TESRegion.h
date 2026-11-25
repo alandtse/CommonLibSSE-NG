@@ -93,7 +93,7 @@ namespace RE
 		bool UsesWeather(TESWeather* a_weather)
 		{
 			using func_t = decltype(&TESRegion::UsesWeather);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(16204, 16450) };
+			static REL::Relocation<func_t> func{ REL::VariantID(16204, 16450, 0x20ED60) };
 			return func(this, a_weather);
 		}
 

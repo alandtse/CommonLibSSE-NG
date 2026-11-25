@@ -28,7 +28,7 @@ namespace RE
 		void DoOnThreadPause(BSTaskThread* a_thread) override;  // 16
 
 		// add
-		void DoOnThreadResumed(BSTaskThread* a_thread);  // 18
+		virtual void DoOnThreadResumed(BSTaskThread* a_thread);  // 18
 
 		// members
 		std::uint64_t unk0C0;  // 0C0

@@ -11,6 +11,7 @@ namespace RE
 			kManaged = 1 << 0
 		};
 
+		constexpr hkStringPtr() noexcept = default;
 		explicit hkStringPtr(std::string_view a_data, const std::uint32_t a_mask = kMask, const bool a_mark = kManaged);
 		hkStringPtr(const char* a_data);
 
@@ -27,7 +28,7 @@ namespace RE
 		[[nodiscard]] size_type length() const;
 
 	protected:
-		const char* _data;  // 0
+		const char* _data{ nullptr };  // 0
 	};
 	static_assert(sizeof(hkStringPtr) == 0x8);
 }
