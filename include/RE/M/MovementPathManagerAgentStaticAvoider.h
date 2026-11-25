@@ -28,8 +28,8 @@ namespace RE
 		std::uint32_t      avoidNodeCount;                    // A0 - BSTSmallArray size; ModifyPathingRequest zeroes it after copying to the request
 		std::uint8_t       unkA4[4];                          // A4
 		BSPathingSolution* solution;                          // A8 - SetPathingData stores a_solution; ResetPathingState releases and nulls
-		float              unkB0;                             // B0 - float, running minimum set in SetPathingData, compared in PollPathEvent; serialized
-		float              unkB4;                             // B4
+		float              totalDisplacementThreshold;        // B0 - float, running minimum set in SetPathingData, compared in PollPathEvent; serialized
+		float              totalTimeThreshold;                // B4
 		std::uint32_t      pathFailureSuppressed;             // B8 - serialized; SetTriggerPathFailure(bool) stores (a_trigger == 0)
 		std::uint8_t       unkBC[4];                          // BC
 	};

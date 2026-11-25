@@ -45,14 +45,14 @@ namespace RE
 		REL::RelocateVirtual<decltype(&MovementControllerNPC::SetFlightPathing)>(0x11, 0x12, this, a_value);
 	}
 
-	void MovementControllerNPC::Unk_12()
+	void MovementControllerNPC::SaveGame(void* a_buffer)
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_12)>(0x12, 0x13, this);
+		REL::RelocateVirtual<decltype(&MovementControllerNPC::SaveGame)>(0x12, 0x13, this, a_buffer);
 	}
 
-	void MovementControllerNPC::Unk_13()
+	void MovementControllerNPC::LoadGame(void* a_buffer)
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_13)>(0x13, 0x14, this);
+		REL::RelocateVirtual<decltype(&MovementControllerNPC::LoadGame)>(0x13, 0x14, this, a_buffer);
 	}
 
 	void MovementControllerNPC::OnMessageDispatched(MovementMessage* a_message)

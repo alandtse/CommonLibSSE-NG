@@ -7,7 +7,7 @@ namespace RE
 	class BSPathingStreamRead;
 	class BSPathingStreamWrite;
 
-	// translation, rotation and the three times are named from the type 4 correction builder; the clip vectors and unk34 block are unproven
+	// translation, rotation and the three times are named from the type 4 correction builder; the clip vectors are unproven; the six vectors at 34 are inferred from the type 1 output formulas
 	struct MovementPlayIdleData
 	{
 	public:
@@ -44,15 +44,20 @@ namespace RE
 		}
 
 		// members
-		std::uint32_t type;         // 00 - 0 after ctor, 2/3 after InitType2/InitType3
-		NiPoint3      translation;  // 04 - type 4 source
-		NiPoint3      rotation;     // 10 - euler angles for type 4
-		NiPoint3      clipVecC;     // 1C
-		NiPoint3      clipVecD;     // 28
-		float         unk34[18];    // 34
-		float         startTime;    // 7C
-		float         endTime;      // 80
-		float         tailEndTime;  // 84
+		std::uint32_t type;                       // 00 - 0 after ctor, 2/3 after InitType2/InitType3
+		NiPoint3      translation;                // 04 - type 4 source
+		NiPoint3      rotation;                   // 10 - euler angles for type 4
+		NiPoint3      clipVecC;                   // 1C
+		NiPoint3      clipVecD;                   // 28
+		NiPoint3      clipRotationOffset;         // 34
+		NiPoint3      clipStartVelocity;          // 40
+		NiPoint3      clipEndVelocity;            // 4C
+		NiPoint3      targetEndRotationVelocity;  // 58
+		NiPoint3      clipStartRotationVelocity;  // 64
+		NiPoint3      clipEndRotationVelocity;    // 70
+		float         startTime;                  // 7C
+		float         endTime;                    // 80
+		float         tailEndTime;                // 84
 	};
 	static_assert(sizeof(MovementPlayIdleData) == 0x88);
 }

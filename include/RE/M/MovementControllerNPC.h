@@ -52,8 +52,8 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL bool GetControlsDriven();                              // 0F - { return controlsDriven; }
 		SKYRIM_REL_VR_VIRTUAL void SetMovementMode6Virtual();                        // 10
 		SKYRIM_REL_VR_VIRTUAL void SetFlightPathing(bool a_value);                   // 11 - re-applies SetMotionDriven when motion-driven
-		SKYRIM_REL_VR_VIRTUAL void Unk_12(void);                                     // 12
-		SKYRIM_REL_VR_VIRTUAL void Unk_13(void);                                     // 13
+		SKYRIM_REL_VR_VIRTUAL void SaveGame(void* a_buffer);                         // 12
+		SKYRIM_REL_VR_VIRTUAL void LoadGame(void* a_buffer);                         // 13
 		SKYRIM_REL_VR_VIRTUAL void OnMessageDispatched(MovementMessage* a_message);  // 14
 
 		bool ApplyAgentConfig(MovementAgentConfig* a_config)
@@ -88,24 +88,24 @@ namespace RE
 		}
 
 		// members
-		BSSpinLock                      messageLock;       // 150
-		BSTArray<MovementMessage*>      movementMessages;  // 158
-		BSTArray<MovementLocationEvent> locationEvents;    // 170
-		BSTArray<void*>                 idleAnimations;    // 188 - hkx animation entry handles (BSResource::RHandle of BShkbHkxDB entries)
-		BSSpinLock                      pendingIdleLock;   // 1A0 - guards idleAnimations, unk1A8 and pendingPlayIdle
-		std::uint64_t                   unk1A8;            // 1A8
-		MovementMessagePlayIdle*        pendingPlayIdle;   // 1B0 - posted through IMovementMessageInterface once the idle data is ready
-		Actor*                          actor;             // 1B8
-		std::uint32_t                   movementMode;      // 1C0 - 0..0xE, default 2, set by small mode setters, saved
-		bool                            flightPathing;     // 1C4
-		bool                            controlsDriven;    // 1C5
-		bool                            unk1C6;            // 1C6
-		bool                            unk1C7;            // 1C7
-		bool                            unk1C8;            // 1C8
-		bool                            unk1C9;            // 1C9
-		bool                            followerHandlers;  // 1CA
-		bool                            keepingOffset;     // 1CB
-		std::uint32_t                   unk1CC;            // 1CC
+		BSSpinLock                      messageLock;                  // 150
+		BSTArray<MovementMessage*>      movementMessages;             // 158
+		BSTArray<MovementLocationEvent> locationEvents;               // 170
+		BSTArray<void*>                 idleAnimations;               // 188 - hkx animation entry handles (BSResource::RHandle of BShkbHkxDB entries)
+		BSSpinLock                      pendingIdleLock;              // 1A0 - guards idleAnimations, idleLoadRequest and pendingPlayIdle
+		std::uint64_t                   idleLoadRequest;              // 1A8
+		MovementMessagePlayIdle*        pendingPlayIdle;              // 1B0 - posted through IMovementMessageInterface once the idle data is ready
+		Actor*                          actor;                        // 1B8
+		std::uint32_t                   movementMode;                 // 1C0 - 0..0xE, default 2, set by small mode setters, saved
+		bool                            flightPathing;                // 1C4
+		bool                            controlsDriven;               // 1C5
+		bool                            directControlEnabled;         // 1C6
+		bool                            plannerDirectControlEnabled;  // 1C7
+		bool                            agentsPrepared;               // 1C8
+		bool                            animationDrivenPrepared;      // 1C9
+		bool                            followerHandlers;             // 1CA
+		bool                            keepingOffset;                // 1CB
+		std::uint32_t                   unk1CC;                       // 1CC
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 	static_assert(sizeof(MovementControllerNPC) == 0x1D0);
