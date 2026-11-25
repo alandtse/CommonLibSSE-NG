@@ -164,7 +164,7 @@ namespace RE
 
 		// add
 		virtual IMovementState* QCurrentState();                                                         // 05 - GetInterface1 lookup, NullMovementState fallback
-		virtual void            Unk_06(void);                                                            // 06 - { return; }
+		virtual void            RegisterInterfaces();                                                    // 06 - no-op in the base
 		virtual void            UpdateSmallDelta(float a_deltaTime, MovementUpdateDeltas* a_output);     // 07 - builds MovementUpdateDataSmallDelta, calls each arbiter
 		virtual void            UpdateLargeDelta(float a_deltaTime, BSTArray<BSFixedString>* a_output);  // 08
 		virtual void            Unk_09(void);                                                            // 09 - { return 1; }

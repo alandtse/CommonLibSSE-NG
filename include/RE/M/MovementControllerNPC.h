@@ -44,17 +44,17 @@ namespace RE
 		~MovementControllerNPC() override;  // 00
 
 		// add
-		SKYRIM_REL_VR_VIRTUAL void Unk_0A(void);         // 0A
-		SKYRIM_REL_VR_VIRTUAL void Unk_0B(void);         // 0B
-		SKYRIM_REL_VR_VIRTUAL void SetAIDriven();        // 0C
-		SKYRIM_REL_VR_VIRTUAL void SetControlsDriven();  // 0D
-		SKYRIM_REL_VR_VIRTUAL bool GetAIDriven();        // 0E - { return controlsDriven == 0; }
-		SKYRIM_REL_VR_VIRTUAL bool GetControlsDriven();  // 0F - { return controlsDriven; }
-		SKYRIM_REL_VR_VIRTUAL void Unk_10(void);         // 10
-		SKYRIM_REL_VR_VIRTUAL void Unk_11(void);         // 11
-		SKYRIM_REL_VR_VIRTUAL void Unk_12(void);         // 12
-		SKYRIM_REL_VR_VIRTUAL void Unk_13(void);         // 13
-		SKYRIM_REL_VR_VIRTUAL void Unk_14(void);         // 14
+		SKYRIM_REL_VR_VIRTUAL void SetSprinting(bool a_sprinting);  // 0A
+		SKYRIM_REL_VR_VIRTUAL bool GetSprinting();                  // 0B
+		SKYRIM_REL_VR_VIRTUAL void SetAIDriven();                   // 0C
+		SKYRIM_REL_VR_VIRTUAL void SetControlsDriven();             // 0D
+		SKYRIM_REL_VR_VIRTUAL bool GetAIDriven();                   // 0E - { return controlsDriven == 0; }
+		SKYRIM_REL_VR_VIRTUAL bool GetControlsDriven();             // 0F - { return controlsDriven; }
+		SKYRIM_REL_VR_VIRTUAL void SetMovementMode6Virtual();       // 10
+		SKYRIM_REL_VR_VIRTUAL void SetUnk1C4(bool a_value);         // 11 - re-applies SetMotionDriven when motion-driven
+		SKYRIM_REL_VR_VIRTUAL void Unk_12(void);                    // 12
+		SKYRIM_REL_VR_VIRTUAL void Unk_13(void);                    // 13
+		SKYRIM_REL_VR_VIRTUAL void Unk_14(void);                    // 14
 
 		bool ApplyAgentConfig(MovementAgentConfig* a_config)
 		{
@@ -91,8 +91,8 @@ namespace RE
 		BSSpinLock                      messageLock;       // 150
 		BSTArray<MovementMessage*>      movementMessages;  // 158
 		BSTArray<MovementLocationEvent> locationEvents;    // 170
-		BSTArray<void*>                 unk188;            // 188
-		BSSpinLock                      pendingIdleLock;   // 1A0 - guards unk188, unk1A8 and pendingPlayIdle
+		BSTArray<void*>                 idleAnimations;    // 188 - hkx animation entry handles (BSResource::RHandle of BShkbHkxDB entries)
+		BSSpinLock                      pendingIdleLock;   // 1A0 - guards idleAnimations, unk1A8 and pendingPlayIdle
 		std::uint64_t                   unk1A8;            // 1A8
 		MovementMessagePlayIdle*        pendingPlayIdle;   // 1B0 - posted through IMovementMessageInterface once the idle data is ready
 		Actor*                          actor;             // 1B8
