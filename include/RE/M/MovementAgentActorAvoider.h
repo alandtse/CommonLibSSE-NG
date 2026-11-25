@@ -17,18 +17,6 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementAgentActorAvoider;
 		inline static constexpr auto VTABLE = VTABLE_MovementAgentActorAvoider;
 
-		void CheckBlockedByActors(void* a_arg1, std::uint32_t* a_outStatus)
-		{
-			using func_t = void(MovementAgentActorAvoider*, void*, std::uint32_t*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(89715, 92192) };
-			func(this, a_arg1, a_outStatus);
-		}
-		void AddActorAvoidNodes(BSPathingRequest** a_request)
-		{
-			using func_t = void(MovementAgentActorAvoider*, BSPathingRequest**);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(89716, 92193) };
-			func(this, a_request);
-		}
 		void FindActorsToAvoid()
 		{
 			using func_t = void(MovementAgentActorAvoider*);

@@ -267,6 +267,13 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36868, 37892) };
 			return func(this, a_message);
 		}
+
+		void GetAnticipatedLocation(float a_time, NiPoint3* a_outLocation)
+		{
+			using func_t = void(Character*, float, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(46045, 47309) };
+			func(this, a_time, a_outLocation);
+		}
 	};
 	STATIC_ASSERT_SIZE(Character, 0x2B0, 0x2B8, 0x2B0, 0xC0, 0xC8);
 }
