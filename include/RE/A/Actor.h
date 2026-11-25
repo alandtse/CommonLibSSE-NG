@@ -141,13 +141,13 @@ namespace RE
 	NiSmartPointer(Actor);
 
 	class Actor :
-	    public TESObjectREFR,                              // 000
-	    public MagicTarget,                                // 098, 0A0
-	    public ActorValueOwner,                            // 0B0, 0B8
-	    public ActorState,                                 // 0B8, 0C0
-	    public BSTEventSink<BSTransformDeltaEvent>,        // 0C8, 0D0
-	    public BSTEventSink<bhkCharacterMoveFinishEvent>,  // 0D0, 0D8
-	    public IPostAnimationChannelUpdateFunctor          // 0D8, 0E0
+		public TESObjectREFR,                              // 000
+		public MagicTarget,                                // 098, 0A0
+		public ActorValueOwner,                            // 0B0, 0B8
+		public ActorState,                                 // 0B8, 0C0
+		public BSTEventSink<BSTransformDeltaEvent>,        // 0C8, 0D0
+		public BSTEventSink<bhkCharacterMoveFinishEvent>,  // 0D0, 0D8
+		public IPostAnimationChannelUpdateFunctor          // 0D8, 0E0
 	{
 	private:
 		using EntryPoint = BGSEntryPointPerkEntry::EntryPoint;
@@ -867,12 +867,12 @@ namespace RE
 
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
-	RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()
+		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()
 #endif
 
-		private :
-		void
-		            CalculateCurrentVendorFaction() const;
+			private :
+			void
+					CalculateCurrentVendorFaction() const;
 		float       CalcEquippedWeight();
 		TESFaction* GetCrimeFactionImpl() const;
 	};

@@ -283,19 +283,19 @@ namespace RE
 	static_assert(sizeof(TemperingEntryPointCache) == 0x10);
 
 	class PlayerCharacter :
-	    public Character,                            // 000
-	    public BSTEventSource<BGSActorCellEvent>,    // SE 2D0, AE 2D8, VR 2E8
-	    public BSTEventSource<BGSActorDeathEvent>,   // SE 328, AE 330, VR 340
-	    public BSTEventSource<PositionPlayerEvent>,  // SE 380, AE 388, VR 398
-	    public BSTEventSink<MenuOpenCloseEvent>,     // SE,VR 2B0, AE 2B8
-	    public BSTEventSink<MenuModeChangeEvent>,    // SE,VR 2B8, AE 2C0
-	    public BSTEventSink<UserEventEnabledEvent>,  // SE,VR 2C0, AE 2C8
-	    public BSTEventSink<TESTrackedStatsEvent>    // SE,VR 2C8, AE 2D0
+		public Character,                            // 000
+		public BSTEventSource<BGSActorCellEvent>,    // SE 2D0, AE 2D8, VR 2E8
+		public BSTEventSource<BGSActorDeathEvent>,   // SE 328, AE 330, VR 340
+		public BSTEventSource<PositionPlayerEvent>,  // SE 380, AE 388, VR 398
+		public BSTEventSink<MenuOpenCloseEvent>,     // SE,VR 2B0, AE 2B8
+		public BSTEventSink<MenuModeChangeEvent>,    // SE,VR 2B8, AE 2C0
+		public BSTEventSink<UserEventEnabledEvent>,  // SE,VR 2C0, AE 2C8
+		public BSTEventSink<TESTrackedStatsEvent>    // SE,VR 2C8, AE 2D0
 #ifdef EXCLUSIVE_SKYRIM_VR
-	    ,
-	    public BSTEventSink<VROverlayChange>,           // 2D0
-	    public BSTEventSink<VRDeviceConnectionChange>,  // 2D8
-	    public BSTEventSink<VRResetHMDHeight>           // 2E0
+		,
+		public BSTEventSink<VROverlayChange>,           // 2D0
+		public BSTEventSink<VRDeviceConnectionChange>,  // 2D8
+		public BSTEventSink<VRResetHMDHeight>           // 2E0
 #endif
 	{
 	public:
@@ -700,7 +700,7 @@ namespace RE
 	float                      chaseTimer;                                  /* 1114 */                                                                                                     \
 	float                      drawSheatheSafetyTimer;                      /* 1118 */                                                                                                     \
 	std::uint32_t              unk111C;                                     /* 111C */
-			VR_INFO_RUNTIME_DATA_CONTENT
+            VR_INFO_RUNTIME_DATA_CONTENT
 		};
 		static_assert(sizeof(VR_INFO_RUNTIME_DATA) == 0x140);
 
@@ -1061,7 +1061,7 @@ namespace RE
 	BSTSmallArray<void*, 4>   unkBA0;                                                                 /* BA0 */                                                                                                                               \
 	PreTransformationData*    preTransformationData;                                                  /* BD0 */                                                                                                                               \
 	PlayerFlags               playerFlags;                                                            /* BD8 */
-			PLAYER_RUNTIME_DATA_CONTENT
+            PLAYER_RUNTIME_DATA_CONTENT
 		};
 
 		struct VR_PLAYER_RUNTIME_DATA
@@ -1214,7 +1214,7 @@ namespace RE
 	BSTSmallArray<void*, 4>   unk1298;               /* 1298 - matches SE/AE's unkBA0 (BSTSmallArray<void*,4>) by offset */                                                                                                                                                                                                                                                                               \
 	PreTransformationData*    preTransformationData; /* 12C8 - Stores equipped data when transforming to vampire/werewolf, cleared when transforming back to human */                                                                                                                                                                                                                                     \
 	PlayerFlags               playerFlags;           /* 12D0 */
-			VR_PLAYER_RUNTIME_DATA_CONTENT
+            VR_PLAYER_RUNTIME_DATA_CONTENT
 		};
 
 		// Runtime data accessors

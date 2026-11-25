@@ -32,10 +32,10 @@ namespace RE
 	static_assert(sizeof(CreatureSounds) == 0x40);
 
 	class TESNPC :
-	    public TESActorBase,                     // 000
-	    public TESRaceForm,                      // 150
-	    public BGSOverridePackCollection,        // 160
-	    public BSTEventSink<MenuOpenCloseEvent>  // 188
+		public TESActorBase,                     // 000
+		public TESRaceForm,                      // 150
+		public BGSOverridePackCollection,        // 160
+		public BSTEventSink<MenuOpenCloseEvent>  // 188
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_TESNPC;

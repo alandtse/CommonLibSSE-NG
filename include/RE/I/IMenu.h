@@ -130,7 +130,7 @@ namespace RE
 	std::uint8_t                                   pad35{ 0 };                                \
 	std::uint16_t                                  pad36{ 0 };                                \
 	BSFixedString                                  menuName{ "N/A" };  // 38
-			VR_RUNTIME_DATA_CONTENT
+            VR_RUNTIME_DATA_CONTENT
 		};
 
 		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x30);
