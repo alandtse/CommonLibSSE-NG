@@ -36,11 +36,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88449, 90874) };
 			func(this);
 		}
-		void ProcessFollowerEvents()
+		void ProcessFollowerEvents(MovementUpdateDataSmallDelta* a_updateData)
 		{
-			using func_t = void(MovementPathManagerArbiter*);
+			using func_t = void(MovementPathManagerArbiter*, MovementUpdateDataSmallDelta*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88450, 90875) };
-			func(this);
+			func(this, a_updateData);
 		}
 		void StartPathFollowing(void* a_solution)
 		{

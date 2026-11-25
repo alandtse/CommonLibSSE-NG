@@ -18,13 +18,13 @@ namespace RE
 		NiPoint3        direction;                   // 20 - Init fills from ActorState; ClearForcedMovement zeroes
 		float           speed;                       // 2C - Init = ActorState::SpeedToNormalized(...)
 		NiPoint3        rotation;                    // 30 - Init sets Z (0x38) = ActorState::RotationSpeedToNormalized(...)
-		std::uint32_t   unk3C;                       // 3C - zeroed by ctor and ClearForcedMovement
-		float           blendTime;                   // 40 - UpdateHandler subtracts frame delta; cleared by ClearForcedMovement
-		std::uint32_t   unk44;                       // 44 - zeroed by ctor and ClearForcedMovement
-		void*           unk48;                       // 48 - released/zeroed in dtor
+		float           directionBlendTime;          // 3C - zeroed by ctor and ClearForcedMovement
+		float           speedBlendTime;              // 40 - UpdateHandler subtracts frame delta; cleared by ClearForcedMovement
+		float           rotationBlendTime;           // 44 - zeroed by ctor and ClearForcedMovement
+		void*           movementParameters;          // 48 - released/zeroed in dtor
 		BSReadWriteLock lock;                        // 50 - ctor BSReadWriteLock(this+0x50); UpdateHandler locks it
 		NiPoint3        targetDirection;             // 58 - blended toward by UpdateHandler (FUN_1406faf20 lerp)
-		std::uint32_t   unk64;                       // 64 - zeroed by ctor and ClearForcedMovement
+		float           targetSpeed;                 // 64 - zeroed by ctor and ClearForcedMovement
 		NiPoint3        targetRotation;              // 68 - blended toward by UpdateHandler
 		std::uint8_t    unk74[4];                    // 74
 	};
