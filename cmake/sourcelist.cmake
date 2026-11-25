@@ -1626,7 +1626,9 @@ set(SOURCES
 	include/RE/M/MovementParameters.h
 	include/RE/M/MovementParametersFixed.h
 	include/RE/M/MovementPathManagerArbiter.h
+	include/RE/M/MovementPlannerAgentReturnDataSmallDelta.h
 	include/RE/M/MovementPlannerAgentWarp.h
+	include/RE/M/MovementPlannerUpdateDataSmallDelta.h
 	include/RE/M/MovementPlayIdleData.h
 	include/RE/M/MovementPlayIdleHolder.h
 	include/RE/M/MovementStateFollowPath.h

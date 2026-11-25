@@ -2,6 +2,7 @@
 
 #include "RE/M/MovementHandlerOutputDataSmallDelta.h"
 #include "RE/M/MovementHandlerUpdateDataSmallDelta.h"
+#include "RE/M/MovementPlannerUpdateDataSmallDelta.h"
 
 namespace RE
 {
@@ -12,8 +13,7 @@ namespace RE
 		// members
 		float                               deltaTime;          // 00
 		float                               unk4;               // 04
-		float                               unk8;               // 08
-		std::uint32_t                       padC;               // 0C
+		MovementPlannerUpdateDataSmallDelta plannerUpdateData;  // 08
 		MovementHandlerUpdateDataSmallDelta handlerUpdateData;  // 10
 		MovementHandlerOutputDataSmallDelta handlerOutputData;  // 98
 	};

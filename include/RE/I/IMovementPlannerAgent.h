@@ -2,6 +2,9 @@
 
 namespace RE
 {
+	struct MovementPlannerAgentReturnDataSmallDelta;
+	struct MovementPlannerUpdateDataSmallDelta;
+
 	class IMovementPlannerAgent
 	{
 	public:
@@ -11,9 +14,9 @@ namespace RE
 		virtual ~IMovementPlannerAgent();  // 00
 
 		// add
-		virtual void Unk_01(void);  // 01
-		virtual void Unk_02(void);  // 02 - planner update
-		virtual void Unk_03(void);  // 03
+		virtual void Unk_01(void);                                                                                                                 // 01
+		virtual void UpdateSmallDelta(MovementPlannerUpdateDataSmallDelta* a_updateData, MovementPlannerAgentReturnDataSmallDelta* a_returnData);  // 02
+		virtual void Unk_03(void);                                                                                                                 // 03
 	};
 	static_assert(sizeof(IMovementPlannerAgent) == 0x8);
 }
