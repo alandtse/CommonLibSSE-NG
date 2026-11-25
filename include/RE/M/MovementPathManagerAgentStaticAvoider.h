@@ -17,7 +17,7 @@ namespace RE
 		void*         vptr_IMovementSetStaticAvoider;    // 28
 		std::uint32_t ownerHandle;                       // 30 - Activate stores result of owner-handle slot call
 		std::uint8_t  unk34[4];                          // 34
-		void*         unk38;                             // 38 - interface pointer; dtor calls vtable slot 4 on it then nulls it
+		void*         messageInterface;                  // 38 - interface pointer; dtor calls vtable slot 4 on it then nulls it
 		std::uint8_t  errorFrames[16];                   // 40 - BSTArray of movement error frames; ctor FUN_1411382d0, SaveGame WriteMovementErrorFrameArray
 		std::uint8_t  unk50[32];                         // 50
 		std::uint32_t unk70;                             // 70 - BSTSmallArray allocator capacity word, ctor = 0x80000000 (local-storage flag)
