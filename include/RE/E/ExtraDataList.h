@@ -15,6 +15,7 @@
 
 namespace RE
 {
+	class DialogueItem;
 	class InventoryChanges;
 	class TESBoundObject;
 
@@ -223,6 +224,20 @@ namespace RE
 		void                  SetOverrideName(const char* a_name);
 		void                  SetOwner(TESForm* a_owner);
 		void                  SetStartingPosition(TESObjectREFR* a_refr, const NiPoint3& a_position, const NiPoint3& a_rotation, BGSLocation* a_location);
+
+		void RemoveSayToTopicInfo()
+		{
+			using func_t = void(ExtraDataList*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(11808, 11948) };
+			func(this);
+		}
+
+		DialogueItem* GetSayToTopicInfoItem()
+		{
+			using func_t = DialogueItem*(ExtraDataList*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(11766, 11912) };
+			return func(this);
+		}
 
 		void SetPackageStartLocation(TESWorldSpace* a_worldSpace, TESObjectCELL* a_cell, NiPoint3* a_position, float a_rotationZ)
 		{
