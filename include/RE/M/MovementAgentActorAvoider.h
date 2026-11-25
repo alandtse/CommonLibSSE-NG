@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RE/A/AvoidedActorInfo.h"
+#include "RE/B/BSTArray.h"
 #include "RE/M/MovementControllerAI.h"
 
 namespace RE
@@ -41,20 +43,16 @@ namespace RE
 		}
 
 		// members
-		void*             secondaryVtables[3];    // 18
-		std::uint32_t     ownerHandle;            // 30
-		std::uint32_t     pad34;                  // 34
-		void*             movementController;     // 38
-		BSPathingRequest* request;                // 40
-		void*             avoidedActorsData;      // 48 - BSTArray<AvoidedActorInfo> data
-		std::uint32_t     avoidedActorsCapacity;  // 50
-		std::uint32_t     pad54;                  // 54
-		std::uint32_t     avoidedActorsSize;      // 58
-		std::uint32_t     pad5C;                  // 5C
-		std::int32_t      unk60;                  // 60
-		std::uint32_t     unk64;                  // 64
-		std::uint32_t     avoidanceState;         // 68
-		std::uint32_t     unk6C;                  // 6C
+		void*                      secondaryVtables[3];  // 18
+		std::uint32_t              ownerHandle;          // 30
+		std::uint32_t              pad34;                // 34
+		void*                      movementController;   // 38
+		BSPathingRequest*          request;              // 40
+		BSTArray<AvoidedActorInfo> avoidedActors;        // 48
+		std::int32_t               unk60;                // 60
+		std::uint32_t              unk64;                // 64
+		std::uint32_t              avoidanceState;       // 68
+		std::uint32_t              unk6C;                // 6C
 	};
 	static_assert(sizeof(MovementAgentActorAvoider) == 0x70);
 }
