@@ -1,14 +1,3 @@
-# CommonLibSSE-NG, cross-compiled from Linux to Windows (MSVC ABI) with clang-cl.
-#
-# How it works
-# ------------
-# The Windows toolchain is assembled from these pieces:
-#
-#   * xwin     downloads the Windows SDK and MSVC CRT (headers + import libs).
-#   * clang-cl compiles C/C++ for x86_64-pc-windows-msvc, lld-link links it.
-#   * Wine     runs fxc2.exe, a shader compiler DirectXTK needs at build time.
-#   * vcpkg    builds the C++ dependencies (fmt, spdlog, DirectXTK, ...).
-#
 # Nix sandboxes have no network, so everything that must be downloaded is a
 # fixed-output derivation (FOD, pinned by hash). Everything else builds offline.
 #
