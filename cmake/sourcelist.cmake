@@ -1600,11 +1600,13 @@ set(SOURCES
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
 	include/RE/M/MovementMessage.h
+	include/RE/M/MovementMessageActivateDoor.h
 	include/RE/M/MovementMessageActorCollision.h
 	include/RE/M/MovementMessageApproachingDoor.h
 	include/RE/M/MovementMessageBlocked.h
 	include/RE/M/MovementMessageDoor.h
 	include/RE/M/MovementMessageFreezeDirection.h
+	include/RE/M/MovementMessageJump.h
 	include/RE/M/MovementMessageMovementTypeChange.h
 	include/RE/M/MovementMessageNewPath.h
 	include/RE/M/MovementMessagePathCleared.h
@@ -1760,6 +1762,7 @@ set(SOURCES
 	include/RE/P/PackageLocation.h
 	include/RE/P/PackedInstructionStream.h
 	include/RE/P/ParalysisEffect.h
+	include/RE/P/PathFollowerStateUpdateData.h
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
 	include/RE/P/PathingDoor.h
