@@ -10,7 +10,7 @@ namespace RE
 	public:
 		// members
 		NiPoint3 translationDelta;  // 00
-		float    pad0C;             // 0C
+		float    translationSpeed;  // 0C - read by IMovementQueryDeltas::GetTranslationSpeed
 		NiPoint3 rotationDelta;     // 10
 	};
 	static_assert(sizeof(MovementUpdateDeltas) == 0x1C);
