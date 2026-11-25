@@ -259,6 +259,25 @@ namespace RE
 			return func(this, a_angularAcceleration);
 		}
 
+		float NormalizedToAngularAcceleration(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88506, 90932) };
+			return func(this, a_normalized);
+		}
+		float AngleAccelerationToNormalized(float a_value)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88507, 90933) };
+			return func(this, a_value);
+		}
+		float NormalizedToAngleAcceleration(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88508, 90934) };
+			return func(this, a_normalized);
+		}
+
 		// members
 		ActorState1 actorState1;  // 08
 		ActorState2 actorState2;  // 0C

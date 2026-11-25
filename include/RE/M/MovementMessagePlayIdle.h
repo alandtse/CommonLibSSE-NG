@@ -2,6 +2,7 @@
 
 #include "RE/B/BSFixedString.h"
 #include "RE/M/MovementMessage.h"
+#include "RE/M/MovementPlayIdleData.h"
 
 namespace RE
 {
@@ -16,9 +17,9 @@ namespace RE
 		~MovementMessagePlayIdle() override;  // 00
 
 		// members
-		BSFixedString            idleName;        // 10
-		std::uint8_t             idleData[0x88];  // 18
-		IMovementPlayIdleResult* result;          // A0 - NiPointer
+		BSFixedString            idleName;  // 10
+		MovementPlayIdleData     idleData;  // 18
+		IMovementPlayIdleResult* result;    // A0 - NiPointer
 	};
 	static_assert(sizeof(MovementMessagePlayIdle) == 0xA8);
 }

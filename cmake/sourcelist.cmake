@@ -1446,6 +1446,7 @@ set(SOURCES
 	include/RE/I/IPackageDataAIWorldLocationHandle.h
 	include/RE/I/IPathBuilder.h
 	include/RE/I/IPathBuilderTracker.h
+	include/RE/I/IPathFollowerAction.h
 	include/RE/I/IPostAnimationChannelUpdateFunctor.h
 	include/RE/I/IProcedureTreeExecState.h
 	include/RE/I/IProcedureTreeItem.h
@@ -1605,8 +1606,11 @@ set(SOURCES
 	include/RE/M/MovementMessageDoor.h
 	include/RE/M/MovementMessageFreezeDirection.h
 	include/RE/M/MovementMessageMovementTypeChange.h
+	include/RE/M/MovementMessageNewPath.h
+	include/RE/M/MovementMessagePathCleared.h
 	include/RE/M/MovementMessagePathComplete.h
 	include/RE/M/MovementMessagePathEvent.h
+	include/RE/M/MovementMessagePathFailed.h
 	include/RE/M/MovementMessagePlayIdle.h
 	include/RE/M/MovementMessagePool.h
 	include/RE/M/MovementMessageSetStaticPath.h
@@ -1616,6 +1620,7 @@ set(SOURCES
 	include/RE/M/MovementParametersFixed.h
 	include/RE/M/MovementPathManagerArbiter.h
 	include/RE/M/MovementPlannerAgentWarp.h
+	include/RE/M/MovementPlayIdleData.h
 	include/RE/M/MovementStateFollowPath.h
 	include/RE/M/MovementStateTweener.h
 	include/RE/M/MoviePlayer.h
@@ -1763,6 +1768,7 @@ set(SOURCES
 	include/RE/P/PathingRequestFlyHover.h
 	include/RE/P/PathingSolutionQueue.h
 	include/RE/P/PathingStreamLoadGame.h
+	include/RE/P/PathingStreamMasterFileRead.h
 	include/RE/P/PathingStreamSaveGame.h
 	include/RE/P/PatrolActorPackageData.h
 	include/RE/P/PeakValueModifierEffect.h
