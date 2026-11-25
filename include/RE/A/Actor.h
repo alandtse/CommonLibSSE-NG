@@ -930,6 +930,13 @@ namespace RE
 			func(this, a_arg1, a_arg2);
 		}
 
+		bool GetPathLookAheadPoint(float a_minDistance, float a_maxDistance, float a_lookAheadTime, NiPoint3* a_outPoint)
+		{
+			using func_t = bool(Actor*, float, float, float, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36835, 37851) };
+			return func(this, a_minDistance, a_maxDistance, a_lookAheadTime, a_outPoint);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()
