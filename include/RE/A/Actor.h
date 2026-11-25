@@ -377,7 +377,7 @@ namespace RE
 #endif
 
 		// add
-		SKYRIM_REL_VR_VIRTUAL void                Unk_A2(void);                                                          // 0A2
+		SKYRIM_REL_VR_VIRTUAL void                FreeRequestedModels(void);                                             // 0A2
 		SKYRIM_REL_VR_VIRTUAL void                PlayPickUpSound(TESBoundObject* a_object, bool a_pickup, bool a_use);  // 0A3
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float GetHeading(bool a_ignoreRaceSettings) const;                           // 0A4
 #if defined(EXCLUSIVE_SKYRIM_VR)

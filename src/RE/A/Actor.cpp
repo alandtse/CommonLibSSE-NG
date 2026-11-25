@@ -1716,9 +1716,9 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object, a_count, a_extraList);
 	}
 
-	void Actor::Unk_A2()
+	void Actor::FreeRequestedModels()
 	{
-		RelocateVirtual<decltype(&Actor::Unk_A2)>(0x0A2, 0x0A3, this);
+		RelocateVirtual<decltype(&Actor::FreeRequestedModels)>(0x0A2, 0x0A3, this);
 	}
 
 	void Actor::PlayPickUpSound(TESBoundObject* a_object, bool a_pickup, bool a_use)
