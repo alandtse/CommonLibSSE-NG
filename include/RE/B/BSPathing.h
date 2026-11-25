@@ -21,6 +21,13 @@ namespace RE
 	{
 		BSPathingLocation                location;      // 00
 		BSTSmartPointer<MovementMessage> actionAtNode;  // 30
+
+		bool HasActivateDoorAction()
+		{
+			using func_t = bool(BSVirtualPathingNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89210, 91682) };
+			return func(this);
+		}
 	};
 	static_assert(sizeof(BSVirtualPathingNode) == 0x38);
 
@@ -29,6 +36,19 @@ namespace RE
 		BSPathingLocation                location;      // 00
 		BSTSmartPointer<MovementMessage> actionAtNode;  // 30;
 		NiPoint3                         tangent;       // 38
+
+		bool HasActivateDoorAction()
+		{
+			using func_t = bool(BSPathingNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89222, 91695) };
+			return func(this);
+		}
+		bool GetActionAtNode(MovementMessage** a_out)
+		{
+			using func_t = bool(BSPathingNode*, MovementMessage**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89224, 91697) };
+			return func(this, a_out);
+		}
 	};
 	static_assert(sizeof(BSPathingNode) == 0x48);
 

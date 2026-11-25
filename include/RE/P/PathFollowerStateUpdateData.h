@@ -19,7 +19,7 @@ namespace RE
 		BSPathingSolution* solution;          // 20 - NiPointer
 		ActorState*        actorState;        // 28
 		void*              messageInterface;  // 30
-		float*             currentSpeeds;     // 38
+		NiPoint3*          pathPoint;         // 38
 		float              pathPosition;      // 40
 		float              deltaTime;         // 44
 	};
