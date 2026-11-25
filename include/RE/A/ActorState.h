@@ -155,7 +155,7 @@ namespace RE
 
 		// add
 		virtual bool DoSetSitSleepState(SIT_SLEEP_STATE a_state);  // 14
-		virtual void Unk_15(void);                                 // 15
+		virtual void DoSetWeaponDrawn(bool a_drawn);               // 15
 
 		[[nodiscard]] ATTACK_STATE_ENUM GetAttackState() const noexcept { return actorState1.meleeAttackState; }
 		[[nodiscard]] FLY_STATE         GetFlyState() const noexcept { return actorState1.flyState; }
