@@ -6,6 +6,7 @@ namespace RE
 {
 	class Actor;
 	class BSPathingLocation;
+	class BSPathingRequest;
 	class TESObjectCELL;
 	class TESObjectREFR;
 	class TESWorldSpace;
@@ -47,6 +48,12 @@ namespace RE
 			using func_t = void(ActorMover*, TESObjectREFR*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40580, 41609) };
 			func(this, a_ref);
+		}
+		bool SubmitBSPathingRequest(BSPathingRequest** a_request, BSPathingLocation* a_location)
+		{
+			using func_t = bool(ActorMover*, BSPathingRequest**, BSPathingLocation*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40583, 41612) };
+			return func(this, a_request, a_location);
 		}
 		void StopMoving()
 		{
