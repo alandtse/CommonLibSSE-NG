@@ -5,14 +5,14 @@
 namespace RE
 {
 #ifdef SKYRIM_CROSS_VR
-	void MovementControllerNPC::Unk_0A()
+	void MovementControllerNPC::SetSprinting(bool a_sprinting)
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_0A)>(0x0A, 0x0B, this);
+		REL::RelocateVirtual<decltype(&MovementControllerNPC::SetSprinting)>(0x0A, 0x0B, this, a_sprinting);
 	}
 
-	void MovementControllerNPC::Unk_0B()
+	bool MovementControllerNPC::GetSprinting()
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_0B)>(0x0B, 0x0C, this);
+		return REL::RelocateVirtual<decltype(&MovementControllerNPC::GetSprinting)>(0x0B, 0x0C, this);
 	}
 
 	void MovementControllerNPC::SetAIDriven()
@@ -35,14 +35,14 @@ namespace RE
 		return REL::RelocateVirtual<decltype(&MovementControllerNPC::GetControlsDriven)>(0x0F, 0x10, this);
 	}
 
-	void MovementControllerNPC::Unk_10()
+	void MovementControllerNPC::SetMovementMode6Virtual()
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_10)>(0x10, 0x11, this);
+		REL::RelocateVirtual<decltype(&MovementControllerNPC::SetMovementMode6Virtual)>(0x10, 0x11, this);
 	}
 
-	void MovementControllerNPC::Unk_11()
+	void MovementControllerNPC::SetUnk1C4(bool a_value)
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_11)>(0x11, 0x12, this);
+		REL::RelocateVirtual<decltype(&MovementControllerNPC::SetUnk1C4)>(0x11, 0x12, this, a_value);
 	}
 
 	void MovementControllerNPC::Unk_12()
@@ -55,9 +55,9 @@ namespace RE
 		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_13)>(0x13, 0x14, this);
 	}
 
-	void MovementControllerNPC::Unk_14()
+	void MovementControllerNPC::OnMessageDispatched(MovementMessage* a_message)
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::Unk_14)>(0x14, 0x15, this);
+		REL::RelocateVirtual<decltype(&MovementControllerNPC::OnMessageDispatched)>(0x14, 0x15, this, a_message);
 	}
 #endif
 }
