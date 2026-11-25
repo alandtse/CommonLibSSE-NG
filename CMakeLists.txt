@@ -203,7 +203,7 @@ if(MSVC)
 		"$<$<CONFIG:Debug>:/Zo>"
 
 		# Standards conformance
-		/Zc:preprocessor # Enable conforming preprocessor (required for STATIC_ASSERT_SIZE variadic macro)
+		"$<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>" # Enable conforming preprocessor (required for STATIC_ASSERT_SIZE variadic macro); clang-cl is conforming and rejects it
 
 		# disable warnings
 		"$<$<CONFIG:Debug>:/wd4702>" # unreachable code: debug builds don't optimize away compile-time conditionals
@@ -231,6 +231,16 @@ if(MSVC)
 		/wd5053 # support for 'explicit(<expr>)' in C++17 and earlier is a vendor extension
 		/wd5204 # 'type-name': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
 		/wd5220 # 'member': a non-static data member with a volatile qualified type no longer implies that compiler generated copy / move constructors and copy / move assignment operators are not trivial
+	)
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	target_compile_options(
+		"${PROJECT_NAME}"
+		PUBLIC
+		-Wno-invalid-offsetof # offsetof on non-standard-layout runtime-data structs is used for layout assertions
+		-Wno-deprecated-volatile # volatile-qualified parameters in BSAtomic
+		-Wno-inconsistent-missing-override # virtual overrides are documented, not annotated
 	)
 endif()
 
