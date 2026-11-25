@@ -1608,6 +1608,7 @@ set(SOURCES
 	include/RE/M/MovementAgentPathFollowerVirtual.h
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
+	include/RE/M/MovementCorrectionData.h
 	include/RE/M/MovementHandler.h
 	include/RE/M/MovementHandlerAgentAngleController.h
 	include/RE/M/MovementHandlerAgentAngleGain.h
@@ -1647,6 +1648,7 @@ set(SOURCES
 	include/RE/M/MovementParameters.h
 	include/RE/M/MovementParametersFixed.h
 	include/RE/M/MovementPathManagerAgentAvoidBox.h
+	include/RE/M/MovementPathManagerAgentEvent.h
 	include/RE/M/MovementPathManagerAgentLoadedAreaMonitor.h
 	include/RE/M/MovementPathManagerAgentStaticAvoider.h
 	include/RE/M/MovementPathManagerArbiter.h
@@ -1664,8 +1666,10 @@ set(SOURCES
 	include/RE/M/MovementStateFollowPath.h
 	include/RE/M/MovementStateTweener.h
 	include/RE/M/MovementTweenerAgentAnimationDriven.h
+	include/RE/M/MovementTweenerAgentEntry.h
 	include/RE/M/MovementTweenerAgentFixedDelta.h
 	include/RE/M/MovementTweenerAgentNodeFollower.h
+	include/RE/M/MovementTweenerAgentOutputData.h
 	include/RE/M/MovementTweenerArbiter.h
 	include/RE/M/MovementUpdateDataSmallDelta.h
 	include/RE/M/MovementUpdateDeltas.h
@@ -1795,6 +1799,7 @@ set(SOURCES
 	include/RE/O/ObjectTypeInfo.h
 	include/RE/O/ObjectTypes.h
 	include/RE/O/ObjectiveState.h
+	include/RE/O/ObstacleBuildRequest.h
 	include/RE/O/OldMessageBoxCallback.h
 	include/RE/O/OpenEffect.h
 	include/RE/Offsets_NiRTTI.h
@@ -2155,6 +2160,7 @@ set(SOURCES
 	include/RE/V/ValueModifierEffect.h
 	include/RE/V/VampireLordEffect.h
 	include/RE/V/Variable.h
+	include/RE/V/VelocityObstacle.h
 	include/RE/V/VertexDesc.h
 	include/RE/V/VirtualMachine.h
 	include/RE/V/VoiceSpellFireHandler.h
