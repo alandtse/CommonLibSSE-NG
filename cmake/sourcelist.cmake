@@ -393,6 +393,7 @@ set(SOURCES
 	include/RE/B/BSPathingAvoidNode.h
 	include/RE/B/BSPathingCell.h
 	include/RE/B/BSPathingDoor.h
+	include/RE/B/BSPathingGoalDescriptor.h
 	include/RE/B/BSPathingHermiteSegment.h
 	include/RE/B/BSPathingLocation.h
 	include/RE/B/BSPathingRequest.h
