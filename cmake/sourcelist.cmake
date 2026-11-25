@@ -1799,6 +1799,7 @@ set(SOURCES
 	include/RE/O/ObjectTypeInfo.h
 	include/RE/O/ObjectTypes.h
 	include/RE/O/ObjectiveState.h
+	include/RE/O/ObstacleBuildQueue.h
 	include/RE/O/ObstacleBuildRequest.h
 	include/RE/O/OldMessageBoxCallback.h
 	include/RE/O/OpenEffect.h
