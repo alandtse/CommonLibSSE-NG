@@ -139,6 +139,13 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36740, 37754) };
 			func(this);
 		}
+		// True when the target's detection level against this character is above zero.
+		bool IsTargetDetected(TESObjectREFR* a_target)
+		{
+			using func_t = bool(Character*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36750, 37766) };
+			return func(this, a_target);
+		}
 		bool IsTalkingToPC()
 		{
 			using func_t = bool(Character*);
