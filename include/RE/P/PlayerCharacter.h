@@ -750,10 +750,10 @@ namespace RE
 		void                 UpdateCharacterControllerSimulationSettings(bhkCharacterController& a_controller) override;                                                                          // 0AF - { return; }
 		void                 PotentiallyFixRagdollState() override;                                                                                                                               // 0B0 - { return; }
 		void                 OnItemEquipped(bool a_playAnim) override;                                                                                                                            // 0B2
-		void                 Unk_B3(void) override;                                                                                                                                               // 0B3
+		bool                 Unk_B3(void) override;                                                                                                                                               // 0B3
 		void                 Unk_B4(void) override;                                                                                                                                               // 0B4
 		void                 SetCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::uint32_t a_amount) override;                                                                           // 0B5
-		void                 ModCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount) override;                                                                            // 0B6
+		std::int32_t         ModCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount) override;                                                                            // 0B6
 		void                 RemoveCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount) override;                                                                         // 0B7
 		std::uint32_t        GetCrimeGoldValue(const TESFaction* a_faction) const override;                                                                                                       // 0B8
 		void                 GoToPrison(TESFaction* a_faction, bool a_removeInventory, bool a_realJail) override;                                                                                 // 0B9
@@ -767,7 +767,7 @@ namespace RE
 		void                 InitiateCannibalPackage(Actor* a_target) override;                                                                                                                   // 0C1
 		void                 GetEyeVector(NiPoint3& a_origin, NiPoint3& a_direction, bool a_includeCameraOffset) override;                                                                        // 0C2
 		void                 SetRefraction(bool a_enable, float a_refraction) override;                                                                                                           // 0C3
-		void                 Unk_C6(void) override;                                                                                                                                               // 0C6
+		std::int32_t         Unk_C6(void) override;                                                                                                                                               // 0C6
 		void                 Unk_C9(void) override;                                                                                                                                               // 0C9
 		ObjectRefHandle      DropObject(const TESBoundObject* a_object, ExtraDataList* a_extraList, std::int32_t a_count, const NiPoint3* a_dropLoc = 0, const NiPoint3* a_rotate = 0) override;  // 0CB
 		void                 PickUpObject(TESObjectREFR* a_object, std::int32_t a_count, bool a_arg3 = false, bool a_playSound = true) override;                                                  // 0CC
@@ -775,12 +775,12 @@ namespace RE
 		void                 DetachArrow(const BSTSmartPointer<BipedAnim>& a_biped) override;                                                                                                     // 0CE
 		bool                 AddShout(TESShout* a_shout) override;                                                                                                                                // 0CF
 		void                 UnlockWord(TESWordOfPower* a_power) override;                                                                                                                        // 0D0
-		void                 Unk_D1(void) override;                                                                                                                                               // 0D1
+		bool                 Unk_D1(void) override;                                                                                                                                               // 0D1
 		std::uint32_t        UseAmmo(std::uint32_t a_shotCount) override;                                                                                                                         // 0D2
 		CombatGroup*         GetCombatGroup() const override;                                                                                                                                     // 0D4
 		void                 SetCombatGroup(CombatGroup* a_group) override;                                                                                                                       // 0D5
 		bool                 CheckValidTarget(TESObjectREFR& a_target) override;                                                                                                                  // 0D6
-		void                 InitiateDialogue(Actor* a_target, PackageLocation* a_loc1, PackageLocation* a_loc2) override;                                                                        // 0D8
+		bool                 InitiateDialogue(Actor* a_target, PackageLocation* a_loc1, PackageLocation* a_loc2) override;                                                                        // 0D8
 		void                 EndDialogue() override;                                                                                                                                              // 0DA - { return; }
 		void                 InitiateSpectator(Actor* a_target) override;                                                                                                                         // 0DC - { return; }
 		void                 InitiateGetUpPackage() override;                                                                                                                                     // 0DE

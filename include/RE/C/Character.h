@@ -40,17 +40,17 @@ namespace RE
 		[[nodiscard]] const BSTSmartPointer<BipedAnim>& GetBiped2() const override;                                    // 07F - { return biped; }
 		void                                            SetBiped(const BSTSmartPointer<BipedAnim>& a_biped) override;  // 081
 #ifndef SKYRIM_CROSS_VR
-		void  InitiateVampireFeedPackage(Actor* a_arg1, TESObjectREFR* a_arg2) override;  // 0C0
-		void  Unk_C4(void) override;                                                      // 0C4 - { unk272 = a_arg1; }
-		void  Unk_C5(void) override;                                                      // 0C5 - { return unk272; }
-		void  Unk_C6(void) override;                                                      // 0C6 - { return 1; }
-		void  OnArmorActorValueChanged() override;                                        // 0CA
-		bool  InitiateTresPassPackage(TrespassPackage* a_trespassPackage) override;       // 0D7
-		void  InitiateSpectator(Actor* a_target) override;                                // 0DC
-		float CalcArmorRating() override;                                                 // 0E6
-		float GetArmorBaseFactorSum() override;                                           // 0E7
-		float CalcUnarmedDamage() override;                                               // 0E8
-		void  PrecacheData(void) override;                                                // 120
+		void         InitiateVampireFeedPackage(Actor* a_arg1, TESObjectREFR* a_arg2) override;  // 0C0
+		void         Unk_C4(void) override;                                                      // 0C4 - { unk272 = a_arg1; }
+		void         Unk_C5(void) override;                                                      // 0C5 - { return unk272; }
+		std::int32_t Unk_C6(void) override;                                                      // 0C6 - { return 1; }
+		void         OnArmorActorValueChanged() override;                                        // 0CA
+		bool         InitiateTresPassPackage(TrespassPackage* a_trespassPackage) override;       // 0D7
+		void         InitiateSpectator(Actor* a_target) override;                                // 0DC
+		float        CalcArmorRating() override;                                                 // 0E6
+		float        GetArmorBaseFactorSum() override;                                           // 0E7
+		float        CalcUnarmedDamage() override;                                               // 0E8
+		void         PrecacheData(void) override;                                                // 120
 #endif
 
 		// add
