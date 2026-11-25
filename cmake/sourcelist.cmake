@@ -1596,6 +1596,7 @@ set(SOURCES
 	include/RE/M/Movement.h
 	include/RE/M/MovementActorAvoidanceParameters.h
 	include/RE/M/MovementAgentActorState.h
+	include/RE/M/MovementAgentPathFollowerStandard.h
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
@@ -1623,6 +1624,7 @@ set(SOURCES
 	include/RE/M/MovementPathManagerArbiter.h
 	include/RE/M/MovementPlannerAgentWarp.h
 	include/RE/M/MovementPlayIdleData.h
+	include/RE/M/MovementPlayIdleHolder.h
 	include/RE/M/MovementStateFollowPath.h
 	include/RE/M/MovementStateTweener.h
 	include/RE/M/MoviePlayer.h
