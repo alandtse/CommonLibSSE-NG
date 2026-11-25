@@ -10,6 +10,7 @@ namespace RE
 	struct BSPathingSolution;
 	struct MovementPlayIdleHolder;
 	struct PathFollowerStateUpdateData;
+	struct PathFollowerTurnTarget;
 
 	// follows a BSPathingSolution; the six secondary vtables at 18-47 belong to IMovementPlannerAgent,
 	// IMovementPathManagerAgent, IMovementQueryPathFollowing, IMovementSetPathFollowing,
@@ -157,6 +158,25 @@ namespace RE
 			using func_t = bool(MovementAgentPathFollowerStandard*, float, float*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88362, 90781) };
 			return func(this, a_position, a_out);
+		}
+
+		float ComputeRemainingDistance()
+		{
+			using func_t = float(MovementAgentPathFollowerStandard*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88350, 90764) };
+			return func(this);
+		}
+		bool GetEndNodeTurnTarget(PathFollowerTurnTarget* a_out)
+		{
+			using func_t = bool(MovementAgentPathFollowerStandard*, PathFollowerTurnTarget*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88358, 90776) };
+			return func(this, a_out);
+		}
+		bool GetNodeFacingMotion(PathFollowerTurnTarget* a_turnTarget, void* a_arg2, void* a_arg3)
+		{
+			using func_t = bool(MovementAgentPathFollowerStandard*, PathFollowerTurnTarget*, void*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88359, 90777) };
+			return func(this, a_turnTarget, a_arg2, a_arg3);
 		}
 
 		// members

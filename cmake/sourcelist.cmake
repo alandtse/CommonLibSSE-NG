@@ -1765,6 +1765,7 @@ set(SOURCES
 	include/RE/P/PackedInstructionStream.h
 	include/RE/P/ParalysisEffect.h
 	include/RE/P/PathFollowerStateUpdateData.h
+	include/RE/P/PathFollowerTurnTarget.h
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
 	include/RE/P/PathingDoor.h

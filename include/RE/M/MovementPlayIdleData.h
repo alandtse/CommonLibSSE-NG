@@ -36,6 +36,13 @@ namespace RE
 			func(this, a_clip, a_vecA, a_vecB);
 		}
 
+		void InitFromSelection(float* a_selection, NiPoint3* a_vecA, NiPoint3* a_vecB, NiPoint3* a_vecC, NiPoint3* a_vecD)
+		{
+			using func_t = void(MovementPlayIdleData*, float*, NiPoint3*, NiPoint3*, NiPoint3*, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89562, 92027) };
+			func(this, a_selection, a_vecA, a_vecB, a_vecC, a_vecD);
+		}
+
 		// members
 		std::uint32_t type;        // 00 - 0 after ctor, 2/3 after InitType2/InitType3
 		NiPoint3      vecA;        // 04
