@@ -1711,9 +1711,9 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::GetCurrentAmmo)>(0x9E, 0x9F, this);
 	}
 
-	void Actor::UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object)
+	void Actor::UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object, std::uint32_t a_count, ExtraDataList* a_extraList)
 	{
-		RelocateVirtual<decltype(&Actor::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object);
+		RelocateVirtual<decltype(&Actor::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object, a_count, a_extraList);
 	}
 
 	void Actor::Unk_A2()

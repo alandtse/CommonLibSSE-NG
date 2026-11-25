@@ -1293,9 +1293,9 @@ namespace RE
 		return REL::RelocateVirtual<decltype(&TESObjectREFR::Unk_A0)>(0xA0, 0xA1, this, a_node, a_angleX, a_angleZ, a_pos);
 	}
 
-	void TESObjectREFR::UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object)
+	void TESObjectREFR::UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object, std::uint32_t a_count, ExtraDataList* a_extraList)
 	{
-		REL::RelocateVirtual<decltype(&TESObjectREFR::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object);
+		REL::RelocateVirtual<decltype(&TESObjectREFR::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object, a_count, a_extraList);
 	}
 #endif
 }
