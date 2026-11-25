@@ -7,6 +7,7 @@
 namespace RE
 {
 	class BSPathingRequest;
+	class NiRefObject;
 	struct BSPathingSolution;
 	struct MovementPlayIdleHolder;
 	struct PathFollowerStateUpdateData;
@@ -199,8 +200,8 @@ namespace RE
 		BSPathingRequest*       request;                        // 120 - NiPointer
 		BSPathingSolution*      solution;                       // 128 - NiPointer
 		MovementPlayIdleHolder* playIdleData;                   // 130
-		std::uint64_t           unk138;                         // 138
-		std::uint64_t           unk140;                         // 140
+		NiRefObject*            unk138;                         // 138 - only ever null
+		NiRefObject*            unk140;                         // 140 - only ever null
 		void*                   currentState;                   // 148
 		float                   endPathPosition;                // 150
 		float                   targetPathPosition;             // 154
