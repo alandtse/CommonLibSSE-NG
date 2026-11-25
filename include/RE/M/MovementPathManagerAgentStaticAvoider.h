@@ -20,9 +20,10 @@ namespace RE
 		void*         messageInterface;                  // 38 - interface pointer; dtor calls vtable slot 4 on it then nulls it
 		std::uint8_t  errorFrames[16];                   // 40 - BSTArray of movement error frames; ctor FUN_1411382d0, SaveGame WriteMovementErrorFrameArray
 		std::uint8_t  unk50[32];                         // 50
-		std::uint32_t unk70;                             // 70 - BSTSmallArray allocator capacity word, ctor = 0x80000000 (local-storage flag)
-		std::uint8_t  unk74[44];                         // 74
-		std::uint32_t unkA0;                             // A0 - BSTSmallArray size, Zero4Bytes in ctor, cleared in dtor
+		std::uint32_t avoidRegionsCapacity;              // 70
+		std::uint8_t  unk74[4];                          // 74
+		std::uint8_t  avoidRegionsStorage[40];           // 78 - inline storage of the small array: 1 element of 0x24 bytes (+4 pad)
+		std::uint32_t avoidRegionCount;                  // A0 - BSTSmallArray size; ModifyPathingRequest zeroes it after copying to the request
 		std::uint8_t  unkA4[4];                          // A4
 		std::uint8_t  unkA8[8];                          // A8 - zeroed by ctor; SaveGame/LoadGame stream slot 0x60/0x68 on this
 		std::uint32_t unkB0;                             // B0 - serialized
