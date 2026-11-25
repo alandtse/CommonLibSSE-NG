@@ -134,11 +134,11 @@ namespace RE
 		~MovementControllerAI() override;  // 00
 
 		// add
-		virtual IMovementState* QCurrentState();                                      // 05 - GetInterface1 lookup, NullMovementState fallback
-		virtual void            Unk_06(void);                                         // 06 - { return; }
-		virtual void            UpdateSmallDelta(float a_deltaTime, void* a_output);  // 07 - builds MovementUpdateDataSmallDelta, calls each arbiter
-		virtual void            UpdateLargeDelta(float a_deltaTime, void* a_output);  // 08
-		virtual void            Unk_09(void);                                         // 09 - { return 1; }
+		virtual IMovementState* QCurrentState();                                                         // 05 - GetInterface1 lookup, NullMovementState fallback
+		virtual void            Unk_06(void);                                                            // 06 - { return; }
+		virtual void            UpdateSmallDelta(float a_deltaTime, void* a_output);                     // 07 - builds MovementUpdateDataSmallDelta, calls each arbiter
+		virtual void            UpdateLargeDelta(float a_deltaTime, BSTArray<BSFixedString>* a_output);  // 08
+		virtual void            Unk_09(void);                                                            // 09 - { return 1; }
 
 		// members
 		mutable volatile std::uint32_t          _refCount{ 0 };  // 008
