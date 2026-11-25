@@ -32,7 +32,7 @@ namespace RE
 		this->menuFlags.set(RE::UI_MENU_FLAGS::kUsesCursor, RE::UI_MENU_FLAGS::kModal,
 			RE::UI_MENU_FLAGS::kDisablePauseMenu, RE::UI_MENU_FLAGS::kTopmostRenderedMenu,
 			RE::UI_MENU_FLAGS::kAllowSaving, RE::UI_MENU_FLAGS::kInventoryItemMenu);
-		this->depthPriority = 2;
+		this->depthPriority = RE::UI_DEPTH_PRIORITY::kHUD;
 		if (this->registerForHudModeChangeEvent) {
 			// TODO: Register the menu for the hud mode change event
 			// See SkyrimVR.exe+53D050

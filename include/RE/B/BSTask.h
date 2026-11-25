@@ -22,6 +22,17 @@ namespace RE
 			++myRefCount;
 		}
 
+		enum class BS_TASK_STATE : std::uint32_t
+		{
+			kPending = 0,
+			kQueued,
+			kMoving,
+			kRunning,
+			kFinished,
+			kCompleted,
+			kCanceled,
+		};
+
 		void DecRefCount()
 		{
 			stl::atomic_ref myRefCount{ refCount };
@@ -32,10 +43,8 @@ namespace RE
 
 		// members
 		volatile std::int32_t refCount;  // 08
-		std::uint32_t         unk0C;     // 0C
-		std::uint8_t          unk10[2];  // 10
-		std::uint8_t          priority;  // 12 - task priority/type byte
-		std::uint8_t          unk13[5];  // 13
+		BS_TASK_STATE         state;     // 0C
+		std::int64_t          mapKey;    // 10
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		std::uint8_t unk18[8];  // 18 - VR only; byte 0 is zeroed at construction
 #endif

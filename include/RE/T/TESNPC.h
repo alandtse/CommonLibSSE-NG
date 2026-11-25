@@ -5,6 +5,8 @@
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
+#include "RE/B/BSTSmartPointer.h"
+#include "RE/B/BipedAnim.h"
 #include "RE/C/Color.h"
 #include "RE/F/FormTypes.h"
 #include "RE/M/MemoryManager.h"
@@ -17,6 +19,7 @@
 namespace RE
 {
 	class BSFaceGenNiNode;
+	class InventoryEntryData;
 	class MenuOpenCloseEvent;
 	class NiColorA;
 
@@ -29,10 +32,10 @@ namespace RE
 	static_assert(sizeof(CreatureSounds) == 0x40);
 
 	class TESNPC :
-		public TESActorBase,                     // 000
-		public TESRaceForm,                      // 150
-		public BGSOverridePackCollection,        // 160
-		public BSTEventSink<MenuOpenCloseEvent>  // 188
+	    public TESActorBase,                     // 000
+	    public TESRaceForm,                      // 150
+	    public BGSOverridePackCollection,        // 160
+	    public BSTEventSink<MenuOpenCloseEvent>  // 188
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_TESNPC;
@@ -256,6 +259,7 @@ namespace RE
 		Actor*                       GetUniqueActor();
 		bool                         HasApplicableKeywordString(std::string_view a_editorID);
 		bool                         HasOverlays();
+		bool                         InitWornObject(TESObjectREFR* a_ref, const BSTSmartPointer<BipedAnim>& a_bipedAnim, InventoryEntryData* a_entry);
 		bool                         IsInClass(TESClass* a_class) const;
 		bool                         IsInFaction(TESFaction* a_faction) const;
 		bool                         RemovePerk(BGSPerk* a_perk);

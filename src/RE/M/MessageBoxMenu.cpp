@@ -6,15 +6,17 @@
 #include "RE/B/BSTSmartPointer.h"
 #include "RE/I/IMessageBoxCallback.h"
 #include "RE/M/MessageBoxData.h"
+#include "RE/U/UIDepthPriority.h"
 #include "RE/U/UIMessage.h"
 #include "RE/U/UIMessageQueue.h"
+#include "RE/W/WarningTypes.h"
 #include "SKSE/Version.h"
 
 namespace RE
 {
-	bool MessageBoxMenu::Create(RE::BSString& a_message, const BSTSmartPointer<IMessageBoxCallback>& a_callback, std::uint8_t a_buttonPressOffset, std::int32_t a_warningType, std::int32_t a_menuDepth, const BSTArray<BSString>& a_buttons)
+	bool MessageBoxMenu::Create(const RE::BSString& a_message, const BSTSmartPointer<IMessageBoxCallback>& a_callback, std::uint8_t a_buttonPressOffset, WARNING_TYPES a_warningType, UI_DEPTH_PRIORITY a_menuDepth, const BSTArray<BSString>& a_buttons)
 	{
-		using func_t = bool(RE::BSString&, const BSTSmartPointer<IMessageBoxCallback>&, std::uint8_t, std::int32_t, std::int32_t, const BSTArray<BSString>&);
+		using func_t = bool(const RE::BSString&, const BSTSmartPointer<IMessageBoxCallback>&, std::uint8_t, WARNING_TYPES, UI_DEPTH_PRIORITY, const BSTArray<BSString>&);
 		// AE recompiled at 1.6.1130, shifting this relocation's id (not a behavior change).
 		static REL::Relocation<func_t> func{ RELOCATION_ID(51421, AE_CHECK(SKSE::RUNTIME_SSE_1_6_1130, 52270, 442726)) };
 		return func(a_message, a_callback, a_buttonPressOffset, a_warningType, a_menuDepth, a_buttons);
@@ -93,7 +95,7 @@ namespace RE
 		}
 
 		if (callback) {
-			callback->Run(option);
+			(*callback)(option);
 		}
 	}
 }

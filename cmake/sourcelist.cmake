@@ -441,6 +441,7 @@ set(SOURCES
 	include/RE/B/BSSimpleScaleController.h
 	include/RE/B/BSSkyShaderProperty.h
 	include/RE/B/BSSmallBlockAllocator.h
+	include/RE/B/BSSoundCategoryHandle.h
 	include/RE/B/BSSoundHandle.h
 	include/RE/B/BSSoundInfo.h
 	include/RE/B/BSSoundMessage.h
@@ -475,6 +476,8 @@ set(SOURCES
 	include/RE/B/BSTSmartPointer.h
 	include/RE/B/BSTTuple.h
 	include/RE/B/BSTask.h
+	include/RE/B/BSTaskManager.h
+	include/RE/B/BSTaskManagerWaitAction.h
 	include/RE/B/BSTasklet.h
 	include/RE/B/BSTaskletData.h
 	include/RE/B/BSTaskletGroup.h
@@ -516,6 +519,7 @@ set(SOURCES
 	include/RE/B/BSWin32SaveDataSystemUtility.h
 	include/RE/B/BSWin32SystemUtility.h
 	include/RE/B/BSWin32TaskletData.h
+	include/RE/B/BSWin32TaskletGroupData.h
 	include/RE/B/BSWin32TaskletManager.h
 	include/RE/B/BSWin32VirtualKeyboardDevice.h
 	include/RE/B/BSWindModifier.h
@@ -1471,6 +1475,7 @@ set(SOURCES
 	include/RE/I/InputEvent.h
 	include/RE/I/InterfaceLightSchemes.h
 	include/RE/I/InterfaceStrings.h
+	include/RE/I/InterfacedClass.h
 	include/RE/I/InteriorData.h
 	include/RE/I/Inventory.h
 	include/RE/I/Inventory3DManager.h
@@ -1865,6 +1870,7 @@ set(SOURCES
 	include/RE/S/Sun.h
 	include/RE/S/SuspendedStack.h
 	include/RE/S/SyncQueueObj.h
+	include/RE/S/SynchronizedMap.h
 	include/RE/Skyrim.h
 	include/RE/T/TES.h
 	include/RE/T/TESAIForm.h
@@ -2039,6 +2045,7 @@ set(SOURCES
 	include/RE/U/UI.h
 	include/RE/U/UI3DSceneManager.h
 	include/RE/U/UIBlurManager.h
+	include/RE/U/UIDepthPriority.h
 	include/RE/U/UIMessage.h
 	include/RE/U/UIMessageDataFactory.h
 	include/RE/U/UIMessageQueue.h
@@ -2070,6 +2077,7 @@ set(SOURCES
 	include/RE/V/VrWandTouchpadPositionEvent.h
 	include/RE/V/VrWandTouchpadSwipeEvent.h
 	include/RE/W/WSActivateRollover.h
+	include/RE/W/WarningTypes.h
 	include/RE/W/WeaponAnimationGraphManagerHolder.h
 	include/RE/W/WeaponEnchantmentController.h
 	include/RE/W/WeatherType.h

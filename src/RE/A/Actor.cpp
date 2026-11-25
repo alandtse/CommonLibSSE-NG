@@ -1222,7 +1222,7 @@ namespace RE
 		return func(this, a_caster, a_hasTargetAnim, a_target, a_leftHand);
 	}
 
-	void Actor::RefreshEquippedActorValueCharge(const RE::TESForm* a_object, const RE::ExtraDataList* a_extraList, bool a_isLeft)
+	void Actor::RefreshEquippedActorValueCharge(TESForm* a_object, ExtraDataList* a_extraList, bool a_isLeft)
 	{
 		using func_t = decltype(&Actor::RefreshEquippedActorValueCharge);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(37803, 38752) };
@@ -1352,6 +1352,13 @@ namespace RE
 			AddWornOutfit(a_outfit, a_update3D);
 		}
 		return true;
+	}
+
+	void Actor::Stagger(float a_staggerMult, Actor* a_aggressor)
+	{
+		using func_t = decltype(&Actor::Stagger);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36700, 37710) };
+		func(this, a_staggerMult, a_aggressor);
 	}
 
 	bool Actor::StartCombat(Actor* a_target, CombatGroup* a_combatGroup)
@@ -1488,13 +1495,6 @@ namespace RE
 				firstPerson->UpdateBodyTint(color);
 			}
 		}
-	}
-
-	void Actor::UpdateWeaponAbility(TESForm* a_weapon, ExtraDataList* a_extraData, bool a_leftHand)
-	{
-		using func_t = decltype(&Actor::UpdateWeaponAbility);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(37803, 38752) };
-		return func(this, a_weapon, a_extraData, a_leftHand);
 	}
 
 	void Actor::VisitArmorAddon(TESObjectARMO* a_armor, TESObjectARMA* a_arma, std::function<void(bool a_firstPerson, NiAVObject& a_obj)> a_visitor)
@@ -2141,9 +2141,9 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::SetBeenAttacked)>(0x0F6, 0x0F8, this, a_set);
 	}
 
-	void Actor::UseSkill(ActorValue a_av, float a_points, TESForm* a_arg3)
+	void Actor::UseSkill(ActorValue a_av, float a_points, TESForm* a_advanceObject, SKILL_ACTION a_advanceAction)
 	{
-		RelocateVirtual<decltype(&Actor::UseSkill)>(0x0F7, 0x0F9, this, a_av, a_points, a_arg3);
+		RelocateVirtual<decltype(&Actor::UseSkill)>(0x0F7, 0x0F9, this, a_av, a_points, a_advanceObject, a_advanceAction);
 	}
 
 	bool Actor::IsAtPoint(const NiPoint3& a_point, float a_radius, bool a_expandRadius, bool a_alwaysTestHeight)

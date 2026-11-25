@@ -28,16 +28,17 @@ namespace RE
 		~Character() override;  // 000
 
 		// override (Actor)
-		void                                  SaveGame(BGSSaveFormBuffer* a_buf) override;                   // 00E - { Actor::SaveBuffer(a_buf); }
-		void                                  LoadGame(BGSLoadFormBuffer* a_buf) override;                   // 00F - { Actor::LoadBuffer(a_buf); }
-		void                                  InitLoadGame(BGSLoadFormBuffer* a_buf) override;               // 010 - { Actor::InitLoadGame(a_arg1); }
-		void                                  FinishLoadGame(BGSLoadFormBuffer* a_buf) override;             // 011 - { Actor::FinishLoadGame(a_arg1); }
-		void                                  Revert(BGSLoadFormBuffer* a_buf) override;                     // 012 - { return; }
-		void                                  Predestroy(void) override;                                     // 03B
-		[[nodiscard]] bool                    IsChild() const override;                                      // 05E - { return race ? (race->data.flags & Flag::kChild) != Flag::kNone : false; }
-		[[nodiscard]] BSFaceGenNiNode*        GetFaceNodeSkinned() override;                                 // 061
-		[[nodiscard]] BSFaceGenAnimationData* GetFaceGenAnimationData() override;                            // 063
-		void                                  SetBiped(const BSTSmartPointer<BipedAnim>& a_biped) override;  // 081
+		void                                            SaveGame(BGSSaveFormBuffer* a_buf) override;                   // 00E - { Actor::SaveBuffer(a_buf); }
+		void                                            LoadGame(BGSLoadFormBuffer* a_buf) override;                   // 00F - { Actor::LoadBuffer(a_buf); }
+		void                                            InitLoadGame(BGSLoadFormBuffer* a_buf) override;               // 010 - { Actor::InitLoadGame(a_arg1); }
+		void                                            FinishLoadGame(BGSLoadFormBuffer* a_buf) override;             // 011 - { Actor::FinishLoadGame(a_arg1); }
+		void                                            Revert(BGSLoadFormBuffer* a_buf) override;                     // 012
+		void                                            Predestroy(void) override;                                     // 03B
+		[[nodiscard]] bool                              IsChild() const override;                                      // 05E - { return race ? (race->data.flags & Flag::kChild) != Flag::kNone : false; }
+		[[nodiscard]] BSFaceGenNiNode*                  GetFaceNodeSkinned() override;                                 // 061
+		[[nodiscard]] BSFaceGenAnimationData*           GetFaceGenAnimationData() override;                            // 063
+		[[nodiscard]] const BSTSmartPointer<BipedAnim>& GetBiped2() const override;                                    // 07F - { return biped; }
+		void                                            SetBiped(const BSTSmartPointer<BipedAnim>& a_biped) override;  // 081
 #ifndef SKYRIM_CROSS_VR
 		void  InitiateVampireFeedPackage(Actor* a_arg1, TESObjectREFR* a_arg2) override;  // 0C0
 		void  Unk_C4(void) override;                                                      // 0C4 - { unk272 = a_arg1; }
@@ -45,7 +46,7 @@ namespace RE
 		void  Unk_C6(void) override;                                                      // 0C6 - { return 1; }
 		void  OnArmorActorValueChanged() override;                                        // 0CA
 		bool  InitiateTresPassPackage(TrespassPackage* a_trespassPackage) override;       // 0D7
-		void  SetSize(float a_size) override;                                             // 0D9
+		void  InitiateSpectator(Actor* a_target) override;                                // 0DC
 		float CalcArmorRating() override;                                                 // 0E6
 		float GetArmorBaseFactorSum() override;                                           // 0E7
 		float CalcUnarmedDamage() override;                                               // 0E8

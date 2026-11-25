@@ -2,49 +2,58 @@
 
 #include "RE/H/hkArray.h"
 #include "RE/H/hkReferencedObject.h"
+#include "RE/H/hkStringPtr.h"
 
 namespace RE
 {
+	class hkClass;
+
 	class hkbVariableBindingSet : public hkReferencedObject
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_hkbVariableBindingSet;
 		inline static constexpr auto VTABLE = VTABLE_hkbVariableBindingSet;
 
-		enum class BindingMode : std::int8_t
-		{
-			kGet = 0,
-			kSet = 1,
-		};
-
 		struct Binding
 		{
 		public:
+			enum class BindingType
+			{
+				kVariable = 0,
+				kCharacterProperty = 1
+			};
+
+			enum class InternalBindingFlag
+			{
+				kNone = 0,
+				kOutput = 1 << 0
+			};
+
 			// members
-			std::uint32_t bindingPath;         // 00
-			std::uint32_t pad04;               // 04
-			std::uint32_t arrayElementSize;    // 08
-			std::uint32_t padC;                // 0C
-			std::int32_t  memberOffset;        // 10
-			std::int32_t  arrayElementOffset;  // 14
-			std::uint32_t unk18;               // 18
-			std::int32_t  variableIndex;       // 1C
-			std::uint8_t  bitIndex;            // 20
-			BindingMode   bindingMode;         // 21
-			std::uint8_t  memberType;          // 22
-			std::uint8_t  unk23;               // 23
-			std::uint8_t  flags;               // 24
-			std::uint8_t  unk25[3];            // 25
+			hkStringPtr                                    memberPath;             // 00
+			const hkClass*                                 memberClass;            // 08
+			std::int32_t                                   offsetInObjectPlusOne;  // 10
+			std::int32_t                                   offsetInArrayPlusOne;   // 14
+			std::int32_t                                   rootVariableIndex;      // 18
+			std::int32_t                                   variableIndex;          // 1C
+			std::int8_t                                    bitIndex;               // 20
+			REX::EnumSet<BindingType, std::int8_t>         bindingType;            // 21
+			std::uint8_t                                   memberType;             // 22 - hkClassMember::Type
+			std::int8_t                                    variableType;           // 23
+			REX::EnumSet<InternalBindingFlag, std::int8_t> flags;                  // 24
+			std::uint8_t                                   pad25;                  // 25
+			std::uint16_t                                  pad26;                  // 26
 		};
 		static_assert(sizeof(Binding) == 0x28);
 
 		~hkbVariableBindingSet() override;  // 00
 
 		// members
-		hkArray<Binding> bindings;                  // 10
-		std::int32_t     indexOfActivationBinding;  // 20
-		bool             needsValueAtActivation;    // 24
-		std::uint8_t     unk25[3];                  // 25
+		hkArray<Binding> bindings;                // 10
+		std::int32_t     indexOfBindingToEnable;  // 20
+		bool             hasOutputBinding;        // 24
+		std::uint8_t     pad25;                   // 25
+		std::uint16_t    pad26;                   // 26
 	};
 	static_assert(sizeof(hkbVariableBindingSet) == 0x28);
 }

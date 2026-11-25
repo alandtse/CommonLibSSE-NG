@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RE//H/hkVector4.h"
 #include "RE/H/hkArray.h"
 #include "RE/H/hkRefVariant.h"
+#include "RE/H/hkVector4.h"
 
 namespace RE
 {
@@ -28,21 +28,25 @@ namespace RE
 	class hkbVariableValueSet : public hkReferencedObject
 	{
 	public:
+		inline static constexpr auto RTTI = RTTI_hkbVariableValueSet;
+		inline static constexpr auto VTABLE = VTABLE_hkbVariableValueSet;
+
+		~hkbVariableValueSet() override;  // 00
+
 		int AddBool(bool a_value);
 		int AddInt(std::int32_t a_value);
 		int AddFloat(float a_value);
 
-	private:
+		// members
 		// The values of variables that fit into a word.  For all other variables, this array stores the index
 		// into one of the other arrays below.
-		hkArray<hkbVariableValue> m_wordVariableValues;
+		hkArray<hkbVariableValue> m_wordVariableValues;  // 10
 
 		// The values of the variables that fit into a quadword.
-		hkArray<hkVector4> m_quadVariableValues;
+		hkArray<hkVector4> m_quadVariableValues;  // 20
 
 		// The values of the variables that are variants.
-		hkArray<hkRefVariant> m_variantVariableValues;
+		hkArray<hkRefVariant> m_variantVariableValues;  // 30
 	};
 	static_assert(sizeof(hkbVariableValueSet) == 0x40);
-
 }

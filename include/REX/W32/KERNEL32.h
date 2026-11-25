@@ -489,6 +489,7 @@ namespace REX::W32
 	void                  OutputDebugStringW(const wchar_t* a_str) noexcept;
 	bool                  QueryPerformanceCounter(std::int64_t* a_counter) noexcept;
 	bool                  QueryPerformanceFrequency(std::int64_t* a_frequency) noexcept;
+	bool                  ReleaseSemaphore(HANDLE a_semaphore, std::uint32_t a_releaseCount, std::uint32_t* a_previousCount) noexcept;
 	std::uint32_t         ResumeThread(HANDLE a_handle) noexcept;
 	bool                  SetEnvironmentVariableA(const char* a_name, const char* a_value) noexcept;
 	bool                  SetEnvironmentVariableW(const wchar_t* a_name, const wchar_t* a_value) noexcept;
