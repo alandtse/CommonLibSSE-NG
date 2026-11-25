@@ -64,6 +64,7 @@ set(SOURCES
 	include/RE/A/AutoRegisterCreator.h
 	include/RE/A/AutoRegisterFactory.h
 	include/RE/A/AutoVanityState.h
+	include/RE/A/AvoidancePriority.h
 	include/RE/A/AvoidedActorInfo.h
 	include/RE/A/ahkpCharacterProxy.h
 	include/RE/A/ahkpWorld.h
