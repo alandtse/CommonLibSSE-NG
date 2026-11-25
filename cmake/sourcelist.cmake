@@ -1421,6 +1421,7 @@ set(SOURCES
 	include/RE/I/IMemoryStoreBase.h
 	include/RE/I/IMenu.h
 	include/RE/I/IMessageBoxCallback.h
+	include/RE/I/IMovementAgentDataTracker.h
 	include/RE/I/IMovementControllerRegisterInterface.h
 	include/RE/I/IMovementDirectControl.h
 	include/RE/I/IMovementInterface.h
@@ -1429,12 +1430,15 @@ set(SOURCES
 	include/RE/I/IMovementParameters.h
 	include/RE/I/IMovementPlannerAgent.h
 	include/RE/I/IMovementPlannerDirectControl.h
+	include/RE/I/IMovementPlannerSetArbitration.h
 	include/RE/I/IMovementPlayIdleResult.h
 	include/RE/I/IMovementQueryPathingState.h
 	include/RE/I/IMovementQueryState.h
+	include/RE/I/IMovementQueryTweener.h
 	include/RE/I/IMovementSelectIdle.h
 	include/RE/I/IMovementSetGoal.h
 	include/RE/I/IMovementSetState.h
+	include/RE/I/IMovementSetTweener.h
 	include/RE/I/IMovementSetWarp.h
 	include/RE/I/IMovementState.h
 	include/RE/I/INIPrefSettingCollection.h
@@ -1603,6 +1607,7 @@ set(SOURCES
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
+	include/RE/M/MovementHandlerArbiter.h
 	include/RE/M/MovementHandlerOutputDataSmallDelta.h
 	include/RE/M/MovementHandlerUpdateDataSmallDelta.h
 	include/RE/M/MovementMessage.h
@@ -1629,12 +1634,14 @@ set(SOURCES
 	include/RE/M/MovementPathManagerArbiter.h
 	include/RE/M/MovementPlannerAgentReturnDataSmallDelta.h
 	include/RE/M/MovementPlannerAgentWarp.h
+	include/RE/M/MovementPlannerArbiter.h
 	include/RE/M/MovementPlannerUpdateDataSmallDelta.h
 	include/RE/M/MovementPlayIdleData.h
 	include/RE/M/MovementPlayIdleHolder.h
 	include/RE/M/MovementPostUpdateArbiter.h
 	include/RE/M/MovementStateFollowPath.h
 	include/RE/M/MovementStateTweener.h
+	include/RE/M/MovementTweenerArbiter.h
 	include/RE/M/MovementUpdateDataSmallDelta.h
 	include/RE/M/MovementUpdateDeltas.h
 	include/RE/M/MoviePlayer.h
