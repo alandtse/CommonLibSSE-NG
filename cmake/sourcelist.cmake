@@ -1602,6 +1602,8 @@ set(SOURCES
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
 	include/RE/M/MovementHandler.h
+	include/RE/M/MovementHandlerOutputDataSmallDelta.h
+	include/RE/M/MovementHandlerUpdateDataSmallDelta.h
 	include/RE/M/MovementMessage.h
 	include/RE/M/MovementMessageActivateDoor.h
 	include/RE/M/MovementMessageActorCollision.h
@@ -1629,6 +1631,7 @@ set(SOURCES
 	include/RE/M/MovementPlayIdleHolder.h
 	include/RE/M/MovementStateFollowPath.h
 	include/RE/M/MovementStateTweener.h
+	include/RE/M/MovementUpdateDataSmallDelta.h
 	include/RE/M/MoviePlayer.h
 	include/RE/M/MultiBoundMarkerData.h
 	include/RE/N/NativeFunction.h
