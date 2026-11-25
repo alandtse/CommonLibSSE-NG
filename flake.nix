@@ -315,10 +315,11 @@
           default = commonlibsse-ng;
         };
 
-        # Same toolchain, interactively (`nix develop`, run from the repo root).
-        # The hook exports the cross environment (sysroot, vcpkg root, overlay
-        # ports). The working tree is NOT patched, so use `nix build` for
-        # real builds.
+        # Toolchain plus the cross environment (sysroot, vcpkg root, overlay
+        # ports), for `nix develop` run from the repo root. The working tree is
+        # NOT patched. To debug the real build with the same patches and
+        # dependencies, use `nix develop .#commonlibsse-ng` and run the build
+        # phases (unpackPhase, patchPhase, buildPhase) in a temporary copy.
         devShells.default = pkgs.mkShell {
           packages = buildTools ++ [ clangCl fxc2Compiler ];
           shellHook = crossEnv;
