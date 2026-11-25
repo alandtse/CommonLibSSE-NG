@@ -192,7 +192,7 @@ namespace RE
 		NiPoint3                lastPosition;                   // E8
 		NiPoint3                pathPoint;                      // F4
 		float                   pathPosition;                   // 100
-		std::uint32_t           pad104;                         // 104
+		std::uint32_t           ownerHandle;                    // 104
 		void*                   messageInterface;               // 108
 		BSReadWriteLock         lock;                           // 110
 		std::uint32_t           state;                          // 118
