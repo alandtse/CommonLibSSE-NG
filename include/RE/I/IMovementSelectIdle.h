@@ -13,11 +13,11 @@ namespace RE
 		~IMovementSelectIdle() override;  // 00
 
 		// add
-		virtual void Unk_01(void) = 0;  // 01
-		virtual void Unk_02(void) = 0;  // 02
-		virtual void Unk_03(void) = 0;  // 03
-		virtual void Unk_04(void) = 0;  // 04
-		virtual void Unk_05(void) = 0;  // 05
+		virtual void Unk_01(void) = 0;         // 01
+		virtual void Unk_02(void) = 0;         // 02
+		virtual void QueuePlayIdle(void) = 0;  // 03 - allocates a MovementMessagePlayIdle into pendingPlayIdle
+		virtual void ReleaseIdle(void) = 0;    // 04
+		virtual void Unk_05(void) = 0;         // 05
 	};
 	static_assert(sizeof(IMovementSelectIdle) == 0x8);
 }

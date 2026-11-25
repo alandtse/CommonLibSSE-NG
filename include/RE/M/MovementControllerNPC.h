@@ -16,6 +16,7 @@ namespace RE
 {
 	class Actor;
 	class MovementMessage;
+	class MovementMessagePlayIdle;
 
 	struct MovementLocationEvent
 	{
@@ -59,9 +60,9 @@ namespace RE
 		BSTArray<MovementMessage*>      movementMessages;  // 158
 		BSTArray<MovementLocationEvent> locationEvents;    // 170
 		BSTArray<void*>                 unk188;            // 188
-		BSSpinLock                      unk1A0;            // 1A0
+		BSSpinLock                      pendingIdleLock;   // 1A0 - guards unk188, unk1A8 and pendingPlayIdle
 		std::uint64_t                   unk1A8;            // 1A8
-		std::uint64_t                   unk1B0;            // 1B0
+		MovementMessagePlayIdle*        pendingPlayIdle;   // 1B0 - posted through IMovementMessageInterface once the idle data is ready
 		Actor*                          actor;             // 1B8
 		std::uint32_t                   movementMode;      // 1C0 - 0..0xE, default 2, set by small mode setters, saved
 		bool                            unk1C4;            // 1C4
@@ -71,7 +72,7 @@ namespace RE
 		bool                            unk1C8;            // 1C8
 		bool                            unk1C9;            // 1C9
 		bool                            unk1CA;            // 1CA
-		bool                            unk1CB;            // 1CB
+		bool                            keepingOffset;     // 1CB
 		std::uint32_t                   unk1CC;            // 1CC
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
