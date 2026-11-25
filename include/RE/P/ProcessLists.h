@@ -62,6 +62,19 @@ namespace RE
 			func(this);
 		}
 
+		void AddActorHandle(ActorHandle* a_handle, std::int32_t a_level)
+		{
+			using func_t = void(ProcessLists*, ActorHandle*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40281, 41290) };
+			func(this, a_handle, a_level);
+		}
+		void RemoveActorHandle(ActorHandle* a_handle, std::int32_t a_level)
+		{
+			using func_t = void(ProcessLists*, ActorHandle*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40282, 41291) };
+			func(this, a_handle, a_level);
+		}
+
 		// members
 		bool                                    runDetection;                                  // 001
 		bool                                    showDetectionStats;                            // 002
