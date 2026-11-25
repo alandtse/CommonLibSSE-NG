@@ -741,7 +741,7 @@ namespace RE
 		bool        Unk_A0(NiAVObject* a_node, float& a_angleX, float& a_angleZ, NiPoint3& a_pos) override;        // SE/AE 0A0, VR 0A1
 
 		// override (Actor)
-		void                 Unk_A2(void) override;                                                                                                                                               // 0A2
+		void                 FreeRequestedModels(void) override;                                                                                                                                  // 0A2
 		void                 PlayPickUpSound(TESBoundObject* a_object, bool a_pickup, bool a_use) override;                                                                                       // 0A3
 		float                GetHeading(bool a_ignoreRaceSettings) const override;                                                                                                                // 0A4
 		void                 DrawWeaponMagicHands(bool a_draw) override;                                                                                                                          // 0A6
