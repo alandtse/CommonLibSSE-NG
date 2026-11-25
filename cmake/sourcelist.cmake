@@ -1631,9 +1631,11 @@ set(SOURCES
 	include/RE/M/MovementPlannerUpdateDataSmallDelta.h
 	include/RE/M/MovementPlayIdleData.h
 	include/RE/M/MovementPlayIdleHolder.h
+	include/RE/M/MovementPostUpdateArbiter.h
 	include/RE/M/MovementStateFollowPath.h
 	include/RE/M/MovementStateTweener.h
 	include/RE/M/MovementUpdateDataSmallDelta.h
+	include/RE/M/MovementUpdateDeltas.h
 	include/RE/M/MoviePlayer.h
 	include/RE/M/MultiBoundMarkerData.h
 	include/RE/N/NativeFunction.h
