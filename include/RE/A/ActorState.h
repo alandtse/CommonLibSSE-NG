@@ -1,9 +1,13 @@
 #pragma once
 
 #include "RE/I/IMovementState.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
+	class IMovementInterface;
+	class IMovementParameters;
+
 	enum class ACTOR_LIFE_STATE : std::uint32_t
 	{
 		kAlive = 0,
@@ -276,6 +280,19 @@ namespace RE
 			using func_t = float(ActorState*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88508, 90934) };
 			return func(this, a_normalized);
+		}
+
+		void CalculateTranslationLimits(IMovementParameters* a_params, IMovementInterface* a_interface, NiPoint3* a_targetDirection, float* a_outAcceleration, float* a_outDeceleration, float* a_outLimit)
+		{
+			using func_t = void(ActorState*, IMovementParameters*, IMovementInterface*, NiPoint3*, float*, float*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89961, 92441) };
+			func(this, a_params, a_interface, a_targetDirection, a_outAcceleration, a_outDeceleration, a_outLimit);
+		}
+		void CalculateRotationLimits(IMovementParameters* a_params, IMovementInterface* a_interface, NiPoint3* a_targetDirection, float* a_outLimitA, float* a_outLimitB)
+		{
+			using func_t = void(ActorState*, IMovementParameters*, IMovementInterface*, NiPoint3*, float*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89962, 92442) };
+			func(this, a_params, a_interface, a_targetDirection, a_outLimitA, a_outLimitB);
 		}
 
 		// members
