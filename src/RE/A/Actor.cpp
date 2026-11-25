@@ -1746,9 +1746,9 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::DetachCharController)>(0x0A7, 0x0A9, this);
 	}
 
-	void Actor::RemoveCharController()
+	bool Actor::RemoveCharController()
 	{
-		RelocateVirtual<decltype(&Actor::RemoveCharController)>(0x0A8, 0x0AA, this);
+		return RelocateVirtual<decltype(&Actor::RemoveCharController)>(0x0A8, 0x0AA, this);
 	}
 
 	void Actor::SetPosition(const NiPoint3& a_pos, bool a_updateCharController)
