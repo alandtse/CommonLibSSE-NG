@@ -1598,6 +1598,7 @@ set(SOURCES
 	include/RE/M/MovementActorAvoidanceParameters.h
 	include/RE/M/MovementAgentActorAvoider.h
 	include/RE/M/MovementAgentActorState.h
+	include/RE/M/MovementAgentConfig.h
 	include/RE/M/MovementAgentPathFollowerStandard.h
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
