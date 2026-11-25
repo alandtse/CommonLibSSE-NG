@@ -63,7 +63,7 @@ namespace RE
 		std::uint64_t                   unk1A8;            // 1A8
 		std::uint64_t                   unk1B0;            // 1B0
 		Actor*                          actor;             // 1B8
-		std::uint32_t                   unk1C0;            // 1C0
+		std::uint32_t                   movementMode;      // 1C0 - 0..0xE, default 2, set by small mode setters, saved
 		bool                            unk1C4;            // 1C4
 		bool                            controlsDriven;    // 1C5
 		bool                            unk1C6;            // 1C6
