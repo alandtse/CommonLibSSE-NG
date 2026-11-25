@@ -40,9 +40,9 @@ namespace RE
 		REL::RelocateVirtual<decltype(&MovementControllerNPC::SetMovementMode6Virtual)>(0x10, 0x11, this);
 	}
 
-	void MovementControllerNPC::SetUnk1C4(bool a_value)
+	void MovementControllerNPC::SetFlightPathing(bool a_value)
 	{
-		REL::RelocateVirtual<decltype(&MovementControllerNPC::SetUnk1C4)>(0x11, 0x12, this, a_value);
+		REL::RelocateVirtual<decltype(&MovementControllerNPC::SetFlightPathing)>(0x11, 0x12, this, a_value);
 	}
 
 	void MovementControllerNPC::Unk_12()

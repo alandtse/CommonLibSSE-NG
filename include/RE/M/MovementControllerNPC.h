@@ -51,7 +51,7 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL bool GetAIDriven();                                    // 0E - { return controlsDriven == 0; }
 		SKYRIM_REL_VR_VIRTUAL bool GetControlsDriven();                              // 0F - { return controlsDriven; }
 		SKYRIM_REL_VR_VIRTUAL void SetMovementMode6Virtual();                        // 10
-		SKYRIM_REL_VR_VIRTUAL void SetUnk1C4(bool a_value);                          // 11 - re-applies SetMotionDriven when motion-driven
+		SKYRIM_REL_VR_VIRTUAL void SetFlightPathing(bool a_value);                   // 11 - re-applies SetMotionDriven when motion-driven
 		SKYRIM_REL_VR_VIRTUAL void Unk_12(void);                                     // 12
 		SKYRIM_REL_VR_VIRTUAL void Unk_13(void);                                     // 13
 		SKYRIM_REL_VR_VIRTUAL void OnMessageDispatched(MovementMessage* a_message);  // 14
@@ -97,13 +97,13 @@ namespace RE
 		MovementMessagePlayIdle*        pendingPlayIdle;   // 1B0 - posted through IMovementMessageInterface once the idle data is ready
 		Actor*                          actor;             // 1B8
 		std::uint32_t                   movementMode;      // 1C0 - 0..0xE, default 2, set by small mode setters, saved
-		bool                            unk1C4;            // 1C4
+		bool                            flightPathing;     // 1C4
 		bool                            controlsDriven;    // 1C5
 		bool                            unk1C6;            // 1C6
 		bool                            unk1C7;            // 1C7
 		bool                            unk1C8;            // 1C8
 		bool                            unk1C9;            // 1C9
-		bool                            unk1CA;            // 1CA
+		bool                            followerHandlers;  // 1CA
 		bool                            keepingOffset;     // 1CB
 		std::uint32_t                   unk1CC;            // 1CC
 	};
