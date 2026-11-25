@@ -910,6 +910,12 @@ namespace RE
 			return func(this, a_target, a_walkRunPercent);
 		}
 
+		void KeepOffsetFromActor(std::uint32_t* a_targetHandle, float* a_offset, float* a_angleOffset, float a_catchUpRadius, float a_followRadius)
+		{
+			using func_t = void(Actor*, std::uint32_t*, float*, float*, float, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36870, 37894) };
+			func(this, a_targetHandle, a_offset, a_angleOffset, a_catchUpRadius, a_followRadius);
+		}
 		void BuildMovementParametersNormalSpeed(IMovementParameters** a_out)
 		{
 			using func_t = void(Actor*, IMovementParameters**);

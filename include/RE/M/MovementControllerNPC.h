@@ -15,6 +15,7 @@
 namespace RE
 {
 	class Actor;
+	struct MovementAgentConfig;
 	class MovementMessage;
 	class MovementMessagePlayIdle;
 
@@ -54,6 +55,37 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void Unk_12(void);         // 12
 		SKYRIM_REL_VR_VIRTUAL void Unk_13(void);         // 13
 		SKYRIM_REL_VR_VIRTUAL void Unk_14(void);         // 14
+
+		bool ApplyAgentConfig(MovementAgentConfig* a_config)
+		{
+			using func_t = bool(MovementControllerNPC*, MovementAgentConfig*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89414, 91885) };
+			return func(this, a_config);
+		}
+		bool RemoveMessagesByType(std::int32_t a_messageType)
+		{
+			using func_t = bool(MovementControllerNPC*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40708, 41719) };
+			return func(this, a_messageType);
+		}
+		void SetKeepingOffset(bool a_keeping)
+		{
+			using func_t = void(MovementControllerNPC*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40723, 41734) };
+			func(this, a_keeping);
+		}
+		void ApplyMovementMode(std::int32_t a_mode)
+		{
+			using func_t = void(MovementControllerNPC*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40741, 41752) };
+			func(this, a_mode);
+		}
+		void PostPendingPlayIdle()
+		{
+			using func_t = void(MovementControllerNPC*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40745, 41759) };
+			func(this);
+		}
 
 		// members
 		BSSpinLock                      messageLock;       // 150
