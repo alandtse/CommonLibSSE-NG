@@ -5,6 +5,8 @@
 
 namespace RE
 {
+	class TESObjectCELL;
+	class NiPoint3;
 	class BGSTerrainManager;
 	class BGSObjectBlock;
 
@@ -75,6 +77,97 @@ namespace RE
 			using func_t = float(const BGSTerrainNode*, const NiPoint3&);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(31080, 31871) };
 			return func(this, a_position);
+		}
+
+		void UpdateRecurse(const NiPoint3& a_viewPos, TESObjectCELL* a_cell, std::uint32_t a_flags)
+		{
+			using func_t = void(BGSTerrainNode*, const NiPoint3&, TESObjectCELL*, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31048, 31835) };
+			func(this, a_viewPos, a_cell, a_flags);
+		}
+
+		bool UpdateTerrainLayer(const NiPoint3& a_viewPos, bool a_arg2, bool a_arg3)
+		{
+			using func_t = bool(BGSTerrainNode*, const NiPoint3&, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31049, 31836) };
+			return func(this, a_viewPos, a_arg2, a_arg3);
+		}
+
+		bool UpdateObjectLayer(const NiPoint3& a_viewPos, bool a_arg2, bool a_arg3, bool a_arg4, bool a_arg5)
+		{
+			using func_t = bool(BGSTerrainNode*, const NiPoint3&, bool, bool, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31050, 31837) };
+			return func(this, a_viewPos, a_arg2, a_arg3, a_arg4, a_arg5);
+		}
+
+		bool UpdateTreeLayer(const NiPoint3& a_viewPos, bool a_arg2, bool a_arg3)
+		{
+			using func_t = bool(BGSTerrainNode*, const NiPoint3&, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31051, 31838) };
+			return func(this, a_viewPos, a_arg2, a_arg3);
+		}
+
+		void UnloadLayers(std::uint32_t a_layerMask)
+		{
+			using func_t = void(BGSTerrainNode*, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31052, 31839) };
+			func(this, a_layerMask);
+		}
+
+		void SwitchToMapLayersRecurse()
+		{
+			using func_t = void(BGSTerrainNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31062, 31853) };
+			func(this);
+		}
+
+		void SwitchFromMapLayersRecurse()
+		{
+			using func_t = void(BGSTerrainNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31063, 31854) };
+			func(this);
+		}
+
+		void LoadMapLayersRecurse()
+		{
+			using func_t = void(BGSTerrainNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31064, 31855) };
+			func(this);
+		}
+
+		void SetVisibleRecurse(bool a_visible)
+		{
+			using func_t = void(BGSTerrainNode*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31065, 31857) };
+			func(this, a_visible);
+		}
+
+		void CreateChildren(std::uint32_t a_level)
+		{
+			using func_t = void(BGSTerrainNode*, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31068, 31860) };
+			func(this, a_level);
+		}
+
+		bool ShouldSplitForTerrain(const NiPoint3& a_viewPos)
+		{
+			using func_t = bool(BGSTerrainNode*, const NiPoint3&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31069, 31861) };
+			return func(this, a_viewPos);
+		}
+
+		bool ShouldSplitForObjects(const NiPoint3& a_viewPos)
+		{
+			using func_t = bool(BGSTerrainNode*, const NiPoint3&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31070, 31862) };
+			return func(this, a_viewPos);
+		}
+
+		bool IsVisibleFromCell(TESObjectCELL* a_cell, bool a_centerCellOnly)
+		{
+			using func_t = bool(BGSTerrainNode*, TESObjectCELL*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31073, 31865) };
+			return func(this, a_cell, a_centerCellOnly);
 		}
 
 		// members

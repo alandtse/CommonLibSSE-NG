@@ -276,6 +276,13 @@ namespace RE
 			return func(this, a_ref);
 		}
 
+		void RefreshActors(bool a_arg1, bool a_arg2)
+		{
+			using func_t = void(TESObjectCELL*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18577, 19046) };
+			func(this, a_arg1, a_arg2);
+		}
+
 		// members
 		mutable BSSpinLock                    grassCreateLock;  // 030
 		mutable BSSpinLock                    grassTaskLock;    // 038

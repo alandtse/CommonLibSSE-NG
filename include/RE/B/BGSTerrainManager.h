@@ -80,6 +80,41 @@ namespace RE
 			func();
 		}
 
+		static void ShowLODRoots()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31027, 31813) };
+			func();
+		}
+
+		static void HideLODRoots()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31028, 31814) };
+			func();
+		}
+
+		void SetMapMode(bool a_mapMode, bool a_flushUpdates)
+		{
+			using func_t = void(BGSTerrainManager*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31032, 31818) };
+			func(this, a_mapMode, a_flushUpdates);
+		}
+
+		void ApplyCachedCullState()
+		{
+			using func_t = void(BGSTerrainManager*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31037, 31823) };
+			func(this);
+		}
+
+		void UpdateRootNode(BGSTerrainNode* a_node, const NiPoint3& a_viewPos, TESObjectCELL* a_cell, bool a_arg4)
+		{
+			using func_t = void(BGSTerrainManager*, BGSTerrainNode*, const NiPoint3&, TESObjectCELL*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31041, 31828) };
+			func(this, a_node, a_viewPos, a_cell, a_arg4);
+		}
+
 		// members
 		bool                      mapMode;               // 00
 		std::uint8_t              pad01[7];              // 01

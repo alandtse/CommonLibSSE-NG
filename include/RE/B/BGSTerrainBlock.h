@@ -9,6 +9,62 @@ namespace RE
 	class BGSTerrainBlock
 	{
 	public:
+		static std::int32_t QueueLoad(void*& a_handle, BGSTerrainNode* a_node, std::uint32_t a_level, std::int16_t a_x, std::int16_t a_y)
+		{
+			using func_t = std::int32_t(void*&, BGSTerrainNode*, std::uint32_t, std::int16_t, std::int16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30930, 31733) };
+			return func(a_handle, a_node, a_level, a_x, a_y);
+		}
+
+		static std::int32_t Load(void*& a_handle, BGSTerrainNode* a_node, std::uint32_t a_level, std::int16_t a_x, std::int16_t a_y)
+		{
+			using func_t = std::int32_t(void*&, BGSTerrainNode*, std::uint32_t, std::int16_t, std::int16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30931, 31734) };
+			return func(a_handle, a_node, a_level, a_x, a_y);
+		}
+
+		void Detach()
+		{
+			using func_t = void(BGSTerrainBlock*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30936, 31739) };
+			func(this);
+		}
+
+		static void SetAllMenuScreenFlag(bool a_set)
+		{
+			using func_t = void(bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30940, 31743) };
+			func(a_set);
+		}
+
+		void Hide()
+		{
+			using func_t = void(BGSTerrainBlock*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30942, 31745) };
+			func(this);
+		}
+
+		void Show()
+		{
+			using func_t = void(BGSTerrainBlock*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30943, 31746) };
+			func(this);
+		}
+
+		static void LoadNoiseTexture()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30944, 31747) };
+			func();
+		}
+
+		static void ReleaseNoiseTexture(bool a_release)
+		{
+			using func_t = void(bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30945, 31748) };
+			func(a_release);
+		}
+
 		// members
 		BGSTerrainNode*   node;           // 00
 		BSTriShape*       land;           // 08
