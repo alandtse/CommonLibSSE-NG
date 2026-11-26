@@ -222,9 +222,9 @@ namespace RE
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(RUNTIME_DATA2, GetRuntimeData2, SKSE::RUNTIME_SSE_1_6_1130, 0x140, 0x148);
 
-		std::int32_t GetCellDetailLevel(TESObjectCELL* a_cell, const NiPoint3* a_position)
+		std::uint32_t GetCellDetailLevel(TESObjectCELL* a_cell, const NiPoint3* a_position)
 		{
-			using func_t = std::int32_t(TES*, TESObjectCELL*, const NiPoint3*);
+			using func_t = std::uint32_t(TES*, TESObjectCELL*, const NiPoint3*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(13176, 13321) };
 			return func(this, a_cell, a_position);
 		}
@@ -236,18 +236,18 @@ namespace RE
 			func(this);
 		}
 
-		bool IsLandFadingAtGrid(std::int16_t a_x, std::int16_t a_y)
+		bool IsLandFadingAtGrid(std::int32_t a_gridX, std::uint16_t a_gridY)
 		{
-			using func_t = bool(TES*, std::int16_t, std::int16_t);
+			using func_t = bool(TES*, std::int32_t, std::uint16_t);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(13164, 13309) };
-			return func(this, a_x, a_y);
+			return func(this, a_gridX, a_gridY);
 		}
 
-		void GetFadedInGridBounds(std::int32_t* a_out)
+		void GetFadedInGridBounds(std::int32_t* a_bounds)
 		{
 			using func_t = void(TES*, std::int32_t*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(13167, 13312) };
-			func(this, a_out);
+			func(this, a_bounds);
 		}
 
 		// members

@@ -70,6 +70,13 @@ namespace RE
 			func(this);
 		}
 
+		float GetSquaredDistanceToPoint(const NiPoint3& a_position) const
+		{
+			using func_t = float(const BGSTerrainNode*, const NiPoint3&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31080, 31871) };
+			return func(this, a_position);
+		}
+
 		// members
 		BGSTerrainManager*          manager;           // 00
 		Layer<BGSTerrainBlock>*     terrain;           // 08
