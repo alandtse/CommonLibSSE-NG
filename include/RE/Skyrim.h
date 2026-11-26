@@ -1864,6 +1864,7 @@
 #include "RE/P/PathingStreamLoadGame.h"
 #include "RE/P/PathingStreamMasterFileRead.h"
 #include "RE/P/PathingStreamSaveGame.h"
+#include "RE/P/PathingTaskData.h"
 #include "RE/P/PatrolActorPackageData.h"
 #include "RE/P/PeakValueModifierEffect.h"
 #include "RE/P/PerkEntryVisitor.h"
