@@ -292,6 +292,14 @@ jobs:
           $clVersion | Out-File "$stage/TOOLSET_VERSION.txt" -Encoding ascii -NoNewline
           # Which compiler family built the bundle; Prebuilt.cmake only links it into the same family.
           "msvc" | Out-File "$stage/TOOLCHAIN_ID.txt" -Encoding ascii -NoNewline
+          # Stamp the fmt and spdlog the lib compiled against (Prebuilt.cmake's dependency gate).
+          $deps = foreach ($cfg in 'fmt/fmt-config-version.cmake', 'spdlog/spdlogConfigVersion.cmake') {
+            $file = Get-ChildItem "build/release-msvc-vcpkg-all/vcpkg_installed/*/share/$cfg" | Select-Object -First 1
+            $ver = ((Get-Content $file | Select-String '^set\(PACKAGE_VERSION "(\d+\.\d+\.\d+)"\)').Matches | Select-Object -First 1).Groups[1].Value
+            if (-not $ver) { Write-Error "could not read the version from $cfg"; exit 1 }
+            "$($cfg.Split('/')[0]) $ver"
+          }
+          ($deps -join "`n") | Out-File "$stage/DEPENDENCY_VERSIONS.txt" -Encoding ascii -NoNewline
           Copy-Item -Recurse include "$stage/include"
           Copy-Item -Recurse extern/openvr/headers "$stage/extern/openvr/headers"
           # .zip so the consumer's file(ARCHIVE_EXTRACT) (libarchive) unpacks it reliably.
@@ -306,6 +314,9 @@ jobs:
         env:
           PREBUILT_DIR: ${{ github.workspace }}/${{ steps.bundle.outputs.stage }}
         run: |
+          # The consumer must resolve the fmt and spdlog the bundle was built with, or the dependency gate
+          # falls back to a source build and this test no longer exercises the bundle.
+          Copy-Item vcpkg-configuration.json tests/prebuilt-consumer-cmake/
           cmake -S tests/prebuilt-consumer-cmake -B build/cmake-selftest -G Ninja `
             --toolchain "$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
             -DVCPKG_TARGET_TRIPLET=x64-windows-static-md `
@@ -478,6 +489,14 @@ jobs:
           if (-not $clangVersion) { Write-Error "could not read clang-cl version"; exit 1 }
           $clangVersion | Out-File "$stage/TOOLSET_VERSION.txt" -Encoding ascii -NoNewline
           "clangcl" | Out-File "$stage/TOOLCHAIN_ID.txt" -Encoding ascii -NoNewline
+          # Stamp the fmt and spdlog the lib compiled against (Prebuilt.cmake's dependency gate).
+          $deps = foreach ($cfg in 'fmt/fmt-config-version.cmake', 'spdlog/spdlogConfigVersion.cmake') {
+            $file = Get-ChildItem "build/release-clang-cl-vcpkg-all/vcpkg_installed/*/share/$cfg" | Select-Object -First 1
+            $ver = ((Get-Content $file | Select-String '^set\(PACKAGE_VERSION "(\d+\.\d+\.\d+)"\)').Matches | Select-Object -First 1).Groups[1].Value
+            if (-not $ver) { Write-Error "could not read the version from $cfg"; exit 1 }
+            "$($cfg.Split('/')[0]) $ver"
+          }
+          ($deps -join "`n") | Out-File "$stage/DEPENDENCY_VERSIONS.txt" -Encoding ascii -NoNewline
           Copy-Item -Recurse include "$stage/include"
           Copy-Item -Recurse extern/openvr/headers "$stage/extern/openvr/headers"
           # .zip so the consumer's file(ARCHIVE_EXTRACT) (libarchive) unpacks it reliably.
@@ -494,6 +513,9 @@ jobs:
         run: |
           $builtClang = ((Get-Content "build/release-clang-cl-vcpkg-all/CMakeCache.txt" | Select-String '^CMAKE_CXX_COMPILER:[^=]*=(.+)$').Matches | Select-Object -First 1).Groups[1].Value
           if (-not $builtClang) { Write-Error "could not read the build compiler"; exit 1 }
+          # The consumer must resolve the fmt and spdlog the bundle was built with, or the dependency gate
+          # falls back to a source build and this test no longer exercises the bundle.
+          Copy-Item vcpkg-configuration.json tests/prebuilt-consumer-cmake/
           cmake -S tests/prebuilt-consumer-cmake -B build/cmake-selftest -G Ninja `
             --toolchain "$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
             -DVCPKG_TARGET_TRIPLET=x64-windows-static-md `
