@@ -1820,9 +1820,23 @@ set(SOURCES
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
 	include/RE/P/PathingDoor.h
+	include/RE/P/PathingRequest.h
 	include/RE/P/PathingRequestClosePoint.h
+	include/RE/P/PathingRequestClosestGoal.h
+	include/RE/P/PathingRequestCover.h
+	include/RE/P/PathingRequestFlee.h
 	include/RE/P/PathingRequestFly.h
+	include/RE/P/PathingRequestFlyAction.h
 	include/RE/P/PathingRequestFlyHover.h
+	include/RE/P/PathingRequestFlyLand.h
+	include/RE/P/PathingRequestFlyOrbit.h
+	include/RE/P/PathingRequestFlyTakeOff.h
+	include/RE/P/PathingRequestHide.h
+	include/RE/P/PathingRequestLOS.h
+	include/RE/P/PathingRequestOptimalLocation.h
+	include/RE/P/PathingRequestRotate.h
+	include/RE/P/PathingRequestSafeStraightLine.h
+	include/RE/P/PathingRequestStopMoving.h
 	include/RE/P/PathingSolutionQueue.h
 	include/RE/P/PathingStreamLoadGame.h
 	include/RE/P/PathingStreamMasterFileRead.h

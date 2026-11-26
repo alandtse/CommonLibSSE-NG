@@ -1,10 +1,10 @@
 #pragma once
 
-#include "RE/B/BSPathingRequest.h"
+#include "RE/P/PathingRequest.h"
 
 namespace RE
 {
-	class PathingRequestClosePoint : public BSPathingRequest
+	class PathingRequestClosePoint : public PathingRequest
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_PathingRequestClosePoint;

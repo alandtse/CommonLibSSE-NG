@@ -22,9 +22,10 @@ namespace RE
 		}
 
 		// members
-		NiPoint3        hoverPoint;  // 128
-		std::uint32_t   pad134;      // 134
-		BSTArray<void*> unk138;      // 138
+		NiPoint3                hoverPoint;  // 128
+		std::uint32_t           pad134;      // 134
+		BSTArray<BSPathingGoal> goals;
+		  // 138 - 0x50-byte elements
 	};
 	static_assert(sizeof(PathingRequestFlyHover) == 0x150);
 }
