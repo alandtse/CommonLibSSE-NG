@@ -9,7 +9,13 @@
 namespace RE
 {
 	class BSNavmesh;
+	class BSPathingDoor;
 	class BSPathingLocation;
+	class BSPathingLockData;
+	class PathingRequestSafeStraightLine;
+	class TESObjectCELL;
+	class TESObjectREFR;
+	class TESWorldSpace;
 	struct BSPathingSolution;
 	struct CellAttachDetachEvent;
 	struct IMovementPlayIdleResult;
@@ -91,6 +97,69 @@ namespace RE
 			using func_t = bool (*)(Pathing*, const BSTSmartPointer<BSPathingCell>&, const NiPoint3&, FindTriangleForLocationFilter&, NiPoint3&);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(29832, 30648) };
 			return func(this, a_cell, a_location, a_filter, a_pointOut);
+		}
+
+		BSPathingLocation* MakeLocationFromRef(BSPathingLocation* a_out, NiPoint3* a_pos, TESObjectREFR* a_ref)
+		{
+			using func_t = BSPathingLocation*(Pathing*, BSPathingLocation*, NiPoint3*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29822, 30638) };
+			return func(this, a_out, a_pos, a_ref);
+		}
+
+		BSPathingLocation* MakeLocation(BSPathingLocation* a_out, NiPoint3* a_pos, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace)
+		{
+			using func_t = BSPathingLocation*(Pathing*, BSPathingLocation*, NiPoint3*, TESObjectCELL*, TESWorldSpace*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29824, 30640) };
+			return func(this, a_out, a_pos, a_cell, a_worldSpace);
+		}
+
+		bool FindNearestNavmeshPoint(TESWorldSpace* a_worldSpace, TESObjectCELL* a_cell, NiPoint3* a_pos, float a_radius, NiPoint3* a_outPos)
+		{
+			using func_t = bool(Pathing*, TESWorldSpace*, TESObjectCELL*, NiPoint3*, float, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29833, 30649) };
+			return func(this, a_worldSpace, a_cell, a_pos, a_radius, a_outPos);
+		}
+
+		bool RunSafeStraightLineSearch(PathingRequestSafeStraightLine** a_request)
+		{
+			using func_t = bool(Pathing*, PathingRequestSafeStraightLine**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29836, 30652) };
+			return func(this, a_request);
+		}
+
+		bool HasSafeStraightLine(TESObjectREFR* a_from, TESObjectREFR* a_to, float a_extraRange)
+		{
+			using func_t = bool(Pathing*, TESObjectREFR*, TESObjectREFR*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29837, 30653) };
+			return func(this, a_from, a_to, a_extraRange);
+		}
+
+		BSPathingLocation* FindClosestReachableLocation(BSPathingLocation* a_out, BSPathingLocation* a_start, BSPathingLocation* a_goal, float a_maxCost)
+		{
+			using func_t = BSPathingLocation*(Pathing*, BSPathingLocation*, BSPathingLocation*, BSPathingLocation*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29838, 30654) };
+			return func(this, a_out, a_start, a_goal, a_maxCost);
+		}
+
+		bool FindDoorsOnPath(BSPathingLocation* a_start, BSPathingLocation* a_goal, void* a_pathOut, BSPathingLockData* a_lockData, std::int32_t a_lockedDoorMode, bool a_allowTeleportFallback)
+		{
+			using func_t = bool(Pathing*, BSPathingLocation*, BSPathingLocation*, void*, BSPathingLockData*, std::int32_t, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29842, 30658) };
+			return func(this, a_start, a_goal, a_pathOut, a_lockData, a_lockedDoorMode, a_allowTeleportFallback);
+		}
+
+		bool FindTeleportDoorBetweenRefs(TESObjectREFR* a_from, TESObjectREFR* a_to, BSPathingLockData* a_lockData, std::uint32_t* a_doorHandleOut, std::int32_t a_lockedDoorMode, float* a_lengthOut)
+		{
+			using func_t = bool(Pathing*, TESObjectREFR*, TESObjectREFR*, BSPathingLockData*, std::uint32_t*, std::int32_t, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29843, 30659) };
+			return func(this, a_from, a_to, a_lockData, a_doorHandleOut, a_lockedDoorMode, a_lengthOut);
+		}
+
+		bool GetPathLengthWithDoors(BSPathingLocation* a_start, BSPathingLocation* a_goal, float* a_lengthOut)
+		{
+			using func_t = bool(Pathing*, BSPathingLocation*, BSPathingLocation*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(29845, 30661) };
+			return func(this, a_start, a_goal, a_lengthOut);
 		}
 
 		// members
