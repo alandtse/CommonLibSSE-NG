@@ -9,6 +9,7 @@
 
 namespace RE
 {
+	class BGSTerrainChunk;
 	class BGSTerrainNode;
 	class TESObjectCELL;
 	class TESObjectREFR;
@@ -63,6 +64,13 @@ namespace RE
 			using func_t = bool();
 			static REL::Relocation<func_t> func{ RELOCATION_ID(31030, 31816) };
 			return func();
+		}
+
+		BGSTerrainChunk* GetTerrainChunkForPoint(const NiPoint3& a_position, bool a_mapTerrain)
+		{
+			using func_t = BGSTerrainChunk*(BGSTerrainManager*, const NiPoint3&, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31022, 31807) };
+			return func(this, a_position, a_mapTerrain);
 		}
 
 		// members
