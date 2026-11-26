@@ -9,6 +9,13 @@ namespace RE
 	struct BSCompressedNavmeshBounds
 	{
 	public:
+		void FreeScrapArrays()
+		{
+			using func_t = void(BSCompressedNavmeshBounds*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88833, 91282) };
+			func(this);
+		}
+
 		// members
 		NiPoint3      boundsMin;      // 00
 		NiPoint3      boundsMax;      // 0C

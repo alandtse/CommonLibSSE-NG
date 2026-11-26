@@ -162,6 +162,55 @@ namespace RE
 			return func(this, a_start, a_goal, a_lengthOut);
 		}
 
+		bool CanCreatePathImpl(void* a_arg1, BSPathingLocation* a_start, BSPathingLocation* a_goal, void* a_arg4, void** a_out)
+		{
+			using func_t = bool(Pathing*, void*, BSPathingLocation*, BSPathingLocation*, void*, void**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88020, 90408) };
+			return func(this, a_arg1, a_start, a_goal, a_arg4, a_out);
+		}
+
+		bool FitPathTangentsImpl(void* a_ctx)
+		{
+			using func_t = bool(Pathing*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88139, 90528) };
+			return func(this, a_ctx);
+		}
+
+		bool FitPathTangentsByHandleImpl(void* a_ctx)
+		{
+			using func_t = bool(Pathing*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88140, 90529) };
+			return func(this, a_ctx);
+		}
+
+		bool ResolvePathNodeNavInfo(void* a_ctx, void* a_out)
+		{
+			using func_t = bool(Pathing*, void*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88130, 90518) };
+			return func(this, a_ctx, a_out);
+		}
+
+		bool GetTriangleNormalAtLocation(BSPathingLocation* a_location, NiPoint3* a_outNormal, void* a_arg3)
+		{
+			using func_t = bool(Pathing*, BSPathingLocation*, NiPoint3*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88029, 90417) };
+			return func(this, a_location, a_outNormal, a_arg3);
+		}
+
+		bool RayCastWithVerification(BSPathingLocation* a_start, const NiPoint3* a_target, void* a_arg4, BSPathingLocation* a_outHit, void* a_arg6, void* a_arg7)
+		{
+			using func_t = bool(Pathing*, BSPathingLocation*, const NiPoint3*, void*, BSPathingLocation*, void*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88025, 90413) };
+			return func(this, a_start, a_target, a_arg4, a_outHit, a_arg6, a_arg7);
+		}
+
+		bool IsLocationNearEdgeVerified(BSPathingLocation* a_location, float a_radius)
+		{
+			using func_t = bool(Pathing*, BSPathingLocation*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88031, 90419) };
+			return func(this, a_location, a_radius);
+		}
+
 		// members
 		BSSpinLock                                                      cellCacheLock;  // 68
 		BSTHashMap<PathingCellInfo, BSTSmartPointer<PathingCell>>       loadedCells;    // 70

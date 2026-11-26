@@ -28,6 +28,13 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(89210, 91682) };
 			return func(this);
 		}
+
+		void SetFromDoor(BSPathingDoor** a_door)
+		{
+			using func_t = void(BSVirtualPathingNode*, BSPathingDoor**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89223, 91696) };
+			func(this, a_door);
+		}
 	};
 	static_assert(sizeof(BSVirtualPathingNode) == 0x38);
 

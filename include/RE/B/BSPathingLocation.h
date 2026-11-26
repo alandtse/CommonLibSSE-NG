@@ -62,6 +62,34 @@ namespace RE
 			return func(this);
 		}
 
+		bool GetNavmeshPosition(void* a_out)
+		{
+			using func_t = bool(BSPathingLocation*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87979, 90363) };
+			return func(this, a_out);
+		}
+
+		void SetFromPositionResolveCell(const NiPoint3* a_position)
+		{
+			using func_t = void(BSPathingLocation*, const NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87972, 90353) };
+			func(this, a_position);
+		}
+
+		void SetNavmeshInfo(const BSNavmeshInfo* a_info)
+		{
+			using func_t = void(BSPathingLocation*, const BSNavmeshInfo*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87971, 90352) };
+			func(this, a_info);
+		}
+
+		bool CastAxisRays(float a_radius)
+		{
+			using func_t = bool(BSPathingLocation*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87990, 90374) };
+			return func(this, a_radius);
+		}
+
 		// members
 		NiPoint3                       location;          // 00
 		BSNavmeshInfo*                 navMeshInfo;       // 10

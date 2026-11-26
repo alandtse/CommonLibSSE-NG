@@ -397,6 +397,7 @@ set(SOURCES
 	include/RE/B/BSParticleShaderSnowEmitter.h
 	include/RE/B/BSParticleSystemManager.h
 	include/RE/B/BSPathBuilder.h
+	include/RE/B/BSPathSmootherPOVSearch.h
 	include/RE/B/BSPathing.h
 	include/RE/B/BSPathingActorAttributes.h
 	include/RE/B/BSPathingAvoidNode.h
@@ -408,6 +409,7 @@ set(SOURCES
 	include/RE/B/BSPathingLockData.h
 	include/RE/B/BSPathingRequest.h
 	include/RE/B/BSPathingSearchParameters.h
+	include/RE/B/BSPathingSearchRayCast.h
 	include/RE/B/BSPathingStreamRead.h
 	include/RE/B/BSPathingStreamWrite.h
 	include/RE/B/BSPointerHandle.h
@@ -1705,6 +1707,7 @@ set(SOURCES
 	include/RE/N/NavmeshCostFilterRule.h
 	include/RE/N/NavmeshCostFilterSet.h
 	include/RE/N/NavmeshEdgeExpansion.h
+	include/RE/N/NavmeshSearchRayCache.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
 	include/RE/N/NextChildSelector.h
 	include/RE/N/NiAVObject.h
@@ -2170,6 +2173,7 @@ set(SOURCES
 	include/RE/T/TogglePOVHandler.h
 	include/RE/T/ToggleRunHandler.h
 	include/RE/T/TrainingMenu.h
+	include/RE/T/TrianglePathWaterAndLedgeSplitter.h
 	include/RE/T/TurnUndeadEffect.h
 	include/RE/T/TutorialMenu.h
 	include/RE/T/TweenMenu.h
