@@ -1692,10 +1692,14 @@ set(SOURCES
 	include/RE/N/NavMeshSearchClosePoint.h
 	include/RE/N/NavMeshSearchFitSphere.h
 	include/RE/N/NavMeshSearchFlee.h
+	include/RE/N/NavMeshSearchHide.h
 	include/RE/N/NavMeshSearchLOS.h
+	include/RE/N/NavMeshSearchMaxCost.h
 	include/RE/N/NavMeshSearchMultipleGoals.h
+	include/RE/N/NavMeshSearchSLPoint.h
 	include/RE/N/NavmeshCostFilterRule.h
 	include/RE/N/NavmeshCostFilterSet.h
+	include/RE/N/NavmeshEdgeExpansion.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
 	include/RE/N/NextChildSelector.h
 	include/RE/N/NiAVObject.h

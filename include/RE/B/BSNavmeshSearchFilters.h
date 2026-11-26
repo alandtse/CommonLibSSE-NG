@@ -1,14 +1,16 @@
 #pragma once
 
 #include "RE/N/NavmeshCostFilterSet.h"
+#include "RE/N/NavmeshEdgeExpansion.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
 	class BSNavmeshSearchFilters
 	{
 	public:
-		virtual ~BSNavmeshSearchFilters();  // 00
-		virtual void Unk_01(void);          // 01 - FilterEdge
+		virtual ~BSNavmeshSearchFilters();                                           // 00
+		virtual bool FilterEdge(const NavmeshEdgeExpansion* a_edge, float* a_cost);  // 01 - a_cost is in/out
 
 		// members
 		void*                request;                // 08 - BSPathingRequest*
