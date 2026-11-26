@@ -121,6 +121,13 @@ namespace RE
 			func(this, a_fade);
 		}
 
+		void UpdateDistantTextureBlend()
+		{
+			using func_t = void(TESObjectLAND*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18366, 18789) };
+			func(this);
+		}
+
 		// members
 		OBJ_LAND              data;            // 28 - DATA
 		std::uint32_t         pad2C;           // 2C

@@ -73,6 +73,13 @@ namespace RE
 			return func(this, a_position, a_mapTerrain);
 		}
 
+		static void CacheSettings()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31067, 31859) };
+			func();
+		}
+
 		// members
 		bool                      mapMode;               // 00
 		std::uint8_t              pad01[7];              // 01

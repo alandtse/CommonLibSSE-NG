@@ -56,6 +56,20 @@ namespace RE
 
 		std::uint32_t GetLODLevel() const { return (nodeState.underlying() >> 21) & 0x3FC; }
 
+		bool ContainsPoint(const NiPoint3& a_position) const
+		{
+			using func_t = bool(const BGSTerrainNode*, const NiPoint3&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31055, 31842) };
+			return func(this, a_position);
+		}
+
+		void UpdateGridFlags()
+		{
+			using func_t = void(BGSTerrainNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31054, 31841) };
+			func(this);
+		}
+
 		// members
 		BGSTerrainManager*          manager;           // 00
 		Layer<BGSTerrainBlock>*     terrain;           // 08

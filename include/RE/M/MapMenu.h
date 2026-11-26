@@ -285,6 +285,21 @@ namespace RE
 				return &REL::RelocateMember<VR_RUNTIME_DATA2>(this, 0, 0x30530);
 			}
 		}
+
+		static void EnterMapTerrain()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52262, 53154) };
+			func();
+		}
+
+		static void ExitMapTerrain()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52263, 53155) };
+			func();
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		RUNTIME_DATA_CONTENT;   // 40, 60
