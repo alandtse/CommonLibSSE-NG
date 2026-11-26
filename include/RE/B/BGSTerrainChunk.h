@@ -21,6 +21,20 @@ namespace RE
 		void Detach();
 		void Prepare();
 
+		void Hide()
+		{
+			using func_t = void(BGSTerrainChunk*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30942, 31745) };
+			func(this);
+		}
+
+		void Show()
+		{
+			using func_t = void(BGSTerrainChunk*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30943, 31746) };
+			func(this);
+		}
+
 		// members
 		BGSTerrainNode*             terrainNode;    // 00
 		NiPointer<BSGeometry>       landMesh;       // 08

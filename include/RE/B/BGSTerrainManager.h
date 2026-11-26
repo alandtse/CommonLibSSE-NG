@@ -115,6 +115,13 @@ namespace RE
 			func(this, a_node, a_viewPos, a_cell, a_arg4);
 		}
 
+		static void ReleaseLODRoots()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31031, 31817) };
+			func();
+		}
+
 		// members
 		bool                      mapMode;               // 00
 		std::uint8_t              pad01[7];              // 01

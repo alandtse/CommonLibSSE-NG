@@ -24,6 +24,7 @@
 
 namespace RE
 {
+	class BGSTerrainNode;
 	class TESRegionList;
 
 	namespace BGSWaterCollisionManager
@@ -40,6 +41,13 @@ namespace RE
 	class BGSTerrainVisibilityData
 	{
 	public:
+		bool IsNodeVisible(BGSTerrainNode* a_node)
+		{
+			using func_t = bool(BGSTerrainVisibilityData*, BGSTerrainNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31162, 31973) };
+			return func(this, a_node);
+		}
+
 		// members
 		BSBitField<>* visData;  // 0
 	};

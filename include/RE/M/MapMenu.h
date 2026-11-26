@@ -307,6 +307,13 @@ namespace RE
 			func(a_arg1);
 		}
 
+		static void InitMapView()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52254, 53144) };
+			func();
+		}
+
 		static void CloseMapView(bool a_arg1)
 		{
 			using func_t = void(bool);

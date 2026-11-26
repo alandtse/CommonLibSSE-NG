@@ -23,32 +23,11 @@ namespace RE
 			return func(a_handle, a_node, a_level, a_x, a_y);
 		}
 
-		void Detach()
-		{
-			using func_t = void(BGSTerrainBlock*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(30936, 31739) };
-			func(this);
-		}
-
 		static void SetAllMenuScreenFlag(bool a_set)
 		{
 			using func_t = void(bool);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(30940, 31743) };
 			func(a_set);
-		}
-
-		void Hide()
-		{
-			using func_t = void(BGSTerrainBlock*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(30942, 31745) };
-			func(this);
-		}
-
-		void Show()
-		{
-			using func_t = void(BGSTerrainBlock*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(30943, 31746) };
-			func(this);
 		}
 
 		static void LoadNoiseTexture()
