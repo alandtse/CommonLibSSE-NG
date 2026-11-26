@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSCompressedNavmeshBounds.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSingleton.h"
 #include "RE/B/BSTSmartPointer.h"
@@ -7,7 +8,7 @@
 
 namespace RE
 {
-	class BSCompressedNavmeshBounds;
+	struct BSCompressedNavmeshBounds;
 	class BSNavmesh;
 	class BSPathingCell;
 	class BSPathingDoor;

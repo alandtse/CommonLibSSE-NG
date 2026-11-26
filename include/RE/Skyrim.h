@@ -275,6 +275,7 @@
 #include "RE/B/BSBloodSplatterShaderProperty.h"
 #include "RE/B/BSBound.h"
 #include "RE/B/BSCompoundFrustum.h"
+#include "RE/B/BSCompressedNavmeshBounds.h"
 #include "RE/B/BSComputeShader.h"
 #include "RE/B/BSContainer.h"
 #include "RE/B/BSCubeMapCamera.h"
