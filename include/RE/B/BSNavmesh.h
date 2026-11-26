@@ -167,6 +167,34 @@ namespace RE
 			return result;
 		}
 
+		bool GetEdgePoints(std::uint16_t a_triangle, std::uint32_t a_edge, NiPoint3* a_outStart, NiPoint3* a_outEnd)
+		{
+			using func_t = bool(BSNavmesh*, std::uint16_t, std::uint32_t, NiPoint3*, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88645, 91075) };
+			return func(this, a_triangle, a_edge, a_outStart, a_outEnd);
+		}
+
+		bool GetEdgeVertexIndices(std::uint16_t a_triangle, std::uint32_t a_edge, std::uint16_t* a_outStart, std::uint16_t* a_outEnd)
+		{
+			using func_t = bool(BSNavmesh*, std::uint16_t, std::uint32_t, std::uint16_t*, std::uint16_t*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88642, 91072) };
+			return func(this, a_triangle, a_edge, a_outStart, a_outEnd);
+		}
+
+		bool FindClosestBoundaryEdge(NiPoint3* a_pos, float a_radius, std::uint16_t* a_outTriangle, std::int32_t* a_outEdge, bool a_flip)
+		{
+			using func_t = bool(BSNavmesh*, NiPoint3*, float, std::uint16_t*, std::int32_t*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88683, 91123) };
+			return func(this, a_pos, a_radius, a_outTriangle, a_outEdge, a_flip);
+		}
+
+		bool GetTriangleHeightAtPoint(std::uint16_t a_triangle, NiPoint3* a_pos, float* a_outZ)
+		{
+			using func_t = bool(BSNavmesh*, std::uint16_t, NiPoint3*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88688, 91132) };
+			return func(this, a_triangle, a_pos, a_outZ);
+		}
+
 		// members
 		std::uint32_t                                                pad00C;                 // 00C
 		BSTArray<BSNavmeshVertex>                                    vertices;               // 010

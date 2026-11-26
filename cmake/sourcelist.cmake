@@ -370,8 +370,10 @@ set(SOURCES
 	include/RE/B/BSMusicEvent.h
 	include/RE/B/BSMusicManager.h
 	include/RE/B/BSNavmesh.h
+	include/RE/B/BSNavmeshEdgeLocation.h
 	include/RE/B/BSNavmeshInfoMap.h
 	include/RE/B/BSNavmeshInfoSearch.h
+	include/RE/B/BSNavmeshObstacleData.h
 	include/RE/B/BSNavmeshSearch.h
 	include/RE/B/BSNavmeshSearchFilters.h
 	include/RE/B/BSNiAllocator.h
