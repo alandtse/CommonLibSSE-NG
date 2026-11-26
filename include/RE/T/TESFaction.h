@@ -189,6 +189,13 @@ namespace RE
 		[[nodiscard]] bool         TracksCrimes() const;
 		[[nodiscard]] bool         UsesCrimeGoldDefaults() const;
 
+		std::int32_t InitReactions()
+		{
+			using func_t = std::int32_t(TESFaction*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24027, 24537) };
+			return func(this);
+		}
+
 		// members
 		BSTHashMap<const TESNPC*, std::uint32_t>* crimeGoldMap;           // 050
 		FACTION_DATA                              data;                   // 058 - DATA

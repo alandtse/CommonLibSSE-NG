@@ -14,8 +14,8 @@ namespace RE
 		// override (SettingCollection<T>)
 		void InsertSetting(T* a_setting) override;  // 01
 		void RemoveSetting(T* a_setting) override;  // 02
-		void WriteAllSettings() override;           // 08
-		void ReadAllSettings() override;            // 09
+		bool WriteAllSettings() override;           // 08
+		bool ReadAllSettings() override;            // 09
 
 		// members
 		BSSimpleList<T*> settings;  // 118

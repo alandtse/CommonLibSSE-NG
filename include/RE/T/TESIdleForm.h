@@ -67,6 +67,20 @@ namespace RE
 			return func(this, a_actor, a_target, a_checkParentIdle);
 		}
 
+		bool LinkIntoIdleTree()
+		{
+			using func_t = bool(TESIdleForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24062, 24565) };
+			return func(this);
+		}
+
+		NiFormArray* GetOrCreateChildIdles()
+		{
+			using func_t = NiFormArray*(TESIdleForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24083, 24584) };
+			return func(this);
+		}
+
 		// members
 		TESCondition  conditions;     // 20
 		IDLE_DATA     data;           // 28 - DATA

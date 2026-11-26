@@ -10,6 +10,8 @@
 namespace RE
 {
 	class BGSTerrainNode;
+	class TESObjectCELL;
+	class TESObjectREFR;
 	class TESWorldSpace;
 
 	class BGSTerrainManager
@@ -41,6 +43,27 @@ namespace RE
 		void SetCullState(const CullState& a_state);
 		void UnloadAll(bool a_unloadStaticData, bool a_shutdown);
 		void Update(const NiPoint3& a_viewPos, const std::int32_t& a_updateType);
+
+		void QueueCellNodeUpdate(TESObjectCELL* a_cell)
+		{
+			using func_t = void(BGSTerrainManager*, TESObjectCELL*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31024, 31810) };
+			func(this, a_cell);
+		}
+
+		void QueueReferenceCellNodeUpdate(TESObjectREFR* a_ref)
+		{
+			using func_t = void(BGSTerrainManager*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31023, 31809) };
+			func(this, a_ref);
+		}
+
+		[[nodiscard]] static bool IsLODEnabledForCurrentWorldSpace()
+		{
+			using func_t = bool();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31030, 31816) };
+			return func();
+		}
 
 		// members
 		bool                      mapMode;               // 00

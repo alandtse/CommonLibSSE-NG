@@ -28,6 +28,13 @@ namespace RE
 		void ClearDataComponent() override;                     // 02
 		void CopyComponent(BaseFormComponent* a_rhs) override;  // 03
 
+		void SetFightReaction(TESForm* a_form, std::int32_t a_reaction)
+		{
+			using func_t = void(TESReactionForm*, TESForm*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14737, 14913) };
+			func(this, a_form, a_reaction);
+		}
+
 		// members
 		BSSimpleList<GROUP_REACTION*>        reactions;      // 08 - XNAM
 		REX::EnumSet<FormType, std::uint8_t> groupFormType;  // 18

@@ -60,6 +60,13 @@ namespace RE
 			return hitData;
 		}
 
+		void ApplyDamageReduction(bool a_disableBlocking)
+		{
+			using func_t = void(HitData*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(42842, 44014) };
+			func(this, a_disableBlocking);
+		}
+
 		// members
 
 		NiPoint3                              hitPosition;             // 00

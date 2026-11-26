@@ -100,6 +100,27 @@ namespace RE
 			return func(this, a_load3D, a_createHavokData);
 		}
 
+		TESLandTexture* GetLandTexture(const NiPoint3* a_position)
+		{
+			using func_t = TESLandTexture*(TESObjectLAND*, const NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18310, 18714) };
+			return func(this, a_position);
+		}
+
+		float GetLandFade()
+		{
+			using func_t = float(TESObjectLAND*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18329, 18745) };
+			return func(this);
+		}
+
+		void SetLandFade(float a_fade)
+		{
+			using func_t = void(TESObjectLAND*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18330, 18746) };
+			func(this, a_fade);
+		}
+
 		// members
 		OBJ_LAND              data;            // 28 - DATA
 		std::uint32_t         pad2C;           // 2C

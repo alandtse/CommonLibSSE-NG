@@ -254,6 +254,28 @@ namespace RE
 		};
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_629, 0x60, 0x68);
+
+		void DebugDrawCellMopp()
+		{
+			using func_t = void(TESObjectCELL*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18537, 18996) };
+			func(this);
+		}
+
+		void QueueReferenceLoads()
+		{
+			using func_t = void(TESObjectCELL*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18592, 19061) };
+			func(this);
+		}
+
+		BSFadeNode* InitReferenceFade(TESObjectREFR* a_ref)
+		{
+			using func_t = BSFadeNode*(TESObjectCELL*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19036, 19450) };
+			return func(this, a_ref);
+		}
+
 		// members
 		mutable BSSpinLock                    grassCreateLock;  // 030
 		mutable BSSpinLock                    grassTaskLock;    // 038

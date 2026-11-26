@@ -324,6 +324,13 @@ namespace RE
 			return func(this, a_out);
 		}
 
+		void SetVoiceSubtitle(const BSFixedString& a_subtitle)
+		{
+			using func_t = void(AIProcess*, const BSFixedString&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38341, 39320) };
+			func(this, a_subtitle);
+		}
+
 		// members
 		MiddleLowProcessData*                       middleLow;                      // 000
 		MiddleHighProcessData*                      middleHigh;                     // 008

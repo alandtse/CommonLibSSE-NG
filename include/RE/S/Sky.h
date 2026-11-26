@@ -98,6 +98,13 @@ namespace RE
 		void                SetColor(NiColor& a_color, COLOR_BLEND* a_colorBlend, float a_addFlash) const;
 		void                SetWeather(TESWeather* a_weather, bool a_override, bool a_accelerate);
 
+		void PopulateWorldMapCloudTextures()
+		{
+			using func_t = void(Sky*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25729, 26288) };
+			func(this);
+		}
+
 		// members
 		NiPointer<BSMultiBoundNode>        root;                            // 008
 		NiPointer<NiNode>                  moonsRoot;                       // 010

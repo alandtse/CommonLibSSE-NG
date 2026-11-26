@@ -61,6 +61,20 @@ namespace RE
 		TESForm* CreateDuplicateForm(bool a_createEditorID, NiTPointerMap<TESForm*, TESForm*>* a_copyMap) override;  // 09
 		void     InitItemImpl() override;                                                                            // 13
 
+		bool ResolveParentPath()
+		{
+			using func_t = bool(BGSCameraPath*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20212, 20640) };
+			return func(this);
+		}
+
+		NiFormArray* GetOrCreateChildPaths()
+		{
+			using func_t = NiFormArray*(BGSCameraPath*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20215, 20643) };
+			return func(this);
+		}
+
 		// members
 		TESCondition                 conditions;  // 20
 		BSSimpleList<BGSCameraShot*> shots;       // 28 - SNAM

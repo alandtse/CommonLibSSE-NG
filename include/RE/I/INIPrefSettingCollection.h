@@ -14,8 +14,8 @@ namespace RE
 
 		// override (INISettingCollection)
 		void Unk_07(void) override;        // 07 - { return 1; }
-		void WriteAllSettings() override;  // 08
-		void ReadAllSettings() override;   // 09
+		bool WriteAllSettings() override;  // 08
+		bool ReadAllSettings() override;   // 09
 
 		static INIPrefSettingCollection* GetSingleton();
 	};

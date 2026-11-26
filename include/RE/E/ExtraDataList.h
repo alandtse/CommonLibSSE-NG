@@ -15,6 +15,7 @@
 
 namespace RE
 {
+	class CellMopp;
 	class DialogueItem;
 	class InventoryChanges;
 	class TESBoundObject;
@@ -244,6 +245,13 @@ namespace RE
 			using func_t = void(ExtraDataList*, TESWorldSpace*, TESObjectCELL*, NiPoint3*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(11484, 11630) };
 			func(this, a_worldSpace, a_cell, a_position, a_rotationZ);
+		}
+
+		CellMopp* GetCellMopp()
+		{
+			using func_t = CellMopp*(ExtraDataList*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(11816, 11956) };
+			return func(this);
 		}
 
 	private:

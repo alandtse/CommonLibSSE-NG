@@ -936,6 +936,13 @@ namespace RE
 			return func(this, a_minDistance, a_maxDistance, a_lookAheadTime, a_outPoint);
 		}
 
+		bool IsFallingFast()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36260, 37244) };
+			return func(this);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()

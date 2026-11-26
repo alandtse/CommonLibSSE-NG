@@ -541,6 +541,20 @@ namespace RE
 			func(this, a_ref, a_atDoor, a_ignoreSleep, a_p4);
 		}
 
+		void QueueLoad3D()
+		{
+			using func_t = void(TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19315, 19742) };
+			func(this);
+		}
+
+		bool IsVisibleWhenDistant() const
+		{
+			using func_t = bool(const TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19172, 19587) };
+			return func(this);
+		}
+
 		// members
 		OBJ_REFR         data;        // 40
 		TESObjectCELL*   parentCell;  // 60

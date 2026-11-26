@@ -164,6 +164,13 @@ namespace RE
 		bool Load(TESFile* a_mod) override;  // 06
 		void InitItemImpl() override;        // 13
 
+		void InitWastelandDefaults()
+		{
+			using func_t = void(TESWeather*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19969, 20400) };
+			func(this);
+		}
+
 		// members
 		TESTexture1024                      cloudTextures[kTotalLayers];                          // 020 - 00TX - L0TX
 		std::int8_t                         cloudLayerSpeedY[kTotalLayers];                       // 220 - RNAM
