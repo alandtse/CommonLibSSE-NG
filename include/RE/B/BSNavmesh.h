@@ -48,6 +48,7 @@ namespace RE
 			kNoLargeCreatures = 1 << 4,
 			kOverlapping = 1 << 5,
 			kPreferred = 1 << 6,
+			kWater = 1 << 9,
 		};
 
 		// reference:

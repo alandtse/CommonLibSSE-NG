@@ -49,17 +49,17 @@ namespace RE
 		}
 
 		// members
-		NiPoint3     edgeStart;   // 38
-		NiPoint3     edgeEnd;     // 44
-		float        unk50[3];    // 50
-		std::uint8_t coverValue;  // 5C
-		bool         aboveLower;  // 5D - coverValue >= lowerBound
-		bool         aboveUpper;  // 5E - coverValue > upperBound
-		bool         flag0;       // 5F
-		bool         flag1;       // 60
-		std::uint8_t edgeIndex;   // 61
-		std::uint8_t unk62;       // 62
-		std::uint8_t pad63[5];    // 63
+		NiPoint3     edgeStart;       // 38
+		NiPoint3     edgeEnd;         // 44
+		NiPoint3     coverDirection;  // 50 - horizontal unit vector perpendicular to the edge
+		std::uint8_t coverValue;      // 5C
+		bool         aboveLower;      // 5D - coverValue >= lowerBound
+		bool         aboveUpper;      // 5E - coverValue > upperBound
+		bool         flag0;           // 5F
+		bool         flag1;           // 60
+		std::uint8_t edgeIndex;       // 61
+		std::uint8_t unk62;           // 62
+		std::uint8_t pad63[5];        // 63
 	};
 	static_assert(sizeof(PathingCoverLocation) == 0x68);
 }
