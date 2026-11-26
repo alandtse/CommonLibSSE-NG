@@ -3,9 +3,12 @@ set(SOURCES
 	include/RE/A/AIProcess.h
 	include/RE/A/AITimeStamp.h
 	include/RE/A/AITimer.h
+	include/RE/A/AStarClosedSet.h
 	include/RE/A/AStarClosedSetEntry.h
 	include/RE/A/AStarNode.h
+	include/RE/A/AStarNodePool.h
 	include/RE/A/AStarOpenList.h
+	include/RE/A/AStarSearch.h
 	include/RE/A/AbsorbEffect.h
 	include/RE/A/AbstractHeap.h
 	include/RE/A/AccumulatingValueModifierEffect.h
@@ -1685,6 +1688,10 @@ set(SOURCES
 	include/RE/N/NativeLatentFunction.h
 	include/RE/N/NavMesh.h
 	include/RE/N/NavMeshInfoMap.h
+	include/RE/N/NavMeshSearchClosePoint.h
+	include/RE/N/NavMeshSearchFitSphere.h
+	include/RE/N/NavMeshSearchFlee.h
+	include/RE/N/NavMeshSearchLOS.h
 	include/RE/N/NavmeshCostFilterRule.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
 	include/RE/N/NextChildSelector.h
