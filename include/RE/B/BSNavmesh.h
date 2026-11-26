@@ -140,7 +140,7 @@ namespace RE
 		float                                rowSectionLen;     // 08
 		NiPoint3                             gridBoundsMin;     // 0C
 		NiPoint3                             gridBoundsMax;     // 18
-		std::uint32_t                        pad24;             // 14
+		std::uint32_t                        pad24;             // 24
 		SimpleArray<BSTArray<std::uint16_t>> gridData;          // 28
 	};
 	static_assert(sizeof(BSNavmeshGrid) == 0x30);

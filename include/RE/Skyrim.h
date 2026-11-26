@@ -1841,6 +1841,7 @@
 #include "RE/P/PathFollowerTurnTarget.h"
 #include "RE/P/Pathing.h"
 #include "RE/P/PathingCell.h"
+#include "RE/P/PathingCoverLocation.h"
 #include "RE/P/PathingDoor.h"
 #include "RE/P/PathingLockData.h"
 #include "RE/P/PathingRequest.h"
