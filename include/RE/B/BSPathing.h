@@ -54,6 +54,28 @@ namespace RE
 
 	struct BSPathingSolution : BSIntrusiveRefCounted
 	{
+	public:
+		bool FindClosestPointOnVirtualPath(const BSPathingLocation& a_position, BSPathingLocation& a_locationOut, float& a_pathPositionOut) const
+		{
+			using func_t = bool(const BSPathingSolution*, const BSPathingLocation&, BSPathingLocation&, float&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88551, 90987) };
+			return func(this, a_position, a_locationOut, a_pathPositionOut);
+		}
+
+		bool GetVirtualLocationAtPathPosition(float a_pathPosition, BSPathingLocation& a_locationOut) const
+		{
+			using func_t = bool(const BSPathingSolution*, float, BSPathingLocation&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88555, 90991) };
+			return func(this, a_pathPosition, a_locationOut);
+		}
+
+		bool FindVirtualPathPositionAtDistance(float a_pathPosition, float a_distance, bool a_forward, float& a_pathPositionOut, BSPathingLocation& a_locationOut) const
+		{
+			using func_t = bool(const BSPathingSolution*, float, float, bool, float&, BSPathingLocation&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88556, 90992) };
+			return func(this, a_pathPosition, a_distance, a_forward, a_pathPositionOut, a_locationOut);
+		}
+
 		BSTSmallArray<BSVirtualPathingNode, 2> virtualPathingNodes;          // 08
 		std::int32_t                           firstLoadedVirtualNodeIndex;  // 88
 		std::int32_t                           lastLoadedVirtualNodeIndex;   // 8C

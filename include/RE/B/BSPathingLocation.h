@@ -48,6 +48,20 @@ namespace RE
 			func(this, a_stream);
 		}
 
+		void SetPositionAndCell(const NiPoint3& a_position, const BSTSmartPointer<BSPathingCell>& a_cell)
+		{
+			using func_t = void(BSPathingLocation*, const NiPoint3&, const BSTSmartPointer<BSPathingCell>&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87994, 90378) };
+			func(this, a_position, a_cell);
+		}
+
+		BSTSmartPointer<BSPathingCell>& GetPathingCellRef()
+		{
+			using func_t = BSTSmartPointer<BSPathingCell>&(BSPathingLocation*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87980, 90364) };
+			return func(this);
+		}
+
 		// members
 		NiPoint3                       location;          // 00
 		BSNavmeshInfo*                 navMeshInfo;       // 10
