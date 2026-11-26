@@ -373,6 +373,7 @@ set(SOURCES
 	include/RE/B/BSNavmeshInfoMap.h
 	include/RE/B/BSNavmeshInfoSearch.h
 	include/RE/B/BSNavmeshSearch.h
+	include/RE/B/BSNavmeshSearchFilters.h
 	include/RE/B/BSNiAllocator.h
 	include/RE/B/BSNiNode.h
 	include/RE/B/BSOcclusionBox.h
@@ -1692,7 +1693,9 @@ set(SOURCES
 	include/RE/N/NavMeshSearchFitSphere.h
 	include/RE/N/NavMeshSearchFlee.h
 	include/RE/N/NavMeshSearchLOS.h
+	include/RE/N/NavMeshSearchMultipleGoals.h
 	include/RE/N/NavmeshCostFilterRule.h
+	include/RE/N/NavmeshCostFilterSet.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
 	include/RE/N/NextChildSelector.h
 	include/RE/N/NiAVObject.h
