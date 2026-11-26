@@ -15,7 +15,10 @@ namespace RE
 		bool IsGoalNode(AStarNode* a_node) override;  // 02
 
 		// members
-		std::uint8_t pad1B0[0x28];        // 1B0
+		NiPoint3     goalPoint;           // 1B0
+		NiPoint3     lateralDirection;    // 1BC
+		NiPoint3     lateralOrigin;       // 1C8
+		std::uint8_t pad1D4[4];           // 1D4
 		void*        request;             // 1D8
 		void*        secondaryNavmeshes;  // 1E0
 		void*        loadedNavmeshes;     // 1E8

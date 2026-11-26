@@ -402,6 +402,7 @@ set(SOURCES
 	include/RE/B/BSPathingGoalDescriptor.h
 	include/RE/B/BSPathingHermiteSegment.h
 	include/RE/B/BSPathingLocation.h
+	include/RE/B/BSPathingLockData.h
 	include/RE/B/BSPathingRequest.h
 	include/RE/B/BSPathingSearchParameters.h
 	include/RE/B/BSPathingStreamRead.h
@@ -729,6 +730,7 @@ set(SOURCES
 	include/RE/C/CombatPath.h
 	include/RE/C/CombatProjectileAimController.h
 	include/RE/C/CombatSearchLocation.h
+	include/RE/C/CombatSearchLockData.h
 	include/RE/C/CombatState.h
 	include/RE/C/CombatTargetLocation.h
 	include/RE/C/CombatTargetLocationSearch.h
@@ -1837,6 +1839,7 @@ set(SOURCES
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
 	include/RE/P/PathingDoor.h
+	include/RE/P/PathingLockData.h
 	include/RE/P/PathingRequest.h
 	include/RE/P/PathingRequestClosePoint.h
 	include/RE/P/PathingRequestClosestGoal.h
