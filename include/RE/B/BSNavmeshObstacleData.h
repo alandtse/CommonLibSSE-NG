@@ -6,7 +6,7 @@
 
 namespace RE
 {
-	class BSNavmeshInfo;
+	struct BSNavmeshInfo;
 	class bhkRigidBody;
 	class NiRefObject;
 
