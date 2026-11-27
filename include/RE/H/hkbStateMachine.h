@@ -70,28 +70,28 @@ namespace RE
 		~hkbStateMachine() override;  // 00
 
 		// override (hkbGenerator)
-		hkClass* GetClassType() const override;                                                                     // 01
-		void     CalcContentStatistics(hkStatisticsCollector* a_collector, const hkClass* a_class) const override;  // 02
-		void     Unk_03(void) override;                                                                             // 03
-		void     Activate(const hkbContext& a_context) override;                                                    // 04
-		void     Update(const hkbContext& a_context, float a_timestep) override;                                    // 05
-		void     handleEvent(const hkbContext& context, const hkbEvent e) override;                                 // 06
-		void     Deactivate(const hkbContext& a_context) override;                                                  // 07
-		void     Unk_08(void) override;                                                                             // 08
-		void     Unk_09(void) override;                                                                             // 09
-		void     Unk_0A(void) override;                                                                             // 0A
-		void     Unk_0C(void) override;                                                                             // 0C
-		void     Unk_0D(void) override;                                                                             // 0D
-		void     Unk_0E(void) override;                                                                             // 0E
-		void     Unk_0F(void) override;                                                                             // 0F
-		void     Unk_10(void) override;                                                                             // 10
-		void     Unk_11(void) override;                                                                             // 11
-		void     Unk_12(void) override;                                                                             // 12
-		void     Unk_14(void) override;                                                                             // 14
-		void     Generate(const hkbContext& a_context) override;                                                    // 17
-		void     Unk_18(void) override;                                                                             // 18 - { return 1; }
-		void     UpdateSync(const hkbContext& a_context) override;                                                  // 19
-		void     Unk_1B(void) override;                                                                             // 1B - { echoNextUpdate = true; }
+		hkClass* GetClassType() const override;                                                                                                                         // 01
+		void     CalcContentStatistics(hkStatisticsCollector* a_collector, const hkClass* a_class) const override;                                                      // 02
+		void     Unk_03(void) override;                                                                                                                                 // 03
+		void     Activate(const hkbContext& a_context) override;                                                                                                        // 04
+		void     Update(const hkbContext& a_context, float a_timestep) override;                                                                                        // 05
+		void     handleEvent(const hkbContext& context, const hkbEvent e) override;                                                                                     // 06
+		void     Deactivate(const hkbContext& a_context) override;                                                                                                      // 07
+		void     Unk_08(void) override;                                                                                                                                 // 08
+		void     Unk_09(void) override;                                                                                                                                 // 09
+		void     Unk_0A(void) override;                                                                                                                                 // 0A
+		void     Unk_0C(void) override;                                                                                                                                 // 0C
+		void     Unk_0D(void) override;                                                                                                                                 // 0D
+		void     Unk_0E(void) override;                                                                                                                                 // 0E
+		void     Unk_0F(void) override;                                                                                                                                 // 0F
+		void     Unk_10(void) override;                                                                                                                                 // 10
+		void     Unk_11(void) override;                                                                                                                                 // 11
+		void     Unk_12(void) override;                                                                                                                                 // 12
+		void     Unk_14(void) override;                                                                                                                                 // 14
+		void     Generate(const hkbContext& a_context, const hkbGeneratorOutput** a_activeChildrenOutputs, hkbGeneratorOutput& a_output, float a_timeOffset) override;  // 17
+		void     Unk_18(void) override;                                                                                                                                 // 18 - { return 1; }
+		void     UpdateSync(const hkbContext& a_context, void* a_nodeInfo) override;                                                                                    // 19
+		void     Unk_1B(void) override;                                                                                                                                 // 1B - { echoNextUpdate = true; }
 
 		// members
 		hkbEvent                                                   eventToSendWhenStateOrTransitionChanges;  // 048

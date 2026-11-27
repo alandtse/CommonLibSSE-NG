@@ -221,11 +221,11 @@ namespace RE
 		return baseMethod(this);
 	}
 
-	void BSLightingShaderMaterialBase::ReceiveValuesFromRootMaterial(bool skinned, bool rimLighting, bool softLighting, bool backLighting, bool MSN)
+	void BSLightingShaderMaterialBase::ReceiveValuesFromRootMaterial(bool a_skinned, bool a_rimLighting, bool a_softLighting, bool a_backLighting, bool a_MSN, const char* a_rootName, const char* a_geometryName)
 	{
 		auto vtable = REL::Relocation<uintptr_t***>(BSLightingShaderMaterialBase::VTABLE[0]);
-		auto baseMethod = reinterpret_cast<void (*)(BSLightingShaderMaterialBase*, bool, bool, bool, bool, bool)>((vtable.get()[0xA]));
-		return baseMethod(this, skinned, rimLighting, softLighting, backLighting, MSN);
+		auto baseMethod = reinterpret_cast<void (*)(BSLightingShaderMaterialBase*, bool, bool, bool, bool, bool, const char*, const char*)>((vtable.get()[0xA]));
+		return baseMethod(this, a_skinned, a_rimLighting, a_softLighting, a_backLighting, a_MSN, a_rootName, a_geometryName);
 	}
 
 	uint32_t BSLightingShaderMaterialBase::GetTextures(NiSourceTexture** textures)

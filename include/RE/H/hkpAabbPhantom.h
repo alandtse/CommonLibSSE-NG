@@ -24,7 +24,7 @@ namespace RE
 		hkpPhantomType GetType() const override;                                                                          // 06
 		void           CalcAabb(hkAabb& a_aabb) override;                                                                 // 07
 		void           AddOverlappingCollidable(hkpCollidable* a_collidable) override;                                    // 08
-		bool           IsOverlappingCollidableAdded(const hkpCollidable* a_collidable) override;                          // 09
+		hkBool         IsOverlappingCollidableAdded(const hkpCollidable* a_collidable) override;                          // 09
 		void           RemoveOverlappingCollidable(hkpCollidable* a_collidable) override;                                 // 0A
 		void           EnsureDeterministicOrder() override;                                                               // 0B
 		hkpPhantom*    Clone() const override;                                                                            // 0C

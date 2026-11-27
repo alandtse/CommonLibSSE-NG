@@ -99,7 +99,7 @@ namespace RE
 
 		// override (NiAccumulator)
 		void                            StartAccumulating(NiCamera* a_camera) override;                        // 25
-		void                            FinishAccumulating() override;                                         // 26
+		void                            FinishAccumulating(std::uint32_t a_flags) override;                    // 26
 		BSBatchRenderer::GeometryGroup* StartGroupingAlphas(NiBound* a_bound) override;                        // 28
 		void                            StopGroupingAlphas(BSBatchRenderer::GeometryGroup* a_group) override;  // 29
 

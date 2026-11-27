@@ -17,14 +17,14 @@ namespace RE
 		~BSLightingShaderMaterialGlowmap() override;  // 00
 
 		// override (BSLightingShaderMaterialBase)
-		BSShaderMaterial* Create() override;                                                                                                                 // 01
-		void              CopyMembers(BSShaderMaterial* a_other) override;                                                                                   // 02
-		std::uint32_t     ComputeCRC32(uint32_t srcHash) override;                                                                                           // 04
-		Feature           GetFeature() const override;                                                                                                       // 06 - { return Feature::kGlowMap; }
-		void              OnLoadTextureSet(std::uint64_t a_arg1, BSTextureSet* a_textureSet) override;                                                       // 08
-		void              ClearTextures() override;                                                                                                          // 09
-		void              ReceiveValuesFromRootMaterial(bool a_skinned, bool a_rimLighting, bool a_softLighting, bool a_backLighting, bool a_MSN) override;  // 0A
-		uint32_t          GetTextures(NiSourceTexture** textures) override;                                                                                  // 0B
+		BSShaderMaterial* Create() override;                                                                                                                                                                     // 01
+		void              CopyMembers(BSShaderMaterial* a_other) override;                                                                                                                                       // 02
+		std::uint32_t     ComputeCRC32(uint32_t srcHash) override;                                                                                                                                               // 04
+		Feature           GetFeature() const override;                                                                                                                                                           // 06 - { return Feature::kGlowMap; }
+		void              OnLoadTextureSet(std::uint64_t a_arg1, BSTextureSet* a_textureSet) override;                                                                                                           // 08
+		void              ClearTextures() override;                                                                                                                                                              // 09
+		void              ReceiveValuesFromRootMaterial(bool a_skinned, bool a_rimLighting, bool a_softLighting, bool a_backLighting, bool a_MSN, const char* a_rootName, const char* a_geometryName) override;  // 0A
+		uint32_t          GetTextures(NiSourceTexture** textures) override;                                                                                                                                      // 0B
 
 		// members
 		NiPointer<NiSourceTexture> glowTexture;  // A0

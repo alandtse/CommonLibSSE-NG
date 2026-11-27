@@ -2351,9 +2351,9 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::PrecacheData)>(0x120, 0x122, this);
 	}
 
-	void Actor::WornArmorChanged()
+	void Actor::WornArmorChanged(TESBoundObject* a_item)
 	{
-		RelocateVirtual<decltype(&Actor::WornArmorChanged)>(0x121, 0x123, this);
+		RelocateVirtual<decltype(&Actor::WornArmorChanged)>(0x121, 0x123, this, a_item);
 	}
 
 	void Actor::ProcessTracking(float a_delta, NiAVObject* a_obj3D)

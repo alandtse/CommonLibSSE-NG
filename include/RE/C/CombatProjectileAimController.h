@@ -23,7 +23,7 @@ namespace RE
 
 		// override (CombatAimController)
 		bool                                         CanFireAtTarget(const NiPoint3* a_arg2, const NiPoint3* a_arg3) override;  // 05
-		bool                                         CanFireNow() override;                                                     // 06
+		bool                                         CanFireNow(void* a_arg1) override;                                         // 06
 		bool                                         IsFacingTarget(float a_tolerance) override;                                // 07
 		void                                         Update() override;                                                         // 08
 		[[nodiscard]] CombatProjectileAimController* Clone() override;                                                          // 09

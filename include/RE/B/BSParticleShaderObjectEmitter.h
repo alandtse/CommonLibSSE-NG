@@ -16,7 +16,7 @@ namespace RE
 		NiAVObject* GetBoundsObject() override;  // 02
 
 		// add
-		virtual void          CollectObjects(NiAVObject* a_targetRoot, std::uint16_t a_depthLimit, std::uint16_t a_arg3, bool a_nodeFilterFunc(const BSFixedString&)) = 0;  // 03
+		virtual void          CollectObjects(NiAVObject* a_targetRoot, std::uint16_t a_depthLimit, std::uint16_t a_arg3, bool a_nodeFilterFunc(const BSFixedString&)) = 0;  // 04
 		virtual std::uint32_t GetObjectCount() = 0;                                                                                                                         // 05
 		virtual NiAVObject*   GetObjectAt(std::size_t a_index) = 0;                                                                                                         // 06
 
