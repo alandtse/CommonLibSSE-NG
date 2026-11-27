@@ -21,7 +21,7 @@ namespace RE
 		std::uint8_t               flags;          // 10
 		TESWaterForm*              waterType;      // 18
 		std::uint32_t              unk20;          // 20 - noiseScale?
-		BSWaterShaderMaterial*     waterMaterial;  // 28
+		BSWaterShaderMaterial*     waterMaterial;  // 28 - non-owning, no ref held
 		NiPointer<NiSourceTexture> noiseLayer0;    // 30
 		NiPointer<NiSourceTexture> noiseLayer1;    // 38
 		NiPointer<NiSourceTexture> noiseLayer2;    // 40

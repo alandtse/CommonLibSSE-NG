@@ -56,7 +56,7 @@ namespace RE
 		NiPointer<BSCubeMapCamera>         cubeMapCamera;          // 28
 		NiPointer<BSShaderAccumulator>     sorter;                 // 30
 		BSCullingProcess*                  cullingProcess;         // 38
-		BSWaterShaderMaterial*             waterMaterial;          // 40
+		BSWaterShaderMaterial*             waterMaterial;          // 40 - non-owning, no ref held
 		float                              reflectionUpdateTimer;  // 48
 		std::uint32_t                      currentCubeMapFace;     // 4C
 		CubeMapSide                        cubeMapSides[6];        // 50
