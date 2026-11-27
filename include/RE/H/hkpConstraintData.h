@@ -85,7 +85,7 @@ namespace RE
 		virtual hkResult          SetInertiaStabilizationFactor(const hkReal a_inertiaStabilizationFactorIn);                                             // 07
 		virtual void              SetBodyToNotify(std::int32_t a_bodyIdx);                                                                                // 08
 		virtual std::uint8_t      GetNotifiedBodyIndex() const;                                                                                           // 09 - { return 0xff; }
-		virtual bool              IsValid() const = 0;                                                                                                    // 0A
+		virtual hkBool            IsValid() const = 0;                                                                                                    // 0A
 		virtual std::int32_t      GetType() const = 0;                                                                                                    // 0B
 		virtual void              GetRuntimeInfo(bool a_wantRuntime, RuntimeInfo& a_infoOut) const = 0;                                                   // 0C
 		virtual hkpSolverResults* GetSolverResults(hkpConstraintRuntime* a_runtime);                                                                      // 0D

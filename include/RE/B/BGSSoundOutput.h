@@ -106,15 +106,15 @@ namespace RE
 		void InitItemImpl() override;        // 13
 
 		// override (BSISoundOutputModel)
-		bool                                 DoGetUsesHRTF() const override;                                                                   // 01 - { return type == kUsesHRTF; }
-		bool                                 DoGetHasSpeakerBias() const override;                                                             // 02 - { return type == kDefinedSpeakerOutput; }
-		bool                                 DoGetSpeakerBias(std::uint32_t a_arg1, std::uint32_t a_arg2, float (&a_arg3)[8]) const override;  // 03
-		bool                                 DoGetAttenuatesWithDistance() const override;                                                     // 04 - { return data.flags & 1; }
-		bool                                 DoGetAudibility(float a_distance) const override;                                                 // 05 - { float maxDistance = attenuationValues ? attenuationValues->GetMaxDistance() : 3.4028235e38; return a_distance > maxDistance; }
-		std::uint32_t                        DoGetSupportedInputChannels() const override;                                                     // 06 - { return 2; }
-		const BSIAttenuationCharacteristics* DoGetAttenuation() const override;                                                                // 07 - { return attenuationValues; }
-		float                                DoGetReverbSendLevel() const override;                                                            // 08 - { return data.reverbSendPct * 0.0099999998; }
-		[[nodiscard]] bool                   DoGetSupportsMonitor(std::uint32_t a_arg1) const override;                                        // 09
+		bool                                 DoGetUsesHRTF() const override;                                                                                    // 01 - { return type == kUsesHRTF; }
+		bool                                 DoGetHasSpeakerBias() const override;                                                                              // 02 - { return type == kDefinedSpeakerOutput; }
+		bool                                 DoGetSpeakerBias(std::uint32_t a_arg1, std::uint32_t a_arg2, std::uint32_t a_count, float* a_out) const override;  // 03
+		bool                                 DoGetAttenuatesWithDistance() const override;                                                                      // 04 - { return data.flags & 1; }
+		bool                                 DoGetAudibility(float a_distance) const override;                                                                  // 05 - { float maxDistance = attenuationValues ? attenuationValues->GetMaxDistance() : 3.4028235e38; return a_distance > maxDistance; }
+		std::uint32_t                        DoGetSupportedInputChannels() const override;                                                                      // 06 - { return 2; }
+		const BSIAttenuationCharacteristics* DoGetAttenuation() const override;                                                                                 // 07 - { return attenuationValues; }
+		float                                DoGetReverbSendLevel() const override;                                                                             // 08 - { return data.reverbSendPct * 0.0099999998; }
+		[[nodiscard]] bool                   DoGetSupportsMonitor(std::uint32_t a_arg1) const override;                                                         // 09
 
 		// members
 		Data                               data;            // 28 - NAM1

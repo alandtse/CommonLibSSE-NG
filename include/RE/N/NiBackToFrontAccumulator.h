@@ -26,7 +26,7 @@ namespace RE
 		bool                        IsEqual(NiObject* a_object) override;                      // 1C
 
 		// override (NiAccumulator)
-		void FinishAccumulating() override;                                 // 26
+		void FinishAccumulating(std::uint32_t a_flags) override;            // 26
 		void RegisterObjectArray(NiVisibleArray& a_visibleArray) override;  // 27
 
 		void ClearItemsList();

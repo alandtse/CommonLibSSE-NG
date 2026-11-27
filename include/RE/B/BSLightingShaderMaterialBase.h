@@ -28,12 +28,12 @@ namespace RE
 		Type              GetType() const override;                         // 07 - { return Type::kLighting; }
 
 		// add
-		virtual void     OnLoadTextureSet(std::uint64_t arg1, BSTextureSet* inTextureSet);                                               // 08
-		virtual void     ClearTextures();                                                                                                // 09
-		virtual void     ReceiveValuesFromRootMaterial(bool skinned, bool rimLighting, bool softLighting, bool backLighting, bool MSN);  // 0A
-		virtual uint32_t GetTextures(NiSourceTexture** textures);                                                                        // 0B
-		virtual void     SaveBinary(NiStream& stream);                                                                                   // 0C
-		virtual void     LoadBinary(NiStream& stream);                                                                                   // 0D
+		virtual void     OnLoadTextureSet(std::uint64_t arg1, BSTextureSet* inTextureSet);                                                                                                             // 08
+		virtual void     ClearTextures();                                                                                                                                                              // 09
+		virtual void     ReceiveValuesFromRootMaterial(bool a_skinned, bool a_rimLighting, bool a_softLighting, bool a_backLighting, bool a_MSN, const char* a_rootName, const char* a_geometryName);  // 0A
+		virtual uint32_t GetTextures(NiSourceTexture** textures);                                                                                                                                      // 0B
+		virtual void     SaveBinary(NiStream& stream);                                                                                                                                                 // 0C
+		virtual void     LoadBinary(NiStream& stream);                                                                                                                                                 // 0D
 
 		static BSLightingShaderMaterialBase* CreateMaterial(Feature a_feature);
 		template <class T>

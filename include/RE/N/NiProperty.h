@@ -4,6 +4,8 @@
 
 namespace RE
 {
+	class NiUpdateData;
+
 	class NiProperty : public NiObjectNET
 	{
 	public:
@@ -29,8 +31,8 @@ namespace RE
 		void          ProcessClone(NiCloningProcess& a_cloning) override;  // 1D
 
 		// add
-		[[nodiscard]] virtual Type GetType() const = 0;   // 25
-		virtual void               Update(float a_time);  // 26
+		[[nodiscard]] virtual Type GetType() const = 0;           // 25
+		virtual void               Update(NiUpdateData& a_data);  // 26
 	};
 	static_assert(sizeof(NiProperty) == 0x30);
 }

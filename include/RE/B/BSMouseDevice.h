@@ -13,7 +13,7 @@ namespace RE
 		~BSMouseDevice() override;  // 00
 
 		// add
-		virtual void Reinitialize(void);  // 09 - { return; }
+		virtual void Reinitialize(bool a_backgroundMouse);  // 09 - { return; }
 
 		struct RUNTIME_DATA
 		{

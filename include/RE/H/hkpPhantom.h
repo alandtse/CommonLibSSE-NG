@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/H/hkArray.h"
+#include "RE/H/hkBaseTypes.h"
 #include "RE/H/hkpPhantomType.h"
 #include "RE/H/hkpWorldObject.h"
 
@@ -26,7 +27,7 @@ namespace RE
 		virtual hkpPhantomType GetType() const = 0;                                                  // 06
 		virtual void           CalcAabb(hkAabb& a_aabb) = 0;                                         // 07
 		virtual void           AddOverlappingCollidable(hkpCollidable* a_collidable) = 0;            // 08
-		virtual bool           IsOverlappingCollidableAdded(const hkpCollidable* a_collidable) = 0;  // 09
+		virtual hkBool         IsOverlappingCollidableAdded(const hkpCollidable* a_collidable) = 0;  // 09
 		virtual void           RemoveOverlappingCollidable(hkpCollidable* a_collidable) = 0;         // 0A
 		virtual void           EnsureDeterministicOrder() = 0;                                       // 0B
 		virtual hkpPhantom*    Clone() const = 0;                                                    // 0C

@@ -37,13 +37,13 @@ namespace RE
 #else
 		void Unk_06(void);  // 06 - Multi-runtime (non-virtual)
 #endif
-		void Deactivate(const hkbContext& a_context) override;  // 07
-		void Unk_09(void) override;                             // 09
-		void Unk_0C(void) override;                             // 0C
-		void Unk_16(void) override;                             // 16 - { return 1; }
-		void Generate(const hkbContext& a_context) override;    // 17
-		void Unk_18(void) override;                             // 18 - { return 1; }
-		void UpdateSync(const hkbContext& a_context) override;  // 19
+		void Deactivate(const hkbContext& a_context) override;                                                                                                      // 07
+		void Unk_09(void) override;                                                                                                                                 // 09
+		void Unk_0C(void) override;                                                                                                                                 // 0C
+		void Unk_16(void) override;                                                                                                                                 // 16 - { return 1; }
+		void Generate(const hkbContext& a_context, const hkbGeneratorOutput** a_activeChildrenOutputs, hkbGeneratorOutput& a_output, float a_timeOffset) override;  // 17
+		void Unk_18(void) override;                                                                                                                                 // 18 - { return 1; }
+		void UpdateSync(const hkbContext& a_context, void* a_nodeInfo) override;                                                                                    // 19
 
 		// members
 		REX::EnumSet<VariableMode, std::uint8_t> variableMode;                     // 048

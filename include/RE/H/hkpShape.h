@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/C/CFilter.h"
+#include "RE/H/hkBaseTypes.h"
 #include "RE/H/hkReferencedObject.h"
 #include "RE/H/hkSseMathTypes.h"
 #include "RE/H/hkpShapeBuffer.h"
@@ -110,7 +111,7 @@ namespace RE
 		virtual bool                     IsConvex() const;                                                                                                                              // 05 - { return false; }
 		virtual std::int32_t             CalcSizeForSpu(const CalcSizeForSpuInput& a_input, std::int32_t a_spuBufferSizeLeft) const;                                                    // 06 - { return -1; }
 		virtual void                     GetAabbImpl(const hkTransform& a_localToWorld, float a_tolerance, hkAabb& a_out) const = 0;                                                    // 07
-		virtual bool                     CastRayImpl(const hkpShapeRayCastInput& a_input, hkpShapeRayCastOutput& a_output) const = 0;                                                   // 08
+		virtual hkBool                   CastRayImpl(const hkpShapeRayCastInput& a_input, hkpShapeRayCastOutput& a_output) const = 0;                                                   // 08
 		virtual void                     CastRayWithCollectorImpl(const hkpShapeRayCastInput& a_input, const hkpCdBody& a_cdBody, hkpRayHitCollector& a_collector) const = 0;           // 09
 		virtual hkVector4Comparison      CastRayBundleImpl(const hkpShapeRayBundleCastInput& a_input, hkpShapeRayBundleCastOutput& a_output, const hkVector4Comparison& a_mask) const;  // 0A
 

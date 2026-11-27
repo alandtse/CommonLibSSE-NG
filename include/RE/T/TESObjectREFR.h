@@ -5,6 +5,7 @@
 #include "RE/B/BSHandleRefObject.h"
 #include "RE/B/BSPointerHandle.h"
 #include "RE/B/BSResourceHandle.h"
+#include "RE/B/BSString.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTList.h"
@@ -291,7 +292,7 @@ namespace RE
 		[[nodiscard]] virtual NiAVObject*                       Get3D1(bool a_firstPerson) const;                                                                                                                                                                            // 6F - { return Get3D2(); }
 		[[nodiscard]] virtual NiAVObject*                       Get3D2() const;                                                                                                                                                                                              // 70
 		[[nodiscard]] virtual bool                              Is3rdPersonVisible() const;                                                                                                                                                                                  // 71 - { return true; }
-		virtual bool                                            PopulateGraphProjectsToLoad(void) const;                                                                                                                                                                     // 72
+		virtual bool                                            PopulateGraphProjectsToLoad(NiNode* a_root, BSScrapArray<BSStaticStringT<260>>& a_projects) const;                                                                                                           // 72
 		[[nodiscard]] virtual NiPoint3                          GetBoundMin() const;                                                                                                                                                                                         // 73
 		[[nodiscard]] virtual NiPoint3                          GetBoundMax() const;                                                                                                                                                                                         // 74
 		virtual void                                            Unk_75(void);                                                                                                                                                                                                // 75 - { return 0; }

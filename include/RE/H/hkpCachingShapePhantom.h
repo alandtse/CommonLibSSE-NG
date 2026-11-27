@@ -33,7 +33,7 @@ namespace RE
 		void           CalcContentStatistics(hkStatisticsCollector* a_collector, const hkClass* a_class) const override;                                                                                    // 02
 		hkpPhantomType GetType() const override;                                                                                                                                                            // 06 - { return hkpPhantomType::kCachingShape; }
 		void           AddOverlappingCollidable(hkpCollidable* a_collidable) override;                                                                                                                      // 08
-		bool           IsOverlappingCollidableAdded(const hkpCollidable* a_collidable) override;                                                                                                            // 09
+		hkBool         IsOverlappingCollidableAdded(const hkpCollidable* a_collidable) override;                                                                                                            // 09
 		void           RemoveOverlappingCollidable(hkpCollidable* a_collidable) override;                                                                                                                   // 0A
 		void           EnsureDeterministicOrder() override;                                                                                                                                                 // 0B
 		hkpPhantom*    Clone() const override;                                                                                                                                                              // 0C

@@ -29,7 +29,7 @@ namespace RE
 
 		// add
 		virtual void                            StartAccumulating(NiCamera* a_camera);                        // 25
-		virtual void                            FinishAccumulating();                                         // 26
+		virtual void                            FinishAccumulating(std::uint32_t a_flags);                    // 26
 		virtual void                            RegisterObjectArray(NiVisibleArray& a_visibleArray);          // 27
 		virtual BSBatchRenderer::GeometryGroup* StartGroupingAlphas(NiBound* a_bound);                        // 28
 		virtual void                            StopGroupingAlphas(BSBatchRenderer::GeometryGroup* a_group);  // 29

@@ -62,7 +62,7 @@ namespace RE
 		bool                          GetDeviceButtonNameFromID(INPUT_DEVICE a_device, std::uint32_t a_key, BSFixedString& a_mapping);
 		bool                          GetDeviceKeyCodeFromID(INPUT_DEVICE a_device, std::uint32_t a_key, std::uint32_t& a_outKeyCode);
 		void                          ProcessGamepadEnabledChange();
-		void                          ReinitializeMouse();
+		void                          ReinitializeMouse(bool a_backgroundMouse);
 		void                          CreateInputDevices();
 		void                          ResetInputDevices();
 		void                          DestroyInputDevices();
