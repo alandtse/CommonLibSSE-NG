@@ -1,7 +1,12 @@
 #pragma once
 
+#include "RE/B/BSAtomic.h"
+#include "RE/B/BSPointerHandle.h"
+#include "RE/C/CombatAimController.h"
+#include "RE/C/CombatCoverLocation.h"
 #include "RE/C/CombatObject.h"
 #include "RE/N/NiPoint3.h"
+#include "RE/N/NiSmartPointer.h"
 
 namespace RE
 {
@@ -17,30 +22,30 @@ namespace RE
 		{
 		public:
 			// members
-			std::uint32_t handle00;     // 00
-			std::uint32_t unk04;        // 04
-			std::uint32_t unk08;        // 08
-			std::uint32_t unk0C;        // 0C
-			std::uint8_t  unk10;        // 10
-			std::uint8_t  unk11;        // 11
-			std::byte     pad12[0x2];   // 12
-			std::uint32_t unk14;        // 14
-			std::uint32_t unk18;        // 18
-			NiPoint3      unk1C;        // 1C
-			NiPoint3      unk28;        // 28
-			std::byte     unk38[0x18];  // 38
-			CombatObject* unk50;        // 50
+			ActorHandle                    attackerHandle;          // 00
+			std::uint32_t                  mode;                    // 04
+			float                          attackerRadius;          // 08
+			float                          attackerBoundSize;       // 0C
+			std::uint8_t                   unk10;                   // 10
+			std::uint8_t                   unk11;                   // 11
+			std::byte                      pad12[0x2];              // 12
+			float                          minDistance;             // 14
+			float                          maxDistance;             // 18
+			NiPoint3                       attackerPosition;        // 1C
+			NiPoint3                       targetPosition;          // 28
+			std::byte                      secondaryThreats[0x18];  // 38
+			NiPointer<CombatAimController> aimController;           // 50
 		};
 		static_assert(sizeof(Params) == 0x58);
 
 		~CombatCoverSearch() override;  // 00
 
 		// members
-		Params                   params;  // 10
-		CombatCoverSearchResult* result;  // 68
-		std::uint32_t            unk70;   // 70
-		NiPoint3                 unk74;   // 74
-		void*                    unk80;   // 80
+		Params                   params;         // 10
+		CombatCoverSearchResult* result;         // 68
+		std::uint32_t            unk70;          // 70
+		NiPoint3                 foundPosition;  // 74
+		BSSpinLock               lock;           // 80
 	};
 	static_assert(sizeof(CombatCoverSearch) == 0x88);
 
@@ -53,8 +58,8 @@ namespace RE
 		~CombatCoverSearchResult() override;  // 00
 
 		// members
-		CombatCoverSearch* coverSearch;  // 10
-		CombatObject*      unk18;        // 18
+		CombatCoverSearch*             coverSearch;  // 10
+		NiPointer<CombatCoverLocation> location;     // 18
 	};
 	static_assert(sizeof(CombatCoverSearchResult) == 0x20);
 }

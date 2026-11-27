@@ -10,12 +10,21 @@ namespace RE
 	class CombatTargetLocation : public CombatObject
 	{
 	public:
+		struct AngleRange
+		{
+			float angle;     // 00
+			float width;     // 04
+			float minAngle;  // 08
+			float maxAngle;  // 0C
+		};
+		static_assert(sizeof(AngleRange) == 0x10);
+
 		TES_HEAP_REDEFINE_NEW();
 
 		// members
 		ActorHandle   actor;         // 10
 		FormID        targetFormID;  // 14
-		float         angle[4];      // 18
+		AngleRange    angle;         // 18
 		NiPoint3      offset;        // 28
 		std::uint32_t pad34;         // 34
 	};

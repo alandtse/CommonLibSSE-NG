@@ -22,9 +22,9 @@ namespace RE
 		CombatController* combatController;  // 10
 		TESForm*          unk18;             // 18
 		AITimer           unk20;             // 20
-		std::uint32_t     unk28;             // 28
-		std::uint8_t      unk2C;             // 2C
-		std::uint8_t      unk2D;             // 2D
+		std::int32_t      priority;          // 28
+		bool              enabled;           // 2C
+		bool              selectable;        // 2D
 	};
 	static_assert(sizeof(CombatArea) == 0x30);
 
