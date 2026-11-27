@@ -107,6 +107,13 @@ namespace RE
 		void SetValue(std::uint32_t a_idx, float a_value);
 		void Reset();
 
+		static std::int32_t GetDialogueExpression(std::uint32_t a_emotion)
+		{
+			using func_t = std::int32_t(std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26463, 27058) };
+			return func(a_emotion);
+		}
+
 		// members
 		float*        values;     // 10
 		std::uint32_t count;      // 18

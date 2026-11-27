@@ -250,6 +250,13 @@ namespace RE
 			func(this, a_bounds);
 		}
 
+		void QueueAttachedCellReferenceLoads()
+		{
+			using func_t = void(TES*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13236, 13387) };
+			func(this);
+		}
+
 		// members
 		std::uint64_t                                       unk070;                     // 070
 		GridCellArray*                                      gridCells;                  // 078

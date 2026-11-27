@@ -16,6 +16,7 @@
 
 namespace RE
 {
+	class NiAVObject;
 	class BSFaceGenNiNode;
 	class MenuOpenCloseEvent;
 	class NiColorA;
@@ -291,6 +292,27 @@ namespace RE
 			using func_t = TESPackage*(TESNPC*, Actor*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(24168, 24672) };
 			return func(this, a_actor);
+		}
+
+		void ApplySkinnyMorph(NiAVObject* a_geometry)
+		{
+			using func_t = void(TESNPC*, NiAVObject*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24208, 24712) };
+			func(this, a_geometry);
+		}
+
+		bool PreparePreprocessedHeadPart(BSFaceGenNiNode** a_headNode, BGSHeadPart* a_headPart)
+		{
+			using func_t = bool(TESNPC*, BSFaceGenNiNode**, BGSHeadPart*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24224, 24728) };
+			return func(this, a_headNode, a_headPart);
+		}
+
+		void AttachFaceGenModelData(NiAVObject* a_geometry, BGSHeadPart* a_headPart, bool a_arg3)
+		{
+			using func_t = void(TESNPC*, NiAVObject*, BGSHeadPart*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24225, 24729) };
+			func(this, a_geometry, a_headPart, a_arg3);
 		}
 
 		// members

@@ -31,6 +31,13 @@ namespace RE
 
 		~BSFaceGenModel() override;  // 00
 
+		bool LoadModel(const char* a_modelPath, const char* a_triPath, bool a_unk)
+		{
+			using func_t = bool(BSFaceGenModel*, const char*, const char*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26297, 26880) };
+			return func(this, a_modelPath, a_triPath, a_unk);
+		}
+
 		// members
 		BSTSmartPointer<BSFaceGenModelMeshData> modelMeshData;  // 10
 		std::uint32_t                           unk18;          // 18

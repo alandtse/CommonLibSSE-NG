@@ -26,6 +26,27 @@ namespace RE
 			return func(this);
 		}
 
+		static void InitStaticName()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(16169, 16401) };
+			func();
+		}
+
+		static void ReleaseStaticName()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(16170, 16402) };
+			func();
+		}
+
+		NiNode* CreateSplatterNode(std::uint16_t a_count)
+		{
+			using func_t = NiNode*(ScreenSplatter*, std::uint16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(16176, 16408) };
+			return func(this, a_count);
+		}
+
 		// members
 		std::uint8_t               pad01;                                            // 01
 		std::uint16_t              pad02;                                            // 02

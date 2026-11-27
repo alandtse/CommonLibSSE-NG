@@ -8,6 +8,8 @@
 
 namespace RE
 {
+	class NiUpdateData;
+	class NiCloningProcess;
 	class BSFaceGenAnimationData;
 	class NiNode;
 
@@ -48,6 +50,41 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void FixSkinInstances(NiNode* a_skeleton, bool a_arg2);  // 3E
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x128, 0x150);
+		void CopyMembers(BSFaceGenNiNode* a_target, NiCloningProcess& a_cloning)
+		{
+			using func_t = void(BSFaceGenNiNode*, BSFaceGenNiNode*, NiCloningProcess&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26401, 26981) };
+			func(this, a_target, a_cloning);
+		}
+
+		void ApplyMorph(std::uint32_t a_morphType, std::uint32_t a_index, float a_value)
+		{
+			using func_t = void(BSFaceGenNiNode*, std::uint32_t, std::uint32_t, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26412, 26993) };
+			func(this, a_morphType, a_index, a_value);
+		}
+
+		bool HasMorph(std::uint32_t a_morphType, std::uint32_t a_index)
+		{
+			using func_t = bool(BSFaceGenNiNode*, std::uint32_t, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26413, 26994) };
+			return func(this, a_morphType, a_index);
+		}
+
+		void UpdateBaseMorphs()
+		{
+			using func_t = void(BSFaceGenNiNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26414, 26995) };
+			func(this);
+		}
+
+		void UpdateFaceAnimation(NiUpdateData& a_data)
+		{
+			using func_t = void(BSFaceGenNiNode*, NiUpdateData&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26417, 26998) };
+			func(this, a_data);
+		}
+
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 128, 150

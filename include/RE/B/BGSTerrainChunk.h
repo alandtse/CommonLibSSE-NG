@@ -6,6 +6,7 @@
 
 namespace RE
 {
+	class NiTexture;
 	class BGSTerrainNode;
 
 	class BGSTerrainChunk
@@ -68,6 +69,13 @@ namespace RE
 			using func_t = void(bool);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(30945, 31748) };
 			func(a_release);
+		}
+
+		static NiTexture* GetNoiseTexture()
+		{
+			using func_t = NiTexture*();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30946, 31749) };
+			return func();
 		}
 
 		// members

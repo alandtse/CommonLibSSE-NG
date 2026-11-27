@@ -9,6 +9,7 @@
 
 namespace RE
 {
+	class NiCamera;
 	class BGSTerrainChunk;
 	class BGSTerrainNode;
 	class TESObjectCELL;
@@ -119,6 +120,20 @@ namespace RE
 		{
 			using func_t = void();
 			static REL::Relocation<func_t> func{ RELOCATION_ID(31031, 31817) };
+			func();
+		}
+
+		void UpdateMultiBoundVisibility(NiCamera* a_camera)
+		{
+			using func_t = void(BGSTerrainManager*, NiCamera*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31025, 31811) };
+			func(this, a_camera);
+		}
+
+		static void FlushResourceDBs()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31034, 31820) };
 			func();
 		}
 

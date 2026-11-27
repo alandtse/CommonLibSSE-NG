@@ -943,6 +943,13 @@ namespace RE
 			return func(this);
 		}
 
+		EmotionType GetCurrentSceneEmotion(std::uint32_t& a_emotionValue)
+		{
+			using func_t = EmotionType(Actor*, std::uint32_t&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36265, 37249) };
+			return func(this, a_emotionValue);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)
 		RUNTIME_DATA_CONTENT  // inlined for single-runtime builds; multi-runtime uses GetActorRuntimeData()
