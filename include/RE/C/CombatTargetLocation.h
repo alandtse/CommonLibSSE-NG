@@ -1,6 +1,9 @@
 #pragma once
 
+#include "RE/B/BSCoreTypes.h"
+#include "RE/B/BSPointerHandle.h"
 #include "RE/C/CombatObject.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
@@ -10,11 +13,11 @@ namespace RE
 		TES_HEAP_REDEFINE_NEW();
 
 		// members
-		uint32_t     field_10;  // 10
-		uint32_t     field_14;  // 14
-		float        angle[4];  // 18
-		RE::NiPoint3 V;         // 28
-		uint32_t     pad34;     // 34
+		ActorHandle   actor;         // 10
+		FormID        targetFormID;  // 14
+		float         angle[4];      // 18
+		NiPoint3      offset;        // 28
+		std::uint32_t pad34;         // 34
 	};
 	static_assert(sizeof(CombatTargetLocation) == 0x38);
 }

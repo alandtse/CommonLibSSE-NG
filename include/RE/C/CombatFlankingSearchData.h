@@ -14,16 +14,16 @@ namespace RE
 		~CombatFlankingSearchData() override;  // 00
 
 		// members
-		NiPoint3      unk10;           // 10
-		NiPoint3      unk1C;           // 1C
-		NiPoint3      unk28;           // 28
-		NiPoint3      unk34;           // 34
-		float         unk40;           // 40
-		float         unk44;           // 44
-		float         unk48;           // 48
-		float         unk4C;           // 4C
-		float         unk50;           // 50
-		float         unk54;           // 54
+		NiPoint3      startPosition;   // 10
+		NiPoint3      targetPosition;  // 1C
+		NiPoint3      startDirection;  // 28
+		NiPoint3      flankPosition;   // 34
+		float         startAngle;      // 40
+		float         goalAngle;       // 44
+		float         angleProgress;   // 48
+		float         startDistance;   // 4C
+		float         maxDistance;     // 50
+		float         minDistance;     // 54
 		std::uint32_t directionIndex;  // 58
 	};
 	static_assert(sizeof(CombatFlankingSearchData) == 0x60);

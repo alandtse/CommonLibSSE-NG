@@ -12,6 +12,7 @@ namespace RE
 	class BGSLoadGameBuffer;
 	class BGSSaveGameBuffer;
 	class CombatCoverSearch;
+	class CombatNavmeshSearch;
 
 	class CombatPathingSphere
 	{
@@ -48,7 +49,7 @@ namespace RE
 		NiPoint3                              goalLocation;          // 10
 		std::byte                             pad1C[0x4];            // 1C
 		NiPointer<CombatTargetLocationSearch> targetLocationSearch;  // 20
-		void*                                 search;                // 28
+		CombatNavmeshSearch*                  search;                // 28
 	};
 	static_assert(sizeof(CombatPathingGoalPolicyFindTargetLocation) == 0x30);
 

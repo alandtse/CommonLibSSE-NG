@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/C/CombatObject.h"
+#include "RE/N/NiSmartPointer.h"
 
 namespace RE
 {
@@ -11,8 +12,8 @@ namespace RE
 	{
 	public:
 		// members
-		CombatTargetLocationSearch* search;
-		CombatTargetLocation*       ans;
+		NiPointer<CombatTargetLocationSearch> search;    // 10
+		NiPointer<CombatTargetLocation>       location;  // 18
 	};
 	static_assert(sizeof(CombatTargetLocationSearchResult) == 0x20);
 }
