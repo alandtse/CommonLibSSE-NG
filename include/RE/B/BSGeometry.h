@@ -109,7 +109,7 @@ namespace RE
 
 		VR_ONLY_POINTER_ACCESSOR(VR_MODEL_BOUND_BOX, GetVRModelBoundBox, 0x148);
 		RUNTIME_DATA_ACCESSOR_EX(GEOMETRY_RUNTIME_DATA, GetGeometryRuntimeData, 0x120, 0x160);
-		using BSGeometryTypeSet = REX::EnumSet<Type, std::uint8_t>;
+		using BSGeometryTypeSet = REX::TEnumSet<Type, std::uint8_t>;
 		RUNTIME_DATA_ACCESSOR_EX(BSGeometryTypeSet, GetType, 0x150, 0x190);
 
 		inline BSLightingShaderProperty* lightingShaderProp_cast()
@@ -130,10 +130,10 @@ namespace RE
 		MODEL_DATA_CONTENT;    // 110, 138
 		RUNTIME_DATA_CONTENT;  // 120, 160
 #	if defined(EXCLUSIVE_SKYRIM_FLAT)
-		REX::EnumSet<Type, std::uint8_t> type;    // 150
-		std::uint8_t                     pad151;  // 151
-		std::uint16_t                    pad152;  // 152
-		std::uint32_t                    pad154;  // 154
+		REX::TEnumSet<Type, std::uint8_t> type;    // 150
+		std::uint8_t                      pad151;  // 151
+		std::uint16_t                     pad152;  // 152
+		std::uint32_t                     pad154;  // 154
 #	elif defined(EXCLUSIVE_SKYRIM_VR)
 		BSGeometryTypeSet type;    // 190
 		std::uint8_t      pad191;  // 191

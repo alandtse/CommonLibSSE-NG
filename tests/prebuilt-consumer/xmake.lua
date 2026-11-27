@@ -16,7 +16,7 @@ set_defaultmode("releasedbg")
 set_config("skyrim_se", true)
 set_config("skyrim_ae", true)
 set_config("skyrim_vr", true)
-set_config("rex_ini", true)
+set_config("commonlib_ini", true)
 set_config("skse_xbyak", true)
 
 includes("lib/commonlibsse-ng")

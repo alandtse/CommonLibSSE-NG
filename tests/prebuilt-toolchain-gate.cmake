@@ -33,4 +33,23 @@ expect("msvc consumer, same toolset" MSVC MSVC 19.44.35300 "${_tmp}/msvc19_44" T
 expect("msvc consumer, other toolset" MSVC MSVC 19.50.1 "${_tmp}/msvc19_44" FALSE)
 expect("other compiler, unstamped bundle" GNU GNU 14.2.0 "${_tmp}/legacy" FALSE)
 
+# Verify _commonlib_prebuilt_complete requires commonlib-shared.lib alongside CommonLibSSE.lib.
+set(_complete_dir "${_tmp}/complete")
+file(MAKE_DIRECTORY "${_complete_dir}/include" "${_complete_dir}/lib" "${_complete_dir}/extern/openvr/headers")
+file(WRITE "${_complete_dir}/lib/CommonLibSSE.lib" "")
+file(WRITE "${_complete_dir}/lib/openvr_api.lib" "")
+_commonlib_prebuilt_complete("${_complete_dir}" _got_missing_shared)
+if(_got_missing_shared STREQUAL "FALSE")
+    message(STATUS "PASS prebuilt completeness rejects bundle missing commonlib-shared.lib")
+else()
+    message(SEND_ERROR "FAIL prebuilt completeness missing commonlib-shared.lib: got ${_got_missing_shared}, expected FALSE")
+endif()
+file(WRITE "${_complete_dir}/lib/commonlib-shared.lib" "")
+_commonlib_prebuilt_complete("${_complete_dir}" _got_complete)
+if(_got_complete STREQUAL "TRUE")
+    message(STATUS "PASS prebuilt completeness accepts bundle with commonlib-shared.lib")
+else()
+    message(SEND_ERROR "FAIL prebuilt completeness with commonlib-shared.lib: got ${_got_complete}, expected TRUE")
+endif()
+
 file(REMOVE_RECURSE "${_tmp}")

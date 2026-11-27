@@ -47,13 +47,13 @@ namespace RE
 		virtual void Apply(GRenderer* a_renderer) const;  // 01
 
 		// members
-		std::uint16_t                          width;        // 08
-		std::uint16_t                          pad0A;        // 0A
-		GColor                                 color;        // 0C
-		GFxFillStyle*                          complexFill;  // 10
-		REX::EnumSet<LineStyle, std::uint16_t> styleFlags;   // 18
-		std::uint16_t                          pad1A;        // 1A
-		float                                  miterSize;    // 1C
+		std::uint16_t                           width;        // 08
+		std::uint16_t                           pad0A;        // 0A
+		GColor                                  color;        // 0C
+		GFxFillStyle*                           complexFill;  // 10
+		REX::TEnumSet<LineStyle, std::uint16_t> styleFlags;   // 18
+		std::uint16_t                           pad1A;        // 1A
+		float                                   miterSize;    // 1C
 	};
 	static_assert(sizeof(GFxLineStyle) == 0x20);
 }

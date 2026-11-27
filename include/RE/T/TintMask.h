@@ -30,10 +30,10 @@ namespace RE
 		};
 
 		// members
-		TESTexture*                       texture;
-		Color                             color;
-		float                             alpha;
-		REX::EnumSet<Type, std::uint32_t> type;
+		TESTexture*                        texture;
+		Color                              color;
+		float                              alpha;
+		REX::TEnumSet<Type, std::uint32_t> type;
 	};
 	static_assert(sizeof(TintMask) == 0x18);
 }

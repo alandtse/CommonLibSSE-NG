@@ -107,20 +107,20 @@ namespace RE
 
 		struct RUNTIME_DATA2
 		{
-#define RUNTIME_DATA2_CONTENT                                                          \
-	BGSSaveLoadFormIDMap                     worldspaceFormIDMap;        /*030, 1fe */ \
-	BSTHashMap<std::uint32_t, ActorHandle>   queuedInitPackageLocations; /*098*/       \
-	BGSSaveLoadReferencesMap                 references;                 /*0C8*/       \
-	BSTHashMap<FormID, FormID>               changedFormIDs;             /*158*/       \
-	BGSConstructFormsInAllFilesMap           reconstructFormsMap;        /*188*/       \
-	BGSSaveLoadQueuedSubBufferMap            queuedSubBuffersMap;        /*208*/       \
-	BGSSaveLoadFormIDMap                     formIDMap;                  /*298*/       \
-	BGSSaveLoadHistory                       history;                    /*300*/       \
-	BSTArray<BGSLoadFormData*>               loadFormData;               /*318*/       \
-	BGSSaveLoadChangesMap*                   saveLoadChanges;            /*330*/       \
-	BGSSaveLoadChangesMap*                   oldChangesMap;              /*338*/       \
-	REX::EnumSet<GlobalFlags, std::uint32_t> globalFlags;                /*340*/       \
-	std::uint8_t                             currentMinorVersion;        /*344 */
+#define RUNTIME_DATA2_CONTENT                                                           \
+	BGSSaveLoadFormIDMap                      worldspaceFormIDMap;        /*030, 1fe */ \
+	BSTHashMap<std::uint32_t, ActorHandle>    queuedInitPackageLocations; /*098*/       \
+	BGSSaveLoadReferencesMap                  references;                 /*0C8*/       \
+	BSTHashMap<FormID, FormID>                changedFormIDs;             /*158*/       \
+	BGSConstructFormsInAllFilesMap            reconstructFormsMap;        /*188*/       \
+	BGSSaveLoadQueuedSubBufferMap             queuedSubBuffersMap;        /*208*/       \
+	BGSSaveLoadFormIDMap                      formIDMap;                  /*298*/       \
+	BGSSaveLoadHistory                        history;                    /*300*/       \
+	BSTArray<BGSLoadFormData*>                loadFormData;               /*318*/       \
+	BGSSaveLoadChangesMap*                    saveLoadChanges;            /*330*/       \
+	BGSSaveLoadChangesMap*                    oldChangesMap;              /*338*/       \
+	REX::TEnumSet<GlobalFlags, std::uint32_t> globalFlags;                /*340*/       \
+	std::uint8_t                              currentMinorVersion;        /*344 */
             RUNTIME_DATA2_CONTENT
 		};
 

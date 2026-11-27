@@ -12,8 +12,8 @@ namespace RE
 			kDisableCollision = 1 << 13
 		};
 
-		float                             time;   // 0
-		REX::EnumSet<Flag, std::uint32_t> flags;  // 4
+		float                              time;   // 0
+		REX::TEnumSet<Flag, std::uint32_t> flags;  // 4
 	};
 	static_assert(sizeof(NiUpdateData) == 0x8);
 }

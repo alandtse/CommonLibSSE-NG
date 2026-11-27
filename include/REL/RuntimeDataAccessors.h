@@ -287,13 +287,13 @@ namespace REL
 // Accessor for members with different offsets in SE, AE, and VR
 // Usage: RUNTIME_MEMBER_ACCESSOR_VERSIONED(DepthStencilRuntimeData, GetDepthStencilData, SKSE::RUNTIME_SSE_1_6_1130, 0x1FB8, 0x21D0, 0x2018)
 // Parameters: (StructType, FuncName, Version, SEOffset, VROffset, AEOffset)
-// NOTE: If the first parameter (StructType) is a template type containing commas (e.g. `REX::EnumSet<Flag, std::uint32_t>`),
+// NOTE: If the first parameter (StructType) is a template type containing commas (e.g. `REX::TEnumSet<Flag, std::uint32_t>`),
 //       the preprocessor will split the commas into separate macro arguments. Two easy workarounds:
 //         1) Define a short `using` alias before the macro call and pass the alias (recommended):
-//              using FooFlags = REX::EnumSet<Flag, std::uint32_t>;
+//              using FooFlags = REX::TEnumSet<Flag, std::uint32_t>;
 //              RUNTIME_MEMBER_ACCESSOR_VERSIONED(FooFlags, GetFooFlags, ...)
 //         2) Wrap the type in parentheses and use a small unwrapping helper (more intrusive change to macros):
-//              RUNTIME_MEMBER_ACCESSOR_VERSIONED((REX::EnumSet<Flag, std::uint32_t>), GetFooFlags, ...)
+//              RUNTIME_MEMBER_ACCESSOR_VERSIONED((REX::TEnumSet<Flag, std::uint32_t>), GetFooFlags, ...)
 //       We recommend option 1 for clarity and minimal churn.
 #define RUNTIME_MEMBER_ACCESSOR_VERSIONED(StructType, FuncName, Version, SEOffset, VROffset, AEOffset) \
 	[[nodiscard]] inline StructType& FuncName() noexcept                                               \

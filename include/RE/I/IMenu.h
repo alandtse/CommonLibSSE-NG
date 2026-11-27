@@ -124,26 +124,26 @@ namespace RE
 
 		struct VR_RUNTIME_DATA
 		{
-#define VR_RUNTIME_DATA_CONTENT                                                               \
-	REX::EnumSet<VRMenuRenderTarget, std::int32_t> renderTarget{ VRMenuRenderTarget::kNone }; \
-	std::uint8_t                                   unk34{ 1 };                                \
-	std::uint8_t                                   pad35{ 0 };                                \
-	std::uint16_t                                  pad36{ 0 };                                \
-	BSFixedString                                  menuName{ "N/A" };  // 38
+#define VR_RUNTIME_DATA_CONTENT                                                                \
+	REX::TEnumSet<VRMenuRenderTarget, std::int32_t> renderTarget{ VRMenuRenderTarget::kNone }; \
+	std::uint8_t                                    unk34{ 1 };                                \
+	std::uint8_t                                    pad35{ 0 };                                \
+	std::uint16_t                                   pad36{ 0 };                                \
+	BSFixedString                                   menuName{ "N/A" };  // 38
             VR_RUNTIME_DATA_CONTENT
 		};
 
 		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x30);
 
 		// members
-		GPtr<GFxMovieView>                         uiMovie{ nullptr };              // 10
-		std::int8_t                                depthPriority{ 3 };              // 18
-		std::uint8_t                               pad19{ 0 };                      // 19
-		std::uint16_t                              pad20{ 0 };                      // 1A
-		REX::EnumSet<UI_MENU_FLAGS, std::uint32_t> menuFlags{ Flag::kNone };        // 1C
-		REX::EnumSet<Context, std::uint32_t>       inputContext{ Context::kNone };  // 20
-		std::uint32_t                              pad24{ 0 };                      // 24
-		GPtr<FxDelegate>                           fxDelegate{ nullptr };           // 28
+		GPtr<GFxMovieView>                          uiMovie{ nullptr };              // 10
+		std::int8_t                                 depthPriority{ 3 };              // 18
+		std::uint8_t                                pad19{ 0 };                      // 19
+		std::uint16_t                               pad20{ 0 };                      // 1A
+		REX::TEnumSet<UI_MENU_FLAGS, std::uint32_t> menuFlags{ Flag::kNone };        // 1C
+		REX::TEnumSet<Context, std::uint32_t>       inputContext{ Context::kNone };  // 20
+		std::uint32_t                               pad24{ 0 };                      // 24
+		GPtr<FxDelegate>                            fxDelegate{ nullptr };           // 28
 #if defined(EXCLUSIVE_SKYRIM_VR)
 		VR_RUNTIME_DATA_CONTENT
 #endif

@@ -1,5 +1,6 @@
 include(CMakeFindDependencyMacro)
 
+@COMMONLIB_CONFIG_FIND_SHARED@
 find_dependency(spdlog CONFIG)
 find_dependency(directxtk CONFIG)
 

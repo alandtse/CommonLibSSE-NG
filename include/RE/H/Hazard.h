@@ -53,18 +53,18 @@ namespace RE
 
 		struct HAZARD_RUNTIME_DATA
 		{
-#define HAZARD_RUNTIME_DATA_CONTENT                                 \
-	void*                              hazardDBHandle; /* 98, A0 */ \
-	ActorHandle                        ownerActor;     /* A0 */     \
-	float                              age;            /* A4 */     \
-	float                              lifetime;       /* A8 */     \
-	float                              targetTimer;    /* AC */     \
-	float                              radius;         /* B0 */     \
-	float                              magnitude;      /* B4 */     \
-	BGSHazard*                         hazard;         /* B8 */     \
-	NiPointer<NiLight>                 light;          /* C0 */     \
-	BSSoundHandle                      sound;          /* C8 */     \
-	REX::EnumSet<Flags, std::uint32_t> flags;          /* D4 */
+#define HAZARD_RUNTIME_DATA_CONTENT                                  \
+	void*                               hazardDBHandle; /* 98, A0 */ \
+	ActorHandle                         ownerActor;     /* A0 */     \
+	float                               age;            /* A4 */     \
+	float                               lifetime;       /* A8 */     \
+	float                               targetTimer;    /* AC */     \
+	float                               radius;         /* B0 */     \
+	float                               magnitude;      /* B4 */     \
+	BGSHazard*                          hazard;         /* B8 */     \
+	NiPointer<NiLight>                  light;          /* C0 */     \
+	BSSoundHandle                       sound;          /* C8 */     \
+	REX::TEnumSet<Flags, std::uint32_t> flags;          /* D4 */
 
 			HAZARD_RUNTIME_DATA_CONTENT
 		};

@@ -28,11 +28,11 @@ namespace RE
 		{
 		public:
 			// members
-			GString                                   name;         // 00
-			float                                     scaleFactor;  // 08
-			float                                     unk0C;        // 0C
-			float                                     unk10;        // 10
-			REX::EnumSet<MapFontFlags, std::uint32_t> flags;        // 14
+			GString                                    name;         // 00
+			float                                      scaleFactor;  // 08
+			float                                      unk0C;        // 0C
+			float                                      unk10;        // 10
+			REX::TEnumSet<MapFontFlags, std::uint32_t> flags;        // 14
 		};
 		static_assert(sizeof(MapEntry) == 0x18);
 

@@ -12,15 +12,10 @@ namespace SKSE
 {
 	namespace Impl
 	{
-		class API
+		class API :
+			public REX::TSingleton<API>
 		{
 		public:
-			[[nodiscard]] static API* GetSingleton()
-			{
-				static API singleton;
-				return std::addressof(singleton);
-			}
-
 			void Init(InitInfo, const SKSE::QueryInterface* a_intfc);
 			void InitLog();
 			void InitTrampoline();

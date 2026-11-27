@@ -62,7 +62,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -71,7 +71,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_downloads
-          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-downloads-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-downloads-
 
@@ -82,7 +82,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-
 
@@ -91,7 +91,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ github.workspace }}/vcpkg_binary_cache
-          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-${{ hashFiles('vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'cmake/ports/**') }}
           restore-keys: |
             ${{ runner.os }}-vcpkg-binpkgs-x64-windows-dynamic-
 
