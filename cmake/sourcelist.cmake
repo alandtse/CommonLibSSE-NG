@@ -1503,6 +1503,7 @@ set(SOURCES
 	include/RE/L/LevelIncrease.h
 	include/RE/L/LevelUpMenu.h
 	include/RE/L/LightEffect.h
+	include/RE/L/LinkContext.h
 	include/RE/L/LinkerProcessor.h
 	include/RE/L/LoadGameMissingContentCallBack.h
 	include/RE/L/LoadStorageWrapper.h
@@ -2375,6 +2376,7 @@ set(SOURCES
 	src/RE/E/Effect.cpp
 	src/RE/E/EffectSetting.cpp
 	src/RE/E/EnchantConstructMenu.cpp
+	src/RE/E/ErrorLogger.cpp
 	src/RE/E/Explosion.cpp
 	src/RE/E/ExtraAliasInstanceArray.cpp
 	src/RE/E/ExtraAshPileRef.cpp
