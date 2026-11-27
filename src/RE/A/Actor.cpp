@@ -1816,9 +1816,9 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::SetCrimeGoldValue)>(0x0B5, 0x0B7, this, a_faction, a_violent, a_amount);
 	}
 
-	void Actor::ModCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount)
+	std::int32_t Actor::ModCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount)
 	{
-		RelocateVirtual<decltype(&Actor::ModCrimeGoldValue)>(0x0B6, 0x0B8, this, a_faction, a_violent, a_amount);
+		return RelocateVirtual<decltype(&Actor::ModCrimeGoldValue)>(0x0B6, 0x0B8, this, a_faction, a_violent, a_amount);
 	}
 
 	void Actor::RemoveCrimeGoldValue(TESFaction* a_faction, bool a_violent, std::int32_t a_amount)
@@ -1986,9 +1986,9 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::InitiateTresPassPackage)>(0x0D7, 0x0D9, this, a_trespassPackage);
 	}
 
-	void Actor::InitiateDialogue(Actor* a_target, PackageLocation* a_loc1, PackageLocation* a_loc2)
+	bool Actor::InitiateDialogue(Actor* a_target, PackageLocation* a_loc1, PackageLocation* a_loc2)
 	{
-		RelocateVirtual<decltype(&Actor::InitiateDialogue)>(0x0D8, 0x0DA, this, a_target, a_loc1, a_loc2);
+		return RelocateVirtual<decltype(&Actor::InitiateDialogue)>(0x0D8, 0x0DA, this, a_target, a_loc1, a_loc2);
 	}
 
 	void Actor::SetSize(float a_size)

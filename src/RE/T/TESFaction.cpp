@@ -187,7 +187,7 @@ namespace RE
 	{
 		auto player = PlayerCharacter::GetSingleton();
 		if (player) {
-			return player->ModCrimeGoldValue(this, a_violent, a_amount);
+			player->ModCrimeGoldValue(this, a_violent, a_amount);
 		}
 	}
 
