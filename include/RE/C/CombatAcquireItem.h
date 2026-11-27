@@ -2,12 +2,16 @@
 
 namespace RE
 {
+	class BGSLoadGameBuffer;
+	class BGSSaveGameBuffer;
 	class TESBoundObject;
 
 	class CombatAcquireItem
 	{
 	public:
 		bool IsValid() const;
+		void LoadGame(BGSLoadGameBuffer* a_buffer);
+		void SaveGame(BGSSaveGameBuffer* a_buffer);
 
 		//members
 		RefHandle       targetHandle;  // 00

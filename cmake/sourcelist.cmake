@@ -626,9 +626,14 @@ set(SOURCES
 	include/RE/C/CombatBehaviorAcquireItem.h
 	include/RE/C/CombatBehaviorAcquireResource.h
 	include/RE/C/CombatBehaviorAdvance.h
+	include/RE/C/CombatBehaviorAttackFromCover.h
 	include/RE/C/CombatBehaviorBackoff.h
 	include/RE/C/CombatBehaviorBlock.h
 	include/RE/C/CombatBehaviorBlockAttack.h
+	include/RE/C/CombatBehaviorCastConcentrationSpell.h
+	include/RE/C/CombatBehaviorCastImmediateSpell.h
+	include/RE/C/CombatBehaviorChase.h
+	include/RE/C/CombatBehaviorCheckUnreachableTarget.h
 	include/RE/C/CombatBehaviorChildSelector.h
 	include/RE/C/CombatBehaviorCircle.h
 	include/RE/C/CombatBehaviorCircleDistant.h
@@ -645,26 +650,63 @@ set(SOURCES
 	include/RE/C/CombatBehaviorContextSearch.h
 	include/RE/C/CombatBehaviorContextShout.h
 	include/RE/C/CombatBehaviorController.h
+	include/RE/C/CombatBehaviorDisableAim.h
+	include/RE/C/CombatBehaviorDiveBomb.h
 	include/RE/C/CombatBehaviorDodgeThreat.h
 	include/RE/C/CombatBehaviorDynamicConditionalNode.h
 	include/RE/C/CombatBehaviorDynamicSelector.h
+	include/RE/C/CombatBehaviorEnableBlackboardFlag.h
 	include/RE/C/CombatBehaviorEquipContext.h
+	include/RE/C/CombatBehaviorExitWater.h
 	include/RE/C/CombatBehaviorExpression.h
+	include/RE/C/CombatBehaviorFaceAngle.h
 	include/RE/C/CombatBehaviorFallback.h
 	include/RE/C/CombatBehaviorFallbackSelector.h
 	include/RE/C/CombatBehaviorFallbackToRanged.h
+	include/RE/C/CombatBehaviorFindAllyAttackLocation.h
+	include/RE/C/CombatBehaviorFindAttackLocation.h
+	include/RE/C/CombatBehaviorFindCover.h
+	include/RE/C/CombatBehaviorFindLateralAttackLocation.h
 	include/RE/C/CombatBehaviorFindWeapon.h
+	include/RE/C/CombatBehaviorFlank.h
+	include/RE/C/CombatBehaviorFlankDistant.h
+	include/RE/C/CombatBehaviorFlee.h
+	include/RE/C/CombatBehaviorFleeThroughDoor.h
+	include/RE/C/CombatBehaviorFleeToAlly.h
+	include/RE/C/CombatBehaviorFleeToCover.h
+	include/RE/C/CombatBehaviorFlyingAttack.h
+	include/RE/C/CombatBehaviorFollowPath.h
+	include/RE/C/CombatBehaviorGroundAttack.h
+	include/RE/C/CombatBehaviorHide.h
+	include/RE/C/CombatBehaviorHover.h
 	include/RE/C/CombatBehaviorIdle.h
+	include/RE/C/CombatBehaviorLand.h
+	include/RE/C/CombatBehaviorLandNearby.h
+	include/RE/C/CombatBehaviorMaintainOptimalRange.h
+	include/RE/C/CombatBehaviorOrbit.h
+	include/RE/C/CombatBehaviorOrbitDistant.h
 	include/RE/C/CombatBehaviorParallel.h
 	include/RE/C/CombatBehaviorPause.h
+	include/RE/C/CombatBehaviorPerchAttack.h
+	include/RE/C/CombatBehaviorPursueTarget.h
+	include/RE/C/CombatBehaviorRangedAttack.h
 	include/RE/C/CombatBehaviorRepeat.h
 	include/RE/C/CombatBehaviorReposition.h
 	include/RE/C/CombatBehaviorResource.h
+	include/RE/C/CombatBehaviorReturnToCombatArea.h
+	include/RE/C/CombatBehaviorSearch.h
+	include/RE/C/CombatBehaviorSearchCenter.h
+	include/RE/C/CombatBehaviorSearchInvestigateDoor.h
+	include/RE/C/CombatBehaviorSearchLocation.h
+	include/RE/C/CombatBehaviorSearchWander.h
 	include/RE/C/CombatBehaviorSequence.h
 	include/RE/C/CombatBehaviorSpawnParallel.h
 	include/RE/C/CombatBehaviorStack.h
+	include/RE/C/CombatBehaviorStalk.h
+	include/RE/C/CombatBehaviorStrafe.h
 	include/RE/C/CombatBehaviorSurround.h
 	include/RE/C/CombatBehaviorThread.h
+	include/RE/C/CombatBehaviorTrackTarget.h
 	include/RE/C/CombatBehaviorTree.h
 	include/RE/C/CombatBehaviorTreeConditionalNode.h
 	include/RE/C/CombatBehaviorTreeCreateContextNode.h
@@ -679,6 +721,8 @@ set(SOURCES
 	include/RE/C/CombatBehaviorTreeValueNodeT.h
 	include/RE/C/CombatBehaviorTreeWrapperNode.h
 	include/RE/C/CombatBehaviorTrees.h
+	include/RE/C/CombatBehaviorWaitBehindCover.h
+	include/RE/C/CombatBehaviorWatchTarget.h
 	include/RE/C/CombatBlackboard.h
 	include/RE/C/CombatBlackboardFlag.h
 	include/RE/C/CombatBlackboardKey.h
