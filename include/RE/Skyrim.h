@@ -235,7 +235,6 @@
 #include "RE/B/BGSStoryManagerTreeForm.h"
 #include "RE/B/BGSStoryTeller.h"
 #include "RE/B/BGSTalkingActivator.h"
-#include "RE/B/BGSTerrainBlock.h"
 #include "RE/B/BGSTerrainChunk.h"
 #include "RE/B/BGSTerrainManager.h"
 #include "RE/B/BGSTerrainNode.h"

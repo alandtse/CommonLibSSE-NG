@@ -1,12 +1,12 @@
 #pragma once
 
 #include "RE/B/BGSDistantTreeBlock.h"
-#include "RE/B/BGSTerrainBlock.h"
+#include "RE/B/BGSTerrainChunk.h"
 
 namespace RE
 {
 	class BGSTerrainManager;
-	class BGSObjectBlock;
+	class BGSDistantObjectBlock;
 
 	class BGSTerrainNode
 	{
@@ -57,12 +57,12 @@ namespace RE
 		std::uint32_t GetLODLevel() const { return (nodeState.underlying() >> 21) & 0x3FC; }
 
 		// members
-		BGSTerrainManager*          manager;           // 00
-		Layer<BGSTerrainBlock>*     terrain;           // 08
-		Layer<BGSObjectBlock>*      objects;           // 10
-		Layer<BGSDistantTreeBlock>* trees;             // 18
-		Layer<BGSTerrainBlock>*     mapTerrain;        // 20
-		Layer<BGSObjectBlock>*      mapObjects;        // 28
+		BGSTerrainManager*            manager;         // 00
+		Layer<BGSTerrainChunk>*       terrain;         // 08
+		Layer<BGSDistantObjectBlock>* objects;         // 10
+		Layer<BGSDistantTreeBlock>*   trees;           // 18
+		Layer<BGSTerrainChunk>*       mapTerrain;      // 20
+		Layer<BGSDistantObjectBlock>* mapObjects;      // 28
 		BGSTerrainNode* (*children)[4];                // 30
 		BGSTerrainNode*                   parent;      // 38
 		REX::EnumSet<Flag, std::uint32_t> nodeState;   // 40
