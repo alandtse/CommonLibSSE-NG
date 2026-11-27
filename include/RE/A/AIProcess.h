@@ -275,12 +275,6 @@ namespace RE
 			func(this, a_actor, a_package, a_target);
 		}
 
-		void VisitKnowledgeEntries(void* a_visitor)
-		{
-			using func_t = void(AIProcess*, void*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(27995, 27292) };
-			func(this, a_visitor);
-		}
 		bool GetMiddleHighFlag32D()
 		{
 			using func_t = bool(AIProcess*);
