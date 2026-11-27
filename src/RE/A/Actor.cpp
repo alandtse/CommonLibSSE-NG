@@ -1951,9 +1951,9 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::UnlockWord)>(0x0D0, 0x0D2, this, a_power);
 	}
 
-	bool Actor::Unk_D1()
+	bool Actor::Unk_D1(void* a_arg1)
 	{
-		return RelocateVirtual<decltype(&Actor::Unk_D1)>(0x0D1, 0x0D3, this);
+		return RelocateVirtual<decltype(&Actor::Unk_D1)>(0x0D1, 0x0D3, this, a_arg1);
 	}
 
 	std::uint32_t Actor::UseAmmo(std::uint32_t a_shotCount)

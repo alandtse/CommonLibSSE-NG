@@ -775,7 +775,7 @@ namespace RE
 		void                 DetachArrow(const BSTSmartPointer<BipedAnim>& a_biped) override;                                                                                                     // 0CE
 		bool                 AddShout(TESShout* a_shout) override;                                                                                                                                // 0CF
 		void                 UnlockWord(TESWordOfPower* a_power) override;                                                                                                                        // 0D0
-		bool                 Unk_D1(void) override;                                                                                                                                               // 0D1
+		bool                 Unk_D1(void* a_arg1) override;                                                                                                                                       // 0D1
 		std::uint32_t        UseAmmo(std::uint32_t a_shotCount) override;                                                                                                                         // 0D2
 		CombatGroup*         GetCombatGroup() const override;                                                                                                                                     // 0D4
 		void                 SetCombatGroup(CombatGroup* a_group) override;                                                                                                                       // 0D5
