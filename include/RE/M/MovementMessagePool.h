@@ -2,20 +2,10 @@
 
 namespace RE
 {
-	class Character;
-	class MovementMessage;
-
 	// Per-process pool of message functor nodes and the table of registered message handlers.
 	class MovementMessagePool
 	{
 	public:
-		bool Dispatch(Character* a_character, MovementMessage* a_message)
-		{
-			using func_t = bool(MovementMessagePool*, Character*, MovementMessage*);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(37388, 37892) };
-			return func(this, a_character, a_message);
-		}
-
 		// members
 		std::uint64_t unk00;                // 000
 		std::uint32_t freeListLock;         // 008 - spin flag
