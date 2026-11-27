@@ -19,7 +19,7 @@ namespace RE
 		virtual ~hkConstraintCinfo();  // 00
 
 		// add
-		virtual void CreateConstraintData();  // 01
+		virtual void CreateConstraintData(hkpConstraintData* a_data, void* a_params);  // 01
 
 		// members
 		hkRefPtr<hkpConstraintData>                                           constraintData = nullptr;  // 08

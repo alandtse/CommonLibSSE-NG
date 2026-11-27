@@ -14,16 +14,16 @@ namespace RE
 		~hkpCapsuleShape() override;  // 00
 
 		// override (hkpConvexShape)
-		void             CalcContentStatistics(hkStatisticsCollector* a_collector, const hkClass* a_class) const override;     // 02
-		std::int32_t     CalcSizeForSpu(const CalcSizeForSpuInput& a_input, std::int32_t a_spuBufferSizeLeft) const override;  // 06 - { return 56; }
-		void             GetAabbImpl(const hkTransform& a_localToWorld, float a_tolerance, hkAabb& a_out) const override;      // 07
-		bool             CastRayImpl(const hkpShapeRayCastInput& a_input, hkpShapeRayCastOutput& a_output) const override;     // 08
-		std::int32_t     GetNumCollisionSpheresImpl() override;                                                                // 0B - { return 8; }
-		const hkpSphere* GetCollisionSpheresImpl(hkSphere* a_sphereBuffer) override;                                           // 0C
-		void             GetCentreImpl(hkVector4& a_centreOut) override;                                                       // 0D
-		void             Unk_0E(void) override;                                                                                // 0E
-		void             Unk_0F(void) override;                                                                                // 0F
-		void             Unk_11(void) override;                                                                                // 11
+		void             CalcContentStatistics(hkStatisticsCollector* a_collector, const hkClass* a_class) const override;                            // 02
+		std::int32_t     CalcSizeForSpu(const CalcSizeForSpuInput& a_input, std::int32_t a_spuBufferSizeLeft) const override;                         // 06 - { return 56; }
+		void             GetAabbImpl(const hkTransform& a_localToWorld, float a_tolerance, hkAabb& a_out) const override;                             // 07
+		bool             CastRayImpl(const hkpShapeRayCastInput& a_input, hkpShapeRayCastOutput& a_output) const override;                            // 08
+		std::int32_t     GetNumCollisionSpheresImpl() override;                                                                                       // 0B - { return 8; }
+		const hkpSphere* GetCollisionSpheresImpl(hkSphere* a_sphereBuffer) override;                                                                  // 0C
+		void             GetFirstVertexImpl(hkVector4& a_vertexOut) const override;                                                                   // 0D
+		void             GetSupportingVertexImpl(const hkVector4& a_direction, hkpCdVertex& a_supportVertexOut) const override;                       // 0E
+		void             ConvertVertexIdsToVerticesImpl(const hkpVertexID* a_ids, std::int32_t a_numIDs, hkpCdVertex* a_verticesOut) const override;  // 0F
+		void             GetCentreImpl(hkVector4& a_centreOut) const override;                                                                        // 11
 
 		// members
 		std::uint32_t pad28;    // 28
