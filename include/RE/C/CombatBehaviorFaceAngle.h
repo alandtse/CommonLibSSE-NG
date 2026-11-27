@@ -10,7 +10,7 @@ namespace RE
 	public:
 		// members
 		NiPointer<CombatObject> object00;    // 00
-		std::uint32_t           unk08;       // 08
+		float                   angle;       // 08
 		std::byte               unk0C[0x4];  // 0C
 	};
 	static_assert(sizeof(CombatBehaviorFaceAngle) == 0x10);

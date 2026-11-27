@@ -5,7 +5,7 @@ namespace RE
 	bool CombatAcquireItem::IsValid() const
 	{
 		using func_t = decltype(&CombatAcquireItem::IsValid);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46338, 0) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46338, 47580) };
 		return func(this);
 	}
 
