@@ -13,6 +13,7 @@
 #include "RE/B/BSPointerHandle.h"
 #include "RE/B/BSPointerHandleSmartPointer.h"
 #include "RE/B/BSSimpleList.h"
+#include "RE/B/BSString.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSmartPointer.h"
@@ -33,6 +34,7 @@
 
 namespace RE
 {
+	class NiNode;
 	enum class FIGHT_REACTION;
 
 	class ActorMagicCaster;
@@ -332,7 +334,7 @@ namespace RE
 		void                                 Unk_69(void) override;                                                                                                                                                                                                // 069
 		NiAVObject*                          Load3D(bool a_arg1) override;                                                                                                                                                                                         // 06A
 		void                                 Set3D(NiAVObject* a_object, bool a_queue3DTasks = true) override;                                                                                                                                                     // 06C
-		bool                                 PopulateGraphProjectsToLoad(void* a_arg1, void* a_arg2) const override;                                                                                                                                               // 072
+		bool                                 PopulateGraphProjectsToLoad(NiNode* a_root, BSScrapArray<BSStaticStringT<260>>& a_projects) const override;                                                                                                           // 072
 		[[nodiscard]] NiPoint3               GetBoundMin() const override;                                                                                                                                                                                         // 073
 		[[nodiscard]] NiPoint3               GetBoundMax() const override;                                                                                                                                                                                         // 074
 		void                                 Unk_75(void) override;                                                                                                                                                                                                // 075 - "ActorValue GetWeaponSkill()"? really weird call, only works for right hand, and defaults to 1

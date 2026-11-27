@@ -34,11 +34,11 @@ namespace RE
 		~BSWin32MouseDevice() override;  // 00
 
 		// override (BSMouseDevice)
-		void Initialize() override;             // 01
-		void Poll(float a_timeDelta) override;  // 02
-		void Shutdown() override;               // 03
-		void ClearInputState() override;        // 08
-		void Reinitialize(void) override;       // 09
+		void Initialize() override;                          // 01
+		void Poll(float a_timeDelta) override;               // 02
+		void Shutdown() override;                            // 03
+		void ClearInputState() override;                     // 08
+		void Reinitialize(bool a_backgroundMouse) override;  // 09
 
 		// VR note: own members start at 0x78 (SE) / 0x80 (VR) due to BSIInputDevice unk08.
 		struct RUNTIME_DATA

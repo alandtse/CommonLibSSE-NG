@@ -114,11 +114,11 @@ namespace RE
 		}
 	}
 
-	void BSInputDeviceManager::ReinitializeMouse()
+	void BSInputDeviceManager::ReinitializeMouse(bool a_backgroundMouse)
 	{
 		auto mouse = GetMouse();
 		if (mouse) {
-			mouse->Reinitialize();
+			mouse->Reinitialize(a_backgroundMouse);
 		}
 	}
 
