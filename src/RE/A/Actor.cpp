@@ -1490,6 +1490,13 @@ namespace RE
 		}
 	}
 
+	void Actor::UpdateVoiceTimer(bool a_forceEnd)
+	{
+		using func_t = decltype(&Actor::UpdateVoiceTimer);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(36738, 37752) };
+		return func(this, a_forceEnd);
+	}
+
 	void Actor::UpdateWeaponAbility(TESForm* a_weapon, ExtraDataList* a_extraData, bool a_leftHand)
 	{
 		using func_t = decltype(&Actor::UpdateWeaponAbility);

@@ -713,6 +713,7 @@ namespace RE
 		[[nodiscard]] bool         UpdateNavPos(const NiPoint3& a_pos, const NiPoint3& a_new_pos, float a_speed, float a_distance) const;
 		void                       UpdateRegenDelay(ActorValue a_actorValue, float a_regenDelay);
 		void                       UpdateSkinColor();
+		void                       UpdateVoiceTimer(bool a_forceEnd);
 		void                       UpdateWeaponAbility(TESForm* a_weapon, ExtraDataList* a_extraData, bool a_leftHand);
 		void                       VisitArmorAddon(TESObjectARMO* a_armor, TESObjectARMA* a_arma, std::function<void(bool a_firstPerson, NiAVObject& a_obj)> a_visitor);
 		bool                       VisitFactions(std::function<bool(TESFaction* a_faction, std::int8_t a_rank)> a_visitor);
