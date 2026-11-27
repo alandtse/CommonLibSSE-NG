@@ -77,7 +77,7 @@ namespace RE
 		~BGSScene() override;  // 00
 
 		// override (TESForm)
-		void InitializeData() override;                        // 05
+		void ClearData() override;                             // 05
 		bool Load(TESFile* a_mod) override;                    // 06
 		void SaveGame(BGSSaveFormBuffer* a_buf) override;      // 0E
 		void LoadGame(BGSLoadFormBuffer* a_buf) override;      // 0F

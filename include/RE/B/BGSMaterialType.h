@@ -34,7 +34,7 @@ namespace RE
 		~BGSMaterialType() override;  // 00
 
 		// override (TESForm)
-		void ClearData() override;           // 04
+		void InitializeData() override;      // 04
 		bool Load(TESFile* a_mod) override;  // 06
 		void InitItemImpl() override;        // 13
 
