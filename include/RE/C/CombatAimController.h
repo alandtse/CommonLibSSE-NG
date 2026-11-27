@@ -3,7 +3,7 @@
 #include "RE/A/AITimer.h"
 #include "RE/B/BSCoreTypes.h"
 #include "RE/B/BSPointerHandle.h"
-#include "RE/C/CombatObject.h"
+#include "RE/C/CombatAimControllerBase.h"
 #include "RE/N/NiPoint3.h"
 
 namespace RE
@@ -11,7 +11,7 @@ namespace RE
 	class CombatController;
 	class MagicCaster;
 
-	class CombatAimController : public CombatObject
+	class CombatAimController : public CombatAimControllerBase
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_CombatAimController;

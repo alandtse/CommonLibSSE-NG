@@ -25,8 +25,8 @@ namespace RE
 	{
 	public:
 		// members
-		BGSEquipSlot* equipSlot;  // 08
-		std::uint32_t slot;       // 0C
+		BGSEquipSlot* equipSlot;  // 00
+		std::uint32_t slot;       // 08
 	};
 	static_assert(sizeof(CombatInventoryItemSlot) == 0x10);
 
@@ -87,4 +87,80 @@ namespace RE
 		CombatInventoryItemSlot itemSlot;   // 20
 	};
 	static_assert(sizeof(CombatInventoryItem) == 0x30);
+
+	class CombatInventoryItemComposite : public CombatInventoryItem
+	{
+	public:
+		inline static constexpr auto RTTI = RTTI_CombatInventoryItemComposite;
+		inline static constexpr auto VTABLE = VTABLE_CombatInventoryItemComposite;
+
+		~CombatInventoryItemComposite() override;  // 00
+
+		// members
+		TESForm* unk30;  // 30
+	};
+	static_assert(sizeof(CombatInventoryItemComposite) == 0x38);
+
+	class CombatInventoryItemMelee : public CombatInventoryItem
+	{
+	public:
+		inline static constexpr auto RTTI = RTTI_CombatInventoryItemMelee;
+		inline static constexpr auto VTABLE = VTABLE_CombatInventoryItemMelee;
+
+		~CombatInventoryItemMelee() override;  // 00
+
+		// members
+		std::uint32_t unk30;  // 30
+	};
+	static_assert(sizeof(CombatInventoryItemMelee) == 0x38);
+
+	class CombatInventoryItemShield : public CombatInventoryItem
+	{
+	public:
+		inline static constexpr auto RTTI = RTTI_CombatInventoryItemShield;
+		inline static constexpr auto VTABLE = VTABLE_CombatInventoryItemShield;
+
+		~CombatInventoryItemShield() override;  // 00
+
+		// members
+		std::uint32_t unk30;  // 30
+	};
+	static_assert(sizeof(CombatInventoryItemShield) == 0x38);
+
+	class CombatInventoryItemTorch : public CombatInventoryItem
+	{
+	public:
+		inline static constexpr auto RTTI = RTTI_CombatInventoryItemTorch;
+		inline static constexpr auto VTABLE = VTABLE_CombatInventoryItemTorch;
+
+		~CombatInventoryItemTorch() override;  // 00
+
+		// members
+		std::uint32_t unk30;  // 30
+	};
+	static_assert(sizeof(CombatInventoryItemTorch) == 0x38);
+
+	class CombatInventoryItemOneHandedBlock : public CombatInventoryItemShield
+	{
+	public:
+		inline static constexpr auto RTTI = RTTI_CombatInventoryItemOneHandedBlock;
+		inline static constexpr auto VTABLE = VTABLE_CombatInventoryItemOneHandedBlock;
+
+		~CombatInventoryItemOneHandedBlock() override;  // 00
+	};
+	static_assert(sizeof(CombatInventoryItemOneHandedBlock) == 0x38);
+
+	class CombatInventoryItemRanged : public CombatInventoryItemComposite
+	{
+	public:
+		inline static constexpr auto RTTI = RTTI_CombatInventoryItemRanged;
+		inline static constexpr auto VTABLE = VTABLE_CombatInventoryItemRanged;
+
+		~CombatInventoryItemRanged() override;  // 00
+
+		// members
+		std::uint32_t unk38;  // 38
+		std::uint32_t unk3C;  // 3C
+	};
+	static_assert(sizeof(CombatInventoryItemRanged) == 0x40);
 }
