@@ -63,11 +63,11 @@ namespace RE
 
 			[[nodiscard]] bool TryLockToStack(Stack* a_stack) noexcept;
 			void               UnlockFromStack(Stack* a_stack) noexcept;
-			void               LockPendingReset() noexcept;
+			std::uintptr_t     LockPendingReset() noexcept;
 			void               UnlockPendingReset() noexcept;
 
-			[[nodiscard]] BSTSmartPointer<Stack> GetOwningStack() const noexcept;
-			[[nodiscard]] bool                   IsPendingReset() const noexcept;
+			[[nodiscard]] Stack* GetOwningStack() const noexcept;
+			[[nodiscard]] bool   IsPendingReset() const noexcept;
 
 			void ReleaseProperties();
 
@@ -103,7 +103,7 @@ namespace RE
 			BSFixedString                   currentState;              // 10
 			std::atomic<uintptr_t>          owningStack;               // 18 - stack that claims execution on this object, first bit used as pending reset flag
 			ObjectHandleRef                 handleRef{};               // 20
-			Variable                        variables[0];              // 30 - size == classPtr->GetTotalNumVariables() + 3
+			Variable                        variables[0];              // 30 - size == classPtr->GetVariableCount() + 3
 
 		private:
 			explicit Object(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties);
