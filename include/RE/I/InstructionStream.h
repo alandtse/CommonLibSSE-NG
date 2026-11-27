@@ -120,18 +120,18 @@ namespace RE
 				explicit CountInstructionInfo(const std::uint32_t a_localBits, const std::uint32_t a_memberBits) :
 					localBits(a_localBits), memberBits(a_memberBits) {}
 
-				ForEachResult VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info) override;
-				ForEachResult VisitArgument(ByteCode::Argument& a_arg) override;
+				ForEachResult VisitArgument(ByteCode::Argument& a_arg) override;                        // 01
+				ForEachResult VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info) override;  // 02
 
 				// members
-				std::uint32_t fixedBits{ 0 };
-				std::uint32_t jumpCount{ 0 };
-				std::uint32_t localBits;
-				std::uint32_t memberBits;
-				std::uint32_t opcode{ 0 };
-				std::uint32_t argCount{ 0 };
-				std::uint32_t argIndex{ 0 };
+				std::uint32_t fixedBits{ 0 };  // 08
+				std::uint32_t jumpCount{ 0 };  // 0C
+				std::uint32_t argCount{ 0 };   // 10 - operands to size, excludes a jump target
+				std::uint32_t argIndex{ 0 };   // 14
+				std::uint32_t localBits;       // 18
+				std::uint32_t memberBits;      // 1C
 			};
+			static_assert(sizeof(CountInstructionInfo) == 0x20);
 		}
 	}
 }
