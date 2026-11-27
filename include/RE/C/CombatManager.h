@@ -21,6 +21,9 @@ namespace RE
 	};
 	static_assert(sizeof(CombatThreatMap) == 0x40);
 
+	class CombatCoverLocationMap;
+	class CombatTargetLocationMap;
+
 	class CombatManager
 	{
 	public:
@@ -35,9 +38,9 @@ namespace RE
 		mutable BSReadWriteLock                 lock;                    // 18
 		BSTHashMap<ActorHandle, std::uint64_t>* localActorTargetingMap;  // 20
 		CombatThreatMap*                        combatThreatMap;         // 28
-		std::uint64_t                           unk30;                   // 30
-		std::uint64_t                           unk38;                   // 38
-		std::uint64_t                           unk40;                   // 40
+		CombatCoverLocationMap*                 coverLocationMap;        // 30
+		CombatTargetLocationMap*                targetLocationMap;       // 38
+		void*                                   debugData;               // 40
 		AITimeStamp                             musicStartedTimeStamp;   // 48
 		AITimer                                 musicStopTimer;          // 4C
 		AITimer                                 musicUpdateTimer;        // 54

@@ -619,7 +619,9 @@ set(SOURCES
 	include/RE/C/ColorUtil.h
 	include/RE/C/CombatAcquireItem.h
 	include/RE/C/CombatAimController.h
+	include/RE/C/CombatAimControllerBase.h
 	include/RE/C/CombatAnimation.h
+	include/RE/C/CombatArea.h
 	include/RE/C/CombatAttackData.h
 	include/RE/C/CombatBehavior.h
 	include/RE/C/CombatBehaviorAccessors.h
@@ -729,6 +731,10 @@ set(SOURCES
 	include/RE/C/CombatBlackboardKeyBase.h
 	include/RE/C/CombatBlackboardManager.h
 	include/RE/C/CombatController.h
+	include/RE/C/CombatCoverLocation.h
+	include/RE/C/CombatCoverSearch.h
+	include/RE/C/CombatCoverSearchDebugData.h
+	include/RE/C/CombatFlankingSearchData.h
 	include/RE/C/CombatGroup.h
 	include/RE/C/CombatGroupDetectionListener.h
 	include/RE/C/CombatInventory.h
@@ -759,12 +765,19 @@ set(SOURCES
 	include/RE/C/CombatNavmeshSearch.h
 	include/RE/C/CombatObject.h
 	include/RE/C/CombatPath.h
+	include/RE/C/CombatPathDestination.h
+	include/RE/C/CombatPathRequest.h
+	include/RE/C/CombatPathSpeedController.h
+	include/RE/C/CombatPathingDebugData.h
+	include/RE/C/CombatPathingGoalPolicy.h
+	include/RE/C/CombatPathingSearchPolicy.h
 	include/RE/C/CombatProjectileAimController.h
 	include/RE/C/CombatSearchLocation.h
 	include/RE/C/CombatState.h
 	include/RE/C/CombatTargetLocation.h
 	include/RE/C/CombatTargetLocationSearch.h
 	include/RE/C/CombatTargetLocationSearchResult.h
+	include/RE/C/CombatTargetSelector.h
 	include/RE/C/CombatThreat.h
 	include/RE/C/CombatUtilities.h
 	include/RE/C/CommandEffect.h
@@ -2248,6 +2261,7 @@ set(SOURCES
 	src/RE/B/BGSStoryTeller.cpp
 	src/RE/B/BGSTerrainChunk.cpp
 	src/RE/B/BGSTerrainManager.cpp
+	src/RE/B/BGSWorldLocation.cpp
 	src/RE/B/BSAtomic.cpp
 	src/RE/B/BSAudioManager.cpp
 	src/RE/B/BSBitReader.cpp
@@ -2398,6 +2412,7 @@ set(SOURCES
 	src/RE/C/CombatGroup.cpp
 	src/RE/C/CombatInventory.cpp
 	src/RE/C/CombatPath.cpp
+	src/RE/C/CombatPathingGoalPolicy.cpp
 	src/RE/C/CombatState.cpp
 	src/RE/C/CombatTargetLocation.cpp
 	src/RE/C/CombatTargetLocationSearch.cpp
