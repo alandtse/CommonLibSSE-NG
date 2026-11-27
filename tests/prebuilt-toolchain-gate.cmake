@@ -33,4 +33,23 @@ expect("msvc consumer, same toolset" MSVC MSVC 19.44.35300 "${_tmp}/msvc19_44" T
 expect("msvc consumer, other toolset" MSVC MSVC 19.50.1 "${_tmp}/msvc19_44" FALSE)
 expect("other compiler, unstamped bundle" GNU GNU 14.2.0 "${_tmp}/legacy" FALSE)
 
+# The dependency gate: fmt and spdlog must match the bundle's major.minor.
+file(MAKE_DIRECTORY "${_tmp}/deps")
+file(WRITE "${_tmp}/deps/DEPENDENCY_VERSIONS.txt" "fmt 12.2.0\nspdlog 1.17.0\n")
+function(expect_deps name fmt spdlog dir want)
+    set(fmt_VERSION "${fmt}")
+    set(spdlog_VERSION "${spdlog}")
+    _commonlib_prebuilt_deps_compatible("${dir}" got)
+    if(got STREQUAL want)
+        message(STATUS "PASS ${name}")
+    else()
+        message(SEND_ERROR "FAIL ${name}: compatible=${got}, expected ${want}")
+    endif()
+endfunction()
+
+expect_deps("same fmt and spdlog minors" 12.2.1 1.17.0 "${_tmp}/deps" TRUE)
+expect_deps("older fmt minor" 12.1.0 1.17.0 "${_tmp}/deps" FALSE)
+expect_deps("older spdlog minor" 12.2.0 1.16.0 "${_tmp}/deps" FALSE)
+expect_deps("unstamped bundle" 12.1.0 1.16.0 "${_tmp}/legacy" TRUE)
+
 file(REMOVE_RECURSE "${_tmp}")

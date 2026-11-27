@@ -164,6 +164,13 @@ given internal symbol at the same nominal version — that residual case still n
 compiler (whose reported version isn't the cl.exe toolset version this stamp compares against),
 is treated as compatible (no change for already-published tags).
 
+The bundle's objects also call into the consumer's own compiled `fmt` and `spdlog`, and a minor
+release can add an exported symbol the bundle then needs (fmt 12.2 added `detail::allocate`, so a
+bundle built against 12.2 fails to link with fmt 12.1). A `DEPENDENCY_VERSIONS.txt` stamp records
+the versions the lib compiled against, and `Prebuilt.cmake` falls back to source unless the
+consumer's `fmt` and `spdlog` share each stamped **major.minor**. `-DCOMMONLIB_PREBUILT=OFF` forces a
+source build, in CI too.
+
 A **multi-config generator** (Visual Studio) is skipped by default because the config is
 chosen at build time, so Debug can't be ruled out. A consumer that only ever builds
 release-like configs can opt in with **`-DCOMMONLIB_PREBUILT_MULTICONFIG=ON`** (e.g. in its

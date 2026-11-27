@@ -9,6 +9,10 @@ project(prebuilt_consumer_cmake LANGUAGES CXX)
 
 # The repo root is two levels up; give add_subdirectory an explicit binary dir.
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../.." commonlib)
+get_target_property(_commonlib_imported CommonLibSSE IMPORTED)
+if(NOT _commonlib_imported)
+	message(FATAL_ERROR "CommonLibSSE was built from source instead of linking the prebuilt bundle")
+endif()
 
 add_commonlibsse_plugin(prebuilt_consumer_cmake
 	AUTHOR "CommonLibSSE-NG"
