@@ -20,6 +20,13 @@ namespace RE
 		// add
 		[[nodiscard]] virtual std::uint16_t GetAttackDamage() const;  // 04 - { return attackDamage; }
 
+		void SetAttackDamage(std::uint16_t a_damage)
+		{
+			using func_t = void(TESAttackDamageForm*, std::uint16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14344, 14484) };
+			func(this, a_damage);
+		}
+
 		// members
 		std::uint16_t attackDamage;  // 08
 		std::uint16_t pad0A;         // 0A

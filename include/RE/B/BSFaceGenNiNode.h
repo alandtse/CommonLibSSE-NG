@@ -85,6 +85,13 @@ namespace RE
 			func(this, a_data);
 		}
 
+		void SetAnimationData(BSFaceGenAnimationData* a_data)
+		{
+			using func_t = void(BSFaceGenNiNode*, BSFaceGenAnimationData*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24423, 24934) };
+			func(this, a_data);
+		}
+
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT  // 128, 150

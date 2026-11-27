@@ -77,6 +77,20 @@ namespace RE
 		}
 		std::uint32_t GetRuntimeFormID(FormID rawFormID) const;
 
+		void DecompressCurrentForm()
+		{
+			using func_t = void(TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13934, 14032) };
+			func(this);
+		}
+
+		bool ReadChunkHeader()
+		{
+			using func_t = bool(TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13936, 14034) };
+			return func(this);
+		}
+
 		// members
 		REX::EnumSet<Error, std::uint32_t>      lastError;                        // 000
 		std::uint32_t                           pad004;                           // 004

@@ -22,11 +22,11 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementAgentPathFollowerStandard;
 		inline static constexpr auto VTABLE = VTABLE_MovementAgentPathFollowerStandard;
 
-		void SetStatePlayIdle_6()
+		void SetStatePlayIdle_6(PathFollowerStateUpdateData* a_updateData)
 		{
-			using func_t = void(MovementAgentPathFollowerStandard*);
+			using func_t = void(MovementAgentPathFollowerStandard*, PathFollowerStateUpdateData*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88332, 90743) };
-			func(this);
+			func(this, a_updateData);
 		}
 		void SetStateTurnToAngle_7()
 		{
@@ -52,11 +52,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88336, 90747) };
 			func(this, a_updateData);
 		}
-		void SetStateKeepLastDirection_10()
+		void SetStateKeepLastDirection_10(PathFollowerStateUpdateData* a_updateData)
 		{
-			using func_t = void(MovementAgentPathFollowerStandard*);
+			using func_t = void(MovementAgentPathFollowerStandard*, PathFollowerStateUpdateData*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88337, 90748) };
-			func(this);
+			func(this, a_updateData);
 		}
 		void SetStateKeepLastDirection_8(PathFollowerStateUpdateData* a_updateData)
 		{
@@ -64,11 +64,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88338, 90749) };
 			func(this, a_updateData);
 		}
-		void SetStatePlayIdle_2()
+		void SetStatePlayIdle_2(PathFollowerStateUpdateData* a_updateData)
 		{
-			using func_t = void(MovementAgentPathFollowerStandard*);
+			using func_t = void(MovementAgentPathFollowerStandard*, PathFollowerStateUpdateData*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88339, 90750) };
-			func(this);
+			func(this, a_updateData);
 		}
 		void SetStateTurnToAngle_3(PathFollowerStateUpdateData* a_updateData)
 		{

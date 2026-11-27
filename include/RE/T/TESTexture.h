@@ -6,6 +6,7 @@
 
 namespace RE
 {
+	class TESFile;
 	class TESTexture : public BaseFormComponent
 	{
 	public:
@@ -23,6 +24,13 @@ namespace RE
 		virtual std::uint32_t             GetMaxAllowedSize();                     // 04 - { return 0; }
 		virtual const char*               GetAsNormalFile(BSString& a_out) const;  // 05
 		[[nodiscard]] virtual const char* GetDefaultPath() const;                  // 06 - { return "Textures\\"; }
+
+		void LoadTextureChunk(TESFile* a_file)
+		{
+			using func_t = void(TESTexture*, TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14787, 14965) };
+			func(this, a_file);
+		}
 
 		// members
 		BSFixedString textureName;  // 08 - ICON

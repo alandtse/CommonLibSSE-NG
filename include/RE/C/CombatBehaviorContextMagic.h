@@ -50,17 +50,17 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(48041, 49088) };
 			return func(this, a_out);
 		}
-		bool CanCastNow(void* a_ctx)
+		bool CanCastNow()
 		{
-			using func_t = bool(CombatBehaviorContextMagic*, void*);
+			using func_t = bool(CombatBehaviorContextMagic*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(48043, 49090) };
-			return func(this, a_ctx);
+			return func(this);
 		}
-		bool IsWithinCastRange(void* a_ctx)
+		bool IsWithinCastRange()
 		{
-			using func_t = bool(CombatBehaviorContextMagic*, void*);
+			using func_t = bool(CombatBehaviorContextMagic*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(48044, 49091) };
-			return func(this, a_ctx);
+			return func(this);
 		}
 		bool IsCastTargetUsable()
 		{
@@ -68,11 +68,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(48045, 49092) };
 			return func(this);
 		}
-		bool IsAimReady()
+		bool IsAimReady(float a_arg)
 		{
-			using func_t = bool(CombatBehaviorContextMagic*);
+			using func_t = bool(CombatBehaviorContextMagic*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(48046, 49093) };
-			return func(this);
+			return func(this, a_arg);
 		}
 		bool IsMagicItemSelected()
 		{

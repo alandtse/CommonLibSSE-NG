@@ -7,6 +7,7 @@
 
 namespace RE
 {
+	class InventoryEntryData;
 	class TESObjectREFR;
 
 	struct BottomBar;
@@ -73,6 +74,13 @@ namespace RE
 		[[nodiscard]] ItemList* GetItemList() const noexcept;
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x30, 0x40);
+		bool TransferItem(InventoryEntryData* a_entry, std::int32_t a_count, bool a_fromContainer)
+		{
+			using func_t = bool(ContainerMenu*, InventoryEntryData*, std::int32_t, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(50212, 51141) };
+			return func(this, a_entry, a_count, a_fromContainer);
+		}
+
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 30, 40

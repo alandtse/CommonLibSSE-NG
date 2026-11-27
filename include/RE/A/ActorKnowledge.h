@@ -37,17 +37,17 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(41632, 42710) };
 			func(this);
 		}
-		void QueueDetectionUpdate(float a_time)
+		void QueueDetectionUpdate(AITimeStamp a_time)
 		{
-			using func_t = void(ActorKnowledge*, float);
+			using func_t = void(ActorKnowledge*, AITimeStamp);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(41633, 42712) };
 			func(this, a_time);
 		}
-		void PushBackListener(void* a_listeners, DetectionListener* a_listener)
+		static void PushBackListener(void* a_listeners, DetectionListener* a_listener)
 		{
-			using func_t = void(ActorKnowledge*, void*, DetectionListener*);
+			using func_t = void(void*, DetectionListener*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(41636, 42716) };
-			func(this, a_listeners, a_listener);
+			func(a_listeners, a_listener);
 		}
 
 		void AddListener(DetectionListener* a_listener, std::int32_t a_level)

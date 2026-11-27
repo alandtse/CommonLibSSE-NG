@@ -24,11 +24,11 @@ namespace RE
 
 		~MovementPathManagerArbiter() override;  // 00
 
-		void UpdatePathing()
+		void UpdatePathing(void* a_updateData)
 		{
-			using func_t = void(MovementPathManagerArbiter*);
+			using func_t = void(MovementPathManagerArbiter*, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88448, 90873) };
-			func(this);
+			func(this, a_updateData);
 		}
 		void PollPendingSolution()
 		{

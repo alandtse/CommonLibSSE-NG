@@ -120,11 +120,11 @@ namespace RE
 			return func(this, a_worldSpace, a_cell, a_pos, a_radius, a_outPos);
 		}
 
-		bool RunSafeStraightLineSearch(PathingRequestSafeStraightLine** a_request)
+		bool RunSafeStraightLineSearch(PathingRequestSafeStraightLine** a_request, NiPoint3* a_outPoint)
 		{
-			using func_t = bool(Pathing*, PathingRequestSafeStraightLine**);
+			using func_t = bool(Pathing*, PathingRequestSafeStraightLine**, NiPoint3*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(29836, 30652) };
-			return func(this, a_request);
+			return func(this, a_request, a_outPoint);
 		}
 
 		bool HasSafeStraightLine(TESObjectREFR* a_from, TESObjectREFR* a_to, float a_extraRange)
@@ -176,39 +176,39 @@ namespace RE
 			return func(this, a_ctx);
 		}
 
-		bool FitPathTangentsByHandleImpl(void* a_ctx)
+		static bool FitPathTangentsByHandleImpl(void* a_ctx)
 		{
-			using func_t = bool(Pathing*, void*);
+			using func_t = bool(void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88140, 90529) };
-			return func(this, a_ctx);
+			return func(a_ctx);
 		}
 
-		bool ResolvePathNodeNavInfo(void* a_ctx, void* a_out)
+		static bool ResolvePathNodeNavInfo(void* a_ctx, void* a_out)
 		{
-			using func_t = bool(Pathing*, void*, void*);
+			using func_t = bool(void*, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88130, 90518) };
-			return func(this, a_ctx, a_out);
+			return func(a_ctx, a_out);
 		}
 
-		bool GetTriangleNormalAtLocation(BSPathingLocation* a_location, NiPoint3* a_outNormal, void* a_arg3)
+		bool GetTriangleNormalAtLocation(BSPathingLocation* a_location, NiPoint3* a_outNormal)
 		{
-			using func_t = bool(Pathing*, BSPathingLocation*, NiPoint3*, void*);
+			using func_t = bool(Pathing*, BSPathingLocation*, NiPoint3*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88029, 90417) };
-			return func(this, a_location, a_outNormal, a_arg3);
+			return func(this, a_location, a_outNormal);
 		}
 
-		bool RayCastWithVerification(BSPathingLocation* a_start, const NiPoint3* a_target, void* a_arg4, BSPathingLocation* a_outHit, void* a_arg6, void* a_arg7)
+		bool RayCastWithVerification(BSPathingLocation* a_start, const NiPoint3* a_target, float a_arg3, BSPathingLocation* a_outHit, void* a_arg5, void* a_arg6)
 		{
-			using func_t = bool(Pathing*, BSPathingLocation*, const NiPoint3*, void*, BSPathingLocation*, void*, void*);
+			using func_t = bool(Pathing*, BSPathingLocation*, const NiPoint3*, float, BSPathingLocation*, void*, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88025, 90413) };
-			return func(this, a_start, a_target, a_arg4, a_outHit, a_arg6, a_arg7);
+			return func(this, a_start, a_target, a_arg3, a_outHit, a_arg5, a_arg6);
 		}
 
-		bool IsLocationNearEdgeVerified(BSPathingLocation* a_location, float a_radius)
+		bool IsLocationNearEdgeVerified(BSPathingLocation* a_location, float a_radius, const NiPoint3* a_offset)
 		{
-			using func_t = bool(Pathing*, BSPathingLocation*, float);
+			using func_t = bool(Pathing*, BSPathingLocation*, float, const NiPoint3*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(88031, 90419) };
-			return func(this, a_location, a_radius);
+			return func(this, a_location, a_radius, a_offset);
 		}
 
 		// members

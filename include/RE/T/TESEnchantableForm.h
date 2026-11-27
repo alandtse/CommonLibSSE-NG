@@ -5,6 +5,7 @@
 
 namespace RE
 {
+	class TESForm;
 	class EnchantmentItem;
 
 	class TESEnchantableForm : public BaseFormComponent
@@ -22,6 +23,13 @@ namespace RE
 
 		// add
 		[[nodiscard]] virtual MagicSystem::CastingType GetCastingType() const;  // 04 - { return castingType; }
+
+		void InitComponent(TESForm* a_owner)
+		{
+			using func_t = void(TESEnchantableForm*, TESForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14409, 14561) };
+			func(this, a_owner);
+		}
 
 		// members
 		EnchantmentItem*                                      formEnchanting;       // 08 - EITM

@@ -33,6 +33,7 @@
 
 namespace RE
 {
+	class NiAVObject;
 	enum class FIGHT_REACTION;
 
 	class ActorMagicCaster;
@@ -837,11 +838,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(37655, 38608) };
 			return func(this);
 		}
-		Actor* FindAttackTargetInReach()
+		Actor* FindAttackTargetInReach(float a_reach, BGSAttackData* a_attackData)
 		{
-			using func_t = Actor*(Actor*);
+			using func_t = Actor*(Actor*, float, BGSAttackData*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(46011, 47272) };
-			return func(this);
+			return func(this, a_reach, a_attackData);
 		}
 
 		void RequestFollowPath()
@@ -882,11 +883,11 @@ namespace RE
 			func(this, a_flyState);
 		}
 
-		void WarpToRecord(void* a_record, void* a_loc)
+		void WarpToRecord(void* a_record)
 		{
-			using func_t = void(Actor*, void*, void*);
+			using func_t = void(Actor*, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36853, 37877) };
-			func(this, a_record, a_loc);
+			func(this, a_record);
 		}
 
 		void SubmitPathRequestToRefLocation(void* a_request, void* a_ref, std::uint32_t a_unk1, void* a_unk2, float a_unkFloat, void* a_unk3)
@@ -948,6 +949,48 @@ namespace RE
 			using func_t = EmotionType(Actor*, std::uint32_t&);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36265, 37249) };
 			return func(this, a_emotionValue);
+		}
+
+		void UpdateLightingProperty(NiAVObject* a_object)
+		{
+			using func_t = void(Actor*, NiAVObject*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36215, 37195) };
+			func(this, a_object);
+		}
+
+		bool IsTalking()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36277, 37266) };
+			return func(this);
+		}
+
+		void UpdateMovement(float a_delta)
+		{
+			using func_t = void(Actor*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36359, 37350) };
+			func(this, a_delta);
+		}
+
+		bool ShouldUseTorch()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36566, 37567) };
+			return func(this);
+		}
+
+		std::uint32_t GetOccupiedFurnitureAnimType()
+		{
+			using func_t = std::uint32_t(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36720, 37732) };
+			return func(this);
+		}
+
+		void UpdateSprinting()
+		{
+			using func_t = void(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36994, 38022) };
+			func(this);
 		}
 
 		// members

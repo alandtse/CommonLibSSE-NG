@@ -98,11 +98,11 @@ namespace RE
 		void                SetColor(NiColor& a_color, COLOR_BLEND* a_colorBlend, float a_addFlash) const;
 		void                SetWeather(TESWeather* a_weather, bool a_override, bool a_accelerate);
 
-		void PopulateWorldMapCloudTextures()
+		void PopulateWorldMapCloudTextures(void* a_outTextureList)
 		{
-			using func_t = void(Sky*);
+			using func_t = void(Sky*, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(25729, 26288) };
-			func(this);
+			func(this, a_outTextureList);
 		}
 
 		// members

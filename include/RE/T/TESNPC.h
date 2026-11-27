@@ -315,6 +315,13 @@ namespace RE
 			func(this, a_geometry, a_headPart, a_arg3);
 		}
 
+		CreatureSounds* GetOrCreateCreatureSounds()
+		{
+			using func_t = CreatureSounds*(TESNPC*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24251, 24758) };
+			return func(this);
+		}
+
 		// members
 		Skills                                  playerSkills;     // 190 - DNAM
 		TESClass*                               npcClass;         // 1C0 - CNAM

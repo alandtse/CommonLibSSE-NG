@@ -1104,6 +1104,13 @@ namespace RE
 		VR_ONLY_POINTER_ACCESSOR(VR_INFO_RUNTIME_DATA, GetVRInfoRuntimeData, 0xFE0);
 		VR_ONLY_POINTER_ACCESSOR(VR_NODE_DATA, GetVRNodeData, 0x3F0);
 
+		bool ActivateFurniture(TESObjectREFR* a_furniture)
+		{
+			using func_t = bool(PlayerCharacter*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(39411, 40486) };
+			return func(this, a_furniture);
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_FLAT) && !defined(ENABLE_SKYRIM_AE)
 		PLAYER_RUNTIME_DATA_CONTENT

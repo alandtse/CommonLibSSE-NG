@@ -21,6 +21,13 @@ namespace RE
 
 		[[nodiscard]] static std::int32_t GetFormValue(const TESForm* a_form);
 
+		void SetFormValue(std::int32_t a_value)
+		{
+			using func_t = void(TESValueForm*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14800, 14979) };
+			func(this, a_value);
+		}
+
 		// members
 		std::int32_t  value;  // 08
 		std::uint32_t pad0C;  // 0C

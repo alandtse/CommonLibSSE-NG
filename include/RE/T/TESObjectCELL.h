@@ -277,11 +277,11 @@ namespace RE
 			func(this);
 		}
 
-		BSFadeNode* InitReferenceFade(TESObjectREFR* a_ref)
+		BSFadeNode* InitReferenceFade(TESObjectREFR* a_ref, bool a_arg2)
 		{
-			using func_t = BSFadeNode*(TESObjectCELL*, TESObjectREFR*);
+			using func_t = BSFadeNode*(TESObjectCELL*, TESObjectREFR*, bool);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(19036, 19450) };
-			return func(this, a_ref);
+			return func(this, a_ref, a_arg2);
 		}
 
 		void RefreshActors(bool a_arg1, bool a_arg2)

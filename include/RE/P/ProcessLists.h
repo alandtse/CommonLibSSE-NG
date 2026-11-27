@@ -75,6 +75,20 @@ namespace RE
 			func(this, a_handle, a_level);
 		}
 
+		void FinishHighActorFadeIns()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40299, 41309) };
+			func(this);
+		}
+
+		void ToggleAI()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40317, 41327) };
+			func(this);
+		}
+
 		// members
 		bool                                    runDetection;                                  // 001
 		bool                                    showDetectionStats;                            // 002

@@ -257,6 +257,13 @@ namespace RE
 			func(this);
 		}
 
+		void ToggleCollision()
+		{
+			using func_t = void(TES*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13224, 13375) };
+			func(this);
+		}
+
 		// members
 		std::uint64_t                                       unk070;                     // 070
 		GridCellArray*                                      gridCells;                  // 078

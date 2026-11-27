@@ -14,6 +14,12 @@
 
 namespace RE
 {
+	class TESTopic;
+	class TESObjectWEAP;
+	class TESObjectREFR;
+	class BSLightingShaderProperty;
+	class BSBound;
+	class ActorPackageData;
 	class TESTopicInfo;
 	class TESIdleForm;
 	class NiNode;
@@ -1035,6 +1041,314 @@ namespace RE
 			using func_t = void(AIProcess*, NiAVObject*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(38984, 40047) };
 			func(this, a_node);
+		}
+
+		void SayDeathDialogue(Actor* a_actor)
+		{
+			using func_t = void(AIProcess*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38352, 39335) };
+			func(this, a_actor);
+		}
+
+		void QueueDialogue(Actor* a_target, int a_type, int a_subtype, TESTopic* a_topic)
+		{
+			using func_t = void(AIProcess*, Actor*, int, int, TESTopic*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38354, 39337) };
+			func(this, a_target, a_type, a_subtype, a_topic);
+		}
+
+		bool HasQueuedGreetings()
+		{
+			using func_t = bool(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38357, 39340) };
+			return func(this);
+		}
+
+		void StopSoundHandle(int a_index)
+		{
+			using func_t = void(AIProcess*, int);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38408, 39401) };
+			func(this, a_index);
+		}
+
+		void SetPackDuration(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38428, 39425) };
+			func(this, a_value);
+		}
+
+		void FinishFadeIn(TESObjectREFR* a_ref)
+		{
+			using func_t = void(AIProcess*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38461, 39459) };
+			func(this, a_ref);
+		}
+
+		void SetDefaultHeadtrackTarget(TESObjectREFR* a_target)
+		{
+			using func_t = void(AIProcess*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38463, 39461) };
+			func(this, a_target);
+		}
+
+		void SetActionHeadtrackTarget(TESObjectREFR* a_target)
+		{
+			using func_t = void(AIProcess*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38464, 39462) };
+			func(this, a_target);
+		}
+
+		void SetScriptHeadtrackTarget(TESObjectREFR* a_target)
+		{
+			using func_t = void(AIProcess*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38465, 39463) };
+			func(this, a_target);
+		}
+
+		void SetCombatHeadtrackTarget(TESObjectREFR* a_target)
+		{
+			using func_t = void(AIProcess*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38466, 39464) };
+			func(this, a_target);
+		}
+
+		void SetDialogueHeadtrackTarget(TESObjectREFR* a_target)
+		{
+			using func_t = void(AIProcess*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38467, 39465) };
+			func(this, a_target);
+		}
+
+		void SetProcedureHeadtrackTarget(TESObjectREFR* a_target)
+		{
+			using func_t = void(AIProcess*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38468, 39466) };
+			func(this, a_target);
+		}
+
+		void ClearScriptHeadtrackTarget(bool a_keepAsDefault)
+		{
+			using func_t = void(AIProcess*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38471, 39469) };
+			func(this, a_keepAsDefault);
+		}
+
+		void ClearDialogueHeadtrackTarget(bool a_keepAsDefault)
+		{
+			using func_t = void(AIProcess*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38473, 39471) };
+			func(this, a_keepAsDefault);
+		}
+
+		void ClearProcedureHeadtrackTarget(bool a_keepAsDefault)
+		{
+			using func_t = void(AIProcess*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38474, 39472) };
+			func(this, a_keepAsDefault);
+		}
+
+		int GetReplacedItemType(std::uint32_t a_hand)
+		{
+			using func_t = int(AIProcess*, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38510, 39520) };
+			return func(this, a_hand);
+		}
+
+		void SetReplacedItemType(std::uint32_t a_hand, std::uint16_t a_type)
+		{
+			using func_t = void(AIProcess*, std::uint32_t, std::uint16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38511, 39521) };
+			func(this, a_hand, a_type);
+		}
+
+		void ClearReplacedItemTypes()
+		{
+			using func_t = void(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38512, 39522) };
+			func(this);
+		}
+
+		void ClearAttackData()
+		{
+			using func_t = void(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38532, 39542) };
+			func(this);
+		}
+
+		bool HasNoQueuedGreetings()
+		{
+			using func_t = bool(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38536, 39547) };
+			return func(this);
+		}
+
+		void ClearReanimationData()
+		{
+			using func_t = void(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38556, 39574) };
+			func(this);
+		}
+
+		void SetAnimationAngleModZ(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38571, 39592) };
+			func(this, a_value);
+		}
+
+		void SetAnimationAngleModX(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38572, 39594) };
+			func(this, a_value);
+		}
+
+		bool GetIdleDoneOnce()
+		{
+			using func_t = bool(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38772, 39796) };
+			return func(this);
+		}
+
+		InventoryEntryData* GetEquippedLightEntry(bool a_leftHand)
+		{
+			using func_t = InventoryEntryData*(AIProcess*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38783, 39808) };
+			return func(this, a_leftHand);
+		}
+
+		void SetRunOnceProcedureIndex(int a_index)
+		{
+			using func_t = void(AIProcess*, int);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38821, 39851) };
+			func(this, a_index);
+		}
+
+		int GetRunOnceProcedureIndex()
+		{
+			using func_t = int(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38822, 39852) };
+			return func(this);
+		}
+
+		void ModRunOnceProcedureIndex(int a_delta)
+		{
+			using func_t = void(AIProcess*, int);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38823, 39853) };
+			func(this, a_delta);
+		}
+
+		ActorPackageData* GetRunOncePackageData()
+		{
+			using func_t = ActorPackageData*(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38824, 39854) };
+			return func(this);
+		}
+
+		void SetRotationZ(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38845, 39878) };
+			func(this, a_value);
+		}
+
+		void SetRotationX(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38846, 39880) };
+			func(this, a_value);
+		}
+
+		void SetRotationY(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38847, 39882) };
+			func(this, a_value);
+		}
+
+		void SetRotationSpeedZ(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38848, 39884) };
+			func(this, a_value);
+		}
+
+		void SetRotationSpeedX(float a_value)
+		{
+			using func_t = void(AIProcess*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38849, 39886) };
+			func(this, a_value);
+		}
+
+		bool GetExitingInstant()
+		{
+			using func_t = bool(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38885, 39926) };
+			return func(this);
+		}
+
+		void SetExitingInstant(bool a_value)
+		{
+			using func_t = void(AIProcess*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38886, 39927) };
+			func(this, a_value);
+		}
+
+		void SetLightingProperty(BSLightingShaderProperty* a_property)
+		{
+			using func_t = void(AIProcess*, BSLightingShaderProperty*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38899, 39945) };
+			func(this, a_property);
+		}
+
+		void SetBoundWeapon(TESObjectWEAP* a_weapon)
+		{
+			using func_t = void(AIProcess*, TESObjectWEAP*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38907, 39953) };
+			func(this, a_weapon);
+		}
+
+		TESObjectWEAP* GetBoundWeapon()
+		{
+			using func_t = TESObjectWEAP*(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38908, 39954) };
+			return func(this);
+		}
+
+		void SetOccupiedFurniture(Actor* a_actor, const ObjectRefHandle& a_handle)
+		{
+			using func_t = void(AIProcess*, Actor*, const ObjectRefHandle&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38909, 39955) };
+			func(this, a_actor, a_handle);
+		}
+
+		BSBound* GetBound()
+		{
+			using func_t = BSBound*(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38919, 39966) };
+			return func(this);
+		}
+
+		void SetBound(BSBound* a_bound)
+		{
+			using func_t = void(AIProcess*, BSBound*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38920, 39967) };
+			func(this, a_bound);
+		}
+
+		bool GetBleedingOut()
+		{
+			using func_t = bool(AIProcess*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38956, 40009) };
+			return func(this);
+		}
+
+		void SetBleedingOut(bool a_value)
+		{
+			using func_t = void(AIProcess*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38957, 40010) };
+			func(this, a_value);
 		}
 
 		// members

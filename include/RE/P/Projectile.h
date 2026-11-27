@@ -294,6 +294,13 @@ namespace RE
 		};
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(PROJECTILE_RUNTIME_DATA, GetProjectileRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x98, 0xA0);
+		bool InitializeProjectile()
+		{
+			using func_t = bool(Projectile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(43030, 44222) };
+			return func(this);
+		}
+
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		PROJECTILE_RUNTIME_DATA_CONTENT;

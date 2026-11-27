@@ -20,6 +20,13 @@ namespace RE
 		void ClearDataComponent() override;                     // 02
 		void CopyComponent(BaseFormComponent* a_rhs) override;  // 03
 
+		void AllocateData()
+		{
+			using func_t = void(BGSAttackDataForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14008, 14099) };
+			func(this);
+		}
+
 		// members
 		NiPointer<BGSAttackDataMap> attackDataMap;  // 08
 	};

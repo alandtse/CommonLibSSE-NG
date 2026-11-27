@@ -78,11 +78,11 @@ namespace RE
 			return func(this, a_target, a_listener, a_level);
 		}
 
-		int GetInitialDataType()
+		std::int32_t GetInitialDataType(std::uint32_t a_changeFlags)
 		{
-			using func_t = int(Character*);
+			using func_t = std::int32_t(Character*, std::uint32_t);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(34799, 35708) };
-			return func(this);
+			return func(this, a_changeFlags);
 		}
 		void ObserveCorpse(TESObjectREFR* a_corpse)
 		{
@@ -90,11 +90,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36423, 37417) };
 			func(this, a_corpse);
 		}
-		void MoveToPackageLocation()
+		void MoveToPackageLocation(bool a_useSavedPackage)
 		{
-			using func_t = void(Character*);
+			using func_t = void(Character*, bool);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36472, 37471) };
-			func(this);
+			func(this, a_useSavedPackage);
 		}
 		bool UpdateBleedoutOrKill(TESObjectREFR* a_attacker, float a_health)
 		{
@@ -121,11 +121,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36412, 37406) };
 			func(this, a_targetInfo, a_location, a_handle, a_radiusSlot2, a_locationRadius, a_radiusSlot3, a_packageTarget);
 		}
-		void MoveToPackageLocationEx(bool a_useSavedPackage, PathingRequestClosePoint** a_outRequest, void* a_packageContext)
+		void MoveToPackageLocationEx(bool a_useSavedPackage, PathingRequestClosePoint** a_outRequest)
 		{
-			using func_t = void(Character*, bool, PathingRequestClosePoint**, void*);
+			using func_t = void(Character*, bool, PathingRequestClosePoint**);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36473, 37472) };
-			func(this, a_useSavedPackage, a_outRequest, a_packageContext);
+			func(this, a_useSavedPackage, a_outRequest);
 		}
 		void UpdatePackageStartLocationIfCurrentLoc()
 		{
@@ -222,11 +222,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36786, 37802) };
 			func(this, a_point, a_cell, a_worldSpace, a_distance, a_avoid);
 		}
-		bool PathToFollowPoint(NiPoint3* a_point)
+		bool PathToFollowPoint(NiPoint3* a_point, float a_arg2, void* a_arg3)
 		{
-			using func_t = bool(Character*, NiPoint3*);
+			using func_t = bool(Character*, NiPoint3*, float, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36797, 37813) };
-			return func(this, a_point);
+			return func(this, a_point, a_arg2, a_arg3);
 		}
 
 		void MoveFollowersToPosition(NiPoint3* a_pos, float a_rotZ, float a_rotX, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, bool a_atDoor, bool a_ignoreSleep)
@@ -247,11 +247,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36441, 37436) };
 			return func(this);
 		}
-		float GetFollowersTotalSpacing(void* a_followers)
+		float GetFollowersTotalSpacing(void* a_followers, float a_spacing)
 		{
-			using func_t = float(Character*, void*);
+			using func_t = float(Character*, void*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36442, 37437) };
-			return func(this, a_followers);
+			return func(this, a_followers, a_spacing);
 		}
 		void TeleportToPackageLocation(NiPoint3* a_pos, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace)
 		{

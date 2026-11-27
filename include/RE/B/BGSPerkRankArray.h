@@ -37,6 +37,13 @@ namespace RE
 		void ClearDataComponent() override;                   // 02
 		void CopyComponent(BaseFormComponent* rhs) override;  // 03
 
+		void ClearPerks()
+		{
+			using func_t = void(BGSPerkRankArray*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14212, 14323) };
+			func(this);
+		}
+
 		// members
 		PerkRankData* perks;      // 08 - PRKR
 		std::uint32_t perkCount;  // 10 - PRKZ

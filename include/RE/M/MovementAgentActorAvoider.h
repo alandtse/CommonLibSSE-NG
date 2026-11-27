@@ -17,11 +17,11 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementAgentActorAvoider;
 		inline static constexpr auto VTABLE = VTABLE_MovementAgentActorAvoider;
 
-		void FindActorsToAvoid()
+		void FindActorsToAvoid(float a_delta)
 		{
-			using func_t = void(MovementAgentActorAvoider*);
+			using func_t = void(MovementAgentActorAvoider*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(89723, 92200) };
-			func(this);
+			func(this, a_delta);
 		}
 		bool IsActorNearPath(void* a_actorInfo)
 		{

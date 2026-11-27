@@ -70,6 +70,13 @@ namespace RE
 			return func(this);
 		}
 
+		void* allocateFromNewSlab(std::int32_t a_numBytes)
+		{
+			using func_t = void*(hkLifoAllocator*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(56632, 57039) };
+			return func(this, a_numBytes);
+		}
+
 		// members
 		Implementation*    impl{ nullptr };               // 08
 		const std::int32_t SlabSize{ 0x4000 };            // 10

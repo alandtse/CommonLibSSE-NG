@@ -29,17 +29,17 @@ namespace RE
 		void Unk_12(void) override;                                        // 12
 		void Unk_13(void) override;                                        // 13
 
-		bool TryStartPackage(void* a_context, TESPackage* a_package)
+		static bool TryStartPackage(void* a_context, TESPackage* a_package)
 		{
-			using func_t = bool(BGSSceneActionPackage*, void*, TESPackage*);
+			using func_t = bool(void*, TESPackage*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(23801, 24253) };
-			return func(this, a_context, a_package);
+			return func(a_context, a_package);
 		}
-		bool StartFirstValidPackage(void* a_packages, void* a_context)
+		static bool StartFirstValidPackage(void* a_packages, void* a_context)
 		{
-			using func_t = bool(BGSSceneActionPackage*, void*, void*);
+			using func_t = bool(void*, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(23802, 24252) };
-			return func(this, a_packages, a_context);
+			return func(a_packages, a_context);
 		}
 
 		// members

@@ -43,11 +43,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40579, 41608) };
 			return func(this, a_pos, a_cell, a_worldSpace, a_unkFloat, a_unk);
 		}
-		void PathToReference(TESObjectREFR* a_ref)
+		void PathToReference(TESObjectREFR* a_ref, float a_unkFloat, void* a_unk)
 		{
-			using func_t = void(ActorMover*, TESObjectREFR*);
+			using func_t = void(ActorMover*, TESObjectREFR*, float, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40580, 41609) };
-			func(this, a_ref);
+			func(this, a_ref, a_unkFloat, a_unk);
 		}
 		bool SubmitBSPathingRequest(BSPathingRequest** a_request, BSPathingLocation* a_location)
 		{
@@ -55,11 +55,11 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40583, 41612) };
 			return func(this, a_request, a_location);
 		}
-		void StopMoving()
+		void StopMoving(float a_arg)
 		{
-			using func_t = void(ActorMover*);
+			using func_t = void(ActorMover*, float);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40584, 41613) };
-			func(this);
+			func(this, a_arg);
 		}
 		void ClearGoal()
 		{
@@ -74,11 +74,11 @@ namespace RE
 			func(this);
 		}
 
-		bool PathToFollowPoint(NiPoint3* a_point)
+		bool PathToFollowPoint(NiPoint3* a_point, float a_goalRadius, void* a_arg3)
 		{
-			using func_t = bool(ActorMover*, NiPoint3*);
+			using func_t = bool(ActorMover*, NiPoint3*, float, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40593, 41622) };
-			return func(this, a_point);
+			return func(this, a_point, a_goalRadius, a_arg3);
 		}
 		bool GetPathingDoor(std::uint32_t* a_outDoorHandle, BSPathingLocation* a_outLocation)
 		{

@@ -35,6 +35,13 @@ namespace RE
 			func(this, a_form, a_reaction);
 		}
 
+		void FreeReactionList()
+		{
+			using func_t = void(TESReactionForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14730, 14906) };
+			func(this);
+		}
+
 		// members
 		BSSimpleList<GROUP_REACTION*>        reactions;      // 08 - XNAM
 		REX::EnumSet<FormType, std::uint8_t> groupFormType;  // 18

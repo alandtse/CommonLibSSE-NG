@@ -45,11 +45,11 @@ namespace RE
 		virtual void Start() override;                                                // 14
 		virtual void Finish() override;                                               // 15
 
-		bool RefreshActorKnowledgeOfPlayer(DetectionListener** a_listener, std::uint32_t* a_handle)
+		static bool RefreshActorKnowledgeOfPlayer(DetectionListener** a_listener, std::uint32_t* a_handle)
 		{
-			using func_t = bool(DisguiseEffect*, DetectionListener**, std::uint32_t*);
+			using func_t = bool(DetectionListener**, std::uint32_t*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(33521, 34300) };
-			return func(this, a_listener, a_handle);
+			return func(a_listener, a_handle);
 		}
 
 		void StartDetectionCheck()

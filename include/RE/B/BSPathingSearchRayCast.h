@@ -41,11 +41,11 @@ namespace RE
 			func(this);
 		}
 
-		bool CastSegmentStep(const NiPoint3* a_start, const NiPoint3* a_end)
+		bool CastSegmentStep(const NiPoint3* a_start, const NiPoint3* a_end, NiPoint3* a_outHitPos)
 		{
-			using func_t = bool(BSPathingSearchRayCast*, const NiPoint3*, const NiPoint3*);
+			using func_t = bool(BSPathingSearchRayCast*, const NiPoint3*, const NiPoint3*, NiPoint3*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(90564, 93091) };
-			return func(this, a_start, a_end);
+			return func(this, a_start, a_end, a_outHitPos);
 		}
 	};
 }
