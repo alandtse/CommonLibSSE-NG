@@ -152,12 +152,6 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36219, 37199) };
 			return func(this);
 		}
-		void UpdateVoiceTimer(bool a_force)
-		{
-			using func_t = void(Character*, bool);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(36738, 37752) };
-			func(this, a_force);
-		}
 		bool CastShoutWord(TESShout* a_shout, std::uint32_t a_wordIndex, TESObjectREFR* a_target)
 		{
 			using func_t = bool(Character*, TESShout*, std::uint32_t, TESObjectREFR*);
