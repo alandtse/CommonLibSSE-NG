@@ -1,3 +1,10 @@
+## [16.13.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.12.0...v16.13.0) (2026-11-27)
+
+### Features
+
+* **bsscript:** concrete Object ([#556](https://github.com/alandtse/CommonLibSSE-NG/issues/556)) ([278416a](https://github.com/alandtse/CommonLibSSE-NG/commit/278416a087ae709f74b15d9c0046b31a73c0cb99))
+* **unlinkedtypes:** concrete InstructionStream ([#549](https://github.com/alandtse/CommonLibSSE-NG/issues/549)) ([b33bd4b](https://github.com/alandtse/CommonLibSSE-NG/commit/b33bd4b5687360f9c8ed6f6c09951b6f4b050ff1))
+
 ## [16.12.0](https://github.com/alandtse/CommonLibSSE-NG/compare/v16.11.2...v16.12.0) (2026-11-24)
 
 ### Features
