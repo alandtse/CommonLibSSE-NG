@@ -11,9 +11,9 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_BSPathSmootherPOVSearch;
 		inline static constexpr auto VTABLE = VTABLE_BSPathSmootherPOVSearch;
 
-		virtual ~BSPathSmootherPOVSearch();         // 00
-		virtual void ExpandNode(void* a_node) = 0;  // 01
-		virtual bool IsGoalNode(void* a_node) = 0;  // 02
+		virtual ~BSPathSmootherPOVSearch();                      // 00
+		virtual void ExpandNode(void* a_node, void* a_out) = 0;  // 01
+		virtual bool IsGoalNode(void* a_node) = 0;               // 02
 
 		bool TryAddArcLink(const void* a_node, void* a_arg3, void* a_arg4)
 		{

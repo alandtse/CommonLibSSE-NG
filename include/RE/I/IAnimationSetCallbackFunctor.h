@@ -11,7 +11,7 @@ namespace RE
 		virtual ~IAnimationSetCallbackFunctor();  // 00
 
 		// add
-		virtual void OnAnimationSetLoaded(void* a_unused, void* a_animations);  // 01 - receives the loaded BSTArray of hkx handles
+		virtual void OnAnimationSetLoaded(std::uint32_t a_arg1, void* a_animations);  // 01 - receives the loaded BSTArray of hkx handles
 	};
 	static_assert(sizeof(IAnimationSetCallbackFunctor) == 0x8);
 }

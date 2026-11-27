@@ -13,8 +13,8 @@ namespace RE
 		~IMovementSetState() override;  // 00
 
 		// add
-		virtual void SetState(void* a_state) = 0;         // 01
-		virtual void SetStateForward(void* a_state) = 0;  // 02
+		virtual void SetState(void* a_state, float a_arg2, float a_arg3) = 0;  // 01
+		virtual void SetStateForward(void* a_state) = 0;                       // 02
 	};
 	static_assert(sizeof(IMovementSetState) == 0x8);
 }
