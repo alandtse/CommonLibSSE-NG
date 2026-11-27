@@ -46,7 +46,7 @@ namespace RE
 
 		// add
 		virtual bool                               CanFireAtTarget(const NiPoint3* a_arg2, const NiPoint3* a_arg3);  // 05 - { return true; }
-		virtual bool                               CanFireNow(void* a_arg1);                                         // 06 - { return true; }
+		virtual bool                               CanFireNow(const NiPoint3* a_origin);                             // 06 - { return true; }
 		virtual bool                               IsFacingTarget(float a_tolerance);                                // 07
 		virtual void                               Update();                                                         // 08
 		[[nodiscard]] virtual CombatAimController* Clone();                                                          // 09
