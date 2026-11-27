@@ -54,7 +54,7 @@ namespace RE
 		bool          RegisterStreamables(NiStream& a_stream) override;        // 1A
 		void          SaveBinary(NiStream& a_stream) override;                 // 1B
 		bool          IsEqual(NiObject* a_object) override;                    // 1C
-		void          RemoveParticle(std::uint16_t a_particleCount) override;  // 28
+		void          RemoveParticle(std::uint16_t a_particleCount) override;  // 27
 
 		// members
 		StripData* stripData;      // A8
