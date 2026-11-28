@@ -328,7 +328,7 @@ namespace RE
 			void End();
 			void Shutdown();
 		};
-		STATIC_ASSERT_SIZE(Renderer, 0x21C8, 0x21C8, 0x1FC0);
+		STATIC_ASSERT_SIZE(Renderer, 0x1FB8, 0x1FB8, 0x21D0);
 
 		void SetDirtyStates(bool a_isCompute);
 	}
