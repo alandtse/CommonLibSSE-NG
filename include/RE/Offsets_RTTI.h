@@ -8280,4 +8280,9 @@ namespace RE
 	constexpr REL::VariantOffset RTTI_Json__RuntimeError(0, 0, 0x1f81698);
 	constexpr REL::VariantOffset RTTI_Json__LogicError(0, 0, 0x1f816c0);
 	constexpr REL::VariantOffset RTTI_Json__BuiltStyledStreamWriter(0, 0, 0x1f81828);
+	constexpr REL::VariantID     RTTI_MarketplaceMenu(0, 433195, 0);
+	constexpr REL::VariantID     RTTI_MarketplaceMenu__InputHandler(0, 502526, 0);
+	constexpr REL::VariantID     RTTI_MarketplaceDataProducer(0, 502535, 0);
+	constexpr REL::VariantID     RTTI_LoginMenu__loginMenu(0, 502522, 0);
+	constexpr REL::VariantID     RTTI_BSPlatform__BSUserContent(0, 433215, 0);
 }

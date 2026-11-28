@@ -501,6 +501,7 @@ set(SOURCES
 	include/RE/B/BSTriShape.h
 	include/RE/B/BSUIMessageData.h
 	include/RE/B/BSUIScaleformData.h
+	include/RE/B/BSUserContent.h
 	include/RE/B/BSUtilityShader.h
 	include/RE/B/BSVRInterface.h
 	include/RE/B/BSValueNode.h
@@ -1524,6 +1525,7 @@ set(SOURCES
 	include/RE/L/LogEvent.h
 	include/RE/L/Logger.h
 	include/RE/L/LoggingDisabler.h
+	include/RE/L/LoginMenu.h
 	include/RE/L/LookHandler.h
 	include/RE/L/LooseFileLocation.h
 	include/RE/L/LooseFileStream.h
@@ -1554,6 +1556,8 @@ set(SOURCES
 	include/RE/M/MapMoveHandler.h
 	include/RE/M/MapZoomHandler.h
 	include/RE/M/MarkerUsedData.h
+	include/RE/M/MarketplaceDataProducer.h
+	include/RE/M/MarketplaceMenu.h
 	include/RE/M/MaterialIDs.h
 	include/RE/M/MemoryHeap.h
 	include/RE/M/MemoryManager.h
