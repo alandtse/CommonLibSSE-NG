@@ -15,11 +15,11 @@ namespace RE
 	// context = kMenuMode
 	class DialogueMenu :
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-		public WorldSpaceMenu,                   // 00
-		public BSTEventSink<MenuOpenCloseEvent>  // 88
-#elif defined(EXCLUSIVE_SKYRIM_VR)
 		public IMenu,                            // 00
 		public BSTEventSink<MenuOpenCloseEvent>  // 30
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+		public WorldSpaceMenu,                   // 00
+		public BSTEventSink<MenuOpenCloseEvent>  // 58
 #else
 		public IMenu  // 00
 #endif
@@ -48,37 +48,35 @@ namespace RE
 		void               Accept(CallbackProcessor* a_processor) override;  // 01
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;    // 04
 
+#ifdef EXCLUSIVE_SKYRIM_VR
+		// override (WorldSpaceMenu)
+		void    SetupMenuNode() override;      // 0B
+		NiNode* GetMenuParentNode() override;  // 0C
+		void    SetTransform() override;       // 0D
+#endif
+
 #ifndef SKYRIM_CROSS_VR
 		// override (BSTEventSink<MenuOpenCloseEvent>)
 		BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent* a_event, BSTEventSource<MenuOpenCloseEvent>* a_eventSource) override;  // 01
 #endif
 
-		RUNTIME_CAST_ACCESSOR(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, 0x88, 0x30);
+		RUNTIME_CAST_ACCESSOR(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, 0x30, 0x58);
 
-		[[nodiscard]] BSTEventSink<HudModeChangeEvent>* AsHudModeChangeEventSink() noexcept
-		{
-			return &REL::RelocateMember<BSTEventSink<HudModeChangeEvent>>(this, 0, 0x40);
-		}
+		VR_ONLY_POINTER_ACCESSOR(BSTEventSink<HudModeChangeEvent>, AsHudModeChangeEventSink, 0x40);
 
-		[[nodiscard]] const BSTEventSink<HudModeChangeEvent>* AsHudModeChangeEventSink() const noexcept
-		{
-			return const_cast<DialogueMenu*>(this)->AsHudModeChangeEventSink();
-		}
-
-		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x38, 0x48);
+		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x38, 0x60);
 		// members
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT;  // 38, 48
+		RUNTIME_DATA_CONTENT;  // 38, 60
+#endif
+#ifdef EXCLUSIVE_SKYRIM_VR
+		void* unk78;  // 78
 #endif
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
-#	if defined(ENABLE_SKYRIM_AE) || defined(ENABLE_SKYRIM_SE)
-	static_assert(sizeof(DialogueMenu) == 0x68);
-#	else
 	static_assert(sizeof(DialogueMenu) == 0x50);
-#	endif
 #elif defined(EXCLUSIVE_SKYRIM_VR)
-	static_assert(sizeof(DialogueMenu) == 0x60);
+	static_assert(sizeof(DialogueMenu) == 0x80);
 #else
 	static_assert(sizeof(DialogueMenu) == 0x30);
 #endif

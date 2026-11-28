@@ -7,7 +7,7 @@
 namespace RE
 {
 	class WSActivateRollover :
-		public WorldSpaceMenu  // 40
+		public WorldSpaceMenu  // 00
 	{
 	public:
 		inline static constexpr auto      RTTI = RTTI_WSActivateRollover;
