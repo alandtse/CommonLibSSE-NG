@@ -18,9 +18,9 @@ namespace RE
 
 		struct RUNTIME_DATA
 		{
-#	define RUNTIME_DATA_CONTENT    \
-		GFxValue worldMap; /* 58 */ \
-		void*    unk70;    /* 70 */
+#	define RUNTIME_DATA_CONTENT          \
+		GFxValue worldMap;       /* 58 */ \
+		void*    selectedMarker; /* 70 */
 
 			RUNTIME_DATA_CONTENT
 		};
