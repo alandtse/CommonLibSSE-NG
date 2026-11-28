@@ -6,16 +6,15 @@
 
 namespace RE
 {
+	class bhkRigidBody;
 	class hkpCollidable;
 
 	namespace BGSWaterCollisionManager
 	{
-		// trailing size beyond hkpPhantomCallbackShape (0x20) + updateI (0x48) not independently
-		// confirmed -- non-constructible until it is; only use via a pointer the engine already owns
 		class bhkWaterfall : public hkpPhantomCallbackShape  // 00
 		{
 		public:
-			bhkWaterfall() = delete;
+			bhkWaterfall() = delete;  // only use through a pointer the engine owns
 
 			inline static constexpr auto RTTI = RTTI_BGSWaterCollisionManager__bhkWaterfall;
 			inline static constexpr auto VTABLE = VTABLE_BGSWaterCollisionManager__bhkWaterfall;
@@ -57,6 +56,8 @@ namespace RE
 
 			// members
 			BGSWaterUpdateI updateI;  // 20
+			bhkRigidBody*   body;     // 60
 		};
+		static_assert(sizeof(bhkWaterfall) == 0x68);
 	}
 }

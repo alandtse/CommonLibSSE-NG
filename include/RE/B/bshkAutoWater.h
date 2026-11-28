@@ -54,9 +54,7 @@ namespace RE
 			// members
 			BGSWaterUpdateI updateI;  // 130
 		};
-		// hkpAabbPhantom's 16-byte SIMD alignment pads this struct's end; don't shrink
-		// sizeof to match updateI's own end if a future refactor makes the gap look unused.
 		static_assert(offsetof(bshkAutoWater, updateI) == 0x130);
-		static_assert(sizeof(bshkAutoWater) == 0x180);
+		static_assert(sizeof(bshkAutoWater) == 0x170);
 	}
 }

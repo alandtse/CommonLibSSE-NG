@@ -6,6 +6,7 @@
 
 namespace RE
 {
+	class bhkRigidBody;
 	class hkpCollidable;
 
 	namespace BGSWaterCollisionManager
@@ -69,6 +70,7 @@ namespace RE
 
 			// members
 			BGSWaterUpdateI updateI;     // 20
+			bhkRigidBody*   body;        // 60
 			std::uint32_t   usageCount;  // 68
 			std::uint32_t   pad6C;       // 6C
 		};
