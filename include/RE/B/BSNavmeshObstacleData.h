@@ -1,26 +1,24 @@
 #pragma once
 
-#include "RE/B/BSIntrusiveRefCounted.h"
 #include "RE/B/BSTArray.h"
 #include "RE/N/NiPoint3.h"
+#include "RE/N/NiRefObject.h"
 #include "RE/N/NiSmartPointer.h"
 
 namespace RE
 {
 	struct BSNavmeshInfo;
 	class bhkRigidBody;
-	class NiRefObject;
 
-	class BSNavmeshObstacleData : public BSIntrusiveRefCounted
+	class BSNavmeshObstacleData : public NiRefObject
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BSNavmeshObstacleData;
 		inline static constexpr auto VTABLE = VTABLE_BSNavmeshObstacleData;
 
-		virtual ~BSNavmeshObstacleData();  // 00
+		~BSNavmeshObstacleData() override;  // 00
 
 		// members
-		std::uint32_t            pad0C;             // 0C
 		void*                    unk10;             // 10
 		NiPointer<bhkRigidBody>  rigidBody;         // 18
 		std::uint8_t             pad20[0x44];       // 20
