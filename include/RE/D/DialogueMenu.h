@@ -3,6 +3,7 @@
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/I/IMenu.h"
+#include "RE/N/NiSmartPointer.h"
 #include "RE/W/WorldSpaceMenu.h"
 #include "REL/RuntimeDataAccessors.h"
 
@@ -70,7 +71,7 @@ namespace RE
 		RUNTIME_DATA_CONTENT;  // 38, 60
 #endif
 #ifdef EXCLUSIVE_SKYRIM_VR
-		void* unk78;  // 78
+		NiPointer<NiNode> occlusionCheckNode;  // 78
 #endif
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)

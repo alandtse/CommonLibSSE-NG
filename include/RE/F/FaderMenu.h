@@ -31,6 +31,7 @@ namespace RE
 		~FaderMenu() override;  // 00
 
 		// override (IMenu)
+		void               Accept(CallbackProcessor* a_processor) override;                       // 01
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                         // 04
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 

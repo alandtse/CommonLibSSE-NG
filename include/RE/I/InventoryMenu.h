@@ -61,7 +61,9 @@ namespace RE
 
 #ifdef EXCLUSIVE_SKYRIM_VR
 		// override (MenuEventHandler)
-		bool CanProcess(InputEvent* a_event) override;  // 01
+		bool CanProcess(InputEvent* a_event) override;                                      // 01
+		bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event) override;  // 03
+		bool ProcessButton(ButtonEvent* a_event) override;                                  // 08
 #endif
 
 		void RefreshItemList()

@@ -59,8 +59,8 @@ namespace RE
 		bool CanProcess(InputEvent* a_event) override;  // 01
 #endif
 #ifdef EXCLUSIVE_SKYRIM_VR
-		bool ProcessKinect(KinectEvent* a_event) override;  // 02
-		bool ProcessButton(ButtonEvent* a_event) override;  // 05
+		bool ProcessKinect(KinectEvent* a_event) override;  // 05
+		bool ProcessButton(ButtonEvent* a_event) override;  // 08
 #endif
 
 #ifndef SKYRIM_CROSS_VR

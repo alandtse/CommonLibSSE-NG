@@ -32,8 +32,8 @@ namespace RE
 		bool CanProcess(InputEvent* a_event) override;  // 01
 #endif
 #ifdef EXCLUSIVE_SKYRIM_VR
-		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
-		bool ProcessMouseMove(MouseMoveEvent* a_event) override;    // 04
+		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 06
+		bool ProcessMouseMove(MouseMoveEvent* a_event) override;    // 07
 #endif
 
 		RUNTIME_CAST_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x30, 0x40);

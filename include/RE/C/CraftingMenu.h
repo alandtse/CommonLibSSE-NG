@@ -33,6 +33,12 @@ namespace RE
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               PostDisplay() override;                                                // 06
 
+#ifdef EXCLUSIVE_SKYRIM_VR
+		// override (MenuEventHandler)
+		bool CanProcess(InputEvent* a_event) override;                                      // 01
+		bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event) override;  // 03
+#endif
+
 		RUNTIME_DATA_POINTER_ACCESSOR_EX(CraftingSubMenus::CraftingSubMenu*, GetCraftingSubMenu, 0x30, 0x40);
 
 		inline void SetCraftingSubMenu(CraftingSubMenus::CraftingSubMenu* craftingSubMenu) noexcept

@@ -60,6 +60,14 @@ namespace RE
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               RefreshPlatform() override;                                            // 08
 
+#ifdef EXCLUSIVE_SKYRIM_VR
+		// override (WorldSpaceMenu)
+		void    PostCreate() override;         // 02
+		void    SetupMenuNode() override;      // 0B
+		NiNode* GetMenuParentNode() override;  // 0C
+		void    SetTransform() override;       // 0D
+#endif
+
 #ifndef SKYRIM_CROSS_VR
 		// override (BSTEventSink<UserEventEnabledEvent>)
 		BSEventNotifyControl ProcessEvent(const UserEventEnabledEvent* a_event, BSTEventSource<UserEventEnabledEvent>* a_eventSource) override;  // 01

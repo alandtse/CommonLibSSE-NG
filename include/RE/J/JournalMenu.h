@@ -51,11 +51,17 @@ namespace RE
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                         // 04
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               PostDisplay() override;                                                // 06
+#ifdef EXCLUSIVE_SKYRIM_VR
+		void ResetOnShow() override;  // 0A
+#endif
 
 		// override (MenuEventHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01
 #ifdef EXCLUSIVE_SKYRIM_VR
-		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
+		bool ProcessVrWandTouchpadSwipe(VrWandTouchpadSwipeEvent* a_event) override;        // 02
+		bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event) override;  // 03
+		bool ProcessThumbstick(ThumbstickEvent* a_event) override;                          // 06
+		bool ProcessButton(ButtonEvent* a_event) override;                                  // 08
 #endif
 
 #ifndef SKYRIM_CROSS_VR

@@ -201,14 +201,32 @@ namespace RE
 	std::uint32_t                          numSelectableTrees;           /* 2C8 */ \
 	std::uint8_t                           flags0;                       /* 2CC */ \
 	std::uint8_t                           flags1;                       /* 2CD */ \
-	std::uint8_t                           unk2CE[2];                    /* 2CE */ \
+	std::uint8_t                           unk2CE;                       /* 2CE */ \
+	std::uint8_t                           unk2CF;                       /* 2CF */ \
 	std::uint8_t                           flags3;                       /* 2D0 */ \
 	std::uint8_t                           unk320;                       /* 2D1 */ \
 	std::uint8_t                           unk321;                       /* 2D2 */ \
 	bool                                   fadeInTriggered;              /* 2D3 */ \
 	bool                                   is3dInitialized;              /* 2D4 */ \
 	std::uint8_t                           unk324;                       /* 2D5 */ \
-	std::uint8_t                           unk2D6[0x10A];                /* 2D6 */
+	std::uint8_t                           unk2D6[0xA];                  /* 2D6 */ \
+	std::uint64_t                          unk2E0;                       /* 2E0 */ \
+	bool                                   unk2E8;                       /* 2E8 */ \
+	std::uint8_t                           unk2E9[0x2F];                 /* 2E9 */ \
+	bool                                   unk318;                       /* 318 */ \
+	std::uint8_t                           unk319[0x2F];                 /* 319 */ \
+	bool                                   unk348;                       /* 348 */ \
+	std::uint8_t                           unk349[0x17];                 /* 349 */ \
+	bool                                   unk360;                       /* 360 */ \
+	std::uint8_t                           unk361[0x17];                 /* 361 */ \
+	bool                                   unk378;                       /* 378 */ \
+	std::uint8_t                           unk379[0x2F];                 /* 379 */ \
+	std::uint32_t                          unk3A8;                       /* 3A8 */ \
+	float                                  unk3AC;                       /* 3AC */ \
+	float                                  unk3B0;                       /* 3B0 */ \
+	std::uint8_t                           unk3B4[0x24];                 /* 3B4 */ \
+	bool                                   unk3D8;                       /* 3D8 */ \
+	std::uint8_t                           unk3D9[7];                    /* 3D9 */
 
 			VR_RUNTIME_DATA_CONTENT
 		};
