@@ -4,7 +4,7 @@
 
 namespace RE
 {
-	// derives from AStarSearch<BSPathSmootherPOVNode, BSPathSmootherPOVLink, 12>; layout not yet reversed
+	// members are not modelled: do not use sizeof or derive from this
 	class BSPathSmootherPOVSearch
 	{
 	public:

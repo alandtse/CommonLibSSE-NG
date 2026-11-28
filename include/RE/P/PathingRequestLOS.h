@@ -14,7 +14,7 @@ namespace RE
 		~PathingRequestLOS() override;  // 00
 
 		// members
-		void*              unk100;  // 100 - ref-counted pointer, type unconfirmed
+		void*              unk100;  // 100 - ref-counted pointer
 		BSTArray<NiPoint3> points;  // 108
 		float              unk120;  // 120
 		float              unk124;  // 124

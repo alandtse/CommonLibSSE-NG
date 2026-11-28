@@ -13,9 +13,6 @@ namespace RE
 	struct PathFollowerStateUpdateData;
 	struct PathFollowerTurnTarget;
 
-	// follows a BSPathingSolution; the six secondary vtables at 18-47 belong to IMovementPlannerAgent,
-	// IMovementPathManagerAgent, IMovementQueryPathFollowing, IMovementSetPathFollowing,
-	// IMovementPlayIdleResult and IMovementHandlerAgent
 	class MovementAgentPathFollowerStandard : public MovementAgent
 	{
 	public:

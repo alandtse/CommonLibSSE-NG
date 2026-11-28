@@ -7,7 +7,7 @@ namespace RE
 	class BSPathingStreamRead;
 	class BSPathingStreamWrite;
 
-	// translation, rotation and the three times are named from the type 4 correction builder; the clip vectors are unproven; the six vectors at 34 are inferred from the type 1 output formulas
+	// member names from 34 on are unverified
 	struct MovementPlayIdleData
 	{
 	public:

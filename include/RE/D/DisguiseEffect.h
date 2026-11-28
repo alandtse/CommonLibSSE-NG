@@ -22,7 +22,6 @@ namespace RE
 			kFail
 		};
 
-		// Size is inferred from the member extents, not an allocation size.
 		class DetectionChecker : public DetectionCollector
 		{
 		public:

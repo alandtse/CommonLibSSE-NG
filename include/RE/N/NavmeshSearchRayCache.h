@@ -7,10 +7,7 @@ namespace RE
 {
 	class BSNavmesh;
 
-	// partial layout, size not yet confirmed:
-	// 08 - BSTHashMap<navmeshID, base slot>, 30 - byte[] per-triangle state (init 0x7F),
-	// 38 - BSTArray<BSNavmesh*>, 48 - navmesh count, 50 - total triangle slots
-	// referenced as BSNavmeshSearch::rayCache
+	// members are not modelled: do not use sizeof or derive from this
 	class NavmeshSearchRayCache
 	{
 	public:

@@ -4,7 +4,7 @@
 
 namespace RE
 {
-	// input/output of the movement handler agents' per-frame update (size proven by the builder ctor)
+	// input/output of the movement handler agents' per-frame update
 	struct MovementHandlerUpdateDataSmallDelta
 	{
 	public:

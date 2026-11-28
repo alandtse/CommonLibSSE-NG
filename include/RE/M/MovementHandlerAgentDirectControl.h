@@ -23,7 +23,7 @@ namespace RE
 		float           rotationBlendTime;           // 44 - zeroed by ctor and ClearForcedMovement
 		void*           movementParameters;          // 48 - released/zeroed in dtor
 		BSReadWriteLock lock;                        // 50 - ctor BSReadWriteLock(this+0x50); UpdateHandler locks it
-		NiPoint3        targetDirection;             // 58 - blended toward by UpdateHandler (FUN_1406faf20 lerp)
+		NiPoint3        targetDirection;             // 58 - blended toward by UpdateHandler
 		float           targetSpeed;                 // 64 - zeroed by ctor and ClearForcedMovement
 		NiPoint3        targetRotation;              // 68 - blended toward by UpdateHandler
 		std::uint8_t    unk74[4];                    // 74

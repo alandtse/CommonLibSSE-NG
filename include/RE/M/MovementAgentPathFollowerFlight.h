@@ -25,10 +25,10 @@ namespace RE
 		BSPathingRequest*  request;                           // 40 - SaveGame stream slot 0x60 / LoadGame slot 0x68
 		BSPathingSolution* solution;                          // 48 - LoadGame stream slot 0x70; node count at solution+0xA0
 		float              unk50;                             // 50 - serialized
-		float              distanceTravelled;                 // 54 - sub_141113820 adds curveProgress to it; serialized
+		float              distanceTravelled;                 // 54 - serialized
 		std::uint32_t      nodeIndex;                         // 58 - compared with solution node count, incremented; serialized
 		std::uint32_t      prevNodeIndex;                     // 5C - copy of nodeIndex; serialized
-		std::uint8_t       bezierCurve[48];                   // 60 - BSBezierCurve (BSTArray data 0x60, size 0x70): FUN_14131a920 init, QApproximateLength(this+0x60)
+		std::uint8_t       bezierCurve[48];                   // 60 - BSBezierCurve
 		std::uint32_t      ownerHandle;                       // 90 - Activate stores result of owner-handle slot call
 		std::uint8_t       unk94[4];                          // 94
 		void*              messageInterface;                  // 98 - dtor calls vtable slot 4 on it then nulls it

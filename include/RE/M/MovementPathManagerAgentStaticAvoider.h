@@ -20,7 +20,7 @@ namespace RE
 		std::uint32_t      ownerHandle;                       // 30 - Activate stores result of owner-handle slot call
 		std::uint8_t       unk34[4];                          // 34
 		void*              messageInterface;                  // 38 - interface pointer; dtor calls vtable slot 4 on it then nulls it
-		std::uint8_t       errorFrames[16];                   // 40 - BSTArray of movement error frames; ctor FUN_1411382d0, SaveGame WriteMovementErrorFrameArray
+		std::uint8_t       errorFrames[16];                   // 40 - BSTArray of movement error frames
 		std::uint8_t       unk50[32];                         // 50
 		std::uint32_t      avoidNodesCapacity;                // 70
 		std::uint8_t       unk74[4];                          // 74

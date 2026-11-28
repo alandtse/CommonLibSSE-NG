@@ -2,7 +2,6 @@
 
 namespace RE
 {
-	// the only implementation observed is a null tracker whose Track is an empty return
 	template <class Agent, class Data>
 	class IMovementAgentDataTracker
 	{

@@ -4,7 +4,7 @@
 
 namespace RE
 {
-	// layout not yet reversed
+	// members are not modelled: do not use sizeof or derive from this
 	class BSPathingSearchRayCast
 	{
 	public:

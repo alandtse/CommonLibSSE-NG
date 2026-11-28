@@ -18,7 +18,7 @@ namespace RE
 		~IMovementPlannerSetArbitration() override;  // 00
 
 		// add
-		virtual void  SetVectorArbitration(const BSTSmartPointer<MovementArbitrationVectorAdd>& a_arb) = 0;                // 01 - slots 01 and 02 share identical code; the target is told apart by member offset
+		virtual void  SetVectorArbitration(const BSTSmartPointer<MovementArbitrationVectorAdd>& a_arb) = 0;                // 01
 		virtual void  SetPointArbitration(const BSTSmartPointer<MovementArbitrationMaxWeightPoint>& a_arb) = 0;            // 02
 		virtual void  SetParametersArbitration(const BSTSmartPointer<MovementArbitrationMaxWeightParameters>& a_arb) = 0;  // 03
 		virtual void  ClearInitialized() = 0;                                                                              // 04

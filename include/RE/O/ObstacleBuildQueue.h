@@ -7,7 +7,7 @@ namespace RE
 {
 	struct ObstacleBuildRequest;
 
-	// Global queue drained by Job_Bounds_manager; instance pointer is gObstacleBuildQueue.
+	// Global obstacle-build queue.
 	struct ObstacleBuildQueue
 	{
 	public:

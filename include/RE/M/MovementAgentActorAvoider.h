@@ -9,8 +9,6 @@ namespace RE
 	class BSPathingRequest;
 	class ActorState;
 
-	// the secondary vtables at 18-2F belong to IMovementPlannerAgent, IMovementPathManagerAgent
-	// and IMovementQueryActorAvoidance
 	class MovementAgentActorAvoider : public MovementAgent
 	{
 	public:

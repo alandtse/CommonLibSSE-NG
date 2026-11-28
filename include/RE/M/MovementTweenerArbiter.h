@@ -28,7 +28,7 @@ namespace RE
 
 		// members
 		NiTransform                                                                       tweenerTransform;       // 028
-		NiTransform                                                                       motionTransform;        // 05C - rotation is multiplied in and velocity integrated into its position by UpdateSmallDelta; the name is a guess
+		NiTransform                                                                       motionTransform;        // 05C
 		NiTransform                                                                       actorTransform;         // 090 - filled from the actor state and sent to the agents
 		NiPoint3                                                                          tweenerVelocity;        // 0C4
 		float                                                                             tweenerYawRate;         // 0D0

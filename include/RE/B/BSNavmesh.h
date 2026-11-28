@@ -308,7 +308,7 @@ namespace RE
 		BSTArray<BSNavmeshEdgeExtraInfo>                             extraEdgeInfo;          // 040
 		BSTArray<BSNavmeshTriangleDoorPortal>                        doorPortals;            // 058
 		BSTArray<BSNavmeshClosedDoorInfo>                            closedDoors;            // 070
-		BSTArray<std::uint16_t>                                      coverTriangles;         // 088 - triangle indices of cover triangles (BuildCoverTriangleList: flags & 0xFBE0000, bit 5 clear)
+		BSTArray<std::uint16_t>                                      coverTriangles;         // 088 - triangle indices of cover triangles
 		BSNavmeshGrid                                                meshGrid;               // 0A0
 		BSTArray<NiPointer<BSNavmeshObstacleUndoData>>               obstacles;              // 0D0
 		BSTHashMap<std::uint16_t, NiPointer<BSNavmeshObstacleData>>* triangleToObstacleMap;  // 0E8

@@ -5,7 +5,6 @@
 
 namespace RE
 {
-	// Argument of MovementTweenerAgentFixedDelta::SetCorrectionData; 0x88 is the extent read, not a known allocation size.
 	struct MovementCorrectionData
 	{
 	public:
