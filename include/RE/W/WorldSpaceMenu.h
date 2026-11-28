@@ -79,6 +79,11 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void SetRenderTarget(VRMenuRenderTarget a_target) SKYRIM_REL_VR_OVERRIDE;  // 09
 #endif
 
+#ifndef SKYRIM_CROSS_VR
+		// override (BSTEventSink<HudModeChangeEvent>)
+		BSEventNotifyControl ProcessEvent(const HudModeChangeEvent* a_event, BSTEventSource<HudModeChangeEvent>* a_eventSource) override;  // 01
+#endif
+
 		// add
 		virtual void        SetupMenuNode();          // 0B - Sets up menuNode
 		virtual RE::NiNode* GetMenuParentNode() = 0;  // 0C - purecall, menuNode is attached to this in PostCreate()

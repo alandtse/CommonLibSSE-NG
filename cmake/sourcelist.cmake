@@ -1549,6 +1549,7 @@ set(SOURCES
 	include/RE/M/MapCamera.h
 	include/RE/M/MapInputHandler.h
 	include/RE/M/MapLookHandler.h
+	include/RE/M/MapMarkerText3D.h
 	include/RE/M/MapMenu.h
 	include/RE/M/MapMenuMarker.h
 	include/RE/M/MapMoveHandler.h
@@ -1856,6 +1857,9 @@ set(SOURCES
 	include/RE/S/State.h
 	include/RE/S/StatsEvent.h
 	include/RE/S/StatsMenu.h
+	include/RE/S/StatsMenuExtension.h
+	include/RE/S/StatsMenuPerks.h
+	include/RE/S/StatsMenuSkillRing.h
 	include/RE/S/StatsNode.h
 	include/RE/S/StealthMeter.h
 	include/RE/S/Stream.h
@@ -2071,6 +2075,8 @@ set(SOURCES
 	include/RE/V/VrWandTouchpadPositionEvent.h
 	include/RE/V/VrWandTouchpadSwipeEvent.h
 	include/RE/W/WSActivateRollover.h
+	include/RE/W/WSDebugOverlay.h
+	include/RE/W/WSEnemyMeters.h
 	include/RE/W/WeaponAnimationGraphManagerHolder.h
 	include/RE/W/WeaponEnchantmentController.h
 	include/RE/W/WeatherType.h
