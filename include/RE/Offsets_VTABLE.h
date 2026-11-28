@@ -7736,4 +7736,8 @@ namespace RE
 	constexpr std::array<REL::VariantOffset, 1> VTABLE_Json__RuntimeError{ REL::VariantOffset(0, 0, 0x1912278) };
 	constexpr std::array<REL::VariantOffset, 1> VTABLE_Json__LogicError{ REL::VariantOffset(0, 0, 0x1912290) };
 	constexpr std::array<REL::VariantOffset, 1> VTABLE_Json__BuiltStyledStreamWriter{ REL::VariantOffset(0, 0, 0x1912a50) };
+	constexpr std::array<REL::VariantID, 2>     VTABLE_MarketplaceMenu{ REL::VariantID(0, 422108, 0), REL::VariantID(0, 422112, 0) };
+	constexpr std::array<REL::VariantID, 1>     VTABLE_MarketplaceMenu__InputHandler{ REL::VariantID(0, 464969, 0) };
+	constexpr std::array<REL::VariantID, 1>     VTABLE_MarketplaceDataProducer{ REL::VariantID(0, 465009, 0) };
+	constexpr std::array<REL::VariantID, 2>     VTABLE_LoginMenu__loginMenu{ REL::VariantID(0, 464939, 0), REL::VariantID(0, 464941, 0) };
 }
