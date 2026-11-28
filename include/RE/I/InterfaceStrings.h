@@ -15,30 +15,30 @@ namespace RE
 		{
 #define RUNTIME_DATA_CONTENT                                                       \
 	BSFixedString creationClubMenu;        /* 198 - "Creation Club Menu */         \
-	BSFixedString titleSequenceMenu;       /* 1A8 - "TitleSequence Menu */         \
-	BSFixedString consoleNativeUIMenu;     /* 1B0 - "Console Native UI Menu */     \
-	BSFixedString kinectMenu;              /* 1B8 - "Kinect Menu */                \
-	BSFixedString loadWaitSpinner;         /* 1C0 - "LoadWaitSpinner */            \
-	BSFixedString streamingInstallMenu;    /* 1C8 - "StreamingInstallMenu */       \
-	BSFixedString textWidget;              /* 1D0 - "TextWidget */                 \
-	BSFixedString buttonBarWidget;         /* 1D8 - "ButtonBarWidget */            \
-	BSFixedString graphWidget;             /* 1E0 - "GraphWidget */                \
-	BSFixedString textureWidget;           /* 1E8 - "TextureWidget */              \
-	BSFixedString uiMenuOK;                /* 1F0 - "UIMenuOK */                   \
-	BSFixedString uiMenuCancel;            /* 1F8 - "UIMenuCancel */               \
-	BSFixedString showText;                /* 200 - "Show Text */                  \
-	BSFixedString hideText;                /* 208 - "Hide Text */                  \
-	BSFixedString showList;                /* 210 - "Show List */                  \
-	BSFixedString voiceReady;              /* 218 - "Voice Ready */                \
-	BSFixedString dmfoStr;                 /* 220 - "DMFOStr */                    \
-	BSFixedString showJournal;             /* 228 - "Show Journal */               \
-	BSFixedString journalSettingsSaved;    /* 230 - "Journal Settings Saved */     \
-	BSFixedString closeMenu;               /* 238 - "CloseMenu */                  \
-	BSFixedString closingAllMenus;         /* 240 - "Closing All Menus */          \
-	BSFixedString refreshMenu;             /* 248 - "RefreshMenu */                \
-	BSFixedString cancelLoading;           /* 250 - "CancelLoading */              \
-	BSFixedString menuTextureDegradeEvent; /* 258 - "Menu Texture Degrade Event */ \
-	BSFixedString diamondMarker;           /* 270 - "<img src='DiamondMarker' width='10' height='15' align='baseline' vspace='5 */
+	BSFixedString titleSequenceMenu;       /* 1A0 - "TitleSequence Menu */         \
+	BSFixedString consoleNativeUIMenu;     /* 1A8 - "Console Native UI Menu */     \
+	BSFixedString kinectMenu;              /* 1B0 - "Kinect Menu */                \
+	BSFixedString loadWaitSpinner;         /* 1B8 - "LoadWaitSpinner */            \
+	BSFixedString streamingInstallMenu;    /* 1C0 - "StreamingInstallMenu */       \
+	BSFixedString textWidget;              /* 1C8 - "TextWidget */                 \
+	BSFixedString buttonBarWidget;         /* 1D0 - "ButtonBarWidget */            \
+	BSFixedString graphWidget;             /* 1D8 - "GraphWidget */                \
+	BSFixedString textureWidget;           /* 1E0 - "TextureWidget */              \
+	BSFixedString uiMenuOK;                /* 1E8 - "UIMenuOK */                   \
+	BSFixedString uiMenuCancel;            /* 1F0 - "UIMenuCancel */               \
+	BSFixedString showText;                /* 1F8 - "Show Text */                  \
+	BSFixedString hideText;                /* 200 - "Hide Text */                  \
+	BSFixedString showList;                /* 208 - "Show List */                  \
+	BSFixedString voiceReady;              /* 210 - "Voice Ready */                \
+	BSFixedString dmfoStr;                 /* 218 - "DMFOStr */                    \
+	BSFixedString showJournal;             /* 220 - "Show Journal */               \
+	BSFixedString journalSettingsSaved;    /* 228 - "Journal Settings Saved */     \
+	BSFixedString closeMenu;               /* 230 - "CloseMenu */                  \
+	BSFixedString closingAllMenus;         /* 238 - "Closing All Menus */          \
+	BSFixedString refreshMenu;             /* 240 - "RefreshMenu */                \
+	BSFixedString cancelLoading;           /* 248 - "CancelLoading */              \
+	BSFixedString menuTextureDegradeEvent; /* 250 - "Menu Texture Degrade Event */ \
+	BSFixedString diamondMarker;           /* 258 - "<img src='DiamondMarker' width='10' height='15' align='baseline' vspace='5 */
 
 			RUNTIME_DATA_CONTENT
 		};
@@ -72,9 +72,9 @@ namespace RE
 	BSFixedString closingAllMenus;         /* 248 - "Closing All Menus */          \
 	BSFixedString refreshMenu;             /* 250 - "RefreshMenu */                \
 	BSFixedString cancelLoading;           /* 258 - "CancelLoading */              \
-	BSFixedString menuTextureDegradeEvent; /* 260 - "Menu Texture Degrade Event */ \
-	BSFixedString userSettingsLoaded;      /* 268 - "UserSettingsLoaded */         \
-	BSFixedString activityStarted;         /* 270 - "ActivityStarted */            \
+	BSFixedString userSettingsLoaded;      /* 260 - "UserSettingsLoaded */         \
+	BSFixedString activityStarted;         /* 268 - "ActivityStarted */            \
+	BSFixedString menuTextureDegradeEvent; /* 270 - "Menu Texture Degrade Event */ \
 	BSFixedString diamondMarker;           /* 278 - "<img src='DiamondMarker' width='10' height='15' align='baseline' vspace='5 */
 			AE_RUNTIME_DATA_CONTENT
 		};
