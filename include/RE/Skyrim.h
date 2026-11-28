@@ -1471,6 +1471,7 @@
 #include "RE/I/IngredientItem.h"
 #include "RE/I/InputDevices.h"
 #include "RE/I/InputEvent.h"
+#include "RE/I/InstructionStream.h"
 #include "RE/I/InterfaceLightSchemes.h"
 #include "RE/I/InterfaceStrings.h"
 #include "RE/I/InteriorData.h"

@@ -1469,6 +1469,7 @@ set(SOURCES
 	include/RE/I/IngredientItem.h
 	include/RE/I/InputDevices.h
 	include/RE/I/InputEvent.h
+	include/RE/I/InstructionStream.h
 	include/RE/I/InterfaceLightSchemes.h
 	include/RE/I/InterfaceStrings.h
 	include/RE/I/InteriorData.h
@@ -2475,6 +2476,7 @@ set(SOURCES
 	src/RE/I/IVirtualMachine.cpp
 	src/RE/I/IngredientItem.cpp
 	src/RE/I/InputEvent.cpp
+	src/RE/I/InstructionStream.cpp
 	src/RE/I/InterfaceStrings.cpp
 	src/RE/I/Inventory.cpp
 	src/RE/I/Inventory3DManager.cpp

@@ -4,6 +4,8 @@
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTHashMap.h"
+#include "RE/I/IFunction.h"
+#include "RE/I/InstructionStream.h"
 #include "RE/L/LinkerProcessor.h"
 #include "RE/T/TypeInfo.h"
 #include "RE/V/VirtualMachine.h"
@@ -12,22 +14,6 @@ namespace RE
 {
 	namespace BSScript
 	{
-		namespace ByteCode
-		{
-			struct InstructionDefinition
-			{
-			public:
-				// members
-				std::uint64_t unk00;         // 00
-				const char*   opCodeName;    // 08 - ex: iadd
-				const char*   opCodeArgs;    // 10 - ex: SII
-				std::byte     majorVersion;  // 18 - Papyrus major version when opCode was made
-				std::byte     minorVersion;  // 19 - Papyrus minor version when opCode was made
-				std::uint16_t pad1A;         // 1A
-				std::uint32_t pad1C;         // 1C
-			};
-			static_assert(sizeof(InstructionDefinition) == 0x20);
-		}
 		namespace UnlinkedTypes
 		{
 			class ConvertTypeFunctor
@@ -66,24 +52,6 @@ namespace RE
 				Internal::VirtualMachine* vm;  // 08
 			};
 			static_assert(sizeof(VMTypeResolveFunctor) == 0x10);
-
-			class InstructionStream
-			{
-			public:
-				// members
-				ScrapHeap*    threadScrapHeap;   // 00
-				std::uint32_t functionCodeSize;  // 08
-				std::uint32_t unk0C;             // 0C
-				std::uint32_t pad10;             // 10
-				std::uint32_t unk14;             // 14
-				void*         unk18;             // 18 - Holds arguments
-				void*         unk20;             // 20
-				void*         unk28;             // 28
-				std::uint64_t unk30;             // 30
-				void*         unk38;             // 38
-				std::uint64_t unk40;             // 40
-			};
-			static_assert(sizeof(InstructionStream) == 0x48);
 
 			class Function
 			{

@@ -259,7 +259,7 @@ namespace RE
 		bool                                       isFleeing;                 // 32B
 		bool                                       unk32C;                    // 32C
 		bool                                       hostileGuard;              // 32D
-		bool                                       unk32E;                    // 32E
+		bool                                       weaponDrawn;               // 32E
 		bool                                       unk32F;                    // 32F
 		bool                                       unk330;                    // 330
 		bool                                       killQueued;                // 331
