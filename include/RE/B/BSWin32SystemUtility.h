@@ -28,7 +28,7 @@ namespace RE
 
 		virtual ~BSWin32SystemUtility();  // 00
 
-#ifndef ENABLE_SKYRIM_AE
+#if !defined(ENABLE_SKYRIM_AE) && !defined(SKYRIM_CROSS_VR)
 		// override (BSSystemUtility)
 		void GetAuthenticationInfo(char*& a_userAuthID, std::uint64_t& a_size) override;  // 02
 		void DoInitialize() override;                                                     // 04
