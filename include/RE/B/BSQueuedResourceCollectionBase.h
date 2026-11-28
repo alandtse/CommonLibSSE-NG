@@ -4,6 +4,7 @@
 #include "RE/B/BSResourceEntryDB.h"
 #include "RE/B/BSTArray.h"
 #include "RE/Q/QueuedFile.h"
+#include "REL/RuntimeDataAccessors.h"
 
 namespace RE
 {
@@ -18,8 +19,12 @@ namespace RE
 	// instantiations; multiply-inherits QueuedFile (primary) and
 	// BSResource::IEntryDB::PostFlushNotify (secondary).
 	class BSQueuedResourceCollectionBase :
+#ifndef SKYRIM_CROSS_VR
 		public QueuedFile,                            // 00
 		public BSResource::IEntryDB::PostFlushNotify  // 38 (SE/AE) / 40 (VR)
+#else
+		public QueuedFile  // 00
+#endif
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BSQueuedResourceCollectionBase;
@@ -41,12 +46,26 @@ namespace RE
 		virtual void Unk_13() { return; }  // 13
 		virtual void Unk_14() { return; }  // 14
 
+		RUNTIME_CAST_ACCESSOR(BSResource::IEntryDB::PostFlushNotify, AsPostFlushNotify, 0x38, 0x40);
+
+		struct COLLECTION_RUNTIME_DATA
+		{
+#define COLLECTION_RUNTIME_DATA_CONTENT                                                                                  \
+	std::uint32_t                         pendingCount;   /* 50 (VR 58) - nonzero while entries are outstanding */       \
+	bool                                  needNotifyFlag; /* 54 (VR 5C) - set by Unk_10, consumed by Unk_11 */           \
+	bool                                  unk55;          /* 55 (VR 5D) - nonzero at construction; purpose unresolved */ \
+	std::uint16_t                         pad56;          /* 56 (VR 5E) */                                               \
+	BSTSmallArray<QueuedResourceEntry, 2> queue;          /* 58 (VR 60) */
+
+			COLLECTION_RUNTIME_DATA_CONTENT
+		};
+
+		RUNTIME_DATA_ACCESSOR_EX(COLLECTION_RUNTIME_DATA, GetCollectionRuntimeData, 0x50, 0x58);
 		// members
-		std::uint32_t                         pendingCount;    // 50 - nonzero while entries are outstanding
-		bool                                  needNotifyFlag;  // 54 - set by Unk_10, consumed by Unk_11
-		bool                                  unk55;           // 55 - nonzero at construction; purpose unresolved
-		std::uint16_t                         pad56;           // 56
-		BSTSmallArray<QueuedResourceEntry, 2> queue;           // 58
+#ifndef SKYRIM_CROSS_VR
+		COLLECTION_RUNTIME_DATA_CONTENT;  // 50 (VR 58)
+#endif
 	};
 	STATIC_ASSERT_SIZE(BSQueuedResourceCollectionBase, 0x88, 0x90);
 }
+#undef COLLECTION_RUNTIME_DATA_CONTENT

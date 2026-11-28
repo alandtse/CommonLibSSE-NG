@@ -18,13 +18,16 @@ namespace RE
 		};
 		static_assert(sizeof(hkbDefaultSynchronizedScene) == 0x18);
 
-		class hkbSynchronizedAnimationScene : public hkbDefaultSynchronizedScene
+		class hkbSynchronizedAnimationScene : public hkReferencedObject
 		{
 		public:
 			inline static constexpr auto RTTI = RTTI_BSSynchronizedClipGenerator__hkbSynchronizedAnimationScene;
 			inline static constexpr auto VTABLE = VTABLE_BSSynchronizedClipGenerator__hkbSynchronizedAnimationScene;
 
 			~hkbSynchronizedAnimationScene() override;  // 00
+
+			// members
+			std::uint64_t unk10;  // 10
 		};
 		static_assert(sizeof(hkbSynchronizedAnimationScene) == 0x18);
 
