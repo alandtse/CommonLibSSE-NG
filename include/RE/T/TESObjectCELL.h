@@ -30,6 +30,7 @@ namespace RE
 	namespace BGSWaterCollisionManager
 	{
 		class BGSWaterUpdateI;
+		class bhkAutoWater;
 	}
 
 	class BSTempEffectParticle;
@@ -249,7 +250,7 @@ namespace RE
 	BSTSet<NiPointer<TESObjectREFR>>                     references;       /* 080, 088 */                                      \
 	TESForm*                                             unk0B0;           /* 0B0, 0B8 - REFR owner of cell? */                \
 	BSTArray<TESObjectREFR*>                             objectList;       /* 0B8, 0C0 - persistent */                         \
-	BSTArray<void*>                                      unk0D0;           /* 0D0, 0D8 */                                      \
+	BSTArray<BGSWaterCollisionManager::bhkAutoWater*>    autoWaterObjects; /* 0D0, 0D8 */                                      \
 	BSTArray<BGSWaterCollisionManager::BGSWaterUpdateI*> waterObjects;     /* 0E8, 0F0 */                                      \
 	BSTArray<void*>                                      unk100;           /* 100, 108 */                                      \
 	mutable BSSpinLock                                   spinLock;         /* 118, 120 */                                      \
