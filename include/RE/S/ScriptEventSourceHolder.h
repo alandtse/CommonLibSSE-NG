@@ -3,6 +3,7 @@
 #include "RE/B/BSTEvent.h"
 #include "RE/N/NiSmartPointer.h"
 #include "REL/RuntimeDataAccessors.h"
+#include <SKSE/Version.h>
 
 namespace RE
 {
@@ -11,6 +12,8 @@ namespace RE
 	struct TESActivateEvent;
 	struct TESActiveEffectApplyRemoveEvent;
 	struct TESActorLocationChangeEvent;
+	struct TESAmiiboForcedStopDetectionEvent;
+	struct TESAmiiboTouchEvent;
 	struct TESBookReadEvent;
 	struct TESCellAttachDetachEvent;
 	struct TESCellFullyLoadedEvent;
@@ -143,6 +146,22 @@ namespace RE
 		}
 
 		SE_ONLY_POINTER_ACCESSOR(BSTEventSource<TESFastTravelEndEvent>, AsTESFastTravelEndEventSource, 0x1238);
+
+		template <>
+		inline BSTEventSource<TESAmiiboTouchEvent>* GetEventSource() noexcept
+		{
+			return AsTESAmiiboTouchEventSource();
+		}
+
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(BSTEventSource<TESAmiiboTouchEvent>, AsTESAmiiboTouchEventSource, SKSE::RUNTIME_SSE_1_7_104, 0x1290);
+
+		template <>
+		inline BSTEventSource<TESAmiiboForcedStopDetectionEvent>* GetEventSource() noexcept
+		{
+			return AsTESAmiiboForcedStopDetectionEventSource();
+		}
+
+		RUNTIME_DATA_ACCESSOR_VERSIONED_OPTIONAL_EX(BSTEventSource<TESAmiiboForcedStopDetectionEvent>, AsTESAmiiboForcedStopDetectionEventSource, SKSE::RUNTIME_SSE_1_7_104, 0x12E8);
 
 		template <class T>
 		inline void AddEventSink(BSTEventSink<T>* a_sink)
