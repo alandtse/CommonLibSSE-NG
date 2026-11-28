@@ -36,13 +36,6 @@ namespace RE
 		};
 		static_assert(sizeof(Entry) == 0x10);
 
-		[[nodiscard]] static bool IsValid(const ObjectRefHandle& a_handle)
-		{
-			using func_t = decltype(&BSPointerHandleManager<TESObjectREFR>::IsValid);
-			static REL::Relocation<func_t> func{ RELOCATION_ID(75454, 77239) };
-			return func(a_handle);
-		}
-
 		[[nodiscard]] static std::uint32_t GetFreeListHead()
 		{
 			static REL::Relocation<std::uint32_t*> head{ RELOCATION_ID(514475, 400619) };

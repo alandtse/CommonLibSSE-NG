@@ -88,7 +88,7 @@ namespace RE
 	std::uint32_t CombatBehaviorThread::GetChildIndex() const
 	{
 		using func_t = decltype(&CombatBehaviorThread::GetChildIndex);
-		static REL::Relocation<func_t> func{ RELOCATION_ID(46531, 47786) };
+		static REL::Relocation<func_t> func{ RELOCATION_ID(46531, 47746) };
 		return func(this);
 	}
 
