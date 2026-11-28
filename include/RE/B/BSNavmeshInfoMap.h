@@ -15,6 +15,13 @@ namespace RE
 	struct BSNavmeshInfo
 	{
 	public:
+		void SetNavmesh(BSNavmesh* a_navmesh)
+		{
+			using func_t = void(BSNavmeshInfo*, BSNavmesh*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88778, 91224) };
+			func(this, a_navmesh);
+		}
+
 		std::uint32_t                   navMeshID;            // 00
 		NiPoint3                        approxLocation;       // 04
 		BSTSmartPointer<BSPathingDoor>* connectedDoorsArray;  // 10

@@ -13,6 +13,7 @@ namespace RE
 	class BSNavmeshObstacleUndoData;
 	class BSPathingCell;
 	class BSPathingDoor;
+	struct BSNavmeshInfo;
 
 	enum class EDGE_EXTRA_INFO_TYPE
 	{
@@ -165,6 +166,43 @@ namespace RE
 			func(this, result, a_tri);
 
 			return result;
+		}
+
+		BSNavmeshInfo* GetNavmeshInfo()
+		{
+			using func_t = BSNavmeshInfo*(BSNavmesh*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88631, 91061) };
+			return func(this);
+		}
+		bool AddObstacle(BSNavmeshObstacleData** a_obstacle, BSTArray<void*>* a_outEdges)
+		{
+			using func_t = bool(BSNavmesh*, BSNavmeshObstacleData**, BSTArray<void*>*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88706, 91150) };
+			return func(this, a_obstacle, a_outEdges);
+		}
+		bool RemoveObstacle(BSNavmeshObstacleData** a_obstacle, BSTArray<void*>* a_outEdges)
+		{
+			using func_t = bool(BSNavmesh*, BSNavmeshObstacleData**, BSTArray<void*>*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88707, 91151) };
+			return func(this, a_obstacle, a_outEdges);
+		}
+		bool CloseDoor(BSPathingDoor** a_door, void* a_operation)
+		{
+			using func_t = bool(BSNavmesh*, BSPathingDoor**, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88716, 91167) };
+			return func(this, a_door, a_operation);
+		}
+		bool OpenDoor(std::uint32_t a_doorID)
+		{
+			using func_t = bool(BSNavmesh*, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88717, 91168) };
+			return func(this, a_doorID);
+		}
+		void CompactEdgeExtraInfo()
+		{
+			using func_t = void(BSNavmesh*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88724, 91176) };
+			func(this);
 		}
 
 		// members
