@@ -9,10 +9,15 @@
 
 namespace RE
 {
+	// AE-enabled builds truncate Projectile, so the event bases are only reachable through the accessors there.
 	class BeamProjectile :
+#ifndef ENABLE_SKYRIM_AE
 		public Projectile,                                 // 000
 		public BSTEventSource<BeamProjectileImpactEvent>,  // 1E0
 		public BSTEventSink<BSProceduralGeomEvent>         // 1D8
+#else
+		public Projectile  // 000
+#endif
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BeamProjectile;
@@ -44,8 +49,13 @@ namespace RE
 		bool        ShouldUseDesiredTarget() override;                                                                                                                                          // C1
 #endif
 
+#ifndef ENABLE_SKYRIM_AE
 		// override (BSTEventSink<BSProceduralGeomEvent>)
 		BSEventNotifyControl ProcessEvent(const BSProceduralGeomEvent* a_event, BSTEventSource<BSProceduralGeomEvent>* a_eventSource) override;  // 01
+#endif
+
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<BSProceduralGeomEvent>, AsProceduralGeomEventSink, SKSE::RUNTIME_SSE_1_6_629, 0x1D8, 0x1E0);
+		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSource<BeamProjectileImpactEvent>, AsImpactEventSource, SKSE::RUNTIME_SSE_1_6_629, 0x1E0, 0x1E8);
 
 		struct BEAM_RUNTIME_DATA
 		{
@@ -53,7 +63,7 @@ namespace RE
 	std::uint64_t unk238;  // 238, 240
 		};
 
-		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(BEAM_RUNTIME_DATA, GetBeamRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x98, 0xA0);
+		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(BEAM_RUNTIME_DATA, GetBeamRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x238, 0x240);
 		// members
 #ifndef ENABLE_SKYRIM_AE
 		BEAM_RUNTIME_DATA_CONTENT;
