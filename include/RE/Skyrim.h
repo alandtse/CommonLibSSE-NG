@@ -2198,7 +2198,7 @@
 #include "RE/U/UpdateConstellationAnims.h"
 #include "RE/U/UpdateStarText.h"
 #include "RE/U/UseWeaponActorPackageData.h"
-#include "RE/U/UserEventEnabled.h"
+#include "RE/U/UserEventEnabledEvent.h"
 #include "RE/U/UserEvents.h"
 #include "RE/V/VATS.h"
 #include "RE/V/VATSCameraState.h"
