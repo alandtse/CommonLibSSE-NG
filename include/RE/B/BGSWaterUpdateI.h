@@ -4,7 +4,6 @@
 
 namespace RE
 {
-	class bhkRigidBody;
 	class hkpCollidable;
 	class TESWaterForm;
 
@@ -80,8 +79,7 @@ namespace RE
 			BGSWaterUpdateI*                  next;           // 28
 			TESWaterForm*                     waterType;      // 30
 			void*                             context;        // 38
-			bhkRigidBody*                     body;           // 40
 		};
-		static_assert(sizeof(BGSWaterUpdateI) == 0x48);
+		static_assert(sizeof(BGSWaterUpdateI) == 0x40);
 	}
 }
