@@ -2662,6 +2662,7 @@ set(SOURCES
 	src/RE/M/MessageBoxMenu.cpp
 	src/RE/M/Misc.cpp
 	src/RE/M/MissileProjectile.cpp
+	src/RE/M/MovementControllerAI.cpp
 	src/RE/M/MovementControllerNPC.cpp
 	src/RE/N/NativeFunctionBase.cpp
 	src/RE/N/NextChildSelector.cpp

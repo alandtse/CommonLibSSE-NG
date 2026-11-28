@@ -167,7 +167,10 @@ namespace RE
 		virtual void            RegisterInterfaces();                                                    // 06 - no-op in the base
 		virtual void            UpdateSmallDelta(float a_deltaTime, MovementUpdateDeltas* a_output);     // 07 - builds MovementUpdateDataSmallDelta, calls each arbiter
 		virtual void            UpdateLargeDelta(float a_deltaTime, BSTArray<BSFixedString>* a_output);  // 08
-		virtual void            Unk_09(void);                                                            // 09 - { return 1; }
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		virtual void Unk_VR09(void);  // VR 09
+#endif
+		SKYRIM_REL_VR_VIRTUAL bool Unk_09(void);  // SE/AE 09, VR 0A - { return 1; }
 
 		// members
 		mutable volatile std::uint32_t          _refCount{ 0 };  // 008
