@@ -11,6 +11,7 @@ namespace RE
 	class BSPathingLockData;
 	class BSPathingStreamRead;
 	class BSPathingStreamWrite;
+	class hkpCollidable;
 	class IDebugText;
 	class IMovementParameters;
 	class NiAVObject;
@@ -139,14 +140,14 @@ namespace RE
 		virtual ~BSPathing();  // 00
 
 		// add
-		virtual BSTArray<BSNavmeshInfo*> GetPotentialNavMeshInfoForLocation(PathingCell* a_cell) = 0;                                             // 01
-		virtual bool                     GetAllLoadedNavmeshes1(BSTScrapHashMap<std::uint32_t, BSTSmartPointer<BSNavmesh>>& a_retNavMeshes) = 0;  // 02
-		virtual bool                     GetAllLoadedNavmeshes2(BSScrapArray<BSNavmeshInfo*>& a_retNavMeshes) = 0;                                // 03
-		virtual bool                     GetAllLoadedNavmeshes3(BSTArray<BSNavmeshInfo*>& a_retNavMeshes) = 0;                                    // 04
-		virtual bool                     GetAllLoadedNavmeshes4(BSScrapArray<BSTSmartPointer<BSNavmesh>>& a_retNavMeshes) = 0;                    // 05
-		virtual bool                     GetAllLoadedNavmeshes5(BSTArray<BSTSmartPointer<BSNavmesh>>& a_retNavMeshes) = 0;                        // 06
-		virtual FormID                   GetSelectedDebugRef() = 0;                                                                               // 07
-		virtual bool                     GetPathingDoorFromCollision(NiAVObject* a_object, BSTSmartPointer<BSPathingDoor>& a_retDoor) = 0;        // 08
+		virtual BSTArray<BSNavmeshInfo*> GetPotentialNavMeshInfoForLocation(PathingCell* a_cell) = 0;                                              // 01
+		virtual bool                     GetAllLoadedNavmeshes1(BSTScrapHashMap<std::uint32_t, BSTSmartPointer<BSNavmesh>>& a_retNavMeshes) = 0;   // 02
+		virtual bool                     GetAllLoadedNavmeshes2(BSScrapArray<BSNavmeshInfo*>& a_retNavMeshes) = 0;                                 // 03
+		virtual bool                     GetAllLoadedNavmeshes3(BSTArray<BSNavmeshInfo*>& a_retNavMeshes) = 0;                                     // 04
+		virtual bool                     GetAllLoadedNavmeshes4(BSScrapArray<BSTSmartPointer<BSNavmesh>>& a_retNavMeshes) = 0;                     // 05
+		virtual bool                     GetAllLoadedNavmeshes5(BSTArray<BSTSmartPointer<BSNavmesh>>& a_retNavMeshes) = 0;                         // 06
+		virtual FormID                   GetSelectedDebugRef() = 0;                                                                                // 07
+		virtual bool                     GetPathingDoorFromCollision(hkpCollidable* a_collidable, BSTSmartPointer<BSPathingDoor>& a_retDoor) = 0;  // 08
 
 		// members
 		FindTriangleForLocationFilterCheckDeltaZ defaultTriangleFilter;  // 08
