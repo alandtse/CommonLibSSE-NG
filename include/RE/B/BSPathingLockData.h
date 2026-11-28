@@ -1,11 +1,13 @@
 #pragma once
 
+#include "RE/B/BSIntrusiveRefCounted.h"
+
 namespace RE
 {
 	class BSPathingDoor;
 
 	// Refcounted door-passage policy used by path searches.
-	class BSPathingLockData
+	class BSPathingLockData : public BSIntrusiveRefCounted
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BSPathingLockData;
@@ -19,8 +21,7 @@ namespace RE
 		virtual BSPathingLockData* Clone() const = 0;                                          // 06
 
 		// members
-		std::int32_t  refCount;  // 08
-		std::uint32_t pad0C;     // 0C
+		std::uint32_t pad0C;  // 0C
 	};
 	static_assert(sizeof(BSPathingLockData) == 0x10);
 }

@@ -123,15 +123,6 @@ namespace RE
 	};
 	static_assert(sizeof(BSNavmeshClosedDoorInfo) == 0x10);
 
-	struct BSNavmeshCoverEdge
-	{
-	public:
-		// members
-		std::uint16_t vertices[2];  // 00
-		std::uint32_t data;         // 08
-	};
-	static_assert(sizeof(BSNavmeshCoverEdge) == 0x8);
-
 	struct BSNavmeshGrid
 	{
 	public:

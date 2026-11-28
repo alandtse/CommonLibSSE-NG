@@ -17,4 +17,5 @@ namespace RE
 		virtual void          Cancel();         // 04
 		virtual std::uint32_t GetUpdateType();  // 05
 	};
+	static_assert(sizeof(BGSQueuedTerrainUpdate) == 0x8);
 }

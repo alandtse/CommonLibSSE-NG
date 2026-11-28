@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSIntrusiveRefCounted.h"
 #include "RE/B/BSTArray.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
@@ -10,7 +11,7 @@ namespace RE
 	class bhkRigidBody;
 	class NiRefObject;
 
-	class BSNavmeshObstacleData
+	class BSNavmeshObstacleData : public BSIntrusiveRefCounted
 	{
 	public:
 		inline static constexpr auto RTTI = RTTI_BSNavmeshObstacleData;
@@ -19,7 +20,6 @@ namespace RE
 		virtual ~BSNavmeshObstacleData();  // 00
 
 		// members
-		std::uint32_t            refCount;          // 08
 		std::uint32_t            pad0C;             // 0C
 		void*                    unk10;             // 10
 		NiPointer<bhkRigidBody>  rigidBody;         // 18

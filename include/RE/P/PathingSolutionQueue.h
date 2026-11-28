@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RE/B/BSIntrusiveRefCounted.h"
+
 namespace RE
 {
 	struct BSPathingSolution;
@@ -14,10 +16,9 @@ namespace RE
 	static_assert(sizeof(PathingSolutionEntry) == 0x10);
 
 	// Re-entrant try-locked queue of pending path solutions.
-	struct PathingSolutionQueue
+	struct PathingSolutionQueue : public BSIntrusiveRefCounted
 	{
 	public:
-		std::uint32_t refCount;       // 00
 		std::uint32_t pad04;          // 04
 		std::uint32_t capacity;       // 08 - bit 31 set means inline storage
 		std::uint32_t pad0C;          // 0C
