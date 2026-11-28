@@ -9,7 +9,6 @@ namespace RE
 	class BSNavmeshObstacleData;
 	struct BSNavmeshInfo;
 
-	// Layout and member names from Skyrim SE 1.5.97 / VR 1.4.15 RE; ref/op field roles confirmed from Process/Commit
 	struct ObstacleTaskOperation
 	{
 	public:
