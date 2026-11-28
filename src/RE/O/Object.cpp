@@ -50,12 +50,12 @@ namespace RE
 			handleRef.ChangeHandle(a_policy->EmptyHandle());
 
 			// 0-init required to prevent cleanup of garbage variable data as they are changed/modified
-			std::memset((void*)variables, 0, sizeof(Variable) * type->GetTotalNumVariables());
+			std::memset((void*)variables, 0, sizeof(Variable) * type->GetVariableCount());
 		}
 
 		BSTSmartPointer<Object> Object::Create(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties)
 		{
-			return BSTSmartPointer<Object>(new (VariableCountTag{ a_type->GetTotalNumVariables() }) Object(a_type, a_policy, a_numProperties));
+			return BSTSmartPointer<Object>(new (VariableCountTag{ a_type->GetVariableCount() }) Object(a_type, a_policy, a_numProperties));
 		}
 
 		Object::~Object()
@@ -70,10 +70,7 @@ namespace RE
 				initialized = false;
 			}
 
-			const auto currentStack = GetOwningStack();
-			if (currentStack != nullptr) {
-				UnlockFromStack(currentStack.get());
-			}
+			UnlockFromStack(GetOwningStack());
 		}
 
 		void Object::Initialize()
@@ -252,10 +249,11 @@ namespace RE
 		}
 
 		// Lock
-		void Object::LockPendingReset() noexcept
+		std::uintptr_t Object::LockPendingReset() noexcept
 		{
 			auto current = owningStack.load(std::memory_order_relaxed);
 			while (!owningStack.compare_exchange_weak(current, current | kPendingResetBit)) {}
+			return current;
 		}
 
 		// Unlock
@@ -265,9 +263,9 @@ namespace RE
 			while (!owningStack.compare_exchange_weak(current, current & ~kPendingResetBit)) {}
 		}
 
-		[[nodiscard]] BSTSmartPointer<Stack> Object::GetOwningStack() const noexcept
+		[[nodiscard]] Stack* Object::GetOwningStack() const noexcept
 		{
-			return BSTSmartPointer(reinterpret_cast<Stack*>(owningStack.load(std::memory_order_relaxed) & ~kPendingResetBit));
+			return reinterpret_cast<Stack*>(owningStack.load(std::memory_order_relaxed) & ~kPendingResetBit);
 		}
 
 		[[nodiscard]] bool Object::IsPendingReset() const noexcept
@@ -277,7 +275,7 @@ namespace RE
 
 		void Object::ReleaseProperties()
 		{
-			const auto variableCount = type->GetTotalNumVariables();
+			const auto variableCount = type->GetVariableCount();
 
 			for (size_t i = 0; i < variableCount; i++) {
 				variables[i] = Variable();
