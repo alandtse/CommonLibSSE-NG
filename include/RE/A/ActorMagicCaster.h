@@ -67,7 +67,7 @@ namespace RE
 		void                       AdjustActiveEffect(ActiveEffect* a_activeEffect, float a_power, bool a_arg3) override;                                                                  // 1C
 
 		// add
-		virtual void Update(float a_delta);  // 1D (SE/AE) / 1F (VR)
+		SKYRIM_REL_VR_VIRTUAL void Update(float a_delta);  // 1D (SE/AE) / 1F (VR)
 
 		void CheckAttachCastingArt()
 		{

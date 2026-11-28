@@ -50,8 +50,6 @@ namespace RE
 		virtual void Unk_0E(void);                                             // 0E
 		virtual void Unk_0F(void);                                             // 0F
 		virtual void DoAuthenticateUser();                                     // 10
-		virtual void Unk_11(void);                                             // 11
-		virtual bool Unk_12();                                                 // 12 - added in 1.6.1130
 #else
 		static constexpr std::size_t kAE1799AddedVFuncCount = 1;  // matches Unk_02AE above
 		void                         GetAuthenticationInfo(char*& a_userAuthID, std::uint64_t& a_size)
@@ -78,8 +76,19 @@ namespace RE
 		void Unk_0E(void) { REL::RelocateVirtual<void(BSSystemUtility*)>(REL::VersionShift(0x0E, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), 0x0F, this); }
 		void Unk_0F(void) { REL::RelocateVirtual<void(BSSystemUtility*)>(REL::VersionShift(0x0F, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), 0x10, this); }
 		void DoAuthenticateUser() { REL::RelocateVirtual<void(BSSystemUtility*)>(REL::VersionShift(0x10, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), 0x11, this); }
-		void Unk_11(void) { REL::RelocateVirtual<void(BSSystemUtility*)>(REL::VersionShift(0x11, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), REL::VersionShift(0x11, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), this); }
-		bool Unk_12() { return REL::RelocateVirtual<bool(BSSystemUtility*)>(REL::VersionShift(0x12, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), REL::VersionShift(0x12, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), this); }  // added in 1.6.1130
+		void Unk_11(void)  // AE only
+		{
+			if (REL::Module::IsAE()) {
+				REL::RelocateVirtual<void(BSSystemUtility*)>(REL::VersionShift(0x11, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), 0x11, this);
+			}
+		}
+		bool Unk_12()  // added in 1.6.1130, returns false on older runtimes
+		{
+			if (!REL::Module::IsAE() || !REL::Module::IsAtLeast(SKSE::RUNTIME_SSE_1_6_1130)) {
+				return false;
+			}
+			return REL::RelocateVirtual<bool(BSSystemUtility*)>(REL::VersionShift(0x12, kAE1799AddedVFuncCount, SKSE::RUNTIME_SSE_1_7_99), 0x12, this);
+		}
 #endif
 
 		// members

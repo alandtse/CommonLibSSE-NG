@@ -2312,6 +2312,7 @@ set(SOURCES
 	src/RE/A/Actor.cpp
 	src/RE/A/ActorEquipManager.cpp
 	src/RE/A/ActorKill.cpp
+	src/RE/A/ActorMagicCaster.cpp
 	src/RE/A/ActorValueList.cpp
 	src/RE/A/ActorValueOwner.cpp
 	src/RE/A/AddCallbackVisitor.cpp
