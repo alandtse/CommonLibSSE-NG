@@ -4,13 +4,7 @@
 
 namespace RE
 {
-	BSScrapArrayAllocator::~BSScrapArrayAllocator()
-	{
-		if (_data) {
-			deallocate(_data);
-		}
-	}
-
+#ifndef ENABLE_COMMONLIBSSE_TESTING
 	void* BSScrapArrayAllocator::allocate(std::size_t a_size)
 	{
 		if (!_allocator) {
@@ -33,4 +27,5 @@ namespace RE
 			assert(false);
 		}
 	}
+#endif
 }

@@ -2,19 +2,47 @@
 
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSTSmartPointer.h"
+#include "RE/I/IObjectHandlePolicy.h"
 #include "RE/M/MemoryManager.h"
+#include "RE/S/Stack.h"
 #include "RE/V/Variable.h"
 
 namespace RE
 {
 	namespace BSScript
 	{
+		class Stack;
 		class ObjectTypeInfo;
 
 		class Object
 		{
 		public:
+			struct ObjectHandleRef
+			{
+			public:
+				void          IncRef() const noexcept;
+				std::uint32_t DecRef() const noexcept;
+				std::uint32_t GetRefCount() const noexcept;
+
+				VMHandle GetHandle() const noexcept;
+				void     ChangeHandle(const VMHandle a_newHandle) noexcept;
+
+			private:
+				template <class F>
+				std::int32_t SpinCAS(F a_computeDesired) const noexcept;
+				std::int32_t Lock() const noexcept;
+				void         Unlock(std::int32_t a_original) const noexcept;
+
+				VMHandle                          _handle{};               // 00
+				mutable std::atomic<std::int32_t> _refCountAndHandleLock;  // 08
+			};
+			static_assert(sizeof(ObjectHandleRef) == 0x10);
+
 			~Object();
+
+			[[nodiscard]] static BSTSmartPointer<Object> Create(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties);
+
+			void Initialize();
 
 			[[nodiscard]] VMHandle              GetHandle() const;
 			ObjectTypeInfo*                     GetTypeInfo();
@@ -33,7 +61,38 @@ namespace RE
 			Variable*                     GetVariable(const BSFixedString& a_name);
 			[[nodiscard]] const Variable* GetVariable(const BSFixedString& a_name) const;
 
-			TES_HEAP_REDEFINE_NEW();
+			[[nodiscard]] bool TryLockToStack(Stack* a_stack) noexcept;
+			void               UnlockFromStack(Stack* a_stack) noexcept;
+			void               LockPendingReset() noexcept;
+			void               UnlockPendingReset() noexcept;
+
+			[[nodiscard]] BSTSmartPointer<Stack> GetOwningStack() const noexcept;
+			[[nodiscard]] bool                   IsPendingReset() const noexcept;
+
+			void ReleaseProperties();
+
+			inline void operator delete(void* a_ptr)
+			{
+				RE::free(a_ptr);
+			}
+			inline void operator delete(void* a_ptr, std::size_t) noexcept
+			{
+				RE::free(a_ptr);
+			}
+
+			// Disallow object creation without variable count
+			[[nodiscard]] inline void*    operator new(std::size_t a_count) = delete;
+			[[nodiscard]] inline void*    operator new[](std::size_t a_count) = delete;
+			[[nodiscard]] constexpr void* operator new(std::size_t, void* a_ptr) = delete;
+			[[nodiscard]] constexpr void* operator new[](std::size_t, void* a_ptr) = delete;
+			[[nodiscard]] constexpr void* operator new(std::size_t, std::align_val_t, void* a_ptr) = delete;
+			[[nodiscard]] constexpr void* operator new[](std::size_t, std::align_val_t, void* a_ptr) = delete;
+			inline void                   operator delete[](void* a_ptr) = delete;
+			inline void                   operator delete(void* a_ptr, std::align_val_t) = delete;
+			inline void                   operator delete[](void* a_ptr, std::align_val_t) = delete;
+			inline void                   operator delete[](void* a_ptr, std::size_t) = delete;
+			inline void                   operator delete(void* a_ptr, std::size_t, std::align_val_t) = delete;
+			inline void                   operator delete[](void* a_ptr, std::size_t, std::align_val_t) = delete;
 
 			// members
 			std::uint32_t                   constructed: 1;            // 00 - 0
@@ -42,11 +101,34 @@ namespace RE
 			std::uint32_t                   remainingPropsToInit: 29;  // 00 - 3
 			BSTSmartPointer<ObjectTypeInfo> type;                      // 08
 			BSFixedString                   currentState;              // 10
-			void*                           lockStructure;             // 18 - first bit used as flag
-			volatile VMHandle               handle;                    // 20
-			volatile std::int32_t           refCountAndHandleLock;     // 28
-			std::uint32_t                   pad2C;                     // 2C
+			std::atomic<uintptr_t>          owningStack;               // 18 - stack that claims execution on this object, first bit used as pending reset flag
+			ObjectHandleRef                 handleRef{};               // 20
 			Variable                        variables[0];              // 30 - size == classPtr->GetTotalNumVariables() + 3
+
+		private:
+			explicit Object(const BSTSmartPointer<ObjectTypeInfo>& a_type, IObjectHandlePolicy* a_policy, uint32_t a_numProperties);
+
+			struct VariableCountTag
+			{
+				std::size_t count;
+			};
+
+			[[nodiscard]] static void* operator new(std::size_t a_basesSize, VariableCountTag a_numVariables)
+			{
+				const auto totalClassSize = a_basesSize + sizeof(Variable) * a_numVariables.count;
+				const auto mem = RE::malloc(totalClassSize);
+				if (mem) {
+					return mem;
+				} else {
+					stl::report_and_fail("out of memory"sv);
+				}
+			}
+
+			// Matching placement delete; only reachable if the constructor above throws.
+			static void operator delete(void* a_ptr, VariableCountTag) noexcept
+			{
+				RE::free(a_ptr);
+			}
 		};
 		static_assert(sizeof(Object) == 0x30);
 	}

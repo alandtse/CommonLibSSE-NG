@@ -211,7 +211,8 @@ namespace RE
 		std::uint64_t                               unk108;                         // 108
 		RefHandle                                   followTarget;                   // 110
 		RefHandle                                   target;                         // 114
-		RefHandle                                   arrestTarget;                   // 118
+		RefHandle                                   packageObject;                  // 118
+		RefHandle                                   secondPackageObject;            // 11C
 		std::uint64_t                               unk120;                         // 120
 		std::uint64_t                               unk128;                         // 128
 		std::uint32_t                               unk130;                         // 130

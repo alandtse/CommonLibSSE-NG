@@ -248,7 +248,7 @@ namespace RE
 	public:
 		[[nodiscard]] inline std::uint32_t operator()(const detail::BSFixedString<CharT>& a_key) const noexcept
 		{
-			return BSCRC32_<const void*>()(a_key.data());
+			return BSCRC32_<const void*>()(a_key.underlying());  // the game hashes the raw pointer, null included
 		}
 	};
 }

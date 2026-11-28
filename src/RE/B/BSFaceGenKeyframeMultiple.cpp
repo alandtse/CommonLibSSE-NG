@@ -60,6 +60,8 @@ namespace RE
 		case Type::Custom:
 			name = GetCustomName(a_idx);
 			break;
+		case Type::Undefined:
+			break;
 		}
 		return name ? name : "";
 	}
