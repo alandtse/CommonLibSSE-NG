@@ -7740,4 +7740,5 @@ namespace RE
 	constexpr std::array<REL::VariantID, 1>     VTABLE_MarketplaceMenu__InputHandler{ REL::VariantID(0, 464969, 0) };
 	constexpr std::array<REL::VariantID, 1>     VTABLE_MarketplaceDataProducer{ REL::VariantID(0, 465009, 0) };
 	constexpr std::array<REL::VariantID, 2>     VTABLE_LoginMenu__loginMenu{ REL::VariantID(0, 464939, 0), REL::VariantID(0, 464941, 0) };
+	constexpr std::array<REL::VariantID, 1>     VTABLE_BSPlatform__BSUserContent{ REL::VariantID(0, 422142, 0) };
 }

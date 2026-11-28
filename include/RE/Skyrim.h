@@ -503,6 +503,7 @@
 #include "RE/B/BSTriShape.h"
 #include "RE/B/BSUIMessageData.h"
 #include "RE/B/BSUIScaleformData.h"
+#include "RE/B/BSUserContent.h"
 #include "RE/B/BSUtilityShader.h"
 #include "RE/B/BSVRInterface.h"
 #include "RE/B/BSValueNode.h"

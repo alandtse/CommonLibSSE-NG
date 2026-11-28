@@ -8284,4 +8284,5 @@ namespace RE
 	constexpr REL::VariantID     RTTI_MarketplaceMenu__InputHandler(0, 502526, 0);
 	constexpr REL::VariantID     RTTI_MarketplaceDataProducer(0, 502535, 0);
 	constexpr REL::VariantID     RTTI_LoginMenu__loginMenu(0, 502522, 0);
+	constexpr REL::VariantID     RTTI_BSPlatform__BSUserContent(0, 433215, 0);
 }
