@@ -106,7 +106,7 @@ namespace RE
 				for (std::uint32_t n = 0; n < functionCodeSize; ++n) {
 					const auto record = records[n];
 
-					if (a_functor.VisitInstruction(record.opcode, record.info) == InstructionFunctor::ForEachResult::kStop) {
+					if (a_functor.VisitInstruction(record.opcode, static_cast<std::uint16_t>(record.info)) == InstructionFunctor::ForEachResult::kStop) {
 						// ends the whole walk
 						break;
 					}
@@ -246,18 +246,21 @@ namespace RE
 
 			InstructionStream::InstructionFunctor::ForEachResult CountInstructionInfo::VisitInstruction(std::uint32_t a_opcode, std::uint32_t a_info)
 			{
-				opcode = a_opcode;
-				argCount = static_cast<std::uint16_t>(a_info);
+				fixedBits += 6;
+				argCount = a_info;
 				argIndex = 0;
-				fixedBits += 6 + (CallCountBias(a_opcode) != 0 ? 9 : 0);
+				if (IsJumpOpcode(a_opcode)) {
+					++jumpCount;
+					argCount = a_info - 1;  // the target is sized separately
+				} else if (CallCountBias(a_opcode) != 0) {
+					fixedBits += 9;
+				}
 				return ForEachResult::kContinue;
 			}
 
 			InstructionStream::InstructionFunctor::ForEachResult CountInstructionInfo::VisitArgument(ByteCode::Argument& a_arg)
 			{
-				if (IsJumpOpcode(opcode) && argIndex == argCount - 1) {
-					++jumpCount;
-				} else {
+				if (argIndex < argCount) {
 					fixedBits += a_arg.GetBitCount(localBits, memberBits);
 				}
 				++argIndex;
