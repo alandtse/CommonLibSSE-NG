@@ -61,7 +61,7 @@ namespace RE
 		return func(this, a_x, a_y, a_z);
 	}
 
-	bool BSSoundHandle::SetPosition(NiPoint3 a_pos)
+	bool BSSoundHandle::SetPosition(const NiPoint3& a_pos)
 	{
 		return SetPosition(a_pos.x, a_pos.y, a_pos.z);
 	}

@@ -22,7 +22,7 @@ namespace RE
 		~LoadGameMissingContentCallBack() override;  // 00
 
 		// override (IMessageBoxCallback)
-		void Run(std::uint8_t a_button) override;  // 01
+		void operator()(std::uint8_t a_button) override;  // 01
 
 		// members beyond IMessageBoxCallback (0x10) hold the save-file info used to build the
 		// LoadRequest; layout not fully reversed.

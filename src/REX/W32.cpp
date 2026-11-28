@@ -345,6 +345,7 @@ REX_W32_IMPORT(void, OutputDebugStringA, const char*);
 REX_W32_IMPORT(void, OutputDebugStringW, const wchar_t*);
 REX_W32_IMPORT(REX::W32::BOOL, QueryPerformanceCounter, std::int64_t*);
 REX_W32_IMPORT(REX::W32::BOOL, QueryPerformanceFrequency, std::int64_t*);
+REX_W32_IMPORT(REX::W32::BOOL, ReleaseSemaphore, REX::W32::HANDLE, std::uint32_t, std::uint32_t*);
 REX_W32_IMPORT(std::uint32_t, ResumeThread, REX::W32::HANDLE);
 REX_W32_IMPORT(REX::W32::BOOL, SetEnvironmentVariableA, const char*, const char*);
 REX_W32_IMPORT(REX::W32::BOOL, SetEnvironmentVariableW, const wchar_t*, const wchar_t*);
@@ -706,6 +707,11 @@ namespace REX::W32
 	bool QueryPerformanceFrequency(std::int64_t* a_frequency) noexcept
 	{
 		return ::W32_IMPL_QueryPerformanceFrequency(a_frequency);
+	}
+
+	bool ReleaseSemaphore(HANDLE a_semaphore, std::uint32_t a_releaseCount, std::uint32_t* a_previousCount) noexcept
+	{
+		return ::W32_IMPL_ReleaseSemaphore(a_semaphore, a_releaseCount, a_previousCount);
 	}
 
 	std::uint32_t ResumeThread(HANDLE a_handle) noexcept

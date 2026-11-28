@@ -70,7 +70,7 @@ namespace RE
 
 	bool PlayerCharacter::CheckCast(MagicItem* a_spell, Effect* a_effect, MagicSystem::CannotCastReason& a_reason)
 	{
-		using func_t = decltype(&PlayerCharacter::CheckCast);
+		using func_t = bool(PlayerCharacter*, MagicItem*, Effect*, MagicSystem::CannotCastReason&);
 		static REL::Relocation<func_t> func{ RELOCATION_ID(39409, 40484) };
 		return func(this, a_spell, a_effect, a_reason);
 	}
@@ -317,7 +317,6 @@ namespace RE
 		static REL::Relocation<func_t> func{ RELOCATION_ID(39365, 40437) };
 		return func(this, a_cellName, a_cell);
 	}
-
 	void PlayerCharacter::AddSkillExperience(ActorValue a_skill, float a_experience, TESForm* a_advanceObject, std::uint32_t a_advanceAction)
 	{
 		using func_t = void (*)(PlayerCharacter*, ActorValue, float, TESForm*, std::uint32_t);

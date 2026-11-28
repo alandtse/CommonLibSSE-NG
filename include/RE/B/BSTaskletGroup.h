@@ -1,11 +1,9 @@
 #pragma once
 
-#include "RE/B/BSTaskletGroupData.h"
-
 namespace RE
 {
-	// Non-virtual handle populated by BSTaskletManager::CreateTaskGroup(BSTaskletGroup&);
-	// never constructed/owned directly.
+	class BSTaskletGroupData;
+
 	class BSTaskletGroup
 	{
 	public:

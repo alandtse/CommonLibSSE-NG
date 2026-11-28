@@ -25,6 +25,9 @@ namespace RE
 		public BSTEventSink<MenuModeChangeEvent>  // 08
 	{
 	public:
+		inline static constexpr auto RTTI = RTTI_MenuControls;
+		inline static constexpr auto VTABLE = VTABLE_MenuControls;
+
 		struct QueuedReg
 		{
 		public:

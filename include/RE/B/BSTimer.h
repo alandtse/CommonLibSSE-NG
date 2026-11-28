@@ -23,11 +23,11 @@ namespace RE
 			return *value;
 		}
 
-		void SetGlobalTimeMultiplier(float a_multiplier, bool a_arg2)
+		void SetGlobalTimeMultiplier(float a_multiplier, bool a_now)
 		{
 			using func_t = decltype(&BSTimer::SetGlobalTimeMultiplier);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(66988, 68245) };
-			return func(this, a_multiplier, a_arg2);
+			func(this, a_multiplier, a_now);
 		}
 
 		// Per-frame tick: computes delta/realTimeDelta from a_currentTicks (a millisecond counter),

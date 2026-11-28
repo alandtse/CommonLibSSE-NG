@@ -58,6 +58,7 @@ namespace RE
 		{
 		public:
 			inline static constexpr auto RTTI = RTTI_MagicTarget__IPostCreationModification;
+			inline static constexpr auto VTABLE = VTABLE_MagicTarget__IPostCreationModification;
 
 			virtual ~IPostCreationModification();  // 00
 
