@@ -87,6 +87,19 @@ namespace RE
 			return func(this);
 		}
 
+		void* GetCastingSourceDefaultObject()
+		{
+			using func_t = void*(ActorMagicCaster*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(33380, 34161) };
+			return func(this);
+		}
+		void* GetCastingSourceNodeName()
+		{
+			using func_t = void*(ActorMagicCaster*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(33381, 34162) };
+			return func(this);
+		}
+
 		// members
 		RefAttachTechniqueInput            castingArtData;               // 64
 		NiPointer<BGSArtObjectCloneTask>   cloneTask;                    // B0

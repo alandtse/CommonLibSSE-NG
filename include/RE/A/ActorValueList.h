@@ -17,6 +17,7 @@ namespace RE
 		[[nodiscard]] static ActorValueInfo* GetActorValueInfo(ActorValue a_actorValue);
 		[[nodiscard]] static ActorValue      LookupActorValueByName(const char* a_enumName);
 		[[nodiscard]] static const char*     GetActorValueName(ActorValue a_actorValue);
+		[[nodiscard]] static const char*     GetActorValueEnumName(ActorValue a_actorValue);
 
 		// members
 		std::uint32_t   unk00;                                                // 00

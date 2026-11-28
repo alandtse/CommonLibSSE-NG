@@ -4,6 +4,7 @@
 
 namespace RE
 {
+	class TESForm;
 	class BGSSoundDescriptorForm;
 	class TESBoundObject;
 
@@ -33,6 +34,13 @@ namespace RE
 		void InitializeDataComponent() override;              // 01
 		void ClearDataComponent() override;                   // 02 - { return; }
 		void CopyComponent(BaseFormComponent* rhs) override;  // 03
+
+		void InitComponent(TESForm* a_owner)
+		{
+			using func_t = void(TESProduceForm*, TESForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14691, 14863) };
+			func(this, a_owner);
+		}
 
 		// members
 		BGSSoundDescriptorForm* harvestSound;                   // 08 - SNAM

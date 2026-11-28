@@ -4,6 +4,8 @@
 
 namespace RE
 {
+	class IMovementInterface;
+
 	class IMovementControllerRegisterInterface
 	{
 	public:

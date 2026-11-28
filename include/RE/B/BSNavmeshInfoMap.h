@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSCompressedNavmeshBounds.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/B/BSTSingleton.h"
 #include "RE/B/BSTSmartPointer.h"
@@ -7,7 +8,7 @@
 
 namespace RE
 {
-	class BSCompressedNavmeshBounds;
+	struct BSCompressedNavmeshBounds;
 	class BSNavmesh;
 	class BSPathingCell;
 	class BSPathingDoor;
@@ -57,6 +58,20 @@ namespace RE
 		virtual void           GetAllNavMeshInfo(BSTArray<BSNavmeshInfo*>& a_results) = 0;                                       // 03
 		virtual void           BuildListOfConnectedInfos(const BSNavmeshInfo* a_info, BSTArray<BSNavmeshInfo*>& a_results) = 0;  // 04
 		virtual void           ForEach(IVisitor* a_visitor) = 0;                                                                 // 05
+
+		void CollectInfosWithinRadius(BSNavmeshInfo* a_startInfo, void* a_arg3, float a_radius, BSTArray<BSNavmeshInfo*, BSScrapArrayAllocator>* a_out)
+		{
+			using func_t = void(BSNavmeshInfoMap*, BSNavmeshInfo*, void*, float, BSTArray<BSNavmeshInfo*, BSScrapArrayAllocator>*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88878, 91331) };
+			func(this, a_startInfo, a_arg3, a_radius, a_out);
+		}
+
+		void VisitInfosBreadthFirst(BSNavmeshInfo* a_startInfo, void* a_visitor)
+		{
+			using func_t = void(BSNavmeshInfoMap*, BSNavmeshInfo*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88877, 91330) };
+			func(this, a_startInfo, a_visitor);
+		}
 	};
 	static_assert(sizeof(BSNavmeshInfoMap) == 0x8);
 }

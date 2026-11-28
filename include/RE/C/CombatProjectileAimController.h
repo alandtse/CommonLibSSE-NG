@@ -29,6 +29,19 @@ namespace RE
 		[[nodiscard]] CombatProjectileAimController* Clone() override;                                                          // 09
 		void                                         OnWeaponTypeChanged() override;                                            // 0A
 
+		bool IsAimWithinRadius()
+		{
+			using func_t = bool(CombatProjectileAimController*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(43163, 44385) };
+			return func(this);
+		}
+		void OnProjectileCast()
+		{
+			using func_t = void(CombatProjectileAimController*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(43168, 44390) };
+			func(this);
+		}
+
 		// members
 		BGSProjectile*        projectile;          // 48 - RTTI-checked cast from a form-ID lookup in LoadGame
 		float                 projectileSpeed;     // 50 - launch speed, fed into the ballistic arc time-of-flight solver

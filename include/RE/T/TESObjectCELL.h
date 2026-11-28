@@ -24,11 +24,13 @@
 
 namespace RE
 {
+	class BGSTerrainNode;
 	class TESRegionList;
 
 	namespace BGSWaterCollisionManager
 	{
 		class BGSWaterUpdateI;
+		class bhkAutoWater;
 	}
 
 	class BSTempEffectParticle;
@@ -40,6 +42,13 @@ namespace RE
 	class BGSTerrainVisibilityData
 	{
 	public:
+		bool IsNodeVisible(BGSTerrainNode* a_node)
+		{
+			using func_t = bool(BGSTerrainVisibilityData*, BGSTerrainNode*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31162, 31973) };
+			return func(this, a_node);
+		}
+
 		// members
 		BSBitField<>* visData;  // 0
 	};
@@ -241,7 +250,7 @@ namespace RE
 	BSTSet<NiPointer<TESObjectREFR>>                     references;       /* 080, 088 */                                      \
 	TESForm*                                             unk0B0;           /* 0B0, 0B8 - REFR owner of cell? */                \
 	BSTArray<TESObjectREFR*>                             objectList;       /* 0B8, 0C0 - persistent */                         \
-	BSTArray<void*>                                      unk0D0;           /* 0D0, 0D8 */                                      \
+	BSTArray<BGSWaterCollisionManager::bhkAutoWater*>    autoWaterObjects; /* 0D0, 0D8 */                                      \
 	BSTArray<BGSWaterCollisionManager::BGSWaterUpdateI*> waterObjects;     /* 0E8, 0F0 */                                      \
 	BSTArray<void*>                                      unk100;           /* 100, 108 */                                      \
 	mutable BSSpinLock                                   spinLock;         /* 118, 120 */                                      \
@@ -254,6 +263,35 @@ namespace RE
 		};
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED(RUNTIME_DATA, SKSE::RUNTIME_SSE_1_6_629, 0x60, 0x68);
+
+		void DebugDrawCellMopp()
+		{
+			using func_t = void(TESObjectCELL*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18537, 18996) };
+			func(this);
+		}
+
+		void QueueReferenceLoads()
+		{
+			using func_t = void(TESObjectCELL*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18592, 19061) };
+			func(this);
+		}
+
+		BSFadeNode* InitReferenceFade(TESObjectREFR* a_ref, bool a_arg2)
+		{
+			using func_t = BSFadeNode*(TESObjectCELL*, TESObjectREFR*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19036, 19450) };
+			return func(this, a_ref, a_arg2);
+		}
+
+		void RefreshActors(bool a_arg1, bool a_arg2)
+		{
+			using func_t = void(TESObjectCELL*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18577, 19046) };
+			func(this, a_arg1, a_arg2);
+		}
+
 		// members
 		mutable BSSpinLock                    grassCreateLock;  // 030
 		mutable BSSpinLock                    grassTaskLock;    // 038

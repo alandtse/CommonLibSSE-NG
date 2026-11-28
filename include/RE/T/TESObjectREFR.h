@@ -294,10 +294,10 @@ namespace RE
 		virtual bool                                            PopulateGraphProjectsToLoad(void) const;                                                                                                                                                                     // 72
 		[[nodiscard]] virtual NiPoint3                          GetBoundMin() const;                                                                                                                                                                                         // 73
 		[[nodiscard]] virtual NiPoint3                          GetBoundMax() const;                                                                                                                                                                                         // 74
-		virtual void                                            Unk_75(void);                                                                                                                                                                                                // 75 - { return 0; }
+		virtual std::uint32_t                                   GetEquippedWeaponTypeValue();                                                                                                                                                                                // 75 - { return 0; }
 		virtual bool                                            InitNonNPCAnimation(NiNode& a_nodeForAnim);                                                                                                                                                                  // 76
 		virtual bool                                            CheckAndFixSkinAndBoneOrder(NiNode& a_nodeToTest);                                                                                                                                                           // 77
-		virtual void                                            Unk_78(void);                                                                                                                                                                                                // 78
+		virtual bool                                            RefreshEquippedHandItems(NiAVObject* a_root);                                                                                                                                                                // 78
 		virtual void                                            ModifyAnimationUpdateData(BSAnimationUpdateData& a_data);                                                                                                                                                    // 79 - { return; }
 		[[nodiscard]] virtual bool                              ShouldSaveAnimationOnUnloading() const;                                                                                                                                                                      // 7A
 		[[nodiscard]] virtual bool                              ShouldSaveAnimationOnSaving() const;                                                                                                                                                                         // 7B
@@ -336,25 +336,25 @@ namespace RE
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL NiAVObject* GetCurrent3D() const;             // SE/AE 0x8D, VR 0x8E - { return Get3D2(); }
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL Explosion*  AsExplosion();                    // 90 - { return 0; }
 		// UNVERIFIED - unverified past this point (2026-07); slots need re-confirming against SkyrimVR.exe
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL Projectile*    AsProjectile();                                                                       // UNVERIFIED - { return 0; }
-		SKYRIM_REL_VR_VIRTUAL bool                         OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const;                          // UNVERIFIED - { return true; }
-		SKYRIM_REL_VR_VIRTUAL void                         DoMoveToHigh();                                                                       // UNVERIFIED - { return; }
-		SKYRIM_REL_VR_VIRTUAL void                         TryMoveToMiddleLow();                                                                 // 92 - { return; }
-		SKYRIM_REL_VR_VIRTUAL bool                         TryChangeSkyCellActorsProcessLevel();                                                 // 93 - { return false; }
-		SKYRIM_REL_VR_VIRTUAL void                         Unk_94(void);                                                                         // 94 - { return; }
-		SKYRIM_REL_VR_VIRTUAL void                         TryUpdateActorLastSeenTime();                                                         // 95 - { return; }
-		SKYRIM_REL_VR_VIRTUAL void                         Unk_96(void);                                                                         // 96 - related to lockpicking
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESObjectCELL* GetSaveParentCell() const;                                                            // 97
-		SKYRIM_REL_VR_VIRTUAL void                         SetParentCell(TESObjectCELL* a_cell);                                                 // 98
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool           IsDead(bool a_notEssential = true) const;                                             // 99
-		SKYRIM_REL_VR_VIRTUAL BSAnimNoteReceiver*          CreateAnimNoteReceiver();                                                             // 9A
-		SKYRIM_REL_VR_VIRTUAL BSAnimNoteReceiver*          GetAnimNoteReceiver();                                                                // 9B
-		SKYRIM_REL_VR_VIRTUAL bool                         ProcessInWater(hkpCollidable* a_collidable, float a_waterHeight, float a_deltaTime);  // 9C
-		SKYRIM_REL_VR_VIRTUAL bool                         ApplyCurrent(float a_velocityTime, const hkVector4& a_velocity);                      // 9D - { return 0; }
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESAmmo*       GetCurrentAmmo() const;                                                               // 9E - { return 0; }
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL BGSDecalGroup* GetDecalGroup() const;                                                                // 9F
-		SKYRIM_REL_VR_VIRTUAL bool                         Unk_A0(NiAVObject* a_node, float& a_angleX, float& a_angleZ, NiPoint3& a_pos);        // A0
-		SKYRIM_REL_VR_VIRTUAL void                         UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object);                          // A1 - { return; }
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL Projectile*    AsProjectile();                                                                                                  // UNVERIFIED - { return 0; }
+		SKYRIM_REL_VR_VIRTUAL bool                         OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const;                                                     // UNVERIFIED - { return true; }
+		SKYRIM_REL_VR_VIRTUAL void                         DoMoveToHigh();                                                                                                  // UNVERIFIED - { return; }
+		SKYRIM_REL_VR_VIRTUAL void                         TryMoveToMiddleLow();                                                                                            // 92 - { return; }
+		SKYRIM_REL_VR_VIRTUAL bool                         TryChangeSkyCellActorsProcessLevel();                                                                            // 93 - { return false; }
+		SKYRIM_REL_VR_VIRTUAL void                         Unk_94(void);                                                                                                    // 94 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void                         TryUpdateActorLastSeenTime();                                                                                    // 95 - { return; }
+		SKYRIM_REL_VR_VIRTUAL void                         Unk_96(void);                                                                                                    // 96 - related to lockpicking
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESObjectCELL* GetSaveParentCell() const;                                                                                       // 97
+		SKYRIM_REL_VR_VIRTUAL void                         SetParentCell(TESObjectCELL* a_cell);                                                                            // 98
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool           IsDead(bool a_notEssential = true) const;                                                                        // 99
+		SKYRIM_REL_VR_VIRTUAL BSAnimNoteReceiver*          CreateAnimNoteReceiver();                                                                                        // 9A
+		SKYRIM_REL_VR_VIRTUAL BSAnimNoteReceiver*          GetAnimNoteReceiver();                                                                                           // 9B
+		SKYRIM_REL_VR_VIRTUAL bool                         ProcessInWater(hkpCollidable* a_collidable, float a_waterHeight, float a_deltaTime);                             // 9C
+		SKYRIM_REL_VR_VIRTUAL bool                         ApplyCurrent(float a_velocityTime, const hkVector4& a_velocity);                                                 // 9D - { return 0; }
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESAmmo*       GetCurrentAmmo() const;                                                                                          // 9E - { return 0; }
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL BGSDecalGroup* GetDecalGroup() const;                                                                                           // 9F
+		SKYRIM_REL_VR_VIRTUAL bool                         Unk_A0(NiAVObject* a_node, float& a_angleX, float& a_angleZ, NiPoint3& a_pos);                                   // A0
+		SKYRIM_REL_VR_VIRTUAL void                         UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object, std::uint32_t a_count, ExtraDataList* a_extraList);  // A1 - { return; }
 
 		static ObjectRefHandle          CreateReference(ObjectRefHandle& a_handleOut, FormType a_formType, bool a_addActorToProcessList);
 		static NiPointer<TESObjectREFR> LookupByHandle(RefHandle a_refHandle);
@@ -502,6 +502,59 @@ namespace RE
 		static_assert(sizeof(REFERENCE_RUNTIME_DATA) == 0x10);
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(REFERENCE_RUNTIME_DATA, GetReferenceRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x88, 0x90);
+		void SetPackageStartLocation(TESWorldSpace* a_worldSpace, TESObjectCELL* a_cell, NiPoint3* a_position, float a_rotationZ)
+		{
+			using func_t = void(TESObjectREFR*, TESWorldSpace*, TESObjectCELL*, NiPoint3*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19873, 20280) };
+			func(this, a_worldSpace, a_cell, a_position, a_rotationZ);
+		}
+		float GetDistanceToEdge(TESObjectREFR* a_target, bool a_checkSlope, TESObjectREFR* a_origin)
+		{
+			using func_t = float(TESObjectREFR*, TESObjectREFR*, bool, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(46012, 47273) };
+			return func(this, a_target, a_checkSlope, a_origin);
+		}
+		float GetCombinedBoundLength(TESObjectREFR* a_other)
+		{
+			using func_t = float(TESObjectREFR*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(46015, 47276) };
+			return func(this, a_other);
+		}
+
+		std::uint64_t MoveToPosition(NiPoint3* a_pos, float a_rotZ, float a_rotX, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, bool a_unk)
+		{
+			using func_t = std::uint64_t(TESObjectREFR*, NiPoint3*, float, float, TESObjectCELL*, TESWorldSpace*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36323, 37313) };
+			return func(this, a_pos, a_rotZ, a_rotX, a_cell, a_worldSpace, a_unk);
+		}
+
+		void MoveToPositionWithFollowers(NiPoint3* a_pos, float a_rotZ, float a_rotX, TESObjectCELL* a_cell, TESWorldSpace* a_worldSpace, bool a_atDoor, bool a_ignoreSleep, bool a_p9)
+		{
+			using func_t = void(TESObjectREFR*, NiPoint3*, float, float, TESObjectCELL*, TESWorldSpace*, bool, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36437, 37432) };
+			func(this, a_pos, a_rotZ, a_rotX, a_cell, a_worldSpace, a_atDoor, a_ignoreSleep, a_p9);
+		}
+		void MoveToRefPositionWithFollowers(TESObjectREFR* a_ref, bool a_atDoor, bool a_ignoreSleep, bool a_p4)
+		{
+			using func_t = void(TESObjectREFR*, TESObjectREFR*, bool, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36438, 37433) };
+			func(this, a_ref, a_atDoor, a_ignoreSleep, a_p4);
+		}
+
+		void QueueLoad3D()
+		{
+			using func_t = void(TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19315, 19742) };
+			func(this);
+		}
+
+		bool IsVisibleWhenDistant() const
+		{
+			using func_t = bool(const TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(19172, 19587) };
+			return func(this);
+		}
+
 		// members
 		OBJ_REFR         data;        // 40
 		TESObjectCELL*   parentCell;  // 60

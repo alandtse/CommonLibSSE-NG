@@ -13,26 +13,26 @@ namespace RE
 
 		~PathingDoor() override;  // 00
 
-		void Unk_01(void) override;  // 01
-		void Unk_02(void) override;  // 02
-		void Unk_03(void) override;  // 03
-		void Unk_04(void) override;  // 04
-		void Unk_05(void) override;  // 05
-		void Unk_06(void) override;  // 06
-		void Unk_07(void) override;  // 07
-		void Unk_08(void) override;  // 08
-		void Unk_09(void) override;  // 09
-		void Unk_0A(void) override;  // 0A
-		void Unk_0B(void) override;  // 0B
-		void Unk_0C(void) override;  // 0C
-		void Unk_0D(void) override;  // 0D
-		void Unk_0E(void) override;  // 0E
-		void Unk_0F(void) override;  // 0F
-		void Unk_10(void) override;  // 10
-		void Unk_11(void) override;  // 11
+		std::uint32_t GetType() const override;                                                  // 01
+		std::uint32_t GetID() const override;                                                    // 02
+		void          WriteID(BSPathingStreamWrite* a_stream) const override;                    // 03
+		void          ReadID(BSPathingStreamRead* a_stream) override;                            // 04
+		void          VisitID(BSPathingNumericIDVisitor* a_visitor) const override;              // 05
+		bool          IsOpen() const override;                                                   // 06
+		bool          IsClosed() const override;                                                 // 07
+		bool          IsOpening() const override;                                                // 08
+		bool          IsClosing() const override;                                                // 09
+		void          GetLocation(BSPathingLocation& a_out) const override;                      // 0A
+		void          GetTeleportLocation(BSPathingLocation& a_out) const override;              // 0B
+		void          GetRotationZ(float& a_out) const override;                                 // 0C
+		void          GetTeleportRotationZ(float& a_out) const override;                         // 0D
+		float         GetAutoLoadFadeDistance() const override;                                  // 0E
+		void          GetLinkedDoor(BSTSmartPointer<BSPathingDoor>& a_out) const override;       // 0F
+		bool          IsSameDoor(const BSTSmartPointer<BSPathingDoor>& a_other) const override;  // 10
+		void          GetDebugText(char* a_buf, std::int32_t a_size) const override;             // 11
 
 		// members
-		std::uint32_t     unk10;             // 10
+		std::uint32_t     doorID;            // 10
 		std::uint32_t     refHandle;         // 14 - TESObjectREFR handle (NullRefHandleId when none)
 		BSPathingLocation forwardLocation;   // 18 - flag bit checked: forwardLocation.flags & 0x40
 		BSPathingLocation backwardLocation;  // 48

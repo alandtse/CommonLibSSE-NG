@@ -4,6 +4,7 @@
 
 namespace RE
 {
+	class TESForm;
 	class TESIdleForm;
 
 	class BGSIdleCollection : public BaseFormComponent
@@ -33,6 +34,13 @@ namespace RE
 		static BGSIdleCollection*    Create();
 		std::optional<std::uint32_t> GetIndex(TESIdleForm* a_idle) const;
 		bool                         RemoveIdle(TESIdleForm* a_idle);
+
+		void InitComponent(TESForm* a_owner)
+		{
+			using func_t = void(BGSIdleCollection*, TESForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14132, 14232) };
+			func(this, a_owner);
+		}
 
 		// members
 		REX::EnumSet<IdleFlags, std::int8_t> idleFlags;          // 08 - IDLF

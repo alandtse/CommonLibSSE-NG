@@ -29,6 +29,19 @@ namespace RE
 		void Unk_12(void) override;                                        // 12
 		void Unk_13(void) override;                                        // 13
 
+		static bool TryStartPackage(void* a_context, TESPackage* a_package)
+		{
+			using func_t = bool(void*, TESPackage*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(23801, 24253) };
+			return func(a_context, a_package);
+		}
+		static bool StartFirstValidPackage(void* a_packages, void* a_context)
+		{
+			using func_t = bool(void*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(23802, 24252) };
+			return func(a_packages, a_context);
+		}
+
 		// members
 		std::uint64_t         unk20;     // 20
 		BSTArray<TESPackage*> packages;  // 28 - PNAM

@@ -29,8 +29,8 @@ namespace RE
 		// add
 		[[nodiscard]] virtual std::uint16_t GetKeyChannelCount() const = 0;                      // 39
 		[[nodiscard]] virtual std::uint32_t GetKeyCount(std::uint16_t a_channel) const = 0;      // 3A
-		[[nodiscard]] virtual KeyType       GetKeyType(std::uint16_t a_channel) const = 0;       // 3C
-		[[nodiscard]] virtual KeyContent    GetKeyContent(std::uint16_t a_channel) const = 0;    // 3B
+		[[nodiscard]] virtual KeyType       GetKeyType(std::uint16_t a_channel) const = 0;       // 3B
+		[[nodiscard]] virtual KeyContent    GetKeyContent(std::uint16_t a_channel) const = 0;    // 3C
 		[[nodiscard]] virtual void*         GetKeyArray(std::uint16_t a_channel) const = 0;      // 3D
 		[[nodiscard]] virtual std::uint8_t  GetKeyStride(std::uint16_t a_channel) const = 0;     // 3E
 		[[nodiscard]] virtual bool          GetChannelPosed(std::uint16_t a_channel) const = 0;  // 3F

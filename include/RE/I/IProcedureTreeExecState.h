@@ -20,7 +20,7 @@ namespace RE
 		virtual ~IProcedureTreeExecState() = default;  // 00
 
 		// add
-		virtual void           Unk_01(void) = 0;                                              // 01
+		virtual void           Cleanup(void* a_context) = 0;                                  // 01 - a_context is IProcedureTreeItem::ProcedureExecContext*
 		virtual void           RecycleChildren() = 0;                                         // 02
 		virtual void           Unk_03(void) = 0;                                              // 03
 		virtual void           Unk_04(void) = 0;                                              // 04

@@ -13,11 +13,11 @@
 
 namespace RE
 {
-	class UserEventEnabled;
+	class UserEventEnabledEvent;
 
 	class ControlMap :
-		public BSTSingletonSDM<ControlMap>,      // 00
-		public BSTEventSource<UserEventEnabled>  // 08
+		public BSTSingletonSDM<ControlMap>,           // 00
+		public BSTEventSource<UserEventEnabledEvent>  // 08
 	{
 	public:
 		using InputContextID = UserEvents::INPUT_CONTEXT_ID;

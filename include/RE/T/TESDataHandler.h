@@ -180,6 +180,34 @@ namespace RE
 
 		RUNTIME_DATA_POINTER_ACCESSOR_EX(InventoryChanges*, GetMerchantInventory, 0xDB8, 0x1588);
 
+		void RemoveFile(TESFile* a_file)
+		{
+			using func_t = void(TESDataHandler*, TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13633, 13736) };
+			func(this, a_file);
+		}
+
+		void UnregisterArchive(const BSFixedString& a_name)
+		{
+			using func_t = void(TESDataHandler*, const BSFixedString&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13664, 13774) };
+			func(this, a_name);
+		}
+
+		void InitWorldSpacePersistentCells()
+		{
+			using func_t = void(TESDataHandler*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(20096, 20544) };
+			func(this);
+		}
+
+		void InitFactionReactions()
+		{
+			using func_t = void(TESDataHandler*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24022, 24527) };
+			func(this);
+		}
+
 		// members
 		std::uint8_t                      pad001;                                         // 001
 		std::uint16_t                     pad002;                                         // 002

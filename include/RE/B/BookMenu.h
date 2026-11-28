@@ -107,6 +107,13 @@ namespace RE
 		static void OpenMenuFromBaseForm(TESObjectBOOK* a_book);                                                                                                                        // Can not be taken.
 		static void OpenMenuFromBaseForm(TESObjectBOOK* a_book, const ExtraDataList* a_extraList, const NiPoint3& a_pos, const NiMatrix3& a_rot, float a_scale, bool a_useDefaultPos);  // Can not be taken.
 
+		void InitializeBook()
+		{
+			using func_t = void(BookMenu*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(50126, 51057) };
+			func(this);
+		}
+
 		// members
 #ifndef SKYRIM_CROSS_VR
 		RUNTIME_DATA_CONTENT;  // 50, 60

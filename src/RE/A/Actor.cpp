@@ -1711,14 +1711,14 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::GetCurrentAmmo)>(0x9E, 0x9F, this);
 	}
 
-	void Actor::UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object)
+	void Actor::UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object, std::uint32_t a_count, ExtraDataList* a_extraList)
 	{
-		RelocateVirtual<decltype(&Actor::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object);
+		RelocateVirtual<decltype(&Actor::UnequipItem)>(0xA1, 0xA2, this, a_arg1, a_object, a_count, a_extraList);
 	}
 
-	void Actor::Unk_A2()
+	void Actor::FreeRequestedModels()
 	{
-		RelocateVirtual<decltype(&Actor::Unk_A2)>(0x0A2, 0x0A3, this);
+		RelocateVirtual<decltype(&Actor::FreeRequestedModels)>(0x0A2, 0x0A3, this);
 	}
 
 	void Actor::PlayPickUpSound(TESBoundObject* a_object, bool a_pickup, bool a_use)
@@ -1741,14 +1741,14 @@ namespace RE
 		RelocateVirtual<decltype(&Actor::DrawWeaponMagicHands)>(0x0A6, 0x0A8, this, a_draw);
 	}
 
-	void Actor::DetachCharController()
+	bool Actor::DetachCharController()
 	{
-		RelocateVirtual<decltype(&Actor::DetachCharController)>(0x0A7, 0x0A9, this);
+		return RelocateVirtual<decltype(&Actor::DetachCharController)>(0x0A7, 0x0A9, this);
 	}
 
-	void Actor::RemoveCharController()
+	bool Actor::RemoveCharController()
 	{
-		RelocateVirtual<decltype(&Actor::RemoveCharController)>(0x0A8, 0x0AA, this);
+		return RelocateVirtual<decltype(&Actor::RemoveCharController)>(0x0A8, 0x0AA, this);
 	}
 
 	void Actor::SetPosition(const NiPoint3& a_pos, bool a_updateCharController)
@@ -2066,7 +2066,7 @@ namespace RE
 		return RelocateVirtual<decltype(&Actor::GetArmorBaseFactorSum)>(0x0E7, 0x0E9, this);
 	}
 
-	float Actor::CalcUnarmedDamage()
+	std::int32_t Actor::CalcUnarmedDamage()
 	{
 		return RelocateVirtual<decltype(&Actor::CalcUnarmedDamage)>(0x0E8, 0x0EA, this);
 	}

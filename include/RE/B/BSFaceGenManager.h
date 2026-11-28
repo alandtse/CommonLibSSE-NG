@@ -8,6 +8,7 @@
 
 namespace RE
 {
+	class NiAVObject;
 	class BGSHeadPart;
 	class BSFaceGenModel;
 	class BSFaceGenNiNode;
@@ -46,6 +47,27 @@ namespace RE
 			using func_t = decltype(&BSFaceGenManager::PrepareHeadPartForShaders);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(26259, 26838) };
 			return func(this, a_node, a_headPart, a_npc);
+		}
+
+		void GetModel(const char* a_modelPath, const char* a_triPath, NiPointer<BSFaceGenModel>& a_out, bool a_loadIfMissing, bool a_unk)
+		{
+			using func_t = void(BSFaceGenManager*, const char*, const char*, NiPointer<BSFaceGenModel>&, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26246, 26825) };
+			func(this, a_modelPath, a_triPath, a_out, a_loadIfMissing, a_unk);
+		}
+
+		void PurgeUnusedModels()
+		{
+			using func_t = void(BSFaceGenManager*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26247, 26826) };
+			func(this);
+		}
+
+		void ResetToBaseMorph(NiAVObject* a_geometry)
+		{
+			using func_t = void(BSFaceGenManager*, NiAVObject*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26250, 26829) };
+			func(this, a_geometry);
 		}
 
 		// members

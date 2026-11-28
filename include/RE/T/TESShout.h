@@ -65,6 +65,13 @@ namespace RE
 		BGSEquipSlot* GetEquipSlot() const override;                // 04
 		void          SetEquipSlot(BGSEquipSlot* a_slot) override;  // 05 - { return; }
 
+		int GetLastValidWordIndex()
+		{
+			using func_t = int(TESShout*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(22902, 23359) };
+			return func(this);
+		}
+
 		// members
 		Variation variations[VariationIDs::kTotal];  // 60 - SNAM
 	};

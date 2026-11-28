@@ -7,6 +7,7 @@
 
 namespace RE
 {
+	class ActorPackageData;
 	class BGSIdleCollection;
 	class PackageLocation;
 	class TESPackageData;
@@ -506,6 +507,40 @@ namespace RE
 			using func_t = decltype(&TESPackage::SetPackType);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(28751, 29525) };
 			return func(this, a_type);
+		}
+
+		ActorPackageData* CreateActorPackageData()
+		{
+			using func_t = ActorPackageData*(TESPackage*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38020, 38975) };
+			return func(this);
+		}
+
+		TESObjectREFR* GetTargetReference(TESObjectREFR* a_actor)
+		{
+			using func_t = TESObjectREFR*(TESPackage*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28780, 29556) };
+			return func(this, a_actor);
+		}
+
+		float GetLocationRadius(Actor* a_actor)
+		{
+			using func_t = float(TESPackage*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28785, 29561) };
+			return func(this, a_actor);
+		}
+
+		std::uint32_t GetEffectiveLocationRadius(Actor* a_actor)
+		{
+			using func_t = std::uint32_t(TESPackage*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28784, 29560) };
+			return func(this, a_actor);
+		}
+		bool IsCurrentTargetAtSecondLocation(Actor* a_actor, float a_radius, bool* a_outFlag)
+		{
+			using func_t = bool(TESPackage*, Actor*, float, bool*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(28803, 29579) };
+			return func(this, a_actor, a_radius, a_outFlag);
 		}
 
 		// members

@@ -58,8 +58,8 @@ namespace RE
 		// add
 		virtual void          SetActiveVertexCount(std::uint16_t a_vertexCount);  // 25
 		virtual std::uint16_t GetActiveVertexCount();                             // 26
-		virtual void          RemoveParticle(std::uint16_t a_particleCount);      // 28
-		virtual void          CalculateNormals();                                 // 29 - { return; }
+		virtual void          RemoveParticle(std::uint16_t a_particleCount);      // 27
+		virtual void          CalculateNormals();                                 // 28 - { return; }
 
 		RUNTIME_DATA_ACCESSOR_EX(PARTICLES_RUNTIME_DATA, GetParticlesRuntimeData, 0x10, 0x28);
 

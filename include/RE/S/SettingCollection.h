@@ -18,8 +18,8 @@ namespace RE
 		virtual bool OpenHandle(bool a_create);        // 05 - { return false; }
 		virtual bool CloseHandle();                    // 06 - { return true; }
 		virtual void Unk_07(void);                     // 07 - { return 0; }
-		virtual void WriteAllSettings();               // 08 - { return handle != 0; }
-		virtual void ReadAllSettings();                // 09 - { return handle != 0; }
+		virtual bool WriteAllSettings();               // 08 - { return handle != 0; }
+		virtual bool ReadAllSettings();                // 09 - { return handle != 0; }
 
 		// members
 		char  subKey[0x104];  // 008

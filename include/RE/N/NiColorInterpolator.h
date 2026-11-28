@@ -37,8 +37,8 @@ namespace RE
 		NiInterpolator*    GetSequenceInterpolator(float a_start, float a_end) override;                           // 34
 		std::uint16_t      GetKeyChannelCount() const override;                                                    // 39 - { return 1; }
 		std::uint32_t      GetKeyCount(std::uint16_t a_channel) const override;                                    // 3A - { return colorData ? colorData->numKeys : 0; }
-		KeyContent         GetKeyContent(std::uint16_t a_channel) const override;                                  // 3B - { KeyContent::kColor; }
-		KeyType            GetKeyType(std::uint16_t a_channel) const override;                                     // 3C - { return colorData ? colorData->type : 0; }
+		KeyContent         GetKeyContent(std::uint16_t a_channel) const override;                                  // 3C - { KeyContent::kColor; }
+		KeyType            GetKeyType(std::uint16_t a_channel) const override;                                     // 3B - { return colorData ? colorData->type : 0; }
 		void*              GetKeyArray(std::uint16_t a_channel) const override;                                    // 3D - { return colorData ? colorData->keys : 0; }
 		std::uint8_t       GetKeyStride(std::uint16_t a_channel) const override;                                   // 3E - { return colorData ? colorData->keySize : 0; }
 		[[nodiscard]] bool GetChannelPosed(std::uint16_t a_channel) const override;                                // 3F

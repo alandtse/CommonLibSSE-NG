@@ -82,6 +82,13 @@ namespace RE
 		void InitializeData() override;      // 04
 		bool Load(TESFile* a_mod) override;  // 06
 
+		void InitDefaults()
+		{
+			using func_t = void(TESClimate*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(18224, 18618) };
+			func(this);
+		}
+
 		// members
 		TESModel                   nightSky;                        // 20
 		BSSimpleList<WeatherType*> weatherList;                     // 48 - WLST

@@ -9,7 +9,11 @@
 
 namespace RE
 {
+	class NiCamera;
+	class BGSTerrainChunk;
 	class BGSTerrainNode;
+	class TESObjectCELL;
+	class TESObjectREFR;
 	class TESWorldSpace;
 
 	class BGSTerrainManager
@@ -41,6 +45,97 @@ namespace RE
 		void SetCullState(const CullState& a_state);
 		void UnloadAll(bool a_unloadStaticData, bool a_shutdown);
 		void Update(const NiPoint3& a_viewPos, const std::int32_t& a_updateType);
+
+		void QueueCellNodeUpdate(TESObjectCELL* a_cell)
+		{
+			using func_t = void(BGSTerrainManager*, TESObjectCELL*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31024, 31810) };
+			func(this, a_cell);
+		}
+
+		void QueueReferenceCellNodeUpdate(TESObjectREFR* a_ref)
+		{
+			using func_t = void(BGSTerrainManager*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31023, 31809) };
+			func(this, a_ref);
+		}
+
+		[[nodiscard]] static bool IsLODEnabledForCurrentWorldSpace()
+		{
+			using func_t = bool();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31030, 31816) };
+			return func();
+		}
+
+		BGSTerrainChunk* GetTerrainChunkForPoint(const NiPoint3& a_position, bool a_mapTerrain)
+		{
+			using func_t = BGSTerrainChunk*(BGSTerrainManager*, const NiPoint3&, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31022, 31807) };
+			return func(this, a_position, a_mapTerrain);
+		}
+
+		static void CacheSettings()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31067, 31859) };
+			func();
+		}
+
+		static void ShowLODRoots()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31027, 31813) };
+			func();
+		}
+
+		static void HideLODRoots()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31028, 31814) };
+			func();
+		}
+
+		void SetMapMode(bool a_mapMode, bool a_flushUpdates)
+		{
+			using func_t = void(BGSTerrainManager*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31032, 31818) };
+			func(this, a_mapMode, a_flushUpdates);
+		}
+
+		void ApplyCachedCullState()
+		{
+			using func_t = void(BGSTerrainManager*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31037, 31823) };
+			func(this);
+		}
+
+		void UpdateRootNode(BGSTerrainNode* a_node, const NiPoint3& a_viewPos, TESObjectCELL* a_cell, bool a_arg4)
+		{
+			using func_t = void(BGSTerrainManager*, BGSTerrainNode*, const NiPoint3&, TESObjectCELL*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31041, 31828) };
+			func(this, a_node, a_viewPos, a_cell, a_arg4);
+		}
+
+		static void ReleaseLODRoots()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31031, 31817) };
+			func();
+		}
+
+		void UpdateMultiBoundVisibility(NiCamera* a_camera)
+		{
+			using func_t = void(BGSTerrainManager*, NiCamera*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31025, 31811) };
+			func(this, a_camera);
+		}
+
+		static void FlushResourceDBs()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(31034, 31820) };
+			func();
+		}
 
 		// members
 		bool                      mapMode;               // 00

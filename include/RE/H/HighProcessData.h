@@ -14,11 +14,13 @@
 #include "RE/M/Movement.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
+#include "RE/P/PathingSolutionQueue.h"
 #include "RE/P/PlayerCharacter.h"
 #include "RE/T/TESShout.h"
 
 namespace RE
 {
+	class BSPathingRequest;
 	class ActorKnowledge;
 	class BGSAttackData;
 	class BGSProjectile;
@@ -93,46 +95,6 @@ namespace RE
 			};
 		};
 		using HEAD_TRACK_TYPE = HEAD_TRACK_TYPES::HEAD_TRACK_TYPE;
-
-		struct Data190 : public BSIntrusiveRefCounted
-		{
-		public:
-			struct Data
-			{
-			public:
-				struct UnkData
-				{
-					std::uint64_t unk00;  // 00
-					std::uint64_t unk08;  // 08
-					std::uint64_t unk10;  // 10
-					std::uint64_t unk18;  // 18
-					std::uint64_t unk20;  // 20
-					std::uint64_t unk28;  // 28
-					std::uint64_t unk30;  // 30
-					std::uint64_t unk38;  // 38
-					std::uint64_t unk40;  // 40
-					std::uint64_t unk48;  // 48
-					std::uint64_t unk50;  // 50
-					std::uint64_t unk58;  // 58
-					std::uint64_t unk60;  // 60
-					std::uint64_t unk68;  // 68
-					std::uint64_t unk70;  // 70
-					std::uint64_t unk78;  // 78
-				};
-				static_assert(sizeof(UnkData) == 0x80);
-
-				// members
-				UnkData*      unk00;  // 00
-				std::uint64_t unk08;  // 08
-			};
-			static_assert(sizeof(Data) == 0x10);
-
-			// members
-			std::uint32_t       unk04;  // 00
-			BSTSmallArray<Data> unk08;  // 08
-			std::uint64_t       unk28;  // 28
-		};
-		static_assert(sizeof(Data190) == 0x30);
 
 		struct Data208
 		{
@@ -224,10 +186,10 @@ namespace RE
 		float                                                 headTrackTargetOffsetTimer;                // 174
 		ObjectRefHandle                                       lastTarget;                                // 178
 		ObjectRefHandle                                       pathLookAtTarget;                          // 17C
-		void*                                                 unk180;                                    // 180 - smart ptr
-		void*                                                 unk188;                                    // 188 - smart ptr
-		BSTSmartPointer<Data190>                              unk190;                                    // 190
-		BSTSmartPointer<Data190>                              unk198;                                    // 198
+		BSPathingRequest*                                     followerPathRequest;                       // 180 - NiPointer
+		BSPathingRequest*                                     leaderPathRequest;                         // 188 - NiPointer
+		PathingSolutionQueue*                                 followerSolutionQueue;                     // 190
+		PathingSolutionQueue*                                 leaderSolutionQueue;                       // 198
 		NiPoint3                                              unk1A0;                                    // 1A0
 		std::uint32_t                                         unk1AC;                                    // 1AC
 		std::uint64_t                                         unk1B0;                                    // 1B0

@@ -16,6 +16,7 @@
 
 namespace RE
 {
+	class NiAVObject;
 	class BSFaceGenNiNode;
 	class MenuOpenCloseEvent;
 	class NiColorA;
@@ -266,6 +267,60 @@ namespace RE
 		void                         SetSkinFromTint(NiColorA* a_result, TintMask* a_tintMask, bool a_fromTint);
 		bool                         SetSleepOutfit(BGSOutfit* a_outfit);
 		void                         UpdateNeck(BSFaceGenNiNode* a_faceNode);
+
+		TESPackage* GetEnterCombatOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24169, 24673) };
+			return func(this, a_actor);
+		}
+
+		TESPackage* GetSpectatorOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24166, 24670) };
+			return func(this, a_actor);
+		}
+		TESPackage* GetObserveCorpseOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24167, 24671) };
+			return func(this, a_actor);
+		}
+		TESPackage* GetGuardWarnOverridePackage(Actor* a_actor)
+		{
+			using func_t = TESPackage*(TESNPC*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24168, 24672) };
+			return func(this, a_actor);
+		}
+
+		void ApplySkinnyMorph(NiAVObject* a_geometry)
+		{
+			using func_t = void(TESNPC*, NiAVObject*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24208, 24712) };
+			func(this, a_geometry);
+		}
+
+		bool PreparePreprocessedHeadPart(BSFaceGenNiNode** a_headNode, BGSHeadPart* a_headPart)
+		{
+			using func_t = bool(TESNPC*, BSFaceGenNiNode**, BGSHeadPart*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24224, 24728) };
+			return func(this, a_headNode, a_headPart);
+		}
+
+		void AttachFaceGenModelData(NiAVObject* a_geometry, BGSHeadPart* a_headPart, bool a_arg3)
+		{
+			using func_t = void(TESNPC*, NiAVObject*, BGSHeadPart*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24225, 24729) };
+			func(this, a_geometry, a_headPart, a_arg3);
+		}
+
+		CreatureSounds* GetOrCreateCreatureSounds()
+		{
+			using func_t = CreatureSounds*(TESNPC*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(24251, 24758) };
+			return func(this);
+		}
 
 		// members
 		Skills                                  playerSkills;     // 190 - DNAM

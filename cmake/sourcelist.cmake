@@ -3,7 +3,12 @@ set(SOURCES
 	include/RE/A/AIProcess.h
 	include/RE/A/AITimeStamp.h
 	include/RE/A/AITimer.h
+	include/RE/A/AStarClosedSet.h
+	include/RE/A/AStarClosedSetEntry.h
 	include/RE/A/AStarNode.h
+	include/RE/A/AStarNodePool.h
+	include/RE/A/AStarOpenList.h
+	include/RE/A/AStarSearch.h
 	include/RE/A/AbsorbEffect.h
 	include/RE/A/AbstractHeap.h
 	include/RE/A/AccumulatingValueModifierEffect.h
@@ -64,6 +69,8 @@ set(SOURCES
 	include/RE/A/AutoRegisterCreator.h
 	include/RE/A/AutoRegisterFactory.h
 	include/RE/A/AutoVanityState.h
+	include/RE/A/AvoidancePriority.h
+	include/RE/A/AvoidedActorInfo.h
 	include/RE/A/ahkpCharacterProxy.h
 	include/RE/A/ahkpWorld.h
 	include/RE/B/BGSAIWorldLocation.h
@@ -201,6 +208,13 @@ set(SOURCES
 	include/RE/B/BGSProcedureTreeProcedure.h
 	include/RE/B/BGSProcedureTreeSequence.h
 	include/RE/B/BGSProjectile.h
+	include/RE/B/BGSQueuedObjectDowngrade.h
+	include/RE/B/BGSQueuedObjectInitialLoad.h
+	include/RE/B/BGSQueuedObjectUpgrade.h
+	include/RE/B/BGSQueuedTerrainDowngrade.h
+	include/RE/B/BGSQueuedTerrainInitialLoad.h
+	include/RE/B/BGSQueuedTerrainUpdate.h
+	include/RE/B/BGSQueuedTerrainUpgrade.h
 	include/RE/B/BGSRagdoll.h
 	include/RE/B/BGSRefAlias.h
 	include/RE/B/BGSReferenceEffect.h
@@ -265,6 +279,7 @@ set(SOURCES
 	include/RE/B/BSBloodSplatterShaderProperty.h
 	include/RE/B/BSBound.h
 	include/RE/B/BSCompoundFrustum.h
+	include/RE/B/BSCompressedNavmeshBounds.h
 	include/RE/B/BSComputeShader.h
 	include/RE/B/BSContainer.h
 	include/RE/B/BSCoreTypes.h
@@ -363,9 +378,12 @@ set(SOURCES
 	include/RE/B/BSMusicEvent.h
 	include/RE/B/BSMusicManager.h
 	include/RE/B/BSNavmesh.h
+	include/RE/B/BSNavmeshEdgeLocation.h
 	include/RE/B/BSNavmeshInfoMap.h
 	include/RE/B/BSNavmeshInfoSearch.h
+	include/RE/B/BSNavmeshObstacleData.h
 	include/RE/B/BSNavmeshSearch.h
+	include/RE/B/BSNavmeshSearchFilters.h
 	include/RE/B/BSNiAllocator.h
 	include/RE/B/BSNiNode.h
 	include/RE/B/BSOcclusionBox.h
@@ -386,14 +404,21 @@ set(SOURCES
 	include/RE/B/BSParticleShaderSnowEmitter.h
 	include/RE/B/BSParticleSystemManager.h
 	include/RE/B/BSPathBuilder.h
+	include/RE/B/BSPathSmootherPOVSearch.h
 	include/RE/B/BSPathing.h
 	include/RE/B/BSPathingActorAttributes.h
 	include/RE/B/BSPathingAvoidNode.h
 	include/RE/B/BSPathingCell.h
 	include/RE/B/BSPathingDoor.h
+	include/RE/B/BSPathingGoalDescriptor.h
+	include/RE/B/BSPathingHermiteSegment.h
 	include/RE/B/BSPathingLocation.h
+	include/RE/B/BSPathingLockData.h
 	include/RE/B/BSPathingRequest.h
 	include/RE/B/BSPathingSearchParameters.h
+	include/RE/B/BSPathingSearchRayCast.h
+	include/RE/B/BSPathingStreamRead.h
+	include/RE/B/BSPathingStreamWrite.h
 	include/RE/B/BSPointerHandle.h
 	include/RE/B/BSPointerHandleManager.h
 	include/RE/B/BSPointerHandleSmartPointer.h
@@ -717,6 +742,7 @@ set(SOURCES
 	include/RE/C/CombatPath.h
 	include/RE/C/CombatProjectileAimController.h
 	include/RE/C/CombatSearchLocation.h
+	include/RE/C/CombatSearchLockData.h
 	include/RE/C/CombatState.h
 	include/RE/C/CombatTargetLocation.h
 	include/RE/C/CombatTargetLocationSearch.h
@@ -768,6 +794,7 @@ set(SOURCES
 	include/RE/D/DemoralizeEffect.h
 	include/RE/D/DepthStencilDepthModes.h
 	include/RE/D/DetectLifeEffect.h
+	include/RE/D/DetectionCollector.h
 	include/RE/D/DetectionListener.h
 	include/RE/D/DetectionPriorities.h
 	include/RE/D/DetectionState.h
@@ -1169,6 +1196,7 @@ set(SOURCES
 	include/RE/G/GridArray.h
 	include/RE/G/GridCellArray.h
 	include/RE/G/GuardActorPackageData.h
+	include/RE/G/GuardWarnSearch.h
 	include/RE/G/GuideEffect.h
 	include/RE/H/HUDChargeMeter.h
 	include/RE/H/HUDData.h
@@ -1416,13 +1444,25 @@ set(SOURCES
 	include/RE/I/IMemoryStoreBase.h
 	include/RE/I/IMenu.h
 	include/RE/I/IMessageBoxCallback.h
+	include/RE/I/IMovementAgentDataTracker.h
 	include/RE/I/IMovementControllerRegisterInterface.h
 	include/RE/I/IMovementDirectControl.h
 	include/RE/I/IMovementInterface.h
 	include/RE/I/IMovementMessageInterface.h
 	include/RE/I/IMovementMotionDrivenControl.h
+	include/RE/I/IMovementParameters.h
+	include/RE/I/IMovementPlannerAgent.h
 	include/RE/I/IMovementPlannerDirectControl.h
+	include/RE/I/IMovementPlannerSetArbitration.h
+	include/RE/I/IMovementPlayIdleResult.h
+	include/RE/I/IMovementQueryPathingState.h
+	include/RE/I/IMovementQueryState.h
+	include/RE/I/IMovementQueryTweener.h
 	include/RE/I/IMovementSelectIdle.h
+	include/RE/I/IMovementSetGoal.h
+	include/RE/I/IMovementSetState.h
+	include/RE/I/IMovementSetTweener.h
+	include/RE/I/IMovementSetWarp.h
 	include/RE/I/IMovementState.h
 	include/RE/I/INIPrefSettingCollection.h
 	include/RE/I/INISettingCollection.h
@@ -1434,6 +1474,7 @@ set(SOURCES
 	include/RE/I/IPackageDataAIWorldLocationHandle.h
 	include/RE/I/IPathBuilder.h
 	include/RE/I/IPathBuilderTracker.h
+	include/RE/I/IPathFollowerAction.h
 	include/RE/I/IPostAnimationChannelUpdateFunctor.h
 	include/RE/I/IProcedureTreeExecState.h
 	include/RE/I/IProcedureTreeItem.h
@@ -1583,10 +1624,79 @@ set(SOURCES
 	include/RE/M/MoveToFunctor.h
 	include/RE/M/Movement.h
 	include/RE/M/MovementActorAvoidanceParameters.h
+	include/RE/M/MovementAgentActorAvoider.h
+	include/RE/M/MovementAgentActorState.h
+	include/RE/M/MovementAgentConfig.h
+	include/RE/M/MovementAgentPathFollowerFlight.h
+	include/RE/M/MovementAgentPathFollowerStandard.h
+	include/RE/M/MovementAgentPathFollowerVirtual.h
 	include/RE/M/MovementControllerAI.h
 	include/RE/M/MovementControllerNPC.h
+	include/RE/M/MovementCorrectionData.h
 	include/RE/M/MovementHandler.h
+	include/RE/M/MovementHandlerAgentAngleController.h
+	include/RE/M/MovementHandlerAgentAngleGain.h
+	include/RE/M/MovementHandlerAgentAnglePassThrough.h
+	include/RE/M/MovementHandlerAgentDirectControl.h
+	include/RE/M/MovementHandlerAgentDirectionPassThrough.h
+	include/RE/M/MovementHandlerAgentLargeDeltaIdle.h
+	include/RE/M/MovementHandlerAgentPlayerControls.h
+	include/RE/M/MovementHandlerAgentPlayerControlsActionTrigger.h
+	include/RE/M/MovementHandlerAgentSpeedPassThrough.h
+	include/RE/M/MovementHandlerAgentSprintActionTrigger.h
+	include/RE/M/MovementHandlerAgentStairsHelper.h
+	include/RE/M/MovementHandlerAgentStrafing.h
+	include/RE/M/MovementHandlerAgentTranslationController.h
+	include/RE/M/MovementHandlerArbiter.h
+	include/RE/M/MovementHandlerOutputDataSmallDelta.h
+	include/RE/M/MovementHandlerUpdateDataSmallDelta.h
+	include/RE/M/MovementMessage.h
+	include/RE/M/MovementMessageActivateDoor.h
+	include/RE/M/MovementMessageActorCollision.h
+	include/RE/M/MovementMessageApproachingDoor.h
+	include/RE/M/MovementMessageBlocked.h
+	include/RE/M/MovementMessageDoor.h
+	include/RE/M/MovementMessageFreezeDirection.h
+	include/RE/M/MovementMessageJump.h
+	include/RE/M/MovementMessageMovementTypeChange.h
+	include/RE/M/MovementMessageNewPath.h
+	include/RE/M/MovementMessagePathCleared.h
+	include/RE/M/MovementMessagePathComplete.h
+	include/RE/M/MovementMessagePathEvent.h
+	include/RE/M/MovementMessagePathFailed.h
+	include/RE/M/MovementMessagePlayIdle.h
+	include/RE/M/MovementMessagePool.h
+	include/RE/M/MovementMessageSetStaticPath.h
+	include/RE/M/MovementMessageWarpToLocation.h
+	include/RE/M/MovementMessageWarpToMultiple.h
 	include/RE/M/MovementParameters.h
+	include/RE/M/MovementParametersFixed.h
+	include/RE/M/MovementPathManagerAgentAvoidBox.h
+	include/RE/M/MovementPathManagerAgentEvent.h
+	include/RE/M/MovementPathManagerAgentLoadedAreaMonitor.h
+	include/RE/M/MovementPathManagerAgentStaticAvoider.h
+	include/RE/M/MovementPathManagerArbiter.h
+	include/RE/M/MovementPlannerAgentDirectControl.h
+	include/RE/M/MovementPlannerAgentHorseControls.h
+	include/RE/M/MovementPlannerAgentKeepOffset.h
+	include/RE/M/MovementPlannerAgentNavmeshBounds.h
+	include/RE/M/MovementPlannerAgentReturnDataSmallDelta.h
+	include/RE/M/MovementPlannerAgentWarp.h
+	include/RE/M/MovementPlannerArbiter.h
+	include/RE/M/MovementPlannerUpdateDataSmallDelta.h
+	include/RE/M/MovementPlayIdleData.h
+	include/RE/M/MovementPlayIdleHolder.h
+	include/RE/M/MovementPostUpdateArbiter.h
+	include/RE/M/MovementStateFollowPath.h
+	include/RE/M/MovementStateTweener.h
+	include/RE/M/MovementTweenerAgentAnimationDriven.h
+	include/RE/M/MovementTweenerAgentEntry.h
+	include/RE/M/MovementTweenerAgentFixedDelta.h
+	include/RE/M/MovementTweenerAgentNodeFollower.h
+	include/RE/M/MovementTweenerAgentOutputData.h
+	include/RE/M/MovementTweenerArbiter.h
+	include/RE/M/MovementUpdateDataSmallDelta.h
+	include/RE/M/MovementUpdateDeltas.h
 	include/RE/M/MoviePlayer.h
 	include/RE/M/MultiBoundMarkerData.h
 	include/RE/N/NativeFunction.h
@@ -1594,6 +1704,18 @@ set(SOURCES
 	include/RE/N/NativeLatentFunction.h
 	include/RE/N/NavMesh.h
 	include/RE/N/NavMeshInfoMap.h
+	include/RE/N/NavMeshSearchClosePoint.h
+	include/RE/N/NavMeshSearchFitSphere.h
+	include/RE/N/NavMeshSearchFlee.h
+	include/RE/N/NavMeshSearchHide.h
+	include/RE/N/NavMeshSearchLOS.h
+	include/RE/N/NavMeshSearchMaxCost.h
+	include/RE/N/NavMeshSearchMultipleGoals.h
+	include/RE/N/NavMeshSearchSLPoint.h
+	include/RE/N/NavmeshCostFilterRule.h
+	include/RE/N/NavmeshCostFilterSet.h
+	include/RE/N/NavmeshEdgeExpansion.h
+	include/RE/N/NavmeshSearchRayCache.h
 	include/RE/N/NeedToUpdateCreationClubCallback.h
 	include/RE/N/NextChildSelector.h
 	include/RE/N/NiAVObject.h
@@ -1713,6 +1835,8 @@ set(SOURCES
 	include/RE/O/ObjectTypeInfo.h
 	include/RE/O/ObjectTypes.h
 	include/RE/O/ObjectiveState.h
+	include/RE/O/ObstacleBuildQueue.h
+	include/RE/O/ObstacleBuildRequest.h
 	include/RE/O/OldMessageBoxCallback.h
 	include/RE/O/OpenEffect.h
 	include/RE/Offsets_NiRTTI.h
@@ -1724,9 +1848,35 @@ set(SOURCES
 	include/RE/P/PackageLocation.h
 	include/RE/P/PackedInstructionStream.h
 	include/RE/P/ParalysisEffect.h
+	include/RE/P/PathFollowerStateUpdateData.h
+	include/RE/P/PathFollowerTurnTarget.h
 	include/RE/P/Pathing.h
 	include/RE/P/PathingCell.h
+	include/RE/P/PathingCoverLocation.h
 	include/RE/P/PathingDoor.h
+	include/RE/P/PathingLockData.h
+	include/RE/P/PathingRequest.h
+	include/RE/P/PathingRequestClosePoint.h
+	include/RE/P/PathingRequestClosestGoal.h
+	include/RE/P/PathingRequestCover.h
+	include/RE/P/PathingRequestFlee.h
+	include/RE/P/PathingRequestFly.h
+	include/RE/P/PathingRequestFlyAction.h
+	include/RE/P/PathingRequestFlyHover.h
+	include/RE/P/PathingRequestFlyLand.h
+	include/RE/P/PathingRequestFlyOrbit.h
+	include/RE/P/PathingRequestFlyTakeOff.h
+	include/RE/P/PathingRequestHide.h
+	include/RE/P/PathingRequestLOS.h
+	include/RE/P/PathingRequestOptimalLocation.h
+	include/RE/P/PathingRequestRotate.h
+	include/RE/P/PathingRequestSafeStraightLine.h
+	include/RE/P/PathingRequestStopMoving.h
+	include/RE/P/PathingSolutionQueue.h
+	include/RE/P/PathingStreamLoadGame.h
+	include/RE/P/PathingStreamMasterFileRead.h
+	include/RE/P/PathingStreamSaveGame.h
+	include/RE/P/PathingTaskData.h
 	include/RE/P/PatrolActorPackageData.h
 	include/RE/P/PeakValueModifierEffect.h
 	include/RE/P/PerkEntryVisitor.h
@@ -2031,6 +2181,7 @@ set(SOURCES
 	include/RE/T/TogglePOVHandler.h
 	include/RE/T/ToggleRunHandler.h
 	include/RE/T/TrainingMenu.h
+	include/RE/T/TrianglePathWaterAndLedgeSplitter.h
 	include/RE/T/TurnUndeadEffect.h
 	include/RE/T/TutorialMenu.h
 	include/RE/T/TweenMenu.h
@@ -2050,7 +2201,7 @@ set(SOURCES
 	include/RE/U/UpdateConstellationAnims.h
 	include/RE/U/UpdateStarText.h
 	include/RE/U/UseWeaponActorPackageData.h
-	include/RE/U/UserEventEnabled.h
+	include/RE/U/UserEventEnabledEvent.h
 	include/RE/U/UserEvents.h
 	include/RE/V/VATS.h
 	include/RE/V/VATSCameraState.h
@@ -2064,6 +2215,7 @@ set(SOURCES
 	include/RE/V/ValueModifierEffect.h
 	include/RE/V/VampireLordEffect.h
 	include/RE/V/Variable.h
+	include/RE/V/VelocityObstacle.h
 	include/RE/V/VertexDesc.h
 	include/RE/V/VirtualMachine.h
 	include/RE/V/VoiceSpellFireHandler.h

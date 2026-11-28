@@ -2,6 +2,7 @@
 
 #include "RE/A/AITimeStamp.h"
 #include "RE/B/BSPointerHandle.h"
+#include "RE/B/BSTArray.h"
 #include "RE/F/FightReactions.h"
 #include "RE/N/NiRefObject.h"
 #include "RE/N/NiSmartPointer.h"
@@ -23,6 +24,45 @@ namespace RE
 		};
 
 		~ActorKnowledge() override;  // 00
+
+		DetectionState* GetFreshDetectionState(std::int32_t a_level)
+		{
+			using func_t = DetectionState*(ActorKnowledge*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41624, 42702) };
+			return func(this, a_level);
+		}
+		void UpdateListeners()
+		{
+			using func_t = void(ActorKnowledge*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41632, 42710) };
+			func(this);
+		}
+		void QueueDetectionUpdate(AITimeStamp a_time)
+		{
+			using func_t = void(ActorKnowledge*, AITimeStamp);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41633, 42712) };
+			func(this, a_time);
+		}
+		static void PushBackListener(void* a_listeners, DetectionListener* a_listener)
+		{
+			using func_t = void(void*, DetectionListener*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41636, 42716) };
+			func(a_listeners, a_listener);
+		}
+
+		void AddListener(DetectionListener* a_listener, std::int32_t a_level)
+		{
+			using func_t = void(ActorKnowledge*, DetectionListener*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41622, 42700) };
+			func(this, a_listener, a_level);
+		}
+
+		void AddListenerNoNotify(DetectionListener* a_listener)
+		{
+			using func_t = void(ActorKnowledge*, DetectionListener*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(41631, 42709) };
+			func(this, a_listener);
+		}
 
 		// members
 		ActorHandle                                 owner;                        // 10

@@ -6,6 +6,7 @@
 
 namespace RE
 {
+	class TESFile;
 	class TESModelTextureSwap : public TESModel
 	{
 	public:
@@ -28,6 +29,13 @@ namespace RE
 		void                 ClearDataComponent() override;                     // 02
 		void                 CopyComponent(BaseFormComponent* a_rhs) override;  // 03
 		TESModelTextureSwap* GetAsModelTextureSwap() override;                  // 06 - { return this; }
+
+		void ReadChunk(TESFile* a_mod)
+		{
+			using func_t = void(TESModelTextureSwap*, TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14653, 14827) };
+			func(this, a_mod);
+		}
 
 		// members
 		AlternateTexture* alternateTextures;     // 28 - MODS

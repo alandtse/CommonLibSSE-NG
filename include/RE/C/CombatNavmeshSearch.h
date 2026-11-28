@@ -14,8 +14,8 @@ namespace RE
 		~CombatNavmeshSearch() override;
 
 		// members
-		void*                     pad08[(0x1D0 - 0x08) / 8];  // 008
-		BSFastNavmeshTriLocation* bestGoal;                   // 1D0 - null until A* result==2; confirmed SE+VR binary RE
+		void*                     pad1B0[(0x1D0 - 0x1B0) / 8];  // 1B0
+		BSFastNavmeshTriLocation* bestGoal;                     // 1D0 - null until A* result==2
 	};
 	static_assert(sizeof(CombatNavmeshSearch) == 0x1D8, "size");
 }

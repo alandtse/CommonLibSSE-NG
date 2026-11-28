@@ -285,6 +285,56 @@ namespace RE
 				return &REL::RelocateMember<VR_RUNTIME_DATA2>(this, 0, 0x30530);
 			}
 		}
+
+		static void EnterMapTerrain()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52262, 53154) };
+			func();
+		}
+
+		static void ExitMapTerrain()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52263, 53155) };
+			func();
+		}
+
+		static void ShutdownMapView(bool a_arg1)
+		{
+			using func_t = void(bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52253, 53143) };
+			func(a_arg1);
+		}
+
+		static void InitMapView()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52254, 53144) };
+			func();
+		}
+
+		static void CloseMapView(bool a_arg1)
+		{
+			using func_t = void(bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52255, 53145) };
+			func(a_arg1);
+		}
+
+		static void EnterMapView()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52256, 53146) };
+			func();
+		}
+
+		static void ExitMapView()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(52257, 53147) };
+			func();
+		}
+
 		// members
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 		RUNTIME_DATA_CONTENT;   // 40, 60

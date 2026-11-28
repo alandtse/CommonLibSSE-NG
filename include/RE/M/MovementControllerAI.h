@@ -1,5 +1,6 @@
 #pragma once
 
+#include "RE/B/BSAtomic.h"
 #include "RE/B/BSFixedString.h"
 #include "RE/B/BSIntrusiveRefCounted.h"
 #include "RE/B/BSTArray.h"
@@ -12,10 +13,38 @@ namespace RE
 	class BSPathingStreamRead;
 	class BSPathingStreamWrite;
 	class IMovementDebugRenderingInterface;
+	class IMovementInterface;
 	class IMovementState;
 	struct IPipelineStageInterface;
 	struct MovementUpdateDataSmallDelta;
 	struct MovementUpdateDataLargeDelta;
+	struct MovementUpdateDeltas;
+
+	struct MovementInterfaceEntry
+	{
+	public:
+		// members
+		BSFixedString       name;               // 00
+		IMovementInterface* movementInterface;  // 08
+	};
+	static_assert(sizeof(MovementInterfaceEntry) == 0x10);
+
+	// small array scanned linearly by BSFixedString pointer: bit 31 of capacity clear = heap data at 08, set = inline entries from 08
+	struct MovementInterfaceMap
+	{
+	public:
+		// members
+		std::uint32_t capacity;  // 00
+		std::uint32_t pad04;     // 04
+		union
+		{
+			MovementInterfaceEntry* heapData;
+			std::uint8_t            inlineData[0xB0];
+		};                    // 08
+		std::uint32_t size;   // B8
+		std::uint32_t padBC;  // BC
+	};
+	static_assert(sizeof(MovementInterfaceMap) == 0xC0);
 
 	class MovementAgent : public BSIntrusiveRefCounted
 	{
@@ -134,44 +163,22 @@ namespace RE
 		~MovementControllerAI() override;  // 00
 
 		// add
-		virtual void Unk_05(void);                                                   // 05
-		virtual void Unk_06(void);                                                   // 06 - { return; }
-		virtual void GetMoveDirection(float a_delta, NiPoint3& a_outMoveDirection);  // 07
-		virtual void Unk_08(void);                                                   // 08
-		virtual void Unk_09(void);                                                   // 09 - { return 1; }
+		virtual IMovementState* QCurrentState();                                                         // 05 - GetInterface1 lookup, NullMovementState fallback
+		virtual void            RegisterInterfaces();                                                    // 06 - no-op in the base
+		virtual void            UpdateSmallDelta(float a_deltaTime, MovementUpdateDeltas* a_output);     // 07 - builds MovementUpdateDataSmallDelta, calls each arbiter
+		virtual void            UpdateLargeDelta(float a_deltaTime, BSTArray<BSFixedString>* a_output);  // 08
+		virtual void            Unk_09(void);                                                            // 09 - { return 1; }
 
 		// members
 		mutable volatile std::uint32_t          _refCount{ 0 };  // 008
 		std::uint32_t                           pad00C;          // 00C
 		BSTSmallArray<ActiveArbiterSmartPtr, 2> arbiters;        // 010
 		BSTSmallArray<ActiveAgentSmartPtr, 1>   agents;          // 030
-		std::uint64_t                           unk048;          // 048
-		std::uint64_t                           unk050;          // 050
-		std::uint64_t                           unk058;          // 058
-		std::uint64_t                           unk060;          // 060
-		std::uint64_t                           unk068;          // 068
-		std::uint64_t                           unk070;          // 070
-		std::uint64_t                           unk078;          // 078
-		std::uint64_t                           unk080;          // 080
-		std::uint64_t                           unk088;          // 088
-		std::uint64_t                           unk090;          // 090
-		std::uint64_t                           unk098;          // 098
-		std::uint64_t                           unk0A0;          // 0A0
-		std::uint64_t                           unk0A8;          // 0A8
-		std::uint64_t                           unk0B0;          // 0B0
-		std::uint64_t                           unk0B8;          // 0B8
-		std::uint64_t                           unk0C0;          // 0C0
-		std::uint64_t                           unk0C8;          // 0C8
-		std::uint64_t                           unk0D0;          // 0D0
-		std::uint64_t                           unk0D8;          // 0D8
-		std::uint64_t                           unk0E0;          // 0E0
-		std::uint64_t                           unk0E8;          // 0E8
-		std::uint64_t                           unk0F0;          // 0F0
-		std::uint64_t                           unk0F8;          // 0F8
-		std::uint64_t                           unk100;          // 100
-		std::uint64_t                           unk108;          // 108
-		std::uint64_t                           unk110;          // 110
-		std::uint64_t                           unk118;          // 118
+		MovementInterfaceMap                    interfaces;      // 048
+		BSReadWriteLock                         interfaceLock;   // 108
+		std::uint32_t                           actorFormID;     // 110
+		std::uint32_t                           pad114;          // 114
+		void*                                   dataTracker;     // 118 - defaults to the MovementControllerNullDataTracker singleton; UpdateSmallDelta calls its slot 1
 	};
 #if defined(EXCLUSIVE_SKYRIM_FLAT)
 	static_assert(sizeof(MovementControllerAI) == 0x120);

@@ -6,6 +6,7 @@
 
 namespace RE
 {
+	class TESFile;
 	class TESForm;
 
 	class TESDescription : public BaseFormComponent
@@ -22,6 +23,13 @@ namespace RE
 		void CopyComponent(BaseFormComponent* a_rhs) override;  // 03
 
 		void GetDescription(BSString& a_out, TESForm* a_parent, std::uint32_t a_fieldType = 'CSED');
+
+		void LoadDescriptionData(TESFile* a_file)
+		{
+			using func_t = void(TESDescription*, TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14398, 14551) };
+			func(this, a_file);
+		}
 
 		// members
 		std::uint32_t        fileOffset;       // 08

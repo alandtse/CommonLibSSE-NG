@@ -74,6 +74,13 @@ namespace RE
 			return func(a_door, a_linkedDoor);
 		}
 
+		void CompleteDoorTeleport(std::uint32_t* a_doorHandle)
+		{
+			using func_t = void(TESObjectDOOR*, std::uint32_t*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(17523, 17924) };
+			func(this, a_doorHandle);
+		}
+
 		// members
 		std::uint64_t                    unk90;            // 90
 		BGSSoundDescriptorForm*          openSound;        // 98 - SNAM

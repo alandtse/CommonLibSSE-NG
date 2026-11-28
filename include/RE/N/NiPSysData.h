@@ -47,11 +47,11 @@ namespace RE
 		bool          RegisterStreamables(NiStream& a_stream) override;        // 1A
 		void          SaveBinary(NiStream& a_stream) override;                 // 1B
 		bool          IsEqual(NiObject* a_object) override;                    // 1C - { return false; }
-		void          RemoveParticle(std::uint16_t a_particleCount) override;  // 28
+		void          RemoveParticle(std::uint16_t a_particleCount) override;  // 27
 
 		// add
-		virtual std::uint16_t AddParticle();            // 2A
-		virtual void          ResolveAddedParticles();  // 2B
+		virtual std::uint16_t AddParticle();            // 29
+		virtual void          ResolveAddedParticles();  // 2A
 
 		RUNTIME_DATA_ACCESSOR_EX(PSYS_RUNTIME_DATA, GetPSysRuntimeData, 0x90, 0xA8);
 		// members

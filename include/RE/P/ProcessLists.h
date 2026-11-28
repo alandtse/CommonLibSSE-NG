@@ -49,6 +49,46 @@ namespace RE
 		void         StopAllMagicEffects(TESObjectREFR& a_ref);
 		void         StopCombatAndAlarmOnActor(Actor* a_actor, bool a_notAlarm);
 
+		void MoveAllActorsToPackageLocations()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40301, 41311) };
+			func(this);
+		}
+		void ProcessPackageLocationQueue()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40303, 41313) };
+			func(this);
+		}
+
+		void AddActorHandle(ActorHandle* a_handle, std::int32_t a_level)
+		{
+			using func_t = void(ProcessLists*, ActorHandle*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40281, 41290) };
+			func(this, a_handle, a_level);
+		}
+		void RemoveActorHandle(ActorHandle* a_handle, std::int32_t a_level)
+		{
+			using func_t = void(ProcessLists*, ActorHandle*, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40282, 41291) };
+			func(this, a_handle, a_level);
+		}
+
+		void FinishHighActorFadeIns()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40299, 41309) };
+			func(this);
+		}
+
+		void ToggleAI()
+		{
+			using func_t = void(ProcessLists*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40317, 41327) };
+			func(this);
+		}
+
 		// members
 		bool                                    runDetection;                                  // 001
 		bool                                    showDetectionStats;                            // 002

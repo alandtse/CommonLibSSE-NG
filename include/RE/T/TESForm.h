@@ -357,6 +357,20 @@ namespace RE
 		void SetFile(TESFile* a_file);
 		void SetPlayerKnows(bool a_known);
 
+		static std::uint32_t GetFormTypeFromRecordType(std::uint32_t a_recordType)
+		{
+			using func_t = std::uint32_t(std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14468, 14624) };
+			return func(a_recordType);
+		}
+
+		void LoadVMData(TESFile* a_mod)
+		{
+			using func_t = void(TESForm*, TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14496, 14654) };
+			func(this, a_mod);
+		}
+
 		// members
 		TESFileContainer                            sourceFiles;      // 08
 		std::uint32_t                               formFlags;        // 10

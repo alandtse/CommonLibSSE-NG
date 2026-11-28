@@ -7,6 +7,8 @@
 
 namespace RE
 {
+	class NiMatrix3;
+	class NiAVObject;
 	class BSFaceGenAnimationData : public NiExtraData
 	{
 	public:
@@ -51,6 +53,160 @@ namespace RE
 		void          ClearExpressionOverride() noexcept;
 		void          Reset(float a_timer, bool a_resetExpression, bool a_resetModifierAndPhoneme, bool a_resetCustom, bool a_closeEyes);
 		std::uint32_t GetActiveExpression() const;
+
+		bool UpdateDialoguePhonemes(float a_delta)
+		{
+			using func_t = bool(BSFaceGenAnimationData*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25961, 26550) };
+			return func(this, a_delta);
+		}
+
+		bool UpdateDialogueModifiers(float a_delta)
+		{
+			using func_t = bool(BSFaceGenAnimationData*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25962, 26551) };
+			return func(this, a_delta);
+		}
+
+		void ReleaseFinishedDialogueData()
+		{
+			using func_t = void(BSFaceGenAnimationData*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25963, 26552) };
+			func(this);
+		}
+
+		void UpdateEyeBlinking(float a_delta)
+		{
+			using func_t = void(BSFaceGenAnimationData*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25964, 26553) };
+			func(this, a_delta);
+		}
+
+		void ResetDialogueKeyframes(float a_timer, bool a_resetExpression, bool a_resetModifierAndPhoneme, bool a_resetCustom, bool a_closeEyes)
+		{
+			using func_t = void(BSFaceGenAnimationData*, float, bool, bool, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25965, 26555) };
+			func(this, a_timer, a_resetExpression, a_resetModifierAndPhoneme, a_resetCustom, a_closeEyes);
+		}
+
+		void ResetOverrideKeyframes(float a_timer, bool a_resetExpression, bool a_resetModifierAndPhoneme, bool a_resetCustom)
+		{
+			using func_t = void(BSFaceGenAnimationData*, float, bool, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25966, 26556) };
+			func(this, a_timer, a_resetExpression, a_resetModifierAndPhoneme, a_resetCustom);
+		}
+
+		static void InitStaticArray()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25970, 26560) };
+			func();
+		}
+
+		static void ReleaseStaticArray()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25971, 26561) };
+			func();
+		}
+
+		void SetOverrideEnabled(bool a_enabled)
+		{
+			using func_t = void(BSFaceGenAnimationData*, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25972, 26562) };
+			func(this, a_enabled);
+		}
+
+		static float GetExpressionChangePerSec()
+		{
+			using func_t = float();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25973, 26563) };
+			return func();
+		}
+
+		static float GetExpressionStrengthAdd()
+		{
+			using func_t = float();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25974, 26564) };
+			return func();
+		}
+
+		bool GetHeadRotation(NiMatrix3& a_out)
+		{
+			using func_t = bool(BSFaceGenAnimationData*, NiMatrix3&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25976, 26585) };
+			return func(this, a_out);
+		}
+
+		void SetEyesClosed(bool a_closed, bool a_immediate)
+		{
+			using func_t = void(BSFaceGenAnimationData*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25978, 26591) };
+			func(this, a_closed, a_immediate);
+		}
+
+		void SetExpressionTransitionTarget(float* a_values)
+		{
+			using func_t = void(BSFaceGenAnimationData*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25979, 26593) };
+			func(this, a_values);
+		}
+
+		void SetMoodExpression(std::uint32_t a_mood, float a_value)
+		{
+			using func_t = void(BSFaceGenAnimationData*, std::uint32_t, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25981, 26595) };
+			func(this, a_mood, a_value);
+		}
+
+		bool Update(float a_delta, bool a_updateBlinking)
+		{
+			using func_t = bool(BSFaceGenAnimationData*, float, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25983, 26598) };
+			return func(this, a_delta, a_updateBlinking);
+		}
+
+		void SetEyeLookModifiers(float a_heading, float a_pitch)
+		{
+			using func_t = void(BSFaceGenAnimationData*, float, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25984, 26599) };
+			func(this, a_heading, a_pitch);
+		}
+
+		void UpdateEyeOffsets(std::int32_t a_expression, float* a_heading, float* a_pitch, float a_delta)
+		{
+			using func_t = void(BSFaceGenAnimationData*, std::int32_t, float*, float*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25985, 26600) };
+			func(this, a_expression, a_heading, a_pitch, a_delta);
+		}
+
+		bool UpdateEyeDirection(float a_delta)
+		{
+			using func_t = bool(BSFaceGenAnimationData*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25986, 26601) };
+			return func(this, a_delta);
+		}
+
+		std::int32_t GetDominantExpression() const
+		{
+			using func_t = std::int32_t(const BSFaceGenAnimationData*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25988, 26604) };
+			return func(this);
+		}
+
+		void UpdateEyeTrackingRotation(NiMatrix3& a_out, float a_delta, NiAVObject* a_head)
+		{
+			using func_t = void(BSFaceGenAnimationData*, NiMatrix3&, float, NiAVObject*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25989, 26606) };
+			func(this, a_out, a_delta, a_head);
+		}
+
+		BSFaceGenAnimationData* Clone()
+		{
+			using func_t = BSFaceGenAnimationData*(BSFaceGenAnimationData*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(25991, 26608) };
+			return func(this);
+		}
 
 		// members
 		BSFaceGenKeyframeMultiple* transitionTargetKeyFrame;  // 018 - used to animate transition between expressions

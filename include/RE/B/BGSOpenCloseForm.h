@@ -29,6 +29,13 @@ namespace RE
 
 		[[nodiscard]] static OPEN_STATE GetOpenState(const TESObjectREFR* a_ref);
 		static void                     SetOpenState(TESObjectREFR* a_ref, bool a_open, bool a_snap);
+
+		static void NotifyActorsOfOpenedDoor(void* a_handleList, TESObjectREFR* a_door)
+		{
+			using func_t = void(void*, TESObjectREFR*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(40398, 41412) };
+			func(a_handleList, a_door);
+		}
 	};
 	static_assert(sizeof(BGSOpenCloseForm) == 0x8);
 }

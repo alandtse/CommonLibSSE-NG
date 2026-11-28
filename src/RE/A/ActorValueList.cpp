@@ -23,6 +23,13 @@ namespace RE
 		return func(a_actorValue);
 	}
 
+	const char* ActorValueList::GetActorValueEnumName(ActorValue a_actorValue)
+	{
+		using func_t = decltype(&ActorValueList::GetActorValueEnumName);
+		static REL::Relocation<func_t> func{ RELOCATION_ID(26563, 27195) };
+		return func(a_actorValue);
+	}
+
 	std::string_view ActorValueToString(ActorValue a_actorValue) noexcept
 	{
 		auto name = ActorValueList::GetActorValueName(a_actorValue);

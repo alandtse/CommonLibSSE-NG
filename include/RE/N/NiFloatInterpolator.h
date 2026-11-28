@@ -36,8 +36,8 @@ namespace RE
 		NiInterpolator*    GetSequenceInterpolator(float a_start, float a_end) override;                           // 34
 		std::uint16_t      GetKeyChannelCount() const override;                                                    // 39 - { return 1; }
 		std::uint32_t      GetKeyCount(std::uint16_t a_channel) const override;                                    // 3A - { return floatData ? floatData->numKeys : 0; }
-		KeyContent         GetKeyContent(std::uint16_t a_channel) const override;                                  // 3B - { KeyContent::kFloat; }
-		KeyType            GetKeyType(std::uint16_t a_channel) const override;                                     // 3C - { return floatData ? floatData->type : 0; }
+		KeyContent         GetKeyContent(std::uint16_t a_channel) const override;                                  // 3C - { KeyContent::kFloat; }
+		KeyType            GetKeyType(std::uint16_t a_channel) const override;                                     // 3B - { return floatData ? floatData->type : 0; }
 		void*              GetKeyArray(std::uint16_t a_channel) const override;                                    // 3D - { return floatData ? floatData->keys : 0; }
 		std::uint8_t       GetKeyStride(std::uint16_t a_channel) const override;                                   // 3E - { return floatData ? floatData->keySize : 0; }
 		[[nodiscard]] bool GetChannelPosed(std::uint16_t a_channel) const override;                                // 3F - { return !floatData && floatValue != -3.4028235e38; }

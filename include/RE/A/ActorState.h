@@ -1,9 +1,13 @@
 #pragma once
 
 #include "RE/I/IMovementState.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
+	class IMovementInterface;
+	class IMovementParameters;
+
 	enum class ACTOR_LIFE_STATE : std::uint32_t
 	{
 		kAlive = 0,
@@ -151,7 +155,7 @@ namespace RE
 
 		// add
 		virtual bool DoSetSitSleepState(SIT_SLEEP_STATE a_state);  // 14
-		virtual void Unk_15(void);                                 // 15
+		virtual void DoSetWeaponDrawn(bool a_drawn);               // 15
 
 		[[nodiscard]] ATTACK_STATE_ENUM GetAttackState() const noexcept { return actorState1.meleeAttackState; }
 		[[nodiscard]] FLY_STATE         GetFlyState() const noexcept { return actorState1.flyState; }
@@ -213,6 +217,82 @@ namespace RE
 			default:
 				return false;
 			}
+		}
+
+		float SpeedToNormalized(float a_speed)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88499, 90925) };
+			return func(this, a_speed);
+		}
+		float NormalizedToSpeed(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88500, 90926) };
+			return func(this, a_normalized);
+		}
+
+		float RotationSpeedToNormalized(float a_rotationSpeed)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88501, 90927) };
+			return func(this, a_rotationSpeed);
+		}
+		float NormalizedToRotationSpeed(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88502, 90928) };
+			return func(this, a_normalized);
+		}
+		float AccelerationToNormalized(float a_acceleration)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88503, 90929) };
+			return func(this, a_acceleration);
+		}
+		float NormalizedToAcceleration(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88504, 90930) };
+			return func(this, a_normalized);
+		}
+		float AngularAccelerationToNormalized(float a_angularAcceleration)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88505, 90931) };
+			return func(this, a_angularAcceleration);
+		}
+
+		float NormalizedToAngularAcceleration(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88506, 90932) };
+			return func(this, a_normalized);
+		}
+		float AngleAccelerationToNormalized(float a_value)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88507, 90933) };
+			return func(this, a_value);
+		}
+		float NormalizedToAngleAcceleration(float a_normalized)
+		{
+			using func_t = float(ActorState*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(88508, 90934) };
+			return func(this, a_normalized);
+		}
+
+		void CalculateTranslationLimits(IMovementParameters* a_params, IMovementInterface* a_interface, NiPoint3* a_targetDirection, float* a_outAcceleration, float* a_outDeceleration, float* a_outLimit)
+		{
+			using func_t = void(ActorState*, IMovementParameters*, IMovementInterface*, NiPoint3*, float*, float*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89961, 92441) };
+			func(this, a_params, a_interface, a_targetDirection, a_outAcceleration, a_outDeceleration, a_outLimit);
+		}
+		void CalculateRotationLimits(IMovementParameters* a_params, IMovementInterface* a_interface, NiPoint3* a_targetDirection, float* a_outLimitA, float* a_outLimitB)
+		{
+			using func_t = void(ActorState*, IMovementParameters*, IMovementInterface*, NiPoint3*, float*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(89962, 92442) };
+			func(this, a_params, a_interface, a_targetDirection, a_outLimitA, a_outLimitB);
 		}
 
 		// members

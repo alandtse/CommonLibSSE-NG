@@ -36,6 +36,13 @@ namespace RE
 		virtual bool               IsKeyframeMultiple();                                                                           // 0C { return false; };
 		virtual bool               IsKeyframeExclusive();                                                                          // 0D { return false; };
 
+		bool SetTimer(float a_timer)
+		{
+			using func_t = bool(BSFaceGenKeyframe*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(26201, 26780) };
+			return func(this, a_timer);
+		}
+
 		// members
 		Type  type;   // 08
 		float timer;  // 0C

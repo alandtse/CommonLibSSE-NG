@@ -33,10 +33,12 @@
 
 namespace RE
 {
+	class NiAVObject;
 	enum class FIGHT_REACTION;
 
 	class ActorMagicCaster;
 	class ActorMover;
+	class IMovementParameters;
 	class AIProcess;
 	class bhkCharacterController;
 	class bhkCharacterMoveFinishEvent;
@@ -335,8 +337,8 @@ namespace RE
 		bool                                 PopulateGraphProjectsToLoad(void) const override;                                                                                                                                                                     // 072
 		[[nodiscard]] NiPoint3               GetBoundMin() const override;                                                                                                                                                                                         // 073
 		[[nodiscard]] NiPoint3               GetBoundMax() const override;                                                                                                                                                                                         // 074
-		void                                 Unk_75(void) override;                                                                                                                                                                                                // 075 - "ActorValue GetWeaponSkill()"? really weird call, only works for right hand, and defaults to 1
-		void                                 Unk_78(void) override;                                                                                                                                                                                                // 078
+		std::uint32_t                        GetEquippedWeaponTypeValue() override;                                                                                                                                                                                // 075
+		bool                                 RefreshEquippedHandItems(NiAVObject* a_root) override;                                                                                                                                                                // 078
 		void                                 ModifyAnimationUpdateData(BSAnimationUpdateData& a_data) override;                                                                                                                                                    // 079
 		bool                                 ShouldSaveAnimationOnUnloading() const override;                                                                                                                                                                      // 07A - { return false; }
 		bool                                 ShouldSaveAnimationOnSaving() const override;                                                                                                                                                                         // 07B
@@ -345,26 +347,26 @@ namespace RE
 		// VR inserts extra vtable entries relative to SE/AE past this point, so a single
 		// compile-time ordinal can't address all three runtimes; each function below resolves
 		// its real per-runtime slot via RelocateVirtual instead.
-		SKYRIM_REL_VR_VIRTUAL void                   RemoveWeapon(BIPED_OBJECT equipIndex);                                                // SE/AE 0x82, VR 0x83
-		SKYRIM_REL_VR_VIRTUAL void                   SetObjectReference(TESBoundObject* a_object);                                         // SE/AE 0x84, VR 0x85
-		SKYRIM_REL_VR_VIRTUAL void                   MoveHavok(bool a_forceRec);                                                           // SE/AE 0x85, VR 0x86
-		SKYRIM_REL_VR_VIRTUAL void                   GetLinearVelocity(NiPoint3& a_velocity) const;                                        // SE/AE 0x86, VR 0x87
-		SKYRIM_REL_VR_VIRTUAL void                   SetActionComplete(bool a_set);                                                        // SE/AE 0x87, VR 0x88
-		SKYRIM_REL_VR_VIRTUAL void                   Disable();                                                                            // SE/AE 0x89, VR 0x8A
-		SKYRIM_REL_VR_VIRTUAL void                   ResetInventory(bool a_leveledOnly);                                                   // SE/AE 0x8A, VR 0x8B
-		SKYRIM_REL_VR_VIRTUAL NiNode*                GetFireNode();                                                                        // SE/AE 0x8B, VR 0x8C
-		SKYRIM_REL_VR_VIRTUAL void                   SetFireNode(NiNode* a_fireNode);                                                      // SE/AE 0x8C, VR 0x8D
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool     OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const;                          // SE/AE 0x90, VR 0x91
-		SKYRIM_REL_VR_VIRTUAL void                   DoMoveToHigh();                                                                       // SE/AE 0x91, VR 0x92
-		SKYRIM_REL_VR_VIRTUAL void                   TryMoveToMiddleLow();                                                                 // SE/AE 0x92, VR 0x93
-		SKYRIM_REL_VR_VIRTUAL bool                   TryChangeSkyCellActorsProcessLevel();                                                 // SE/AE 0x93, VR 0x94
-		SKYRIM_REL_VR_VIRTUAL void                   TryUpdateActorLastSeenTime();                                                         // SE/AE 0x95, VR 0x96
-		SKYRIM_REL_VR_VIRTUAL void                   SetParentCell(TESObjectCELL* a_cell);                                                 // SE/AE 0x98, VR 0x99
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool     IsDead(bool a_notEssential = true) const;                                             // SE/AE 0x99, VR 0x9A
-		SKYRIM_REL_VR_VIRTUAL bool                   ProcessInWater(hkpCollidable* a_collidable, float a_waterHeight, float a_deltaTime);  // SE/AE 0x9C, VR 0x9D
-		SKYRIM_REL_VR_VIRTUAL bool                   ApplyCurrent(float a_velocityTime, const hkVector4& a_velocity);                      // SE/AE 0x9D, VR 0x9E
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESAmmo* GetCurrentAmmo() const;                                                               // SE/AE 0x9E, VR 0x9F
-		SKYRIM_REL_VR_VIRTUAL void                   UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object);                          // SE/AE 0xA1, VR 0xA2
+		SKYRIM_REL_VR_VIRTUAL void                   RemoveWeapon(BIPED_OBJECT equipIndex);                                                                           // SE/AE 0x82, VR 0x83
+		SKYRIM_REL_VR_VIRTUAL void                   SetObjectReference(TESBoundObject* a_object);                                                                    // SE/AE 0x84, VR 0x85
+		SKYRIM_REL_VR_VIRTUAL void                   MoveHavok(bool a_forceRec);                                                                                      // SE/AE 0x85, VR 0x86
+		SKYRIM_REL_VR_VIRTUAL void                   GetLinearVelocity(NiPoint3& a_velocity) const;                                                                   // SE/AE 0x86, VR 0x87
+		SKYRIM_REL_VR_VIRTUAL void                   SetActionComplete(bool a_set);                                                                                   // SE/AE 0x87, VR 0x88
+		SKYRIM_REL_VR_VIRTUAL void                   Disable();                                                                                                       // SE/AE 0x89, VR 0x8A
+		SKYRIM_REL_VR_VIRTUAL void                   ResetInventory(bool a_leveledOnly);                                                                              // SE/AE 0x8A, VR 0x8B
+		SKYRIM_REL_VR_VIRTUAL NiNode*                GetFireNode();                                                                                                   // SE/AE 0x8B, VR 0x8C
+		SKYRIM_REL_VR_VIRTUAL void                   SetFireNode(NiNode* a_fireNode);                                                                                 // SE/AE 0x8C, VR 0x8D
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool     OnAddCellPerformQueueReference(TESObjectCELL& a_cell) const;                                                     // SE/AE 0x90, VR 0x91
+		SKYRIM_REL_VR_VIRTUAL void                   DoMoveToHigh();                                                                                                  // SE/AE 0x91, VR 0x92
+		SKYRIM_REL_VR_VIRTUAL void                   TryMoveToMiddleLow();                                                                                            // SE/AE 0x92, VR 0x93
+		SKYRIM_REL_VR_VIRTUAL bool                   TryChangeSkyCellActorsProcessLevel();                                                                            // SE/AE 0x93, VR 0x94
+		SKYRIM_REL_VR_VIRTUAL void                   TryUpdateActorLastSeenTime();                                                                                    // SE/AE 0x95, VR 0x96
+		SKYRIM_REL_VR_VIRTUAL void                   SetParentCell(TESObjectCELL* a_cell);                                                                            // SE/AE 0x98, VR 0x99
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL bool     IsDead(bool a_notEssential = true) const;                                                                        // SE/AE 0x99, VR 0x9A
+		SKYRIM_REL_VR_VIRTUAL bool                   ProcessInWater(hkpCollidable* a_collidable, float a_waterHeight, float a_deltaTime);                             // SE/AE 0x9C, VR 0x9D
+		SKYRIM_REL_VR_VIRTUAL bool                   ApplyCurrent(float a_velocityTime, const hkVector4& a_velocity);                                                 // SE/AE 0x9D, VR 0x9E
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL TESAmmo* GetCurrentAmmo() const;                                                                                          // SE/AE 0x9E, VR 0x9F
+		SKYRIM_REL_VR_VIRTUAL void                   UnequipItem(std::uint64_t a_arg1, TESBoundObject* a_object, std::uint32_t a_count, ExtraDataList* a_extraList);  // SE/AE 0xA1, VR 0xA2
 
 		// override (MagicTarget)
 		[[nodiscard]] Actor* GetTargetStatsObject() override;      // 002 - { return this; }
@@ -376,7 +378,7 @@ namespace RE
 #endif
 
 		// add
-		SKYRIM_REL_VR_VIRTUAL void                Unk_A2(void);                                                          // 0A2
+		SKYRIM_REL_VR_VIRTUAL void                FreeRequestedModels(void);                                             // 0A2
 		SKYRIM_REL_VR_VIRTUAL void                PlayPickUpSound(TESBoundObject* a_object, bool a_pickup, bool a_use);  // 0A3
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float GetHeading(bool a_ignoreRaceSettings) const;                           // 0A4
 #if defined(EXCLUSIVE_SKYRIM_VR)
@@ -392,8 +394,8 @@ namespace RE
 #endif
 		SKYRIM_REL_VR_VIRTUAL void          SetAvoidanceDisabled(bool a_set);                                                                                                                                                             // 0A5 - { return; }
 		SKYRIM_REL_VR_VIRTUAL void          DrawWeaponMagicHands(bool a_draw);                                                                                                                                                            // 0A6
-		SKYRIM_REL_VR_VIRTUAL void          DetachCharController();                                                                                                                                                                       // 0A7
-		SKYRIM_REL_VR_VIRTUAL void          RemoveCharController();                                                                                                                                                                       // 0A8
+		SKYRIM_REL_VR_VIRTUAL bool          DetachCharController();                                                                                                                                                                       // 0A7
+		SKYRIM_REL_VR_VIRTUAL bool          RemoveCharController();                                                                                                                                                                       // 0A8
 		SKYRIM_REL_VR_VIRTUAL void          SetPosition(const NiPoint3& a_pos, bool a_updateCharController);                                                                                                                              // 0A9
 		SKYRIM_REL_VR_VIRTUAL void          KillDying();                                                                                                                                                                                  // 0AA
 		SKYRIM_REL_VR_VIRTUAL void          Resurrect(bool a_resetInventory, bool a_attach3D);                                                                                                                                            // 0AB
@@ -457,7 +459,7 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void                       StopCombat();                                                                                                                                                                    // 0E5
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float        CalcArmorRating();                                                                                                                                                               // 0E6 - { return 0.0; }
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float        GetArmorBaseFactorSum();                                                                                                                                                         // 0E7 - { return 0.0; }
-		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float        CalcUnarmedDamage();                                                                                                                                                             // 0E8 - { return 0; }
+		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL std::int32_t CalcUnarmedDamage();                                                                                                                                                             // 0E8 - { return 0; }
 		SKYRIM_REL_VR_VIRTUAL void                       Unk_E9(void);                                                                                                                                                                    // 0E9 - { return 0; }
 		SKYRIM_REL_VR_VIRTUAL void                       Unk_EA(void);                                                                                                                                                                    // 0EA - { return 0; }
 		[[nodiscard]] SKYRIM_REL_VR_VIRTUAL float        GetRunSpeed();                                                                                                                                                                   // 0EB
@@ -793,6 +795,203 @@ namespace RE
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<BSTransformDeltaEvent>, AsBSTransformDeltaEventSink, SKSE::RUNTIME_SSE_1_6_629, 0xC8, 0xD0);
 		RUNTIME_CAST_ACCESSOR_VERSIONED(BSTEventSink<bhkCharacterMoveFinishEvent>, AsCharacterMoveFinishEventSink, SKSE::RUNTIME_SSE_1_6_629, 0xD0, 0xD8);
 		RUNTIME_CAST_ACCESSOR_VERSIONED(IPostAnimationChannelUpdateFunctor, AsIPostAnimationChannelUpdateFunctor, SKSE::RUNTIME_SSE_1_6_629, 0xD8, 0xE0);
+
+		float CalcArmorAdjustedHealth(float a_factor)
+		{
+			using func_t = float(Actor*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37605, 38558) };
+			return func(this, a_factor);
+		}
+		bool WouldTargetBlock(Actor* a_target)
+		{
+			using func_t = bool(Actor*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37606, 38559) };
+			return func(this, a_target);
+		}
+		void UpdateControllerNoMoveFlag()
+		{
+			using func_t = void(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37631, 38584) };
+			func(this);
+		}
+		void TriggerBlockAnticipateAction(Actor* a_other)
+		{
+			using func_t = void(Actor*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37632, 38585) };
+			func(this, a_other);
+		}
+		bool IsAttackStateActive()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37638, 38591) };
+			return func(this);
+		}
+		void ApplyAttackStaminaCost(bool a_leftHand, bool a_flag)
+		{
+			using func_t = void(Actor*, bool, bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37650, 38603) };
+			func(this, a_leftHand, a_flag);
+		}
+		Actor* GetAttackTargetRef()
+		{
+			using func_t = Actor*(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37655, 38608) };
+			return func(this);
+		}
+		Actor* FindAttackTargetInReach(float a_reach, BGSAttackData* a_attackData)
+		{
+			using func_t = Actor*(Actor*, float, BGSAttackData*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(46011, 47272) };
+			return func(this, a_reach, a_attackData);
+		}
+
+		void RequestFollowPath()
+		{
+			using func_t = void(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36762, 37778) };
+			func(this);
+		}
+		bool IsFollowPathRequestActive()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36763, 37779) };
+			return func(this);
+		}
+		bool CanDualCast()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37816, 38765) };
+			return func(this);
+		}
+		void GetCarryWeightInfo(float* a_outActorValue1F, float* a_outTotalCarryWeight)
+		{
+			using func_t = void(Actor*, float*, float*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(39362, 40434) };
+			func(this, a_outActorValue1F, a_outTotalCarryWeight);
+		}
+
+		void SubmitPathRequest(void* a_request, void* a_location, float a_unkFloat, void* a_unk)
+		{
+			using func_t = void(Actor*, void*, void*, float, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36803, 37819) };
+			func(this, a_request, a_location, a_unkFloat, a_unk);
+		}
+		void SetFlyState(std::uint32_t a_flyState)
+		{
+			using func_t = void(Actor*, std::uint32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36922, 37947) };
+			func(this, a_flyState);
+		}
+
+		void WarpToRecord(void* a_record)
+		{
+			using func_t = void(Actor*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36853, 37877) };
+			func(this, a_record);
+		}
+
+		void SubmitPathRequestToRefLocation(void* a_request, void* a_ref, std::uint32_t a_unk1, void* a_unk2, float a_unkFloat, void* a_unk3)
+		{
+			using func_t = void(Actor*, void*, void*, std::uint32_t, void*, float, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36804, 37820) };
+			func(this, a_request, a_ref, a_unk1, a_unk2, a_unkFloat, a_unk3);
+		}
+
+		std::int32_t StartPathToReference(TESObjectREFR* a_target, float a_walkRunPercent)
+		{
+			using func_t = std::int32_t(Actor*, TESObjectREFR*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36869, 37893) };
+			return func(this, a_target, a_walkRunPercent);
+		}
+
+		void KeepOffsetFromActor(std::uint32_t* a_targetHandle, float* a_offset, float* a_angleOffset, float a_catchUpRadius, float a_followRadius)
+		{
+			using func_t = void(Actor*, std::uint32_t*, float*, float*, float, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36870, 37894) };
+			func(this, a_targetHandle, a_offset, a_angleOffset, a_catchUpRadius, a_followRadius);
+		}
+		void BuildMovementParametersNormalSpeed(IMovementParameters** a_out)
+		{
+			using func_t = void(Actor*, IMovementParameters**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36806, 37822) };
+			func(this, a_out);
+		}
+		void BuildMovementParameters(IMovementParameters** a_out)
+		{
+			using func_t = void(Actor*, IMovementParameters**);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36807, 37823) };
+			func(this, a_out);
+		}
+
+		void RefreshCombatOnProcessChange(std::uint32_t a_arg1, std::int32_t a_arg2)
+		{
+			using func_t = void(Actor*, std::uint32_t, std::int32_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(37614, 38567) };
+			func(this, a_arg1, a_arg2);
+		}
+
+		bool GetPathLookAheadPoint(float a_minDistance, float a_maxDistance, float a_lookAheadTime, NiPoint3* a_outPoint)
+		{
+			using func_t = bool(Actor*, float, float, float, NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36835, 37851) };
+			return func(this, a_minDistance, a_maxDistance, a_lookAheadTime, a_outPoint);
+		}
+
+		bool IsFallingFast()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36260, 37244) };
+			return func(this);
+		}
+
+		EmotionType GetCurrentSceneEmotion(std::uint32_t& a_emotionValue)
+		{
+			using func_t = EmotionType(Actor*, std::uint32_t&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36265, 37249) };
+			return func(this, a_emotionValue);
+		}
+
+		void UpdateLightingProperty(NiAVObject* a_object)
+		{
+			using func_t = void(Actor*, NiAVObject*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36215, 37195) };
+			func(this, a_object);
+		}
+
+		bool IsTalking()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36277, 37266) };
+			return func(this);
+		}
+
+		void UpdateMovement(float a_delta)
+		{
+			using func_t = void(Actor*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36359, 37350) };
+			func(this, a_delta);
+		}
+
+		bool ShouldUseTorch()
+		{
+			using func_t = bool(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36566, 37567) };
+			return func(this);
+		}
+
+		std::uint32_t GetOccupiedFurnitureAnimType()
+		{
+			using func_t = std::uint32_t(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36720, 37732) };
+			return func(this);
+		}
+
+		void UpdateSprinting()
+		{
+			using func_t = void(Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(36994, 38022) };
+			func(this);
+		}
 
 		// members
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR) || defined(EXCLUSIVE_SKYRIM_AE)

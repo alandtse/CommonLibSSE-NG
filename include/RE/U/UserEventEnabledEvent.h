@@ -4,7 +4,7 @@
 
 namespace RE
 {
-	class UserEventEnabled
+	class UserEventEnabledEvent
 	{
 	public:
 		using UEFlag = UserEvents::USER_EVENT_FLAG;
@@ -13,5 +13,5 @@ namespace RE
 		REX::EnumSet<UEFlag, std::uint32_t> newUserEventFlag;  // 0
 		REX::EnumSet<UEFlag, std::uint32_t> oldUserEventFlag;  // 4
 	};
-	static_assert(sizeof(UserEventEnabled) == 0x8);
+	static_assert(sizeof(UserEventEnabledEvent) == 0x8);
 }

@@ -6,6 +6,7 @@
 
 namespace RE
 {
+	class TESFile;
 	class QueuedFile;
 	class TESModelTextureSwap;
 
@@ -69,6 +70,13 @@ namespace RE
 		void InitializeDataComponent() override;                // 01
 		void ClearDataComponent() override;                     // 02
 		void CopyComponent(BaseFormComponent* a_rhs) override;  // 03
+
+		void LoadChunk(TESFile* a_file)
+		{
+			using func_t = void(BGSDestructibleObjectForm*, TESFile*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14046, 14143) };
+			func(this, a_file);
+		}
 
 		// members
 		DestructibleObjectData* data;  // 08

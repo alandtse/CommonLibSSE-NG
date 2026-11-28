@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSPathingCell.h"
+#include "RE/B/BSTArray.h"
 #include "RE/N/NiPoint3.h"
 #include "RE/N/NiSmartPointer.h"
 
@@ -32,6 +33,61 @@ namespace RE
 			using func_t = decltype(&BSPathingLocation::GetNavMeshAndTriangle);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(87978, 90360) };
 			return func(this, a_navMeshOut, a_triOut);
+		}
+
+		void Read(BSPathingStreamRead* a_stream)
+		{
+			using func_t = void(BSPathingLocation*, BSPathingStreamRead*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87992, 90376) };
+			func(this, a_stream);
+		}
+		void Write(BSPathingStreamWrite* a_stream)
+		{
+			using func_t = void(BSPathingLocation*, BSPathingStreamWrite*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87993, 90377) };
+			func(this, a_stream);
+		}
+
+		void SetPositionAndCell(const NiPoint3& a_position, const BSTSmartPointer<BSPathingCell>& a_cell)
+		{
+			using func_t = void(BSPathingLocation*, const NiPoint3&, const BSTSmartPointer<BSPathingCell>&);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87994, 90378) };
+			func(this, a_position, a_cell);
+		}
+
+		BSTSmartPointer<BSPathingCell>& GetPathingCellRef()
+		{
+			using func_t = BSTSmartPointer<BSPathingCell>&(BSPathingLocation*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87980, 90364) };
+			return func(this);
+		}
+
+		bool GetNavmeshPosition(void* a_out)
+		{
+			using func_t = bool(BSPathingLocation*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87979, 90363) };
+			return func(this, a_out);
+		}
+
+		void SetFromPositionResolveCell(const NiPoint3* a_position)
+		{
+			using func_t = void(BSPathingLocation*, const NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87972, 90353) };
+			func(this, a_position);
+		}
+
+		void SetNavmeshInfo(const BSNavmeshInfo* a_info)
+		{
+			using func_t = void(BSPathingLocation*, const BSNavmeshInfo*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87971, 90352) };
+			func(this, a_info);
+		}
+
+		bool CastAxisRays(float a_radius)
+		{
+			using func_t = bool(BSPathingLocation*, float);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(87990, 90374) };
+			return func(this, a_radius);
 		}
 
 		// members

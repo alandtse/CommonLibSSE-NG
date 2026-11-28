@@ -221,6 +221,49 @@ namespace RE
 		AE_ONLY_POINTER_ACCESSOR_VERSIONED(AE_RUNTIME_DATA, GetAERuntimeData, SKSE::RUNTIME_SSE_1_6_1130, 0x120);
 
 		RUNTIME_DATA_ACCESSOR_VERSIONED_EX(RUNTIME_DATA2, GetRuntimeData2, SKSE::RUNTIME_SSE_1_6_1130, 0x140, 0x148);
+
+		std::uint32_t GetCellDetailLevel(TESObjectCELL* a_cell, const NiPoint3* a_position)
+		{
+			using func_t = std::uint32_t(TES*, TESObjectCELL*, const NiPoint3*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13176, 13321) };
+			return func(this, a_cell, a_position);
+		}
+
+		void UpdateTerrainForAttachedCells()
+		{
+			using func_t = void(TES*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13238, 13389) };
+			func(this);
+		}
+
+		bool IsLandFadingAtGrid(std::int32_t a_gridX, std::uint16_t a_gridY)
+		{
+			using func_t = bool(TES*, std::int32_t, std::uint16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13164, 13309) };
+			return func(this, a_gridX, a_gridY);
+		}
+
+		void GetFadedInGridBounds(std::int32_t* a_bounds)
+		{
+			using func_t = void(TES*, std::int32_t*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13167, 13312) };
+			func(this, a_bounds);
+		}
+
+		void QueueAttachedCellReferenceLoads()
+		{
+			using func_t = void(TES*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13236, 13387) };
+			func(this);
+		}
+
+		void ToggleCollision()
+		{
+			using func_t = void(TES*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(13224, 13375) };
+			func(this);
+		}
+
 		// members
 		std::uint64_t                                       unk070;                     // 070
 		GridCellArray*                                      gridCells;                  // 078

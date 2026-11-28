@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/I/IMovementInterface.h"
+#include "RE/N/NiPoint3.h"
 
 namespace RE
 {
@@ -13,14 +14,14 @@ namespace RE
 		~IMovementDirectControl() override;  // 00
 
 		// add
-		virtual void Unk_01(void) = 0;  // 01
-		virtual void Unk_02(void) = 0;  // 02
-		virtual void Unk_03(void) = 0;  // 03
-		virtual void Unk_04(void) = 0;  // 04
-		virtual void Unk_05(void) = 0;  // 05
-		virtual void Unk_06(void) = 0;  // 06
-		virtual void Unk_07(void) = 0;  // 07
-		virtual void Unk_08(void) = 0;  // 08
+		virtual void EnableDirectControl() = 0;                                // 01
+		virtual void SetDirection(NiPoint3* a_direction) = 0;                  // 02
+		virtual void SetSpeed(float a_speed) = 0;                              // 03
+		virtual void SetRotation(NiPoint3* a_rotation) = 0;                    // 04
+		virtual void BlendDirection(NiPoint3* a_direction, float a_time) = 0;  // 05
+		virtual void BlendSpeed(float a_speed, float a_time) = 0;              // 06
+		virtual void BlendRotation(NiPoint3* a_rotation, float a_time) = 0;    // 07
+		virtual void DisableDirectControl() = 0;                               // 08
 	};
 	static_assert(sizeof(IMovementDirectControl) == 0x8);
 }

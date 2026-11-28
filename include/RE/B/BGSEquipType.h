@@ -5,6 +5,7 @@
 
 namespace RE
 {
+	class TESForm;
 	class BGSEquipType : public BaseFormComponent  // EQUP
 	{
 	public:
@@ -30,6 +31,13 @@ namespace RE
 		// add
 		[[nodiscard]] virtual BGSEquipSlot* GetEquipSlot() const;                // 04 - { return equipSlot; }
 		virtual void                        SetEquipSlot(BGSEquipSlot* a_slot);  // 05 - { equipSlot = a_slot; }
+
+		void InitComponent(TESForm* a_owner)
+		{
+			using func_t = void(BGSEquipType*, TESForm*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(14121, 14216) };
+			func(this, a_owner);
+		}
 
 		// members
 		BGSEquipSlot* equipSlot;  // 08 - ETYP

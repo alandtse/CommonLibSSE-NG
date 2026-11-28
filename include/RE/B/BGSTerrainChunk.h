@@ -6,6 +6,7 @@
 
 namespace RE
 {
+	class NiTexture;
 	class BGSTerrainNode;
 
 	class BGSTerrainChunk
@@ -20,6 +21,62 @@ namespace RE
 		void Attach();
 		void Detach();
 		void Prepare();
+
+		void Hide()
+		{
+			using func_t = void(BGSTerrainChunk*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30942, 31745) };
+			func(this);
+		}
+
+		void Show()
+		{
+			using func_t = void(BGSTerrainChunk*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30943, 31746) };
+			func(this);
+		}
+
+		static std::int32_t QueueLoad(void*& a_handle, BGSTerrainNode* a_node, std::uint32_t a_level, std::int16_t a_x, std::int16_t a_y)
+		{
+			using func_t = std::int32_t(void*&, BGSTerrainNode*, std::uint32_t, std::int16_t, std::int16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30930, 31733) };
+			return func(a_handle, a_node, a_level, a_x, a_y);
+		}
+
+		static std::int32_t Load(void*& a_handle, BGSTerrainNode* a_node, std::uint32_t a_level, std::int16_t a_x, std::int16_t a_y)
+		{
+			using func_t = std::int32_t(void*&, BGSTerrainNode*, std::uint32_t, std::int16_t, std::int16_t);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30931, 31734) };
+			return func(a_handle, a_node, a_level, a_x, a_y);
+		}
+
+		static void SetAllMenuScreenFlag(bool a_set)
+		{
+			using func_t = void(bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30940, 31743) };
+			func(a_set);
+		}
+
+		static void LoadNoiseTexture()
+		{
+			using func_t = void();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30944, 31747) };
+			func();
+		}
+
+		static void ReleaseNoiseTexture(bool a_release)
+		{
+			using func_t = void(bool);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30945, 31748) };
+			func(a_release);
+		}
+
+		static NiTexture* GetNoiseTexture()
+		{
+			using func_t = NiTexture*();
+			static REL::Relocation<func_t> func{ RELOCATION_ID(30946, 31749) };
+			return func();
+		}
 
 		// members
 		BGSTerrainNode*             terrainNode;    // 00

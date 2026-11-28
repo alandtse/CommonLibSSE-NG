@@ -17,6 +17,32 @@ namespace RE
 			kSaveLoadSharedPackage = 1 << 0
 		};
 
+		void SetPackage(TESPackage* a_package, TESObjectREFR* a_target, Actor* a_actor)
+		{
+			using func_t = void(ActorPackage*, TESPackage*, TESObjectREFR*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38005, 38959) };
+			func(this, a_package, a_target, a_actor);
+		}
+		void ReleasePackage(void* a_handler, void* a_args)
+		{
+			using func_t = void(ActorPackage*, void*, void*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38017, 38972) };
+			func(this, a_handler, a_args);
+		}
+		void SetData(ActorPackageData* a_data)
+		{
+			using func_t = void(ActorPackage*, ActorPackageData*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38018, 38973) };
+			func(this, a_data);
+		}
+
+		void Reset(Actor* a_actor)
+		{
+			using func_t = void(ActorPackage*, Actor*);
+			static REL::Relocation<func_t> func{ RELOCATION_ID(38003, 38957) };
+			func(this, a_actor);
+		}
+
 		// members
 		mutable BSSpinLock                            packageLock;            // 00
 		TESPackage*                                   package;                // 08
