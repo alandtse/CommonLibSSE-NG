@@ -6,7 +6,17 @@ namespace RE
 	class BSSynchronizedClipGenerator : public hkbGenerator
 	{
 	public:
-		class hkbDefaultSynchronizedScene : public hkReferencedObject
+		class hkbSynchronizedAnimationScene : public hkReferencedObject
+		{
+		public:
+			inline static constexpr auto RTTI = RTTI_BSSynchronizedClipGenerator__hkbSynchronizedAnimationScene;
+			inline static constexpr auto VTABLE = VTABLE_BSSynchronizedClipGenerator__hkbSynchronizedAnimationScene;
+
+			~hkbSynchronizedAnimationScene() override;  // 00
+		};
+		static_assert(sizeof(hkbSynchronizedAnimationScene) == 0x10);
+
+		class hkbDefaultSynchronizedScene : public hkbSynchronizedAnimationScene
 		{
 			inline static constexpr auto RTTI = RTTI_BSSynchronizedClipGenerator__hkbDefaultSynchronizedScene;
 			inline static constexpr auto VTABLE = VTABLE_BSSynchronizedClipGenerator__hkbDefaultSynchronizedScene;
@@ -17,19 +27,6 @@ namespace RE
 			BSReadWriteLock lock;  // 10
 		};
 		static_assert(sizeof(hkbDefaultSynchronizedScene) == 0x18);
-
-		class hkbSynchronizedAnimationScene : public hkReferencedObject
-		{
-		public:
-			inline static constexpr auto RTTI = RTTI_BSSynchronizedClipGenerator__hkbSynchronizedAnimationScene;
-			inline static constexpr auto VTABLE = VTABLE_BSSynchronizedClipGenerator__hkbSynchronizedAnimationScene;
-
-			~hkbSynchronizedAnimationScene() override;  // 00
-
-			// members
-			std::uint64_t unk10;  // 10
-		};
-		static_assert(sizeof(hkbSynchronizedAnimationScene) == 0x18);
 
 		inline static constexpr auto RTTI = RTTI_BSSynchronizedClipGenerator;
 		inline static constexpr auto VTABLE = VTABLE_BSSynchronizedClipGenerator;
