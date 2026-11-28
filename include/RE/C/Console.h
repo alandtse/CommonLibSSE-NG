@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/B/BSPointerHandle.h"
+#include "RE/B/BSTArray.h"
 #include "RE/I/IMenu.h"
 #include "RE/N/NiSmartPointer.h"
 #include "REL/RuntimeDataAccessors.h"
@@ -21,37 +22,24 @@ namespace RE
 		inline static constexpr auto      VTABLE = VTABLE_Console;
 		constexpr static std::string_view MENU_NAME = "Console";
 
+		// AE only
 		struct EXTENDED_CONSOLE_DATA
 		{
-#define EXTENDED_CONSOLE_DATA_CONTENT                                  \
-private:                                                               \
-	[[maybe_unused]] std::uint32_t pad48; /* 48 */                     \
-	[[maybe_unused]] std::uint8_t  pad4c; /* 4c */                     \
-public:                                                                \
-	bool         showAchievementWarning; /* 4d -- only used in ctor */ \
-	bool         ctrlKeyHeld;            /* 4e */                      \
-	std::uint8_t pad4f;                  /* 4f */
+#define EXTENDED_CONSOLE_DATA_CONTENT                            \
+	bool showAchievementWarning; /* 00 -- initialized by ctor */ \
+	bool ctrlKeyHeld;            /* 01 */
 
 			EXTENDED_CONSOLE_DATA_CONTENT
 		};
 
 		struct RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT       \
-	void*         opcode; /* 00 */ \
-	std::uint64_t unk38;  /* 08 */ \
-	std::uint64_t unk40;  /* 10 */
+#define RUNTIME_DATA_CONTENT                                \
+	BSTArray<void*> unk00; /* 00 -- element type unknown */ \
+	std::uint32_t   unk18; /* 18 */                         \
+	std::uint8_t    unk1C; /* 1C */
 
 			RUNTIME_DATA_CONTENT
-		};
-
-		struct RUNTIME_DATA2
-		{
-#define RUNTIME_DATA_CONTENT2     \
-	std::uint64_t unk48; /* 18 */ \
-	std::uint64_t unk50; /* 20 */
-
-			RUNTIME_DATA_CONTENT2
 		};
 
 		~Console() override;  // 00
@@ -69,36 +57,54 @@ public:                                                                \
 		void SetSelectedRef(TESObjectREFR* a_ref);
 		void SetSelectedRef(ObjectRefHandle a_handle);
 
-		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x30, 0x40);
-		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x48, 0x60);
-		[[nodiscard]] inline EXTENDED_CONSOLE_DATA* TryGetExtendedConsoleData() noexcept
+		[[nodiscard]] inline RUNTIME_DATA& GetRuntimeData() noexcept
+		{
+			const auto offset = REL::Relocate(0x38, 0x30, 0x48);
+			return REL::RelocateMember<RUNTIME_DATA>(this, offset, offset);
+		}
+
+		[[nodiscard]] inline const RUNTIME_DATA& GetRuntimeData() const noexcept
+		{
+			return const_cast<Console*>(this)->GetRuntimeData();
+		}
+
+		// nullptr on AE
+		[[nodiscard]] inline void** GetOpcode() noexcept
 		{
 			if (REL::Module::IsAE()) {
 				return nullptr;
 			}
-			return &REL::RelocateMember<EXTENDED_CONSOLE_DATA>(this, 0, 0x58);
+			return &REL::RelocateMember<void*>(this, 0x30, 0x40);
+		}
+
+		// nullptr on SE and VR
+		[[nodiscard]] inline EXTENDED_CONSOLE_DATA* TryGetExtendedConsoleData() noexcept
+		{
+			if (!REL::Module::IsAE()) {
+				return nullptr;
+			}
+			return &REL::RelocateMember<EXTENDED_CONSOLE_DATA>(this, 0x4D, 0x4D);
 		}
 
 		[[nodiscard]] inline const EXTENDED_CONSOLE_DATA* TryGetExtendedConsoleData() const noexcept
 		{
-			if (REL::Module::IsAE()) {
-				return nullptr;
-			}
-			return &REL::RelocateMember<EXTENDED_CONSOLE_DATA>(this, 0, 0x58);
+			return const_cast<Console*>(this)->TryGetExtendedConsoleData();
 		}
 
 		// members
-#ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT
-		EXTENDED_CONSOLE_DATA_CONTENT
-		RUNTIME_DATA_CONTENT2
+#if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_VR)
+		void* opcode;          // 30, 40
+		RUNTIME_DATA_CONTENT;  // 38, 48
+#elif defined(EXCLUSIVE_SKYRIM_AE)
+		RUNTIME_DATA_CONTENT;           // 30
+		EXTENDED_CONSOLE_DATA_CONTENT;  // 4D
 #endif
 
 	protected:
 		void
 			SetSelectedRef_Impl(ObjectRefHandle& a_handle);
 	};
+	STATIC_ASSERT_SIZE(Console, 0x58, 0x50, 0x68, 0x30, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT
-#undef RUNTIME_DATA_CONTENT2
 #undef EXTENDED_CONSOLE_DATA_CONTENT

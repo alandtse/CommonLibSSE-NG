@@ -108,7 +108,7 @@ namespace RE
 		struct RUNTIME_DATA2
 		{
 #define RUNTIME_DATA2_CONTENT                                                          \
-	BGSSaveLoadFormIDMap                     worldspaceFormIDMap;        /*030, 1fe */ \
+	BGSSaveLoadFormIDMap                     worldspaceFormIDMap;        /*030, 200 */ \
 	BSTHashMap<std::uint32_t, ActorHandle>   queuedInitPackageLocations; /*098*/       \
 	BGSSaveLoadReferencesMap                 references;                 /*0C8*/       \
 	BSTHashMap<FormID, FormID>               changedFormIDs;             /*158*/       \
@@ -126,7 +126,7 @@ namespace RE
 
 		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x0, 0x0);
 		VR_RUNTIME_DATA_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x0);
-		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x30, 0x1fe);
+		RUNTIME_DATA_ACCESSOR_EX(RUNTIME_DATA2, GetRuntimeData2, 0x30, 0x200);
 		[[nodiscard]] bool GetGlobalAllowChanges() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kGlobalAllowChanges); }
 		[[nodiscard]] bool GetSaveGameLoading() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kSaveGameLoading); }
 		[[nodiscard]] bool GetSaveGameSaving() const noexcept { return GetRuntimeData2().globalFlags.all(GlobalFlags::kSaveGameSaving); }

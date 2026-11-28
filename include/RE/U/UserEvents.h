@@ -41,14 +41,19 @@ namespace RE
 				kTotal = 18,
 				kNone,
 #	endif
-#elif !defined(ENABLE_SKYRIM_AE) && defined(ENABLE_SKYRIM_SE)  // VR
+#elif defined(EXCLUSIVE_SKYRIM_VR)                             // VR
+				kTotal = 21,
+				kVRTotal = 21,
+				kNone = 22
+#elif !defined(ENABLE_SKYRIM_AE) && defined(ENABLE_SKYRIM_SE)  // SE + VR
 				kTotal = 17,
-				kNone = 22  // More input contexts might be available, needs REing
+				kVRTotal = 21,
+				kNone = 22
 #else                                                          // ALL
 				kTotal = 17,
 				kAETotal = 18,  // AE 1130
-				kVRTotal = 17,
-				kNone = 22  // More input contexts might be available, needs REing
+				kVRTotal = 21,
+				kNone = 22
 #endif
 
 			};

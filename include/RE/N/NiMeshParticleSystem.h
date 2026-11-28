@@ -34,17 +34,17 @@ namespace RE
 
 		struct MESH_PARTICLE_SYSTEM_RUNTIME_DATA
 		{
-#define RUNTIME_DATA_CONTENT                   \
-	float         time;              /* 198 */ \
-	bool          updateControllers; /* 19C */ \
-	std::uint8_t  pad19D;            /* 19D */ \
+#define RUNTIME_DATA_CONTENT                        \
+	float         time;              /* 198, 1D8 */ \
+	bool          updateControllers; /* 19C, 1DC */ \
+	std::uint8_t  pad19D;            /* 19D */      \
 	std::uint16_t pad19E;            /* 19E */
 		};
 
-		RUNTIME_DATA_ACCESSOR_EX(MESH_PARTICLE_SYSTEM_RUNTIME_DATA, GetMeshParticleSystemRuntimeData, 0x198, 0x1C0);
+		RUNTIME_DATA_ACCESSOR_EX(MESH_PARTICLE_SYSTEM_RUNTIME_DATA, GetMeshParticleSystemRuntimeData, 0x198, 0x1D8);
 		// members
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT;  // 198, 1C0
+		RUNTIME_DATA_CONTENT;  // 198, 1D8
 #endif
 	};
 }

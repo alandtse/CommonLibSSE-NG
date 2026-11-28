@@ -205,7 +205,7 @@ namespace RE
 					return nullptr;
 				}
 			}
-			return REL::RelocateMember<RUNTIME_DATA*>(this, 0x128, 0x128);
+			return &REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x128);
 		}
 
 		[[nodiscard]] inline const RUNTIME_DATA* GetRuntimeData() const noexcept
@@ -215,7 +215,7 @@ namespace RE
 					return nullptr;
 				}
 			}
-			return REL::RelocateMember<RUNTIME_DATA*>(this, 0x128, 0x128);
+			return &REL::RelocateMember<RUNTIME_DATA>(this, 0x128, 0x128);
 		}
 
 		AE_ONLY_POINTER_ACCESSOR_VERSIONED(AE_RUNTIME_DATA, GetAERuntimeData, SKSE::RUNTIME_SSE_1_6_1130, 0x120);
