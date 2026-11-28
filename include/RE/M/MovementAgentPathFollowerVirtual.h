@@ -15,6 +15,9 @@ namespace RE
 		inline static constexpr auto RTTI = RTTI_MovementAgentPathFollowerVirtual;
 		inline static constexpr auto VTABLE = VTABLE_MovementAgentPathFollowerVirtual;
 
+		// add
+		virtual void FinishLoadGame();  // 0D
+
 		// members
 		void*              vptr_IMovementPlannerAgent;        // 18
 		void*              vptr_IMovementPathManagerAgent;    // 20

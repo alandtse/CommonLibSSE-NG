@@ -2403,6 +2403,7 @@ set(SOURCES
 	src/RE/B/BSProceduralLightningTasklet.cpp
 	src/RE/B/BSResourceNiBinaryStream.cpp
 	src/RE/B/BSResponse.cpp
+	src/RE/B/BSSaveDataSystemUtility.cpp
 	src/RE/B/BSScaleformManager.cpp
 	src/RE/B/BSScaleformTranslator.cpp
 	src/RE/B/BSSceneGraph.cpp

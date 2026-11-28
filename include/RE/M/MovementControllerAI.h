@@ -63,7 +63,6 @@ namespace RE
 		virtual void                              UnregisterWithController();                                     // 0A
 		virtual void                              SaveGame(BSPathingStreamWrite&);                                // 0B
 		virtual void                              LoadGame(BSPathingStreamRead&);                                 // 0C
-		virtual void                              FinishLoadGame();                                               // 0D
 
 		// members
 		IMovementState* movementState;  // 10

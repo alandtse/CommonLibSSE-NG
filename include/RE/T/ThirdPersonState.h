@@ -57,7 +57,6 @@ namespace RE
 		SKYRIM_REL_VR_VIRTUAL void UpdateRotation();                            // 0E/0F
 		SKYRIM_REL_VR_VIRTUAL void HandleLookInput(const NiPoint2& a_input);    // 0F/10
 		void                       ResetFreeRotation();
-		SKYRIM_REL_VR_VIRTUAL void UpdateTranslation(float* a_rotationInput);  // 10/11
 		void                       UpdateCameraCollision();
 
 		// members

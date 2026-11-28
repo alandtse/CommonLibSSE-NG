@@ -18,6 +18,9 @@ namespace RE
 		void Unk_05(void) override;  // 05
 		void Unk_06(void) override;  // 06
 
+		// add
+		virtual void Unk_09(void);  // 09
+
 		// members
 		ObjectRefHandle target;  // 08
 		std::uint32_t   pad0C;   // 0C
