@@ -48,11 +48,6 @@ namespace RE
 	{
 		REL::RelocateVirtual<decltype(&ThirdPersonState::HandleLookInput)>(0x0F, 0x10, this, a_input);
 	}
-
-	void ThirdPersonState::UpdateTranslation(float* a_rotationInput)
-	{
-		REL::RelocateVirtual<decltype(&ThirdPersonState::UpdateTranslation)>(0x10, 0x11, this, a_rotationInput);
-	}
 #endif
 
 	void ThirdPersonState::ResetFreeRotation()

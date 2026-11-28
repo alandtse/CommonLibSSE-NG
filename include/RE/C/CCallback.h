@@ -1,5 +1,7 @@
 #pragma once
 
+#include "REL/Common.h"
+
 using SteamAPICall_t = std::uint64_t;
 
 namespace RE
@@ -55,8 +57,10 @@ namespace RE
 		void         Run(void* a_param, bool a_IOFailure, SteamAPICall_t a_steamAPICall) override;  // 00
 		std::int32_t GetCallbackSizeBytes() override;                                               // 02
 
+#ifdef EXCLUSIVE_SKYRIM_AE
 		// add
-		virtual ~CCallback();  // 03
+		virtual ~CCallback();  // 03 - AE only
+#endif
 
 		// members
 		T*     obj;   // 10

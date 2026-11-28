@@ -87,6 +87,13 @@ namespace RE
 		virtual void                       FinishLoadGame(BGSLoadGameBuffer* a_buf);                                                                                                                                                        // 1A
 		virtual void                       PrepareSound(MagicSystem::SoundID a_sound, MagicItem* a_spell);                                                                                                                                  // 1B
 		virtual void                       AdjustActiveEffect(ActiveEffect* a_activeEffect, float a_power, bool a_arg3);                                                                                                                    // 1C
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		virtual void Unk_VR_1D(void);  // 1D - VR only
+		virtual void Unk_VR_1E(void);  // 1E - VR only
+#elif defined(SKYRIM_CROSS_VR)
+		SKYRIM_REL_VR_VIRTUAL void Unk_VR_1D(void);  // 1D - VR only
+		SKYRIM_REL_VR_VIRTUAL void Unk_VR_1E(void);  // 1E - VR only
+#endif
 
 		MagicTarget* FindPickTarget(NiPoint3& a_targetLocation, TESObjectCELL** a_targetCell, bhkPickData& a_pickData);
 		bool         FindTargets(float a_effectivenessMult, std::uint32_t& a_targetCount, TESBoundObject* a_source, bool a_loadCast, bool a_adjustOnlyHostileEffectiveness);

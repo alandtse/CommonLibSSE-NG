@@ -24,7 +24,10 @@ namespace RE
 			inline static constexpr auto RTTI = RTTI_BSSaveDataSystemUtility__Entry;
 			inline static constexpr auto VTABLE = VTABLE_BSSaveDataSystemUtility__Entry;
 
-			virtual void Read(const char* a_path);  // 00
+#if defined(EXCLUSIVE_SKYRIM_VR)
+			virtual void Unk_VR00(void);  // VR 00 - deleting destructor
+#endif
+			SKYRIM_REL_VR_VIRTUAL void Read(const char* a_path);  // SE/AE 00, VR 01
 
 			enum class SaveType : std::uint32_t
 			{
@@ -35,6 +38,9 @@ namespace RE
 			};
 
 			// members
+#ifdef SKYRIM_CROSS_VR
+			void* vtable;  // 000
+#endif
 			const char                            fileName[0x104];  // 008
 			std::uint32_t                         pad0C;            // 00C
 			BSString                              fileNamePtr;      // 110

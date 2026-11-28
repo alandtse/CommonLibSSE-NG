@@ -63,7 +63,6 @@ namespace RE
 		virtual void                              UnregisterWithController();                                     // 0A
 		virtual void                              SaveGame(BSPathingStreamWrite&);                                // 0B
 		virtual void                              LoadGame(BSPathingStreamRead&);                                 // 0C
-		virtual void                              FinishLoadGame();                                               // 0D
 
 		// members
 		IMovementState* movementState;  // 10
@@ -84,14 +83,17 @@ namespace RE
 		virtual void                              Init(BSPathingStreamRead&);                                     // 07
 		virtual void                              UpdateSmallDelta(MovementUpdateDataSmallDelta&);                // 08
 		virtual void                              UpdateLargeDelta(MovementUpdateDataLargeDelta&);                // 09
-		virtual void                              Kill();                                                         // 0A
-		virtual void                              Deactivate();                                                   // 0B
-		virtual void                              UnregisterWithController();                                     // 0C
-		virtual void                              SaveGame(BSPathingStreamWrite&);                                // 0D
-		virtual void                              LoadGame(BSPathingStreamRead&);                                 // 0E
-		virtual bool                              AddAgent(const BSTSmartPointer<MovementAgent>&);                // 0F
-		virtual bool                              RemoveAgent(const BSTSmartPointer<MovementAgent>&);             // 10
-		virtual void                              RemoveAllAgents();                                              // 11
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		virtual void Unk_VR0A(void);  // VR 0A
+#endif
+		SKYRIM_REL_VR_VIRTUAL void Kill();                                              // SE/AE 0A, VR 0B
+		SKYRIM_REL_VR_VIRTUAL void Deactivate();                                        // SE/AE 0B, VR 0C
+		SKYRIM_REL_VR_VIRTUAL void UnregisterWithController();                          // SE/AE 0C, VR 0D
+		SKYRIM_REL_VR_VIRTUAL void SaveGame(BSPathingStreamWrite&);                     // SE/AE 0D, VR 0E
+		SKYRIM_REL_VR_VIRTUAL void LoadGame(BSPathingStreamRead&);                      // SE/AE 0E, VR 0F
+		SKYRIM_REL_VR_VIRTUAL bool AddAgent(const BSTSmartPointer<MovementAgent>&);     // SE/AE 0F, VR 10
+		SKYRIM_REL_VR_VIRTUAL bool RemoveAgent(const BSTSmartPointer<MovementAgent>&);  // SE/AE 10, VR 11
+		SKYRIM_REL_VR_VIRTUAL void RemoveAllAgents();                                   // SE/AE 11, VR 12
 
 		// members
 		IMovementState* movementState;  // 10
@@ -167,7 +169,10 @@ namespace RE
 		virtual void            RegisterInterfaces();                                                    // 06 - no-op in the base
 		virtual void            UpdateSmallDelta(float a_deltaTime, MovementUpdateDeltas* a_output);     // 07 - builds MovementUpdateDataSmallDelta, calls each arbiter
 		virtual void            UpdateLargeDelta(float a_deltaTime, BSTArray<BSFixedString>* a_output);  // 08
-		virtual void            Unk_09(void);                                                            // 09 - { return 1; }
+#if defined(EXCLUSIVE_SKYRIM_VR)
+		virtual void Unk_VR09(void);  // VR 09
+#endif
+		SKYRIM_REL_VR_VIRTUAL bool Unk_09(void);  // SE/AE 09, VR 0A - { return 1; }
 
 		// members
 		mutable volatile std::uint32_t          _refCount{ 0 };  // 008

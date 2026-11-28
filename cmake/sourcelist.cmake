@@ -2312,6 +2312,7 @@ set(SOURCES
 	src/RE/A/Actor.cpp
 	src/RE/A/ActorEquipManager.cpp
 	src/RE/A/ActorKill.cpp
+	src/RE/A/ActorMagicCaster.cpp
 	src/RE/A/ActorValueList.cpp
 	src/RE/A/ActorValueOwner.cpp
 	src/RE/A/AddCallbackVisitor.cpp
@@ -2402,6 +2403,7 @@ set(SOURCES
 	src/RE/B/BSProceduralLightningTasklet.cpp
 	src/RE/B/BSResourceNiBinaryStream.cpp
 	src/RE/B/BSResponse.cpp
+	src/RE/B/BSSaveDataSystemUtility.cpp
 	src/RE/B/BSScaleformManager.cpp
 	src/RE/B/BSScaleformTranslator.cpp
 	src/RE/B/BSSceneGraph.cpp
@@ -2662,6 +2664,7 @@ set(SOURCES
 	src/RE/M/MessageBoxMenu.cpp
 	src/RE/M/Misc.cpp
 	src/RE/M/MissileProjectile.cpp
+	src/RE/M/MovementControllerAI.cpp
 	src/RE/M/MovementControllerNPC.cpp
 	src/RE/N/NativeFunctionBase.cpp
 	src/RE/N/NextChildSelector.cpp

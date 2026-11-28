@@ -23,7 +23,6 @@ namespace RE
 		virtual void Unk_06(void) = 0;  // 06
 		virtual void Unk_07(void);      // 07
 		virtual void Unk_08(void);      // 08
-		virtual void Unk_09(void);      // 09
 	};
 	static_assert(sizeof(ActorPackageData) == 0x8);
 }

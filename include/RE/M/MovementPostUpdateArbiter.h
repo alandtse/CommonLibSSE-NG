@@ -15,9 +15,11 @@ namespace RE
 
 		// override (MovementArbiter)
 		void RegisterWithController(IMovementControllerRegisterInterface& a_controller) override;  // 04 - stores the interface at 0x58 and registers the 0x18 sub-object
-		void UnregisterWithController() override;                                                  // 0C - unregisters the 0x18 sub-object and clears 0x58
-		void SaveGame(BSPathingStreamWrite& a_stream) override;                                    // 0D - nine floats from 0x20
-		void LoadGame(BSPathingStreamRead& a_stream) override;                                     // 0E
+#ifndef SKYRIM_CROSS_VR
+		void UnregisterWithController() override;                // 0C - unregisters the 0x18 sub-object and clears 0x58
+		void SaveGame(BSPathingStreamWrite& a_stream) override;  // 0D - nine floats from 0x20
+		void LoadGame(BSPathingStreamRead& a_stream) override;   // 0E
+#endif
 
 		// members
 		void*                                 queryDeltasVtbl;    // 18 - IMovementQueryDeltas sub-object vftable
