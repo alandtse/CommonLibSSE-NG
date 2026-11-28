@@ -82,30 +82,30 @@ namespace RE
 		struct VR_RUNTIME_DATA
 		{
 #define VR_RUNTIME_DATA_CONTENT                                                                                                    \
-	BSFixedString titleSequenceMenu;       /* 1A8 - "TitleSequence Menu */                                                         \
-	BSFixedString consoleNativeUIMenu;     /* 1B0 - "Console Native UI Menu */                                                     \
-	BSFixedString kinectMenu;              /* 1B8 - "Kinect Menu */                                                                \
-	BSFixedString loadWaitSpinner;         /* 1C0 - "LoadWaitSpinner */                                                            \
-	BSFixedString streamingInstallMenu;    /* 1C8 - "StreamingInstallMenu */                                                       \
-	BSFixedString textWidget;              /* 1D0 - "TextWidget */                                                                 \
-	BSFixedString buttonBarWidget;         /* 1D8 - "ButtonBarWidget */                                                            \
-	BSFixedString graphWidget;             /* 1E0 - "GraphWidget */                                                                \
-	BSFixedString textureWidget;           /* 1E8 - "TextureWidget */                                                              \
-	BSFixedString uiMenuOK;                /* 1F0 - "UIMenuOK */                                                                   \
-	BSFixedString uiMenuCancel;            /* 1F8 - "UIMenuCancel */                                                               \
-	BSFixedString showText;                /* 200 - "Show Text */                                                                  \
-	BSFixedString hideText;                /* 208 - "Hide Text */                                                                  \
-	BSFixedString showList;                /* 210 - "Show List */                                                                  \
-	BSFixedString voiceReady;              /* 218 - "Voice Ready */                                                                \
-	BSFixedString dmfoStr;                 /* 220 - "DMFOStr */                                                                    \
-	BSFixedString showJournal;             /* 228 - "Show Journal */                                                               \
-	BSFixedString journalSettingsSaved;    /* 230 - "Journal Settings Saved */                                                     \
-	BSFixedString closeMenu;               /* 238 - "CloseMenu */                                                                  \
-	BSFixedString closingAllMenus;         /* 240 - "Closing All Menus */                                                          \
-	BSFixedString refreshMenu;             /* 248 - "RefreshMenu */                                                                \
-	BSFixedString cancelLoading;           /* 250 - "CancelLoading */                                                              \
-	BSFixedString menuTextureDegradeEvent; /* 258 - "Menu Texture Degrade Event */                                                 \
-	BSFixedString diamondMarker;           /* 270 - "<img src='DiamondMarker' width='10' height='15' align='baseline' vspace='5 */ \
+	BSFixedString titleSequenceMenu;       /* 198 - "TitleSequence Menu */                                                         \
+	BSFixedString consoleNativeUIMenu;     /* 1A0 - "Console Native UI Menu */                                                     \
+	BSFixedString kinectMenu;              /* 1A8 - "Kinect Menu */                                                                \
+	BSFixedString loadWaitSpinner;         /* 1B0 - "LoadWaitSpinner */                                                            \
+	BSFixedString streamingInstallMenu;    /* 1B8 - "StreamingInstallMenu */                                                       \
+	BSFixedString textWidget;              /* 1C0 - "TextWidget */                                                                 \
+	BSFixedString buttonBarWidget;         /* 1C8 - "ButtonBarWidget */                                                            \
+	BSFixedString graphWidget;             /* 1D0 - "GraphWidget */                                                                \
+	BSFixedString textureWidget;           /* 1D8 - "TextureWidget */                                                              \
+	BSFixedString uiMenuOK;                /* 1E0 - "UIMenuOK */                                                                   \
+	BSFixedString uiMenuCancel;            /* 1E8 - "UIMenuCancel */                                                               \
+	BSFixedString showText;                /* 1F0 - "Show Text */                                                                  \
+	BSFixedString hideText;                /* 1F8 - "Hide Text */                                                                  \
+	BSFixedString showList;                /* 200 - "Show List */                                                                  \
+	BSFixedString voiceReady;              /* 208 - "Voice Ready */                                                                \
+	BSFixedString dmfoStr;                 /* 210 - "DMFOStr */                                                                    \
+	BSFixedString showJournal;             /* 218 - "Show Journal */                                                               \
+	BSFixedString journalSettingsSaved;    /* 220 - "Journal Settings Saved */                                                     \
+	BSFixedString closeMenu;               /* 228 - "CloseMenu */                                                                  \
+	BSFixedString closingAllMenus;         /* 230 - "Closing All Menus */                                                          \
+	BSFixedString refreshMenu;             /* 238 - "RefreshMenu */                                                                \
+	BSFixedString cancelLoading;           /* 240 - "CancelLoading */                                                              \
+	BSFixedString menuTextureDegradeEvent; /* 248 - "Menu Texture Degrade Event */                                                 \
+	BSFixedString diamondMarker;           /* 250 - "<img src='DiamondMarker' width='10' height='15' align='baseline' vspace='5 */ \
 	BSFixedString wsEnemyMeters;           /* 258 - "WSEnemyMeters */                                                              \
 	BSFixedString wsActivateRollover;      /* 260 - "WSActivateRollover */                                                         \
 	BSFixedString wsDebugOverlay;          /* 268 - "WSDebugOverlay */                                                             \

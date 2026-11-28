@@ -99,13 +99,17 @@ namespace RE
 
 		// override (IMenu)
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;  // 04
+#ifdef EXCLUSIVE_SKYRIM_VR
+		void PostDisplay() override;  // 06
+#endif
 
 		// override (MenuEventHandler)
 		bool CanProcess(InputEvent* a_event) override;  // 01
 #ifdef EXCLUSIVE_SKYRIM_VR
-		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
-		bool ProcessMouseMove(MouseMoveEvent* a_event) override;    // 04
-		bool ProcessButton(ButtonEvent* a_event) override;          // 05
+		bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event) override;  // 03
+		bool ProcessThumbstick(ThumbstickEvent* a_event) override;                          // 06
+		bool ProcessMouseMove(MouseMoveEvent* a_event) override;                            // 07
+		bool ProcessButton(ButtonEvent* a_event) override;                                  // 08
 #endif
 
 #ifndef SKYRIM_CROSS_VR

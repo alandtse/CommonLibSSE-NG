@@ -47,7 +47,7 @@ namespace RE
 		bool CanProcess(InputEvent* a_event) override;  // 01
 #endif
 #ifdef EXCLUSIVE_SKYRIM_VR
-		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
+		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 06
 #endif
 
 #ifndef SKYRIM_CROSS_VR

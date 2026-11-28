@@ -3,10 +3,14 @@
 #include "RE/A/ActorValues.h"
 #include "RE/B/BSResourceHandle.h"
 #include "RE/B/BSTArray.h"
+#include "RE/B/BSTEvent.h"
 #include "RE/G/GFxValue.h"
 #include "RE/I/IMenu.h"
 #include "RE/M/MenuEventHandler.h"
+#include "RE/N/NiNode.h"
 #include "RE/N/NiPoint3.h"
+#include "RE/N/NiSmartPointer.h"
+#include "RE/W/WorldSpaceMenu.h"
 #include "REL/RuntimeDataAccessors.h"
 
 namespace RE
@@ -14,10 +18,12 @@ namespace RE
 	class BSEffectShaderProperty;
 	class BSFadeNode;
 	class BSScaleformMovieLoadTask;
+	class MenuOpenCloseEvent;
 	class NiCamera;
 	class NiControllerManager;
 	class NiControllerSequence;
-	class NiNode;
+	class StatsMenuPerks;
+	class StatsMenuSkillRing;
 	class StatsNode;
 
 	// menuDepth = 3
@@ -25,9 +31,13 @@ namespace RE
 	// kUsesCursor if gamepad disabled
 	// context = kStats
 	class StatsMenu :
-#ifndef SKYRIM_CROSS_VR
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
 		public IMenu,            // 000
-		public MenuEventHandler  // 030, 040
+		public MenuEventHandler  // 030
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+		public WorldSpaceMenu,                   // 000
+		public MenuEventHandler,                 // 058
+		public BSTEventSink<MenuOpenCloseEvent>  // 068
 #else
 		public IMenu  // 000
 #endif
@@ -47,7 +57,8 @@ namespace RE
 
 		enum
 		{
-			kTotalTrees = 18
+			kTotalTrees = 18,
+			kTotalVRModels = 6
 		};
 
 		struct Models
@@ -154,6 +165,74 @@ namespace RE
 		};
 		static_assert(sizeof(RUNTIME_DATA) == 0x2E8);
 
+		struct VR_RUNTIME_DATA
+		{
+#define VR_RUNTIME_DATA_CONTENT                                                    \
+	std::uint32_t                          unk070;                       /* 070 */ \
+	std::uint32_t                          pad074;                       /* 074 */ \
+	BSTArray<ActorValue>                   skillTrees;                   /* 078 */ \
+	ModelDBHandle                          modelHandles[kTotalVRModels]; /* 090 */ \
+	BSFadeNode*                            skydomeNode;                  /* 0C0 */ \
+	BSFadeNode*                            starsNode;                    /* 0C8 */ \
+	BSFadeNode*                            linesNode;                    /* 0D0 */ \
+	NiPointer<NiNode>                      questMarkerNode;              /* 0D8 */ \
+	NiPointer<NiNode>                      unk0E0;                       /* 0E0 */ \
+	NiPointer<NiNode>                      unk0E8;                       /* 0E8 */ \
+	NiPointer<NiNode>                      statsModelFollowNode;         /* 0F0 */ \
+	NiPointer<NiNode>                      statsModelFollowOffsetNode;   /* 0F8 */ \
+	NiPointer<NiNode>                      skillRingMenuNode;            /* 100 */ \
+	NiPointer<NiNode>                      perksMenuNode;                /* 108 */ \
+	StatsMenuSkillRing*                    skillRingMenu;                /* 110 */ \
+	StatsMenuPerks*                        perksMenu;                    /* 118 */ \
+	UnkData                                unk098[kTotalTrees];          /* 120 */ \
+	REX::EnumSet<MenuState, std::uint32_t> menuState;                    /* 240 */ \
+	bool                                   scrolling;                    /* 244 */ \
+	std::uint8_t                           pad245[3];                    /* 245 */ \
+	std::uint32_t                          selectedTree;                 /* 248 */ \
+	std::uint32_t                          pad24C;                       /* 24C */ \
+	StatsNode*                             unk1C8;                       /* 250 */ \
+	std::uint32_t                          unk1D0;                       /* 258 */ \
+	NiPoint3                               unk1D4;                       /* 25C */ \
+	NiControllerSequence*                  idle;                         /* 268 */ \
+	NiControllerManager*                   skydomeNodeController;        /* 270 */ \
+	BSTArray<StatsNode*>                   unk2C0;                       /* 278 */ \
+	BSTArray<GFxValue>                     unk2D8;                       /* 290 */ \
+	BSScaleformMovieLoadTask*              unk2F0;                       /* 2A8 */ \
+	GFxValue                               beastSkillHolder;             /* 2B0 */ \
+	std::uint32_t                          numSelectableTrees;           /* 2C8 */ \
+	std::uint8_t                           flags0;                       /* 2CC */ \
+	std::uint8_t                           flags1;                       /* 2CD */ \
+	std::uint8_t                           unk2CE;                       /* 2CE */ \
+	std::uint8_t                           unk2CF;                       /* 2CF */ \
+	std::uint8_t                           flags3;                       /* 2D0 */ \
+	std::uint8_t                           unk320;                       /* 2D1 */ \
+	std::uint8_t                           unk321;                       /* 2D2 */ \
+	bool                                   fadeInTriggered;              /* 2D3 */ \
+	bool                                   is3dInitialized;              /* 2D4 */ \
+	std::uint8_t                           unk324;                       /* 2D5 */ \
+	std::uint8_t                           unk2D6[0xA];                  /* 2D6 */ \
+	std::uint64_t                          unk2E0;                       /* 2E0 */ \
+	bool                                   unk2E8;                       /* 2E8 */ \
+	std::uint8_t                           unk2E9[0x2F];                 /* 2E9 */ \
+	bool                                   unk318;                       /* 318 */ \
+	std::uint8_t                           unk319[0x2F];                 /* 319 */ \
+	bool                                   unk348;                       /* 348 */ \
+	std::uint8_t                           unk349[0x17];                 /* 349 */ \
+	bool                                   unk360;                       /* 360 */ \
+	std::uint8_t                           unk361[0x17];                 /* 361 */ \
+	bool                                   unk378;                       /* 378 */ \
+	std::uint8_t                           unk379[0x2F];                 /* 379 */ \
+	std::uint32_t                          unk3A8;                       /* 3A8 */ \
+	float                                  unk3AC;                       /* 3AC */ \
+	float                                  unk3B0;                       /* 3B0 */ \
+	std::uint8_t                           unk3B4[0x24];                 /* 3B4 */ \
+	bool                                   unk3D8;                       /* 3D8 */ \
+	std::uint8_t                           unk3D9[7];                    /* 3D9 */
+
+			VR_RUNTIME_DATA_CONTENT
+		};
+		static_assert(sizeof(VR_RUNTIME_DATA) == 0x370);
+
 		~StatsMenu() override;  // 00
 
 		// override (IMenu)
@@ -162,25 +241,42 @@ namespace RE
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;    // 04
 		void               PostDisplay() override;                           // 06
 
+#ifdef EXCLUSIVE_SKYRIM_VR
+		// override (WorldSpaceMenu)
+		void    SetupMenuNode() override;      // 0B
+		NiNode* GetMenuParentNode() override;  // 0C
+		void    SetTransform() override;       // 0D
+
+		// override (BSTEventSink<MenuOpenCloseEvent>)
+		BSEventNotifyControl ProcessEvent(const MenuOpenCloseEvent* a_event, BSTEventSource<MenuOpenCloseEvent>* a_eventSource) override;  // 01
+#endif
+
 		// override (MenuEventHandler)
 #ifndef SKYRIM_CROSS_VR
 		bool CanProcess(InputEvent* a_event) override;  // 01
 #endif
 #ifdef EXCLUSIVE_SKYRIM_VR
-		bool ProcessThumbstick(ThumbstickEvent* a_event) override;  // 03
-		bool ProcessButton(ButtonEvent* a_event) override;          // 05
+		bool ProcessVrWandTouchpadSwipe(VrWandTouchpadSwipeEvent* a_event) override;        // 02
+		bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event) override;  // 03
+		bool ProcessThumbstick(ThumbstickEvent* a_event) override;                          // 06
+		bool ProcessButton(ButtonEvent* a_event) override;                                  // 08
 #endif
 
 #ifndef SKYRIM_CROSS_VR
-		RUNTIME_CAST_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x30, 0x40);
+		RUNTIME_CAST_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x30, 0x58);
 #endif
+		VR_ONLY_POINTER_ACCESSOR(BSTEventSink<MenuOpenCloseEvent>, AsMenuOpenCloseEventSink, 0x68);
 
-		RUNTIME_DATA_ACCESSOR(RUNTIME_DATA, 0x40, 0x50);
+		SE_ONLY_POINTER_ACCESSOR(RUNTIME_DATA, GetRuntimeData, 0x40);
+		VR_ONLY_POINTER_ACCESSOR(VR_RUNTIME_DATA, GetVRRuntimeData, 0x70);
 		// members
-#ifndef SKYRIM_CROSS_VR
-		RUNTIME_DATA_CONTENT;  // 40, 50
+#if defined(EXCLUSIVE_SKYRIM_FLAT)
+		RUNTIME_DATA_CONTENT;  // 40
+#elif defined(EXCLUSIVE_SKYRIM_VR)
+		VR_RUNTIME_DATA_CONTENT;                 // 70
 #endif
 	};
-	STATIC_ASSERT_SIZE(StatsMenu, 0x328, 0x328, 0x338, 0x30);
+	STATIC_ASSERT_SIZE(StatsMenu, 0x328, 0x328, 0x3E0, 0x30);
 }
 #undef RUNTIME_DATA_CONTENT
+#undef VR_RUNTIME_DATA_CONTENT

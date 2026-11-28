@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RE/I/IMenu.h"
+#include "RE/M/MenuEventHandler.h"
 #include "REL/RuntimeDataAccessors.h"
 
 namespace RE
@@ -14,17 +15,21 @@ namespace RE
 	// flags = kUsesMenuContext | kDisablePauseMenu | kUpdateUsesCursor | kInventoryItemMenu | kDontHideCursorWhenTopmost
 	// context = kItemMenu
 	class CraftingMenu :
-#ifdef ENABLE_SKYRIM_VR
-		public IMenu,
-		public MenuEventHandler
+#ifdef EXCLUSIVE_SKYRIM_VR
+		public IMenu,            // 00
+		public MenuEventHandler  // 40
 #else
-		public IMenu
+		public IMenu  // 00
 #endif
 	{
 	public:
 		inline static constexpr auto      RTTI = RTTI_CraftingMenu;
 		inline static constexpr auto      VTABLE = VTABLE_CraftingMenu;
 		constexpr static std::string_view MENU_NAME = "Crafting Menu";
+
+#ifdef EXCLUSIVE_SKYRIM_VR
+		using MenuEventHandler::operator delete;
+#endif
 
 		~CraftingMenu() override;  // 00
 
@@ -33,11 +38,18 @@ namespace RE
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
 		void               PostDisplay() override;                                                // 06
 
-		RUNTIME_DATA_POINTER_ACCESSOR_EX(CraftingSubMenus::CraftingSubMenu*, GetCraftingSubMenu, 0x30, 0x40);
+#ifdef EXCLUSIVE_SKYRIM_VR
+		// override (MenuEventHandler)
+		bool CanProcess(InputEvent* a_event) override;                                      // 01
+		bool ProcessVrWandTouchpadPosition(VrWandTouchpadPositionEvent* a_event) override;  // 03
+#endif
+
+		VR_ONLY_POINTER_ACCESSOR(MenuEventHandler, AsMenuEventHandler, 0x40);
+		RUNTIME_DATA_POINTER_ACCESSOR_EX(CraftingSubMenus::CraftingSubMenu*, GetCraftingSubMenu, 0x30, 0x50);
 
 		inline void SetCraftingSubMenu(CraftingSubMenus::CraftingSubMenu* craftingSubMenu) noexcept
 		{
-			REL::RelocateMember<CraftingSubMenus::CraftingSubMenu*>(this, 0x30, 0x40) = craftingSubMenu;
+			REL::RelocateMember<CraftingSubMenus::CraftingSubMenu*>(this, 0x30, 0x50) = craftingSubMenu;
 		}
 
 		static void QuitMenu()
@@ -49,8 +61,8 @@ namespace RE
 
 		// members
 #ifndef SKYRIM_CROSS_VR
-		CraftingSubMenus::CraftingSubMenu* subMenu;  // 30, 40
+		CraftingSubMenus::CraftingSubMenu* subMenu;  // 30, 50
 #endif
 	};
-	STATIC_ASSERT_SIZE(CraftingMenu, 0x38, 0x38, 0x58, 0x40);
+	STATIC_ASSERT_SIZE(CraftingMenu, 0x38, 0x38, 0x58, 0x30);
 }

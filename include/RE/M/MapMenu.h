@@ -168,7 +168,20 @@ namespace RE
 		void               Accept(CallbackProcessor* a_processor) override;                       // 01
 		UI_MESSAGE_RESULTS ProcessMessage(UIMessage& a_message) override;                         // 04
 		void               AdvanceMovie(float a_interval, std::uint32_t a_currentTime) override;  // 05
+		void               PreDisplay() override;                                                 // 07
 		void               RefreshPlatform() override;                                            // 08
+
+#ifdef EXCLUSIVE_SKYRIM_VR
+		// override (WorldSpaceMenu)
+		void    PostCreate() override;         // 02
+		void    SetupMenuNode() override;      // 0B
+		NiNode* GetMenuParentNode() override;  // 0C
+		void    SetTransform() override;       // 0D
+
+		// add
+		virtual void Unk_0E();  // 0E
+		virtual void Unk_0F();  // 0F
+#endif
 
 		// override (BSTEventSink<MenuOpenCloseEvent>)
 #ifndef SKYRIM_CROSS_VR
