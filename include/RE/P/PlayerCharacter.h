@@ -1097,7 +1097,18 @@ namespace RE
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(BSSimpleList<TESQuestStageItem*>, GetQuestLog, SKSE::RUNTIME_SSE_1_6_629, 0x570, 0xB60, REL::VersionShift(0x578, kAE1799ShiftBytes, SKSE::RUNTIME_SSE_1_7_99));
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(QuestTargetsMap, GetQuestTargets, SKSE::RUNTIME_SSE_1_6_629, 0x598, 0xB88, REL::VersionShift(0x5A0, kAE1799ShiftBytes, SKSE::RUNTIME_SSE_1_7_99));
 
-		RUNTIME_MEMBER_ACCESSOR_VERSIONED(INFO_RUNTIME_DATA, GetInfoRuntimeData, SKSE::RUNTIME_SSE_1_6_629, 0x8E4, 0x8E4, REL::VersionShift(0x8EC, kAE1799ShiftBytes, SKSE::RUNTIME_SSE_1_7_99));
+#ifndef EXCLUSIVE_SKYRIM_VR
+		// SE/AE only; VR uses GetVRInfoRuntimeData()
+		[[nodiscard]] inline INFO_RUNTIME_DATA& GetInfoRuntimeData() noexcept
+		{
+			assert(!REL::Module::IsVR() && "GetInfoRuntimeData() has no VR layout -- call GetVRInfoRuntimeData()");
+			return REL::RelocateMemberIfNewer<INFO_RUNTIME_DATA>(SKSE::RUNTIME_SSE_1_6_629, this, 0x8E4, REL::VersionShift(0x8EC, kAE1799ShiftBytes, SKSE::RUNTIME_SSE_1_7_99));
+		}
+		[[nodiscard]] inline const INFO_RUNTIME_DATA& GetInfoRuntimeData() const noexcept
+		{
+			return const_cast<PlayerCharacter*>(this)->GetInfoRuntimeData();
+		}
+#endif
 
 		RUNTIME_MEMBER_ACCESSOR_VERSIONED(PlayerFlags, GetPlayerFlags, SKSE::RUNTIME_SSE_1_6_629, 0xBD8, 0x12D0, REL::VersionShift(0xBE0, kAE1799ShiftBytes, SKSE::RUNTIME_SSE_1_7_99));
 

@@ -80,23 +80,38 @@ namespace RE
 		public:
 			[[nodiscard]] CAMERASTATE_RUNTIME_DATA& GetCameraStateRuntimeData() noexcept
 			{
-				return REL::RelocateMember<CAMERASTATE_RUNTIME_DATA>(this, 0x8, 0x8);
+#if defined(SKYRIM_CROSS_VR)
+				// the cross-VR struct holds only the trailing useJitter and numData
+				return REL::RelocateMember<CAMERASTATE_RUNTIME_DATA>(this, 0x284, 0x68);
+#else
+				return REL::RelocateMember<CAMERASTATE_RUNTIME_DATA>(this, 0x10, 0x8);
+#endif
 			}
 
 			[[nodiscard]] inline const CAMERASTATE_RUNTIME_DATA& GetCameraStateRuntimeData() const noexcept
 			{
-				return REL::RelocateMember<CAMERASTATE_RUNTIME_DATA>(this, 0x8, 0x8);
+				return const_cast<CameraStateData*>(this)->GetCameraStateRuntimeData();
+			}
+
+			// Element stride of State::RUNTIME_DATA::cameraDataCacheA
+			[[nodiscard]] static std::size_t GetRuntimeSize() noexcept
+			{
+				return REL::Relocate<std::size_t>(0x290, 0x290, 0x70);
 			}
 
 			// members
-			NiCamera* referenceCamera;         /* 00 */
-			CAMERASTATE_RUNTIME_DATA_CONTENT;  // 08
+			NiCamera* referenceCamera;         // 00
+			CAMERASTATE_RUNTIME_DATA_CONTENT;  // 08, flat 10
+#ifndef SKYRIM_CROSS_VR
+			bool          useJitter;  // 284, VR 68
+			std::uint32_t numData;    // 288, VR 6C
+#endif
 		};
 #pragma warning(pop)
 #if defined(EXCLUSIVE_SKYRIM_SE) || defined(EXCLUSIVE_SKYRIM_AE)  // SE/AE only
 		static_assert(sizeof(CameraStateData) == 0x290);
 #elif defined(EXCLUSIVE_SKYRIM_VR)  // VR only
-		static_assert(sizeof(CameraStateData) == 0x68);
+		static_assert(sizeof(CameraStateData) == 0x70);
 #elif defined(SKYRIM_CROSS_VR)      // Multi-runtime (ALL)
 		static_assert(sizeof(CameraStateData) == 0x8);
 #endif
@@ -254,10 +269,13 @@ namespace RE
 
 			CameraStateData* FindCameraDataCache(const NiCamera* a_camera, bool a_useJitter)
 			{
-				for (uint32_t i = 0; i < GetRuntimeData().cameraDataCacheA.size(); i++) {
-					if (GetRuntimeData().cameraDataCacheA[i].referenceCamera == a_camera &&
-						GetRuntimeData().cameraDataCacheA[i].GetCameraStateRuntimeData().useJitter == a_useJitter)
-						return &GetRuntimeData().cameraDataCacheA[i];
+				auto&      cache = GetRuntimeData().cameraDataCacheA;
+				const auto data = reinterpret_cast<std::uintptr_t>(cache.data());
+				for (std::uint32_t i = 0; i < cache.size(); i++) {
+					const auto entry = reinterpret_cast<CameraStateData*>(data + i * CameraStateData::GetRuntimeSize());
+					if (entry->referenceCamera == a_camera &&
+						entry->GetCameraStateRuntimeData().useJitter == a_useJitter)
+						return entry;
 				}
 				return nullptr;
 			}

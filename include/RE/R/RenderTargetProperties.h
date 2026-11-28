@@ -21,6 +21,12 @@ namespace RE
 		};
 		static_assert(sizeof(RenderTargetProperties) == 0x1C);
 
+		struct VRRenderTargetProperties : public RenderTargetProperties
+		{
+			std::byte unk1C[0xC];  // 1C
+		};
+		static_assert(sizeof(VRRenderTargetProperties) == 0x28);
+
 		struct DepthStencilTargetProperties
 		{
 			std::uint32_t width;           // 00
@@ -31,6 +37,12 @@ namespace RE
 			bool          use16BitsDepth;  // 0E
 		};
 		static_assert(sizeof(DepthStencilTargetProperties) == 0x10);
+
+		struct VRDepthStencilTargetProperties : public DepthStencilTargetProperties
+		{
+			std::byte unk10[0xC];  // 10
+		};
+		static_assert(sizeof(VRDepthStencilTargetProperties) == 0x1C);
 
 		struct CubeMapRenderTargetProperties
 		{

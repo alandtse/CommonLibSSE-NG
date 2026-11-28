@@ -78,7 +78,7 @@ namespace RE
 		{
 		public:
 			// members
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
+#if defined(EXCLUSIVE_SKYRIM_VR)
 #	define RUNTIME_DATA_CONTENT                                                                             \
 		std::uint32_t                      uiAdapter;                              /* 0018 */                \
 		REX::W32::DXGI_RATIONAL            desiredRefreshRate;                     /* 001C - refreshRate? */ \
@@ -123,12 +123,8 @@ namespace RE
 #endif
 			RUNTIME_DATA_CONTENT;
 		};
-#if defined(EXCLUSIVE_SKYRIM_FLAT)
+#if defined(EXCLUSIVE_SKYRIM_VR)
 		static_assert(sizeof(RendererData) == 0x21B8);
-		static_assert(offsetof(RendererData, context) == 0x40);
-		static_assert(offsetof(RendererData, renderTargets) == 0xa48);
-#elif defined(EXCLUSIVE_SKYRIM_VR)
-		static_assert(sizeof(RendererData) == 0x1fa8);
 		static_assert(offsetof(RendererData, context) == 0x40);
 		static_assert(offsetof(RendererData, renderTargets) == 0xa48);
 #else
