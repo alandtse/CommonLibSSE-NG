@@ -146,7 +146,7 @@ namespace RE
 		void          DoGetEulerAngles(NiPoint3& a_retAngles) override;                     // 04 - { return; }
 		float         DoGetMovementSpeed() override;                                        // 05 - { return 0.0; }
 		float         DoGetRotationSpeed() override;                                        // 06 - { return 0.0; }
-		float         DoGetMovementRotation(NiPoint3& a_retMovementRotation) override;      // 07 - { return; }
+		void          DoGetMovementRotation(NiPoint3& a_retMovementRotation) override;      // 07 - { return; }
 		bool          DoGetCurrentMaxSpeeds(Movement::MaxSpeeds& a_retMaxSpeeds) override;  // 08 - { return 0; }
 
 		// add

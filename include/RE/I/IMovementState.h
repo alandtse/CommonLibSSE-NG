@@ -32,7 +32,7 @@ namespace RE
 		virtual void                       DoGetEulerAngles(NiPoint3& a_retAngles) = 0;                                              // 04
 		virtual float                      DoGetMovementSpeed() = 0;                                                                 // 05
 		virtual float                      DoGetRotationSpeed() = 0;                                                                 // 06
-		virtual float                      DoGetMovementRotation(NiPoint3& a_retMovementRotation) = 0;                               // 07
+		virtual void                       DoGetMovementRotation(NiPoint3& a_retMovementRotation) = 0;                               // 07
 		virtual bool                       DoGetCurrentMaxSpeeds(Movement::MaxSpeeds& a_retMaxSpeeds) = 0;                           // 08
 		virtual float                      DoGetMovementRadius() = 0;                                                                // 09
 		virtual float                      DoGetMovementWidth() = 0;                                                                 // 0A

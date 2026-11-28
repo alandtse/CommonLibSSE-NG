@@ -422,7 +422,7 @@ namespace RE
 		void                       DoGetEulerAngles(NiPoint3& a_retAngles) override;                                              // 04
 		float                      DoGetMovementSpeed() override;                                                                 // 05
 		float                      DoGetRotationSpeed() override;                                                                 // 06
-		float                      DoGetMovementRotation(NiPoint3& a_retMovementRotation) override;                               // 07
+		void                       DoGetMovementRotation(NiPoint3& a_retMovementRotation) override;                               // 07
 		bool                       DoGetCurrentMaxSpeeds(Movement::MaxSpeeds& a_retMaxSpeeds) override;                           // 08
 		float                      DoGetMovementRadius() override;                                                                // 09
 		float                      DoGetMovementWidth() override;                                                                 // 0A
