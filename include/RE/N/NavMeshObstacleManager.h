@@ -190,7 +190,6 @@ namespace RE
 		}
 
 		// members
-		std::uint8_t                                                          pad08;                   // 08
 		bool                                                                  refreshAllPending;       // 09
 		std::uint8_t                                                          pad0A[6];                // 0A
 		BSTHashMap<std::uint32_t, NiPointer<BSNavmeshReferenceObstacleArray>> obstaclesByRef;          // 10
