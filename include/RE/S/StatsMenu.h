@@ -5,7 +5,6 @@
 #include "RE/B/BSTArray.h"
 #include "RE/B/BSTEvent.h"
 #include "RE/G/GFxValue.h"
-#include "RE/G/GPtr.h"
 #include "RE/I/IMenu.h"
 #include "RE/M/MenuEventHandler.h"
 #include "RE/N/NiNode.h"
@@ -23,6 +22,8 @@ namespace RE
 	class NiCamera;
 	class NiControllerManager;
 	class NiControllerSequence;
+	class StatsMenuPerks;
+	class StatsMenuSkillRing;
 	class StatsNode;
 
 	// menuDepth = 3
@@ -179,10 +180,10 @@ namespace RE
 	NiPointer<NiNode>                      unk0E8;                       /* 0E8 */ \
 	NiPointer<NiNode>                      statsModelFollowNode;         /* 0F0 */ \
 	NiPointer<NiNode>                      statsModelFollowOffsetNode;   /* 0F8 */ \
-	NiPointer<NiNode>                      unk100;                       /* 100 */ \
-	NiPointer<NiNode>                      unk108;                       /* 108 */ \
-	GPtr<IMenu>                            unk110;                       /* 110 */ \
-	GPtr<IMenu>                            unk118;                       /* 118 */ \
+	NiPointer<NiNode>                      skillRingMenuNode;            /* 100 */ \
+	NiPointer<NiNode>                      perksMenuNode;                /* 108 */ \
+	StatsMenuSkillRing*                    skillRingMenu;                /* 110 */ \
+	StatsMenuPerks*                        perksMenu;                    /* 118 */ \
 	UnkData                                unk098[kTotalTrees];          /* 120 */ \
 	REX::EnumSet<MenuState, std::uint32_t> menuState;                    /* 240 */ \
 	bool                                   scrolling;                    /* 244 */ \

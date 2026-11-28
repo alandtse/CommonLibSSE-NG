@@ -177,6 +177,10 @@ namespace RE
 		void    SetupMenuNode() override;      // 0B
 		NiNode* GetMenuParentNode() override;  // 0C
 		void    SetTransform() override;       // 0D
+
+		// add
+		virtual void Unk_0E();  // 0E
+		virtual void Unk_0F();  // 0F
 #endif
 
 		// override (BSTEventSink<MenuOpenCloseEvent>)
