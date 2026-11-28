@@ -183,7 +183,7 @@ namespace RE
 			static REL::Relocation<func_t> func{ RELOCATION_ID(36785, 37801) };
 			func(this, a_request);
 		}
-		void SubmitPathRequest(void* a_request, void* a_location, float a_unkFloat, void* a_unk)
+		void SubmitPathRequestImpl(void* a_request, void* a_location, float a_unkFloat, void* a_unk)
 		{
 			using func_t = void(Character*, void*, void*, float, void*);
 			static REL::Relocation<func_t> func{ RELOCATION_ID(40612, 41642) };
